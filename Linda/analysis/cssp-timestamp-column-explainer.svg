@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1000" viewBox="0 0 1800 1000">
+<defs>
+<linearGradient id="spectrum" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#6d3fc0"/><stop offset="12%" stop-color="#3155d8"/>
+<stop offset="27%" stop-color="#1aa3d6"/><stop offset="42%" stop-color="#2eaa65"/>
+<stop offset="58%" stop-color="#e1c22f"/><stop offset="73%" stop-color="#ee8a25"/>
+<stop offset="87%" stop-color="#d74a39"/><stop offset="100%" stop-color="#8f2d38"/>
+</linearGradient>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+<path d="M0,0 L12,6 L0,12 z" fill="#1f5f99"/></marker>
+</defs>
+<rect x="0" y="0" width="1800" height="1000" fill="#fbfcfe" stroke="none" stroke-width="1" rx="0"/>
+<text x="900" y="62" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#27313a" text-anchor="middle">One timestamp column contains one complete spectrum</text>
+<text x="900" y="101" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#5f6b76" text-anchor="middle">Actual CSSP example: 01-Jul-2014 02:00:39  •  DRL uses the same structure</text>
+<text x="55" y="155" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#27313a" text-anchor="start">1. Find a timestamp column</text>
+<text x="535" y="155" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#27313a" text-anchor="start">2. Read that column</text>
+<text x="940" y="155" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#27313a" text-anchor="start">3. Connect the wavelength values</text>
+<text x="108" y="205" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#687580" text-anchor="start">TIMESTAMPS →</text>
+<rect x="108" y="245" width="62" height="66" fill="#dbe3ea" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="139.0" y="273" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#43515d" text-anchor="middle">time 1</text>
+<text x="139.0" y="293" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#43515d" text-anchor="middle">column</text>
+<rect x="108" y="311" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="359" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="407" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="455" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="503" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="551" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="599" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="647" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="695" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="743" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="108" y="791" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="245" width="62" height="66" fill="#dbe3ea" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="201.0" y="273" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#43515d" text-anchor="middle">time 2</text>
+<text x="201.0" y="293" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#43515d" text-anchor="middle">column</text>
+<rect x="170" y="311" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="359" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="407" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="455" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="503" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="551" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="599" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="647" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="695" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="743" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="170" y="791" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="245" width="62" height="66" fill="#1f5f99" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="263.0" y="273" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">selected</text>
+<text x="263.0" y="293" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#ffffff" text-anchor="middle">time</text>
+<rect x="232" y="311" width="62" height="48" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="359" width="62" height="48" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="407" width="62" height="48" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="455" width="62" height="48" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="503" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="551" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="599" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="647" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="695" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="743" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="232" y="791" width="62" height="48" fill="#eaf4fc" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="245" width="62" height="66" fill="#dbe3ea" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="325.0" y="273" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#43515d" text-anchor="middle">time 4</text>
+<text x="325.0" y="293" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#43515d" text-anchor="middle">column</text>
+<rect x="294" y="311" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="359" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="407" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="455" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="503" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="551" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="599" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="647" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="695" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="743" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="294" y="791" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="245" width="62" height="66" fill="#dbe3ea" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="387.0" y="273" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#43515d" text-anchor="middle">time 5</text>
+<text x="387.0" y="293" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#43515d" text-anchor="middle">column</text>
+<rect x="356" y="311" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="359" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="407" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="455" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="503" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="551" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="599" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="647" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="695" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="743" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="356" y="791" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="245" width="62" height="66" fill="#dbe3ea" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="449.0" y="273" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#43515d" text-anchor="middle">time 6</text>
+<text x="449.0" y="293" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="400" fill="#43515d" text-anchor="middle">column</text>
+<rect x="418" y="311" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="359" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="407" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="455" width="62" height="48" fill="#f0f3f6" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="503" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="551" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="599" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="647" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="695" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="743" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<rect x="418" y="791" width="62" height="48" fill="#f7f9fb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="98" y="341" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">date #</text>
+<text x="98" y="389" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">sun °</text>
+<text x="98" y="437" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">moon °</text>
+<text x="98" y="485" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">moon frac.</text>
+<text x="98" y="533" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">280 nm</text>
+<text x="98" y="581" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">281 nm</text>
+<text x="98" y="629" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">…</text>
+<text x="98" y="677" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">400 nm</text>
+<text x="98" y="725" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">…</text>
+<text x="98" y="773" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">700 nm</text>
+<text x="98" y="821" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#52606d" text-anchor="end">840 nm</text>
+<text x="25" y="407" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#667681" text-anchor="middle" transform="rotate(-90 25 407)">METADATA</text>
+<text x="25" y="663" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#667681" text-anchor="middle" transform="rotate(-90 25 663)">WAVELENGTH ROWS</text>
+<text x="263.0" y="888" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#1f5f99" text-anchor="middle">one vertical slice</text>
+<text x="263.0" y="914" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#1f5f99" text-anchor="middle">= one observation</text>
+<rect x="535" y="205" width="330" height="74" fill="#1f5f99" stroke="none" stroke-width="1" rx="8"/>
+<text x="700.0" y="236" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">01-Jul-2014</text>
+<text x="700.0" y="262" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">02:00:39</text>
+<rect x="535" y="289" width="330" height="55" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="549" y="324" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27313a" text-anchor="start">Date number</text>
+<text x="851" y="324" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27313a" text-anchor="end">2</text>
+<rect x="535" y="344" width="330" height="55" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="549" y="379" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27313a" text-anchor="start">Solar elevation</text>
+<text x="851" y="379" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27313a" text-anchor="end">-25.6°</text>
+<rect x="535" y="399" width="330" height="55" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="549" y="434" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27313a" text-anchor="start">Lunar elevation</text>
+<text x="851" y="434" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27313a" text-anchor="end">-34.2°</text>
+<rect x="535" y="454" width="330" height="55" fill="#d8ebfb" stroke="#ffffff" stroke-width="2" rx="0"/>
+<text x="549" y="489" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#27313a" text-anchor="start">Moon illuminated</text>
+<text x="851" y="489" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#27313a" text-anchor="end">0.136</text>
+<text x="535" y="536" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#1f5f99" text-anchor="start">561 irradiance values</text>
+<rect x="535" y="552" width="330" height="39" fill="#eef6fc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="578" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">280 nm</text>
+<text x="851" y="578" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">0</text>
+<rect x="535" y="591" width="330" height="39" fill="#f7fafc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="617" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">360 nm</text>
+<text x="851" y="617" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">4.40e-09</text>
+<rect x="535" y="630" width="330" height="39" fill="#eef6fc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="656" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">400 nm</text>
+<text x="851" y="656" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">4.06e-09</text>
+<rect x="535" y="669" width="330" height="39" fill="#f7fafc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="695" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">450 nm</text>
+<text x="851" y="695" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">5.81e-09</text>
+<rect x="535" y="708" width="330" height="39" fill="#eef6fc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="734" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">500 nm</text>
+<text x="851" y="734" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">9.53e-09</text>
+<rect x="535" y="747" width="330" height="39" fill="#f7fafc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="773" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">558 nm</text>
+<text x="851" y="773" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">2.43e-08</text>
+<rect x="535" y="786" width="330" height="39" fill="#eef6fc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="812" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">600 nm</text>
+<text x="851" y="812" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">8.48e-09</text>
+<rect x="535" y="825" width="330" height="39" fill="#f7fafc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="851" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">700 nm</text>
+<text x="851" y="851" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">4.70e-09</text>
+<rect x="535" y="864" width="330" height="39" fill="#eef6fc" stroke="#ffffff" stroke-width="1" rx="0"/>
+<text x="549" y="890" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="start">840 nm</text>
+<text x="851" y="890" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#27313a" text-anchor="end">2.34e-08</text>
+<text x="700.0" y="930" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#1f5f99" text-anchor="middle">All wavelength rows form the curve →</text>
+<line x1="870" y1="520" x2="925" y2="520" stroke="#1f5f99" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="1015" y="250" width="690" height="540" fill="#ffffff" stroke="#ccd5dc" stroke-width="2" rx="0"/>
+<rect x="1015" y="250" width="147.85714285714286" height="540" fill="#6f5bd3" opacity="0.045"/>
+<rect x="1162.857142857143" y="250" width="369.64285714285717" height="540" fill="#d9aa3f" opacity="0.035"/>
+<rect x="1532.5" y="250" width="172.5" height="540" fill="#b56a55" opacity="0.035"/>
+<line x1="1015" y1="790.0" x2="1705" y2="790.0" stroke="#dce3e9" stroke-width="1"/>
+<text x="999" y="796.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="end">0</text>
+<line x1="1015" y1="673.4" x2="1705" y2="673.4" stroke="#dce3e9" stroke-width="1"/>
+<text x="999" y="679.3547642641138" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="end">1×10⁻⁸</text>
+<line x1="1015" y1="556.7" x2="1705" y2="556.7" stroke="#dce3e9" stroke-width="1"/>
+<text x="999" y="562.7095285282275" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="end">2×10⁻⁸</text>
+<line x1="1015" y1="440.1" x2="1705" y2="440.1" stroke="#dce3e9" stroke-width="1"/>
+<text x="999" y="446.0642927923411" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="end">3×10⁻⁸</text>
+<line x1="1015" y1="323.4" x2="1705" y2="323.4" stroke="#dce3e9" stroke-width="1"/>
+<text x="999" y="329.4190570564549" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="end">4×10⁻⁸</text>
+<line x1="1015.0" y1="790" x2="1015.0" y2="798" stroke="#8c99a4"/>
+<text x="1015.0" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">280</text>
+<line x1="1113.6" y1="790" x2="1113.6" y2="798" stroke="#8c99a4"/>
+<text x="1113.5714285714287" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">360</text>
+<line x1="1162.9" y1="790" x2="1162.9" y2="798" stroke="#8c99a4"/>
+<text x="1162.857142857143" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">400</text>
+<line x1="1286.1" y1="790" x2="1286.1" y2="798" stroke="#8c99a4"/>
+<text x="1286.0714285714284" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">500</text>
+<line x1="1409.3" y1="790" x2="1409.3" y2="798" stroke="#8c99a4"/>
+<text x="1409.2857142857142" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">600</text>
+<line x1="1532.5" y1="790" x2="1532.5" y2="798" stroke="#8c99a4"/>
+<text x="1532.5" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">700</text>
+<line x1="1655.7" y1="790" x2="1655.7" y2="798" stroke="#8c99a4"/>
+<text x="1655.7142857142858" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">800</text>
+<line x1="1705.0" y1="790" x2="1705.0" y2="798" stroke="#8c99a4"/>
+<text x="1705.0" y="820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52606d" text-anchor="middle">840</text>
+<polyline points="1015.00,790.00 1016.23,790.00 1017.46,790.00 1018.70,790.00 1019.93,790.00 1021.16,790.00 1022.39,790.00 1023.62,790.00 1024.86,790.00 1026.09,790.00 1027.32,790.00 1028.55,790.00 1029.79,790.00 1031.02,790.00 1032.25,790.00 1033.48,790.00 1034.71,790.00 1035.95,790.00 1037.18,790.00 1038.41,790.00 1039.64,790.00 1040.88,790.00 1042.11,790.00 1043.34,790.00 1044.57,790.00 1045.80,790.00 1047.04,790.00 1048.27,790.00 1049.50,790.00 1050.73,790.00 1051.96,790.00 1053.20,790.00 1054.43,790.00 1055.66,790.00 1056.89,790.00 1058.12,790.00 1059.36,790.00 1060.59,790.00 1061.82,790.00 1063.05,790.00 1064.29,708.24 1065.52,780.62 1066.75,780.62 1067.98,780.62 1069.21,721.92 1070.45,782.30 1071.68,782.29 1072.91,756.34 1074.14,757.49 1075.38,769.87 1076.61,769.92 1077.84,769.59 1079.07,790.00 1080.30,766.30 1081.54,790.00 1082.77,790.00 1084.00,790.00 1085.23,790.00 1086.46,790.00 1087.70,775.74 1088.93,759.36 1090.16,776.82 1091.39,783.92 1092.62,783.90 1093.86,770.67 1095.09,770.82 1096.32,743.39 1097.55,694.57 1098.79,750.65 1100.02,750.71 1101.25,773.98 1102.48,775.05 1103.71,790.00 1104.95,790.00 1106.18,790.00 1107.41,790.00 1108.64,790.00 1109.88,784.55 1111.11,754.93 1112.34,755.13 1113.57,738.65 1114.80,738.63 1116.04,714.17 1117.27,683.67 1118.50,673.88 1119.73,674.68 1120.96,698.89 1122.20,673.66 1123.43,698.56 1124.66,649.59 1125.89,674.78 1127.12,645.15 1128.36,702.97 1129.59,702.54 1130.82,724.37 1132.05,775.77 1133.29,737.71 1134.52,769.28 1135.75,733.15 1136.98,769.19 1138.21,768.95 1139.45,731.25 1140.68,708.33 1141.91,685.68 1143.14,692.36 1144.38,690.18 1145.61,715.68 1146.84,713.37 1148.07,718.90 1149.30,755.03 1150.54,755.01 1151.77,754.86 1153.00,720.01 1154.23,721.07 1155.46,731.76 1156.70,726.02 1157.93,724.94 1159.16,725.13 1160.39,740.00 1161.62,742.78 1162.86,742.68 1164.09,742.85 1165.32,743.79 1166.55,744.04 1167.79,752.33 1169.02,736.79 1170.25,715.59 1171.48,693.35 1172.71,688.07 1173.95,687.50 1175.18,670.19 1176.41,688.19 1177.64,688.85 1178.88,690.29 1180.11,693.99 1181.34,695.38 1182.57,695.34 1183.80,723.07 1185.04,790.00 1186.27,790.00 1187.50,790.00 1188.73,786.93 1189.96,751.16 1191.20,721.67 1192.43,721.50 1193.66,679.16 1194.89,679.34 1196.12,678.87 1197.36,659.21 1198.59,659.72 1199.82,651.31 1201.05,648.21 1202.29,650.98 1203.52,651.29 1204.75,653.66 1205.98,654.26 1207.21,635.95 1208.45,676.60 1209.68,696.66 1210.91,700.73 1212.14,696.35 1213.38,696.30 1214.61,688.46 1215.84,689.29 1217.07,698.67 1218.30,689.30 1219.54,691.70 1220.77,692.12 1222.00,721.35 1223.23,722.00 1224.46,722.23 1225.70,690.91 1226.93,691.02 1228.16,704.08 1229.39,731.48 1230.62,692.80 1231.86,678.09 1233.09,685.41 1234.32,699.70 1235.55,734.56 1236.79,738.40 1238.02,726.78 1239.25,713.97 1240.48,728.07 1241.71,729.08 1242.95,729.85 1244.18,718.59 1245.41,700.70 1246.64,702.27 1247.88,704.17 1249.11,707.15 1250.34,708.70 1251.57,711.46 1252.80,729.98 1254.04,737.48 1255.27,739.21 1256.50,740.37 1257.73,741.80 1258.96,722.97 1260.20,726.24 1261.43,727.72 1262.66,729.37 1263.89,698.38 1265.12,715.16 1266.36,716.98 1267.59,718.79 1268.82,719.61 1270.05,690.50 1271.29,719.07 1272.52,720.00 1273.75,721.05 1274.98,705.66 1276.21,720.45 1277.45,706.94 1278.68,713.31 1279.91,713.66 1281.14,697.56 1282.38,698.45 1283.61,698.90 1284.84,688.38 1286.07,678.82 1287.30,689.16 1288.54,680.08 1289.77,690.87 1291.00,696.31 1292.23,697.04 1293.46,702.08 1294.70,704.67 1295.93,705.09 1297.16,705.49 1298.39,709.19 1299.62,706.75 1300.86,707.17 1302.09,708.09 1303.32,711.41 1304.55,694.90 1305.79,699.58 1307.02,699.73 1308.25,689.50 1309.48,701.39 1310.71,712.48 1311.95,714.83 1313.18,702.21 1314.41,702.30 1315.64,708.69 1316.88,704.33 1318.11,706.79 1319.34,706.60 1320.57,703.91 1321.80,697.27 1323.04,703.62 1324.27,705.95 1325.50,719.69 1326.73,719.55 1327.96,720.59 1329.20,720.49 1330.43,725.76 1331.66,735.31 1332.89,725.40 1334.12,714.46 1335.36,696.88 1336.59,705.80 1337.82,693.77 1339.05,683.91 1340.29,677.31 1341.52,671.69 1342.75,671.11 1343.98,670.49 1345.21,670.32 1346.45,670.10 1347.68,669.62 1348.91,665.86 1350.14,660.29 1351.38,623.99 1352.61,582.63 1353.84,581.86 1355.07,581.02 1356.30,535.65 1357.54,506.02 1358.77,504.53 1360.00,503.37 1361.23,548.62 1362.46,589.51 1363.70,599.62 1364.93,618.57 1366.16,651.93 1367.39,658.42 1368.62,657.78 1369.86,659.65 1371.09,670.06 1372.32,683.78 1373.55,694.27 1374.79,693.85 1376.02,685.05 1377.25,682.05 1378.48,692.10 1379.71,691.55 1380.95,680.12 1382.18,676.75 1383.41,676.10 1384.64,673.34 1385.88,675.53 1387.11,671.79 1388.34,670.75 1389.57,670.28 1390.80,670.34 1392.04,669.35 1393.27,655.99 1394.50,650.58 1395.73,640.79 1396.96,635.07 1398.20,635.75 1399.43,643.13 1400.66,643.15 1401.89,642.17 1403.12,645.39 1404.36,647.05 1405.59,673.01 1406.82,693.30 1408.05,691.65 1409.29,691.14 1410.52,694.24 1411.75,715.06 1412.98,714.57 1414.21,692.34 1415.45,687.12 1416.68,686.30 1417.91,694.10 1419.14,702.45 1420.38,692.63 1421.61,691.96 1422.84,692.96 1424.07,699.82 1425.30,704.37 1426.54,703.72 1427.77,712.09 1429.00,704.33 1430.23,703.99 1431.46,694.07 1432.70,687.47 1433.93,668.04 1435.16,667.29 1436.39,677.54 1437.62,660.51 1438.86,645.91 1440.09,602.53 1441.32,601.48 1442.55,596.46 1443.79,606.68 1445.02,566.41 1446.25,555.36 1447.48,565.42 1448.71,573.00 1449.95,600.32 1451.18,581.87 1452.41,580.45 1453.64,614.98 1454.88,614.16 1456.11,612.40 1457.34,611.03 1458.57,636.23 1459.80,645.76 1461.04,666.76 1462.27,684.19 1463.50,708.22 1464.73,707.56 1465.96,714.23 1467.20,697.52 1468.43,696.72 1469.66,670.27 1470.89,652.55 1472.12,651.43 1473.36,650.13 1474.59,661.51 1475.82,660.68 1477.05,659.52 1478.29,674.77 1479.52,685.04 1480.75,683.71 1481.98,682.61 1483.21,685.21 1484.45,684.12 1485.68,679.60 1486.91,678.63 1488.14,677.43 1489.38,671.50 1490.61,698.26 1491.84,697.25 1493.07,677.80 1494.30,676.54 1495.54,684.10 1496.77,683.26 1498.00,682.66 1499.23,696.63 1500.46,695.78 1501.70,694.74 1502.93,693.59 1504.16,727.99 1505.39,748.45 1506.62,748.02 1507.86,776.10 1509.09,747.07 1510.32,715.81 1511.55,685.21 1512.79,641.16 1514.02,639.30 1515.25,585.26 1516.48,583.93 1517.71,565.41 1518.95,553.86 1520.18,519.28 1521.41,524.91 1522.64,522.06 1523.88,519.16 1525.11,628.67 1526.34,712.50 1527.57,711.58 1528.80,710.55 1530.04,736.60 1531.27,735.89 1532.50,735.22 1533.73,700.07 1534.96,674.53 1536.20,673.38 1537.43,728.24 1538.66,722.61 1539.89,675.85 1541.12,666.27 1542.36,694.82 1543.59,693.51 1544.82,721.34 1546.05,720.54 1547.29,717.27 1548.52,716.62 1549.75,737.18 1550.98,743.17 1552.21,735.63 1553.45,751.16 1554.68,757.45 1555.91,787.57 1557.14,790.00 1558.38,790.00 1559.61,790.00 1560.84,790.00 1562.07,790.00 1563.30,790.00 1564.54,790.00 1565.77,764.32 1567.00,669.92 1568.23,696.93 1569.46,640.18 1570.70,638.65 1571.93,640.15 1573.16,639.58 1574.39,681.70 1575.62,680.16 1576.86,686.29 1578.09,740.77 1579.32,740.48 1580.55,685.01 1581.79,719.68 1583.02,664.48 1584.25,639.55 1585.48,637.84 1586.71,635.29 1587.95,617.97 1589.18,640.28 1590.41,711.10 1591.64,654.07 1592.88,713.12 1594.11,790.00 1595.34,790.00 1596.57,790.00 1597.80,790.00 1599.04,771.78 1600.27,711.91 1601.50,759.97 1602.73,759.96 1603.96,760.21 1605.20,612.25 1606.43,705.15 1607.66,719.48 1608.89,673.63 1610.12,718.04 1611.36,681.18 1612.59,680.33 1613.82,680.01 1615.05,679.71 1616.29,734.95 1617.52,724.59 1618.75,722.71 1619.98,647.55 1621.21,636.28 1622.45,568.98 1623.68,566.88 1624.91,629.93 1626.14,626.72 1627.38,603.33 1628.61,660.56 1629.84,696.77 1631.07,697.66 1632.30,695.94 1633.54,694.29 1634.77,655.18 1636.00,653.46 1637.23,651.38 1638.46,595.10 1639.70,556.49 1640.93,549.37 1642.16,544.14 1643.39,538.39 1644.62,689.40 1645.86,640.92 1647.09,736.07 1648.32,790.00 1649.55,790.00 1650.79,790.00 1652.02,790.00 1653.25,757.74 1654.48,730.13 1655.71,716.06 1656.95,627.06 1658.18,589.34 1659.41,650.73 1660.64,727.88 1661.88,648.87 1663.11,646.02 1664.34,743.56 1665.57,790.00 1666.80,790.00 1668.04,790.00 1669.27,790.00 1670.50,782.55 1671.73,790.00 1672.96,790.00 1674.20,760.14 1675.43,759.49 1676.66,790.00 1677.89,790.00 1679.12,790.00 1680.36,790.00 1681.59,790.00 1682.82,790.00 1684.05,790.00 1685.29,728.57 1686.52,613.76 1687.75,444.54 1688.98,333.58 1690.21,320.11 1691.45,307.86 1692.68,417.66 1693.91,557.81 1695.14,550.66 1696.38,439.23 1697.61,776.03 1698.84,775.78 1700.07,733.07 1701.30,731.79 1702.54,491.90 1703.77,437.21 1705.00,516.88" fill="none" stroke="#195b8f" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="1113.57" cy="738.65" r="5.5" fill="#ffffff" stroke="#195b8f" stroke-width="3"/>
+<circle cx="1224.46" cy="722.23" r="5.5" fill="#ffffff" stroke="#195b8f" stroke-width="3"/>
+<circle cx="1357.54" cy="506.02" r="5.5" fill="#ffffff" stroke="#195b8f" stroke-width="3"/>
+<circle cx="1532.50" cy="735.22" r="5.5" fill="#ffffff" stroke="#195b8f" stroke-width="3"/>
+<circle cx="1705.00" cy="516.88" r="5.5" fill="#ffffff" stroke="#195b8f" stroke-width="3"/>
+<text x="1088.9285714285713" y="232" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#6655a8" text-anchor="middle">UV</text>
+<text x="1347.6785714285716" y="232" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#8b681e" text-anchor="middle">VISIBLE</text>
+<text x="1618.75" y="232" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#8a5546" text-anchor="middle">NEAR INFRARED</text>
+<rect x="1138.2142857142858" y="843" width="492.85714285714283" height="18" fill="url(#spectrum)" stroke="none" stroke-width="1" rx="4"/>
+<text x="1360.0" y="895" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#27313a" text-anchor="middle">Wavelength (nanometres)</text>
+<text x="923" y="520.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#27313a" text-anchor="middle" transform="rotate(-90 923 520.0)">Spectral irradiance (W m⁻² nm⁻¹)</text>
+<line x1="1365.5" y1="498.0" x2="1442.5" y2="431.0" stroke="#687580" stroke-width="2"/>
+<text x="1449.5357142857142" y="424.01507480719863" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#53616c" text-anchor="start">airglow feature</text>
+<text x="1449.5357142857142" y="444.01507480719863" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#53616c" text-anchor="start">near 558 nm</text>
+<text x="900" y="974" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#5f6b76" text-anchor="middle">One column = 4 metadata values + 561 irradiance values (280–840 nm, 1 nm spacing).  NaN = wavelength outside usable spectrometer range.</text>
+</svg>

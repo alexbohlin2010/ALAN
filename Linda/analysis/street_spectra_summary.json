@@ -1,0 +1,125 @@
+{
+  "file": "ACTION_Street_Spectra.csv",
+  "rows": 4804,
+  "date_range": {
+    "created_min": "2019-09-02",
+    "created_max": "2026-04-07"
+  },
+  "identity": {
+    "unique_uuid": 4804,
+    "duplicate_uuid_rows": 0,
+    "title_equals_uuid": 4804
+  },
+  "completeness": {
+    "photo_present": 4773,
+    "photo_present_pct": 99.4,
+    "nickname_present": 4058,
+    "nickname_present_pct": 84.5,
+    "comments_present": 1262,
+    "comments_present_pct": 26.3,
+    "coordinates_present": 4581,
+    "coordinates_present_pct": 95.4,
+    "source_label_present": 2486,
+    "source_label_present_pct": 51.7
+  },
+  "location": {
+    "valid_coordinates": 4581,
+    "unique_exact_coordinates": 4509,
+    "spain_bbox_records": 4252,
+    "spain_bbox_pct_of_valid": 92.8,
+    "gps_accuracy_median_m": 6.0,
+    "gps_accuracy_p90_m": 32.0,
+    "gps_accuracy_max_m": 4300.0,
+    "gps_accuracy_le_10m_pct": 64.8
+  },
+  "upload_lag": {
+    "median_seconds": 323.9,
+    "p90_seconds": 173637.4
+  },
+  "technology_summary": [
+    {
+      "technology": "LED",
+      "records": 1533,
+      "share_all_pct": 31.9,
+      "share_classified_pct": 61.7
+    },
+    {
+      "technology": "HPS",
+      "records": 598,
+      "share_all_pct": 12.4,
+      "share_classified_pct": 24.1
+    },
+    {
+      "technology": "MV",
+      "records": 218,
+      "share_all_pct": 4.5,
+      "share_classified_pct": 8.8
+    },
+    {
+      "technology": "MH",
+      "records": 137,
+      "share_all_pct": 2.9,
+      "share_classified_pct": 5.5
+    },
+    {
+      "technology": "Unknown",
+      "records": 2318,
+      "share_all_pct": 48.3,
+      "share_classified_pct": null
+    }
+  ],
+  "records_by_year": {
+    "2019": 413,
+    "2020": 341,
+    "2021": 1326,
+    "2022": 2253,
+    "2023": 341,
+    "2024": 104,
+    "2025": 9,
+    "2026": 17
+  },
+  "technology_by_year": {
+    "2019": {
+      "Unknown": 413
+    },
+    "2020": {
+      "Unknown": 341
+    },
+    "2021": {
+      "Unknown": 382,
+      "LED": 468,
+      "HPS": 345,
+      "MV": 76,
+      "MH": 55
+    },
+    "2022": {
+      "Unknown": 1045,
+      "LED": 794,
+      "HPS": 216,
+      "MH": 75,
+      "MV": 123
+    },
+    "2023": {
+      "LED": 233,
+      "HPS": 36,
+      "MH": 6,
+      "Unknown": 49,
+      "MV": 17
+    },
+    "2024": {
+      "Unknown": 77,
+      "LED": 23,
+      "MV": 2,
+      "MH": 1,
+      "HPS": 1
+    },
+    "2025": {
+      "Unknown": 3,
+      "LED": 6
+    },
+    "2026": {
+      "LED": 9,
+      "Unknown": 8
+    }
+  }
+}
