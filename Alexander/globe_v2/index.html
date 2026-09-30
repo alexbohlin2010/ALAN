@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Earth After Dark</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --void:#05070c; --panel:#0b1017; --panel2:#0f1520; --line:#1b2431; --line2:#263244;
+  --ink:#e9ecf2; --muted:#7d8a9e; --faint:#4a5566;
+  --up:#ffa62b; --down:#7fb3ff; --hand:#f4f6fa;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Archivo",system-ui,-apple-system,Segoe UI,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--void);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;padding:0}
+
+#app{display:grid;grid-template-columns:1fr 380px;height:100%;min-height:0}
+#stage{position:relative;min-width:0;min-height:0;overflow:hidden;user-select:none;-webkit-user-select:none}
+.gl{position:absolute;inset:0}
+.gl canvas{display:block}
+#glB{clip-path:inset(0 0 0 var(--split,50%))}
+.scrim{position:absolute;left:0;right:0;z-index:4;pointer-events:none}
+#scrimT{top:0;height:130px;background:linear-gradient(rgba(5,7,12,.78),rgba(5,7,12,0))}
+#scrimB{bottom:0;height:170px;background:linear-gradient(rgba(5,7,12,0),rgba(5,7,12,.86))}
+
+/* masthead + year stamps */
+#mast{position:absolute;top:0;left:0;padding:22px 24px;z-index:5;pointer-events:none}
+#mast h1{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+#mast p{margin:5px 0 0;font-size:12px;color:var(--muted);max-width:32ch;line-height:1.45}
+.stamp{position:absolute;bottom:calc(26px + env(safe-area-inset-bottom,0px));z-index:6;pointer-events:none;font-family:var(--mono);font-weight:500;
+  font-size:clamp(34px,4.2vw,56px);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+  color:var(--hand);text-shadow:0 2px 24px rgba(0,0,0,.6);transition:opacity .2s}
+#stampA{left:24px}
+#stampB{right:24px;text-align:right}
+#stampB .win{text-align:right}
+
+/* swipe divider */
+#divider{position:absolute;top:0;bottom:0;left:var(--split,50%);width:0;z-index:6}
+#divider::before{content:"";position:absolute;top:0;bottom:0;left:-.5px;width:1px;background:rgba(244,246,250,.72);
+  box-shadow:0 0 0 .5px rgba(0,0,0,.4)}
+#grip{position:absolute;top:50%;left:0;width:34px;height:34px;transform:translate(-50%,-50%);border-radius:50%;
+  background:rgba(11,16,23,.86);border:1px solid rgba(244,246,250,.7);display:grid;place-items:center;
+  cursor:ew-resize;touch-action:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:transform .12s,border-color .12s}
+#grip:hover,#grip.drag{transform:translate(-50%,-50%) scale(1.08);border-color:#fff}
+#grip:focus-visible{outline:2px solid var(--hand);outline-offset:3px}
+#grip svg{width:16px;height:16px;stroke:var(--hand);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#hit{position:absolute;top:0;bottom:0;left:-8px;width:16px;cursor:ew-resize;touch-action:none}
+
+/* year stamps */
+.stamp .win{display:block;font-size:10px;letter-spacing:.08em;color:var(--muted);margin-top:8px;font-weight:400}
+#stampB .win{text-align:right}
+
+#viewbox{position:absolute;top:22px;right:24px;z-index:6;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+#legend{background:rgba(11,16,23,.78);border:1px solid var(--line2);padding:9px 11px;font-size:11px;color:var(--muted);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;grid-template-columns:11px 1fr;gap:5px 9px;align-items:center;max-width:230px}
+#legend i{width:11px;height:11px;display:block;border-radius:2px}
+#legend .hatch{background:repeating-linear-gradient(135deg,#ffc5a8 0 2px,#b58a74 2px 5px)}
+#legend p{grid-column:1/-1;margin:3px 0 0;font-size:10px;line-height:1.4;color:var(--faint)}
+#palette{display:flex;border:1px solid var(--line2);background:rgba(11,16,23,.7);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#palette button{font-size:11px;padding:6px 11px;color:var(--muted);letter-spacing:.02em}
+#palette button[aria-pressed=true]{color:#05070c;background:var(--hand)}
+#palette button:focus-visible{outline:1px solid var(--hand);outline-offset:-1px}
+
+/* panel */
+#panel{background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+#phead{padding:20px 20px 14px;border-bottom:1px solid var(--line)}
+#pname{font-size:23px;font-weight:800;letter-spacing:-.02em;margin:0;text-wrap:balance}
+#pmeta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+#deltas{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.d{background:var(--panel);padding:12px 10px}
+.d b{display:block;font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.d span{display:block;font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
+.up{color:var(--up)} .down{color:var(--down)}
+#range{font-family:var(--mono);font-size:10px;color:var(--muted);padding:9px 20px 0;letter-spacing:.06em}
+
+#charts{padding:10px 20px 4px;display:flex;flex-direction:column;gap:14px}
+.ch h3{margin:0 0 2px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;
+  display:flex;justify-content:space-between;align-items:baseline}
+.ch h3 em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--ink);letter-spacing:0}
+.ch svg{display:block;width:100%;height:44px;overflow:visible}
+
+#light{margin:12px 20px 0;padding:11px 12px;border:1px solid var(--line);background:var(--panel2)}
+#light h4{margin:0 0 7px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;
+  display:flex;justify-content:space-between}
+#light h4 span{font-family:var(--mono);letter-spacing:.02em;text-transform:none;font-weight:400}
+#light dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;font-size:12px}
+#light dt{color:var(--muted)} #light dd{margin:0;font-family:var(--mono);font-size:11.5px;text-align:right}
+#light .none{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+#listwrap{flex:1;min-height:0;overflow-y:auto;border-top:1px solid var(--line);margin-top:12px}
+#listlabel{position:sticky;top:0;background:var(--panel);padding:11px 20px 7px;font-size:10px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;z-index:1;border-bottom:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:10px;padding:7px 20px;width:100%;text-align:left;border-bottom:1px solid rgba(27,36,49,.5);transition:background .12s}
+.row:hover{background:var(--panel2)}
+.row[aria-current=true]{background:var(--panel2);box-shadow:inset 2px 0 0 var(--hand)}
+.row i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);width:20px;flex:none}
+.row .nm{flex:1;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .vl{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;flex:none;width:54px;text-align:right}
+.bar{width:44px;height:3px;flex:none;background:var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;top:0;bottom:0;left:50%;background:var(--up)}
+.bar i.neg{background:var(--down);left:auto;right:50%}
+#foot{padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);line-height:1.5}
+
+.tip{font-family:var(--mono);font-size:11px;background:#0d1219;border:1px solid var(--line);padding:5px 8px;color:var(--ink);white-space:nowrap}
+#loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--void);z-index:10;font-family:var(--mono);
+  font-size:12px;color:var(--muted);transition:opacity .5s}
+#loading.gone{opacity:0;pointer-events:none}
+
+@media (max-width:900px){
+  body{overflow:auto}
+  #app{display:block;height:auto}
+  #stage{height:68vh;min-height:420px}
+  #panel{border-left:none;border-top:1px solid var(--line)}
+  #listwrap{overflow:visible}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="glA" class="gl"></div>
+    <div id="glB" class="gl"></div>
+    <div id="scrimT" class="scrim"></div><div id="scrimB" class="scrim"></div>
+    <div id="mast">
+      <h1>Earth After Dark</h1>
+      <p>Upward light, VIIRS annual composites at native 500 m. Drag the divider to compare 2012 with 2024; scroll to zoom.</p>
+    </div>
+    <div id="stampA" class="stamp"><span class="yr">2012</span><span class="win">APR 2012 – MAR 2013</span></div>
+    <div id="stampB" class="stamp"><span class="yr">2024</span><span class="win">JAN – DEC 2024</span></div>
+    <div id="viewbox">
+      <div id="palette" role="group" aria-label="View">
+        <button type="button" data-p="0" aria-pressed="true">Colour</button><button type="button" data-p="1" aria-pressed="false">Brightness</button><button type="button" data-p="2" aria-pressed="false">Source</button>
+      </div>
+      <div id="legend"></div>
+    </div>
+    <div id="divider"><div id="hit"></div>
+      <div id="grip" role="slider" tabindex="0" aria-label="Compare divider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 4 2 8l4 4M10 4l4 4-4 4"/></svg>
+      </div>
+    </div>
+    <div id="loading">loading…</div>
+  </div>
+
+  <aside id="panel">
+    <div id="phead"><h2 id="pname">—</h2><div id="pmeta"></div></div>
+    <div id="deltas">
+      <div class="d"><b id="dTot">—</b><span>Total light</span></div>
+      <div class="d"><b id="dAre">—</b><span>Lit area</span></div>
+      <div class="d"><b id="dInt">—</b><span>Intensity</span></div>
+    </div>
+    <div id="range"></div>
+    <div id="charts">
+      <div class="ch"><h3>Total upward light <em id="e1"></em></h3><svg id="c1" viewBox="0 0 320 44" preserveAspectRatio="none"></svg></div>
+      <div class="ch"><h3>Lit area <em id="e2"></em></h3><svg id="c2" viewBox="0 0 320 44" preserveAspectRatio="none"></svg></div>
+      <div class="ch"><h3>Intensity where lit <em id="e3"></em></h3><svg id="c3" viewBox="0 0 320 44" preserveAspectRatio="none"></svg></div>
+    </div>
+    <div id="light"></div>
+    <div id="listwrap"><div id="listlabel"></div><div id="list"></div></div>
+    <div id="foot">
+      VIIRS DNB reads one band (500–900 nm) and cannot see colour: brightness is measured, colour is
+      estimated only inside cities with lamp-stock evidence, in both years (Source view shows which). Each year is a 12-month cloud-free average (2012 runs
+      Apr 2012–Mar 2013). A sodium-to-LED conversion reads as dimming at constant brightness —
+      about −28% for 3000 K LED at equal lumens. Aurora removed (7 events).
+    </div>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js"></script>
+<script>
+const YEARS=[2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+const ZMAX=9;
+const TILE_V='colour-v3';                      // bump whenever tiles_rgba is rebuilt (cache busting)
+const $=id=>document.getElementById(id);
+let DATA=null, sel=null, iA=0, iB=YEARS.length-1, split=.5;
+
+/* ---------------- tile existence bitmasks (no requests for dark tiles) ---------------- */
+const EXISTS={};                       // year -> [Uint8Array per z]
+function loadExists(y){
+  if(EXISTS[y])return EXISTS[y].ready;
+  const e=EXISTS[y]={bits:[]};
+  e.ready=Promise.all([...Array(ZMAX+1).keys()].map(z=>
+    fetch(`tiles_rgba/${y}/exists_z${z}.bin?v=${TILE_V}`).then(r=>r.ok?r.arrayBuffer():null)
+      .then(b=>{e.bits[z]=b?new Uint8Array(b):null;})
+      .catch(()=>{e.bits[z]=null;})));
+  return e.ready;
+}
+function tileUrl(y){
+  return (x,yy,z)=>{
+    const b=EXISTS[y]&&EXISTS[y].bits[z];
+    if(b){const i=yy*(1<<z)+x; if(!(b[i>>3]&(128>>(i&7))))return 'empty.webp';}
+    return `tiles_rgba/${y}/${z}/${x}/${yy}.webp?v=${TILE_V}`;
+  };
+}
+
+/* ---------------- globe construction ---------------- */
+function makeGlobe(el){
+  const g=Globe({rendererConfig:{antialias:true,powerPreference:'high-performance'}})(el)
+    .backgroundColor('rgba(0,0,0,0)')
+    .showAtmosphere(true).atmosphereColor('#3a5580').atmosphereAltitude(0.12)
+    .globeTileEngineMaxLevel(ZMAX)
+    .pointsData([]).pointLat('lat').pointLng('lng').pointAltitude(0.002).pointRadius(0.16)
+    .pointColor(()=> 'rgba(244,246,250,.85)')
+    .pointLabel(c=>`<div class="tip">${c.name}</div>`)
+    .onPointClick(c=>select(c,true))
+    .ringLat('lat').ringLng('lng').ringColor(()=>t=>`rgba(244,246,250,${.9*(1-t)})`)
+    .ringMaxRadius(2.2).ringPropagationSpeed(1.4).ringRepeatPeriod(1400);
+  const R=g.renderer();
+  R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  const MAXA=R.capabilities.getMaxAnisotropy();
+  const gm=g.globeMaterial(); if(gm&&gm.color)gm.color.set(0x000000);
+  const c=g.controls(); c.enableDamping=true; c.dampingFactor=.12; c.zoomSpeed=.9; c.rotateSpeed=.6;
+
+  // Tile meshes arrive with a lit MeshLambertMaterial, which would shade night lights as if
+  // sunlit. Re-route the texture to emissive (unlit) and use nearest-texel magnification so
+  // native 500 m pixels stay crisp squares when zoomed past them.
+  // globe.gl mounts its tile engine a tick after construction, so wait for it.
+  g.__lod=()=>{};
+  const hook=setInterval(()=>{
+    let engine=null;
+    g.scene().traverse(o=>{if(!engine&&'tileUrl' in o&&typeof o.clearTiles==='function')engine=o;});
+    if(!engine)return;
+    clearInterval(hook);
+    const add=engine.add.bind(engine);
+    engine.add=(...objs)=>{objs.forEach(o=>unlit(o,MAXA));return add(...objs);};
+    engine.children.forEach(o=>unlit(o,MAXA));
+    // The engine picks level = first i with 8/2^i <= camera distance, which targets ~1 texel per
+    // 4 device pixels. Scale the thresholds by drawing-buffer height so a texel is ~1 device px.
+    const base=engine.thresholds.slice();
+    g.__lod=()=>{const h=R.domElement.height||1000; const k=Math.max(2,4.5*h/1000);
+      engine.thresholds=base.map(t=>t*k); engine.updatePov(g.camera());};
+    g.__lod();
+    g.__cull=()=>cull(g,engine);
+  },30);
+  return g;
+}
+// RGBA tiles (colorize.py): R brightness, G/B CIE xy of the estimated light mix, A = 255 - source code.
+// Greyscale tiles decode as colour-unknown. Everything is decoded on the GPU; shared uniforms mean one
+// toggle updates every tile without re-tiling. Method: ../colour/METHOD_colour.md
+const PAL={uMode:{value:0},uCurve:{value:1.2}};
+const PAL_GLSL=`
+uniform float uMode; uniform float uCurve;
+vec3 xyToLinearRGB(vec2 c){
+  vec3 XYZ=vec3(c.x/c.y,1.0,(1.0-c.x-c.y)/c.y);
+  vec3 rgb=mat3(3.2406,-0.9689,0.0557, -1.5372,1.8758,-0.2040, -0.4986,0.0415,1.0570)*XYZ;  // XYZ->linear sRGB
+  rgb=max(rgb,0.0);
+  return rgb/max(max(rgb.r,rgb.g),max(rgb.b,1e-5));  // hue and saturation only; brightness comes from VIIRS
+}`;
+// The tile engine keeps every tile it ever loaded at lower levels as background coverage, and draws
+// them all; ~70% are 1x1 empty tiles. Hiding (never removing) keeps the engine's bookkeeping intact:
+//   - empty tiles: the coarser tile behind is equally dark there
+//   - levels more than 2 below the current one
+//   - tiles beyond the horizon
+const R_GLOBE=100;                                   // globe.gl globe radius in scene units
+function cull(g,engine){
+  const cam=g.camera().position, dist=cam.length(), lvl=engine.level;
+  const horizon=R_GLOBE/dist;                        // cos of angular radius of the visible cap
+  const cx=cam.x/dist, cy=cam.y/dist, cz=cam.z/dist;
+  for(const o of engine.children){
+    const m=o.material; if(!m||!m.__unlit)continue;
+    if(o.__lvl===undefined){
+      const p=o.geometry.parameters;                 // SphereGeometry segment: phiLength = tile width
+      o.__lvl=Math.round(Math.log2(2*Math.PI*(1-(engine.tileMargin||0))/p.phiLength));
+      o.geometry.computeBoundingSphere();
+      const c=o.geometry.boundingSphere.center.clone().normalize();
+      o.__c=c; o.__half=Math.min(1,o.geometry.boundingSphere.radius/R_GLOBE);
+      const im=m.emissiveMap&&m.emissiveMap.image;
+      o.__empty=!!(im&&im.width===1);
+    }
+    const facing=o.__c.x*cx+o.__c.y*cy+o.__c.z*cz > horizon-o.__half*1.1;
+    o.visible=!o.__empty && o.__lvl>=lvl-2 && facing;
+  }
+}
+function unlit(o,MAXA){
+  const m=o&&o.material;
+  if(!m||!m.map||m.__unlit||!m.emissive)return;
+  const t=m.map;
+  t.colorSpace='';                  // raw encoded values, no sRGB decode
+  t.magFilter=1003;                 // THREE.NearestFilter: native pixels stay crisp squares
+  t.anisotropy=MAXA; t.needsUpdate=true;
+  m.emissiveMap=t; m.emissive.setRGB(1,1,1);
+  m.color=new m.emissive.constructor(0x000000);
+  m.map=null; m.__unlit=true;
+  m.onBeforeCompile=sh=>{
+    sh.uniforms.uMode=PAL.uMode; sh.uniforms.uCurve=PAL.uCurve;
+    sh.fragmentShader=PAL_GLSL+'\n'+sh.fragmentShader.replace('#include <emissivemap_fragment>',`
+      vec4 t=texture2D(emissiveMap,vEmissiveMapUv);
+      float L=pow(pow(t.r,uCurve),2.2);                 // display brightness, linear
+      float code=floor((1.0-t.a)*255.0+0.5);            // 0 unknown 1 prior 2 inferred 3 documented
+      vec2 cxy=vec2(t.g*0.35+0.25,t.b*0.20+0.25);
+      vec3 lin;
+      if(uMode<0.5){
+        // saturation scales with evidence: documented 1.0, inferred 0.8. Unknown pixels already hold the
+        // 'typical night light' colour computed in colorize.py (desaturated), so they are shown as stored.
+        float sat=code>2.5?1.0:code>1.5?0.8:code>0.5?0.55:1.0;
+        lin=xyToLinearRGB(mix(vec2(0.3127,0.3290),cxy,sat))*L;
+        if(code<0.5){ lin*=mix(0.84,1.0,step(0.5,fract((gl_FragCoord.x-gl_FragCoord.y)/8.0))); }  // faint hatch = colour unknown
+      } else if(uMode<1.5){
+        lin=vec3(L);
+      } else {
+        vec3 k=code>2.5?vec3(.36,.86,.74):code>1.5?vec3(.66,.58,.98):code>0.5?vec3(.98,.78,.40):vec3(.42);
+        lin=pow(k,vec3(2.2))*L;
+      }
+      totalEmissiveRadiance=lin;`);
+  };
+  m.customProgramCacheKey=()=>'nightxy';
+  m.needsUpdate=true;
+}
+
+const A=makeGlobe($('glA')), B=makeGlobe($('glB'));
+// cull on a light timer rather than per frame: visibility only changes when the camera or tiles do
+setInterval(()=>{for(const g of [A,B])if(g.__cull&&!g.__paused)g.__cull();},120);
+const shown={A:null,B:null};
+
+/* ---------------- year switching without a black flash ---------------- */
+const requested={A:new Set(),B:new Set()};
+function tracked(side,y){
+  const f=tileUrl(y);
+  return (x,yy,z)=>{const u=f(x,yy,z); requested[side].add(`${z}/${x}/${yy}`); return u;};
+}
+function prefetch(side,y){
+  // warm the HTTP cache with the tiles this view currently shows, for the new year
+  // only the most recent zoom level matters: that is what is on screen
+  const all=[...requested[side]], zTop=Math.max(-1,...all.map(k=>+k.split('/')[0]));
+  const keys=all.filter(k=>+k.split('/')[0]===zTop).slice(-900);
+  const f=tileUrl(y);
+  return Promise.race([
+    Promise.all(keys.map(k=>{const [z,x,yy]=k.split('/').map(Number);const u=f(x,yy,z);
+      if(u==='empty.webp')return null;
+      return new Promise(r=>{const im=new Image();im.onload=im.onerror=r;im.src=u;});})),
+    new Promise(r=>setTimeout(r,700))]);
+}
+async function setYear(side,i){
+  const y=YEARS[i], g=side==='A'?A:B;
+  if(shown[side]===y)return;
+  shown[side]=y;
+  await loadExists(y);
+  if(shown[side]!==y)return;
+  await prefetch(side,y);
+  if(shown[side]!==y)return;
+  requested[side]=new Set();
+  // clear first: setting the URL starts fetching, and a later clear would orphan those loads
+  g.globeTileEngineClearCache();
+  g.globeTileEngineUrl(tracked(side,y));
+}
+
+/* ---------------- camera sync ---------------- */
+let leader=A, syncing=false;
+function follow(from,to){
+  if(syncing)return; syncing=true;
+  to.pointOfView(from.pointOfView(),0);
+  syncing=false;
+}
+[['A',A,B],['B',B,A]].forEach(([k,g,o])=>{
+  const cv=(k==='A'?$('glA'):$('glB'));
+  cv.addEventListener('pointerdown',()=>{leader=g;},true);
+  cv.addEventListener('wheel',()=>{leader=g;},{capture:true,passive:true});
+  g.controls().addEventListener('change',()=>{if(leader===g)follow(g,o);});
+});
+function fly(pov,ms){A.pointOfView(pov,ms);B.pointOfView(pov,ms);}
+
+/* markers scale with altitude; dots vanish up close so they never cover the pixels */
+let markBucket=-1;
+function markers(alt){
+  const b=alt>1.2?3:alt>.5?2:alt>.18?1:0;
+  if(b===markBucket||!DATA)return; markBucket=b;
+  const r=[.0,.035,.07,.16][b], ring=[.12,.35,.9,2.2][b];
+  for(const g of [A,B]){
+    g.pointRadius(r).pointsData(b?DATA.cities:[]);
+    g.ringMaxRadius(ring);
+  }
+}
+for(const g of [A,B])g.onZoom(p=>markers(p.altitude));
+
+/* ---------------- divider ---------------- */
+function pauseIf(g,hide){
+  if(hide&&!g.__paused){g.pauseAnimation();g.__paused=true;}
+  else if(!hide&&g.__paused){g.resumeAnimation();g.__paused=false;}
+}
+function setSplit(f){
+  split=Math.max(0,Math.min(1,f));
+  $('stage').style.setProperty('--split',(split*100).toFixed(3)+'%');
+  $('grip').setAttribute('aria-valuenow',Math.round(split*100));
+  $('stampA').style.opacity=split<.12?0:1;
+  $('stampB').style.opacity=split>.88?0:1;
+  // a globe that is entirely covered by the other does not need to render
+  pauseIf(A,split<=0.001); pauseIf(B,split>=0.999);
+}
+(function(){
+  const st=$('stage'); let drag=false;
+  const move=e=>{if(!drag)return;const r=st.getBoundingClientRect();setSplit((e.clientX-r.left)/r.width);};
+  const down=e=>{drag=true;$('grip').classList.add('drag');e.target.setPointerCapture(e.pointerId);move(e);e.preventDefault();};
+  const up=()=>{drag=false;$('grip').classList.remove('drag');};
+  for(const el of [$('grip'),$('hit')]){
+    el.addEventListener('pointerdown',down);el.addEventListener('pointermove',move);
+    el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+  }
+  $('grip').addEventListener('dblclick',()=>setSplit(.5));
+  $('grip').addEventListener('keydown',e=>{
+    const s=e.shiftKey?.1:.02;
+    if(e.key==='ArrowLeft'){setSplit(split-s);e.preventDefault();}
+    if(e.key==='ArrowRight'){setSplit(split+s);e.preventDefault();}
+    if(e.key==='Home'){setSplit(0);e.preventDefault();}
+    if(e.key==='End'){setSplit(1);e.preventDefault();}
+  });
+})();
+
+/* ---------------- the compared pair: 2012 (left) and 2024 (right) ---------------- */
+// YEARS stays the full 2012-2024 axis because the panel sparklines show the whole trend.
+
+/* ---------------- view toggle + legend ---------------- */
+const LEGENDS=[
+  // swatches are the measured chromaticities in ../colour/lamp_class_xy.csv, rendered to sRGB
+  `<i style="background:#ff8700"></i>Sodium (HPS)<i style="background:#ffae5e"></i>LED 2700 K
+   <i style="background:#ffb279"></i>LED 3000 K<i style="background:#ffd6a7"></i>LED 4000 K
+   <i style="background:#fff5ff"></i>LED 5700 K+<i class="hatch"></i>Unknown (typical night light)
+   <p>Brightness is measured by VIIRS. Colour is estimated only where city evidence exists, in both years; paler = inferred. Hatched = unknown.</p>`,
+  `<p style="margin:0">VIIRS brightness only. The sensor records one band and cannot see colour.</p>`,
+  `<i style="background:#5bdbbd"></i>Documented city mix<i style="background:#a894fa"></i>Inferred city mix
+   <i style="background:#6b6b6b"></i>Unknown (both years)
+   <p>Every pixel carries its source. Rules and evidence: METHOD_colour.md, city_colour_compositions.csv.</p>`];
+function setView(p){
+  PAL.uMode.value=p;
+  $('palette').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.p===p)));
+  $('legend').innerHTML=LEGENDS[p];
+}
+$('palette').addEventListener('click',e=>{const b=e.target.closest('button'); if(b)setView(+b.dataset.p);});
+setView(0);
+
+/* ---------------- panel ---------------- */
+const pct=(a,b)=>a>0?(b/a-1)*100:0;
+const fmtPct=v=>(v>0?'+':v<0?'−':'±')+Math.abs(v).toFixed(0)+'%';
+function setDelta(el,v){el.textContent=fmtPct(v);el.className=v<-.5?'down':v>.5?'up':'';}
+function spark(svg,vals){
+  const W=320,H=44,P=5,n=vals.length;
+  const lo=Math.min(...vals),hi=Math.max(...vals),rng=(hi-lo)||1;
+  const X=i=>P+i*(W-2*P)/(n-1),Y=v=>H-P-((v-lo)/rng)*(H-2*P);
+  const d=vals.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join('');
+  const a=Math.min(iA,iB),b=Math.max(iA,iB);
+  const seg=vals.slice(a,b+1).map((v,k)=>(k?'L':'M')+X(a+k).toFixed(1)+' '+Y(v).toFixed(1)).join('');
+  const dot=(i,lbl)=>`<circle cx="${X(i).toFixed(1)}" cy="${Y(vals[i]).toFixed(1)}" r="3" fill="var(--hand)" stroke="var(--panel)" stroke-width="1.5"/>`;
+  svg.innerHTML=
+    `<line x1="${X(iA)}" x2="${X(iA)}" y1="0" y2="${H}" stroke="var(--line2)" vector-effect="non-scaling-stroke"/>`+
+    `<line x1="${X(iB)}" x2="${X(iB)}" y1="0" y2="${H}" stroke="var(--line2)" vector-effect="non-scaling-stroke"/>`+
+    `<path d="${d}" fill="none" stroke="var(--faint)" stroke-width="1.25" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
+    `<path d="${seg}" fill="none" stroke="var(--hand)" stroke-width="1.75" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
+    dot(iA)+dot(iB);
+}
+const ch=(c,i)=>pct(c.total[iA],c.total[iB]);
+function lightBlock(L){
+  if(!L||(!L.dominant_tech&&!L.cct_k&&!L.confidence))
+    return `<h4>Street lighting</h4><div class="none">Not yet researched — no ground truth for this city.</div>`;
+  const rows=[];
+  const cct=L.cct_k?`${L.cct_k} K`:(L.cct_range?L.cct_range.split(/[;(]/)[0].trim():'');
+  if(L.dominant_tech)rows.push(['Stock',L.dominant_tech+(L.led_share_pct?` · ${(+L.led_share_pct).toFixed(0)}% LED`:'')]);
+  if(cct)rows.push(['CCT',cct.length>26?cct.slice(0,26)+'…':cct]);
+  if(L.retrofit_start)rows.push(['Retrofit',L.retrofit_start+(L.retrofit_end?`–${L.retrofit_end}`:' →')]);
+  if(L.melanopic_der||L.melanopic_der_range)rows.push(['Melanopic DER',L.melanopic_der||L.melanopic_der_range]);
+  if(L.dnb_per_lumen_rel_hps)rows.push(['DNB per lumen vs HPS',(+L.dnb_per_lumen_rel_hps).toFixed(2)]);
+  return `<h4>Street lighting <span>${L.confidence||'—'}</span></h4><dl>${rows.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join('')}</dl>`;
+}
+function refresh(){
+  if(!DATA)return;
+  const c=sel;
+  if(c){
+    $('pname').textContent=c.name;
+    $('pmeta').textContent=c.nights.toLocaleString()+' clear nights · '+c.lat.toFixed(2)+'°, '+c.lng.toFixed(2)+'°';
+    setDelta($('dTot'),pct(c.total[iA],c.total[iB]));
+    setDelta($('dAre'),pct(c.litkm2[iA],c.litkm2[iB]));
+    setDelta($('dInt'),pct(c.meanlit[iA],c.meanlit[iB]));
+    $('range').textContent=`${YEARS[iA]} → ${YEARS[iB]}`;
+    spark($('c1'),c.total); spark($('c2'),c.litkm2); spark($('c3'),c.meanlit);
+    $('e1').textContent=`${c.total[iA].toFixed(0)}k → ${c.total[iB].toFixed(0)}k`;
+    $('e2').textContent=`${c.litkm2[iA].toFixed(0)} → ${c.litkm2[iB].toFixed(0)} km²`;
+    $('e3').textContent=`${c.meanlit[iA].toFixed(1)} → ${c.meanlit[iB].toFixed(1)}`;
+    $('light').innerHTML=lightBlock(c.light);
+  }
+  // list, sorted by change across the selected pair of years
+  const rows=DATA.cities.map(c=>({c,v:ch(c)})).sort((a,b)=>b.v-a.v);
+  const mx=Math.max(...rows.map(r=>Math.abs(r.v)))||1;
+  $('listlabel').textContent=`50 cities · total light ${YEARS[iA]} → ${YEARS[iB]}`;
+  $('list').innerHTML=rows.map((r,k)=>{const neg=r.v<0,w=Math.abs(r.v)/mx*50;
+    return `<button class="row" type="button" data-k="${r.c.key}" aria-current="${sel&&sel.key===r.c.key}">`+
+      `<i>${k+1}</i><span class="nm">${r.c.name}</span>`+
+      `<span class="bar"><i class="${neg?'neg':''}" style="width:${w.toFixed(1)}%"></i></span>`+
+      `<span class="vl ${neg?'down':'up'}">${fmtPct(r.v)}</span></button>`;}).join('');
+}
+$('list').addEventListener('click',e=>{
+  const b=e.target.closest('.row'); if(!b)return;
+  select(DATA.cities.find(c=>c.key===b.dataset.k),true);
+});
+function select(c,flyTo){
+  sel=c; refresh();
+  A.ringsData([c]); B.ringsData([c]);
+  if(flyTo)fly({lat:c.lat,lng:c.lng,altitude:.22},1100);
+}
+
+/* ---------------- keyboard ---------------- */
+addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('#grip,input'))return;
+  if(e.key==='Escape')fly({lat:24,lng:20,altitude:2.4},900);
+});
+
+/* ---------------- boot ---------------- */
+function fit(){const s=$('stage');for(const g of [A,B]){g.width(s.clientWidth).height(s.clientHeight);g.__lod&&g.__lod();}}
+addEventListener('resize',fit); fit();
+fly({lat:24,lng:20,altitude:2.4},0);
+setSplit(.5);
+
+fetch('cities.json').then(r=>r.json()).then(async d=>{
+  DATA=d; markers(A.pointOfView().altitude);
+  sel=d.cities.find(c=>c.name==='Madrid')||d.cities[0];
+  await Promise.all([setYear('A',iA),setYear('B',iB)]);
+  select(sel,false);
+  $('loading').classList.add('gone');
+});
+</script>
+</body>
+</html>

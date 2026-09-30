@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# macOS
+.DS_Store
+
+# Build inputs not stored (see DATA.md)
+globe_v2/tiles/
+colour/inputs/
+vnl/
