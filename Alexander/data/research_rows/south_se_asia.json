@@ -1,0 +1,93 @@
+[
+  {
+    "city": "Pune",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "LED",
+    "led_share_pct": null,
+    "retrofit_start": "2016",
+    "retrofit_end": null,
+    "spd_hint": "LED (CCT unknown; likely cool white per Indian practice)",
+    "confidence": "inferred",
+    "source_url": "https://abp.championsofchange.gov.in/content/1429pune-street-lighting-project-under-public-private-partnership-mode | https://documents1.worldbank.org/curated/en/476841477929749774/txt/Proven-delivery-models-for-led-public-lighting-ESCO-delivery-model-in-Central-and-Northwestern-India.txt | https://india.mongabay.com/2025/09/the-dark-side-of-bright-lights/",
+    "notes": "Pune Municipal Corporation ran its OWN PPP/ESCO project (not EESL SLNP as far as found): replace ~80,000 conventional streetlights with LED + SCADA, >61% energy saving, 12-year O&M, zero cost to city (ABP/Champions of Change page: search snippet only, page returned 403 when fetched; no contractor name or dates on the snippet). retrofit_start 2016 is approximate from the brief, not confirmed. Earlier: Jan 2006 ESCO contract with Asian Electronics Ltd covered 13,970 of ~100,000 luminaires (energy-saving retrofit, pre-LED); World Bank ESMAP case study says Pune had switched to LED by 2015. No CCT found in any Pune document. Indian municipal LED procurement of that era was typically 5000-5700K (see EESL spec in Jaipur/Delhi rows), but that is not confirmed for PMC's contract, so cct_k left blank. Mongabay (Sept 2025) gives Pune VIIRS radiance rising 31.6 (2012) to 47.4 (2024) nW/cm2/sr, no CCT. PCMC (Pimpri-Chinchwad) is a separate corporation, not covered."
+  },
+  {
+    "city": "Jaipur",
+    "cct_k": 5700,
+    "cct_range": "5000-5700",
+    "dominant_tech": "LED",
+    "led_share_pct": 88,
+    "retrofit_start": "2015-01",
+    "retrofit_end": "2019-12",
+    "spd_hint": "LED 5700K",
+    "confidence": "documented",
+    "source_url": "https://www.c40.org/case-studies/implementation-of-a-large-scale-led-street-lighting-project-in-the-city-of-jaipur-and-across-the-state-of-rajasthan/ | https://eeslindia.org/wp-content/uploads/2020/10/QualityControlHandbookStreetLighting.pdf | https://powerline.net.in/2018/04/28/street-smart/",
+    "notes": "Confirmed EESL/SLNP city: Govt of Rajasthan and EESL MoU signed 23 Jan 2015; Jaipur Nagar Nigam; branded India's first 'LED Street Light City'. C40 case study: Phase I 70,652 lights by March 2016; 200,000 installed by Oct 2019 with 28,000 still to go by Dec 2019 (so ~88% of ~228,000 at Oct 2019; led_share_pct is computed from those two numbers, not stated by the source; likely near 100% now). Old fixtures were 48-550 W 'conventional' (lamp types not given; Indian stock of that era was mostly HPS plus fluorescent tubes), replaced by 5-112 W LED. CCT comes from the NATIONAL EESL spec, not a Jaipur-specific document: the EESL/PwC 'Handbook on Quality Control for Street Lighting Projects of EESL' (Aug 2017), Table 6 accepted standards, lists 'CCT 5000K and 5700K As per ANSI', CRI min 70, IP66 per IS 10322, performance per IS 16107. The eeslindia.org URL refused connections; the full text was read via Wayback Machine copy (web.archive.org/web/2022id_/...). cct_k 5700 picks the upper of the two allowed values; the stock could be split 5000/5700K. Not measured in Jaipur."
+  },
+  {
+    "city": "Mumbai",
+    "cct_k": null,
+    "cct_range": "2700-5700",
+    "dominant_tech": "LED",
+    "led_share_pct": 99.8,
+    "retrofit_start": "2015-01",
+    "retrofit_end": "2023",
+    "spd_hint": "mixed LED 3000K/5700K",
+    "confidence": "documented",
+    "source_url": "https://india.mongabay.com/2025/09/the-dark-side-of-bright-lights/ | https://www.freepressjournal.in/mumbai/mumbai-bmcs-4-year-old-project-of-changing-streetlights-to-led-is-now-97-complete | https://www.dnaindia.com/mumbai/report-mumbai-marine-drive-get-its-yellow-glow-back-white-led-replaced-with-yellow-2170669",
+    "notes": "Mongabay India (Sept 2025) quotes BEST Deputy Chief Engineer S.N. Inchnalkar: LEDs are ~99.80% of Mumbai's streetlights, using warm white (2700-3300K) OR cool white (4500-5700K) depending on area. No split between the two is given, so cct_k left blank. Marine Drive: sodium lamps replaced by white LED in Jan 2015 (approved by the Mumbai Heritage Conservation Committee); Aaditya Thackeray objected; Bombay High Court in Aug 2015 directed replacement with 'yellow' LED; by 27 Jan 2016, 250 white LEDs had been swapped to yellow and ~400 more were pending (DNA). No Kelvin value for the 'yellow' LEDs was found, and the claim that they are ~3000K is NOT verified. Suburbs (power from Adani Electricity): BMC standing committee approved in 2018, phased work from ~2019; 84,754 LEDs installed, 96.69% complete by Jan 2023 (FPJ). BMC paid Rs 55 crore to Adani from scrap sales. BEST handles the island city and MSEDCL/MSEB handles Kanjurmarg-Thane. The spd_hint is a hedge: a mix of warm and cool LED."
+  },
+  {
+    "city": "Delhi",
+    "cct_k": 5700,
+    "cct_range": "5000-5700",
+    "dominant_tech": "LED",
+    "led_share_pct": null,
+    "retrofit_start": "2015-01",
+    "retrofit_end": null,
+    "spd_hint": "LED 5700K",
+    "confidence": "documented",
+    "source_url": "https://www.business-standard.com/article/news-cm/energy-efficiency-services-eesl-signs-mou-with-south-delhi-municipal-corporation-sdmc-for-led-street-lighting-115011000307_1.html | https://www.business-standard.com/article/news-cm/2-lakh-street-lights-replaced-in-the-south-delhi-municipal-corporation-area-117010900142_1.html | https://eeslindia.org/wp-content/uploads/2020/10/QualityControlHandbookStreetLighting.pdf | https://powerline.net.in/2018/04/28/street-smart/",
+    "notes": "SDMC signed an MoU with EESL in Jan 2015 (Business Standard headline, search snippet only). By Jan 2017, more than 2 lakh (200,000) streetlights in SDMC had been replaced under SLNP, saving 2.65 crore kWh/yr (Business Standard, snippet only: page returned 403). Power Line (Apr 2018): ~0.3 million EESL LEDs installed in Delhi. An EESL snippet also cites >1.98 lakh in Delhi. EESL publicly rebutted claims of faulty LEDs in SDMC (PIB relid=151254, search result only, 403 on fetch). CCT is from the national EESL spec (EESL/PwC QC Handbook Aug 2017: 'CCT 5000K and 5700K'), applied here because SDMC is a confirmed EESL client; no Delhi-specific tender was seen. The status of North DMC, East DMC, NDMC (New Delhi Municipal Council) and PWD/Delhi govt arterial roads was NOT verified, and these may have used other contractors or CCTs; the web search budget ran out before they could be checked. Delhi is therefore probably mixed by agency. LED share unknown."
+  },
+  {
+    "city": "Dhaka",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "mixed",
+    "led_share_pct": null,
+    "retrofit_start": "2013",
+    "retrofit_end": null,
+    "spd_hint": "mixed HPS/LED",
+    "confidence": "inferred",
+    "source_url": "http://theindependentbd.com/post/234418 | https://www.tbsnews.net/bangladesh/infrastructure/street-lights-what-price-194854 | https://arch-bangla.com/supply-and-installation-of-smart-led-street-lights-in-dhaka-north-city-corporation-area/ | https://www.thedailystar.net/news/eight-city-corporations-to-get-led-street-lights | https://www.thedailystar.net/news-detail-102502",
+    "notes": "DNCC (north): pilot of 3,343 LEDs (Tk 250m, ~80% in Gulshan/Baridhara/Banani). Jan 2020: DNCC to buy 42,450 LED streetlights for Tk 319.74 crore by direct purchase from Bangladesh Machine Tools Factory (Army), installed over 5 years across 82 km2 (Independent). The 'Smart LED Streetlights in DNCC Area' project was inaugurated 1 Jan 2021 (arch-bangla). TBS (Jan 2021): the DNCC luminaires are European-made; DSCC (south) ran a 2016 LED project 'nearing completion', no counts. Earlier ADB-funded Tk 316 crore project (announced ~Dec 2013) put 60/90/120 W LED on ~200 km of roads across Dhaka and 6 other city corporations (Daily Star, search snippet only). The older stock was HPS (Daily Star headline 'High-pressure sodium lamps now light city streets', search snippet only, undated). No CCT found in any source. No Chinese/Korean/Japanese financing was confirmed for the main DNCC/DSCC programmes. DSCC has also added 40 W solar LED lights (vendor page, not cited). LED share unknown; DNCC likely mostly LED by ~2025 if the 5-year plan was carried out (unverified)."
+  },
+  {
+    "city": "Yangon",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "mixed",
+    "led_share_pct": null,
+    "retrofit_start": "2017",
+    "retrofit_end": null,
+    "spd_hint": "mixed HPS/LED",
+    "confidence": "guess",
+    "source_url": "https://ca.schreder.com/en/projects/avento-led-luminaires-create-warm-nocturnal-landscape-boost-tourism-yangon-while-saving | https://aseanenergy.org/news-clipping/new-led-lights-to-brighten-yangon-streets/ | https://www.mmtimes.com/news/yesc-takes-charge-streetlights-yangon.html | https://english.news.cn/20260130/9fa1b0e1c4a846bd87a891b2d4c1dadf/c.html",
+    "notes": "Search snippets (Myanmar Times / ASEAN Centre for Energy; neither page loaded: one 404, one redirected to a parked domain): Yangon Electricity Supply Corporation (YESC) took over maintenance of all streetlights, with YCDC budget transferred to it, and authorities decided in 2017 to switch to high-efficiency LED. Schréder case study (2017, loaded): Avento LED luminaires on Pyay Rd, Kaba Aye Pagoda Rd, Sule Rd and Ahlone Rd. The page title and URL say 'warm nocturnal landscape', but it gives no Kelvin value or luminaire count, so this does not support a CCT number. Xinhua (Jan 2026, search snippet): small China-aided solar streetlight donations (e.g. 40 sets in Thaketa). The pre-LED stock type was not documented. Post-2021 coup rolling power cuts that would reduce streetlight operation are widely reported but were NOT verified here (search budget ran out), so the claim is uncited. Treat the tech mix and LED share as unknown."
+  },
+  {
+    "city": "Singapore",
+    "cct_k": null,
+    "cct_range": "3000-4000",
+    "dominant_tech": "LED",
+    "led_share_pct": 99,
+    "retrofit_start": "2014",
+    "retrofit_end": "2023",
+    "spd_hint": "mixed LED 3000K/4000K",
+    "confidence": "documented",
+    "source_url": "https://www.mot.gov.sg/news/details/written-reply-to-parliamentary-question-on-colour-temperature-of-singapore's-street-lighting-and-feasibility-of-warmer-white-lighting-for-street-lamps-on-minor-roads | https://mothership.sg/2024/02/singapore-streetlights-orange-to-white/ | https://onemotoring.lta.gov.sg/content/dam/onemotoring/Driving/Road_Safety/LTA%20Street%20lighting%20Guidelines.pdf | https://www.lta.gov.sg/content/ltagov/en/who_we_are/statistics_and_publications/Connect/streetlights.html",
+    "notes": "LTA manages ~110,000 streetlights (LTA Connect, 29 Apr 2022). The HPS-to-LED replacement began in 2014; a 5-year full-replacement plan was announced in 2017; 99% was done by early 2023 (Mothership, Feb 2024). The MOT written parliamentary reply (Minister S. Iswaran, 2022) says most streetlights are LED, a mix of 3000K warm white and 4000K brighter white, depending on distance from residential areas, and that minor roads in low-rise residential areas generally get 3000K. The MOT page returned 404 on fetch, so the wording is taken from the search snippet and Mothership's quotes. The 3000K/4000K split is not given, so cct_k is left blank. LTA Public Street Lighting System Guidelines (1 Jun 2025, loaded): luminaire CCT per Annex C Table H, with separate 3,000K +/-5% and 4,000K +/-5% scenario tables (the tables are labelled for cycling tracks and footpaths); CRI >70; efficacy >=140 lm/W; covered pedestrian overhead bridges 3,000K, Ra 80-89. Non-LTA lighting (HDB estates, parks, private roads) is not covered."
+  }
+]

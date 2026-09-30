@@ -1,0 +1,44 @@
+year,city,composition,conf,code,rule,x,y,r_km,lat,lng
+2012,Abidjan,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,17.141,5.3437,-4.0271
+2012,Hefei,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,24.523,31.8646,117.2812
+2012,Beijing,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,49.9167,39.9083,116.3979
+2012,Jaipur,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,20.175,26.9187,75.8187
+2012,Mumbai,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,29.057,19.0729,72.8812
+2012,Delhi,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,47.4113,28.6687,77.2187
+2012,Shenyang,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,24.94,41.7937,123.4312
+2012,Shanghai,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,72.0613,31.225,121.4562
+2012,Singapore,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,30.5789,1.2896,103.8521
+2012,Dallas,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,55.8168,32.8729,-96.9437
+2012,Houston,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,54.2637,29.7604,-95.3687
+2012,Toronto,HPS:0.79;MH (quartz):0.21,inferred,2,R7 back-cast from documented pre-retrofit stock,0.4982,0.4073,42.2478,43.7021,-79.4146
+2012,Belo Horizonte,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,25.8071,-19.9187,-43.9396
+2012,Philadelphia,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,40.4067,39.9521,-75.1646
+2012,New York,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,61.4307,40.7208,-74.0021
+2012,Hong Kong,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,20.0839,22.2812,114.1896
+2012,Phoenix,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,40.678,33.4479,-112.0729
+2012,Sao Paulo,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,46.3554,-23.5479,-46.6354
+2012,New Taipei,HPS:1.0,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,25.2596,25.0104,121.4604
+2012,Madrid,HPS:1.0,documented,3,R7 back-cast from documented pre-retrofit stock,0.5363,0.4151,30.0039,40.4146,-3.7021
+2012,Johannesburg,HPS:0.85;MH (quartz):0.15,inferred,2,R7 back-cast from documented pre-retrofit stock,0.5089,0.4095,41.8499,-26.2021,28.0437
+2024,Abidjan,HPS:0.95;LED 4000K:0.05,inferred,2,R2 share assumed,0.5276,0.413,17.141,5.3437,-4.0271
+2024,Hefei,LED 3000K:0.15;HPS:0.85,documented,3,R2 documented share + spec,0.5196,0.4108,24.523,31.8646,117.2812
+2024,Beijing,LED 4000K:0.5;HPS:0.5,inferred,2,R3 share from evidence; R5 CCT prior,0.4534,0.3953,49.9167,39.9083,116.3979
+2024,Jaipur,LED 5700-6500K:0.9;HPS:0.1,documented,3,R2 documented share + national spec,0.3311,0.327,20.175,26.9187,75.8187
+2024,Mumbai,LED 2700K:0.5;LED 5700-6500K:0.5,inferred,2,R6 bracket midpoint,0.3755,0.3583,29.057,19.0729,72.8812
+2024,Delhi,LED 5700-6500K:0.9;HPS:0.1,inferred,2,R2 share assumed,0.3311,0.327,47.4113,28.6687,77.2187
+2024,Shenyang,LED 4000K:0.6;HPS:0.4,inferred,2,R2 share + R5 CCT prior,0.4377,0.3916,24.94,41.7937,123.4312
+2024,Shanghai,LED 4000K:0.84;HPS:0.16,inferred,2,R2 share + R5 CCT prior,0.4014,0.3829,72.0613,31.225,121.4562
+2024,Singapore,LED 3000K:0.5;LED 4000K:0.5,documented,3,R6 bracket midpoint,0.4041,0.3826,30.5789,1.2896,103.8521
+2024,Dallas,HPS:0.88;LED 3000K:0.06;LED 4000K:0.06,inferred,2,R2 share + R6 bracket,0.5193,0.4109,55.8168,32.8729,-96.9437
+2024,Houston,LED 4000K:1.0,inferred,2,R5 CCT prior,0.378,0.3773,54.2637,29.7604,-95.3687
+2024,Toronto,HPS:0.71;MH (quartz):0.21;LED 3000K:0.08,documented,3,R2 documented inventory,0.4896,0.4051,42.2478,43.7021,-79.4146
+2024,Belo Horizonte,LED 4000K:1.0,inferred,2,R5 CCT prior,0.378,0.3773,25.8071,-19.9187,-43.9396
+2024,Philadelphia,LED 3000K:0.41;HPS:0.59,documented,3,R4 linear retrofit progress,0.4914,0.4036,40.4067,39.9521,-75.1646
+2024,New York,LED 4000K:0.5;LED 3000K:0.5,documented,3,R6 bracket midpoint,0.4041,0.3826,61.4307,40.7208,-74.0021
+2024,Hong Kong,LED 3000K:0.85;HPS:0.15,documented,3,R4 linear retrofit progress,0.4459,0.3919,20.0839,22.2812,114.1896
+2024,Boston,LED 4000K:0.8;HPS:0.2,inferred,2,R5 CCT prior,0.4073,0.3843,31.6397,42.3479,-71.0646
+2024,Phoenix,LED 2700K:1.0,documented,3,R1 documented,0.4547,0.4079,40.678,33.4479,-112.0729
+2024,Sao Paulo,LED 4000K:0.9;HPS:0.1,documented,3,R2 documented share + spec,0.3925,0.3808,46.3554,-23.5479,-46.6354
+2024,New Taipei,LED 2700K:0.5;LED 3000K:0.5,inferred,2,R6 bracket midpoint,0.4426,0.3978,25.2596,25.0104,121.4604
+2024,Madrid,LED 3000K:0.64;HPS:0.36,documented,3,R4 linear retrofit progress,0.4673,0.3974,30.0039,40.4146,-3.7021
+2024,Johannesburg,HPS:0.85;MH (quartz):0.15,inferred,2,R2 share assumed,0.5089,0.4095,41.8499,-26.2021,28.0437

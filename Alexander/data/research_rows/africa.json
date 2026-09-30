@@ -1,0 +1,93 @@
+[
+  {
+    "city": "Addis Ababa",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "mixed",
+    "led_share_pct": null,
+    "retrofit_start": "2018",
+    "retrofit_end": null,
+    "spd_hint": "LED (CCT unknown) + legacy HPS/fluorescent mixed",
+    "confidence": "guess",
+    "source_url": "https://addismaleda.com/archives/605 | https://www.amn.gov.et/blog/51321/ | https://www.amn.gov.et/en/addis-ababa-transformed-into-a-city-of-light-mayors-office/ | https://fama.ae/projects_test/ | https://addisinsight.net/2024/10/08/addis-ababa-announces-second-phase-8-corridors-spanning-132-kilometers/ | https://en.wikipedia.org/wiki/Addis_Ababa_City_Corridor_Project",
+    "notes": "Addis Maleda (Amharic, dated Tahsas 20, 2011 EC, which is about late Dec 2018) reports a 100M birr programme to replace existing streetlights with 120 W LED ('natural light', no CCT given) on about 21 named routes (e.g. Parliament to Hilton, Meskel Sq to Post Office). The legacy stock is described there as old incandescent/fluorescent plus sodium, with only about 40% working. The Addis Ababa City Lighting Service Administration Authority says it manages about 37,000 roadside lights from one control centre (AMN, June 2026); no LED share given. The Corridor Development Project (phase 1: 40 km, Apr-Sep 2024; phase 2: 132 km from Oct 2024) added extensive new street, landscape and decorative lighting. That lighting is almost certainly LED, but no source states tech or CCT. The contractor page (FAMA) lists Piassa, 4-Kilo, Kebena, Bole Rd/Africa Ave, Pushkin St and Washington roundabout without specs. The corridors plausibly cover the main arterials and the central core, not the whole city. A LinkedIn post (Sunlurio) on smart poles in Addis gives no specs. No tender, ESIA or supplier document with CCT was found. CCT left blank."
+  },
+  {
+    "city": "Dar es Salaam",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "mixed",
+    "led_share_pct": null,
+    "retrofit_start": null,
+    "retrofit_end": null,
+    "spd_hint": "solar-LED + grid LED/HPS mixed (CCT unknown)",
+    "confidence": "guess",
+    "source_url": "https://www.opple.com/en/project/streetlights | https://www.opplemea.com/led-outdoor-lighting/led-solar-streetlight-ecomax-50-90w/ | https://www.michuzi.co.tz/2026/03/tarura-yatekeleza-ujenzi-wa-km-56-za.html | https://www.therespondents.co.tz/2026/03/tarura-advances-56km-of-paved-roads-in.html | https://www.greensunlighting.com/news/solar-street-lighting-project.html | https://documents1.worldbank.org/curated/en/099930108152219842/pdf/P1694250567f7a010b3b207e0aaae6f2dd.pdf",
+    "notes": "Opple's project page claims more than 5,000 'LED Solar Street EcoMax' units installed in Dar es Salaam (no date, no CCT). The profile dims to 50% off-peak and 10% from midnight to 06:00, which matters for radiance. Opple's EcoMax solar range is sold at 4000K or 5700K (product page, search snippet), so the installed CCT is undetermined. DMDP II (World Bank, TARURA) is building about 250 km of roads across the 5 municipalities, including 56 km in Ilala (2026), and these include street lights. Swahili and English press give no tech or CCT. The DMDP document I loaded was a resettlement plan (Lower Msimbazi) with no lighting specs. BRT Phase 2 (Kilwa Rd, Sinohydro/CCECC, opened about 2025) includes lighting, but no specs were found. A claim that Sinohydro installed 500 solar lights on a Dar ring road in 2021 comes only from a marketing blog (sunlurio.com) in search snippets; unverified. About 730 new streetlights in Kariakoo (2024-25, TARURA/regional govt) are search-snippet only (ippmedia returned 403). A Greensun (Sept 2025) 'urban expressway' piece covers 5 sample units only. The stock is likely a heterogeneous mix of grid HPS/LED on trunk roads and solar-LED on newer and upgraded roads. No city-wide inventory was found."
+  },
+  {
+    "city": "Abidjan",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "HPS",
+    "led_share_pct": null,
+    "retrofit_start": "2026",
+    "retrofit_end": null,
+    "spd_hint": "HPS (with small LED 4000K fraction)",
+    "confidence": "inferred",
+    "source_url": "https://www.fratmat.info/article/2640209/economie/energieeclairage-public-la-cote-divoire-inaugure-son-premier-demonstrateur-intelligent-connecte-et-telegere | https://www.teamfrance-export.fr/infos-sectorielles/40143/40143-eclatec-deploie-le-premier-eclairage-public-intelligent-de-cote-divoire | https://www.novea-energies.com/en/achievements/novea-energies-street-lights-illuminate-an-expressway-interchange-in-abidjan-ivory-coast/ | https://www.eeas.europa.eu/sites/default/files/actions_de_lunion_europeenne_en_cote_divoire_dans_le_domaine_des_infrastructures.pdf | https://www.gouv.ci/_actualite-article.php?p=468&recordID=5933 | https://www.journaldebrazza.com/un-astronaute-francais-met-en-lumiere-leclairage-public-a-abidjan-depuis-lespace/",
+    "notes": "CIE runs public lighting under concession. A gouv.ci headline (search snippet only; page returned 404) gives 414,000 points nationally, 84,000 in the District of Abidjan (undated). CIE figures elsewhere say >700,000 (2021) to about 1 million points nationally (2024). Feb 2026: the first LED smart-lighting demonstrator was inaugurated in Plateau, 121 connected luminaires (Eclatec, FASEP-funded); CCT not stated. At the same time the Ministry announced a 'Programme de maitrise de l'energie' to replace about 31,000 lamps with LED in Grand Abidjan, target 54,000 with an EU grant. That implies most of the Abidjan stock was still non-LED (presumably HPS; not explicitly stated) as of early 2026. If completed, 31k-54k of about 84k points would be about 37-64%. Earlier, the EU/EIB ENERGOS programme (about 2016) planned 'remplacement de pres de 75 000 lampes' for public-lighting efficiency. The lamp type and completion status of that programme are not stated in the EU doc; possibly more efficient HPS or CFL, unknown. Documented CCT for one small project: Novea Energies, 25 solar dual-head units, 4000K, Macaci interchange, Abobo expressway, Oct 2023. Solar-LED is also used in some communes (Adjame). Not city-wide."
+  },
+  {
+    "city": "Nairobi",
+    "cct_k": null,
+    "cct_range": "3500-4000 (new national-highway LED spec); legacy HPS",
+    "dominant_tech": "mixed",
+    "led_share_pct": null,
+    "retrofit_start": "2015",
+    "retrofit_end": null,
+    "spd_hint": "HPS + LED 4000K mixed",
+    "confidence": "inferred",
+    "source_url": "https://kenha.co.ke/wp-content/uploads/2023/04/R5-198-2023-Nairobi-Southern-Bypass-Road-Lighting.pdf | https://constructionreviewonline.com/news/kenya/kenya-construction-news-kenya-power-upgrade-4200-street-lights-nairobi/ | https://pppkenya.go.ke/ova_por/nairobi-smart-street-lighting-project/ | https://www.kenyans.co.ke/news/121649-nairobi-city-get-modern-smart-street-lighting-system-latest-upgrades | https://sakaja.co.ke/street-lighting-in-nairobi-city-county/ | https://www.kenyaengineer.co.ke/nairobis-streets-and-public-spaces-spark-a-bright-future-with-modern-lighting/",
+    "notes": "Sept 2015: Kenya Power began converting 4,200 CBD streetlights (Government Square area) from HPS ('yellow lights') to LED; CCT not stated. KeNHA tender R5/198/2023 (Nairobi Southern Bypass road lighting) calls for removing existing HPS fittings and installing LED. Its technical spec text says CCT 3500K, while its BoQ items say 200 W/280 W LED, CCT 4000K (plus 'warm white' 50 W/500 W fittings). This is documented, but it covers one peripheral national highway, not the county network. Nairobi County: 1,557 lights installed or replaced by Aug 2023 (Kilimani, Kileleshwa, Lavington, James Gichuru Rd); tech/CCT not stated. The Nairobi Smart Street Lighting PPP (about 100,000 assets, LED retrofit plus CMS, 10-yr BTO) was still at feasibility-review stage in March 2026, which implies a large non-LED share remains. Solar-LED is used on selected roads and in informal settlements. The Nairobi Expressway (CRBC, 2022) has lighting, but no specs were found. LED share unknown; the stock is likely still substantially HPS."
+  },
+  {
+    "city": "Kano",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "unknown",
+    "led_share_pct": null,
+    "retrofit_start": null,
+    "retrofit_end": null,
+    "spd_hint": null,
+    "confidence": "guess",
+    "source_url": null,
+    "notes": "NOT RESEARCHED: the session-wide WebSearch budget (200 calls) ran out before Kano could be searched. Wikipedia's Kano (city) page has nothing on street lighting beyond 'sporadic electricity supply'. Leads to follow up: Kano State solar streetlight programmes, KEDCO, and Nigerian federal/NDDC-style solar streetlight contracts. Grid unreliability means grid-fed streetlights are frequently off. No row values should be filled from this entry."
+  },
+  {
+    "city": "Johannesburg",
+    "cct_k": null,
+    "cct_range": "HPS/MH legacy; new LED 4000; solar-LED 4000-5000",
+    "dominant_tech": "HPS",
+    "led_share_pct": null,
+    "retrofit_start": "2022",
+    "retrofit_end": null,
+    "spd_hint": "HPS (+ MH), minority LED 4000K",
+    "confidence": "inferred",
+    "source_url": "https://www.etenders.gov.za/home/Download?blobName=490db110-a127-4d72-8f42-1054fea9b507.pdf&downloadedFileName=CP_TSSPEC_%20231-%20%20ENERGY%20EFFICIENCY%20LED%20PUBLISHED%20REV%203.pdf | https://www.etenders.gov.za/home/Download/?blobName=0c2baf04-708e-4031-ba6a-bf9ab9c23af7.pdf&downloadedFileName=Specifiation+for+solar+powered+streetlights+rev+00.pdf | https://www.etenders.gov.za/home/Download/?blobName=84238712-1f16-43d3-83ba-b82a4063b80d.pdf&downloadedFileName=CP_TSSPEC_014_REV+7_+Specification+for+street+light+luminaires.pdf | https://www.engineeringnews.co.za/article/city-power-replacing-all-joburg-streetlights-with-leds-2022-08-05 | https://www.protenders.co.za/tender/bid-2600g-supply-and-delivery-of-energy-efficient-luminaires-ocds-9t57fa-158896 | https://www.citizen.co.za/northcliff-melville-times/news-headlines/2025/07/15/city-powers-bright-idea-for-johannesburg/",
+    "notes": "City Power's LED street-luminaire spec CP_TSSPEC_231 Rev 3 (June 2025, attached to tender Bid 2600G, closing Jul 2026) mandates 'high power LEDs with a colour temperature of 4 000K'. This is documented, but it applies to new procurement only. The solar streetlight spec (Feb 2025, rev 0) requires 4000-5000K. It states City Power 'has plans to retrofit the conventional HID luminaires which are high pressure sodium and metal halide', which confirms the legacy stock is HPS + MH. City Power's HPS luminaire spec CP_TSSPEC_014 was still being revised in Aug/Sep 2022 (70-400 W HPS items; mercury vapour removed from the spec in Nov 2014). The LED retrofit was announced 2022 with only about 2,000 LEDs fitted by July 2022; no later count was found. The solar-LED pilot started Nov 2024 (e.g. Fairland, Ward 89). Total stock: about 140,000 (older snippet) or 'nearly 300,000' (2025 snippet, Mangena), about 15% non-functional (search snippets only). LED share cannot be estimated but is very likely a small minority, so the dominant stock is HPS (inferred). Radiance caveats: Eskom load-shedding (severe 2022-2023, largely suspended from about Mar 2024) cut grid-fed streetlights, and heavy cable theft and vandalism leave areas dark. Both depress and add noise to radiance independently of spectrum."
+  },
+  {
+    "city": "Khartoum",
+    "cct_k": null,
+    "cct_range": null,
+    "dominant_tech": "unknown",
+    "led_share_pct": null,
+    "retrofit_start": null,
+    "retrofit_end": null,
+    "spd_hint": null,
+    "confidence": "guess",
+    "source_url": "https://en.wikipedia.org/wiki/Battle_of_Khartoum_(2023%E2%80%932025) | https://en.wikipedia.org/wiki/Humanitarian_impact_of_the_Sudanese_civil_war_(2023%E2%80%93present)",
+    "notes": "Street-lighting technology NOT RESEARCHED: the WebSearch budget ran out; no Arabic or English lighting searches were run. Conflict context (Wikipedia, loaded): the Battle of Khartoum ran 15 Apr 2023 to 20 May 2025. SAF claimed recapture of central Khartoum on 26 Mar 2025 and full control of the state by 20 May 2025. Electricity and water were cut in districts from early May 2023, and all Khartoum water supply was cut by June 2023. Power-purchase servers were offline from April 2023. For the radiance series, treat Apr 2023 onward as a structural break driven by outages, destruction and depopulation, not by a spectral change. Pre-war stock and any post-2025 reconstruction lighting are undocumented here."
+  }
+]
