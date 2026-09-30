@@ -1,0 +1,202 @@
+{
+  "summary": {
+    "source_file": "Data_S1_Czarnecka_et_al..xlsx",
+    "source_sheet": "Arkusz1",
+    "source_rows": 4905,
+    "source_columns": 49,
+    "study_count": 314,
+    "effect_count": 4905,
+    "named_species_count": 291,
+    "phylum_count": 18,
+    "category_count": 5,
+    "publication_year_min": 1982,
+    "publication_year_max": 2024,
+    "directional_included_count": 1947,
+    "duplicate_study_source_id_rows": 711,
+    "exact_duplicate_rows": 0,
+    "absolute_effect_mismatch_count": 7,
+    "directional_value_outside_included_count": 28,
+    "missing_night_lux_count": 7,
+    "effect_size_missing_count": 0,
+    "effect_size_se_nonpositive_count": 0,
+    "effect_abs_median": 0.6036521600608465,
+    "effect_abs_p95": 4.3906195907459775,
+    "effect_abs_p99": 9.791963683213005,
+    "effect_abs_max": 350.0076508743231,
+    "display_cap": 10.0,
+    "over_display_cap_count": 44,
+    "mapped_effect_count": 630,
+    "context_effect_count": 3300,
+    "unlocated_effect_count": 975,
+    "unmapped_effect_count": 4275,
+    "mapped_field_effect_count": 210,
+    "mapped_laboratory_effect_count": 420,
+    "mapped_location_count": 36,
+    "location_candidate_count": 142,
+    "review_needed_location_count": 40,
+    "anchor_group_count": 248,
+    "anchor_count": 253,
+    "exact_anchor_group_count": 47,
+    "context_anchor_group_count": 201,
+    "geographic_resolution_rule": "Study + source-location anchors; crisp points only for reviewed point-eligible locations, with countries and broad regions shown as contextual uncertainty rather than exact sites.",
+    "primary_visual_encoding": "absolute Hedges g magnitude on a log1p axis; signed direction retained only in record detail",
+    "causal_interpretation": "standardized experimental/observational effect records; sign is not benefit/harm"
+  },
+  "categories": [
+    {
+      "category": "Behaviour",
+      "color": "#ffb55a",
+      "effect_count": 1408,
+      "study_count": 151,
+      "named_species_count": 148,
+      "median_abs_effect": 0.6681552159109682,
+      "p95_abs_effect": 5.115944513652581,
+      "over_display_cap_count": 13,
+      "point_ready_effect_count": 216,
+      "context_effect_count": 870,
+      "unlocated_effect_count": 322,
+      "top_subcategories": [
+        {
+          "name": "Nocturnal activity",
+          "count": 482
+        },
+        {
+          "name": "Foraging cycle",
+          "count": 314
+        },
+        {
+          "name": "Reproduction",
+          "count": 170
+        },
+        {
+          "name": "Diurnal activity",
+          "count": 139
+        },
+        {
+          "name": "Stress response",
+          "count": 127
+        },
+        {
+          "name": "Activity onset",
+          "count": 118
+        }
+      ]
+    },
+    {
+      "category": "Physiology",
+      "color": "#8bb8ff",
+      "effect_count": 2020,
+      "study_count": 131,
+      "named_species_count": 83,
+      "median_abs_effect": 0.6152318505933134,
+      "p95_abs_effect": 4.562024089127953,
+      "over_display_cap_count": 27,
+      "point_ready_effect_count": 235,
+      "context_effect_count": 1439,
+      "unlocated_effect_count": 346,
+      "top_subcategories": [
+        {
+          "name": "Circadian physiology",
+          "count": 881
+        },
+        {
+          "name": "Circadian clock",
+          "count": 331
+        },
+        {
+          "name": "Neuromorphology",
+          "count": 236
+        },
+        {
+          "name": "Melatonin production",
+          "count": 234
+        },
+        {
+          "name": "Reproduction",
+          "count": 151
+        },
+        {
+          "name": "Photosynthesis efficiency",
+          "count": 88
+        }
+      ]
+    },
+    {
+      "category": "Life history",
+      "color": "#d99cff",
+      "effect_count": 495,
+      "study_count": 72,
+      "named_species_count": 70,
+      "median_abs_effect": 0.406942562620562,
+      "p95_abs_effect": 2.7539700294208633,
+      "over_display_cap_count": 0,
+      "point_ready_effect_count": 75,
+      "context_effect_count": 236,
+      "unlocated_effect_count": 184,
+      "top_subcategories": [
+        {
+          "name": "Development",
+          "count": 361
+        },
+        {
+          "name": "Reproduction",
+          "count": 121
+        },
+        {
+          "name": "Pollination",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "category": "Population",
+      "color": "#7ce6cf",
+      "effect_count": 423,
+      "study_count": 46,
+      "named_species_count": 96,
+      "median_abs_effect": 0.5976218378699258,
+      "p95_abs_effect": 3.2046440207460445,
+      "over_display_cap_count": 4,
+      "point_ready_effect_count": 63,
+      "context_effect_count": 338,
+      "unlocated_effect_count": 22,
+      "top_subcategories": [
+        {
+          "name": "Abundance",
+          "count": 413
+        },
+        {
+          "name": "Survival rate",
+          "count": 10
+        }
+      ]
+    },
+    {
+      "category": "Community",
+      "color": "#f2e48b",
+      "effect_count": 559,
+      "study_count": 57,
+      "named_species_count": 17,
+      "median_abs_effect": 0.62442167868686,
+      "p95_abs_effect": 5.054028769949402,
+      "over_display_cap_count": 0,
+      "point_ready_effect_count": 41,
+      "context_effect_count": 417,
+      "unlocated_effect_count": 101,
+      "top_subcategories": [
+        {
+          "name": "Abundance",
+          "count": 412
+        },
+        {
+          "name": "Ecosystem processes",
+          "count": 95
+        },
+        {
+          "name": "Diversity",
+          "count": 52
+        }
+      ]
+    }
+  ]
+}

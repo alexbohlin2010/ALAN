@@ -1,0 +1,94 @@
+{
+  "primary_comparison": "Social Control (SLD) versus Social ALAN (SA)",
+  "behaviour": {
+    "social_control_mean_day_hops_per_minute": 2.780842,
+    "social_control_mean_night_hops_per_minute": 0.011492,
+    "social_alan_mean_day_hops_per_minute": 3.921689,
+    "social_alan_mean_night_hops_per_minute": 0.445188,
+    "day_9_onset_minutes_from_lights_on": {
+      "SLD": 7.0,
+      "SA": -43.5
+    },
+    "interpretation": "SA activity extends further into night and begins earlier; activity is cage-level."
+  },
+  "selected_clock_markers": [
+    {
+      "tissue": "hypothalamus",
+      "gene": "bmal1",
+      "zt": 13,
+      "social_control_mean_0_1": 0.6157734,
+      "social_alan_mean_0_1": 0.2981732,
+      "interpretation": "descriptive group means; statistical claims remain tied to the paper"
+    },
+    {
+      "tissue": "liver",
+      "gene": "bmal1",
+      "zt": 13,
+      "social_control_mean_0_1": 0.6152941,
+      "social_alan_mean_0_1": 0.3638348,
+      "interpretation": "descriptive group means; statistical claims remain tied to the paper"
+    },
+    {
+      "tissue": "liver",
+      "gene": "per3",
+      "zt": 7,
+      "social_control_mean_0_1": 0.0213554,
+      "social_alan_mean_0_1": 0.0051962,
+      "interpretation": "descriptive group means; statistical claims remain tied to the paper"
+    }
+  ],
+  "melatonin": {
+    "measured_markers": {
+      "SLD": [
+        {
+          "zt": 1,
+          "analysis_mean_0_1": 0.6766066,
+          "n": 3
+        },
+        {
+          "zt": 7,
+          "analysis_mean_0_1": 0.4394542,
+          "n": 3
+        },
+        {
+          "zt": 13,
+          "analysis_mean_0_1": 0.2250218,
+          "n": 3
+        },
+        {
+          "zt": 19,
+          "analysis_mean_0_1": 0.2394567,
+          "n": 3
+        }
+      ],
+      "SA": [
+        {
+          "zt": 1,
+          "analysis_mean_0_1": 0.466464,
+          "n": 3
+        },
+        {
+          "zt": 7,
+          "analysis_mean_0_1": 0.4439738,
+          "n": 3
+        },
+        {
+          "zt": 13,
+          "analysis_mean_0_1": 0.4325097,
+          "n": 3
+        },
+        {
+          "zt": 19,
+          "analysis_mean_0_1": 0.3466662,
+          "n": 3
+        }
+      ]
+    },
+    "interpretation": "retain rhythmic markers; do not depict melatonin as absent"
+  },
+  "scope_limits": [
+    "Descriptive means do not replace the source paper's inferential statistics.",
+    "Gene and melatonin measurements are discrete ZT markers, not continuous observations.",
+    "Brain–liver correlation claims use the separate A-versus-SA evidence table."
+  ]
+}

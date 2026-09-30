@@ -1,0 +1,15 @@
+variable,lower,upper,label,display_coordinate_count,source_cell_count,median_mean_vir
+distance_bright_km,0,5,0–5,516,3965,0.3974
+distance_bright_km,5,25,5–25,2745,22517,0.5662
+distance_bright_km,25,50,25–50,4414,35435,0.6183
+distance_bright_km,50,100,50–100,5089,38719,0.7506
+distance_bright_km,100,150,100–150,4685,35856,0.6676
+distance_bright_km,150,200,150–200,2705,22690,0.6099
+distance_bright_km,200,261,200–261,669,7114,0.7788
+alan_ratio,0,0.01,0–0.01,295,5717,1.0227
+alan_ratio,0.01,0.1,0.01–0.1,6634,51065,0.7591
+alan_ratio,0.1,0.5,0.1–0.5,8662,67734,0.6296
+alan_ratio,0.5,1,0.5–1,2369,18959,0.5874
+alan_ratio,1,2,1–2,1617,12970,0.5615
+alan_ratio,2,5,2–5,1095,8737,0.4797
+alan_ratio,5,19.1,5–19.1,151,1114,0.3276

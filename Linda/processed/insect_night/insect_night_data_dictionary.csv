@@ -1,0 +1,95 @@
+field_type,csv_field,metadata_term,definition
+source,catalogNumber,catalogNumber,"A unique identifier for the record within the dataset. 
+
+For more information, see: http://rs.tdwg.org/dwc/terms/catalogNumber"
+source,year_publish,yr_publish,The year in which the study reporting the observation was published.
+source,year_sampling,yr_sampling,"The year(s) during which sampling was conducted. Sampling may have been conducted within a single year (e.g., 2000), continuously over a range of years (e.g., 2000-2003), or during separate years (e.g., 2004|2007)."
+source,month,months,"The integer month in which the event occurred. Examples: 1 (January), 10 (October).
+
+For more information, see:
+http://rs.tdwg.org/dwc/terms/month"
+source,season_verbatim,season_described,"The season during which sampling was performed, as reported in the study."
+source,season_type,season,"The season during which sampling was performed, reclassified into 6 categories and defined as follows:
+
+temperate.warm: the description mentions ""summer"" or ""spring"" or sampling was conducted in the warmer months in the northern hemisphere (5/6/7/8) or the warmer months in southern hemisphere (11/12/1/2).
+
+temperate.cool: the description mentions ""autumn"" or ""winter"" or sampling was conducted in the other months in each respective hemisphere (see above). 
+
+temperate.both: sampling was conducted in both warm and cool months.
+
+tropical.wet, tropical.dry, tropical.both: determined based on the climate of the specific locality and the sampling months.
+		"
+source,country,country,"The name of the country or major administrative unit in which sampling was conducted.
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/country"
+source,stateProvince,region,"The name of the next smaller administrative region than country (state, province, canton, department, region, etc.) in which sampling was conducted. 
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/stateProvince"
+source,locality,locality,"The specific description of the place in which sampling was conducted.
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/stateProvince"
+source,decimalLatitude,latitude_dec,"The geographic latitude (in decimal degrees) of the geographic center of the locality. Positive values are north of the Equator, negative values are south of it. 
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/decimalLatitude"
+source,decimalLongitude,longitude_dec,"The geographic longitude (in decimal degrees) of the geographic center of the locality. Positive values are east of the Greenwich Meridian, negative values are west of it. 
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/decimalLongitude"
+source,elevation_m,elevation,"The elevation (m) of the locality. As reported in the study. If sampling was conducted across an elevational range, the median value was entered."
+source,ecosystem_type,system,The general ecosystem type containing the community. Classified into 2 categories: terrestrial and aquatic.
+source,disturbance_verbatim,disturbance_described,The potential sources of disturbances in the environment. As reported in the study.
+source,habitat_general_verbatim,habitat_general_described,The general habitat containing the community. As reported in the study.
+source,habitat_general,habitat_general,"The general habitat containing the community, reclassified into 12 categories: cave, desert, dune, forest, grassland, mixed.use, pond, river, savanna, shrubland, stream, wetland."
+source,habitat_stratum_verbatim,habitat_stratum_described,"The vertical habitat stratum (e.g., canopy, understorey, ground surface) from which insects would have been collected, often based on the sampling method. As reported in the study."
+source,samplingProtocol,sampling_described,"A description of the methods or protocols used for sampling. 
+
+For more information, see:
+http://rs.tdwg.org/dwc/terms/samplingProtocol"
+source,sampling_type,sampling_type,"The sampling method used to observe or collect insects from a community, reclassified into 4 general categories: attraction, human.observation, movement.interception, other."
+source,taxon,taxon_name_original,"A group of organisms considered by taxonomists to form a homogeneous unit.
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/Taxon"
+source,taxon_rank,taxon_rank,"The lowest taxonomic rank that encompasses all the individuals sampled (e.g., family)."
+source,vernacularName,taxon_common_name,"A common or vernacular name.
+
+For more information, see: 
+http://rs.tdwg.org/dwc/terms/vernacularName"
+source,taxon_higher_group,taxon_higher_group,"A higher taxonomic grouping that encompasses all the individuals sampled. Most groupings correspond to insect orders (e.g., Lepidoptera)."
+source,measured_property,measured_property,The property of the community that was measured. 2 categories: abundance and richness.
+source,measurement_level,measurement_level,The level at which the associated measurementValue was measured. 2 categories: total (the total value from combining all samples) and mean (the average value per sample)
+source,diel_period,diel_period,"The specific diel period during which sampling occurred and which is thus associated with the measurementValue. Classified into 3 categories: day_and_night, day, and night. "
+source,measurementValue,measurementValue,"The value of the measurement.
+
+For more information, see:
+http://rs.tdwg.org/dwc/terms/measurementValue"
+source,measurementUnit,measurementUnit,"The units associated with measurementUnit.
+
+For more information, see:
+http://rs.tdwg.org/dwc/terms/measurementUnit"
+source,sample_size,sample_size,The number of samples from which the associated measurementValue was obtained.
+source,standard_deviation,standard_deviation,The standard deviation corresponding to the measurementValue for observations where the measurement_level is mean.
+source,reference_no,ref_id,A unique number to identify the corresponding publication in the database.
+source,bibliographicCitation,reference,"A bibliographic reference for the resource.
+
+For more information, see: 
+http://purl.org/dc/terms/bibliographicCitation
+"
+derived,record_id,,Stable identifier derived from catalogNumber.
+derived,site_id,,Stable hash of latitude and longitude; text locality variants at the same coordinates remain aggregated.
+derived,measurement_group_id,,"Stable hash of the semantic sampling and measurement context, excluding value representation fields."
+derived,coordinate_valid,,Latitude and longitude fall within valid geographic ranges.
+derived,sampling_effort_available,,sample_size is present and greater than zero.
+derived,canonical_record,,Preferred record for a measurement group; reported mean is preferred over total.
+derived,pair_consistency_flag,,Agreement status for a directly comparable reported mean and total/sample_size pair.
+derived,normalization_method,,How night_activity_value was obtained.
+derived,night_activity_value,,"Reported mean abundance, or total individuals/sample_size for an unpaired derivable total."
+derived,night_activity_unit,,Unit associated with night_activity_value.
+derived,relative_activity_index,,Within-study rank percentile for comparable activity records when the context contains at least three records; not approved for global magnitude.
+derived,relative_activity_context_n,,Number of records in the within-study relative-activity context.
+derived,global_size_eligible,,Always false in this release because cross-study magnitudes are not comparable.
+derived,map_display_eligible,,The record can be placed geographically because its coordinates are valid.

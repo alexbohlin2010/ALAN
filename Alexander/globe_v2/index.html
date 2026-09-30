@@ -20,7 +20,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
 
 #app{display:grid;grid-template-columns:1fr 380px;height:100%;min-height:0}
 #stage{position:relative;min-width:0;min-height:0;overflow:hidden;user-select:none;-webkit-user-select:none}
-.gl{position:absolute;inset:0}
+.gl{position:absolute;inset:0;transition:opacity 1.2s ease}
 .gl canvas{display:block}
 #glB{clip-path:inset(0 0 0 var(--split,50%))}
 .scrim{position:absolute;left:0;right:0;z-index:4;pointer-events:none}
@@ -28,9 +28,18 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
 #scrimB{bottom:0;height:170px;background:linear-gradient(rgba(5,7,12,0),rgba(5,7,12,.86))}
 
 /* masthead + year stamps */
-#mast{position:absolute;top:0;left:0;padding:22px 24px;z-index:5;pointer-events:none}
+#mast{position:absolute;top:0;left:0;padding:22px 24px;z-index:7;pointer-events:none}
 #mast h1{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
 #mast p{margin:5px 0 0;font-size:12px;color:var(--muted);max-width:32ch;line-height:1.45}
+#sceneSwitch{position:absolute;top:96px;left:24px;z-index:8;display:flex;border:1px solid var(--line2);background:rgba(11,16,23,.78);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#sceneSwitch button{font-size:11px;padding:7px 11px;color:var(--muted);letter-spacing:.02em}
+#sceneSwitch button[aria-pressed=true]{color:#05070c;background:var(--hand)}
+#sceneSwitch button[data-scene="artificial"][aria-pressed=true]{background:#ffc15a}
+#sceneSwitch button[data-scene="c3a"][aria-pressed=true]{background:#79ddff}
+#sceneSwitch button[data-scene="c3b"][aria-pressed=true]{background:#ff8c69}
+#sceneSwitch button[data-scene="body"][aria-pressed=true]{background:#b994ff}
+#sceneSwitch button:focus-visible{outline:1px solid var(--hand);outline-offset:-1px}
 .stamp{position:absolute;bottom:calc(26px + env(safe-area-inset-bottom,0px));z-index:6;pointer-events:none;font-family:var(--mono);font-weight:500;
   font-size:clamp(34px,4.2vw,56px);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
   color:var(--hand);text-shadow:0 2px 24px rgba(0,0,0,.6);transition:opacity .2s}
@@ -56,6 +65,19 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
 #stampB .win{text-align:right}
 
 #viewbox{position:absolute;top:22px;right:24px;z-index:6;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+#nightLegend{display:none;position:absolute;top:22px;right:24px;z-index:6;width:244px;background:rgba(11,16,23,.8);
+  border:1px solid var(--line2);padding:11px 12px;color:var(--muted);font-size:11px;line-height:1.45;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#nightLegend b{display:block;color:var(--ink);font-size:10px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px}
+#nightLegend .key{display:grid;grid-template-columns:10px 1fr;gap:5px 8px;align-items:center}
+#nightLegend i{width:9px;height:9px;border-radius:50%;display:block;box-shadow:0 0 8px currentColor}
+#nightLegend p{margin:8px 0 0;color:var(--faint);font-size:10px}
+#nightLegend #viirsKey,#lightRevealWrap{display:none}
+#viirsKey{margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
+#viirsKey i{border-radius:2px}
+#lightRevealWrap{margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+#lightRevealWrap label{display:flex;justify-content:space-between;color:var(--muted);font:9.5px var(--mono);letter-spacing:.04em;text-transform:uppercase}
+#lightReveal{width:100%;margin:7px 0 2px;accent-color:#ffc15a}
 #legend{background:rgba(11,16,23,.78);border:1px solid var(--line2);padding:9px 11px;font-size:11px;color:var(--muted);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;grid-template-columns:11px 1fr;gap:5px 9px;align-items:center;max-width:230px}
 #legend i{width:11px;height:11px;display:block;border-radius:2px}
@@ -107,7 +129,175 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
 .bar i.neg{background:var(--down);left:auto;right:50%}
 #foot{padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);line-height:1.5}
 
+/* Natural Night evidence panel */
+#insectPanel{display:none;flex:1;min-height:0;flex-direction:column}
+#insectFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.ifact{background:var(--panel);padding:13px 12px}.ifact b{display:block;font-family:var(--mono);font-size:19px;font-weight:500}
+.ifact span{display:block;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+#insectDetail{padding:16px 20px 15px;border-bottom:1px solid var(--line)}
+.ilabel{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 4px}
+.ivalue{font-size:12px;line-height:1.48;margin:0 0 13px;color:var(--ink)}
+.ievidence{border:1px solid #364923;background:#10180d;color:#c5d0b6;padding:10px 11px;font-size:10.5px;line-height:1.45}
+#insectListWrap{flex:1;min-height:0;overflow-y:auto}
+#insectListLabel{position:sticky;top:0;background:var(--panel);padding:10px 20px 7px;font-size:10px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;z-index:1;border-bottom:1px solid var(--line)}
+.site-row{display:grid;grid-template-columns:10px minmax(0,1fr) auto;align-items:center;gap:9px;padding:8px 20px;width:100%;
+  text-align:left;border-bottom:1px solid rgba(27,36,49,.5);transition:background .12s}
+.site-row:hover{background:var(--panel2)}.site-row[aria-current=true]{background:var(--panel2);box-shadow:inset 2px 0 0 var(--hand)}
+.site-row .dot{width:7px;height:7px;border-radius:50%;box-shadow:0 0 7px currentColor}.site-row .place{min-width:0}
+.site-row .place b{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.site-row .place span{display:block;color:var(--muted);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.site-row em{font-style:normal;font:10px var(--mono);color:var(--muted);text-transform:uppercase}
+#insectFoot{padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);line-height:1.5}
+
+/* C1 evidence field — one persistent canvas changes from effect-space to geographic-space */
+#effectStage{display:none;position:absolute;inset:0;z-index:5;pointer-events:auto}
+#effectCanvas{display:block;width:100%;height:100%;outline:none}
+#effectCanvas:focus-visible{box-shadow:inset 0 0 0 1px var(--hand)}
+#effectTooltip{position:absolute;z-index:8;max-width:264px;background:#0d1219;border:1px solid var(--line2);padding:8px 9px;
+  color:var(--ink);pointer-events:none;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.effect-tip{display:flex;flex-direction:column;gap:3px;font:10px/1.35 var(--mono)}
+.effect-tip b{font:600 12px/1.3 var(--sans)}.effect-tip span{color:var(--muted)}.effect-tip small{color:#f1cf86;margin-top:3px}
+#effectsPanel{display:none;flex:1;min-height:0;flex-direction:column;overflow-y:auto}
+#effectFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+#effectFilters{display:flex;flex-wrap:wrap;gap:6px;padding:13px 20px;border-bottom:1px solid var(--line)}
+#effectFilters button{border:1px solid var(--line2);padding:5px 7px;font:9.5px var(--mono);color:var(--muted)}
+#effectFilters button[aria-pressed=true]{color:#05070c;background:var(--filter-color,var(--hand));border-color:transparent}
+#effectSummary{padding:14px 20px;border-bottom:1px solid var(--line)}
+#effectSummary h3{margin:0 0 4px;font-size:14px}#effectSummary p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+#cGeoCoverage{display:none!important;margin-top:7px!important;color:#d9c98e!important;font-family:var(--mono)}
+#effectSubcategories{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+#effectSubcategories span{border:1px solid var(--line);padding:4px 6px;font:9px var(--mono);color:var(--muted)}
+#effectRecord{padding:14px 20px;border-bottom:1px solid var(--line)}
+#effectRecord dl{display:grid;grid-template-columns:78px minmax(0,1fr);gap:6px 10px;margin:0;font-size:11px;line-height:1.4}
+#effectRecord dt{color:var(--muted)}#effectRecord dd{margin:0;overflow-wrap:anywhere}#effectRecord .metric{font-family:var(--mono)}
+#effectCaveat{margin:13px 20px;border:1px solid #554429;background:#17130d;color:#e4d2ad;padding:10px 11px;font-size:10.5px;line-height:1.45}
+#effectFoot{margin-top:auto;padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);line-height:1.5}
+#mapLegend{display:none;position:absolute;top:142px;right:24px;z-index:6;width:248px;background:rgba(11,16,23,.84);
+  border:1px solid var(--line2);padding:11px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#mapLegend b{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px}
+#mapLegend .map-key{display:grid;grid-template-columns:13px 1fr;gap:6px 8px;align-items:center;color:var(--muted);font-size:10.5px;line-height:1.35}
+#mapLegend i{width:10px;height:10px;border:1.5px solid #f2e48b;border-radius:50%;display:block}
+#mapLegend i.solid{background:#f2e48b}
+#mapLegend i.halo{width:13px;height:13px;border-style:dashed;background:rgba(242,228,139,.08)}
+#mapLegend i.country{width:13px;height:13px;border-style:dotted;background:rgba(242,228,139,.08)}
+#mapLegend p{margin:9px 0 0;color:var(--faint);font-size:9.5px;line-height:1.45}
+#mapLegend .coverage{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--ink)}
+#mapLegend .coverage span{color:#f2e48b}
+
+/* C3A migration routes */
+#migrationLegend{display:none;position:absolute;top:142px;right:24px;z-index:6;width:260px;background:rgba(11,16,23,.86);
+  border:1px solid var(--line2);padding:11px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#migrationLegend b{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px}
+#migrationLegend .migration-key{display:grid;grid-template-columns:34px 1fr;gap:7px 8px;align-items:center;color:var(--muted);font-size:10.5px;line-height:1.35}
+#migrationLegend i{height:3px;display:block;background:currentColor;box-shadow:0 0 8px currentColor}
+#migrationLegend i.whip{color:#79ddff}#migrationLegend i.robin{color:#ffc15a}
+#migrationLegend i.argos{height:1px;background:repeating-linear-gradient(90deg,currentColor 0 6px,transparent 6px 10px);box-shadow:none}
+#migrationLegend .brightness{margin-top:9px;height:5px;background:linear-gradient(90deg,rgba(121,221,255,.18),#79ddff);border-radius:3px}
+#migrationLegend p{margin:8px 0 0;color:var(--faint);font-size:9.5px;line-height:1.45}
+.migration-tip{display:flex;flex-direction:column;gap:3px;max-width:285px;font:10px/1.35 var(--mono);white-space:normal}
+.migration-tip b{font:600 12px/1.3 var(--sans)}.migration-tip span{color:var(--muted)}.migration-tip small{color:#9de5f3;margin-top:3px}
+#migrationPanel{display:none;flex:1;min-height:0;flex-direction:column;overflow-y:auto}
+#migrationFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+#migrationFilters{display:flex;flex-wrap:wrap;gap:6px;padding:13px 20px;border-bottom:1px solid var(--line)}
+#migrationFilters button{border:1px solid var(--line2);padding:5px 7px;font:9.5px var(--mono);color:var(--muted)}
+#migrationFilters button[aria-pressed=true]{color:#05070c;background:var(--migration-color,var(--hand));border-color:transparent}
+#migrationSummary{padding:14px 20px;border-bottom:1px solid var(--line)}
+#migrationSummary h3{margin:0 0 4px;font-size:14px}#migrationSummary p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+#migrationRecord{padding:14px 20px;border-bottom:1px solid var(--line)}
+#migrationRecord dl{display:grid;grid-template-columns:82px minmax(0,1fr);gap:6px 10px;margin:0;font-size:11px;line-height:1.4}
+#migrationRecord dt{color:var(--muted)}#migrationRecord dd{margin:0;overflow-wrap:anywhere}#migrationRecord .metric{font-family:var(--mono)}
+#migrationCaveat{margin:13px 20px;border:1px solid #294654;background:#0c171d;color:#b9e4ee;padding:10px 11px;font-size:10.5px;line-height:1.45}
+#migrationList{min-height:180px}
+.migration-row{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:9px;padding:8px 20px;width:100%;text-align:left;border-bottom:1px solid rgba(27,36,49,.5)}
+.migration-row:hover{background:var(--panel2)}.migration-row[aria-current=true]{background:var(--panel2);box-shadow:inset 2px 0 0 var(--migration-color,var(--hand))}
+.migration-row i{width:7px;height:7px;border-radius:50%;background:var(--migration-color);box-shadow:0 0 7px var(--migration-color)}
+.migration-row b{display:block;font-size:12.5px}.migration-row span span{display:block;color:var(--muted);font:9.5px var(--mono);margin-top:2px}
+.migration-row em{font-style:normal;font:10px var(--mono);color:var(--muted)}
+#migrationFoot{margin-top:auto;padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);line-height:1.5}
+
+/* C3B weather-radar response field */
+#radarLegend{display:none;position:absolute;top:142px;right:24px;z-index:6;width:270px;background:rgba(11,16,23,.88);
+  border:1px solid var(--line2);padding:11px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#radarLegend b{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px}
+#radarLegend .radar-height{display:grid;grid-template-columns:35px 1fr;gap:8px;align-items:center;color:var(--muted);font-size:10.5px;line-height:1.35}
+#radarLegend .columns{height:18px;display:flex;gap:3px;align-items:flex-end;padding:0 3px}
+#radarLegend .columns i{display:block;width:6px;background:#e9ecf2}
+#radarLegend .columns i:nth-child(1){height:5px;opacity:.45}#radarLegend .columns i:nth-child(2){height:10px;opacity:.7}#radarLegend .columns i:nth-child(3){height:17px}
+#radarLegend .radar-gradient{height:6px;margin-top:10px;background:linear-gradient(90deg,#35587c,#ff845b);border-radius:3px}
+#radarLegend .radar-scale{display:flex;justify-content:space-between;gap:8px;margin-top:5px;color:var(--muted);font:9px var(--mono)}
+#radarLegend p{margin:8px 0 0;color:var(--faint);font-size:9.5px;line-height:1.45}
+.radar-tip{display:flex;flex-direction:column;gap:3px;max-width:295px;font:10px/1.35 var(--mono);white-space:normal}
+.radar-tip b{font:600 12px/1.3 var(--sans)}.radar-tip span{color:var(--muted)}.radar-tip small{color:#ffc0a8;margin-top:3px}
+#radarPanel{display:none;flex:1;min-height:0;flex-direction:column;overflow-y:auto}
+#radarFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+#radarModes{display:flex;gap:6px;padding:13px 20px;border-bottom:1px solid var(--line)}
+#radarModes button{flex:1;border:1px solid var(--line2);padding:6px 7px;font:9.5px var(--mono);color:var(--muted)}
+#radarModes button[aria-pressed=true]{color:#05070c;background:#ff9a70;border-color:transparent}
+#radarSummary{padding:14px 20px;border-bottom:1px solid var(--line)}
+#radarSummary h3{margin:0 0 4px;font-size:14px}#radarSummary p{margin:0;color:var(--muted);font-size:11px;line-height:1.52}
+#radarResult{margin-top:10px;padding:9px 10px;border:1px solid #5e3d30;background:#19100d;color:#f0c4b2;font:10.5px/1.45 var(--mono)}
+#radarRecord{padding:14px 20px;border-bottom:1px solid var(--line)}
+#radarRecord dl{display:grid;grid-template-columns:92px minmax(0,1fr);gap:6px 10px;margin:0;font-size:11px;line-height:1.4}
+#radarRecord dt{color:var(--muted)}#radarRecord dd{margin:0;overflow-wrap:anywhere}#radarRecord .metric{font-family:var(--mono)}
+#radarCaveat{margin:13px 20px;border:1px solid #554429;background:#17130d;color:#e4d2ad;padding:10px 11px;font-size:10.5px;line-height:1.45}
+#radarQuality{padding:0 20px 14px;color:var(--muted);font-size:10.5px;line-height:1.5}
+#radarFoot{margin-top:auto;padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);line-height:1.5}
+
+body[data-scene="natural"] #glB{opacity:0;pointer-events:none}
+body[data-scene="artificial"] #glB{opacity:1;clip-path:inset(0);}
+body[data-scene="natural"] #divider,body[data-scene="natural"] .stamp,body[data-scene="natural"] #viewbox,
+body[data-scene="artificial"] #divider,body[data-scene="artificial"] .stamp,body[data-scene="artificial"] #viewbox{display:none}
+body[data-scene="natural"] #nightLegend,body[data-scene="artificial"] #nightLegend{display:block}
+body[data-scene="artificial"] #nightLegend #viirsKey{display:grid}
+body[data-scene="artificial"] #lightRevealWrap{display:block}
+body[data-scene="natural"] #deltas,body[data-scene="natural"] #range,body[data-scene="natural"] #charts,
+body[data-scene="natural"] #light,body[data-scene="natural"] #listwrap,body[data-scene="natural"] #foot,
+body[data-scene="artificial"] #deltas,body[data-scene="artificial"] #range,body[data-scene="artificial"] #charts,
+body[data-scene="artificial"] #light,body[data-scene="artificial"] #listwrap,body[data-scene="artificial"] #foot{display:none}
+body[data-scene="natural"] #insectPanel,body[data-scene="artificial"] #insectPanel{display:flex}
+body[data-scene="c1"] #glA,body[data-scene="c1"] #glB{opacity:.06;pointer-events:none}
+body[data-scene="c1"] #divider,body[data-scene="c1"] .stamp,body[data-scene="c1"] #viewbox,
+body[data-scene="c1"] #nightLegend{display:none}
+body[data-scene="c1"] #effectStage{display:block}
+body[data-scene="c1"] #effectsPanel{display:flex}
+body[data-scene="c1"] #insectPanel,body[data-scene="c1"] #deltas,body[data-scene="c1"] #range,
+body[data-scene="c1"] #charts,body[data-scene="c1"] #light,body[data-scene="c1"] #listwrap,body[data-scene="c1"] #foot{display:none}
+body[data-scene="c1"] #sceneSwitch button[data-scene="c1"][aria-pressed=true]{background:#f2e48b}
+body[data-scene="map"] #glA{opacity:0;pointer-events:none}
+body[data-scene="map"] #glB{opacity:1;clip-path:inset(0);pointer-events:auto}
+body[data-scene="map"] #divider,body[data-scene="map"] .stamp,body[data-scene="map"] #viewbox,
+body[data-scene="map"] #nightLegend{display:none}
+body[data-scene="map"] #effectStage{display:block;pointer-events:none}
+body[data-scene="map"] #effectCanvas{pointer-events:none}
+body[data-scene="map"] #effectsPanel{display:flex}
+body[data-scene="map"] #mapLegend{display:block}
+body[data-scene="map"] #cGeoCoverage{display:block!important}
+body[data-scene="map"] #insectPanel,body[data-scene="map"] #deltas,body[data-scene="map"] #range,
+body[data-scene="map"] #charts,body[data-scene="map"] #light,body[data-scene="map"] #listwrap,body[data-scene="map"] #foot{display:none}
+body[data-scene="map"] #sceneSwitch button[data-scene="map"][aria-pressed=true]{background:#f2e48b}
+body[data-scene="c3a"] #glA{opacity:0;pointer-events:none}
+body[data-scene="c3a"] #glB{opacity:1;clip-path:inset(0);pointer-events:auto}
+body[data-scene="c3a"] #divider,body[data-scene="c3a"] .stamp,body[data-scene="c3a"] #viewbox,
+body[data-scene="c3a"] #nightLegend,body[data-scene="c3a"] #effectStage,body[data-scene="c3a"] #mapLegend{display:none}
+body[data-scene="c3a"] #migrationLegend{display:block}
+body[data-scene="c3a"] #migrationPanel{display:flex}
+body[data-scene="c3a"] #insectPanel,body[data-scene="c3a"] #effectsPanel,body[data-scene="c3a"] #deltas,
+body[data-scene="c3a"] #range,body[data-scene="c3a"] #charts,body[data-scene="c3a"] #light,
+body[data-scene="c3a"] #listwrap,body[data-scene="c3a"] #foot{display:none}
+body[data-scene="c3b"] #glA{opacity:0;pointer-events:none}
+body[data-scene="c3b"] #glB{opacity:1;clip-path:inset(0);pointer-events:auto}
+body[data-scene="c3b"] #divider,body[data-scene="c3b"] .stamp,body[data-scene="c3b"] #viewbox,
+body[data-scene="c3b"] #nightLegend,body[data-scene="c3b"] #effectStage,body[data-scene="c3b"] #mapLegend,
+body[data-scene="c3b"] #migrationLegend{display:none}
+body[data-scene="c3b"] #radarLegend{display:block}
+body[data-scene="c3b"] #radarPanel{display:flex}
+body[data-scene="c3b"] #insectPanel,body[data-scene="c3b"] #effectsPanel,body[data-scene="c3b"] #migrationPanel,
+body[data-scene="c3b"] #deltas,body[data-scene="c3b"] #range,body[data-scene="c3b"] #charts,
+body[data-scene="c3b"] #light,body[data-scene="c3b"] #listwrap,body[data-scene="c3b"] #foot{display:none}
+
 .tip{font-family:var(--mono);font-size:11px;background:#0d1219;border:1px solid var(--line);padding:5px 8px;color:var(--ink);white-space:nowrap}
+.insect-tip{display:flex;flex-direction:column;gap:2px;max-width:280px;white-space:normal}.insect-tip b{font-family:var(--sans);font-size:12px}
+.insect-tip span,.insect-tip small{color:var(--muted);font-size:10px}.insect-tip small{margin-top:3px;color:#b6f36a}
 #loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--void);z-index:10;font-family:var(--mono);
   font-size:12px;color:var(--muted);transition:opacity .5s}
 #loading.gone{opacity:0;pointer-events:none}
@@ -118,19 +308,36 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
   #stage{height:68vh;min-height:420px}
   #panel{border-left:none;border-top:1px solid var(--line)}
   #listwrap{overflow:visible}
+  #insectListWrap{overflow:visible}
+  #effectsPanel{overflow:visible}
+  #nightLegend{top:auto;bottom:22px;right:18px;width:220px}
+  #sceneSwitch{right:18px;max-width:calc(100% - 42px);flex-wrap:wrap}
+  #mapLegend{top:auto;bottom:14px;right:14px;width:220px}
+  #migrationLegend{top:auto;bottom:14px;right:14px;width:224px}
+  #radarLegend{top:auto;bottom:14px;right:14px;width:232px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
-<body>
+<body data-scene="natural">
 <div id="app">
   <div id="stage">
     <div id="glA" class="gl"></div>
     <div id="glB" class="gl"></div>
     <div id="scrimT" class="scrim"></div><div id="scrimB" class="scrim"></div>
     <div id="mast">
-      <h1>Earth After Dark</h1>
-      <p>Upward light, VIIRS annual composites at native 500 m. Drag the divider to compare 2012 with 2024; scroll to zoom.</p>
+      <h1 id="mastTitle">Earth After Dark</h1>
+      <p id="mastCopy">Upward light, VIIRS annual composites at native 500 m. Drag the divider to compare 2012 with 2024; scroll to zoom.</p>
+    </div>
+    <div id="sceneSwitch" role="group" aria-label="Narrative layer">
+      <button type="button" data-scene="natural" aria-pressed="true">Natural night</button>
+      <button type="button" data-scene="artificial" aria-pressed="false">Artificial night</button>
+      <button type="button" data-scene="map" aria-pressed="false">Global evidence</button>
+      <button type="button" data-scene="c1" aria-pressed="false">Effect detail</button>
+      <button type="button" data-scene="c3a" aria-pressed="false">Migration exposure</button>
+      <button type="button" data-scene="c3b" aria-pressed="false">Migration response</button>
+      <button type="button" data-scene="body" aria-pressed="false">Body clocks</button>
+      <button type="button" data-scene="viirs" aria-pressed="false">VIIRS comparison</button>
     </div>
     <div id="stampA" class="stamp"><span class="yr">2012</span><span class="win">APR 2012 – MAR 2013</span></div>
     <div id="stampB" class="stamp"><span class="yr">2024</span><span class="win">JAN – DEC 2024</span></div>
@@ -140,16 +347,163 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
       </div>
       <div id="legend"></div>
     </div>
+    <div id="nightLegend">
+      <b id="nightLegendTitle">Observed at night</b>
+      <div class="key">
+        <i style="color:#b6f36a;background:#b6f36a"></i><span>Terrestrial sampling site</span>
+        <i style="color:#72c7ff;background:#72c7ff"></i><span>Aquatic sampling site</span>
+        <i style="color:#7ce6cf;background:#7ce6cf"></i><span>Mixed ecosystem at one coordinate</span>
+      </div>
+      <div id="viirsKey" class="key"><i style="color:#ffc15a;background:#ffc15a"></i><span>2024 VIIRS upward-light context</span></div>
+      <div id="lightRevealWrap">
+        <label for="lightReveal"><span>Light layer visibility</span><span id="revealValue">100%</span></label>
+        <input id="lightReveal" type="range" min="8" max="100" value="100" aria-label="VIIRS light layer visibility">
+      </div>
+      <p id="nightLegendNote">All points use equal size. Pulse timing is aesthetic and does not encode abundance, richness, or ALAN effect.</p>
+    </div>
+    <div id="mapLegend">
+      <b>Geographic evidence</b>
+      <div class="map-key">
+        <i class="solid"></i><span>Solid core = field study</span>
+        <i></i><span>Open core = laboratory study</span>
+        <i class="halo"></i><span>Dashed halo = regional context</span>
+        <i class="country"></i><span>Dotted halo = country-only context</span>
+      </div>
+      <div class="coverage"><span id="mapExact">—</span> point-ready · <span id="mapContext">—</span> regional/country · <span id="mapUnlocated">—</span> no location</div>
+      <p>Every core is one study + source-location anchor. Select an anchor to expand its effect records. VIIRS is context, not a causal exposure estimate.</p>
+    </div>
+    <div id="migrationLegend">
+      <b>Migration through artificial night</b>
+      <div class="migration-key">
+        <i class="whip"></i><span>Eastern Whip-poor-will</span>
+        <i class="robin"></i><span>American Robin</span>
+        <i class="whip"></i><span>Solid = GPS</span>
+        <i class="robin argos"></i><span>Dashed = lower-precision Argos</span>
+      </div>
+      <div class="brightness" aria-hidden="true"></div>
+      <p>Dim → bright line intensity follows 2024 VIIRS relative display brightness. It is not physical radiance and does not imply attraction or avoidance.</p>
+    </div>
+    <div id="radarLegend">
+      <b>Radar stopover-response field</b>
+      <div class="radar-height"><span class="columns"><i></i><i></i><i></i></span><span>Taller / brighter hex = higher observed radar stopover-density proxy</span></div>
+      <div class="radar-gradient" id="radarGradient" aria-hidden="true"></div>
+      <div class="radar-scale"><span id="radarScaleLow">Farther from bright source</span><span id="radarScaleHigh">Nearer bright source</span></div>
+      <p id="radarLegendNote">Hex hue uses the study's 2014 light predictor. The 2024 VIIRS globe beneath it is present-day context.</p>
+    </div>
     <div id="divider"><div id="hit"></div>
       <div id="grip" role="slider" tabindex="0" aria-label="Compare divider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 4 2 8l4 4M10 4l4 4-4 4"/></svg>
       </div>
+    </div>
+    <div id="effectStage" aria-label="Measured biological effects of artificial light at night">
+      <canvas id="effectCanvas" tabindex="0" aria-label="Interactive evidence field. Use the category filters or left and right arrow keys to inspect effect-size records."></canvas>
+      <div id="effectTooltip" role="tooltip" hidden></div>
     </div>
     <div id="loading">loading…</div>
   </div>
 
   <aside id="panel">
     <div id="phead"><h2 id="pname">—</h2><div id="pmeta"></div></div>
+    <div id="insectPanel">
+      <div id="insectFacts">
+        <div class="ifact"><b id="iStudies">—</b><span>Source studies</span></div>
+        <div class="ifact"><b id="iMeasures">—</b><span>Measurements</span></div>
+        <div class="ifact"><b id="iGroups">—</b><span>Taxonomic groups</span></div>
+      </div>
+      <div id="insectDetail">
+        <div class="ilabel">Habitat</div><p class="ivalue" id="iHabitat">—</p>
+        <div class="ilabel">Taxonomic coverage</div><p class="ivalue" id="iTaxa">—</p>
+        <div class="ievidence" id="iEvidence">These values describe dataset coverage at this coordinate. They do not measure global ecological intensity and do not indicate an ALAN effect.</div>
+      </div>
+      <div id="insectListWrap"><div id="insectListLabel"></div><div id="insectList"></div></div>
+      <div id="insectFoot">Night-only observations from 99 source studies. Daytime rows are excluded. Raw abundance is not compared across studies because sampling protocols and units differ.</div>
+    </div>
+    <div id="effectsPanel">
+      <div id="effectFacts">
+        <div class="ifact"><b id="cEffects">—</b><span>Effect records</span></div>
+        <div class="ifact"><b id="cStudies">—</b><span>Studies</span></div>
+        <div class="ifact"><b id="cSpecies">—</b><span>Named species</span></div>
+      </div>
+      <div id="effectFilters" role="group" aria-label="Biological process filter"></div>
+      <div id="effectSummary">
+        <h3 id="cCategory">All biological processes</h3>
+        <p id="cCategoryMeta">—</p>
+        <p id="cGeoCoverage">—</p>
+        <div id="effectSubcategories"></div>
+      </div>
+      <div id="effectRecord">
+        <div class="ilabel">Selected source record</div>
+        <dl>
+          <dt>Measured</dt><dd id="cMeasured">—</dd>
+          <dt>Taxon</dt><dd id="cTaxon">—</dd>
+          <dt>Effect</dt><dd id="cEffectValue" class="metric">—</dd>
+          <dt>Light</dt><dd id="cLightContext">—</dd>
+          <dt>Study</dt><dd id="cStudyContext">—</dd>
+          <dt>Location</dt><dd id="cLocationContext">—</dd>
+          <dt>VIIRS</dt><dd id="cViirsContext">—</dd>
+        </dl>
+      </div>
+      <div id="effectCaveat"><b>How to read it:</b> farther right means a larger standardized difference. A positive or negative Hedges g follows the direction of the measured variable; it does not automatically mean “good” or “bad.”</div>
+      <div id="effectFoot">Every dot is one reported effect-size record. The layout caps 44 values above |g| = 10 at the right edge, but keeps their original values in the detail view. This is a record-level evidence display, not a newly pooled meta-analysis.</div>
+    </div>
+    <div id="migrationPanel">
+      <div id="migrationFacts">
+        <div class="ifact"><b id="mPoints">—</b><span>Route points</span></div>
+        <div class="ifact"><b id="mIndividuals">—</b><span>Individuals</span></div>
+        <div class="ifact"><b id="mSegments">—</b><span>Route segments</span></div>
+      </div>
+      <div id="migrationFilters" role="group" aria-label="Migration species filter"></div>
+      <div id="migrationSummary">
+        <h3 id="mCategory">Both species</h3>
+        <p id="mCategoryMeta">—</p>
+      </div>
+      <div id="migrationRecord">
+        <div class="ilabel">Selected tracked individual</div>
+        <dl>
+          <dt>Species</dt><dd id="mSpecies">—</dd>
+          <dt>Individual</dt><dd id="mIndividual">—</dd>
+          <dt>Sensor</dt><dd id="mSensor">—</dd>
+          <dt>Coverage</dt><dd id="mCoverage">—</dd>
+          <dt>Median</dt><dd id="mMedian" class="metric">—</dd>
+          <dt>Maximum</dt><dd id="mMaximum" class="metric">—</dd>
+          <dt>High context</dt><dd id="mHigh" class="metric">—</dd>
+        </dl>
+      </div>
+      <div id="migrationCaveat"><b>How to read it:</b> geographic lines are observed tracking positions. Brightness changes along a line describe overlap with the 2024 VIIRS display layer only; they do not show that light changed the route.</div>
+      <div id="migrationList"></div>
+      <div id="migrationFoot">GPS and Argos remain distinguishable. Lines stop at large temporal gaps. Relative brightness is sampled from the existing 2024 display tiles, not from tracking-year radiance rasters.</div>
+    </div>
+    <div id="radarPanel">
+      <div id="radarFacts">
+        <div class="ifact"><b id="rCells">—</b><span>Response cells</span></div>
+        <div class="ifact"><b id="rSeasons">—</b><span>Autumn seasons</span></div>
+        <div class="ifact"><b id="rRadars">—</b><span>Radar stations</span></div>
+      </div>
+      <div id="radarModes" role="group" aria-label="Radar response scale">
+        <button type="button" data-radar-mode="regional" aria-pressed="true">Regional proximity</button>
+        <button type="button" data-radar-mode="local" aria-pressed="false">Local brightness</button>
+      </div>
+      <div id="radarSummary">
+        <h3 id="rModeTitle">Regional proximity to bright areas</h3>
+        <p id="rModeCopy">—</p>
+        <div id="radarResult">—</div>
+      </div>
+      <div id="radarRecord">
+        <div class="ilabel">Selected response hex</div>
+        <dl>
+          <dt>Radar response</dt><dd id="rVir" class="metric">—</dd>
+          <dt>Density rank</dt><dd id="rRank" class="metric">—</dd>
+          <dt>Local ALAN</dt><dd id="rAlan" class="metric">—</dd>
+          <dt>Bright source</dt><dd id="rBright" class="metric">—</dd>
+          <dt>Habitat</dt><dd id="rHabitat">—</dd>
+          <dt>Display support</dt><dd id="rSupport">—</dd>
+          <dt>Position</dt><dd id="rPosition">—</dd>
+        </dl>
+      </div>
+      <div id="radarCaveat"><b>How to read it:</b> this is a population/community-level radar field. It does not show individual birds, and the associations do not prove that ALAN alone caused the observed distribution.</div>
+      <div id="radarQuality">The source analysis used 1 km cells. The supplied CSV rounds one coordinate axis to 10 km, so this globe aggregates collisions and labels positions as approximate instead of inventing missing coordinates.</div>
+      <div id="radarFoot">2008–2014 radar response · 2014 sky-luminance predictor. Hex height shows the measured response field; the directional findings come from the published adjusted model. The 2024 VIIRS background is contextual only.</div>
+    </div>
     <div id="deltas">
       <div class="d"><b id="dTot">—</b><span>Total light</span></div>
       <div class="d"><b id="dAre">—</b><span>Lit area</span></div>
@@ -173,12 +527,22 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;pad
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js"></script>
+<script src="layers/insect-night.js"></script>
+<script src="layers/c1-effects.js"></script>
+<script src="layers/c3a-migration.js"></script>
+<script src="layers/c3b-radar.js?v=c3b-3"></script>
 <script>
 const YEARS=[2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
 const ZMAX=9;
+const INITIAL_SCENE=new URLSearchParams(location.search).get('scene')||'natural';
+const INITIAL_CATEGORY=new URLSearchParams(location.search).get('category');
+const INITIAL_SPECIES=new URLSearchParams(location.search).get('species');
+const INITIAL_RADAR_MODE=new URLSearchParams(location.search).get('lens')||'regional';
 const TILE_V='colour-v3';                      // bump whenever tiles_rgba is rebuilt (cache busting)
 const $=id=>document.getElementById(id);
-let DATA=null, sel=null, iA=0, iB=YEARS.length-1, split=.5;
+let DATA=null, INSECTS=[], C1_DATA=null, C3A_DATA=null, C3B_DATA=null, sel=null, insectSel=null, c1Selected=null, migrationSelected=null, radarSelected=null;
+let c1Filter=C1EffectsLayer.allLabel, migrationFilter=C3AMigrationLayer.ALL, radarMode='regional';
+let C1_VIEW=null, MIGRATION_VIEW=null, RADAR_VIEW=null, iA=0, iB=YEARS.length-1, split=.5, SCENE='natural';
 
 /* ---------------- tile existence bitmasks (no requests for dark tiles) ---------------- */
 const EXISTS={};                       // year -> [Uint8Array per z]
@@ -206,11 +570,11 @@ function makeGlobe(el){
     .showAtmosphere(true).atmosphereColor('#3a5580').atmosphereAltitude(0.12)
     .globeTileEngineMaxLevel(ZMAX)
     .pointsData([]).pointLat('lat').pointLng('lng').pointAltitude(0.002).pointRadius(0.16)
-    .pointColor(()=> 'rgba(244,246,250,.85)')
-    .pointLabel(c=>`<div class="tip">${c.name}</div>`)
-    .onPointClick(c=>select(c,true))
-    .ringLat('lat').ringLng('lng').ringColor(()=>t=>`rgba(244,246,250,${.9*(1-t)})`)
-    .ringMaxRadius(2.2).ringPropagationSpeed(1.4).ringRepeatPeriod(1400);
+    .pointColor(d=>d.__color||'rgba(244,246,250,.85)')
+    .pointLabel(d=>d.__kind==='insect-night'?InsectNightLayer.label(d):`<div class="tip">${d.name}</div>`)
+    .onPointClick(d=>d.__kind==='insect-night'?selectInsect(d,true):select(d,true))
+    .ringLat('lat').ringLng('lng').ringColor(d=>d.__ringColor||((t)=>`rgba(244,246,250,${.9*(1-t)})`))
+    .ringMaxRadius(2.2).ringPropagationSpeed(1.4).ringRepeatPeriod(d=>d.__pulsePeriod||1400);
   const R=g.renderer();
   R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   const MAXA=R.capabilities.getMaxAnisotropy();
@@ -243,9 +607,9 @@ function makeGlobe(el){
 // RGBA tiles (colorize.py): R brightness, G/B CIE xy of the estimated light mix, A = 255 - source code.
 // Greyscale tiles decode as colour-unknown. Everything is decoded on the GPU; shared uniforms mean one
 // toggle updates every tile without re-tiling. Method: ../colour/METHOD_colour.md
-const PAL={uMode:{value:0},uCurve:{value:1.2}};
+const PAL={uMode:{value:0},uCurve:{value:1.2},uLayerOpacity:{value:1}};
 const PAL_GLSL=`
-uniform float uMode; uniform float uCurve;
+uniform float uMode; uniform float uCurve; uniform float uLayerOpacity;
 vec3 xyToLinearRGB(vec2 c){
   vec3 XYZ=vec3(c.x/c.y,1.0,(1.0-c.x-c.y)/c.y);
   vec3 rgb=mat3(3.2406,-0.9689,0.0557, -1.5372,1.8758,-0.2040, -0.4986,0.0415,1.0570)*XYZ;  // XYZ->linear sRGB
@@ -288,7 +652,7 @@ function unlit(o,MAXA){
   m.color=new m.emissive.constructor(0x000000);
   m.map=null; m.__unlit=true;
   m.onBeforeCompile=sh=>{
-    sh.uniforms.uMode=PAL.uMode; sh.uniforms.uCurve=PAL.uCurve;
+    sh.uniforms.uMode=PAL.uMode; sh.uniforms.uCurve=PAL.uCurve; sh.uniforms.uLayerOpacity=PAL.uLayerOpacity;
     sh.fragmentShader=PAL_GLSL+'\n'+sh.fragmentShader.replace('#include <emissivemap_fragment>',`
       vec4 t=texture2D(emissiveMap,vEmissiveMapUv);
       float L=pow(pow(t.r,uCurve),2.2);                 // display brightness, linear
@@ -307,7 +671,7 @@ function unlit(o,MAXA){
         vec3 k=code>2.5?vec3(.36,.86,.74):code>1.5?vec3(.66,.58,.98):code>0.5?vec3(.98,.78,.40):vec3(.42);
         lin=pow(k,vec3(2.2))*L;
       }
-      totalEmissiveRadiance=lin;`);
+      totalEmissiveRadiance=lin*uLayerOpacity;`);
   };
   m.customProgramCacheKey=()=>'nightxy';
   m.needsUpdate=true;
@@ -372,7 +736,11 @@ function markers(alt){
   if(b===markBucket||!DATA)return; markBucket=b;
   const r=[.0,.035,.07,.16][b], ring=[.12,.35,.9,2.2][b];
   for(const g of [A,B]){
-    g.pointRadius(r).pointsData(b?DATA.cities:[]);
+    let points=[];
+    if(SCENE==='viirs')points=DATA.cities;
+    else if(SCENE==='natural'&&g===A)points=INSECTS;
+    else if(SCENE==='artificial')points=INSECTS;
+    g.pointRadius(d=>d.__kind==='insect-night'?r*.72:r).pointsData(b?points:[]);
     g.ringMaxRadius(ring);
   }
 }
@@ -432,6 +800,418 @@ function setView(p){
 }
 $('palette').addEventListener('click',e=>{const b=e.target.closest('button'); if(b)setView(+b.dataset.p);});
 setView(0);
+
+/* ---------------- narrative layer: natural night / artificial overlap / VIIRS comparison ---------------- */
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+function countryLabel(site){return (site.countries||[]).join(', ')||'Country not specified';}
+function listText(values,fallback='Not specified'){return values&&values.length?values.join(', '):fallback;}
+
+function refreshInsectList(){
+  const sites=[...INSECTS].sort((a,b)=>countryLabel(a).localeCompare(countryLabel(b))||a.name.localeCompare(b.name));
+  $('insectListLabel').textContent=`${sites.length} observation sites · alphabetical`;
+  $('insectList').innerHTML=sites.map(site=>
+    `<button class="site-row" type="button" data-site="${esc(site.site_id)}" aria-current="${insectSel&&insectSel.site_id===site.site_id}">`+
+    `<i class="dot" style="color:${site.__color};background:${site.__color}"></i>`+
+    `<span class="place"><b>${esc(site.name)}</b><span>${esc(countryLabel(site))}</span></span>`+
+    `<em>${esc(site.ecosystem)}</em></button>`).join('');
+}
+
+function selectInsect(site,flyTo){
+  if(!site)return;
+  insectSel=site;
+  $('pname').textContent=site.name;
+  $('pmeta').textContent=(SCENE==='artificial'?'Night observation × 2024 VIIRS context':'Observed at night')+
+    ` · ${site.lat.toFixed(2)}°, ${site.lng.toFixed(2)}°`;
+  $('iStudies').textContent=site.study_count.toLocaleString();
+  $('iMeasures').textContent=site.measurement_count.toLocaleString();
+  $('iGroups').textContent=(site.taxonomic_groups||[]).length.toLocaleString();
+  $('iHabitat').textContent=listText(site.habitats);
+  $('iTaxa').textContent=listText(site.taxonomic_groups);
+  refreshInsectList();
+  if(flyTo)fly({lat:site.lat,lng:site.lng,altitude:.38},1100);
+}
+
+$('insectList').addEventListener('click',e=>{
+  const button=e.target.closest('.site-row'); if(!button)return;
+  selectInsect(INSECTS.find(site=>site.site_id===button.dataset.site),true);
+});
+
+let layerAnimation=0;
+function syncRevealControl(value){
+  const pct=Math.round(value*100);
+  $('lightReveal').value=String(Math.max(8,pct));
+  $('revealValue').textContent=`${pct}%`;
+}
+function setLayerOpacity(target,duration=0){
+  if(layerAnimation)cancelAnimationFrame(layerAnimation);
+  layerAnimation=0;
+  const from=PAL.uLayerOpacity.value;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!duration||reduced){PAL.uLayerOpacity.value=target;syncRevealControl(target);return;}
+  const start=performance.now();
+  const step=now=>{
+    const t=Math.min(1,(now-start)/duration), eased=1-Math.pow(1-t,3);
+    PAL.uLayerOpacity.value=from+(target-from)*eased;
+    syncRevealControl(PAL.uLayerOpacity.value);
+    if(t<1)layerAnimation=requestAnimationFrame(step);else layerAnimation=0;
+  };
+  layerAnimation=requestAnimationFrame(step);
+}
+$('lightReveal').addEventListener('input',e=>setLayerOpacity(+e.target.value/100));
+
+function fmtEffect(value){
+  const number=Number(value);
+  return `${number>0?'+':number<0?'−':''}${Math.abs(number).toFixed(2)}`;
+}
+function effectTaxon(effect){
+  const primary=effect.species||effect.order||effect.class||effect.phylum||'Taxon not specified';
+  const hierarchy=[effect.order,effect.class,effect.phylum].filter(Boolean).filter(value=>value!==primary);
+  return hierarchy.length?`${primary} · ${hierarchy.join(' / ')}`:primary;
+}
+function effectSummary(category){
+  if(category!==C1EffectsLayer.allLabel)return C1_DATA.categories.find(item=>item.category===category);
+  return {
+    category:'All biological processes', effect_count:C1_DATA.meta.effect_count, study_count:C1_DATA.meta.study_count,
+    named_species_count:C1_DATA.meta.named_species_count, median_abs_effect:C1_DATA.meta.effect_abs_median,
+    p95_abs_effect:C1_DATA.meta.effect_abs_p95, over_display_cap_count:C1_DATA.meta.over_display_cap_count,
+    top_subcategories:C1_DATA.categories.map(item=>({name:item.category,count:item.effect_count}))
+  };
+}
+function refreshEffectPanel(){
+  if(!C1_DATA)return;
+  const summary=effectSummary(c1Filter);
+  const filtered=C1_DATA.effects.filter(effect=>c1Filter===C1EffectsLayer.allLabel||effect.category===c1Filter);
+  const exact=filtered.filter(effect=>effect.geo_mapped).length;
+  const context=filtered.filter(effect=>effect.geo_context_available&&!effect.geo_mapped).length;
+  const unlocated=filtered.length-exact-context;
+  $('cEffects').textContent=summary.effect_count.toLocaleString();
+  $('cStudies').textContent=summary.study_count.toLocaleString();
+  $('cSpecies').textContent=summary.named_species_count.toLocaleString();
+  $('cCategory').textContent=summary.category;
+  $('cCategoryMeta').textContent=`Median |g| ${summary.median_abs_effect.toFixed(2)} · 95th percentile ${summary.p95_abs_effect.toFixed(2)} · ${summary.over_display_cap_count} above display cap`;
+  $('cGeoCoverage').textContent=`Point-ready ${exact.toLocaleString()} · regional/country context ${context.toLocaleString()} · no location ${unlocated.toLocaleString()}`;
+  $('mapExact').textContent=exact.toLocaleString();
+  $('mapContext').textContent=context.toLocaleString();
+  $('mapUnlocated').textContent=unlocated.toLocaleString();
+  $('effectSubcategories').innerHTML=summary.top_subcategories.map(item=>`<span>${esc(item.name)} · ${item.count.toLocaleString()}</span>`).join('');
+  const filters=[{category:C1EffectsLayer.allLabel,color:'#f4f6fa'},...C1_DATA.categories];
+  $('effectFilters').innerHTML=filters.map(item=>
+    `<button type="button" data-category="${esc(item.category)}" aria-pressed="${item.category===c1Filter}" style="--filter-color:${item.color}">${esc(item.category)}</button>`
+  ).join('');
+}
+function selectEffect(effect){
+  if(!effect)return;
+  c1Selected=effect;
+  C1_VIEW&&C1_VIEW.select(effect);
+  $('pname').textContent=effect.measured_effect||'Measured response';
+  $('pmeta').textContent=`${effect.category} · ${effect.subcategory||'uncategorized'} · ${effect.publication_year||'year not specified'}`;
+  $('cMeasured').textContent=[effect.measured_effect,effect.subcategory_detail].filter(Boolean).join(' · ');
+  $('cTaxon').textContent=effectTaxon(effect);
+  $('cEffectValue').textContent=`Hedges g ${fmtEffect(effect.effect_size)} · SE ${Number(effect.effect_size_se).toFixed(2)} · |g| ${Number(effect.effect_abs).toFixed(2)}`;
+  const lux=effect.night_lux==null?(effect.night_lux_band||'lux not specified'):`${effect.night_lux} lux${effect.night_lux_band?` (${effect.night_lux_band})`:''}`;
+  $('cLightContext').textContent=[effect.light_type,effect.light_source,lux].filter(Boolean).join(' · ');
+  $('cStudyContext').textContent=[effect.study_type,effect.habitat,effect.location,`Study ${effect.study_id}`,effect.publication_year].filter(Boolean).join(' · ');
+  if(effect.geo_mapped){
+    $('cLocationContext').textContent=`${effect.geo_label} · ${Number(effect.geo_lat).toFixed(2)}°, ${Number(effect.geo_lng).toFixed(2)}° · ${String(effect.geo_precision||'point').replaceAll('_',' ')} · reviewed point placement`;
+  }else if(effect.geo_context_available){
+    const scope=effect.geo_geometry==='country_region'?'country-level':'regional';
+    $('cLocationContext').textContent=`${effect.geo_label} · ${scope} context only; representative center is not an exact study coordinate`;
+  }else{
+    $('cLocationContext').textContent=`${effect.location||'Not reported'} · no geographic location is available in the source data`;
+  }
+  if(effect.geo_mapped&&effect.viirs_2024_meanlit!=null){
+    const prefix=`2024 city-area mean radiance where lit: ${Number(effect.viirs_2024_meanlit).toFixed(1)} nW/cm²/sr`;
+    $('cViirsContext').textContent=effect.study_type==='Laboratory'
+      ? `${prefix}. Environmental context only — not the laboratory treatment exposure.`
+      : `${prefix}. Environmental context only — not treatment intensity and not a causal estimate.`;
+  }else if(effect.geo_context_available){
+    $('cViirsContext').textContent=effect.study_type==='Laboratory'
+      ? 'The globe shows 2024 VIIRS light as broad geographic context only. It is not the laboratory treatment exposure.'
+      : 'The globe shows 2024 VIIRS light as present-day context. No city-area summary is available, and it is not a causal exposure estimate.';
+  }else{
+    $('cViirsContext').textContent='Unavailable because the source record has no location.';
+  }
+}
+function setEffectFilter(category){
+  if(!C1_DATA)return;
+  c1Filter=category||C1EffectsLayer.allLabel;
+  C1_VIEW&&C1_VIEW.setFilter(c1Filter);
+  refreshEffectPanel();
+  if(!c1Selected||(c1Filter!==C1EffectsLayer.allLabel&&c1Selected.category!==c1Filter)){
+    selectEffect(C1_DATA.effects.find(effect=>c1Filter===C1EffectsLayer.allLabel||effect.category===c1Filter));
+  }
+}
+$('effectFilters').addEventListener('click',event=>{
+  const button=event.target.closest('button');
+  if(button)setEffectFilter(button.dataset.category);
+});
+
+function migrationRows(){
+  if(!C3A_DATA)return [];
+  return migrationFilter===C3AMigrationLayer.ALL
+    ? C3A_DATA.points
+    : C3A_DATA.points.filter(point=>point.species===migrationFilter);
+}
+function migrationIndividuals(){
+  if(!C3A_DATA)return [];
+  return C3A_DATA.individuals.filter(item=>migrationFilter===C3AMigrationLayer.ALL||item.species===migrationFilter);
+}
+function relativePct(value){return `${Math.round(Number(value||0)*100)}% relative display brightness`;}
+function refreshMigrationPanel(){
+  if(!C3A_DATA)return;
+  const rows=migrationRows(), individuals=migrationIndividuals();
+  const segmentCounts=new Map();
+  rows.forEach(point=>segmentCounts.set(point.segment_id,(segmentCounts.get(point.segment_id)||0)+1));
+  const drawableSegments=[...segmentCounts.values()].filter(count=>count>=2).length;
+  const values=rows.map(point=>Number(point.viirs_relative_brightness)).sort((a,b)=>a-b);
+  const median=values.length?(values[Math.floor((values.length-1)/2)]+values[Math.ceil((values.length-1)/2)])/2:0;
+  const elevated=rows.filter(point=>point.high_relative_brightness).length;
+  $('mPoints').textContent=rows.length.toLocaleString();
+  $('mIndividuals').textContent=individuals.length.toLocaleString();
+  $('mSegments').textContent=drawableSegments.toLocaleString();
+  $('mCategory').textContent=migrationFilter===C3AMigrationLayer.ALL?'Both tracked species':migrationFilter;
+  $('mCategoryMeta').textContent=`Median ${relativePct(median)} · ${elevated.toLocaleString()} points at or above the documented high-context threshold (${Math.round(C3A_DATA.meta.high_brightness_threshold*100)}%)`;
+  const filters=[C3AMigrationLayer.ALL,...C3A_DATA.species.map(item=>item.species)];
+  $('migrationFilters').innerHTML=filters.map(name=>{
+    const color=name===C3AMigrationLayer.ALL?'#f4f6fa':C3AMigrationLayer.COLORS[name];
+    return `<button type="button" data-species="${esc(name)}" aria-pressed="${name===migrationFilter}" style="--migration-color:${color}">${esc(name)}</button>`;
+  }).join('');
+  $('migrationList').innerHTML=individuals.map(item=>{
+    const current=migrationSelected&&migrationSelected.species===item.species&&migrationSelected.individual_id===item.individual_id;
+    const color=C3AMigrationLayer.COLORS[item.species]||'#f4f6fa';
+    return `<button class="migration-row" type="button" data-species="${esc(item.species)}" data-individual="${esc(item.individual_id)}" aria-current="${current}" style="--migration-color:${color}">`+
+      `<i></i><span><b>${esc(item.individual_id)}</b><span>${esc(item.species)} · ${item.point_count} points · ${esc(item.sensor_types.join(' + '))}</span></span>`+
+      `<em>${Math.round(item.high_brightness_point_proportion*100)}% high</em></button>`;
+  }).join('');
+}
+function selectMigration(point,flyTo){
+  if(!point||!C3A_DATA)return;
+  migrationSelected=point;
+  const summary=C3A_DATA.individuals.find(item=>item.species===point.species&&item.individual_id===point.individual_id);
+  if(!summary)return;
+  MIGRATION_VIEW&&MIGRATION_VIEW.select(point);
+  $('pname').textContent=point.species;
+  $('pmeta').textContent=`Individual ${point.individual_id} · ${summary.sensor_types.join(' + ')} · ${summary.point_count} retained points`;
+  $('mSpecies').textContent=`${point.species} · ${point.scientific_name}`;
+  $('mIndividual').textContent=point.individual_id;
+  $('mSensor').textContent=summary.sensor_types.includes('Argos')
+    ? `${summary.sensor_types.join(' + ')} · Argos remains lower spatial precision`
+    : 'GPS · finer spatial precision';
+  $('mCoverage').textContent=`${summary.first_timestamp.slice(0,10)} → ${summary.last_timestamp.slice(0,10)} · ${summary.segment_count} separated route segments`;
+  $('mMedian').textContent=relativePct(summary.median_relative_brightness);
+  $('mMaximum').textContent=relativePct(summary.maximum_relative_brightness);
+  $('mHigh').textContent=`${(summary.high_brightness_point_proportion*100).toFixed(1)}% of retained points (${summary.high_brightness_point_count}/${summary.point_count})`;
+  refreshMigrationPanel();
+  if(flyTo)B.pointOfView({lat:Number(point.latitude),lng:Number(point.longitude),altitude:.65},1000);
+}
+function setMigrationFilter(species){
+  if(!C3A_DATA)return;
+  migrationFilter=species||C3AMigrationLayer.ALL;
+  MIGRATION_VIEW&&MIGRATION_VIEW.setFilter(migrationFilter);
+  const stillVisible=migrationSelected&&(migrationFilter===C3AMigrationLayer.ALL||migrationSelected.species===migrationFilter);
+  if(!stillVisible){
+    const first=migrationRows()[0];
+    if(first)selectMigration(first,false);
+  }else refreshMigrationPanel();
+}
+$('migrationFilters').addEventListener('click',event=>{
+  const button=event.target.closest('button');
+  if(button)setMigrationFilter(button.dataset.species);
+});
+$('migrationList').addEventListener('click',event=>{
+  const button=event.target.closest('.migration-row');
+  if(!button)return;
+  const points=C3A_DATA.points.filter(point=>point.species===button.dataset.species&&point.individual_id===button.dataset.individual);
+  selectMigration(points[Math.floor(points.length/2)],true);
+});
+
+function radarModeText(){
+  const result=C3B_DATA.meta.published_model_results;
+  if(radarMode==='local')return {
+    title:'Local brightness within 2 km',
+    copy:'Hex colour now follows the study’s 2014 artificial:natural sky-luminance ratio. Warmer means brighter local night; height remains the observed radar response.',
+    result:`Published adjusted model: ${result.local_brightness_response}`,
+    low:'Lower local ALAN',high:'Higher local ALAN',
+    gradient:'linear-gradient(90deg,#2b5c7a,#ffc15a)'
+  };
+  return {
+    title:'Regional proximity to bright areas',
+    copy:'Hex colour follows proximity to a source at least five times natural sky brightness. Warmer means nearer; height remains the observed radar response.',
+    result:`Published adjusted model: ${result.regional_proximity_response}`,
+    low:'Farther from bright source',high:'Nearer bright source',
+    gradient:'linear-gradient(90deg,#35587c,#ff845b)'
+  };
+}
+function refreshRadarPanel(){
+  if(!C3B_DATA)return;
+  const text=radarModeText();
+  $('rCells').textContent=C3B_DATA.meta.model_cells_with_response.toLocaleString();
+  $('rSeasons').textContent=C3B_DATA.meta.autumn_seasons.toLocaleString();
+  $('rRadars').textContent=C3B_DATA.meta.radar_stations.toLocaleString();
+  $('rModeTitle').textContent=text.title;
+  $('rModeCopy').textContent=text.copy;
+  $('radarResult').textContent=text.result;
+  $('radarScaleLow').textContent=text.low;
+  $('radarScaleHigh').textContent=text.high;
+  $('radarGradient').style.background=text.gradient;
+  $('radarModes').querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.radarMode===radarMode)));
+}
+function selectRadar(cell,flyTo){
+  if(!cell||!C3B_DATA)return;
+  radarSelected=cell;
+  RADAR_VIEW&&RADAR_VIEW.select(cell);
+  const displayCount=Number(cell.display_coordinate_count||1);
+  $('pname').textContent='Radar stopover response';
+  $('pmeta').textContent=`Autumn 2008–2014 · ${Number(cell.source_cell_count||1).toLocaleString()} source model cells in selected display hex`;
+  $('rVir').textContent=`${Number(cell.mean_vir).toFixed(2)} cm²/ha geometric-mean VIR proxy`;
+  $('rRank').textContent=`${Math.round(Number(cell.density_percentile)*100)}th percentile in the display field`;
+  $('rAlan').textContent=`${Number(cell.alan_ratio).toFixed(2)}× natural sky brightness · 2 km predictor`;
+  $('rBright').textContent=`${Number(cell.distance_bright_km).toFixed(0)} km to a ≥5× bright source`;
+  $('rHabitat').textContent=`${Math.round(Number(cell.deciduous_cover)*100)}% deciduous forest · ${Math.round(Number(cell.developed_cover)*100)}% developed cover`;
+  $('rSupport').textContent=`${displayCount.toLocaleString()} approximate coordinate${displayCount===1?'':'s'} · ${Number(cell.source_cell_count||1).toLocaleString()} source cells`;
+  $('rPosition').textContent=`Approx. ${Number(cell.latitude).toFixed(2)}°, ${Number(cell.longitude).toFixed(2)}° · UTM text precision is limited`;
+  refreshRadarPanel();
+  if(flyTo)B.pointOfView({lat:Number(cell.latitude),lng:Number(cell.longitude),altitude:.42},900);
+}
+function setRadarMode(mode){
+  radarMode=C3BRadarLayer.MODES[mode]?mode:'regional';
+  RADAR_VIEW&&RADAR_VIEW.setMode(radarMode);
+  refreshRadarPanel();
+}
+$('radarModes').addEventListener('click',event=>{
+  const button=event.target.closest('button');
+  if(button)setRadarMode(button.dataset.radarMode);
+});
+
+function projectC1ToGlobe(anchor){
+  if(anchor.lat==null||anchor.lng==null||typeof B.getScreenCoords!=='function')return null;
+  const point=B.getScreenCoords(Number(anchor.lat),Number(anchor.lng),.012);
+  const pov=B.pointOfView();
+  const lat1=Number(anchor.lat)*Math.PI/180,lat2=Number(pov.lat)*Math.PI/180;
+  const delta=(Number(anchor.lng)-Number(pov.lng))*Math.PI/180;
+  const facing=Math.sin(lat1)*Math.sin(lat2)+Math.cos(lat1)*Math.cos(lat2)*Math.cos(delta);
+  const horizon=1/(1+Math.max(.01,Number(pov.altitude)||2.4));
+  return {x:point.x,y:point.y,visible:facing>horizon-.03};
+}
+
+function setScene(scene){
+  const next=['natural','artificial','c1','map','c3a','c3b','viirs'].includes(scene)?scene:'natural';
+  const previous=SCENE;
+  const source=previous==='natural'?A:(previous==='artificial'||previous==='map'||previous==='c3a'||previous==='c3b')?B:leader;
+  const pov=source.pointOfView();
+  SCENE=next;
+  document.body.dataset.scene=SCENE;
+  if(MIGRATION_VIEW){if(SCENE==='c3a')MIGRATION_VIEW.show();else MIGRATION_VIEW.hide();}
+  if(RADAR_VIEW){if(SCENE==='c3b')RADAR_VIEW.show();else RADAR_VIEW.hide();}
+  $('sceneSwitch').querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scene===SCENE)));
+  markBucket=-1;
+  if(SCENE==='natural'){
+    A.pointOfView(pov,0); leader=A;
+    setLayerOpacity(.075,900);
+    $('mastTitle').textContent='The Night Is Already Alive';
+    $('mastCopy').textContent='Observed insect activity during natural nighttime conditions. Scroll to zoom; select a site to inspect evidence coverage.';
+    $('nightLegendTitle').textContent='Observed at night';
+    $('nightLegendNote').textContent='All points use equal size. Pulse timing is aesthetic and does not encode abundance, richness, or ALAN effect.';
+    $('iEvidence').textContent='These values describe dataset coverage at this coordinate. They do not measure global ecological intensity and do not indicate an ALAN effect.';
+    $('insectFoot').textContent='Night-only observations from 99 source studies. Daytime rows are excluded. Raw abundance is not compared across studies because sampling protocols and units differ.';
+    A.atmosphereColor('#263b35');
+    A.controls().autoRotate=true; A.controls().autoRotateSpeed=.28;
+    B.controls().autoRotate=false;
+    pauseIf(A,false); pauseIf(B,true);
+    A.ringsData(INSECTS); B.ringsData([]);
+    selectInsect(insectSel||INSECTS[0],false);
+  }else if(SCENE==='artificial'){
+    B.pointOfView(pov,0); leader=B;
+    setLayerOpacity(1,1700);
+    $('mastTitle').textContent='Artificial Night Enters the Habitat';
+    $('mastCopy').textContent='2024 VIIRS upward light appears beneath the same insect observation sites. Overlap indicates potential exposure, not measured biological impact.';
+    $('nightLegendTitle').textContent='Ecological overlap';
+    $('nightLegendNote').textContent='Equal-size points remain observation locations. The light slider changes display visibility only; it is not an exposure or effect scale.';
+    $('iEvidence').textContent='The 2024 light layer is shown beneath the same observation coordinates. Spatial overlap indicates potential exposure only; it does not prove biological change.';
+    $('insectFoot').textContent='This scene combines two observed layers: night insect sampling locations and 2024 VIIRS upward light. No causal effect is calculated from their overlap.';
+    A.atmosphereColor('#3a443d'); B.atmosphereColor('#3a5580');
+    A.controls().autoRotate=false;
+    B.controls().autoRotate=true; B.controls().autoRotateSpeed=.28;
+    pauseIf(A,true); pauseIf(B,false);
+    A.ringsData(INSECTS); B.ringsData(INSECTS);
+    selectInsect(insectSel||INSECTS[0],false);
+  }else if(SCENE==='c3a'){
+    B.pointOfView(pov,0); leader=B;
+    setLayerOpacity(1,800);
+    $('mastTitle').textContent='Migration Through Artificial Night';
+    $('mastCopy').textContent=`${C3A_DATA.meta.individual_count.toLocaleString()} tracked birds move through darker and brighter 2024 nighttime environments. Route geometry is observed; light is contextual.`;
+    A.atmosphereColor('#3a5580'); B.atmosphereColor('#3a5580');
+    A.controls().autoRotate=false; B.controls().autoRotate=false;
+    pauseIf(A,true); pauseIf(B,false);
+    A.ringsData([]); B.ringsData([]);
+    C1_VIEW&&C1_VIEW.setMode('effect');
+    refreshMigrationPanel();
+    selectMigration(migrationSelected||migrationRows()[0],false);
+    if(previous!=='c3a')B.pointOfView({lat:43,lng:-105,altitude:1.65},1300);
+  }else if(SCENE==='c3b'){
+    B.pointOfView(pov,0); leader=B;
+    setLayerOpacity(.38,800);
+    $('mastTitle').textContent='Measured Migration Response to Artificial Night';
+    $('mastCopy').textContent=`Weather radar maps a community-level stopover-density proxy across ${C3B_DATA.meta.model_cells_with_response.toLocaleString()} analysed cells. Switch scale to see the two published ALAN associations.`;
+    A.atmosphereColor('#3a5580'); B.atmosphereColor('#3a5580');
+    A.controls().autoRotate=false; B.controls().autoRotate=false;
+    pauseIf(A,true); pauseIf(B,false);
+    A.ringsData([]); B.ringsData([]);
+    C1_VIEW&&C1_VIEW.setMode('effect');
+    setRadarMode(radarMode);
+    selectRadar(radarSelected||RADAR_VIEW.defaultSelection(),false);
+    if(previous!=='c3b')B.pointOfView({lat:41.4,lng:-75.0,altitude:.55},1300);
+  }else if(SCENE==='c1'){
+    A.pointOfView(pov,0); B.pointOfView(pov,0); leader=A;
+    setLayerOpacity(.04,500);
+    $('mastTitle').textContent='What Changed';
+    $('mastCopy').textContent='The same global evidence temporarily reorganizes by biological process and effect magnitude. Return to Global evidence to see where each study belongs.';
+    $('effectCaveat').innerHTML='<b>How to read it:</b> farther right means a larger standardized difference. A positive or negative Hedges g follows the direction of the measured variable; it does not automatically mean “good” or “bad.”';
+    $('effectFoot').textContent='Every dot is one reported effect-size record. This is the analytical projection of the same C1 layer shown on the globe, not a separate dataset or a newly pooled meta-analysis.';
+    A.controls().autoRotate=false; B.controls().autoRotate=false;
+    pauseIf(A,true); pauseIf(B,true);
+    A.ringsData([]); B.ringsData([]);
+    refreshEffectPanel();
+    selectEffect(c1Selected||C1_DATA.effects[0]);
+    if(previous==='map')C1_VIEW.transitionTo('effect',1750);else C1_VIEW.setMode('effect');
+    requestAnimationFrame(()=>C1_VIEW&&C1_VIEW.resize());
+  }else if(SCENE==='map'){
+    B.pointOfView(pov,0); leader=B;
+    setLayerOpacity(1,900);
+    $('mastTitle').textContent='Global Biological Evidence';
+    $('mastCopy').textContent=`${C1_DATA.meta.anchor_group_count.toLocaleString()} study-location groups sit on the 2024 VIIRS globe: ${C1_DATA.meta.exact_anchor_group_count.toLocaleString()} point-ready and ${C1_DATA.meta.context_anchor_group_count.toLocaleString()} shown as regional or country context.`;
+    $('effectCaveat').innerHTML='<b>How to read geography:</b> solid cores are field studies; open cores are laboratory studies. Dashed and dotted halos are intentionally imprecise regional or country context.';
+    $('effectFoot').textContent='Select a study-location anchor to expand its reported effect records around that place. The globe is a shared geographic context; local VIIRS brightness is not treated as the study exposure.';
+    A.atmosphereColor('#3a5580'); B.atmosphereColor('#3a5580');
+    A.controls().autoRotate=false; B.controls().autoRotate=false;
+    pauseIf(A,true); pauseIf(B,false);
+    A.ringsData([]); B.ringsData([]);
+    const selectedLocated=c1Selected&&c1Selected.geo_context_available&&(c1Filter===C1EffectsLayer.allLabel||c1Selected.category===c1Filter);
+    const focus=selectedLocated?c1Selected:C1_DATA.effects.find(effect=>effect.geo_context_available&&(c1Filter===C1EffectsLayer.allLabel||effect.category===c1Filter));
+    if(focus)B.pointOfView({lat:focus.geo_lat,lng:focus.geo_lng,altitude:1.65},previous==='c1'?1500:0);
+    if(previous==='c1')C1_VIEW.transitionTo('map',2100);else C1_VIEW.setMode('map');
+    refreshEffectPanel();
+    selectEffect(focus||c1Selected||C1_DATA.effects[0]);
+  }else{
+    A.pointOfView(pov,0); B.pointOfView(pov,0); leader=A;
+    setLayerOpacity(1,450);
+    $('mastTitle').textContent='Earth After Dark';
+    $('mastCopy').textContent='Upward light, VIIRS annual composites at native 500 m. Drag the divider to compare 2012 with 2024; scroll to zoom.';
+    A.atmosphereColor('#3a5580'); B.atmosphereColor('#3a5580');
+    A.controls().autoRotate=false; B.controls().autoRotate=false;
+    pauseIf(A,split<=.001); pauseIf(B,split>=.999);
+    A.ringsData(sel?[sel]:[]); B.ringsData(sel?[sel]:[]);
+    if(sel)select(sel,false);
+  }
+  markers(A.pointOfView().altitude);
+}
+
+$('sceneSwitch').addEventListener('click',e=>{
+  const button=e.target.closest('button');
+  if(!button)return;
+  if(button.dataset.scene==='body'){location.href='body.html';return;}
+  setScene(button.dataset.scene);
+});
 
 /* ---------------- panel ---------------- */
 const pct=(a,b)=>a>0?(b/a-1)*100:0;
@@ -508,17 +1288,43 @@ addEventListener('keydown',e=>{
 });
 
 /* ---------------- boot ---------------- */
-function fit(){const s=$('stage');for(const g of [A,B]){g.width(s.clientWidth).height(s.clientHeight);g.__lod&&g.__lod();}}
+function fit(){
+  const s=$('stage');
+  for(const g of [A,B]){g.width(s.clientWidth).height(s.clientHeight);g.__lod&&g.__lod();}
+  C1_VIEW&&C1_VIEW.resize();
+}
 addEventListener('resize',fit); fit();
 fly({lat:24,lng:20,altitude:2.4},0);
 setSplit(.5);
 
-fetch('cities.json').then(r=>r.json()).then(async d=>{
-  DATA=d; markers(A.pointOfView().altitude);
+Promise.all([
+  fetch('cities.json').then(r=>{if(!r.ok)throw new Error(`City data failed to load: ${r.status}`);return r.json();}),
+  InsectNightLayer.load('data/insect_night_sites.json'),
+  C1EffectsLayer.load('data/c1_effects.json'),
+  C3AMigrationLayer.load('data/c3a_migration.json'),
+  C3BRadarLayer.load('data/c3b_radar.json')
+]).then(async ([d,insects,effects,migration,radar])=>{
+  DATA=d; INSECTS=insects; C1_DATA=effects; C3A_DATA=migration; C3B_DATA=radar;
+  C1_VIEW=C1EffectsLayer.create($('effectCanvas'),$('effectTooltip'),selectEffect);
+  C1_VIEW.setProjection(projectC1ToGlobe);
+  C1_VIEW.attachMapSurface($('stage'));
+  C1_VIEW.setData(C1_DATA);
+  MIGRATION_VIEW=C3AMigrationLayer.create(B,C3A_DATA,selectMigration);
+  RADAR_VIEW=C3BRadarLayer.create(B,C3B_DATA,selectRadar);
+  const categories=[C1EffectsLayer.allLabel,...C1_DATA.categories.map(item=>item.category)];
+  setEffectFilter(categories.includes(INITIAL_CATEGORY)?INITIAL_CATEGORY:C1EffectsLayer.allLabel);
+  const species=[C3AMigrationLayer.ALL,...C3A_DATA.species.map(item=>item.species)];
+  setMigrationFilter(species.includes(INITIAL_SPECIES)?INITIAL_SPECIES:C3AMigrationLayer.ALL);
+  setRadarMode(C3BRadarLayer.MODES[INITIAL_RADAR_MODE]?INITIAL_RADAR_MODE:'regional');
+  markers(A.pointOfView().altitude);
   sel=d.cities.find(c=>c.name==='Madrid')||d.cities[0];
   await Promise.all([setYear('A',iA),setYear('B',iB)]);
   select(sel,false);
+  setScene(INITIAL_SCENE);
   $('loading').classList.add('gone');
+}).catch(error=>{
+  console.error(error);
+  $('loading').textContent='Data failed to load';
 });
 </script>
 </body>

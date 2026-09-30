@@ -16,3 +16,11 @@ venv/
 # Environment variables / secrets
 .env
 .env.*
+
+# Local raw research datasets (kept outside Git)
+Linda/data/ALAN for habitat/
+Linda/data/Global insect diel dataset/
+Linda/data/birdweather/
+Linda/data/body data/
+Linda/data/movebank/
+Linda/data/spectrum-specific impacts of light pollution on biota/

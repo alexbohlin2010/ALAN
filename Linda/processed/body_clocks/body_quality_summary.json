@@ -1,0 +1,114 @@
+{
+  "generated_at": "2026-09-30T09:41:14-04:00",
+  "source_directory": "Linda/data/body data",
+  "subjects": {
+    "source_rows": 144,
+    "source_columns": 42,
+    "duplicate_composite_subject_ids": 0,
+    "bird_ids_reused_across_experiments": 26,
+    "missing_sampling_time": 5,
+    "unexpected_sampling_time": 0,
+    "treatment_counts": {
+      "A": 35,
+      "LD": 37,
+      "SA": 36,
+      "SLD": 36
+    },
+    "cohort_counts": {
+      "10/13/2023": 40,
+      "2/7/2023": 36,
+      "3/15/2023": 36,
+      "9/1/2023": 32
+    }
+  },
+  "behaviour": {
+    "raw_files": 37,
+    "hourly_rows": 21072,
+    "profile_rows": 2880,
+    "separator_rows_checked": 888,
+    "nonzero_separator_values": 0,
+    "invalid_file_shapes": [],
+    "metadata_treatment_fills": [
+      {
+        "experiment_start": "10/13/2023",
+        "cage": 4,
+        "filled_treatment": "SLD",
+        "source": "Social_ALAN.csv consensus"
+      }
+    ],
+    "blank_treatment_cage_days_skipped": 10,
+    "measurement_grain": "cage; social cages contain multiple birds"
+  },
+  "expression": {
+    "long_rows": 1152,
+    "valid_measurements": 712,
+    "missing_by_source_column": {
+      "BMAL": 50,
+      "CRY": 46,
+      "L_BMAL": 49,
+      "L_CRY": 48,
+      "L_PER2": 48,
+      "L_PER3": 48,
+      "PER2": 48,
+      "PER3": 46
+    },
+    "fall_per2_rows_excluded_to_match_source_analysis": 57,
+    "summary_rows": 64
+  },
+  "melatonin": {
+    "rows": 144,
+    "valid_measurements": 134,
+    "missing_measurements": 10,
+    "by_cohort_summary_rows": 21,
+    "scene_summary_rows": 8,
+    "scene_source_cohort": "melatonin_only",
+    "scene_primary_measurements": 24,
+    "raw_units_known": false
+  },
+  "activity_timing": {
+    "cage_day_rows": 756,
+    "conflicting_cage_day_values": 0,
+    "valid_rows": 400,
+    "partial_missing_rows": 61,
+    "missing_rows": 295
+  },
+  "correlations": {
+    "rows": 64,
+    "scope": "A versus SA, ZT1 and ZT13"
+  },
+  "checks": [
+    {
+      "name": "all behaviour files have 24 × 60 data rows plus one separator per cage",
+      "passed": true
+    },
+    {
+      "name": "all cage separator rows are blank or zero",
+      "passed": true
+    },
+    {
+      "name": "subject composite keys are unique",
+      "passed": true
+    },
+    {
+      "name": "all non-missing molecular sampling times are ZT1/7/13/19",
+      "passed": true
+    },
+    {
+      "name": "onset/offset duplicates agree within cage and experimental day",
+      "passed": true
+    },
+    {
+      "name": "both primary social treatments have 1,440 minute profile values",
+      "passed": true
+    },
+    {
+      "name": "both primary social treatments have all four molecular ZT markers",
+      "passed": true
+    },
+    {
+      "name": "both primary social treatments have all four melatonin ZT markers",
+      "passed": true
+    }
+  ],
+  "all_required_checks_passed": true
+}

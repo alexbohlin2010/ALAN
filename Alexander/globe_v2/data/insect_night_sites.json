@@ -1,0 +1,3674 @@
+{
+  "sites": [
+    {
+      "site_id": "site-01ddf274025a",
+      "lat": -12.416667,
+      "lng": 130.966667,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "darwin"
+      ],
+      "localities": [
+        "holmes jungle nature reserve (AMF)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-082c04b6b340",
+      "lat": 31.301945,
+      "lng": -82.472123,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "georgia"
+      ],
+      "localities": [
+        "upper satilla river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "ephemeroptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 14,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-0a253c6d6ab4",
+      "lat": 55.4462928,
+      "lng": 37.46701078,
+      "countries": [
+        "russia"
+      ],
+      "state_provinces": [
+        "moscow"
+      ],
+      "localities": [
+        "podolsky district"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-0a86fc32f396",
+      "lat": -0.677255,
+      "lng": 11.90973,
+      "countries": [
+        "gabon"
+      ],
+      "state_provinces": [
+        "la makande"
+      ],
+      "localities": [
+        "foret des abeilles"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "araneae",
+        "coleoptera",
+        "dermaptera",
+        "diptera",
+        "hemiptera",
+        "hymenoptera",
+        "lepidoptera",
+        "thysanoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 56,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-0c68b345e461",
+      "lat": -22.916666,
+      "lng": -42.583333,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "rio de janeiro"
+      ],
+      "localities": [
+        "mato grosso"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "ephemeroptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 8,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-0de86993337b",
+      "lat": 10.431424,
+      "lng": -84.007056,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "heredia"
+      ],
+      "localities": [
+        "finca la selva"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "apterygota",
+        "araneae",
+        "diptera",
+        "hemiptera",
+        "hymenoptera_formicidae",
+        "orthoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-125d86601f9e",
+      "lat": 44.75,
+      "lng": 123.75,
+      "countries": [
+        "china"
+      ],
+      "state_provinces": [
+        "jilin"
+      ],
+      "localities": [
+        "research station of songnen grassland ecosystem"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "acari",
+        "collembola"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-12e943e42d15",
+      "lat": 40.75,
+      "lng": -4.02,
+      "countries": [
+        "spain"
+      ],
+      "state_provinces": [
+        "madrid"
+      ],
+      "localities": [
+        "sierra de guadarrama"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-14dc7487974f",
+      "lat": 4.087358,
+      "lng": -52.68,
+      "countries": [
+        "french guiana"
+      ],
+      "state_provinces": [
+        "nouragues natural reserve"
+      ],
+      "localities": [
+        "les nouragues inselberg (NPF)",
+        "nourages biological field station"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 2,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-16862fcc835f",
+      "lat": 31.358648,
+      "lng": -82.036462,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "georgia"
+      ],
+      "localities": [
+        "lower satilla river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "ephemeroptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 19,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-1781accf44a9",
+      "lat": -18.020278,
+      "lng": -43.343611,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "minas gerais"
+      ],
+      "localities": [
+        "parque estadual do rio preto"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "savanna"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-21b8daf372c0",
+      "lat": 10.397388,
+      "lng": -83.995029,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "_braulio carrillo-la selva land corridor"
+      ],
+      "localities": [
+        "el salto",
+        "el sura"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-21de646e0a1e",
+      "lat": 44.95,
+      "lng": -109.483333,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "wyoming"
+      ],
+      "localities": [
+        "inlet run"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-293d57507aa9",
+      "lat": -20.449117,
+      "lng": 24.616467,
+      "countries": [
+        "botswana"
+      ],
+      "state_provinces": [
+        "north-eastern botswana"
+      ],
+      "localities": [
+        "makgadikgad pans national park"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-297954003088",
+      "lat": 41.604496,
+      "lng": 2.571118238,
+      "countries": [
+        "spain"
+      ],
+      "state_provinces": [
+        "madrid"
+      ],
+      "localities": [
+        "canet de mar"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-332982715df2",
+      "lat": 38.582819,
+      "lng": -2.000165,
+      "countries": [
+        "spain"
+      ],
+      "state_provinces": [
+        "southeast spain"
+      ],
+      "localities": [
+        "mundo river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 8,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-371a9fe97287",
+      "lat": 8.750556,
+      "lng": -3.816111,
+      "countries": [
+        "ivory coast"
+      ],
+      "state_provinces": [
+        "north-eastern ivory coast"
+      ],
+      "localities": [
+        "parc national de la comoe",
+        "parc national de la comoe (savanna site)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "savanna"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 2,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-39e3440ce6a0",
+      "lat": -43.55,
+      "lng": 170.9,
+      "countries": [
+        "new zealand"
+      ],
+      "state_provinces": [
+        "south island"
+      ],
+      "localities": [
+        "deep creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-3b7c7d71b687",
+      "lat": -21.26446104,
+      "lng": 47.41869089,
+      "countries": [
+        "madagascar"
+      ],
+      "state_provinces": [
+        "southeast madagascar"
+      ],
+      "localities": [
+        "ranomafana national park"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-3bb6d8225218",
+      "lat": 18.566667,
+      "lng": -95.066667,
+      "countries": [
+        "mexico"
+      ],
+      "state_provinces": [
+        "veracruz"
+      ],
+      "localities": [
+        "los tuxtlas"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-3c45d243d829",
+      "lat": 38.879605,
+      "lng": -106.797413,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "colorado"
+      ],
+      "localities": [
+        "cement creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "ephemeroptera",
+        "plecoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-3e2dd82c774b",
+      "lat": 43.11598931,
+      "lng": 131.4906009,
+      "countries": [
+        "russia"
+      ],
+      "state_provinces": [
+        "kedrovaya pad state natural biosphere reserve"
+      ],
+      "localities": [
+        "kedrovaya river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "ephemeroptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 12,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-3f15d1fa0a25",
+      "lat": 40.523871,
+      "lng": -105.267436,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "colorado"
+      ],
+      "localities": [
+        "buckhorn creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "ephemeroptera",
+        "plecoptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 5,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-3fe2ae5d887b",
+      "lat": -8.955556,
+      "lng": -38.200556,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "pernambuco"
+      ],
+      "localities": [
+        "tacaratu"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "shrubland"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-406a5927e38d",
+      "lat": 52.310976,
+      "lng": 0.293355,
+      "countries": [
+        "united kingdom"
+      ],
+      "state_provinces": [
+        "cambridgeshire"
+      ],
+      "localities": [
+        "wicken fen"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "wetland"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-42ffd99ae049",
+      "lat": 51.406142,
+      "lng": -0.940526,
+      "countries": [
+        "united kingdom"
+      ],
+      "state_provinces": [
+        "berkshire"
+      ],
+      "localities": [
+        "shinfield"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-4302b071d0fd",
+      "lat": 61.683404,
+      "lng": 6.849967,
+      "countries": [
+        "norway"
+      ],
+      "state_provinces": [
+        "_sogn og fjordane county"
+      ],
+      "localities": [
+        "glacial river",
+        "tributary"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river",
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-4603dcaadc70",
+      "lat": 50.355649,
+      "lng": 5.564848,
+      "countries": [
+        "belgium"
+      ],
+      "state_provinces": [
+        "_belgian ardenne"
+      ],
+      "localities": [
+        "aisne stream"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "ephemeroptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-46a02395a4d2",
+      "lat": 44.066282,
+      "lng": -114.53886,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "idaho"
+      ],
+      "localities": [
+        "little boulder creek (meadow site)"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-4bf97eb16ca7",
+      "lat": 12.508,
+      "lng": 74.9882,
+      "countries": [
+        "india"
+      ],
+      "state_provinces": [
+        "kerala"
+      ],
+      "localities": [
+        "western ghats"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest",
+        "mixed.use"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-4ca8f98e06e9",
+      "lat": -43.73333,
+      "lng": 172.05,
+      "countries": [
+        "new zealand"
+      ],
+      "state_provinces": [
+        "south island"
+      ],
+      "localities": [
+        "rakaia"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-4ea314aef87f",
+      "lat": 10.16059,
+      "lng": -84.0891,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "_braulio carrillo-la selva land corridor"
+      ],
+      "localities": [
+        "barva creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-5671e710a9b1",
+      "lat": 10.241247,
+      "lng": -84.015384,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "_braulio carrillo-la selva land corridor"
+      ],
+      "localities": [
+        "chiquiza",
+        "villalobos"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-59146147c76e",
+      "lat": -28.2,
+      "lng": -49.5,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "santa catarin"
+      ],
+      "localities": [
+        "são joaquim national park"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "mixed.use"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-5ba1ba48dc53",
+      "lat": 10.462867,
+      "lng": -84.028655,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "_braulio carrillo-la selva land corridor"
+      ],
+      "localities": [
+        "cano negro",
+        "cano san jose"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-5ce57be074a4",
+      "lat": 24.058611,
+      "lng": 55.7775,
+      "countries": [
+        "united arab emirates"
+      ],
+      "state_provinces": [
+        "al ain"
+      ],
+      "localities": [
+        "djebel haffete"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "dune"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-603cc5102638",
+      "lat": 61.054282,
+      "lng": 25.040983,
+      "countries": [
+        "finland"
+      ],
+      "state_provinces": [
+        "southern finland"
+      ],
+      "localities": [
+        "lammi biological station"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-61233746b169",
+      "lat": 4.9514,
+      "lng": 117.932733,
+      "countries": [
+        "borneo"
+      ],
+      "state_provinces": [
+        "sabah"
+      ],
+      "localities": [
+        "malua forest reserve (PSF)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-61b26bdfb220",
+      "lat": 11.14387,
+      "lng": -5.725556,
+      "countries": [
+        "ivory coast"
+      ],
+      "state_provinces": [
+        "volta river basin"
+      ],
+      "localities": [
+        "sikasso"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-61b761c7c16e",
+      "lat": 46.702228,
+      "lng": 8.388618,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "bernese oberland"
+      ],
+      "localities": [
+        "steinlimi"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-6205d97f7c52",
+      "lat": 39.789601,
+      "lng": -83.853834,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "ohio"
+      ],
+      "localities": [
+        "little miami river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-6370fbd36416",
+      "lat": -18.12884,
+      "lng": 145.681884,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "queensland"
+      ],
+      "localities": [
+        "kirrama state forest"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-64f064cf7872",
+      "lat": 21.683333,
+      "lng": 101.416667,
+      "countries": [
+        "china"
+      ],
+      "state_provinces": [
+        "yunnan"
+      ],
+      "localities": [
+        "xishuangbanna tropical botanical garden"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-68e3e81d1e7a",
+      "lat": 19.778427,
+      "lng": -96.43464419,
+      "countries": [
+        "mexico"
+      ],
+      "state_provinces": [
+        "veracruz"
+      ],
+      "localities": [
+        "palma sola"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-692041f61815",
+      "lat": -45.583333,
+      "lng": 168.083333,
+      "countries": [
+        "new zealand"
+      ],
+      "state_provinces": [
+        "south island"
+      ],
+      "localities": [
+        "weydon burn"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-6ac7e22fa1d2",
+      "lat": 9.153907024,
+      "lng": -79.84665607,
+      "countries": [
+        "panama"
+      ],
+      "state_provinces": [
+        "barro colorado island"
+      ],
+      "localities": [
+        "barro colorado island"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-6e856496aa97",
+      "lat": -0.6958,
+      "lng": -77.7318,
+      "countries": [
+        "ecuador"
+      ],
+      "state_provinces": [
+        "napo province"
+      ],
+      "localities": [
+        "hollin river"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "blattodea",
+        "coleoptera",
+        "diptera",
+        "hemiptera",
+        "hymenoptera",
+        "lepidoptera",
+        "orthoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 7,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-702ad83d6bf3",
+      "lat": -18.416667,
+      "lng": -49.216667,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "goiás"
+      ],
+      "localities": [
+        "itumbiara"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-721025f8652e",
+      "lat": -7.399712,
+      "lng": 146.733365,
+      "countries": [
+        "papua new guinea"
+      ],
+      "state_provinces": [],
+      "localities": [
+        "mount kaindi"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "araneae",
+        "blattodea",
+        "coleoptera",
+        "collembola",
+        "diptera",
+        "hemiptera",
+        "hymenoptera",
+        "hymenoptera_formicidae",
+        "lepidoptera",
+        "thysanoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 31,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-7459f756fb63",
+      "lat": 5.016667,
+      "lng": 117.816667,
+      "countries": [
+        "borneo"
+      ],
+      "state_provinces": [
+        "sabah"
+      ],
+      "localities": [
+        "danum valley conservation area"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 2,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-773cf7511793",
+      "lat": -2.8,
+      "lng": -79.15,
+      "countries": [
+        "ecuador"
+      ],
+      "state_provinces": [
+        "_cuenca"
+      ],
+      "localities": [
+        "_rio matadero"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-77722ebe0b3d",
+      "lat": 48.3175,
+      "lng": 22.250833,
+      "countries": [
+        "hungary"
+      ],
+      "state_provinces": [
+        "north-eastern hungary"
+      ],
+      "localities": [
+        "between tiszamogyorós and lónya"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-77bc3f6a6a3a",
+      "lat": -2.367687,
+      "lng": -59.993616,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "manaus"
+      ],
+      "localities": [
+        "biological dynamics forest fragments project"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-77db92fa8f75",
+      "lat": 41.657222,
+      "lng": 36.0675,
+      "countries": [
+        "turkey"
+      ],
+      "state_provinces": [
+        "samsun province"
+      ],
+      "localities": [
+        "kizilirmak delta"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "dune"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-7a89004a7155",
+      "lat": 44.701361,
+      "lng": 99.618162,
+      "countries": [
+        "mongolia"
+      ],
+      "state_provinces": [
+        "mongolian altai"
+      ],
+      "localities": [
+        "gurvan khuduk"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "desert"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-7b08d44e63c9",
+      "lat": 63.716667,
+      "lng": 37.45,
+      "countries": [
+        "russia"
+      ],
+      "state_provinces": [
+        "arkhangelsk"
+      ],
+      "localities": [
+        "gribanikha"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-7b170d087a00",
+      "lat": 4.207230947,
+      "lng": 114.0254575,
+      "countries": [
+        "borneo"
+      ],
+      "state_provinces": [
+        "sarawak"
+      ],
+      "localities": [
+        "lambir hills national park"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 2,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-7b2bcaaf58bd",
+      "lat": 44.074699,
+      "lng": -114.518452,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "idaho"
+      ],
+      "localities": [
+        "little boulder creek (canyon site)"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-7f4e35cd3d0d",
+      "lat": 0.566667,
+      "lng": 123.9,
+      "countries": [
+        "indonesia"
+      ],
+      "state_provinces": [
+        "sulawesi"
+      ],
+      "localities": [
+        "bogani nani wartabone national park: agricultural stream (AS)",
+        "bogani nani wartabone national park: irrigation canal (IC)",
+        "bogani nani wartabone national park: irrigation ditch (ID)",
+        "bogani nani wartabone national park: lower sungai tumpah (LT)",
+        "bogani nani wartabone national park: sungai toraut  (ST)",
+        "bogani nani wartabone national park: tumpah-toraut confluence (TT)",
+        "bogani nani wartabone national park: upper sungai tumpah (UT)",
+        "bogani nani wartabone national park: waterfall stream (WS)"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 16,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-8181738d6fdb",
+      "lat": 30.75,
+      "lng": -91.41666667,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "louisiana"
+      ],
+      "localities": [
+        "lower mississippi river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "ephemeroptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-8219a9745b29",
+      "lat": -37.55,
+      "lng": 145.7,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "victoria"
+      ],
+      "localities": [
+        "acheron river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-837a324dbb33",
+      "lat": 46.2184,
+      "lng": 9.0393,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "grisons",
+        "ticino"
+      ],
+      "localities": [
+        "moesa"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-83d804d0f59b",
+      "lat": 9.159711,
+      "lng": -79.848501,
+      "countries": [
+        "panama"
+      ],
+      "state_provinces": [
+        "barro colorado island"
+      ],
+      "localities": [
+        "barro colorado island"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-84436f2d0278",
+      "lat": 32.802014,
+      "lng": -109.633082,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "arizona"
+      ],
+      "localities": [
+        "san simon valley"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "shrubland"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-85d4f8334f01",
+      "lat": -35.100043,
+      "lng": 144.7993654,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "new south wales"
+      ],
+      "localities": [
+        "emmet vale"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-8a2f0c7764da",
+      "lat": 49.968922,
+      "lng": 17.89848,
+      "countries": [
+        "czech republic"
+      ],
+      "state_provinces": [
+        "silesia"
+      ],
+      "localities": [
+        "opava"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-8b6b024a4f63",
+      "lat": 8.752778,
+      "lng": -3.815833,
+      "countries": [
+        "ivory coast"
+      ],
+      "state_provinces": [
+        "north-eastern ivory coast"
+      ],
+      "localities": [
+        "parc national de la comoe (gallery forest site)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-8c10ad2ea7c6",
+      "lat": -28.217035,
+      "lng": 31.951661,
+      "countries": [
+        "south africa"
+      ],
+      "state_provinces": [
+        "natal"
+      ],
+      "localities": [
+        "hluhluwe game reserve"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-8eea29961186",
+      "lat": -12.883333,
+      "lng": -39.85,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "bahia"
+      ],
+      "localities": [
+        "milagres"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-92646db49df0",
+      "lat": 5.5,
+      "lng": -76.6,
+      "countries": [
+        "colombia"
+      ],
+      "state_provinces": [
+        "chocó"
+      ],
+      "localities": [
+        "iloró"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-9472159f4d0a",
+      "lat": -35.313631,
+      "lng": 148.860915,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "australian capital territory"
+      ],
+      "localities": [
+        "condor creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-96a5580a72cd",
+      "lat": 18.056695,
+      "lng": -66.044522,
+      "countries": [
+        "puerto rico"
+      ],
+      "state_provinces": [
+        "san lorenzo"
+      ],
+      "localities": [
+        "san lorenzo"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-99698ea72862",
+      "lat": 18.328333,
+      "lng": -97.458333,
+      "countries": [
+        "mexico"
+      ],
+      "state_provinces": [
+        "puebla"
+      ],
+      "localities": [
+        "tehuacán cuicatlán biosphere reserve"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "shrubland"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-9ada17fa6e37",
+      "lat": 39.689828,
+      "lng": -89.700576,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "illinois"
+      ],
+      "localities": [
+        "polecat creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a40f4d639f4e",
+      "lat": 18.374767,
+      "lng": -77.719345,
+      "countries": [
+        "jamaica"
+      ],
+      "state_provinces": [
+        "trelawny"
+      ],
+      "localities": [
+        "dromilly cave"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "cave"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a48c254822c4",
+      "lat": 46.400511,
+      "lng": 10.015354,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "grisons"
+      ],
+      "localities": [
+        "lago bianco"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a4d654eaf3d6",
+      "lat": 14.623639,
+      "lng": -60.968694,
+      "countries": [
+        "french west indies"
+      ],
+      "state_provinces": [
+        "petit morne"
+      ],
+      "localities": [
+        "lamentin"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "mixed.use"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a4f2fda8344f",
+      "lat": 35.00441,
+      "lng": -83.417128,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "north carolina"
+      ],
+      "localities": [
+        "franklin"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "apterygota",
+        "araneae",
+        "coleoptera",
+        "diptera",
+        "hemiptera",
+        "hymenoptera",
+        "lepidoptera",
+        "neuroptera",
+        "orthoptera",
+        "psocoptera",
+        "thysanoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 23,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a578c0ae7c9d",
+      "lat": 43.885,
+      "lng": 11.16,
+      "countries": [
+        "italy"
+      ],
+      "state_provinces": [
+        "florence"
+      ],
+      "localities": [
+        "florence"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "mixed.use"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a627a5d789eb",
+      "lat": 46.777206,
+      "lng": 9.970159,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "grisons"
+      ],
+      "localities": [
+        "jorisee"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-a894c15d84b6",
+      "lat": 10.433333,
+      "lng": -84.016666,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "la selva biological station"
+      ],
+      "localities": [
+        "sabalo stream"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 8,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-b4647cab3344",
+      "lat": 3.166667,
+      "lng": -65.666667,
+      "countries": [
+        "venezuela"
+      ],
+      "state_provinces": [
+        "amazonas"
+      ],
+      "localities": [
+        "surumoni"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-b4c919440976",
+      "lat": -0.648,
+      "lng": -77.88,
+      "countries": [
+        "ecuador"
+      ],
+      "state_provinces": [
+        "napo province"
+      ],
+      "localities": [
+        "cosanga"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "blattodea",
+        "coleoptera",
+        "diptera",
+        "hemiptera",
+        "hymenoptera",
+        "lepidoptera",
+        "orthoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 7,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-b54605ef2416",
+      "lat": -43.469068,
+      "lng": 172.049906,
+      "countries": [
+        "new zealand"
+      ],
+      "state_provinces": [
+        "south island"
+      ],
+      "localities": [
+        "hawkins"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-b726a5fe4f7c",
+      "lat": -12.503034,
+      "lng": 132.820311,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "northern territory"
+      ],
+      "localities": [
+        "magela creek"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-b7f0303f80a7",
+      "lat": -43.227279,
+      "lng": 171.591354,
+      "countries": [
+        "new zealand"
+      ],
+      "state_provinces": [
+        "south island"
+      ],
+      "localities": [
+        "ryton"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-bac4936cbeb4",
+      "lat": -22.409086,
+      "lng": -42.242966,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "sao paulo"
+      ],
+      "localities": [
+        "serra do mar"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-bc1342ac6787",
+      "lat": 16.733333,
+      "lng": -93.0,
+      "countries": [
+        "mexico"
+      ],
+      "state_provinces": [
+        "chiapas"
+      ],
+      "localities": [
+        "cañón del sumidero national park"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-bc8bf88d40ef",
+      "lat": 40.502136,
+      "lng": -104.435863,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "colorado"
+      ],
+      "localities": [
+        "central plains experimental range"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-c0cea3293cb8",
+      "lat": 10.20339,
+      "lng": -84.066376,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "_braulio carrillo-la selva land corridor"
+      ],
+      "localities": [
+        "la legua"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-c420a6235c52",
+      "lat": 50.9457083,
+      "lng": 5.436771985,
+      "countries": [
+        "belgium"
+      ],
+      "state_provinces": [
+        "genk"
+      ],
+      "localities": [
+        "nature reserve de maten"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "pond"
+      ],
+      "taxonomic_groups": [
+        "diptera",
+        "ephemeroptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-c56cde8e9d2b",
+      "lat": 56.276327,
+      "lng": -3.790248,
+      "countries": [
+        "united kingdom"
+      ],
+      "state_provinces": [
+        "scotland"
+      ],
+      "localities": [
+        "central scotland"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-ca39fd85e4eb",
+      "lat": 8.753611,
+      "lng": -3.817222,
+      "countries": [
+        "ivory coast"
+      ],
+      "state_provinces": [
+        "north-eastern ivory coast"
+      ],
+      "localities": [
+        "parc national de la comoe (river valley site)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-cacced952a36",
+      "lat": 46.383903,
+      "lng": 9.841007,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "grisons"
+      ],
+      "localities": [
+        "lej roseg"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-cb72dd8ae6a9",
+      "lat": -24.292604,
+      "lng": -47.455186,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "sao paulo"
+      ],
+      "localities": [
+        "vale do riberia"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-cf3e6cfa6a38",
+      "lat": -1.0728,
+      "lng": -77.7318,
+      "countries": [
+        "ecuador"
+      ],
+      "state_provinces": [
+        "napo province"
+      ],
+      "localities": [
+        "estacion biologica jatun sacha"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "blattodea",
+        "coleoptera",
+        "diptera",
+        "hemiptera",
+        "hymenoptera",
+        "lepidoptera",
+        "orthoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 7,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d02ce2ec2442",
+      "lat": -35.681011,
+      "lng": 141.890687,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "victoria"
+      ],
+      "localities": [
+        "wyperfeld national park"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d32bac86b951",
+      "lat": -21.292305,
+      "lng": -44.62501097,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "minas gerais"
+      ],
+      "localities": [
+        "itutinga hydroelectric power plant"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "river"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d39a7f399a9b",
+      "lat": 44.613808,
+      "lng": 8.844042,
+      "countries": [
+        "italy"
+      ],
+      "state_provinces": [
+        "piemonte"
+      ],
+      "localities": [
+        "po basin"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d443f4a54397",
+      "lat": 4.896667,
+      "lng": 117.696517,
+      "countries": [
+        "borneo"
+      ],
+      "state_provinces": [
+        "sabah"
+      ],
+      "localities": [
+        "danum valley conservation area (PPF)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d665e7ff3603",
+      "lat": 51.45239346,
+      "lng": 41.85112646,
+      "countries": [
+        "russia"
+      ],
+      "state_provinces": [
+        "voronezh"
+      ],
+      "localities": [
+        "gribanovsky district"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d67f28a10295",
+      "lat": 0.166667,
+      "lng": 37.01,
+      "countries": [
+        "kenya"
+      ],
+      "state_provinces": [
+        "naro moru"
+      ],
+      "localities": [
+        "naro moru river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-d702280ded4b",
+      "lat": 52.688225,
+      "lng": 23.8143,
+      "countries": [
+        "poland"
+      ],
+      "state_provinces": [
+        "podlasie"
+      ],
+      "localities": [
+        "bia_owie_a primeval forest"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-dbb5a1ef0e6d",
+      "lat": -30.583333,
+      "lng": 151.733333,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "armidale"
+      ],
+      "localities": [
+        "imbota nature reserve"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-ddd808056e90",
+      "lat": -23.230792,
+      "lng": -46.955475,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "sao paulo"
+      ],
+      "localities": [
+        "serra do japi"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-dea4c04db26e",
+      "lat": -19.33805596,
+      "lng": -47.2862094,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "minas gerais"
+      ],
+      "localities": [
+        "natural patrimony particular reserve unidade de conservação galheiro"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "savanna"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-df34ebc8b35b",
+      "lat": -8.070556,
+      "lng": -34.962778,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "pernambuco"
+      ],
+      "localities": [
+        "recife"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-e043c39946c1",
+      "lat": -4.172474,
+      "lng": -69.936082,
+      "countries": [
+        "colombia"
+      ],
+      "state_provinces": [
+        "leticia"
+      ],
+      "localities": [
+        "yahuarcaca"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "ephemeroptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-e0bb597f9ddb",
+      "lat": 46.292523,
+      "lng": 8.859511,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "grisons"
+      ],
+      "localities": [
+        "guglia"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-e3a4ba2ccdce",
+      "lat": -37.326183,
+      "lng": 145.705151,
+      "countries": [
+        "australia"
+      ],
+      "state_provinces": [
+        "victoria"
+      ],
+      "localities": [
+        "acheron river"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 4,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-e434e6c78225",
+      "lat": 27.866667,
+      "lng": 85.3,
+      "countries": [
+        "nepal"
+      ],
+      "state_provinces": [
+        "east-central nepal"
+      ],
+      "localities": [
+        "likhu khola"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "ephemeroptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 6,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-e46f14ae97e8",
+      "lat": -0.216667,
+      "lng": -78.05,
+      "countries": [
+        "ecuador"
+      ],
+      "state_provinces": [
+        "oyacachi river basin"
+      ],
+      "localities": [
+        "piburja stream"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "acari",
+        "coleoptera",
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 8,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-e81bde2d4ae7",
+      "lat": 46.728163,
+      "lng": 8.432681,
+      "countries": [
+        "switzerland"
+      ],
+      "state_provinces": [
+        "bern"
+      ],
+      "localities": [
+        "steinsee"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-ea57b050f840",
+      "lat": 28.166666,
+      "lng": 85.5,
+      "countries": [
+        "nepal"
+      ],
+      "state_provinces": [
+        "east-central nepal"
+      ],
+      "localities": [
+        "langtang valley"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "ephemeroptera",
+        "plecoptera",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 7,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f108ae5dc679",
+      "lat": 43.819201,
+      "lng": -72.191223,
+      "countries": [
+        "united states of america"
+      ],
+      "state_provinces": [
+        "vermont"
+      ],
+      "localities": [
+        "childs pond"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "pond"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "hemiptera",
+        "odonata"
+      ],
+      "study_count": 1,
+      "measurement_count": 3,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f14e7d31493e",
+      "lat": 5.171822,
+      "lng": -52.655061,
+      "countries": [
+        "french guiana"
+      ],
+      "state_provinces": [
+        "kourou"
+      ],
+      "localities": [
+        "kourou (NSF)"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f244704f1709",
+      "lat": 10.346446,
+      "lng": -84.582851,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "la virgen"
+      ],
+      "localities": [
+        "finca la tigra"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "mixed.use"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f37faed8915e",
+      "lat": -1.07574,
+      "lng": -77.6478,
+      "countries": [
+        "ecuador"
+      ],
+      "state_provinces": [
+        "ecuadorian amazon"
+      ],
+      "localities": [
+        "between puerto napo and ahuano"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "insecta"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f397ac7cb6fd",
+      "lat": 13.333333,
+      "lng": -87.083333,
+      "countries": [
+        "el salvador"
+      ],
+      "state_provinces": [
+        "coastal el salvador"
+      ],
+      "localities": [
+        "la providencia"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "coleoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f46c8b8769a9",
+      "lat": 5.072915,
+      "lng": -53.043002,
+      "countries": [
+        "french guiana"
+      ],
+      "state_provinces": [
+        "french guiana"
+      ],
+      "localities": [
+        "petit saut"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-f93b04edbcac",
+      "lat": -30.467928,
+      "lng": 26.117686,
+      "countries": [
+        "south africa"
+      ],
+      "state_provinces": [
+        "karoo"
+      ],
+      "localities": [
+        "tussen die riviere nature reserve"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "grassland"
+      ],
+      "taxonomic_groups": [
+        "hymenoptera_formicidae"
+      ],
+      "study_count": 1,
+      "measurement_count": 1,
+      "has_abundance": false,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-fad8f5b7d2ff",
+      "lat": -22.56987841,
+      "lng": -43.40746332,
+      "countries": [
+        "brazil"
+      ],
+      "state_provinces": [
+        "rio de janeiro"
+      ],
+      "localities": [
+        "tingua biological reserve"
+      ],
+      "ecosystems": [
+        "terrestrial"
+      ],
+      "habitats": [
+        "forest"
+      ],
+      "taxonomic_groups": [
+        "diptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 2,
+      "has_abundance": true,
+      "has_richness": true,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    },
+    {
+      "site_id": "site-fdc7eaa13489",
+      "lat": 10.431467,
+      "lng": -84.007142,
+      "countries": [
+        "costa rica"
+      ],
+      "state_provinces": [
+        "_cordillera central"
+      ],
+      "localities": [
+        "la selva biological station"
+      ],
+      "ecosystems": [
+        "aquatic"
+      ],
+      "habitats": [
+        "stream"
+      ],
+      "taxonomic_groups": [
+        "coleoptera",
+        "diptera",
+        "ephemeroptera",
+        "odonata",
+        "trichoptera"
+      ],
+      "study_count": 1,
+      "measurement_count": 5,
+      "has_abundance": true,
+      "has_richness": false,
+      "global_activity_magnitude": null,
+      "global_activity_magnitude_status": "withheld_not_cross_study_comparable"
+    }
+  ]
+}

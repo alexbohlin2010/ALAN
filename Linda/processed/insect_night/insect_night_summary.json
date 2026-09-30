@@ -1,0 +1,21 @@
+{
+  "source_rows": 1512,
+  "source_columns": 32,
+  "night_rows": 593,
+  "canonical_measurements": 473,
+  "site_count": 123,
+  "study_count": 99,
+  "measurement_unit_count": 18,
+  "paired_measurement_groups": 120,
+  "inconsistent_abundance_pairs": 5,
+  "missing_sample_size_rows": 5,
+  "invalid_coordinate_rows": 0,
+  "exact_duplicate_rows": 0,
+  "activity_value_candidates": 360,
+  "relative_activity_candidates": 235,
+  "global_size_eligible_rows": 0,
+  "source_encoding": "MacRoman",
+  "output_encoding": "UTF-8",
+  "scope": "night-only observations",
+  "claim_boundary": "observed insect activity at night; no ALAN effect or nocturnal preference claim"
+}
