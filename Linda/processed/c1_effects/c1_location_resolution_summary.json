@@ -1,0 +1,23 @@
+{
+  "source_file": "Data_S1_Czarnecka_et_al..xlsx",
+  "effect_count": 4905,
+  "effect_records_with_location": 3930,
+  "effect_records_without_location": 975,
+  "location_coverage_percent": 80.12,
+  "unique_source_locations": 142,
+  "resolved_candidate_locations": 142,
+  "unresolved_locations": 0,
+  "country_context_locations": 30,
+  "region_context_locations": 69,
+  "point_geometry_candidates": 41,
+  "point_eligible_after_current_review": 36,
+  "locations_requiring_manual_review": 40,
+  "effect_records_by_geometry": {
+    "country_region": 1815,
+    "multi_point": 23,
+    "point": 860,
+    "region": 1232
+  },
+  "rule": "Countries and broad regions retain geocoder centers/bounds for context but are not exact study points.",
+  "geocoder": "OpenStreetMap Nominatim; candidate results cached locally for reproducibility."
+}

@@ -1,0 +1,28 @@
+{
+  "source_rows": {
+    "eastern_whip_poor_will": 2315,
+    "american_robin_gps": 584,
+    "american_robin_argos": 112
+  },
+  "retained_rows": {
+    "eastern_whip_poor_will": 288,
+    "american_robin_gps": 581,
+    "american_robin_argos": 97
+  },
+  "exclusions": {
+    "eastern_whip_poor_will": {
+      "movebank_not_visible": 64,
+      "not_source_classified_migration": 1963
+    },
+    "american_robin_gps": {
+      "biologically_impossible_speed_spike": 2,
+      "source_marked_outlier": 1
+    },
+    "american_robin_argos": {
+      "argos_near_gps_preferred_gps": 15
+    }
+  },
+  "route_segments_with_two_or_more_points": 136,
+  "singleton_segments_not_drawn_as_lines": 6,
+  "points_in_omitted_dark_tiles": 227
+}

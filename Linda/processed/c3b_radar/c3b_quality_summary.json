@@ -1,0 +1,28 @@
+{
+  "source": "Linda/data/ALAN for habitat/EL_data.csv",
+  "row_count": 628603,
+  "column_count": 14,
+  "valid_response_rows": 166296,
+  "missing_mean_vir_rows": 462307,
+  "missing_mean_vir_rate": 0.735451,
+  "exact_duplicate_rows": 0,
+  "unique_displayed_coordinates_all_rows": 63257,
+  "unique_displayed_coordinates_valid_response": 20823,
+  "valid_coordinate_collision_groups": 19776,
+  "maximum_source_cells_per_display_coordinate": 100,
+  "coordinate_precision_note": "The study used 1 x 1 km cells, but the supplied CSV text rounds UTM Y to 10 km increments and collapses many source cells onto one displayed coordinate. The globe therefore maps medians at approximate display coordinates, not reconstructed 1 km cell centers.",
+  "valid_response_ranges": {
+    "mean_vir": [
+      0.0123,
+      4.9764
+    ],
+    "latitude": [
+      36.54337,
+      46.73469
+    ],
+    "longitude": [
+      -82.59406,
+      -67.43129
+    ]
+  }
+}

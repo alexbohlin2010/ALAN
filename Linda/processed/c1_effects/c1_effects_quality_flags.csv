@@ -1,0 +1,43 @@
+effect_id,source_row,severity,flag,detail
+c1-effect-2224,2225,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-2225,2226,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-2226,2227,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-2328,2329,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-2584,2585,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-3290,3291,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-3291,3292,high,absolute_effect_mismatch,Source absolute-effect value does not equal abs(Effect size (ES)); processed effect_abs is recomputed from Effect size (ES).
+c1-effect-1249,1250,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1250,1251,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1295,1296,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1297,1298,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1298,1299,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1299,1300,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1300,1301,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1301,1302,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1302,1303,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1303,1304,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1304,1305,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1305,1306,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1306,1307,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1307,1308,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1308,1309,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1309,1310,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1701,1702,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1986,1987,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1987,1988,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-1988,1989,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3317,3318,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3318,3319,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3319,3320,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3320,3321,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3321,3322,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3686,3687,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3687,3688,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-3690,3691,medium,directional_value_not_included,A directional value exists although Included (directional ES) is blank; it is excluded from processed directional_effect.
+c1-effect-4590,4591,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.
+c1-effect-4591,4592,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.
+c1-effect-4592,4593,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.
+c1-effect-4593,4594,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.
+c1-effect-4594,4595,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.
+c1-effect-4595,4596,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.
+c1-effect-4596,4597,medium,night_lux_missing,Night-lux category is present but the numeric Night_Lux value is missing.

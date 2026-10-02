@@ -1,0 +1,136 @@
+record_id,severity,flag,detail
+insect-night-0137,medium,missing_sample_size,No positive sample_size is available.
+insect-night-0139,medium,missing_sample_size,No positive sample_size is available.
+insect-night-0145,medium,missing_sample_size,No positive sample_size is available.
+insect-night-0146,medium,missing_sample_size,No positive sample_size is available.
+insect-night-0653,medium,missing_sample_size,No positive sample_size is available.
+insect-night-0059,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0064,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-1004,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-1008,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0539,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0542,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0067,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0071,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0996,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0998,high,paired_mean_total_inconsistent,Reported mean differs by more than 5% from total/sample_size; reported mean is retained.
+insect-night-0005,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0014,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0018,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0024,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0036,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0039,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0045,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0057,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0064,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0066,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0071,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0078,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0079,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0086,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0091,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0096,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0098,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0105,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0110,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0120,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0124,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0126,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0134,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0151,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0155,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0169,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0182,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0183,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0188,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0194,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0202,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0215,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0217,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0226,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0231,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0234,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0237,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0246,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0251,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0252,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0259,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0265,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0271,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0275,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0277,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0284,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0287,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0296,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0299,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0302,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0307,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0313,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0340,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0348,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0388,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0394,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0397,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0407,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0409,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0413,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0424,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0432,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0440,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0447,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0460,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0466,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0517,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0526,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0527,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0535,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0539,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0551,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0557,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0561,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0568,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0572,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0579,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0591,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0615,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0628,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0640,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0646,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0656,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0666,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0669,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0673,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0681,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0686,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0687,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0792,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0799,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0810,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0816,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0830,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0833,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0837,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0846,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0854,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0861,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0870,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0879,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0882,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0889,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0895,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0900,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0902,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0912,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0919,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0947,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0952,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0954,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0961,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0966,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0973,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0978,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0982,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0985,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-0996,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-1004,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.
+insect-night-1441,low,noncanonical_duplicate_representation,A reported mean represents the same measurement context in the canonical table.

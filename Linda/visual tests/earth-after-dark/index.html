@@ -1,0 +1,432 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Earth After Dark</title>
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<style>
+:root{
+  --void:#05070c; --panel:#0b1017; --panel2:#0f1520; --line:#1b2431;
+  --ink:#e9ecf2; --muted:#7d8a9e;
+  --sodium:#ffa62b; --sodium-dim:#8a5a17; --cool:#7fb3ff;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Archivo",system-ui,-apple-system,Segoe UI,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--void);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+#app{display:grid;grid-template-columns:1fr 372px;height:100%;min-height:0}
+#stage{position:relative;min-width:0;min-height:0;overflow:hidden}
+#globe{position:absolute;inset:0}
+#globe canvas{display:block}
+
+/* ---- masthead ---- */
+#mast{position:absolute;top:0;left:0;padding:22px 24px;z-index:5;pointer-events:none;
+  padding-top:calc(22px + env(safe-area-inset-top,0px))}
+#mast h1{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+#mast p{margin:5px 0 0;font-size:12px;color:var(--muted);max-width:30ch;line-height:1.45}
+#yr{font-family:var(--mono);font-size:clamp(56px,9vw,104px);font-weight:500;line-height:.92;
+  letter-spacing:-.03em;margin-top:18px;color:var(--sodium);font-variant-numeric:tabular-nums}
+#yrsub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:2px}
+
+/* ---- transport ---- */
+#transport{position:absolute;left:24px;right:24px;bottom:0;z-index:5;display:flex;
+  align-items:center;gap:14px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+#play{width:42px;height:42px;flex:none;border-radius:50%;border:1px solid var(--line);
+  background:var(--panel);display:grid;place-items:center;transition:border-color .15s,background .15s}
+#play:hover{border-color:var(--sodium);background:var(--panel2)}
+#play svg{width:15px;height:15px;fill:var(--sodium)}
+#scrub{flex:1;min-width:0}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:none;height:24px;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--line)}
+input[type=range]::-moz-range-track{height:2px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+  background:var(--sodium);margin-top:-5.5px;box-shadow:0 0 0 4px rgba(255,166,43,.16)}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border:none;border-radius:50%;
+  background:var(--sodium);box-shadow:0 0 0 4px rgba(255,166,43,.16)}
+input[type=range]:focus-visible{outline:2px solid var(--sodium);outline-offset:4px}
+#ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;
+  color:var(--muted);margin-top:1px}
+
+/* ---- panel ---- */
+#panel{background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;
+  min-height:0;padding-top:env(safe-area-inset-top,0px)}
+#phead{padding:20px 20px 14px;border-bottom:1px solid var(--line)}
+#pname{font-size:23px;font-weight:800;letter-spacing:-.02em;margin:0;text-wrap:balance}
+#pmeta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+#deltas{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.d{background:var(--panel);padding:12px 10px}
+.d b{display:block;font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums}
+.d span{display:block;font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.04em;
+  text-transform:uppercase}
+.up{color:var(--sodium)} .down{color:var(--cool)}
+
+#charts{padding:16px 20px 4px;display:flex;flex-direction:column;gap:15px}
+.ch h3{margin:0 0 2px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.ch h3 em{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--ink);letter-spacing:0}
+.ch svg{display:block;width:100%;height:46px;overflow:visible}
+
+#listwrap{flex:1;min-height:0;overflow-y:auto;border-top:1px solid var(--line);margin-top:12px}
+#listlabel{position:sticky;top:0;background:var(--panel);padding:11px 20px 7px;font-size:10px;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;z-index:1;
+  border-bottom:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:10px;padding:7px 20px;width:100%;text-align:left;
+  border-bottom:1px solid rgba(27,36,49,.5);transition:background .12s}
+.row:hover{background:var(--panel2)}
+.row[aria-current=true]{background:var(--panel2);box-shadow:inset 2px 0 0 var(--sodium)}
+.row i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);width:20px;flex:none}
+.row .nm{flex:1;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .vl{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;flex:none}
+.bar{width:44px;height:3px;flex:none;background:var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;top:0;bottom:0;left:50%;background:var(--sodium)}
+.bar i.neg{background:var(--cool)}
+
+#foot{padding:11px 20px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted);
+  line-height:1.5;padding-bottom:calc(11px + env(safe-area-inset-bottom,0px))}
+
+#loading{position:absolute;inset:0;display:grid;place-items:center;background:var(--void);
+  z-index:10;font-family:var(--mono);font-size:12px;color:var(--muted);transition:opacity .5s}
+#loading.gone{opacity:0;pointer-events:none}
+
+.tip{font-family:var(--mono);font-size:11px;background:#0d1219;border:1px solid var(--line);
+  padding:5px 8px;color:var(--ink);white-space:nowrap}
+
+@media (max-width:900px){
+  body{overflow:auto}
+  #app{display:block;height:auto}
+  #stage{height:64vh;min-height:380px}
+  #panel{border-left:none;border-top:1px solid var(--line)}
+  #listwrap{overflow:visible;max-height:none}
+  #yr{font-size:60px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="app">
+  <div id="stage">
+    <div id="globe"></div>
+    <div id="mast">
+      <h1>Earth After Dark</h1>
+      <p>Light escaping upward, measured nightly by VIIRS. Drag to rotate; click a city.</p>
+      <div id="yr">2024</div>
+      <div id="yrsub">ANNUAL COMPOSITE · nW/cm²/sr</div>
+    </div>
+    <div id="transport">
+      <button id="play" aria-label="Play through the years">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path id="pico" d="M3 1.5l11 6.5-11 6.5z"/></svg>
+      </button>
+      <div id="scrub">
+        <input id="slider" type="range" min="0" max="12" value="12" step="0.01" aria-label="Year">
+        <div id="ticks"><span>2012</span><span>2018</span><span>2024</span></div>
+      </div>
+    </div>
+    <div id="loading">loading 13 years…</div>
+  </div>
+
+  <aside id="panel">
+    <div id="phead">
+      <h2 id="pname">Baghdad</h2>
+      <div id="pmeta"></div>
+    </div>
+    <div id="deltas">
+      <div class="d"><b id="dTot">—</b><span>Total light</span></div>
+      <div class="d"><b id="dAre">—</b><span>Lit area</span></div>
+      <div class="d"><b id="dInt">—</b><span>Intensity</span></div>
+    </div>
+    <div id="charts">
+      <div class="ch"><h3>Total upward light <em id="e1"></em></h3><svg id="c1" viewBox="0 0 320 46" preserveAspectRatio="none"></svg></div>
+      <div class="ch"><h3>Lit area <em id="e2"></em></h3><svg id="c2" viewBox="0 0 320 46" preserveAspectRatio="none"></svg></div>
+      <div class="ch"><h3>Intensity where lit <em id="e3"></em></h3><svg id="c3" viewBox="0 0 320 46" preserveAspectRatio="none"></svg></div>
+    </div>
+    <div id="listwrap">
+      <div id="listlabel">50 cities · change 2012–2024</div>
+      <div id="list"></div>
+    </div>
+    <div id="foot">
+      VIIRS Day/Night Band, 500 m. The sensor reads one band centred at 705 nm and
+      cannot see colour — a sodium-to-LED conversion registers as dimming even at
+      constant brightness. Madrid’s −23% is partly that artefact.
+      Auroral glow has been detected and removed: 7 events, 2012 and 2023–24.
+    </div>
+  </aside>
+</div>
+
+<script src="vendor/globe.gl.min.js"></script>
+<script>
+const YEARS=[2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+const LAST=YEARS.length-1, SPAN=1.9;            // seconds per year of playback
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let DATA=null,world=null,sel=null;
+let pos=LAST, idx=LAST;                          // pos is continuous, idx is the rounded year
+let playing=false,raf=null,settleT=null,lastIdx=-1,RENDERER=null,grabbed=false,fbIdx=-1,allWarm=false;
+
+const fmtPct=v=>(v>0?'+':'')+v.toFixed(0)+'%';
+const setDelta=(el,v)=>{el.textContent=fmtPct(v);el.className=v<0?'down':'up';};
+
+/* ---------- panel ---------- */
+function spark(svg,vals,unit,fix){
+  const W=320,H=46,P=5;
+  const lo=Math.min(...vals),hi=Math.max(...vals),rng=(hi-lo)||1;
+  const X=i=>P+i*(W-2*P)/(vals.length-1), Y=v=>H-P-((v-lo)/rng)*(H-2*P);
+  const pts=vals.map((v,i)=>[X(i),Y(v)]);
+  const line=pts.map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join('');
+  const up=vals[LAST]>=vals[0], col=up?'var(--sodium)':'var(--cool)';
+  const cx=X(pos), cy=Y(vals[Math.floor(pos)]+(vals[Math.min(Math.ceil(pos),LAST)]-vals[Math.floor(pos)])*(pos-Math.floor(pos)));
+  svg.innerHTML=
+    `<defs><linearGradient id="g${svg.id}" x1="0" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="${col}" stop-opacity=".28"/>
+       <stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>`+
+    `<path d="${line}L${W-P} ${H-P}L${P} ${H-P}Z" fill="url(#g${svg.id})"/>`+
+    `<path d="${line}" fill="none" stroke="${col}" stroke-width="1.5"
+       vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
+    `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="2.6" fill="${col}"/>`;
+  return vals[idx].toFixed(fix)+unit;
+}
+function paint(){
+  if(!sel)return;
+  $('pname').textContent=sel.name;
+  $('pmeta').textContent=sel.nights.toLocaleString()+' clear nights · '+
+    sel.lat.toFixed(1)+'°, '+sel.lng.toFixed(1)+'°';
+  setDelta($('dTot'),sel.dTotal); setDelta($('dAre'),sel.dArea); setDelta($('dInt'),sel.dInt);
+  $('e1').textContent=spark($('c1'),sel.total,'k',0);
+  $('e2').textContent=spark($('c2'),sel.litkm2,' km²',0);
+  $('e3').textContent=spark($('c3'),sel.meanlit,'',1);
+  document.querySelectorAll('.row').forEach(r=>
+    r.setAttribute('aria-current',String(r.dataset.k===sel.key)));
+}
+function select(c,fly){
+  sel=c; paint();
+  if(world){world.ringsData([c]);
+    if(fly)world.pointOfView({lat:c.lat,lng:c.lng,altitude:1.5},900);}
+}
+
+/* ---------- textures: GPU cross-fade between two spheres ---------- */
+const IMG={},TEX={};
+let base=null,over=null,overMesh=null,TexCtor=null,proto=null,MAXA=1,ready=false,hiYear=null;
+
+function tex(y){
+  if(TEX[y])return TEX[y];
+  const t=new TexCtor(IMG[y]);
+  t.colorSpace=proto.colorSpace; t.wrapS=proto.wrapS; t.wrapT=proto.wrapT;
+  t.minFilter=proto.minFilter; t.magFilter=proto.magFilter;
+  t.anisotropy=MAXA; t.needsUpdate=true;
+  TEX[y]=t; return t;
+}
+function trim(keep){                              // keep VRAM bounded
+  if(allWarm)return;                              // every year already uploaded
+  for(const k of Object.keys(TEX)){
+    if(!keep.includes(k) && k!==String(hiYear) && k!=='hi'+hiYear){
+      TEX[k].dispose(); delete TEX[k];
+    }
+  }
+}
+function warm(i){                                 // upload the next year early so the
+  if(i<0||i>LAST||!RENDERER)return;               // year boundary doesn't drop frames
+  const t=tex(String(YEARS[i]));
+  if(!t.__warm){try{RENDERER.initTexture(t);t.__warm=true;}catch(e){}}
+}
+function show(p){                                 // p: continuous 0..LAST
+  pos=Math.max(0,Math.min(LAST,p));
+  const a=Math.floor(pos), b=Math.min(a+1,LAST), t=pos-a;
+  idx=Math.round(pos);
+  $('yr').textContent=YEARS[idx];
+  $('yrsub').textContent = t>0.02&&t<0.98
+    ? YEARS[a]+' → '+YEARS[b]+' · BLENDED'
+    : 'ANNUAL COMPOSITE · nW/cm²/sr';
+  $('slider').value=pos;
+  if(ready){
+    const ka=String(YEARS[a]), kb=String(YEARS[b]);
+    base.map=tex(ka);                       // no needsUpdate: the uniform refreshes
+    over.map=tex(kb);                       // on its own, and the flag costs 85ms
+    over.opacity=(a===b)?0:t;
+    overMesh.visible=over.opacity>0.002;    // skip the draw call when fully faded
+    const win=[a-1,a,b,b+1].filter(i=>i>=0&&i<=LAST).map(i=>String(YEARS[i]));
+    trim(win);
+    if(playing)warm(b+1);
+  }else if(world&&idx!==fbIdx){
+    fbIdx=idx;                              // once per year, never per frame
+    world.globeImageUrl('mid/'+YEARS[idx]+'.webp');
+  }
+  if(idx!==lastIdx){lastIdx=idx; paint();}  // rebuilding 3 SVGs per frame is wasteful
+}
+
+/* ---------- playback: one pass, stops at 2024 ---------- */
+function stop(){
+  playing=false; clearInterval(raf); raf=null;
+  world.controls().autoRotate=false;
+  $('pico').setAttribute('d','M3 1.5l11 6.5-11 6.5z');
+  $('play').setAttribute('aria-label','Play through the years');
+  settle();
+}
+function play(){
+  if(pos>=LAST-0.001)pos=0;                       // replay from the start
+  playing=true;
+  $('pico').setAttribute('d','M3 2h3.5v12H3zM9.5 2H13v12H9.5z');
+  $('play').setAttribute('aria-label','Pause');
+  clearTimeout(settleT);
+  show(pos);                                // rebind a live texture BEFORE disposing
+  dropHi();                                 // the sharpened one it may still point at
+  grabbed=false;
+  if(!reduce)world.controls().autoRotate=true;
+
+  // Driven by a timer against the wall clock rather than requestAnimationFrame:
+  // rAF is suspended outright when the page is considered hidden, and an
+  // embedded artifact can be treated that way even while you are looking at it.
+  // Deriving pos from elapsed time also keeps the 23s run honest at any frame rate.
+  const t0=performance.now(), p0=pos;
+  const R=world.renderer(), sc=world.scene(), cam=world.camera();
+  raf=setInterval(()=>{
+    const next=p0+((performance.now()-t0)/1000)/SPAN;
+    if(next>=LAST){show(LAST); stop(); return;}
+    show(next);
+    try{R.render(sc,cam);}catch(e){}         // paint even if the host throttled rAF
+  },33);
+}
+
+/* ---------- 8192px upgrade once the view settles ---------- */
+function dropHi(){
+  if(hiYear===null)return;
+  const k='hi'+hiYear; hiYear=null;
+  if(TEX[k]){
+    if(base&&base.map===TEX[k])return;      // still on screen - leave it be
+    TEX[k].dispose(); delete TEX[k];
+  }
+}
+function settle(){
+  clearTimeout(settleT);
+  settleT=setTimeout(()=>{
+    if(playing||!ready)return;
+    const frac=Math.abs(pos-Math.round(pos));
+    if(frac>0.01)return;                          // only sharpen on a real year
+    const y=YEARS[Math.round(pos)];
+    if(hiYear===y)return;
+    const im=new Image();
+    im.onload=()=>{
+      if(playing||YEARS[Math.round(pos)]!==y)return;
+      dropHi(); IMG['hi'+y]=im; hiYear=y;
+      const t=new TexCtor(im);
+      t.colorSpace=proto.colorSpace; t.wrapS=proto.wrapS; t.wrapT=proto.wrapT;
+      t.minFilter=proto.minFilter; t.magFilter=proto.magFilter;
+      t.anisotropy=MAXA; t.needsUpdate=true;
+      TEX['hi'+y]=t; base.map=t;
+      over.opacity=0; if(overMesh)overMesh.visible=false;
+    };
+    im.src='hi/'+y+'.webp';
+  },420);
+}
+
+async function preupload(){
+  // ~100ms per 4096x2048 texture, nearly all of it mipmap generation. Paying all
+  // 13 here, behind the loader, means playback never stalls to upload one.
+  if(!ready||!RENDERER)return;
+  if(navigator.deviceMemory&&navigator.deviceMemory<8)return;   // ~580MB resident
+  for(let i=0;i<YEARS.length;i++){
+    const t=tex(String(YEARS[i]));
+    try{RENDERER.initTexture(t);t.__warm=true;}catch(e){}
+    $('loading').textContent='preparing '+(i+1)+' / '+YEARS.length;
+    await new Promise(r=>setTimeout(r,0));                      // let the loader repaint
+  }
+  allWarm=true;
+}
+
+/* ---------- boot ---------- */
+function buildList(){
+  $('list').innerHTML='';
+  const mx=Math.max(...DATA.cities.map(c=>Math.abs(c.dTotal)));
+  DATA.cities.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='row'; b.dataset.k=c.key; b.type='button';
+    const w=Math.abs(c.dTotal)/mx*50, neg=c.dTotal<0;
+    b.innerHTML=`<i>${i+1}</i><span class="nm">${c.name}</span>`+
+      `<span class="bar"><i class="${neg?'neg':''}" style="width:${w.toFixed(1)}%;${neg?'right:50%;left:auto':''}"></i></span>`+
+      `<span class="vl ${neg?'down':'up'}">${fmtPct(c.dTotal)}</span>`;
+    b.onclick=()=>select(c,true);
+    $('list').appendChild(b);
+  });
+}
+
+fetch('cities.json').then(r=>r.json()).then(d=>{
+  DATA=d; buildList(); sel=d.cities[0]; paint();
+
+  world=Globe({rendererConfig:{antialias:true}})(document.getElementById('globe'))
+    .globeImageUrl('mid/2024.webp')
+    .backgroundColor('rgba(0,0,0,0)')
+    .showAtmosphere(true).atmosphereColor('#3f5f92').atmosphereAltitude(0.13)
+    .pointsData(d.cities).pointLat('lat').pointLng('lng')
+    .pointColor(c=>c.dTotal<0?'rgba(127,179,255,.92)':'rgba(255,166,43,.92)')
+    .pointAltitude(0.01).pointRadius(0.26)
+    .pointLabel(c=>`<div class="tip">${c.name} &nbsp;${fmtPct(c.dTotal)}</div>`)
+    .onPointClick(c=>select(c,true))
+    .ringsData([d.cities[0]]).ringLat('lat').ringLng('lng')
+    .ringColor(()=>t=>`rgba(255,166,43,${1-t})`)
+    .ringMaxRadius(3.2).ringPropagationSpeed(1.6).ringRepeatPeriod(1300);
+
+  const R=world.renderer();
+  R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  MAXA=R.capabilities.getMaxAnisotropy();
+  RENDERER=R;
+  world.controls().autoRotate=false;        // still at rest - the user drives
+  world.controls().autoRotateSpeed=0.30;
+  world.controls().enableDamping=true;
+  // taking hold of the globe ends the drift for the rest of this pass
+  const cv=document.querySelector('#globe canvas');
+  if(cv)cv.addEventListener('pointerdown',()=>{grabbed=true;world.controls().autoRotate=false;});
+  const fit=()=>{const s=$('stage');world.width(s.clientWidth).height(s.clientHeight);};
+  fit(); addEventListener('resize',fit);
+  world.pointOfView({lat:24,lng:20,altitude:2.4});
+
+  // preload the animation tier
+  let left=YEARS.length;
+  YEARS.forEach(y=>{const im=new Image();
+    im.onload=im.onerror=()=>{IMG[String(y)]=im; if(--left===0)armed();};
+    im.src='mid/'+y+'.webp';});
+
+  // take over the globe material once globe.gl has loaded its first texture,
+  // then blend between two spheres on the GPU instead of swapping images
+  function armed(){
+    let tries=0;
+    const grab=setInterval(()=>{
+      if(++tries>150){clearInterval(grab);$('loading').classList.add('gone');show(LAST);return;}
+      const m=world.globeMaterial();
+      if(!(m&&m.map&&m.map.image))return;           // texture not decoded yet
+      let mesh=null;
+      world.scene().traverse(o=>{if(o.isMesh&&o.material===m)mesh=o;});
+      if(!(mesh&&mesh.parent))return;               // mesh not mounted yet - keep waiting
+
+      clearInterval(grab);
+      proto=m.map; TexCtor=m.map.constructor;
+      try{
+        // globe.gl leaves material.color null, which makes clone() throw.
+        // Borrow a Color constructor from emissive and set the identity white.
+        if(m.color===null)m.color=new m.emissive.constructor(0xffffff);
+        const ov=mesh.clone();
+        ov.material=m.clone();
+        ov.material.transparent=true; ov.material.depthWrite=false;
+        ov.material.opacity=0; ov.renderOrder=1; ov.visible=false;
+        ov.scale.setScalar(1.0015);
+        mesh.parent.add(ov);
+        base=m; over=ov.material; overMesh=ov; ready=true;
+      }catch(e){ready=false;console.warn('blend unavailable:',e);}
+      preupload().then(()=>{
+        $('loading').classList.add('gone');
+        show(LAST); settle();
+      });
+    },100);
+  }
+  setTimeout(()=>$('loading').classList.add('gone'),12000);
+});
+
+$('slider').oninput=e=>{if(playing)stop(); dropHi(); show(+e.target.value); settle();};
+$('play').onclick=()=>playing?stop():play();
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'){if(playing)stop();show(Math.round(pos)-1);settle();}
+  if(e.key==='ArrowRight'){if(playing)stop();show(Math.round(pos)+1);settle();}
+  if(e.key===' '&&e.target===document.body){e.preventDefault();playing?stop():play();}
+});
+</script>
+
+</body></html>
