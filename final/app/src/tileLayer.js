@@ -40,9 +40,15 @@ const vertexShader = /* glsl */`
 // Global run (human 2026-10-03): the grid is a PNG with a JSON sidecar (extent, fallback
 // thresholds). Once loaded, the year's thresholds become the global fallback from the sidecar.
 const GRID_URL = '/colour/global_white_share_grid.json';
-const RAMP_TINTS = [[1.0, 0.5529, 0.0838], [1.0, 0.8317, 0.649]];  // 2000 K, 4000 K
+const RAMP_TINTS = [[1.0, 0.5529, 0.0838], [1.0, 0.7499, 0.4789]];  // 2000 K, 3200 K (display_tints.json "ramp_white"; white was 4000 K, then 3000 K, human 2026-10-04)
 const RAMP_THRESHOLDS = [248, 219];  // grey levels, 2015, 2025
 const RAMP_BLEND = 8;
+// Colour modes (human 2026-10-04, AI_LOG colour steps 64, 67): DEFAULT = place (B) with 1/20 deg blocks
+// (human: "make B the default"). URL ?ramp= brightest (rule above) | place = B: a pixel block (1/20 deg, or 1/N deg with ?block=N) is white if a fixed hash of its
+//   position < the cell's white share | blend = C: every pixel gets one tint mixed by the share.
+// Share = mix(fallback share, cell share, coverage); cell shares from global_white_share_values.png.
+const RAMP_BLOCKS = Number(new URLSearchParams(location.search).get('block')) || 20;  // blocks per degree (place mode), default 20 = ~5 km (human 2026-10-04)
+const RAMP_MODE = { brightest: 0, place: 1, blend: 2 }[new URLSearchParams(location.search).get('ramp')] ?? 1;  // default place (B), human 2026-10-04
 const fragmentShader = /* glsl */`
   uniform sampler2D map;
   uniform float uSwipeX;      // divider position in device pixels
@@ -52,6 +58,10 @@ const fragmentShader = /* glsl */`
   uniform float uBlend;       // blend half-width (0-1)
   uniform sampler2D uGrid;    // regional thresholds + coverage (see GRID_URL)
   uniform vec4 uGridBox;      // west, north, east, south of the grid's outer cell edges
+  uniform sampler2D uShare;   // PROTOTYPE: R/G = cell white share 2015/2025
+  uniform vec2 uFbShare;      // PROTOTYPE: fallback white share 2015/2025
+  uniform float uMode;        // PROTOTYPE: 0 brightest, 1 place, 2 blend
+  uniform float uBlocks;      // PROTOTYPE: place-mode blocks per degree
   varying vec2 vUv;
   varying vec2 vLonLat;
   void main() {
@@ -67,6 +77,13 @@ const fragmentShader = /* glsl */`
       ? texture2D(uGrid, gu) : vec4(0.0);
     float thr = mix(early ? uThresh.x : uThresh.y, early ? cell.r : cell.g, early ? cell.b : cell.a);
     float w = smoothstep(-uBlend, uBlend, g - thr);
+    if (uMode > 0.5) {
+      vec4 sc = (gu.x >= 0.0 && gu.x <= 1.0 && gu.y >= 0.0 && gu.y <= 1.0) ? texture2D(uShare, gu) : vec4(0.0);
+      float share = mix(early ? uFbShare.x : uFbShare.y, early ? sc.r : sc.g, early ? cell.b : cell.a);
+      vec2 blk = floor(vLonLat * uBlocks);
+      float h = fract(sin(dot(blk, vec2(12.9898, 78.233))) * 43758.5453);
+      w = uMode < 1.5 ? step(h, share) : share;
+    }
     vec3 c = g * mix(uTints[0], uTints[1], w);
     gl_FragColor = vec4(noData ? uNoDataColor : c, 1.0);
   }`;
@@ -85,6 +102,10 @@ export class TileLayer {
       uBlend: { value: RAMP_BLEND / 255 },
       uGrid: { value: new THREE.DataTexture(new Uint8Array(4), 1, 1) },
       uGridBox: { value: new THREE.Vector4(0, 1, 1, 0) },
+      uShare: { value: new THREE.DataTexture(new Uint8Array(4), 1, 1) },
+      uFbShare: { value: new THREE.Vector2(0, 0) },
+      uMode: { value: RAMP_MODE },
+      uBlocks: { value: RAMP_BLOCKS },
     };
     this.tiles = new Map();         // key -> { mesh, level, used }
     this.loading = new Set();
@@ -116,6 +137,13 @@ export class TileLayer {
     this.uniforms.uGridBox.value.set(e.west, e.north, e.east, e.south);
     this.uniforms.uThresh.value.set(d.epochs['2015'].fallback_grey_threshold / 255,
       d.epochs['2025'].fallback_grey_threshold / 255);
+    if (d.share_png) {  // PROTOTYPE colour modes (loaded always so dev can switch uMode live)
+      const s = new THREE.Texture(await this.loader.loadAsync(GRID_URL.replace(/[^/]+$/, d.share_png)));
+      s.magFilter = s.minFilter = THREE.LinearFilter; s.generateMipmaps = false; s.premultiplyAlpha = false;
+      s.needsUpdate = true;
+      this.uniforms.uShare.value = s;
+      this.uniforms.uFbShare.value.set(d.epochs['2015'].fallback_white_share, d.epochs['2025'].fallback_white_share);
+    }
   }
 
   // Geographic bounds of a tile, clipped to the raster extent; plus matching UVs.

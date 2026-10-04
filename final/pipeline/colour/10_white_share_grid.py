@@ -44,6 +44,10 @@ sodium vs white light, Iberia first, values `estimated`.
    Censo-Iluminacao-Publica-Brasil.pdf). Brazil is the largest country the 2025 fallback paints.
    `estimated` (one country's documented value used for all fallback regions).
 The shader blends each cell's threshold with the fallback by coverage.
+5. Share PNG (human 2026-10-04, "prototype B and C", AI_LOG colour step 64; display prototype): the
+   cell white share of step 2/3b (`estimated`) as <pilot>_white_share_values.png, R/G = share 2015/2025
+   x 255 (0 where coverage is 0 or < MIN_LIT lit pixels), B/A = coverage as in the grid PNG. Used by the
+   app's prototype colour modes (share by place, blend by share), which need the share, not the threshold.
 Writes data/derived/colour/<pilot>_white_share_grid.png (R/G = threshold 2015/2025, B/A = coverage
 2015/2025 x 255, row 0 = north) and <pilot>_white_share_grid.json (extent, parameters, fallbacks).
 Note: iberia_white_share_grid.json (Iberia, AI_LOG colour step 24) came from the earlier version of
@@ -205,7 +209,9 @@ def main():
     curve = json.loads(ramp.CURVE.read_text())
     w0, n0, e0, s0, nx, ny = grid_cells()
     meta = dict(extent=dict(west=w0, north=n0, east=e0, south=s0), step_deg=STEP_DEG, nx=nx, ny=ny,
-                png=f"{PILOT}_white_share_grid.png",
+                png=f"{PILOT}_white_share_grid.png", share_png=f"{PILOT}_white_share_values.png",
+                share_png_channels="R = white share 2015 x 255, G = white share 2025 x 255, B/A = coverage as png "
+                                   "(display prototype, human 2026-10-04)",
                 png_channels="R = grey threshold 2015, G = grey threshold 2025, B = coverage 2015 x 255, "
                              "A = coverage 2025 x 255; row 0 = north; cells without photos: 0",
                 params=dict(MIN_PIXELS=MIN_PIXELS, MIN_FOCAL_MM=MIN_FOCAL_MM, MAX_GR=MAX_GR, MAX_BG=MAX_BG,
@@ -218,7 +224,7 @@ def main():
                 frame_flags=ff.name if ff.exists() else None,
                 share_source=SHARE_SOURCE + (f" ({PILOT}_thumb_cct.csv white_share)" if SHARE_SOURCE == "cct" else ""),
                 note="human request 2026-10-03; see pipeline/colour/METHOD.md", epochs={})
-    png = np.zeros((4, ny, nx), np.uint8)
+    png = np.zeros((4, ny, nx), np.uint8); spng = np.zeros((4, ny, nx), np.uint8)
     for k, ep in enumerate(EPOCHS):
         u = [s for s in shares if s["epoch"] == str(ep) and s["white_share"] != ""]
         p = [s for s in u if s["photo_id"] not in excl]
@@ -245,6 +251,8 @@ def main():
         thr[sel] = quantile_from_hist(Hs.reshape(-1, 256)[sel], 1 - share.ravel()[sel])
         cov[sel] = cov_t.ravel()[sel]
         png[k] = thr.reshape(ny, nx); png[2 + k] = np.round(255 * cov).reshape(ny, nx)
+        sh = np.zeros(ny * nx); sh[sel] = share.ravel()[sel]
+        spng[k] = np.round(255 * sh).reshape(ny, nx); spng[2 + k] = png[2 + k]
         meta["epochs"][str(ep)] = dict(photos_used=len(p), photos_flagged_out=len(u) - len(p), fallback_white_share=round(fb_share, 4),
                                        fallback_source=FALLBACK_SOURCE.get(ep, "median of photo shares"),
                                        photo_share_median=round(photo_median, 4),
@@ -256,6 +264,9 @@ def main():
     drv = gdal.GetDriverByName("MEM").Create("", nx, ny, 4, gdal.GDT_Byte)
     for b in range(4): drv.GetRasterBand(b + 1).WriteArray(png[b])
     gdal.GetDriverByName("PNG").CreateCopy(str(DERIVED / meta["png"]), drv)
+    drv = gdal.GetDriverByName("MEM").Create("", nx, ny, 4, gdal.GDT_Byte)
+    for b in range(4): drv.GetRasterBand(b + 1).WriteArray(spng[b])
+    gdal.GetDriverByName("PNG").CreateCopy(str(DERIVED / meta["share_png"]), drv)
     (DERIVED / f"{PILOT}_white_share_grid.json").write_text(json.dumps(meta, indent=1))
     print("wrote", meta["png"], f"{PILOT}_white_share_grid.json")
 

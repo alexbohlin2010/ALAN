@@ -34,3 +34,36 @@ Written 2026-10-04. Follows `handoffs/2026-10-03_colour-fallback-documented.md`.
 ## Scratch (session scratchpad only, not in the repo)
 - `mask_options.py`, `count_all.py`, `count_all.json`, `opt_sheet_0..3.png`.
 - If any of these numbers are used in data, redo the method as a repo script.
+
+## Update 1 (AI_LOG colour steps 60–62): India, Italy, white tint 3000 K
+- **Human decision:** the white display tint is **3000 K** (was 4000 K). `app/src/tileLayer.js` `RAMP_TINTS[1]` = [1.0, 0.7247, 0.4295], from `display_tints.json` class 2. METHOD.md "Display ramp" updated. No data or grid change.
+- **India 2025 photos:**
+  - 23 kept photos from 5 runs, all with share ≥ 0.9 (median 0.988). 2015: 19 photos, median 0.243.
+  - Most are oblique with limb, Moon or lightning. With the limb/glow rules applied, the shares stay 0.95–1.0: the city lights themselves are counted ≥ 2,700 K.
+  - Photo median CCTs are 3,811–4,851 K.
+- **India sources:** SLNP 13.1 M LED streetlights by Nov 2024. Programme aim: 35 M conventional streetlights replaced. 13.1 / 35 ≈ 0.37 (`inferred`, the denominator is a target).
+- **Italy:** about 65 % of about 10 M public light points are LED (`documented`, ASSIL / PoliMi via Il Fatto Quotidiano, Feb 2026). Kept photos: 2025 median 0.725; drawn 0.62.
+- **CCT of kept photos** (median of photo medians): 2015 2,249 K; 2025 3,207 K.
+- **Open:** any India-specific value or review (options in step 60), not decided. City CCT accuracy still untested. The display choices listed in step 61 (brightest-first, two tints, no atmosphere) are unchanged apart from the tint.
+
+## Update 2 (AI_LOG colour steps 63–64): prototype colour modes
+- **Human:** "prototype B and C, show me screenshots". No mode chosen yet.
+- **Prototype switch:** URL `?ramp=brightest|place|blend`, `?block=N`. The default (brightest-first) is unchanged.
+  - Needs the new `data/derived/colour/global_white_share_values.png`: cell white shares, written by `10_white_share_grid.py` step 5.
+  - The existing grid outputs are byte-identical.
+  - Dev-only `window.tileLayer` lets the mode be switched live (`tileLayer.uniforms.uMode/uBlocks`).
+- **Seen:** at country zoom the three modes look nearly the same. Differences show only close up (Po valley).
+- **Open:** keep, change or remove the prototype modes (human). METHOD.md not updated for them.
+
+## Update 3 (AI_LOG colour step 65): white tint 3200 K; session closed
+- **Human decision:** display white = **3200 K** (`08_display_tints.py` `RAMP_WHITE_CCT_K`, `display_tints.json` "ramp_white" [1.0, 0.7499, 0.4789]; `tileLayer.js` `RAMP_TINTS[1]`). Sodium stays 2000 K. Supersedes the 3000 K of update 1.
+- **Prototype colour modes** (update 2): still in the code, default off. Keep or remove: open.
+- **Still open:** India value or review; city CCT accuracy; 2015 fallback; record-point offsets; audits (RULES §3); git handling of `data/raw/colour/`.
+
+## Update 4 (AI_LOG colour steps 66–67): option B is the default
+- **Human decision:** default colour mode = **B, white by place**, 1/20° blocks (~5 km). A block is white if a fixed position hash < the cell's white share; brightness does not matter.
+  - Tints 2000 K / 3200 K.
+  - `?ramp=brightest` (the old rule) and `?ramp=blend` remain as URL switches.
+- **Needs** `data/derived/colour/global_white_share_values.png` (`10_white_share_grid.py` step 5). METHOD.md "Display ramp" documents it.
+- **Human remark (step 66, not acted on):** India's 2025 radiance growth is not visually impressive on the globe. Brightness display not changed.
+- **Still open:** as in update 3, plus whether to remove the unused URL modes and the dev-only `window.tileLayer` handle.

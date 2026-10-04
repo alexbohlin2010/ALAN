@@ -234,7 +234,9 @@ export const story = [
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
+    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '005-2', exampleLabel: 'Black swans, night-time rest',
+      // Door into the fireflies chapter (human: option B + click, door = 299-3 only; Firefly transition task step 2).
+      door: '299-3', doorLabel: '[DRAFT] Fireflies, female replies under dim blue light' },
   },
   // ── Spectral chapters (human: fireflies F-A + F-C, mice M-B, after "Light type"; Linda's look, two chapters,
   // beats loop automatically, perception layer; AI_LOG Impacts steps 74–78). All titles, texts and number labels
@@ -258,7 +260,9 @@ export const story = [
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    spectral: { chapter: 'fireflies', every: 4200, beats: [
+    // door: grows out of record 299-3 in the Light type chart when arriving from that step (main.js).
+    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
+    spectral: { chapter: 'fireflies', door: '299-3', manual: true, beats: [
       { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
       { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
       { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
@@ -297,6 +301,55 @@ export const story = [
         label: 'later start of the active night after a 15 min pulse of light' },
     ] },
   },
+  // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
+  // charts, data and sources on ecosystem-level impacts may follow here (not started).
+  {
+    id: 'broader',
+    part: 2,
+    kind: 'fact',
+    label: 'Broader Impacts',
+    text: 'So how does this translate to ecosystem level impacts?',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    fly: 2500,
+    swipe: 0,
+    impacts: { view: 'globe', dots: false },
+  },
+  // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action is a
+  // DRAFT in the human's suggested wording.
+  {
+    id: 'conclusion',
+    part: 2,
+    kind: 'fact',
+    label: 'Conclusion',
+    text: '[DRAFT] We need light at night, but do we need it all the time, everywhere?',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    dark: true,
+  },
+  // ── Part 3: Explore (human request, step 4: its own top-level heading, after the conclusion) ──
+  {
+    id: 'explore',
+    part: 3,
+    label: 'Explore all studies',
+    title: 'Explore all studies',
+    // Human request (AI_LOG Impacts step 34): free browsing as the last Part 2 step.
+    text: 'Click a dot to open its study. Rings hold several studies close together: click to spread them out. ' +
+      'On a study card, ‹ › steps through all 207 studies from west to east.',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    fly: 2500,
+    swipe: 0,
+    impacts: { view: 'globe', explore: true },
+  },
+];
+
+// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
+// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
+// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
+// (data/derived/story/version_sensitivity_2015_2025.json).
+// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
+// remove Ukraine. Just two countries").
+export const retired = [
+  // Species groups: retired (human, Firefly transition task step 4: "it's not telling any story").
   // Species groups (human: option D, AI_LOG Impacts steps 54–55). Title and text are DRAFT placeholders
   // until the human writes the question.
   {
@@ -314,29 +367,6 @@ export const story = [
     swipe: 0,
     impacts: { view: 'chart', records: true, filter: true, group: 'species', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
   },
-  {
-    id: 'explore',
-    part: 2,
-    label: 'Explore all studies',
-    title: 'Explore all studies',
-    // Human request (AI_LOG Impacts step 34): free browsing as the last Part 2 step.
-    text: 'Click a dot to open its study. Rings hold several studies close together: click to spread them out. ' +
-      'On a study card, ‹ › steps through all 207 studies from west to east.',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    fly: 2500,
-    swipe: 0,
-    impacts: { view: 'globe', explore: true },
-  },
-  // ── Part 3: beyond us (not started) ───────────────────────────────────────
-];
-
-// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
-// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
-// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
-// (data/derived/story/version_sensitivity_2015_2025.json).
-// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
-// remove Ukraine. Just two countries").
-export const retired = [
   {
     id: 'france',
     part: 1,

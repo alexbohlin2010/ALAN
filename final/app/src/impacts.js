@@ -54,7 +54,7 @@ const GROUPS = {
 };
 const REGROUP_MS = 1400;
 const TICKS = [[0, '0'], [0.2, '0.2', 'small'], [0.5, '0.5', 'medium'], [0.8, '0.8', 'large'], [2, '2'], [5, '5'], [10, '10+']];
-const MORPH_MS = 1800, FADE_MS = 700, REVEAL_MS = 1600, EXAMPLE_HOLD = 4500, EXAMPLE_MS = 1300;
+const MORPH_MS = 1800, FADE_MS = 700, REVEAL_MS = 1600, EXAMPLE_MS = 1300;
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const easeInOut = t => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 const median = xs => {
@@ -109,7 +109,7 @@ function fan(n) {
   });
 }
 
-export function createImpacts({ globe, globeEl, card, legend }) {
+export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const canvas = document.createElement('canvas');
   canvas.id = 'impacts-canvas';
   globeEl.after(canvas);
@@ -138,7 +138,9 @@ export function createImpacts({ globe, globeEl, card, legend }) {
   const studyA = anim(0), STUDY_MS = 1400, STUDY_DOT = 3.6;
   // Per grouping: study dots { sid, lane, recs }, and record → its dot. Positions per filter are cached.
   const studyDots = {}, dotOf = {}, dotPos = new Map();
-  let exampleT0 = 0, fromGroup = 'category', toGroup = 'category';
+  // Worked example: the bars hold (no timer) until the story moves on to a step with all records; then they
+  // collapse into the dot at once (human request, Firefly transition task step 4). collapseT0 = start of the collapse.
+  let collapseT0 = Infinity, fromGroup = 'category', toGroup = 'category';
   // Per lane of each grouping (and per category filter): records, studies, median of study medians |g| (inferred from g_abs).
   const laneStats = new Map();
 
@@ -446,6 +448,34 @@ export function createImpacts({ globe, globeEl, card, legend }) {
     }
     const ea = val(exampleA);
     if (ex && ea > 0.005) { lastExample = ex; drawExample(b, sx, ly, ex, ea * ca); }
+    if (stage?.door && p > 0.9) drawDoor(b, sx, ca);
+  }
+
+  // Door into a spectral chapter (human: option B + click, door = record 299-3; Firefly transition task step 2):
+  // a pulsing ring on one record; clicking it calls onDoor, and main.js grows the 3D chapter out of this spot.
+  // Position = where drawRecords puts the record once settled (or its study dot with Dots: Studies).
+  function doorXY(e, b, sx) {
+    const g = geom(b, toGroup), at = { x: sx(e.g_abs), y: g.y(GROUPS[toGroup].key(e)) + (hashUnit(e.effect_id) - 0.5) * g.h * 0.7 };
+    const sa = val(studyA), d = dotOf[toGroup]?.get(e);
+    if (sa > 0.001 && d) {
+      const k = easeInOut(clamp01(sa / 0.8));
+      at.x += (sx(posOf(toGroup, d).med) - at.x) * k; at.y += (dotY(g, d) - at.y) * k;
+    }
+    return at;
+  }
+  function drawDoor(b, sx, a) {
+    const e = effectsById.get(stage.door);
+    if (!e || !passes(e) || val(groupA) < 1) return;
+    const { x, y } = doorXY(e, b, sx), pulse = (performance.now() % 1600) / 1600;
+    ctx.globalAlpha = a;
+    dot(x, y, 4, recColor(e), true, a);
+    ctx.globalAlpha = a * (1 - pulse); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(x, y, 6 + pulse * 12, 0, Math.PI * 2); ctx.stroke();
+    ctx.globalAlpha = a; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#fff'; ctx.font = '500 12px system-ui, sans-serif';
+    ctx.fillText(stage.doorLabel ?? '', x + 14, y + 14);
+    ctx.lineWidth = 1;
+    hits.push({ x, y, r: 12, door: e.effect_id });
   }
 
   // Study dots (Dots: Studies). x = median |g| of the study's records in the lane that pass the filter (the same
@@ -584,7 +614,7 @@ export function createImpacts({ globe, globeEl, card, legend }) {
   // Worked example: the record's dark and lit means (± SD) as two bars, which then collapse into
   // one dot at its |g|. Pooled SD and the small-sample factor J as in the recomputation (AI_LOG step 25).
   function drawExample(b, sx, ly, e, a) {
-    const k = easeInOut(clamp01((performance.now() - exampleT0 - EXAMPLE_HOLD) / EXAMPLE_MS));
+    const k = easeInOut(clamp01((performance.now() - collapseT0) / EXAMPLE_MS));
     const unit = (e.measured_effect?.match(/\(([^)]+)\)\s*$/) || [])[1] ?? '';
     const name = (stage?.exampleLabel ?? e.measured_effect ?? '').trim();
     // Dots: Studies — the example becomes its study's dot (human choice, step 60).
@@ -635,7 +665,8 @@ export function createImpacts({ globe, globeEl, card, legend }) {
   // Story stage (set by a story step; null = free browsing in Impacts mode).
   // { view: 'globe'|'chart', dots: false, reveal: true, study: id, example: effect_id, exampleLabel, records: true,
   //   filter: true, explore: true }  explore = dots clickable with the study card inside the story (step 34).
-  function setStage(s) {
+  // snap: jump straight to the step's end state (used when the chart is uncovered by a closing 3D chapter).
+  function setStage(s, { snap = false } = {}) {
     const prev = stage;
     stage = s ?? null;
     browse = !s || Boolean(s.explore);
@@ -657,11 +688,12 @@ export function createImpacts({ globe, globeEl, card, legend }) {
       // The dark-vs-lit bars play only on the worked-example step itself; arriving straight at a step with
       // all records shows the example already as its dot (human request, AI_LOG Impacts step 38).
       if (exampleA.to !== 1 || (!s.records && prev?.records)) {
-        exampleT0 = performance.now() - (s.records ? EXAMPLE_HOLD + EXAMPLE_MS : 0);
+        collapseT0 = s.records ? -Infinity : Infinity;
         go(exampleA, 1, s.records ? FADE_MS : 1);
-      }
+      } else if (s.records && collapseT0 === Infinity) collapseT0 = performance.now();   // moving on: collapse now
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
+    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA]) { a.from = a.to; a.t0 = 0; }
     renderFilter();
   }
 
@@ -731,6 +763,7 @@ export function createImpacts({ globe, globeEl, card, legend }) {
     if (!shown || !down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) return;
     const h = hitAt(e.clientX, e.clientY);
     // Study dots on the chart are clickable inside the story too (step 60); other clicks keep the old rules.
+    if (h?.door) { onDoor?.(h.door); return; }
     if (!browse) { if (h?.chart) openCard(h.id); else if (!card.hidden) closeCard(); return; }
     if (!h) { expanded = null; closeCard(); }
     else if (h.cluster) expanded = h.cluster[0];
@@ -766,5 +799,12 @@ export function createImpacts({ globe, globeEl, card, legend }) {
       for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0]]) Object.assign(a, anim(v));
     },
     setStage,
+    // Screen position of the door record in the chart as currently laid out (null if not in the chart).
+    doorAt(id) {
+      const e = effectsById.get(id);
+      if (!e || !effects.length) return null;
+      const b = chartBox(window.innerWidth, window.innerHeight);
+      return doorXY(e, b, v => b.left + Math.log1p(Math.min(CAP, Math.max(0, v))) / Math.log(CAP + 1) * b.width);
+    },
   };
 }

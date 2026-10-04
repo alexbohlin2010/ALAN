@@ -21,6 +21,7 @@ const layer = new TileLayer({ baseUrl: TILE_BASE, index, radius: globe.getGlobeR
   noDataColor: NO_DATA_COLOR });
 globe.scene().add(layer.group);
 if (import.meta.env.DEV) window.globe = globe;  // dev-only handle for inspection
+if (import.meta.env.DEV) window.tileLayer = layer;  // dev-only: PROTOTYPE colour-mode switching (human 2026-10-04)
 
 // Swipe divider: one uniform, per-pixel year choice in the shader.
 const swipe = document.getElementById('swipe');
@@ -89,22 +90,26 @@ modes.querySelectorAll('.steps').forEach(list => {
   list.innerHTML = story.map((s, i) => partOf(s) === Number(list.dataset.part)
     ? `<li><button data-step="${i}">${stepLabel(s)}</button></li>` : '').join('');
 });
-// Heading highlight: Impacts while browsing or on a Part 2 story step, otherwise Light.
-// Only the current section's step list is open; the other collapses (human request, AI_LOG Impacts step 33).
+// Heading highlight: Impacts while browsing or on a Part 2 story step, Explore on Part 3 (human request, Firefly
+// transition task step 4), otherwise Light.
+// Only the current section's step list is open; the others collapse (human request, AI_LOG Impacts step 33).
+const PART_OF_MODE = { light: 1, impacts: 2, explore: 3 };
 const markHeaders = () => {
-  const impactsOn = mode === 'impacts' || partOf(story[storyIndex]) === 2;
+  const part = mode === 'impacts' ? 2 : partOf(story[storyIndex]);
   modes.querySelectorAll('.mode').forEach(b => {
-    const on = (b.dataset.mode === 'impacts') === impactsOn;
+    const on = PART_OF_MODE[b.dataset.mode] === part;
     b.setAttribute('aria-pressed', String(on));
     b.setAttribute('aria-expanded', String(on));
   });
-  modes.querySelectorAll('.steps').forEach(l => l.classList.toggle('collapsed', (l.dataset.part === '2') !== impactsOn));
+  modes.querySelectorAll('.steps').forEach(l => l.classList.toggle('collapsed', Number(l.dataset.part) !== part));
 };
 const markStep = i => modes.querySelectorAll('.steps button').forEach(b =>
   b.classList.toggle('current', Number(b.dataset.step) === i));
 
 // Impacts: study dots on a canvas overlay + study card (app/src/impacts.js).
-const impacts = createImpacts({ globe, globeEl: el, card: document.getElementById('study'), legend });
+// onDoor: clicking a chart step's door record moves the story to the spectral step with that door.
+const impacts = createImpacts({ globe, globeEl: el, card: document.getElementById('study'), legend,
+  onDoor: id => storyCtl.go(story.findIndex(s => s.spectral?.door === id)) });
 // Spectral chapters (app/src/spectral.js): a 3D view over the globe on steps with a `spectral` key
 // (human decisions, AI_LOG Impacts steps 74–75).
 const spectral = createSpectral({ parent: document.body });
@@ -112,17 +117,41 @@ const spectral = createSpectral({ parent: document.body });
 let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0;
 // Story steps with an `impacts` stage show the Impacts layer inside the story (Part 2; human
 // decision, AI_LOG Impacts step 27); the story arrow keeps driving.
+// Door (human: option B + click, Firefly transition task step 2): between a chart step with `impacts.door` and the
+// spectral step with the same `spectral.door`, the 3D view grows out of (or shrinks back into) that record's dot.
 function applyStage(i) {
+  const prev = story[storyIndex];
   storyIndex = i;
   markHeaders();
   if (mode !== 'light') return;
-  const sp = story[i].spectral ?? null;
+  const sp = story[i].spectral ?? null, st = story[i].impacts;
+  document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
   document.body.classList.toggle('story-spectral', Boolean(sp));
-  spectral.set(sp);
-  const st = story[i].impacts;
   document.body.classList.toggle('story-impacts', Boolean(st));
+  const at = sp?.door && prev.impacts?.door === sp.door ? impacts.doorAt(sp.door) : null;
+  if (at) {   // forward: the chart stays (its filter bar hidden) under the opening view, then goes
+    impacts.setStage({ ...prev.impacts, filter: false }, { snap: true });
+    spectral.set(sp, { from: at, onDone: () => impacts.hide() });
+    return;
+  }
+  const back = st?.door && prev.spectral?.door === st.door;
+  const beat = sp?.manual && story.indexOf(prev) === i + 1 ? 'last' : 0;   // arriving backwards: last beat
+  if (back) {   // backward: the chart is ready (filter bar held back) under the closing view
+    impacts.show(); impacts.setStage({ ...st, filter: false }, { snap: true });
+    spectral.set(null, { to: impacts.doorAt(st.door), onDone: () => impacts.setStage(st) });
+    return;
+  }
   if (st) { impacts.show(); impacts.setStage(st); } else impacts.hide();
+  spectral.set(sp, { beat });
 }
+
+// On a manual spectral step, ← → step through its beats first (capture phase, before story.js's own keys);
+// past either end they move the story as usual (human request, Firefly transition task step 3).
+window.addEventListener('keydown', e => {
+  if (mode !== 'light' || !story[storyIndex].spectral?.manual) return;
+  const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+  if (d && spectral.step(d)) e.stopImmediatePropagation();
+}, true);
 
 // Story steps (content in app/content/story.js); sets the first camera view.
 const storyCtl = startStory({ steps: story, globe, onStep: i => { markStep(i); applyStage(i); },
@@ -152,9 +181,9 @@ modes.addEventListener('click', e => {
   const b = e.target.closest('button');
   if (!b) return;
   // A heading jumps to the first story step of its section, skipping the intro animation
-  // (Light → "Statistic", Impacts → "Ecosystems"; human requests, steps 33–34).
+  // (Light → "Statistic", Impacts → "Ecosystems", Explore → "Explore all studies"; human requests, steps 33–34).
   const i = b.dataset.mode
-    ? story.findIndex(s => s.kind !== 'intro' && partOf(s) === (b.dataset.mode === 'impacts' ? 2 : 1))
+    ? story.findIndex(s => s.kind !== 'intro' && partOf(s) === PART_OF_MODE[b.dataset.mode])
     : Number(b.dataset.step);
   setMode('light'); storyCtl.go(i);
 });

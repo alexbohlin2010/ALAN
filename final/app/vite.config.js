@@ -13,7 +13,8 @@ const IMPACTS_ROOT = resolve(__dirname, '../data/derived/impacts');
 const MAPS_ROOT = resolve(__dirname, '../pipeline/impacts/maps');
 const APPROVED_MAPS = ['light_types.csv'];
 const COLOUR_ROOT = resolve(__dirname, '../data/derived/colour');
-const APPROVED_COLOUR = ['iberia_white_share_grid.json', 'global_white_share_grid.json', 'global_white_share_grid.png'];
+const APPROVED_COLOUR = ['iberia_white_share_grid.json', 'global_white_share_grid.json', 'global_white_share_grid.png',
+  'global_white_share_values.png'];  // prototype colour modes (human 2026-10-04)
 const TYPES = { '.webp': 'image/webp', '.png': 'image/png', '.json': 'application/json', '.csv': 'text/csv; charset=utf-8' };
 
 // Serves files under root at the request path; 404 for anything outside root or missing.

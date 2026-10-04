@@ -140,3 +140,15 @@ body.story-impacts #swipe, body.story-impacts .year.left { display: none; }
 #spectral-number .value { display: block; font: 300 clamp(32px, 4vw, 56px)/1.1 system-ui, sans-serif; color: #fff; }
 #spectral-number .label { display: block; font-size: 13px; color: #aaa; margin-top: 2px; }
 body.story-spectral #swipe, body.story-spectral .year { display: none; }
+/* Spectral beat toggle (spectral.js, manual chapters; Firefly transition task step 3). */
+#spectral-toggle { position: absolute; right: 16px; top: 12px; z-index: 4; display: flex; flex-wrap: wrap; gap: 6px;
+  justify-content: flex-end; max-width: calc(100vw - 32px); }
+#spectral-toggle[hidden] { display: none; }
+#spectral-toggle button { font: 12px system-ui, sans-serif; color: #ccc; background: rgba(17,17,17,0.85);
+  border: 1px solid #444; border-radius: 12px; padding: 3px 10px; cursor: pointer; }
+#spectral-toggle button:hover { color: #fff; }
+#spectral-toggle button[aria-pressed="true"] { color: #fff; border-color: #aaa; }
+/* Dark story screen (story key `dark: true`, e.g. Conclusion; Firefly transition task step 4): the globe fades out. */
+#globe { transition: opacity 1200ms ease; }
+body.story-dark #globe { opacity: 0; }
+body.story-dark #swipe, body.story-dark .year { display: none; }
