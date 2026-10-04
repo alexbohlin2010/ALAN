@@ -1,0 +1,13 @@
+red         crossings per whole-nm column (count: columns) {2: 358, 4: 10, 6: 4, 8: 1} | vertical extent value: min 0.00464 (=stroke width in pt 0.492, flat parts) median 0.00469 max 0.1495
+            outline top edge = value 1.0023 ; minus half stroke width (0.0023) = estimated true apex 1.0000 ; extraction peak (midpoint) see b02
+amber       crossings per whole-nm column (count: columns) {2: 346, 4: 16, 6: 10, 8: 1} | vertical extent value: min 0.00467 (=stroke width in pt 0.496, flat parts) median 0.00467 max 0.0885
+            outline top edge = value 0.9061 ; minus half stroke width (0.0023) = estimated true apex 0.9038 ; extraction peak (midpoint) see b02
+blue        crossings per whole-nm column (count: columns) {2: 340, 4: 15, 6: 17, 8: 1} | vertical extent value: min 0.00467 (=stroke width in pt 0.496, flat parts) median 0.00467 max 0.0990
+            outline top edge = value 0.9343 ; minus half stroke width (0.0023) = estimated true apex 0.9319 ; extraction peak (midpoint) see b02
+warm_white  crossings per whole-nm column (count: columns) {2: 304, 4: 50, 6: 18, 8: 1} | vertical extent value: min 0.00464 (=stroke width in pt 0.492, flat parts) median 0.00498 max 0.0062
+            outline top edge = value 0.1504 ; minus half stroke width (0.0023) = estimated true apex 0.1481 ; extraction peak (midpoint) see b02
+cool_white  crossings per whole-nm column (count: columns) {2: 338, 4: 31, 6: 4} | vertical extent value: min 0.00465 (=stroke width in pt 0.493, flat parts) median 0.00496 max 0.0165
+            outline top edge = value 0.1628 ; minus half stroke width (0.0023) = estimated true apex 0.1604 ; extraction peak (midpoint) see b02
+white polygon: closed by baseline y=561.211 (value -0.00001); vertices 321; first (90.77, 561.211) last (203.379, 561.211); x range 90.770-203.379 pt = 349.991-675.007 nm
+white polygon is monotone in x along its top edge (single-valued function, no overhang): True
+plot panel (grey fill) x range pt/nm: [74.31] panel is 74.31-245.82 pt = 302.5-797.5 nm; white polygon lies entirely inside it

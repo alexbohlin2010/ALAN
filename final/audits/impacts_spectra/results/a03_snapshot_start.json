@@ -1,0 +1,77 @@
+{
+ "data/raw/impacts/MANIFEST.csv": [
+  "2be7a642e8ba846253451c3d882f665665d44e12004bb2a1f432741c42f8cf8b",
+  15766,
+  1791081521.3745503
+ ],
+ "data/raw/impacts/fireflies/Owens_Lewis_2021_ICD_study299.pdf": [
+  "8d2d11537c55d3843f8be01b10f5c1818458bd7f3974140f31c5f68d852b425b",
+  825500,
+  1791080010.0921848
+ ],
+ "data/raw/impacts/fireflies/Owens_Lewis_2021_JInsectPhysiol_study224.pdf": [
+  "9598a75ef16fe621e8e429df96619a33eff1f5e560c4f09f37855014e12623a3",
+  915989,
+  1791079985.6699724
+ ],
+ "data/raw/impacts/fireflies/Firebaugh_Haynes_2016_Oecologia_study229.pdf": [
+  "bb3ff40de9af3ed3f832fa53fc26a3a3c329fb6384b506fa3199591bd116d432",
+  582582,
+  1791079956.9872687
+ ],
+ "data/raw/impacts/fireflies/Owens_Lewis_2021_ICD_study299_supinfo.docx": [
+  "5084658cf7a62a95eddfc480ee6f18ef46a5166543bd6f97449617caa3fb4bb8",
+  25469,
+  1791081465.704988
+ ],
+ "data/raw/impacts/fireflies/Firebaugh_Haynes_2019_BAE_study028.pdf": [
+  "c3ee02377d01ac28a3f6f2b26e23b5d625f61ff45946bb705b4f09d34b7521cf",
+  1393772,
+  1791079974.9244142
+ ],
+ "data/raw/impacts/czarnecka2025/Data_S1_Czarnecka_et_al..xlsx": [
+  "8fae8a0244047ab057808ea321962bf848cff42b6fd521f34b37a360efa154d6",
+  1129241,
+  1761339976.0
+ ],
+ "data/raw/impacts/czarnecka2025/gcb70569-sup-0001-datas1.docx": [
+  "7f954900ebe09334777206a58aaca31e254c0d8b0d3f44b4a67af26b220bd38e",
+  17968,
+  1791070064.4213421
+ ],
+ "data/raw/impacts/czarnecka2025/gcb70569-sup-0002-datas2.xlsx": [
+  "31c275e02a7945ff18ed4c4071fe616768154604caa632ac952e1391987fe27c",
+  48573,
+  1791070043.1966708
+ ],
+ "data/raw/impacts/czarnecka2025/README.md": [
+  "f4f4e7005be4bcdb84baae13dc652d9ecd27b8cd5f8556a1251207d9b7d1411b",
+  5006,
+  1791059876.0563014
+ ],
+ "data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf": [
+  "aa05e921576e60f075f92af6f2bed00bc84dd8876197ad1c59b011e85f8634fa",
+  988757,
+  1791065480.0893164
+ ],
+ "data/raw/impacts/czarnecka2025/gcb70569-sup-0003-supinfo.docx": [
+  "f91425d737ae3e55bdee6f45645514b5acbf7bb9a7c0e6ac6dbb4049b24ce1a1",
+  656863,
+  1791070067.631576
+ ],
+ "data/raw/impacts/mice/Wang_2023_NeurobiolDis_study278_supplement_mmc1.pdf": [
+  "ba0403500a8a4aded6360f958589d6d33da2b1cc8babebe24f89417648b4c74e",
+  1495947,
+  1791081127.7500591
+ ],
+ "data/raw/impacts/mice/Wang_2023_NeurobiolDis_study278.pdf": [
+  "2f0282cb60e4f310f7d8c224231cc1b7417eaae414f70b5f1d10e72f52a8a985",
+  12080205,
+  1791081149.1163342
+ ],
+ "data/raw/impacts/mice/Wang_2022_NeurobiolDis_study278_PMC10594349.xml": [
+  "d8690532e1646629b8f0616d15cc39027660bfde063795dc3b4bd294cf6a24a4",
+  199544,
+  1791080876.8789463
+ ]
+}

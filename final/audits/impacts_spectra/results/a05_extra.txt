@@ -1,0 +1,4 @@
+predicted page y of 0.6: 136.318 ; label centre - 3.99 (constant label offset seen for 0.0-0.5) = 136.335 ; diff 0.017 pt = -6.80e-05 value units
+y-axis top end page y 136.289 -> value 0.6001
+blue first/last nm: 380.035 779.981
+magenta first/last nm: 380.035 779.981

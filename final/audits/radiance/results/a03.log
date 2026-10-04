@@ -1,0 +1,23 @@
+wrote audits/radiance/results/a03_curve.json
+{
+ "positive_counts_match": true,
+ "top_matches": true,
+ "top_percentile_field": true,
+ "min_positive_matches": true,
+ "pixels_above_top_matches": true,
+ "edges_len": true,
+ "cdf_len": true,
+ "edges_strictly_increasing": true,
+ "cdf_non_decreasing": true,
+ "cdf_starts_0_ends_1": true,
+ "edges_span_min_to_top": true,
+ "edges_log_spaced": true,
+ "edges_rebuilt_match": true,
+ "cdf_rebuilt_match": true,
+ "hist_counts_every_positive": true,
+ "reference_greys_follow_rule": true,
+ "hist_eq_within_1_grey_step": true,
+ "grey_0_for_nonpositive": true,
+ "grey_255_at_and_above_top": true
+}
+PASS

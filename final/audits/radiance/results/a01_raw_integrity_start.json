@@ -1,0 +1,31 @@
+{
+ "tag": "start",
+ "listing": [
+  "VNL_npp_2025_global_vcmslcfg_v2_c202604011200.average_masked.dat.tif.gz",
+  "VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz"
+ ],
+ "files": {
+  "2015": {
+   "filename": "VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz",
+   "sha256": "1cdafa2039e49fe64b629592e20d33dc746ecc77824a6a4898a76c03311104fa",
+   "manifest_sha256": "1cdafa2039e49fe64b629592e20d33dc746ecc77824a6a4898a76c03311104fa",
+   "size": 280997747,
+   "manifest_size": 280997747,
+   "mtime": 1790971184.4592485,
+   "writable_by_owner": true,
+   "pass_": true
+  },
+  "2025": {
+   "filename": "VNL_npp_2025_global_vcmslcfg_v2_c202604011200.average_masked.dat.tif.gz",
+   "sha256": "55cdc85dab51a26b2806071c2efee49314d1d8bb235581df2b0a03574c95e3ab",
+   "manifest_sha256": "55cdc85dab51a26b2806071c2efee49314d1d8bb235581df2b0a03574c95e3ab",
+   "size": 340942192,
+   "manifest_size": 340942192,
+   "mtime": 1790971165.4927454,
+   "writable_by_owner": true,
+   "pass_": true
+  }
+ },
+ "pass": true,
+ "unexpected_entries": []
+}

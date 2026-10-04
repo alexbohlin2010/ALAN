@@ -1,0 +1,16 @@
+x ticks (pt): [108.096, 142.744, 177.393, 212.037] -> nm = 88.0074 + 2.886236*x ; max residual 0.0055 nm
+y ticks (pt): [561.209, 534.686, 508.162, 481.637, 455.111] -> val = 5.289544 + -0.0094252*y ; max residual 9.43e-06
+red big polygons with exactly this colour: 1 subpaths [1] segments [2721] any 'c' curves: True
+   red n = 376 nm 400 - 775 bbox nm 399.90-775.21
+amber big polygons with exactly this colour: 1 subpaths [1] segments [1232] any 'c' curves: True
+   amber n = 375 nm 400 - 774 bbox nm 399.95-774.84
+blue big polygons with exactly this colour: 1 subpaths [1] segments [1099] any 'c' curves: True
+   blue n = 375 nm 400 - 774 bbox nm 399.95-774.84
+warm_white big polygons with exactly this colour: 1 subpaths [1] segments [3377] any 'c' curves: True
+   warm_white n = 376 nm 400 - 775 bbox nm 399.95-775.13
+cool_white big polygons with exactly this colour: 1 subpaths [1] segments [3308] any 'c' curves: True
+   cool_white n = 376 nm 400 - 775 bbox nm 399.95-775.02
+white fills in figure: 1 [(90.77, 203.379, 455.352, 561.211)]
+white polygon: subpaths 1 segments 321 x 90.770-203.379 pt = 349.99-675.01 nm; y 455.352-561.211 pt = value -0.0000-0.9977
+white polygon first 3 and last 4 points: [(90.77, 561.211), (91.113, 559.086), (91.461, 555.902)] [(201.992, 561.102), (202.34, 561.211), (203.379, 561.211), (90.77, 561.211)]
+   p_scintillans n = 326 nm 350 - 675

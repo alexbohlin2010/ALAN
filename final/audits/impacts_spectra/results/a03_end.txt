@@ -1,0 +1,7 @@
+end PDF sha256 manifest: ba0403500a8a4aded6360f958589d6d33da2b1cc8babebe24f89417648b4c74e 
+    actual:   ba0403500a8a4aded6360f958589d6d33da2b1cc8babebe24f89417648b4c74e | match: True | size 1495947 manifest 1495947 match: True
+impacts files: 15
+all files under data/raw: 27857 | outside impacts: 27842
+impacts snapshot identical start vs end (hash, size, mtime): True
+all MANIFEST rows verified: 14 bad: []
+files in impacts/ not in MANIFEST: []

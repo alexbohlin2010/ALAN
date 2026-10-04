@@ -1,0 +1,244 @@
+{
+ "year": 2015,
+ "raw": "VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz",
+ "cog": "vnl_2015_average_masked.tif",
+ "raw_meta": {
+  "width": 86401,
+  "height": 33601,
+  "bands": 1,
+  "dtype": "Float32",
+  "geotransform": [
+   -180.00208333335,
+   0.0041666667,
+   0.0,
+   75.00208333335,
+   0.0,
+   -0.0041666667
+  ],
+  "epsg": "4326",
+  "nodata": null,
+  "overviews": 0
+ },
+ "cog_meta": {
+  "width": 86401,
+  "height": 33601,
+  "bands": 1,
+  "dtype": "Float32",
+  "geotransform": [
+   -180.00208333335,
+   0.0041666667,
+   0.0,
+   75.00208333335,
+   0.0,
+   -0.0041666667
+  ],
+  "epsg": "4326",
+  "nodata": null,
+  "overviews": 0
+ },
+ "cog_image_structure": {
+  "LAYOUT": "COG",
+  "COMPRESSION": "DEFLATE",
+  "INTERLEAVE": "BAND",
+  "PREDICTOR": "3"
+ },
+ "checks": {
+  "meta_width_equal": true,
+  "meta_height_equal": true,
+  "meta_bands_equal": true,
+  "meta_dtype_equal": true,
+  "meta_geotransform_equal": true,
+  "meta_epsg_equal": true,
+  "meta_nodata_equal": true,
+  "crs_is_same": true,
+  "cog_layout_is_COG": true,
+  "cog_compression": "DEFLATE",
+  "pixels_bitwise_equal": true,
+  "counts_sum_to_pixels": true,
+  "counts_match_manifest": true,
+  "counts_json_matches_raw": true
+ },
+ "raw_counts": {
+  "width": 86401,
+  "height": 33601,
+  "pixels": 2903160001,
+  "min": -1.5,
+  "max": 99290.078125,
+  "mean": 0.08339046813173558,
+  "min_positive": 4.426816815339407e-07,
+  "zero": 2837640350,
+  "positive": 65456583,
+  "positive_lt1": 38250850,
+  "gt200": 30745,
+  "gt1000": 5149,
+  "eq_minus_1_5": 35995,
+  "other_negative": 27073,
+  "nan": 0
+ },
+ "other_negative_range": [
+  -0.08870139718055725,
+  -1.4253284064125182e-07
+ ],
+ "diff_pixels": 0,
+ "first_diff": null,
+ "vs_manifest": {
+  "width": {
+   "manifest": 86401,
+   "raw": 86401,
+   "equal": true
+  },
+  "height": {
+   "manifest": 33601,
+   "raw": 33601,
+   "equal": true
+  },
+  "pixels": {
+   "manifest": 2903160001,
+   "raw": 2903160001,
+   "equal": true
+  },
+  "min": {
+   "manifest": -1.5,
+   "raw": -1.5,
+   "equal": true
+  },
+  "max": {
+   "manifest": 99290.078,
+   "raw": 99290.078125,
+   "equal": true
+  },
+  "zero": {
+   "manifest": 2837640350,
+   "raw": 2837640350,
+   "equal": true
+  },
+  "positive": {
+   "manifest": 65456583,
+   "raw": 65456583,
+   "equal": true
+  },
+  "positive_lt1": {
+   "manifest": 38250850,
+   "raw": 38250850,
+   "equal": true
+  },
+  "gt200": {
+   "manifest": 30745,
+   "raw": 30745,
+   "equal": true
+  },
+  "gt1000": {
+   "manifest": 5149,
+   "raw": 5149,
+   "equal": true
+  },
+  "eq_minus_1_5": {
+   "manifest": 35995,
+   "raw": 35995,
+   "equal": true
+  },
+  "other_negative": {
+   "manifest": 27073,
+   "raw": 27073,
+   "equal": true
+  },
+  "nan": {
+   "manifest": 0,
+   "raw": 0,
+   "equal": true
+  }
+ },
+ "vs_counts_json": {
+  "width": {
+   "counts_json": 86401,
+   "raw": 86401,
+   "equal": true
+  },
+  "height": {
+   "counts_json": 33601,
+   "raw": 33601,
+   "equal": true
+  },
+  "pixels": {
+   "counts_json": 2903160001,
+   "raw": 2903160001,
+   "equal": true
+  },
+  "geotransform": {
+   "counts_json": [
+    -180.00208333335,
+    0.0041666667,
+    0.0,
+    75.00208333335,
+    0.0,
+    -0.0041666667
+   ],
+   "raw": [
+    -180.00208333335,
+    0.0041666667,
+    0.0,
+    75.00208333335,
+    0.0,
+    -0.0041666667
+   ],
+   "equal": true
+  },
+  "min": {
+   "counts_json": -1.5,
+   "raw": -1.5,
+   "equal": true
+  },
+  "max": {
+   "counts_json": 99290.078125,
+   "raw": 99290.078125,
+   "equal": true
+  },
+  "mean": {
+   "counts_json": 0.08339046813173558,
+   "raw": 0.08339046813173558,
+   "equal": true
+  },
+  "zero": {
+   "counts_json": 2837640350,
+   "raw": 2837640350,
+   "equal": true
+  },
+  "positive": {
+   "counts_json": 65456583,
+   "raw": 65456583,
+   "equal": true
+  },
+  "gt200": {
+   "counts_json": 30745,
+   "raw": 30745,
+   "equal": true
+  },
+  "gt1000": {
+   "counts_json": 5149,
+   "raw": 5149,
+   "equal": true
+  },
+  "eq_minus_1_5": {
+   "counts_json": 35995,
+   "raw": 35995,
+   "equal": true
+  },
+  "other_negative": {
+   "counts_json": 27073,
+   "raw": 27073,
+   "equal": true
+  },
+  "nan": {
+   "counts_json": 0,
+   "raw": 0,
+   "equal": true
+  },
+  "source": {
+   "counts_json": "VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz",
+   "raw": "VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz",
+   "equal": true
+  }
+ },
+ "pass": true,
+ "seconds": 95
+}

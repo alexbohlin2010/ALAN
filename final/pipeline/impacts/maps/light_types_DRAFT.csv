@@ -1,0 +1,7 @@
+code,plain_words,basis,status
+BS warm,"broad-spectrum warm white light","agent reading of the code; Dryad abstract uses ""broad-spectrum 'warm' light"" (article not read)",DRAFT - human to approve
+BS cool,"broad-spectrum cool white light","agent reading; Dryad abstract: ""broad-spectrum 'cool' light, enriched with blue and ultraviolet"" (article not read)",DRAFT - human to approve
+BS_UV,"broad-spectrum light including ultraviolet","agent reading of the code only; the abstract contrasts cool light with and without UV; to confirm in the article's methods",DRAFT - human to approve
+NS yellow-red,"narrow-spectrum yellow to red light","agent reading of the code (NS = narrow-spectrum, assumed); to confirm in the article",DRAFT - human to approve
+NS blue,"narrow-spectrum blue light","as above",DRAFT - human to approve
+NS green,"narrow-spectrum green light","as above",DRAFT - human to approve

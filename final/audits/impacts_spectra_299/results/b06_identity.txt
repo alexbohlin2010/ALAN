@@ -1,0 +1,13 @@
+legend swatches top->bottom (y_top pt, colour): [(491.71, (0.847, 0.941, 0.976)), (499.75, (0.976, 0.961, 0.906)), (507.79, (0.533, 0.757, 0.976)), (515.82, (0.976, 0.722, 0.475)), (523.86, (0.941, 0.561, 0.561))]
+legend text blocks (outlined glyph clusters; y-centre, x range): [(495.8, 264.2, 282.0), (503.8, 264.1, 284.5), (511.8, 264.3, 271.6), (519.9, 264.2, 275.6), (527.9, 264.3, 269.7)]
+swatch y-centre 495.7  word 'cool white' y-centre 495.8 (dy -0.0 pt)  | blend alpha(solved) 0.510; max channel error using line colour of 'cool white': 0.0018
+      fit error with each candidate line colour: {'red': 0.423, 'amber': 0.511, 'blue': 0.322, 'warm white': 0.128, 'cool white': 0.002}
+swatch y-centre 503.8  word 'warm white' y-centre 503.8 (dy -0.0 pt)  | blend alpha(solved) 0.500; max channel error using line colour of 'warm white': 0.0020
+      fit error with each candidate line colour: {'red': 0.4, 'amber': 0.431, 'blue': 0.443, 'warm white': 0.002, 'cool white': 0.127}
+swatch y-centre 511.8  word 'blue' y-centre 511.8 (dy -0.0 pt)  | blend alpha(solved) 0.500; max channel error using line colour of 'blue': 0.0020
+      fit error with each candidate line colour: {'red': 0.416, 'amber': 0.502, 'blue': 0.002, 'warm white': 0.441, 'cool white': 0.316}
+swatch y-centre 519.8  word 'amber' y-centre 519.9 (dy -0.0 pt)  | blend alpha(solved) 0.500; max channel error using line colour of 'amber': 0.0020
+      fit error with each candidate line colour: {'red': 0.161, 'amber': 0.002, 'blue': 0.5, 'warm white': 0.431, 'cool white': 0.5}
+swatch y-centre 527.9  word 'red' y-centre 527.9 (dy -0.0 pt)  | blend alpha(solved) 0.500; max channel error using line colour of 'red': 0.0000
+      fit error with each candidate line colour: {'red': 0.0, 'amber': 0.163, 'blue': 0.414, 'warm white': 0.4, 'cool white': 0.414}
+peak lines in the page-3 text: ['cool white (peak wavelength: 453.2 nm; Liteline)', 'warm white (616.43 nm; Zenaro)', 'blue (455.31 nm; Xtricity)', 'amber (613.41 nm; Energetic)', 'deep red (658.06 nm; ABI)']

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ALAN globe prototype</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body class="arriving">
+  <div id="globe"></div>
+  <nav id="modes" aria-label="Sections">
+    <button class="mode" data-mode="light">Light</button>
+    <ol class="steps" data-part="1"></ol>
+    <button class="mode" data-mode="impacts">Impacts</button>
+    <ol class="steps" data-part="2"></ol>
+  </nav>
+  <div id="swipe"><div class="line"></div><div class="handle" aria-label="Drag to compare years"></div></div>
+  <div class="year left">2015</div>
+  <div class="year right">2025</div>
+  <button id="info" aria-label="About the map colours" aria-expanded="false">i</button>
+  <div id="legend" hidden></div>
+  <div id="card" hidden></div>
+  <div id="fact" hidden></div>
+  <div id="study" hidden></div>
+  <div id="nav"><button class="back" aria-label="Previous step">‹</button><span class="count"></span><button class="next" aria-label="Next step">›</button></div>
+  <div id="intro" hidden><div class="text"></div></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

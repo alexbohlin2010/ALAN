@@ -1,0 +1,29 @@
+# Raw files: git handling deferred (handoff 2026-10-02). Do not commit.
+data/raw/radiance/eog/
+# Journal article PDF: © Wiley, not open access (human request, AI_LOG Impacts step 31)
+data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf
+# Article Supporting Information from Wiley (licence not stated; human request, AI_LOG Impacts step 47)
+data/raw/impacts/czarnecka2025/gcb70569-sup-*
+# Generated outputs: rebuilt by scripts in pipeline/
+data/derived/
+previews/
+# Environments / installs
+.venv/
+app/node_modules/
+app/dist/
+.DS_Store
+# Firefly study PDFs (studies 028, 224, 229, 299): publisher copyright, not open access (human request, AI_LOG Impacts step 66)
+data/raw/impacts/fireflies/*.pdf
+# Study 299 Supporting Information (Wiley, licence not stated; human supplied, AI_LOG Impacts step 72)
+data/raw/impacts/fireflies/*.docx
+# ISS / EOL colour downloads: photos and query / photo-page HTML stay local (too large; some files > 100 MB).
+# The three MANIFEST.csv files (photo IDs, URLs, SHA-256) are committed. (Human, AI_LOG Push task step 11)
+data/raw/colour/eol/queries/
+data/raw/colour/eol/photos/
+data/raw/colour/eol/small/*.JPG
+data/raw/colour/eol/nef/*.NEF
+data/raw/colour/eol/jpeg/*.JPG
+# Brazil lighting census PDF: licence not stated (human, Push task step 11)
+data/raw/colour/Censo-Iluminacao-Publica-Brasil.pdf
+# Study 278 (CC BY-NC-ND 4.0) and Lucas 2014 toolbox (PMC fair use): reference copies (human, Push task step 11)
+data/raw/impacts/mice/

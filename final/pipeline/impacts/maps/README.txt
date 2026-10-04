@@ -1,0 +1,8 @@
+Counts: effects = workbook rows; studies = distinct Study ids with that category+subcategory (a study can be in several). 'Sleep quality' and 'Sleep quality ' (trailing space) merged by whitespace stripping. LHT = life-history traits (agent reading). DRAFT: groups and names proposed by the agent (claude-opus-5-5, 2026-10-03) at the human's request; the human edits them before they are used.
+
+2026-10-03 (AI_LOG Impacts step 8): the human approved all three maps "as written". Approved copies: light_types.csv, activity.csv, topic_groups.csv (same rows; status column / header changed only). The *_DRAFT.csv files are kept unchanged as the record of the draft. BS_UV and NS readings are still not confirmed against the article text.
+
+2026-10-03 (AI_LOG Impacts step 20): at the human's request, topic_groups.csv and topic_groups_DRAFT.csv were deleted. The app now uses the source's own Category column (Data S1, "Category ") instead of agent-drafted topic groups. Their content is described in AI_LOG Impacts steps 6, 9 and 18.
+
+2026-10-03 (AI_LOG Impacts step 50): species_groups.csv maps the workbook's Phylum + Class (whitespace stripped; empty class = "") to 9 species groups chosen by the human: Mammals, Birds, Fish, Amphibians, Reptiles, Insects, Arthropods and other invertebrates, Plants, Algae, fungi & microbes. One row per distinct Phylum/Class pair in the whole workbook (59 pairs). Row assignments were made by the agent and are for the human to check. Empty species_group = no group (Chordata without a class). Used by 04_effects.py.
+2026-10-03 (AI_LOG Impacts step 54): the human approved all 59 row assignments in species_groups.csv; status column updated.

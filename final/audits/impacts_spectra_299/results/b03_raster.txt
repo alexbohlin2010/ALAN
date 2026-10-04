@@ -1,0 +1,6 @@
+PPM b03_fig-03.ppm 1500 1000 dpi 600 tol 40 window +- 0.05
+red         columns matched 121, no-match 255 | |raster - vector| median 0.00293  p95 0.02832  max 0.03408 (at 665 nm)  [1 px = 0.00113 value]
+amber       columns matched 103, no-match 272 | |raster - vector| median 0.00565  p95 0.02706  max 0.03163 (at 621 nm)  [1 px = 0.00113 value]
+blue        columns matched 104, no-match 271 | |raster - vector| median 0.00448  p95 0.02201  max 0.02423 (at 461 nm)  [1 px = 0.00113 value]
+warm_white  columns matched 355, no-match 21 | |raster - vector| median 0.00165  p95 0.02361  max 0.02544 (at 579 nm)  [1 px = 0.00113 value]
+cool_white  columns matched 358, no-match 18 | |raster - vector| median 0.00163  p95 0.01412  max 0.01999 (at 533 nm)  [1 px = 0.00113 value]

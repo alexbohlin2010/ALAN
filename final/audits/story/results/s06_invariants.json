@@ -1,0 +1,291 @@
+{
+ "counts_vs_manifest": {
+  "2015": {
+   "zero": {
+    "manifest": 2837640350,
+    "raw": 2837640350,
+    "pass_": true
+   },
+   "positive": {
+    "manifest": 65456583,
+    "raw": 65456583,
+    "pass_": true
+   },
+   "positive_lt1": {
+    "manifest": 38250850,
+    "raw": 38250850,
+    "pass_": true
+   },
+   "gt200": {
+    "manifest": 30745,
+    "raw": 30745,
+    "pass_": true
+   },
+   "gt1000": {
+    "manifest": 5149,
+    "raw": 5149,
+    "pass_": true
+   },
+   "eq_minus_1_5": {
+    "manifest": 35995,
+    "raw": 35995,
+    "pass_": true
+   },
+   "other_negative": {
+    "manifest": 27073,
+    "raw": 27073,
+    "pass_": true
+   },
+   "nan": {
+    "manifest": 0,
+    "raw": 0,
+    "pass_": true
+   },
+   "max(3 dp)": {
+    "manifest": 99290.078,
+    "raw": 99290.078125,
+    "pass_": true
+   },
+   "sum_of_classes_eq_pixels": {
+    "manifest": 2903160001,
+    "raw": 2903160001,
+    "pass_": true
+   }
+  },
+  "2025": {
+   "zero": {
+    "manifest": 2821508654,
+    "raw": 2821508654,
+    "pass_": true
+   },
+   "positive": {
+    "manifest": 81649055,
+    "raw": 81649055,
+    "pass_": true
+   },
+   "positive_lt1": {
+    "manifest": 34789564,
+    "raw": 34789564,
+    "pass_": true
+   },
+   "gt200": {
+    "manifest": 37533,
+    "raw": 37533,
+    "pass_": true
+   },
+   "gt1000": {
+    "manifest": 6860,
+    "raw": 6860,
+    "pass_": true
+   },
+   "eq_minus_1_5": {
+    "manifest": 1977,
+    "raw": 1977,
+    "pass_": true
+   },
+   "other_negative": {
+    "manifest": 315,
+    "raw": 315,
+    "pass_": true
+   },
+   "nan": {
+    "manifest": 0,
+    "raw": 0,
+    "pass_": true
+   },
+   "max(3 dp)": {
+    "manifest": 83972.148,
+    "raw": 83972.1484375,
+    "pass_": true
+   },
+   "sum_of_classes_eq_pixels": {
+    "manifest": 2903160001,
+    "raw": 2903160001,
+    "pass_": true
+   }
+  }
+ },
+ "pairwise_sums": {
+  "nd2015": 35995,
+  "nd2025": 1977,
+  "pass_": true
+ },
+ "area": {
+  "band_75N_65S_km2": 477481000.99409056,
+  "grid_sum_km2": 477492852.2204866,
+  "diff_total_km2": 11851.226396024227,
+  "diff_from_half_pixel_overhang_top_and_bottom_km2": 6320.932819902897,
+  "diff_from_86401_columns_and_stored_pixel_size_km2": 5530.293576180935,
+  "of_which_one_duplicate_column_km2": 5526.473633413316,
+  "residual_km2": -5.960464477539063e-08,
+  "valid_area_pipeline_km2": 477489298.5946267,
+  "valid_area_audit_km2": 477489298.59450746,
+  "pass_": true
+ },
+ "output_consistency": [
+  {
+   "where": "global",
+   "lit": "radiance > 0.0 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 2.810680064210485e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 1.324829354885147e-16,
+   "identity_both": 0.0,
+   "pixel_identity_exact": true,
+   "pass_": true
+  },
+  {
+   "where": "global",
+   "lit": "radiance > 0.5 nW/cm2/sr",
+   "radiance_pct": 1.608541763561961e-16,
+   "lit_area_pct": 0.0,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 1.4150680586541418e-16,
+   "identity_both": 4.0253024486201833e-16,
+   "pixel_identity_exact": true,
+   "pass_": true
+  },
+  {
+   "where": "global",
+   "lit": "radiance > 1.0 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 1.9117417933013205e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "identity_both": 0.0,
+   "pixel_identity_exact": true,
+   "pass_": true
+  },
+  {
+   "where": "India",
+   "lit": "radiance > 0.0 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 1.3389630860324802e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "India",
+   "lit": "radiance > 0.5 nW/cm2/sr",
+   "radiance_pct": 1.298739492912017e-16,
+   "lit_area_pct": 1.6653121497324558e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 1.3907570091415003e-16,
+   "pass_": true
+  },
+  {
+   "where": "India",
+   "lit": "radiance > 1.0 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 0.0,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "France (mainland incl. Corsica)",
+   "lit": "radiance > 0.0 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 1.173930604387859e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "France (mainland incl. Corsica)",
+   "lit": "radiance > 0.5 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 6.900161561193839e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "France (mainland incl. Corsica)",
+   "lit": "radiance > 1.0 nW/cm2/sr",
+   "radiance_pct": 1.628264648959014e-16,
+   "lit_area_pct": 0.0,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "France (mainland excl. Corsica)",
+   "lit": "radiance > 0.0 nW/cm2/sr",
+   "radiance_pct": 1.7245224118865686e-16,
+   "lit_area_pct": 1.164065573428811e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 2.0006525642047161e-16,
+   "pass_": true
+  },
+  {
+   "where": "France (mainland excl. Corsica)",
+   "lit": "radiance > 0.5 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 6.194963929980422e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 2.1146253854822523e-16,
+   "pass_": true
+  },
+  {
+   "where": "France (mainland excl. Corsica)",
+   "lit": "radiance > 1.0 nW/cm2/sr",
+   "radiance_pct": 1.624512517939139e-16,
+   "lit_area_pct": 1.591001793020085e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "Ukraine (excl. Crimea)",
+   "lit": "radiance > 0.0 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 0.0,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "Ukraine (excl. Crimea)",
+   "lit": "radiance > 0.5 nW/cm2/sr",
+   "radiance_pct": 0.0,
+   "lit_area_pct": 4.754438720591871e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 0.0,
+   "pass_": true
+  },
+  {
+   "where": "Ukraine (excl. Crimea)",
+   "lit": "radiance > 1.0 nW/cm2/sr",
+   "radiance_pct": 1.9222401739613992e-16,
+   "lit_area_pct": 2.069914214839559e-16,
+   "newly_pct": 0.0,
+   "lost_pct": 0.0,
+   "identity_2025": 2.1682219451623183e-16,
+   "pass_": true
+  }
+ ],
+ "corsica": {
+  "area_incl_minus_excl_km2": 8650.987257794244,
+  "corsica_polygons_area_km2": 8652.822523085082,
+  "pixels_incl_minus_excl": 54365,
+  "excl_le_incl": true,
+  "pass_": true
+ },
+ "pass": true
+}

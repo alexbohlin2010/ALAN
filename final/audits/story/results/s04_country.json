@@ -1,0 +1,1388 @@
+{
+ "areas": {
+  "India": {
+   "pixels_inside": 16045982,
+   "area_inside_km2": 3158334.493648901,
+   "pixels_excluded_pairwise": 8,
+   "nodata_pixels": {
+    "2015": 0,
+    "2025": 8
+   },
+   "results": [
+    {
+     "threshold": 0.0,
+     "radiance_change_pct": 92.56127985579353,
+     "lit_area_change_pct": 26.533320566198363,
+     "newly_lit_area_pct_of_2015_lit": 35.18886918333677,
+     "lit_to_unlit_area_pct_of_2015_lit": 8.655548617138413,
+     "total_radiance_x_area": {
+      "2015": 1932377.5069182506,
+      "2025": 3721010.8589672586
+     },
+     "lit_area_km2": {
+      "2015": 1350180.2564897623,
+      "2025": 1708427.9121657102,
+      "newly_lit": 475113.16419542336,
+      "lit_to_unlit": 116865.5085194755
+     }
+    },
+    {
+     "threshold": 0.5,
+     "radiance_change_pct": 109.420363304258,
+     "lit_area_change_pct": 85.33448049055063,
+     "newly_lit_area_pct_of_2015_lit": 90.08306865653863,
+     "lit_to_unlit_area_pct_of_2015_lit": 4.748588165987961,
+     "total_radiance_x_area": {
+      "2015": 1769413.9189133048,
+      "2025": 3705513.057344352
+     },
+     "lit_area_km2": {
+      "2015": 903301.3439187467,
+      "2025": 1674128.8530159714,
+      "newly_lit": 813721.5698177607,
+      "lit_to_unlit": 42894.06072053581
+     }
+    },
+    {
+     "threshold": 1.0,
+     "radiance_change_pct": 128.07547764725362,
+     "lit_area_change_pct": 164.37039582487012,
+     "newly_lit_area_pct_of_2015_lit": 167.78885824689462,
+     "lit_to_unlit_area_pct_of_2015_lit": 3.418462422024514,
+     "total_radiance_x_area": {
+      "2015": 1408391.4165617598,
+      "2025": 3212195.450466155
+     },
+     "lit_area_km2": {
+      "2015": 390293.5826608319,
+      "2025": 1031820.689359508,
+      "newly_lit": 654869.1461575098,
+      "lit_to_unlit": 13342.039458833722
+     }
+    }
+   ]
+  },
+  "France (mainland incl. Corsica)": {
+   "pixels_inside": 3704350,
+   "area_inside_km2": 546430.58836098,
+   "pixels_excluded_pairwise": 0,
+   "nodata_pixels": {
+    "2015": 0,
+    "2025": 0
+   },
+   "results": [
+    {
+     "threshold": 0.0,
+     "radiance_change_pct": -41.057237210173035,
+     "lit_area_change_pct": -30.263404544709402,
+     "newly_lit_area_pct_of_2015_lit": 5.64832528785363,
+     "lit_to_unlit_area_pct_of_2015_lit": 35.91172983256303,
+     "total_radiance_x_area": {
+      "2015": 729565.5156427964,
+      "2025": 430026.07128171145
+     },
+     "lit_area_km2": {
+      "2015": 211631.06328700273,
+      "2025": 147584.29846218711,
+      "newly_lit": 11953.610864593295,
+      "lit_to_unlit": 76000.37568940892
+     }
+    },
+    {
+     "threshold": 0.5,
+     "radiance_change_pct": -39.77868032528336,
+     "lit_area_change_pct": -3.8615548860269437,
+     "newly_lit_area_pct_of_2015_lit": 19.601118963318292,
+     "lit_to_unlit_area_pct_of_2015_lit": 23.462673849345222,
+     "total_radiance_x_area": {
+      "2015": 707780.5000296554,
+      "2025": 426234.7575181667
+     },
+     "lit_area_km2": {
+      "2015": 144935.7539692393,
+      "2025": 139338.98028024015,
+      "newly_lit": 28409.029555892914,
+      "lit_to_unlit": 34005.80324489204
+     }
+    },
+    {
+     "threshold": 1.0,
+     "radiance_change_pct": -43.638037355559106,
+     "lit_area_change_pct": -22.08843007610947,
+     "newly_lit_area_pct_of_2015_lit": 8.653075107360731,
+     "lit_to_unlit_area_pct_of_2015_lit": 30.741505183470196,
+     "total_radiance_x_area": {
+      "2015": 670285.3136405863,
+      "2025": 377785.9580852807
+     },
+     "lit_area_km2": {
+      "2015": 92078.81612193026,
+      "2025": 71740.05120792828,
+      "newly_lit": 7967.649116999207,
+      "lit_to_unlit": 28306.41403100118
+     }
+    }
+   ]
+  },
+  "France (mainland excl. Corsica)": {
+   "pixels_inside": 3649985,
+   "area_inside_km2": 537779.6011031887,
+   "pixels_excluded_pairwise": 0,
+   "nodata_pixels": {
+    "2015": 0,
+    "2025": 0
+   },
+   "results": [
+    {
+     "threshold": 0.0,
+     "radiance_change_pct": -41.202290608840975,
+     "lit_area_change_pct": -30.519875854895457,
+     "newly_lit_area_pct_of_2015_lit": 5.513127488919634,
+     "lit_to_unlit_area_pct_of_2015_lit": 36.033003343815075,
+     "total_radiance_x_area": {
+      "2015": 724665.3677395821,
+      "2025": 426086.63698189333
+     },
+     "lit_area_km2": {
+      "2015": 209371.6573847583,
+      "2025": 145471.687475593,
+      "newly_lit": 11542.926397285742,
+      "lit_to_unlit": 75442.896306451
+     }
+    },
+    {
+     "threshold": 0.5,
+     "radiance_change_pct": -39.91703030961591,
+     "lit_area_change_pct": -4.301131191749735,
+     "newly_lit_area_pct_of_2015_lit": 19.26700890466317,
+     "lit_to_unlit_area_pct_of_2015_lit": 23.568140096412897,
+     "total_radiance_x_area": {
+      "2015": 703151.9407957982,
+      "2025": 422474.56746568694
+     },
+     "lit_area_km2": {
+      "2015": 143816.89428774593,
+      "2025": 137631.14098852995,
+      "newly_lit": 27709.21382883003,
+      "lit_to_unlit": 33894.967128045995
+     }
+    },
+    {
+     "threshold": 1.0,
+     "radiance_change_pct": -43.738827981546976,
+     "lit_area_change_pct": -22.330041954614092,
+     "newly_lit_area_pct_of_2015_lit": 8.495168607474156,
+     "lit_to_unlit_area_pct_of_2015_lit": 30.825210562088255,
+     "total_radiance_x_area": {
+      "2015": 665942.2563348883,
+      "2025": 374666.9183801389
+     },
+     "lit_area_km2": {
+      "2015": 91363.80620593006,
+      "2025": 70962.22994881356,
+      "newly_lit": 7761.509383399695,
+      "lit_to_unlit": 28163.085640516198
+     }
+    }
+   ]
+  },
+  "Ukraine (excl. Crimea)": {
+   "pixels_inside": 4063138,
+   "area_inside_km2": 570174.3064463489,
+   "pixels_excluded_pairwise": 0,
+   "nodata_pixels": {
+    "2015": 0,
+    "2025": 0
+   },
+   "results": [
+    {
+     "threshold": 0.0,
+     "radiance_change_pct": -32.09967967954674,
+     "lit_area_change_pct": -38.59577757556915,
+     "newly_lit_area_pct_of_2015_lit": 14.86897941990792,
+     "lit_to_unlit_area_pct_of_2015_lit": 53.46475699547706,
+     "total_radiance_x_area": {
+      "2015": 136116.37938686908,
+      "2025": 92423.45761228753
+     },
+     "lit_area_km2": {
+      "2015": 82549.25040164187,
+      "2025": 50688.72532632455,
+      "newly_lit": 12274.231053508385,
+      "lit_to_unlit": 44134.7561288257
+     }
+    },
+    {
+     "threshold": 0.5,
+     "radiance_change_pct": -26.81536733290168,
+     "lit_area_change_pct": 22.417243470277285,
+     "newly_lit_area_pct_of_2015_lit": 59.20566444666999,
+     "lit_to_unlit_area_pct_of_2015_lit": 36.7884209763927,
+     "total_radiance_x_area": {
+      "2015": 123221.13935274136,
+      "2025": 90178.9382035171
+     },
+     "lit_area_km2": {
+      "2015": 37479.18771104998,
+      "2025": 45880.988470918295,
+      "newly_lit": 22189.802113541824,
+      "lit_to_unlit": 13788.001353673504
+     }
+    },
+    {
+     "threshold": 1.0,
+     "radiance_change_pct": -36.964305781611785,
+     "lit_area_change_pct": -17.163579308409354,
+     "newly_lit_area_pct_of_2015_lit": 27.935754240542444,
+     "lit_to_unlit_area_pct_of_2015_lit": 45.09933354895178,
+     "total_radiance_x_area": {
+      "2015": 111231.14042869692,
+      "2025": 70115.32155625938
+     },
+     "lit_area_km2": {
+      "2015": 20255.133223763693,
+      "2025": 16778.62736887904,
+      "newly_lit": 5658.424238485088,
+      "lit_to_unlit": 9134.930093369738
+     }
+    }
+   ]
+  }
+ },
+ "comparison": {
+  "rows": [
+   {
+    "item": "India: pixels_inside",
+    "pipeline": 16045982,
+    "audit": 16045982,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India: pixels_excluded_pairwise",
+    "pipeline": 8,
+    "audit": 8,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India: nodata_pixels[2015]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India: nodata_pixels[2025]",
+    "pipeline": 8,
+    "audit": 8,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India: area_inside_km2",
+    "pipeline": 3158334.4936498916,
+    "audit": 3158334.493648901,
+    "relerr": 3.1360248893680234e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: is_main_result",
+    "pipeline": true,
+    "audit": true,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: radiance_change_pct",
+    "pipeline": 92.5612798557928,
+    "audit": 92.56127985579353,
+    "relerr": 7.829986702911162e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: lit_area_change_pct",
+    "pipeline": 26.533320566197595,
+    "audit": 26.533320566198363,
+    "relerr": 2.892160265830074e-14,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 35.18886918333629,
+    "audit": 35.18886918333677,
+    "relerr": 1.3730735642555588e-14,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 8.655548617138702,
+    "audit": 8.655548617138413,
+    "relerr": 3.345208693633994e-14,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: total_radiance_x_area[2015]",
+    "pipeline": 1932377.506918845,
+    "audit": 1932377.5069182506,
+    "relerr": 3.0760895897412926e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: total_radiance_x_area[2025]",
+    "pipeline": 3721010.858968389,
+    "audit": 3721010.8589672586,
+    "relerr": 3.0384904759365437e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: lit_area_km2.2015",
+    "pipeline": 1350180.256490183,
+    "audit": 1350180.2564897623,
+    "relerr": 3.1160652147012153e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: lit_area_km2.2025",
+    "pipeline": 1708427.9121662322,
+    "audit": 1708427.9121657102,
+    "relerr": 3.0554774910583635e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: lit_area_km2.newly_lit",
+    "pipeline": 475113.1641955649,
+    "audit": 475113.16419542336,
+    "relerr": 2.979522396127162e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 116865.50851951583,
+    "audit": 116865.5085194755,
+    "relerr": 3.4516522046619706e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: radiance_change_pct",
+    "pipeline": 109.42036330425746,
+    "audit": 109.420363304258,
+    "relerr": 4.935210073065641e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: lit_area_change_pct",
+    "pipeline": 85.33448049054995,
+    "audit": 85.33448049055063,
+    "relerr": 7.993498318715724e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 90.08306865653807,
+    "audit": 90.08306865653863,
+    "relerr": 6.152358508189543e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 4.748588165988142,
+    "audit": 4.748588165987961,
+    "relerr": 3.815626693352586e-14,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: total_radiance_x_area[2015]",
+    "pipeline": 1769413.9189138473,
+    "audit": 1769413.9189133048,
+    "relerr": 3.065960959810503e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: total_radiance_x_area[2025]",
+    "pipeline": 3705513.057345479,
+    "audit": 3705513.057344352,
+    "relerr": 3.041145174352745e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: lit_area_km2.2015",
+    "pipeline": 903301.3439190269,
+    "audit": 903301.3439187467,
+    "relerr": 3.102084166306196e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: lit_area_km2.2025",
+    "pipeline": 1674128.8530164843,
+    "audit": 1674128.8530159714,
+    "relerr": 3.0638376911387254e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: lit_area_km2.newly_lit",
+    "pipeline": 813721.5698180081,
+    "audit": 813721.5698177607,
+    "relerr": 3.040137659587474e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>0.5]: lit_area_km2.lit_to_unlit",
+    "pipeline": 42894.06072055076,
+    "audit": 42894.06072053581,
+    "relerr": 3.4858189329655417e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: radiance_change_pct",
+    "pipeline": 128.0754776472531,
+    "audit": 128.07547764725362,
+    "relerr": 3.994447486319739e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: lit_area_change_pct",
+    "pipeline": 164.3703958248694,
+    "audit": 164.37039582487012,
+    "relerr": 4.3228145323513984e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 167.788858246894,
+    "audit": 167.78885824689462,
+    "relerr": 3.726574064583103e-15,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 3.4184624220245996,
+    "audit": 3.418462422024514,
+    "relerr": 2.507244688397084e-14,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: total_radiance_x_area[2015]",
+    "pipeline": 1408391.4165621903,
+    "audit": 1408391.4165617598,
+    "relerr": 3.056706076545413e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: total_radiance_x_area[2025]",
+    "pipeline": 3212195.4504671297,
+    "audit": 3212195.450466155,
+    "relerr": 3.0341524647678707e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: lit_area_km2.2015",
+    "pipeline": 390293.58266095223,
+    "audit": 390293.5826608319,
+    "relerr": 3.0826854566208663e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: lit_area_km2.2025",
+    "pipeline": 1031820.6893598232,
+    "audit": 1031820.689359508,
+    "relerr": 3.05530500365265e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: lit_area_km2.newly_lit",
+    "pipeline": 654869.1461577092,
+    "audit": 654869.1461575098,
+    "relerr": 3.0451800555818833e-13,
+    "pass_": true
+   },
+   {
+    "item": "India [>1.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 13342.039458838171,
+    "audit": 13342.039458833722,
+    "relerr": 3.3347585987881695e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica): pixels_inside",
+    "pipeline": 3704350,
+    "audit": 3704350,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica): pixels_excluded_pairwise",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica): nodata_pixels[2015]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica): nodata_pixels[2025]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica): area_inside_km2",
+    "pipeline": 546430.5883611757,
+    "audit": 546430.58836098,
+    "relerr": 3.5813177402457e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: is_main_result",
+    "pipeline": true,
+    "audit": true,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: radiance_change_pct",
+    "pipeline": -41.057237210173156,
+    "audit": -41.057237210173035,
+    "relerr": 2.942045624280027e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: lit_area_change_pct",
+    "pipeline": -30.263404544709417,
+    "audit": -30.263404544709402,
+    "relerr": 4.695722417551437e-16,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 5.648325287853593,
+    "audit": 5.64832528785363,
+    "relerr": 6.4470995121357465e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 35.91172983256301,
+    "audit": 35.91172983256303,
+    "relerr": 5.935743605832772e-16,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: total_radiance_x_area[2015]",
+    "pipeline": 729565.5156430637,
+    "audit": 729565.5156427964,
+    "relerr": 3.663681645904608e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: total_radiance_x_area[2025]",
+    "pipeline": 430026.0712818681,
+    "audit": 430026.07128171145,
+    "relerr": 3.642495792202107e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: lit_area_km2.2015",
+    "pipeline": 211631.06328707887,
+    "audit": 211631.06328700273,
+    "relerr": 3.59756357560501e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: lit_area_km2.2025",
+    "pipeline": 147584.29846224017,
+    "audit": 147584.29846218711,
+    "relerr": 3.5949815444764355e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: lit_area_km2.newly_lit",
+    "pipeline": 11953.610864597518,
+    "audit": 11953.610864593295,
+    "relerr": 3.5334037914372846e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 76000.37568943622,
+    "audit": 76000.37568940892,
+    "relerr": 3.5920076342741993e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: radiance_change_pct",
+    "pipeline": -39.7786803252835,
+    "audit": -39.77868032528336,
+    "relerr": 3.5724801825991e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: lit_area_change_pct",
+    "pipeline": -3.8615548860269966,
+    "audit": -3.8615548860269437,
+    "relerr": 1.3685320429701124e-14,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 19.601118963318193,
+    "audit": 19.601118963318292,
+    "relerr": 5.0750155229695945e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 23.46267384934518,
+    "audit": 23.462673849345222,
+    "relerr": 1.8170377519353263e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: total_radiance_x_area[2015]",
+    "pipeline": 707780.5000299148,
+    "audit": 707780.5000296554,
+    "relerr": 3.664601342074954e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: total_radiance_x_area[2025]",
+    "pipeline": 426234.75751832186,
+    "audit": 426234.7575181667,
+    "relerr": 3.640754801387439e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: lit_area_km2.2015",
+    "pipeline": 144935.7539692915,
+    "audit": 144935.7539692393,
+    "relerr": 3.6004344393847724e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: lit_area_km2.2025",
+    "pipeline": 139338.98028029024,
+    "audit": 139338.98028024015,
+    "relerr": 3.594664760376727e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: lit_area_km2.newly_lit",
+    "pipeline": 28409.02955590299,
+    "audit": 28409.029555892914,
+    "relerr": 3.547182516676338e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>0.5]: lit_area_km2.lit_to_unlit",
+    "pipeline": 34005.80324490422,
+    "audit": 34005.80324489204,
+    "relerr": 3.5817277887615327e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: radiance_change_pct",
+    "pipeline": -43.63803735555925,
+    "audit": -43.638037355559106,
+    "relerr": 3.256529297918028e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: lit_area_change_pct",
+    "pipeline": -22.08843007610963,
+    "audit": -22.08843007610947,
+    "relerr": 7.23782156518841e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 8.653075107360584,
+    "audit": 8.653075107360731,
+    "relerr": 1.7038753950581464e-14,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 30.74150518347021,
+    "audit": 30.741505183470196,
+    "relerr": 4.622693205940748e-16,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: total_radiance_x_area[2015]",
+    "pipeline": 670285.3136408324,
+    "audit": 670285.3136405863,
+    "relerr": 3.671600515985827e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: total_radiance_x_area[2025]",
+    "pipeline": 377785.95808541856,
+    "audit": 377785.9580852807,
+    "relerr": 3.648514141225062e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: lit_area_km2.2015",
+    "pipeline": 92078.81612196371,
+    "audit": 92078.81612193026,
+    "relerr": 3.6332844533646596e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: lit_area_km2.2025",
+    "pipeline": 71740.0512079542,
+    "audit": 71740.05120792828,
+    "relerr": 3.6126209258751984e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: lit_area_km2.newly_lit",
+    "pipeline": 7967.649117001965,
+    "audit": 7967.649116999207,
+    "relerr": 3.4621221265768384e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland incl. Corsica) [>1.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 28306.414031011478,
+    "audit": 28306.41403100118,
+    "relerr": 3.638439680700388e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica): pixels_inside",
+    "pipeline": 3649985,
+    "audit": 3649985,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica): pixels_excluded_pairwise",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica): nodata_pixels[2015]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica): nodata_pixels[2025]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica): area_inside_km2",
+    "pipeline": 537779.6011033815,
+    "audit": 537779.6011031887,
+    "relerr": 3.5848100699591944e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: is_main_result",
+    "pipeline": true,
+    "audit": true,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: radiance_change_pct",
+    "pipeline": -41.20229060884113,
+    "audit": -41.202290608840975,
+    "relerr": 3.7939493061504505e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: lit_area_change_pct",
+    "pipeline": -30.51987585489546,
+    "audit": -30.519875854895457,
+    "relerr": 1.164065573428811e-16,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 5.5131274889195945,
+    "audit": 5.513127488919634,
+    "relerr": 7.0885083911715775e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 36.03300334381505,
+    "audit": 36.033003343815075,
+    "relerr": 7.887688172760233e-16,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: total_radiance_x_area[2015]",
+    "pipeline": 724665.3677398479,
+    "audit": 724665.3677395821,
+    "relerr": 3.6675711516312565e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: total_radiance_x_area[2025]",
+    "pipeline": 426086.6369820485,
+    "audit": 426086.63698189333,
+    "relerr": 3.6420204373093746e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: lit_area_km2.2015",
+    "pipeline": 209371.65738483367,
+    "audit": 209371.6573847583,
+    "relerr": 3.600244742983085e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: lit_area_km2.2025",
+    "pipeline": 145471.68747564536,
+    "audit": 145471.687475593,
+    "relerr": 3.599173963004285e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: lit_area_km2.newly_lit",
+    "pipeline": 11542.926397289817,
+    "audit": 11542.926397285742,
+    "relerr": 3.5298988520791274e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 75442.8963064781,
+    "audit": 75442.896306451,
+    "relerr": 3.5915463856459123e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: radiance_change_pct",
+    "pipeline": -39.91703030961607,
+    "audit": -39.91703030961591,
+    "relerr": 3.916108003394343e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: lit_area_change_pct",
+    "pipeline": -4.301131191749807,
+    "audit": -4.301131191749735,
+    "relerr": 1.672640261094714e-14,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 19.267008904663072,
+    "audit": 19.26700890466317,
+    "relerr": 5.163021592954056e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 23.568140096412844,
+    "audit": 23.568140096412897,
+    "relerr": 2.26113324869952e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: total_radiance_x_area[2015]",
+    "pipeline": 703151.9407960563,
+    "audit": 703151.9407957982,
+    "relerr": 3.6705120688157534e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: total_radiance_x_area[2025]",
+    "pipeline": 422474.5674658409,
+    "audit": 422474.56746568694,
+    "relerr": 3.6442255930250673e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: lit_area_km2.2015",
+    "pipeline": 143816.89428779774,
+    "audit": 143816.89428774593,
+    "relerr": 3.6021371807207365e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: lit_area_km2.2025",
+    "pipeline": 137631.14098857943,
+    "audit": 137631.14098852995,
+    "relerr": 3.5948631553198293e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: lit_area_km2.newly_lit",
+    "pipeline": 27709.213828839867,
+    "audit": 27709.21382883003,
+    "relerr": 3.550116851073379e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>0.5]: lit_area_km2.lit_to_unlit",
+    "pipeline": 33894.96712805813,
+    "audit": 33894.967128045995,
+    "relerr": 3.5805602804115337e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: radiance_change_pct",
+    "pipeline": -43.73882798154713,
+    "audit": -43.738827981546976,
+    "relerr": 3.5739275394661066e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: lit_area_change_pct",
+    "pipeline": -22.330041954614256,
+    "audit": -22.330041954614092,
+    "relerr": 7.318608247892393e-15,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 8.495168607474008,
+    "audit": 8.495168607474156,
+    "relerr": 1.7355466910980827e-14,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 30.82521056208827,
+    "audit": 30.825210562088255,
+    "relerr": 4.610140354622539e-16,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: total_radiance_x_area[2015]",
+    "pipeline": 665942.2563351332,
+    "audit": 665942.2563348883,
+    "relerr": 3.6780641984161267e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: total_radiance_x_area[2025]",
+    "pipeline": 374666.9183802756,
+    "audit": 374666.9183801389,
+    "relerr": 3.649369313865024e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: lit_area_km2.2015",
+    "pipeline": 91363.80620596326,
+    "audit": 91363.80620593006,
+    "relerr": 3.634641761341782e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: lit_area_km2.2025",
+    "pipeline": 70962.2299488392,
+    "audit": 70962.22994881356,
+    "relerr": 3.613256608602647e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: lit_area_km2.newly_lit",
+    "pipeline": 7761.509383402382,
+    "audit": 7761.509383399695,
+    "relerr": 3.4615011286110115e-13,
+    "pass_": true
+   },
+   {
+    "item": "France (mainland excl. Corsica) [>1.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 28163.085640526446,
+    "audit": 28163.085640516198,
+    "relerr": 3.6388719724767306e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea): pixels_inside",
+    "pipeline": 4063138,
+    "audit": 4063138,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea): pixels_excluded_pairwise",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea): nodata_pixels[2015]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea): nodata_pixels[2025]",
+    "pipeline": 0,
+    "audit": 0,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea): area_inside_km2",
+    "pipeline": 570174.3064465479,
+    "audit": 570174.3064463489,
+    "relerr": 3.489350234705515e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: is_main_result",
+    "pipeline": true,
+    "audit": true,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: radiance_change_pct",
+    "pipeline": -32.09967967954766,
+    "audit": -32.09967967954674,
+    "relerr": 2.877616118632704e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: lit_area_change_pct",
+    "pipeline": -38.5957775755696,
+    "audit": -38.59577757556915,
+    "relerr": 1.1598209743342806e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 14.868979419907726,
+    "audit": 14.86897941990792,
+    "relerr": 1.3021935805182947e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 53.46475699547733,
+    "audit": 53.46475699547706,
+    "relerr": 5.0501723894803885e-15,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: total_radiance_x_area[2015]",
+    "pipeline": 136116.3793869128,
+    "audit": 136116.37938686908,
+    "relerr": 3.211513084825484e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: total_radiance_x_area[2025]",
+    "pipeline": 92423.45761231595,
+    "audit": 92423.45761228753,
+    "relerr": 3.074965076529808e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: lit_area_km2.2015",
+    "pipeline": 82549.25040167077,
+    "audit": 82549.25040164187,
+    "relerr": 3.5009528860545095e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: lit_area_km2.2025",
+    "pipeline": 50688.725326341926,
+    "audit": 50688.72532632455,
+    "relerr": 3.42778135982058e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: lit_area_km2.newly_lit",
+    "pipeline": 12274.231053512522,
+    "audit": 12274.231053508385,
+    "relerr": 3.3699723311625027e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 44134.75612884137,
+    "audit": 44134.7561288257,
+    "relerr": 3.551036433780003e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: radiance_change_pct",
+    "pipeline": -26.815367332902508,
+    "audit": -26.81536733290168,
+    "relerr": 3.086969784466932e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: lit_area_change_pct",
+    "pipeline": 22.417243470275892,
+    "audit": 22.417243470277285,
+    "relerr": 6.212466594906327e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 59.205664446669054,
+    "audit": 59.20566444666999,
+    "relerr": 1.5841666839972186e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 36.78842097639315,
+    "audit": 36.7884209763927,
+    "relerr": 1.2168011337483378e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: total_radiance_x_area[2015]",
+    "pipeline": 123221.13935278053,
+    "audit": 123221.13935274136,
+    "relerr": 3.1791424751080743e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: total_radiance_x_area[2025]",
+    "pipeline": 90178.93820354475,
+    "audit": 90178.9382035171,
+    "relerr": 3.06597521380111e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: lit_area_km2.2015",
+    "pipeline": 37479.18771106323,
+    "audit": 37479.18771104998,
+    "relerr": 3.535167015243765e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: lit_area_km2.2025",
+    "pipeline": 45880.988470934,
+    "audit": 45880.988470918295,
+    "relerr": 3.422227169616208e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: lit_area_km2.newly_lit",
+    "pipeline": 22189.802113549318,
+    "audit": 22189.802113541824,
+    "relerr": 3.37733356262464e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>0.5]: lit_area_km2.lit_to_unlit",
+    "pipeline": 13788.001353678548,
+    "audit": 13788.001353673504,
+    "relerr": 3.6582949817356515e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: is_main_result",
+    "pipeline": false,
+    "audit": false,
+    "relerr": 0.0,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: radiance_change_pct",
+    "pipeline": -36.964305781612936,
+    "audit": -36.964305781611785,
+    "relerr": 3.114029081817467e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: lit_area_change_pct",
+    "pipeline": -17.163579308410494,
+    "audit": -17.163579308409354,
+    "relerr": 6.644424629634985e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: newly_lit_area_pct_of_2015_lit",
+    "pipeline": 27.93575424054172,
+    "audit": 27.935754240542444,
+    "relerr": 2.5943584133607743e-14,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: lit_to_unlit_area_pct_of_2015_lit",
+    "pipeline": 45.09933354895223,
+    "audit": 45.09933354895178,
+    "relerr": 9.925688215391886e-15,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: total_radiance_x_area[2015]",
+    "pipeline": 111231.14042873193,
+    "audit": 111231.14042869692,
+    "relerr": 3.1476714078899057e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: total_radiance_x_area[2025]",
+    "pipeline": 70115.32155628016,
+    "audit": 70115.32155625938,
+    "relerr": 2.9637081432234563e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: lit_area_km2.2015",
+    "pipeline": 20255.133223770936,
+    "audit": 20255.133223763693,
+    "relerr": 3.575990206975848e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: lit_area_km2.2025",
+    "pipeline": 16778.62736888481,
+    "audit": 16778.62736887904,
+    "relerr": 3.4388000050274365e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: lit_area_km2.newly_lit",
+    "pipeline": 5658.424238486964,
+    "audit": 5658.424238485088,
+    "relerr": 3.315918868358413e-13,
+    "pass_": true
+   },
+   {
+    "item": "Ukraine (excl. Crimea) [>1.0]: lit_area_km2.lit_to_unlit",
+    "pipeline": 9134.930093373096,
+    "audit": 9134.930093369738,
+    "relerr": 3.6758403234870895e-13,
+    "pass_": true
+   }
+  ],
+  "summary": {
+   "items": 152,
+   "failed": 0,
+   "worst_relerr": 3.6780641984161267e-13,
+   "verdict": "PASS"
+  }
+ },
+ "identity_lit25_eq_lit15_plus_new_minus_lost": [
+  {
+   "area": "India",
+   "threshold": 0.0,
+   "identity_relerr": 1.3628356338355473e-16
+  },
+  {
+   "area": "India",
+   "threshold": 0.5,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "India",
+   "threshold": 1.0,
+   "identity_relerr": 1.128251478454056e-16
+  },
+  {
+   "area": "France (mainland incl. Corsica)",
+   "threshold": 0.0,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "France (mainland incl. Corsica)",
+   "threshold": 0.5,
+   "identity_relerr": 2.0887070077733984e-16
+  },
+  {
+   "area": "France (mainland incl. Corsica)",
+   "threshold": 1.0,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "France (mainland excl. Corsica)",
+   "threshold": 0.0,
+   "identity_relerr": 2.0006525642054362e-16
+  },
+  {
+   "area": "France (mainland excl. Corsica)",
+   "threshold": 0.5,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "France (mainland excl. Corsica)",
+   "threshold": 1.0,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "Ukraine (excl. Crimea)",
+   "threshold": 0.0,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "Ukraine (excl. Crimea)",
+   "threshold": 0.5,
+   "identity_relerr": 0.0
+  },
+  {
+   "area": "Ukraine (excl. Crimea)",
+   "threshold": 1.0,
+   "identity_relerr": 2.1682219451630633e-16
+  }
+ ]
+}
