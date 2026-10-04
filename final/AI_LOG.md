@@ -3529,3 +3529,24 @@ Append only. One entry per AI step (see RULES.md §4).
 - **Human answer:** "Everything, one commit".
 - **Done:** one commit on branch `alexander-final-rebuild` with all modified files under `final/` plus `handoffs/2026-10-04_firefly-door-transition.md`. Not pushed.
 - **Files changed:** this log (then committed).
+
+## 2026-10-04: Firefly transition task, step 6. File location given (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > where's that file so I can send it
+- **Done:** location given: `final/data/derived/colour/global_white_share_values.png` (148,121 bytes, sha256 cc6de888…ead7); revealed in Finder.
+- **Files changed:** this log (uncommitted).
+
+## 2026-10-04: Firefly transition task, steps 7–8. Why derived data is git-ignored; app's small derived files committed (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt step 7 (verbatim):**
+  > question - why do I not commit the color data with the git? I'm happy to do that?
+- **Step 7 (no change):** explained `.gitignore` excludes `data/derived/` (rebuildable outputs) and human decision B1 (Push task step 9: separate zip); sizes radiance 1.1 GB, colour 441 MB (`global_records.csv` 441 MB > GitHub's 100 MB limit). Offered to commit only the small files the app reads.
+- **Prompt step 8 (verbatim):**
+  > yes, colour files and the impacts json too please let's do that so we don't have separate data files. I'm happy to ignore large datasets which aren't necessary to run the app
+- **Done:** `final/.gitignore`: `data/derived/` replaced by `data/derived/*` plus exceptions for the files the app fetches (checked by grep of app/src: tileLayer.js GRID_URL + its png / share_png; impacts.js and spectral.js fetches):
+  - colour: `global_white_share_grid.json`, `global_white_share_grid.png`, `global_white_share_values.png` (≈0.5 MB)
+  - impacts: `effects.json`, `studies.json`, `study_locations.json`, `spectra_278.json`, `spectra_299.json`, `perception_299.json` (≈3.7 MB)
+  - Still ignored: everything else in `data/derived/`, incl. the radiance tiles (`data/derived/radiance/tiles/v1/`, ≈220 MB, 21k files), which the app needs to draw the globe; they still travel by zip.
+- **Committed** (one commit, not pushed): `.gitignore`, the 9 files above (values unchanged, labels as recorded at their creation: impacts `documented` / `inferred`, colour shares `estimated`), this log.
+- **Files changed:** `final/.gitignore`, this log.
