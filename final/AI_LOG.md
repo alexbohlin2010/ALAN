@@ -4502,3 +4502,53 @@ Append only. One entry per AI step (see RULES.md §4).
   > commit
 - **Done:** committed on branch `claude/priceless-wilson-0bbb66` (on top of e497ae80f), not pushed: `final/AI_LOG.md` (rounds 5h copy, 6a–6l), `final/app/content/story.js`, `final/app/src/impacts.js`, `final/app/src/main.js`, `final/app/src/spectral.js`, `final/app/src/style.css`. Not included: `.claude/launch.json` in the worktree root (dev server config, port 5176), as in earlier sessions.
 - **Files changed:** this log; git history.
+
+## 2026-10-04: Firefly tabs review, round 6m. Push of all local branches (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > push all changes on all branches
+- **Done:** `git fetch --all`; tracked branches `main`, `alexander-earth-after-dark`, `alexander-final-rebuild`, `linda-multiscale-alan` were already in sync with origin. Pushed the four branches that had no remote (`git push -u origin …`, new branches on github.com/alexbohlin2010/ALAN): `linda-firefly-narrative` (80750733c), `claude/cool-ishizaka-9fd75f` (71b2d3ada), `claude/interesting-gagarin-73979e` (e497ae80f), `claude/priceless-wilson-0bbb66` (d33371904); each is an ancestor of the next. No commits made for this step. Not pushed because not committed (left as they are): the round 5h `AI_LOG.md` edit in the `interesting-gagarin-73979e` worktree (its text is already in d33371904); untracked `Linda/analysis/colours_night_local_audit/` and `Linda/visual tests/spatial/philadelphia-spectral-space/` in the main checkout; `.claude/` folders in each checkout. This log entry is not committed.
+- **Files changed:** this log; remote branches.
+
+## 2026-10-04: Firefly tabs review, round 6n. Explained what a pull request into main means (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > what does mean by open a pull request from claude/priceless-wilson-0bbb66 into main
+- **Done:** listed the commits on `claude/priceless-wilson-0bbb66` that are not on `main` (`git log main..`) and explained pull requests in chat. Nothing opened.
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6o. Mate-finding: reading and proposal for a new visualization and transition (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > got it, do not merge to main now. let's keep working on the web. Now the "Mate-finding" visualization is very confusing. Is there a better way of visualization that's much more similar with the previous two tabs? and is there any way to clearly transit from the "female response" to let audience know the close relationship between the two tabs?
+- **Done (read only):** current Mate-finding = five treatment rows of trap pillars (10 × 6 grid per treatment in data-file order, green dummy-female point + pillar of male points per trap), a light column at each lit treatment's peak, control left of the axis, Table 3 big number per beat. Read `kivela2023.json` (no file written): Table 1 peaks blue 452, white 449, yellow 575, red 625 nm; Table 3 success control 68.3 % (41/60), blue 35.0 % (21/60), white 36.7 % (22/60), yellow 71.2 % (42/59), red 73.3 % (44/60); trapped males per treatment (sum / max per trap): control 209 / 25, blue 60 / 14, white 29 / 5, yellow 151 / 14, red 175 / 14. Proposed options to the human (below). Merge to main: not now (human).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6p. Mate-finding rebuilt as a "dark vs lit pair" + "the answer becomes the lure" transition (app code; no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the round 6o prompt, then the human's answers to the agent's two questions:
+  > Which visualization for Mate-finding? = "Dark vs lit pair (Recommended)"
+  > How should Female response hand over to Mate-finding? = "The answer becomes the lure (Recommended)"
+- **Done:**
+  - `app/src/spectral.js` Mate-finding (`glow` chapter) rebuilt; the five rows of trap pillars removed. New `glowSide()`: left side = control traps (60), right side = the beat's treatment traps (blue 60, white 60, yellow 59, red 60), centred where the Signal males are (x ∓1.6, y 4.4). Each trap = one green point (dummy female, LED 562 nm, documented; size 3.8), placed in a ball of radius 0.95 (trap j has the same place on both sides; display only); its trapped males (measured counts from `kivela2023.json` `traps`) start 2.2–4 units out in random directions and fly in (staggered over 1.3 s, 1.1 s each) to a small swarm (radius 0.14) above it (display only). The lit treatment's column at its Table 1 peak (white drawn white, as before). Tags: above "dark (control)" / "<treatment> · <peak> nm"; below "<Table 3 printed %> % with ≥ 1 male". No big number. View = the Signal production view (round 6k), so the pair sits left of the strip and card.
+  - New strip for Mate-finding (`renderGlowStrip`, same place and width as Signal's): Table 3 share of dummy females with ≥ 1 male per lit treatment (dot + stem, printed value above, "<treatment> <peak nm>" below), dashed line = control 68.3; tooltip "n of N"; click → beat.
+  - Transition: the flash travel is generalised (`startTravel(pair, dir)`, pairs `sf` = Signal ↔ Female response, `fg` = Female response ↔ Mate-finding; camera path between the two chapter views). Female response → Mate-finding: the flash leaves the Female response female and travels back to the Mate-finding pair centre; on landing it splits into both sides' dummy females (1 s), then the males fly in. Back: the flash travels from the pair centre to the female; on landing her reply cycle starts (on the last beat, bright amber 0 %, she does not answer, as in the data). Comment in the file header: display device, not data (glow-worm females glow rather than answer; the dummies are LEDs).
+  - `app/content/story.js` Mate-finding beats: blue, white, yellow, red (control beat removed: control is always the left side). `[DRAFT]` card sentence "Each pillar is one dummy female, each point one male." replaced by "Left: no light; right: the chosen light. Each green point is one dummy female, each pale point one trapped male." (agent draft, still marked [DRAFT]).
+  - First version tuned after viewing: female point size 2.8 → 3.8, ball radius 0.75 → 0.95, male swarm radius 0.11 → 0.14. All sizes, timings and placements are agent choices.
+  - Checked in the in-app browser at 1000 × 575, audio muted before Begin: Female response → Mate-finding (flash, split, arrivals, labels, strip, buttons), blue → red beat, Mate-finding → Female response, Signal → Female response (regression); no console errors. Not checked: other sizes, phone width. Male swarms are faint next to the green females at this size (reported).
+- **Data:** values shown are read from `kivela2023.json` (Table 1 peak nm, Table 3 printed shares and n, per-trap male counts); no values produced or changed.
+- **Files changed:** `app/src/spectral.js`, `app/content/story.js`, this log.
+
+## 2026-10-04: Firefly tabs review, round 6q. Brighter 3D views on Signal production, Female response, Mate-finding (app code; no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > cool. now I have an overall comment. for "signal production" "female response" "mate finding" , I think all main body visualization part is too dark now. need to raise the brightness of all of them to be more visible.
+- **Done:** `app/src/spectral.js` only. Point shader: two shared uniforms, `uGain` (brightness) and `uSize` (point size), 1 by default (mice chapter and anything outside the three tabs unchanged); set to `BAND_GAIN` 2.2 and `BAND_SIZE` 1.3 whenever a firefly band chapter (signal, fireflies, glow) is shown. `uGain` multiplies alpha (capped at 1) and colour; the colour is then rescaled so its largest channel is ≤ 1, so hues (wavelength colours) do not shift. The other bands' faint level is divided by the gain (`FAINT / BAND_GAIN`), so they stay as faint as before. Steps: gain 1.6 alone (only slightly brighter) → 2.2 + size 1.3 (clearly brighter, but colour × gain clipped channels: 562 nm green turned yellow) → hue-preserving rescale. Values are agent choices, tuned by eye. Checked in the in-app browser at 1000 × 575 (audio muted before Begin): all three tabs visibly brighter, colours as nm → RGB; no console errors.
+- **Files changed:** `app/src/spectral.js`, this log.
+
+## 2026-10-04: Firefly tabs review, round 6r. Handoff written; commit (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > commit change and write hand-off to start a new session
+- **Done:** wrote `handoffs/2026-10-04_firefly-tabs-review.md` (facts and human decisions of rounds 6a–6r, known issues, open items). Committed on `claude/priceless-wilson-0bbb66`, not pushed: `AI_LOG.md` (rounds 6m–6r), `app/content/story.js`, `app/src/spectral.js`, the handoff. Not included: `.claude/launch.json` (worktree root). Offered the human a fresh-session task chip starting from this branch and the handoff.
+- **Files changed:** `handoffs/2026-10-04_firefly-tabs-review.md` (new), this log; git history.

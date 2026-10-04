@@ -30,12 +30,13 @@
 // the top right above the card, as wide as the card; flashes shown 2.5× faster than Table 1 (SIGNAL_SPEED, both males,
 // so their ratio is kept; display only, the strip and labels keep the printed values).
 //
-// Mate-finding (Kivelä et al. 2023, Lampyris noctiluca; human decisions AI_LOG Firefly tabs rounds 5a-5b). Data:
-// kivela2023.json. One row per treatment (control, blue, white, yellow, red); each of the 299 traps is a green point
-// (the dummy female, LED 562 nm, documented) with a pillar of male points = its trapped males (measured). Trap order
-// in each 10 × 6 grid follows the data file (night, site), not field positions. Lit rows have a column at the
-// treatment's peak wavelength (white treatment drawn white: display choice); control sits left of the axis.
-// Number = Table 3 share of dummy females with ≥ 1 male (printed text).
+// Mate-finding (Kivelä et al. 2023, Lampyris noctiluca; human decisions AI_LOG Firefly tabs rounds 5a-5b, review
+// round 6o: "dark vs lit pair", laid out like Signal production). Data: kivela2023.json. Left = control (no light),
+// right = the beat's treatment (blue, white, yellow, red). Each side: that treatment's traps as green points (the
+// dummy females, LED 562 nm, documented) scattered in a ball (trap j has the same place on both sides; positions are
+// display only), and each trap's trapped males (measured count) flying in to a small swarm above it (motion and swarm
+// shape: display only). The lit treatment's column stands at its Table 1 peak (white drawn white: display choice).
+// Under each side and in the strip: Table 3 share of dummy females with ≥ 1 male (printed text).
 //
 // One continuous scene (human, round 5b): signal (Owens 2018), fireflies (Owens & Lewis 2021) and glow (Kivelä) sit
 // in depth bands along the shared nm axis (BANDS, z offsets); moving between these steps keeps the camera (it
@@ -44,6 +45,9 @@
 // yellow-green flash leaves the right-hand Signal male, travels back through depth to the Female response female and
 // she answers; the camera rides with it. Back plays it in reverse. The travelling flash is a display device, not data
 // (the two studies use different species).
+// Female response ↔ Mate-finding (human: "the answer becomes the lure", round 6o): the female's reply glow travels
+// back to the Mate-finding band, splits into the dummy females of both sides, then the males fly in. Display device,
+// not data (Kivelä's females are glow-worms, which glow rather than answer, and the dummies are LEDs).
 import * as THREE from 'three';
 
 const NM0 = 380, NM1 = 780, WIDTH = 10;
@@ -79,6 +83,7 @@ const vertexShader = `
   attribute vec3 aColor;
   attribute float aSize;
   uniform float uScale;
+  uniform float uSize;
   uniform float uOpacity;
   varying vec3 vColor;
   varying float vAlpha;
@@ -86,11 +91,15 @@ const vertexShader = `
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
     vColor = aColor;
     vAlpha = uOpacity;
-    gl_PointSize = clamp(aSize * uScale * (15.0 / -mv.z), 1.0, 9.0 * uScale);
+    gl_PointSize = clamp(aSize * uSize * uScale * (15.0 / -mv.z), 1.0, 9.0 * uSize * uScale);
     gl_Position = projectionMatrix * mv;
   }`;
+// uGain / uSize: shared brightness and point-size gains (1 = as before); raised on the three firefly tabs (human,
+// AI_LOG Firefly tabs review round 6q: "too dark"). uGain scales alpha (capped at 1) and colour (rescaled so the
+// largest channel is at most 1, so hues, e.g. wavelength colours, do not shift), so dim and halo points brighten most. The other bands' FAINT level is divided by the gain, so they stay as faint as before.
 const fragmentShader = `
   precision highp float;
+  uniform float uGain;
   varying vec3 vColor;
   varying float vAlpha;
   void main() {
@@ -99,8 +108,11 @@ const fragmentShader = `
     float glow = (1.0 - smoothstep(0.13, 0.5, r)) * 0.58;
     float a = max(core, glow) * vAlpha;
     if (a <= 0.003) discard;
-    gl_FragColor = vec4(vColor, a);
+    vec3 c = vColor * uGain;
+    c /= max(1.0, max(c.r, max(c.g, c.b)));   // brighter but the same hue (no channel clipped)
+    gl_FragColor = vec4(c, min(1.0, a * uGain));
   }`;
+const GAIN = { value: 1 }, SIZE = { value: 1 }, BAND_GAIN = 2.2, BAND_SIZE = 1.3;   // agent choices, tuned by eye
 
 export function createSpectral({ parent }) {
   const canvas = Object.assign(document.createElement('canvas'), { id: 'spectral-canvas', hidden: true });
@@ -155,7 +167,7 @@ export function createSpectral({ parent }) {
     g.setAttribute('aColor', new THREE.BufferAttribute(col, 3));
     g.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
     const m = new THREE.ShaderMaterial({ vertexShader, fragmentShader, transparent: true, depthWrite: false,
-      blending: THREE.AdditiveBlending, uniforms: { uScale: { value: scale }, uOpacity: { value: 0 } } });
+      blending: THREE.AdditiveBlending, uniforms: { uScale: { value: scale }, uOpacity: { value: 0 }, uGain: GAIN, uSize: SIZE } });
     const p = new THREE.Points(g, m);
     p.frustumCulled = false;
     return p;
@@ -197,6 +209,63 @@ export function createSpectral({ parent }) {
     const t = { el, pos, chapter };
     tags.push(t);
     return t;
+  }
+
+  // One side of the Mate-finding pair (round 6o). Capacities: 60 dummy females, 260 males (data maxima per treatment:
+  // 60 traps, 209 males). fill(traps): females at fixed places in a ball (r 0.95) around c, trap j always at the same
+  // place; each trap's males start far out in random directions and fly in (staggered) to a swarm above it.
+  // wait = true: the females sit gathered at the travel's landing point, hidden, until land(origin) splits them out.
+  function glowSide(c, FEMALE, MALE) {
+    const fem = points(Array.from({ length: 60 }, () => [0, 0, 0, FEMALE, 3.8]));
+    const mal = points(Array.from({ length: 260 }, () => [0, 0, 0, MALE, 1.4]));
+    const sd = { c, fem, mal, nF: 0, nM: 0, fEnd: new Float32Array(180), mEnd: new Float32Array(780),
+      mFrom: new Float32Array(780), mDelay: new Float32Array(260), t: 0, split: null, splitT: 0, done: true };
+    const ball = (i, seed, r0) => {
+      const r = r0 * Math.cbrt(hash(i, seed)), u = 2 * hash(i, seed + 1) - 1, a = 2 * Math.PI * hash(i, seed + 2), q = Math.sqrt(1 - u * u);
+      return [r * q * Math.cos(a), r * u, r * q * Math.sin(a)];
+    };
+    sd.fill = (traps, now, wait = false) => {
+      sd.nF = traps.length; sd.nM = 0;
+      traps.forEach((tr, j) => {
+        const [fx, fy, fz] = ball(j, 61, 0.95);
+        sd.fEnd.set([c.x + fx, c.y + fy, c.z + fz], j * 3);
+        for (let i = 0; i < tr.males && sd.nM < 260; i++, sd.nM++) {
+          const m = sd.nM, [ox, oy, oz] = ball(j * 31 + i, 71, 0.14), [dx, dy, dz] = ball(m, 81, 1), d = Math.hypot(dx, dy, dz) || 1;
+          const far = 2.2 + 1.8 * hash(m, 84);
+          sd.mEnd.set([c.x + fx + ox, c.y + fy + 0.1 + Math.abs(oy), c.z + fz + oz], m * 3);
+          sd.mFrom.set([sd.mEnd[m * 3] + dx / d * far, sd.mEnd[m * 3 + 1] + Math.abs(dy / d) * far, sd.mEnd[m * 3 + 2] + dz / d * far], m * 3);
+          sd.mDelay[m] = hash(m, 85) * 1300;
+        }
+      });
+      fem.geometry.setDrawRange(0, sd.nF); mal.geometry.setDrawRange(0, sd.nM);
+      sd.split = wait ? 'pending' : null; sd.t = wait ? Infinity : now; sd.done = false;
+      const fp = fem.geometry.attributes.position;
+      for (let j = 0; j < sd.nF; j++) fp.setXYZ(j, ...(wait ? [0, -1e4, 0] : sd.fEnd.subarray(j * 3, j * 3 + 3)));
+      fp.needsUpdate = true;
+      sd.tick(now);
+    };
+    sd.land = (origin, now) => { sd.split = origin.clone(); sd.splitT = now; sd.t = now + 600; sd.done = false; };
+    sd.tick = now => {
+      if (sd.done) return;
+      let busy = false;
+      if (sd.split && sd.split !== 'pending') {
+        const k = Math.min(1, (now - sd.splitT) / 1000), e = ease(k), fp = fem.geometry.attributes.position;
+        for (let j = 0; j < sd.nF; j++) fp.setXYZ(j, sd.split.x + (sd.fEnd[j * 3] - sd.split.x) * e,
+          sd.split.y + (sd.fEnd[j * 3 + 1] - sd.split.y) * e, sd.split.z + (sd.fEnd[j * 3 + 2] - sd.split.z) * e);
+        fp.needsUpdate = true;
+        if (k < 1) busy = true;
+      }
+      const mp = mal.geometry.attributes.position;
+      for (let m = 0; m < sd.nM; m++) {
+        const k = Math.min(1, Math.max(0, (now - sd.t - sd.mDelay[m]) / 1100)), e = ease(k);
+        if (!(now - sd.t - sd.mDelay[m] > 0)) { mp.setXYZ(m, 0, -1e4, 0); busy = true; continue; }
+        mp.setXYZ(m, ...[0, 1, 2].map(a => sd.mFrom[m * 3 + a] + (sd.mEnd[m * 3 + a] - sd.mFrom[m * 3 + a]) * e));
+        if (k < 1) busy = true;
+      }
+      mp.needsUpdate = true;
+      sd.done = !busy;
+    };
+    return sd;
   }
 
   // Firefly dialogue: male cluster flashes, a signal crosses, the female cluster answers (or not).
@@ -343,28 +412,22 @@ export function createSpectral({ parent }) {
     S.view = { pos: new THREE.Vector3(0.7, 4.5, 17.5), target: new THREE.Vector3(1.6, 2.6, -0.3), sway: 0.8 };
     chapters.signal = S;
 
-    // Mate-finding (Kivelä 2023): treatment rows of trap pillars; light column at each lit treatment's peak.
-    const K = data.k, KT = ['control', 'blue', 'white', 'yellow', 'red'];
-    const G = { group: new THREE.Group(), rows: {}, cols: {}, tags: {}, t1: K.paper.table1.rows, t3: K.paper.table3.rows };
+    // Mate-finding (Kivelä 2023): control (left) vs the beat's treatment (right), centred where the Signal males are.
+    const K = data.k;
+    const G = { group: new THREE.Group(), cols: {}, t1: K.paper.table1.rows, t3: K.paper.table3.rows,
+      traps: t => K.traps.filter(r => r.treatment === t), mid: new THREE.Vector3(0, H + 2, -0.3), fresh: true };
     const FEMALE = nmRGB(562), MALE = new THREE.Color(0.95, 0.92, 0.82);
-    KT.forEach((t, i) => {
-      const z0 = -i * 0.9, r1 = G.t1.find(r => r.treatment === t), cx = r1.peak_nm ? x(r1.peak_nm) : x(NM0) - 0.9;
-      const list = [];
-      K.traps.filter(r => r.treatment === t).forEach((r, j) => {
-        const px = cx + ((j % 10) - 4.5) * 0.11, pz = z0 + (Math.floor(j / 10) - 2.5) * 0.11;
-        list.push([px, 0.02, pz, FEMALE, 2.2]);
-        for (let m = 0; m < r.males; m++) list.push([px, 0.12 + m * 0.07, pz, MALE, 1.5]);
-      });
-      G.rows[t] = points(list);
-      G.group.add(G.rows[t]);
-      if (r1.peak_nm) {
-        G.cols[t] = column(r1.peak_nm, H, z0 + 0.35, z0 - 0.35, t === 'white' ? new THREE.Color(1, 1, 1) : nmRGB(r1.peak_nm), 0.35, 1.6);
-        G.group.add(G.cols[t]);
-      }
-      G.tags[t] = tag(t === 'control' ? 'dark (control)' : `${t} · ${r1.peak_nm} nm`, new THREE.Vector3(cx + 0.65, 0.1, z0), 'glow', 'row');
+    G.sides = [-1.6, 1.6].map(dx => glowSide(new THREE.Vector3(dx, H + 2, -0.3), FEMALE, MALE));
+    G.sides.forEach(sd => G.group.add(sd.fem, sd.mal));
+    G.t1.filter(r => r.peak_nm).forEach(r => {
+      G.cols[r.treatment] = column(r.peak_nm, H, 0.3, -0.7, r.treatment === 'white' ? new THREE.Color(1, 1, 1) : nmRGB(r.peak_nm), 0.25, 1.8);
+      G.group.add(G.cols[r.treatment]);
     });
-    G.group.add(floor(0.5, -4.1));
-    G.view = { pos: new THREE.Vector3(-2.3, 4.4, 9.5), target: new THREE.Vector3(-2.3, 0.6, -1.8), sway: 0.6 };
+    G.group.add(floor(0.5, -0.9));
+    G.top = G.sides.map((sd, k) => tag(k ? '' : 'dark (control)', sd.c.clone().add(new THREE.Vector3(0, 1.05, 0)), 'glow', 'sym'));
+    G.pct = G.sides.map(sd => tag('', sd.c.clone().add(new THREE.Vector3(0, -1.1, 0)), 'glow', 'sym'));
+    // Same framing as Signal production (round 6k), so the pair sits left of the strip and card.
+    G.view = { pos: new THREE.Vector3(0.7, 4.5, 17.5), target: new THREE.Vector3(1.6, 2.6, -0.3), sway: 0.8 };
     chapters.glow = G;
 
     Object.values(chapters).forEach(c => { c.group.visible = false; scene.add(c.group); });
@@ -428,13 +491,18 @@ export function createSpectral({ parent }) {
       S.lit.el.textContent = r ? `${b.nm} nm · ${b.exposure}` : 'dark';
       showNumber(null);   // no big number on this tab (human, round 6j)
     } else if (current.chapter === 'glow') {
-      // Beat = { treatment }: its row and column lit, the others faint. Number: Table 3 (printed text).
-      const G = chapters.glow, r3 = G.t3.find(r => r.treatment === b.treatment), tok = r3.printed.split(' ');
-      Object.entries(G.rows).forEach(([t, p]) => { fadeTo(p, t === b.treatment ? 1 : 0.16); G.tags[t].el.classList.toggle('on', t === b.treatment); });
-      Object.entries(G.cols).forEach(([t, p]) => fadeTo(p, t === b.treatment ? 0.8 : 0.05));
-      const nm = G.t1.find(r => r.treatment === b.treatment).peak_nm;
-      showNumber({ value: `${tok[3]} %`, label: `dummy females with ≥ 1 male · ${nm ? `${b.treatment} ${nm} nm` : 'dark (control)'} · ` +
-        `${r3.n_at_least_one} of ${r3.n_zero + r3.n_at_least_one} · Table 3` });
+      // Beat = { treatment }: right side = its traps, its column lit. Control (left) refills on entering the chapter.
+      // Arriving from Female response, both sides wait for the travelling glow to land (land() then splits them out).
+      const G = chapters.glow, t = b.treatment, now = performance.now(), wait = travel?.pair === 'fg' && travel.dir > 0;
+      const share = tr => G.t3.find(r => r.treatment === tr).printed.split(' ')[3];
+      Object.entries(G.cols).forEach(([k, p]) => fadeTo(p, k === t ? 0.9 : 0));
+      if (G.fresh) { G.sides[0].fill(G.traps('control'), now, wait); G.fresh = false; }
+      G.sides[1].fill(G.traps(t), now, wait);
+      G.sides.forEach(sd => { fadeTo(sd.fem, wait ? 0 : 1, 300); fadeTo(sd.mal, 0.85, 300); });
+      G.top[1].el.textContent = `${t} · ${G.t1.find(r => r.treatment === t).peak_nm} nm`;
+      G.pct[0].el.textContent = `${share('control')} % with ≥ 1 male`;
+      G.pct[1].el.textContent = `${share(t)} % with ≥ 1 male`;
+      showNumber(null);   // values in the strip and under each side (round 6o)
     } else {
       // Beats: 'lux' (both lamps, no light on the dials) → one lamp at a time: its dial's 1 h window at
       // ZT 14 lights and loses `supp` of its activity → 'clock': a 15 min pulse at CT 16 on both dials, then
@@ -499,8 +567,9 @@ export function createSpectral({ parent }) {
   // Signal production strip: Table 1 means ± SD (counts; peaks/min) per wavelength, dim filled, bright ring;
   // dashed line = dark base value. Click a mark to go to its beat.
   function renderStrip() {
-    strip.hidden = current?.chapter !== 'signal';
+    strip.hidden = current?.chapter !== 'signal' && current?.chapter !== 'glow';
     if (strip.hidden) return;
+    if (current.chapter === 'glow') { renderGlowStrip(); return; }
     const S = chapters.signal, cur = current.beats[manualBeat] || {};
     const beatOf = (nm, e) => current.beats.findIndex(b => b.nm === nm && b.exposure === e);
     const rows = S.rows.filter(r => beatOf(r.wavelength_nm, r.exposure) >= 0);   // bright only (round 6j)
@@ -534,6 +603,34 @@ export function createSpectral({ parent }) {
     s += `<text class="tick" x="${L - 8}" y="${yb}">nm</text>`;
     s += `<text class="legend" x="0" y="${yb + 16}">bright 10× · bars ± SD · Owens et al. 2018, Table 1</text>`;
     strip.innerHTML = `<svg viewBox="0 0 ${W} ${yb + 20}">${s}</svg>`;
+    placeStrip();
+  }
+
+  // Mate-finding strip (round 6o): Table 3 share of dummy females with ≥ 1 male per lit treatment (printed text),
+  // dashed line = control. Click a mark to go to its beat.
+  function renderGlowStrip() {
+    const G = chapters.glow, cur = current.beats[manualBeat] || {};
+    const W = 330, L = 58, PH = 70, top = 16, slot = (W - L - 6) / current.beats.length;
+    const y = v => top + PH - v / 100 * PH, row = t => G.t3.find(r => r.treatment === t);
+    const ctl = row('control');
+    let s = `<text class="title" x="0" y="${top - 5}">dummy females with ≥ 1 male (%)</text>` +
+      `<line class="axis" x1="${L - 4}" x2="${W}" y1="${y(0)}" y2="${y(0)}"/>` +
+      `<line class="dark" x1="${L - 4}" x2="${W}" y1="${y(ctl.success_percent)}" y2="${y(ctl.success_percent)}"/>` +
+      `<text class="tick" x="${L - 8}" y="${y(ctl.success_percent) + 3}">dark ${ctl.printed.split(' ')[3]}</text>` +
+      `<text class="tick" x="${L - 8}" y="${y(0) + 3}">0</text>`;
+    current.beats.forEach((b, i) => {
+      const r = row(b.treatment), nm = G.t1.find(q => q.treatment === b.treatment).peak_nm, on = cur.treatment === b.treatment;
+      const cx = L + slot * (i + 0.5), c = b.treatment === 'white' ? '#fff' : css(nmRGB(nm)), v = r.printed.split(' ')[3];
+      s += `<g class="m${on ? ' on' : ''}" data-beat="${i}"><title>${b.treatment} ${nm} nm: ${v} % ` +
+        `(${r.n_at_least_one} of ${r.n_zero + r.n_at_least_one})</title>` +
+        `<rect x="${cx - 12}" y="${top - 2}" width="24" height="${PH + 4}" fill="transparent"/>` +
+        `<line x1="${cx}" x2="${cx}" y1="${y(0)}" y2="${y(r.success_percent)}" stroke="${c}"/>` +
+        `<circle cx="${cx}" cy="${y(r.success_percent)}" r="${on ? 4.5 : 3}" stroke="${c}" fill="${c}"/>` +
+        `<text class="nm" x="${cx}" y="${y(r.success_percent) - 8}">${v}</text></g>` +
+        `<text class="nm" x="${cx}" y="${top + PH + 14}">${b.treatment} ${nm}</text>`;
+    });
+    s += `<text class="legend" x="0" y="${top + PH + 32}">dashed = no light (control) · Kivelä et al. 2023, Table 3</text>`;
+    strip.innerHTML = `<svg viewBox="0 0 ${W} ${top + PH + 36}">${s}</svg>`;
     placeStrip();
   }
 
@@ -590,11 +687,14 @@ export function createSpectral({ parent }) {
   const pA = new THREE.Vector3(), pB = new THREE.Vector3(), pT = new THREE.Vector3(), chase = new THREE.Vector3();
   const BEHIND = new THREE.Vector3(-0.4, 0.7, 4.2);   // camera offset from the flash at mid-path
   const flashAt = (k, out) => out.copy(pA).lerp(pB, k).setY(out.y + 0.9 * Math.sin(Math.PI * k));
-  function startTravel(dir, now) {
-    const S = chapters.signal, F = chapters.fireflies;
-    pA.copy(S.maleC[1]).add(S.group.position);
-    pB.copy(F.femaleC).add(F.group.position);
-    travel = { dir, t: now, ms: TRAVEL_MS };
+  // pair 'sf' = Signal male → Female response female; 'fg' = Female response female → Mate-finding pair centre.
+  // dir 1 = in story order, −1 = back. A/B = start/end chapters (their views frame the camera path).
+  function startTravel(pair, dir, now) {
+    const S = chapters.signal, F = chapters.fireflies, G = chapters.glow;
+    const [a, b] = pair === 'sf' ? [S, F] : [F, G];
+    if (pair === 'sf') { pA.copy(S.maleC[1]).add(S.group.position); pB.copy(F.femaleC).add(F.group.position); }
+    else { pA.copy(F.femaleC).add(F.group.position); pB.copy(G.mid).add(G.group.position); }
+    travel = { pair, dir, t: now, ms: TRAVEL_MS, vA: a.view, vB: b.view };
     labels.style.visibility = number.style.visibility = toggle.style.visibility = strip.style.visibility = 'hidden';
   }
   function endTravel() {
@@ -609,14 +709,20 @@ export function createSpectral({ parent }) {
       flashAt(kj, f.position);
       op(f).value = (1 - j / TRAIL) * Math.min(1, k0 / 0.08, (1 - k0) / 0.12);
     });
-    const S = chapters.signal.view, F = chapters.fireflies.view, mid = Math.sin(Math.PI * k);
+    const A = travel.vA, B = travel.vB, mid = Math.sin(Math.PI * k);
     flashAt(k, pT);
     chase.copy(pT).add(BEHIND);
-    cam.pos.copy(S.pos).lerp(F.pos, k).lerp(chase, 0.6 * mid);
-    cam.target.copy(S.target).lerp(F.target, k).lerp(pT, 0.75 * mid);
+    cam.pos.copy(A.pos).lerp(B.pos, k).lerp(chase, 0.6 * mid);
+    cam.target.copy(A.target).lerp(B.target, k).lerp(pT, 0.75 * mid);
     cam.t = now;
     if (k0 < 1) return true;
-    if (travel.dir > 0) t0 = now - 0.55 * 1200;   // the female's reply (cycle phase 0.6) comes ~60 ms after landing
+    // Landing on the Female response female (forward from Signal, or back from Mate-finding): her reply (cycle phase
+    // 0.6) comes ~60 ms after. Landing in Mate-finding: the glow splits into both sides' dummy females.
+    if ((travel.pair === 'sf') === (travel.dir > 0)) t0 = now - 0.55 * 1200;
+    else if (travel.pair === 'fg') {
+      const G = chapters.glow;
+      G.sides.forEach(sd => { sd.land(G.mid, now); fadeTo(sd.fem, 1, 250); });
+    }
     endTravel();
     return false;
   }
@@ -658,11 +764,12 @@ export function createSpectral({ parent }) {
       if (f.tick) f.tick(ease(k)); else op(f.p).value = f.from + (f.to - f.from) * ease(k);
       return k < 1;
     });
-    if (current.chapter === 'fireflies' && travel?.dir > 0) {   // waiting for the flash: dialogue at rest
+    if (current.chapter === 'fireflies' && travel?.pair === 'sf' && travel.dir > 0) {   // waiting for the flash: dialogue at rest
       const F = chapters.fireflies;
       op(F.talk.male).value = 0.14; op(F.talk.female).value = 0.12; op(F.talk.signal).value = 0;
     } else if (current.chapter === 'fireflies') animateDialogue(now);
     else if (current.chapter === 'signal') animateSignal(now);
+    else if (current.chapter === 'glow') chapters.glow.sides.forEach(sd => sd.tick(now));
     else if (current.chapter === 'mice') Object.values(chapters.mice.dials).forEach(d => d.tick(now));
     // A beat may name a closer view (`view` key → chapter.views); the camera eases towards it.
     const ch = chapters[current.chapter], vw = ch.views?.[current.beats[beatIndex]?.view] || ch.view;
@@ -718,6 +825,7 @@ export function createSpectral({ parent }) {
       await loaded;
       if (current !== st) return;  // the step changed while the data was loading
       const band = BANDS[st.chapter] != null;
+      GAIN.value = band ? BAND_GAIN : 1; SIZE.value = band ? BAND_SIZE : 1;
       Object.entries(chapters).forEach(([k, c]) => { c.group.visible = k === st.chapter || (band && BANDS[k] != null); });
       if (!cont) Object.values(chapters).forEach(c => c.group.traverse(o => { if (o.isPoints) op(o).value = 0; }));
       tags.forEach(t => t.el.classList.remove('on'));
@@ -725,14 +833,16 @@ export function createSpectral({ parent }) {
       if (st.chapter !== 'fireflies') [chapters.fireflies.lamps, chapters.fireflies.seen]   // undo a ×10 amber lamp
         .forEach(o => Object.values(o).forEach(p => { p.scale.y = 1; }));
       if (band) Object.keys(BANDS).filter(k => k !== st.chapter)
-        .forEach(k => chapters[k].group.traverse(o => { if (o.isPoints) fadeTo(o, FAINT, 1200); }));
+        .forEach(k => chapters[k].group.traverse(o => { if (o.isPoints) fadeTo(o, FAINT / BAND_GAIN, 1200); }));
       beatIndex = -1;
       manualBeat = beat === 'last' ? st.beats.length - 1 : 0;
       renderToggle();
       renderStrip();
       if (!cont) cam = null;  // snap to the first view on entering a step (glide within the continuous scene)
       t0 = performance.now();
-      if (pair === 'signal>fireflies' || pair === 'fireflies>signal') startTravel(pair === 'signal>fireflies' ? 1 : -1, t0);
+      const PAIRS = { 'signal>fireflies': ['sf', 1], 'fireflies>signal': ['sf', -1], 'fireflies>glow': ['fg', 1], 'glow>fireflies': ['fg', -1] };
+      if (st.chapter === 'glow') chapters.glow.fresh = true;   // control side refills (and its males fly in) on entry
+      if (PAIRS[pair]) startTravel(...PAIRS[pair], t0);
       if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone }; door(t0); }
       else if (glow) { trans = { style: 'glow', dir: 1, at: glow, t: t0 + GLOW_DELAY, ms: GLOW_OPEN_MS, done: onDone }; door(t0); }
       canvas.hidden = labels.hidden = false;

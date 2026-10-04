@@ -341,7 +341,8 @@ export const story = [
     // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from kivela2023.json.
     text: '[DRAFT] Female *Lampyris noctiluca* glow-worms glow to attract flying males. Over 20 nights in southern ' +
       'Finland (2020), 299 dummy females (green LEDs) were set under blue, white, yellow or red light, or none, and ' +
-      'the males each one trapped were counted. Each pillar is one dummy female, each point one male. Under blue and ' +
+      'the males each one trapped were counted. Left: no light; right: the chosen light. Each green point is one dummy ' +
+      'female, each pale point one trapped male. Under blue and ' +
       'white light 35.0 % and 36.7 % caught at least one male; under yellow, red and no light 71.2 %, 73.3 % and 68.3 %.',
     sources: [
       { label: 'Kivelä et al. 2023, Sci. Total Environ., Tables 1 and 3', url: 'https://doi.org/10.1016/j.scitotenv.2022.159451',
@@ -351,8 +352,9 @@ export const story = [
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    // Continuous scene, third band (human, AI_LOG Firefly tabs round 5b): one pillar per trap (kivela2023.json).
-    spectral: { chapter: 'glow', manual: true, beats: ['control', 'blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
+    // Continuous scene, third band (human, AI_LOG Firefly tabs round 5b). "Dark vs lit pair" (human, review round 6o):
+    // control always on the left, the beat's treatment on the right, so no control beat (kivela2023.json).
+    spectral: { chapter: 'glow', manual: true, beats: ['blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
   },
   {
     id: 'communication',
