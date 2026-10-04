@@ -1,0 +1,43 @@
+Fireflies flash more brightly in illuminated environs
+laptop running SpectraSuite software. Walls of the light chamber (base: 9×6.5 cm; height: 5.5
+cm) are covered in opaque dark room fabric.
+(TIF)
+S2 Fig. Signal morphology of eight A. fictamales over eight separate 32 min trials. During
+each trial, one unique individual was exposed to two intensities of eight wavelengths of LED
+for 1 min each. Trial date is given to the left of each recording. All light exposures were pre-
+ceded by a 1 min dark exposure, summing to 32 exposures total (16 light and 16 dark). Expo-
+sure order (intensity and wavelength) was randomized; semi-transparent colored overlays
+indicate the series of exposure intensities and wavelengths for each recording, corresponding
+to the colors used in Fig 2 and S1 Table. Bioluminescence was recorded in units of average
+intensity (counts) per 100 ms.
+(TIF)
+S1 Table. Sample experimental procedure, taken from trial on May 5, 2016. Trial began 30
+min post-sunset at 18:56. The order of LED wavelengths has been randomized, as has the
+order of exposure intensity (dim or bright first) within wavelengths. Relative quantum flux
+density (μmol m-2 s-1) is approximately equal across wavelengths; variation in energy measure-
+ments (μW/cm2) reflects inherent differences in the energy of photons of different wavelength.
+(DOCX)
+S2 Table. Change in A. fictaflash duration and interpulse interval under short- and mid-
+wavelength illumination. Data from four of eight experimental trials, organized by trial date,
+are given above. The first column contains average values of flash duration and interpulse
+interval (duration between flashes) from the initial 1 min dark recording of each insect. The
+following columns contain average values for all five short- to mid-wavelength exposures
+(444–533 nm), at 1×and 10×intensity, respectively.
+(DOCX)
+S1 Text. Relevance of experimental design to urban and suburban light environments.
+(DOCX)
+Acknowledgments
+We thank Leo Jeng and Phil Suslow for technical support, Duncan Wright for assistance with
+data collection, and Dr. Sara Lewis (Tufts University), Dr. Christian Wegener, and one anony-
+mous reviewer for valuable comments on the manuscript. This study was supported by a grant
+from the Friends of Da’an Forest Park Foundation to ACSO and ECY.
+Author Contributions
+Conceptualization: Victor Benno Meyer-Rochow, En-Cheng Yang.
+Data curation: Avalon Celeste Stevahn Owens.
+Formal analysis: Avalon Celeste Stevahn Owens.
+Funding acquisition: En-Cheng Yang.
+Investigation: Avalon Celeste Stevahn Owens.
+Methodology: Avalon Celeste Stevahn Owens, En-Cheng Yang.
+Project administration: En-Cheng Yang.
+Resources: En-Cheng Yang.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 10 / 14

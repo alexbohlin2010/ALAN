@@ -1,0 +1,62 @@
+CHANGED /not_reported[0] 'Per-male values: the paper gives means ± SD over the six males (Table 1), not the individual values.' -> 'Per-male values: the paper gives means ± SD (Table 1), not the individual values.'
+CHANGED /not_reported[1] 'Fig 2 means and SE: drawn only (bars, ±1 SE); no numbers in the text. Not digitised (not requested).' -> 'Fig 1 (p. 5): example recordings of two males (counts per 100 ms over 4 min; dark / dim / bright 533 nm); drawn only, not digitised (not requested).'
+CHANGED /not_reported[2] 'S1 Table (exposure sequence, μW/cm2), S2 Table (flash duration, interpulse interval), S1 Text, S1-S2 Fig: separate supplementary files, not in this PDF and not obtained.' -> 'Fig 2 means and SE: drawn only (bars, ±1 SE); no numbers in the text. Not digitised (not requested).'
+CHANGED /not_reported[3] 'Bold p-values in Table 1: the rendered page shows some p-values in bold; the text layer carries no bold and the paper does not state what bold means. Not recorded.' -> 'S1 Table (exposure sequence, μW/cm2), S2 Table (flash duration, interpulse interval), S1 Text, S1-S2 Fig: separate supplementary files, not in this PDF and not obtained.'
+CHANGED /not_reported[4] 'What "±" means for the dim/bright photon flux (SD or other) is not stated.' -> 'Bold p-values in Table 1: the rendered page shows some p-values in bold; the text layer carries no bold and the paper does not state what bold means. Not recorded.'
+CHANGED /not_reported[5] 'Table 1 headers read "degree of change relative to dark (bright/dark)" in both the dim and the bright block, as printed.' -> 'What "±" means for the dim/bright photon flux (SD or other) is not stated.'
+CHANGED /not_reported[6] 'The correlation coefficients (p. 8) do not say which correlation statistic or which variables per se; kept as the quote.' -> 'Table 1 headers read "degree of change relative to dark (bright/dark)" in both the dim and the bright block, as printed.'
+ADDED   /not_reported[7] = 'The correlation coefficients (p. 8) do not say which correlation statistic or which variables per se; kept as the quote.'
+ADDED   /statements/abstract_long/as_printed = 'long wavelength ambient light (≥ 597 nm) did not affect signal morphology'
+ADDED   /statements/abstract_long/glyph_from_rendered_page = True
+ADDED   /statements/abstract_long/label = 'documented'
+ADDED   /statements/abstract_long/page = 1
+ADDED   /statements/abstract_long/quote = 'long wavelength ambient light ( 597 nm) did not affect signal morphology'
+ADDED   /statements/abstract_long/wavelength_bound/unit = 'nm'
+ADDED   /statements/abstract_long/wavelength_bound/value = 597
+ADDED   /statements/abstract_short_mid/label = 'documented'
+ADDED   /statements/abstract_short_mid/page = 1
+ADDED   /statements/abstract_short_mid/quote = 'When exposed to wavelengths at or below 533 nm, males emitted brighter signals with decreased frequency.'
+ADDED   /statements/abstract_short_mid/wavelength_bound/unit = 'nm'
+ADDED   /statements/abstract_short_mid/wavelength_bound/value = 533
+ADDED   /statements/exposure_order_models/label = 'documented'
+ADDED   /statements/exposure_order_models/page = 5
+ADDED   /statements/exposure_order_models/quote = 'Exposure order explained a large amount of observed variation in flash frequency. However, it did not have an observable impact on flash intensity and was subsequently dropped from that set of models.'
+ADDED   /statements/frequency_decline_cause/label = 'documented'
+ADDED   /statements/frequency_decline_cause/page = 5
+ADDED   /statements/frequency_decline_cause/quote = 'The decline is due to increases in interpulse interval [58] and, to a lesser extent, flash duration (S2 Table)'
+ADDED   /statements/pauses/label = 'documented'
+ADDED   /statements/pauses/page = 5
+ADDED   /statements/pauses/pause_at_least/unit = 's'
+ADDED   /statements/pauses/pause_at_least/value = 10
+ADDED   /statements/pauses/quote = 'sporadic periods without flashing were more common under illumination, sometimes continuing for 10 or more seconds'
+CHANGED /text_p_values[0]/page '5-6' -> 5
+CHANGED /text_p_values[10]/page '5-6' -> 5
+CHANGED /text_p_values[11]/page '5-6' -> 5
+CHANGED /text_p_values[12]/page '5-6' -> 5
+CHANGED /text_p_values[13]/page '5-6' -> 5
+CHANGED /text_p_values[15]/page '5-6' -> 6
+CHANGED /text_p_values[16]/page '5-6' -> 6
+CHANGED /text_p_values[17]/page '5-6' -> 6
+CHANGED /text_p_values[18]/page '5-6' -> 6
+CHANGED /text_p_values[19]/page '5-6' -> 6
+CHANGED /text_p_values[1]/page '5-6' -> 5
+CHANGED /text_p_values[2]/page '5-6' -> 5
+CHANGED /text_p_values[3]/page '5-6' -> 5
+CHANGED /text_p_values[4]/page '5-6' -> 5
+CHANGED /text_p_values[5]/page '5-6' -> 5
+CHANGED /text_p_values[6]/page '5-6' -> 5
+CHANGED /text_p_values[7]/page '5-6' -> 5
+CHANGED /text_p_values[8]/page '5-6' -> 5
+CHANGED /text_p_values[9]/page '5-6' -> 5
+CHANGED /units/p 'GLMM, wavelength as fixed effect vs the initial dark recordings; dim and bright analysed separately' -> 'Table 1 "p-value" column, as printed. The table does not name the test; the Methods (p. 4) compare intensity and frequency per wavelength with GLMMs, dim and bright analysed separately'
+CHANGED /units/sd 'standard deviation, as printed ("x̄ ± SD"), over the six analysed males' -> 'standard deviation, as printed ("x̄ ± SD" in the Table 1 header); Fig 2 caption: N = 6'
+--- invariants
+table1 identical: True
+text_p_values identical ignoring page: True
+text_p_values value/comparator/printed identical: True 20
+text_vs_table1 identical: True
+source/scope/labels/label_notes identical: True
+old statements unchanged: True old keys order preserved prefix: True
+new statement keys: ['abstract_short_mid', 'abstract_long', 'exposure_order_models', 'frequency_decline_cause', 'pauses']
+units changed keys: ['sd', 'p']
+top-level key order same: True

@@ -1,0 +1,7 @@
+Fireflies flash more brightly in illuminated environs
+Fig 2. Effects of exposure wavelength and intensity on firefly flash morphology. Change in average (±1 SE) flash intensity (A)
+and frequency (B) of light signals emitted by A. fictaunder illumination by eight wavelengths and two intensities of ambient light
+(N = 6). Base values for average flash intensity (5420 counts) and flash frequency (43.167 peaks/min) obtained from 1 min dark
+recordings have been subtracted out.
+https://doi.org/10.1371/journal.pone.0191576.g002
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 7 / 14

@@ -1,0 +1,23 @@
+Fireflies flash more brightly in illuminated environs
+Fig 1. Plastic effects of 533 nm ambient light exposure on firefly flash morphology. (A) Example of change in intensity of flashes emitted by A. ficta
+male under different illumination conditions (indicated above each section), recorded in units of average counts per 100 ms over 4 min. (B) Changes in
+signal intensity over 4 min of separate A. fictamale under the same illumination conditions (indicated above each section).
+https://doi.org/10.1371/journal.pone.0191576.g001
+intensity and flash frequency (S1 Table). Exposure order explained a large amount of observed
+variation in flash frequency. However, it did not have an observable impact on flash intensity
+and was subsequently dropped from that set of models.
+Results
+A. fictabioluminescent signaling behavior changed in response to environmental light (Fig
+1A, Table 1). In comparison to base level data taken in complete darkness, average peak inten-
+sity of flash signals significantly increased, sometimes more than 100%, when individuals were
+exposed to dim intensities of short- and mid-wavelength light (Fig 2A, Table 1; 444 nm:
+p = 0.0021; 463 nm: p = 0.01; 488 nm: p = 0.017; 515 nm: p = 0.021; 533 nm: p = 0.066).
+Increases in flash intensity under dim short- and mid-wavelength illumination were accompa-
+nied by significant reductions in flash frequency (Fig 2B, Table 1; 444 nm: p = 0.0042, 463 nm:
+p = 0.049, 488 nm: p = p <0.0001, 515 nm: p = 0.0098; 533 nm: p = 0.046). The decline is due
+to increases in interpulse interval [58] and, to a lesser extent, flash duration (S2 Table); in addi-
+tion, sporadic periods without flashing were more common under illumination, sometimes
+continuing for 10 or more seconds. More extreme reductions in flash frequency were seen
+when males were exposed to bright intensities of the same wavelengths (Fig 2B, Table 1; 444
+nm: p = 0.0019; 463 nm: p <0.0001, 488 nm: p <0.0001, 515 nm: p = 0.0018, 533 nm:
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 5 / 14

@@ -1,0 +1,2 @@
+2fcc15da1c2a5a467cb84fcde0736df589bc3d8d83f916979e3dea1613faed70  data/derived/impacts/kivela2023.json
+ead95d0da31c38e0407f9de7fe958ddb201389233e51f7d2cad8a50335615178  data/derived/impacts/kivela2023_pdftext.txt

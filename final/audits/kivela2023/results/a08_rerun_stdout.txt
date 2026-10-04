@@ -1,0 +1,2 @@
+data/derived/impacts/kivela2023_pdftext.txt: 7 pages, 42210 characters
+data/derived/impacts/kivela2023.json: Table 1 5, Table 2 10, Table 3 5, Table 4 10, 15 statements, 299 traps (+1 excluded, 1 empty rows), 42 checks, 0 disagree

@@ -1,0 +1,71 @@
+RESEARCH ARTICLE
+Short- and mid-wavelength artificial light
+influences the flash signals of Aquatica ficta
+fireflies (Coleoptera: Lampyridae)
+Avalon Celeste Stevahn Owens1
+, Victor Benno Meyer-Rochow2,3
+, En-Cheng Yang4*
+1 Department of Biology, Tufts University, Medford, Massachusetts, United States of America, 2 Department
+of Genetics and Physiology, Oulu University, Oulu, Finland, 3 Research Institute of Luminous Organisms,
+Tokyo, Japan, 4 Department of Entomology, National Taiwan University, Taipei, Taiwan
+* ecyang@ntu.edu.tw
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+OPEN ACCESS
+Citation: Owens ACS, Meyer-Rochow VB, Yang E-
+C (2018) Short- and mid-wavelength artificial light
+influences the flash signals of Aquatica ficta fireflies
+(Coleoptera: Lampyridae). PLoS ONE 13(2):
+e0191576. https://doi.org/10.1371/journal.
+pone.0191576
+Editor: Christian Wegener, Biocenter, Universita ¨t
+Wu ¨rzburg, GERMANY
+Received: May 19, 2017
+Accepted: January 8, 2018
+Published: February 7, 2018
+Copyright: © 2018 Owens et al. This is an open
+access article distributed under the terms of the
+Creative Commons Attribution License, which
+permits unrestricted use, distribution, and
+reproduction in any medium, provided the original
+author and source are credited.
+Data Availability Statement: Dryad DOI: 10.5061/
+dryad.73qg8.
+Funding: Funding for firefly research provided to
+National Taiwan University by the Friends of Da’an
+Forest Park Foundation (http://www.
+daanforestpark.org.tw/ - grant number: FD97011).
+Some funding was allocated to ECY’s laboratory,
+and used by ECY and ACSO to purchase
+experimental equipment. The funders had no role
+in study design, data collection and analysis,
+Abstract
+Urbanization can radically disrupt natural ecosystems through alteration of the sensory envi-
+ronment. Habitat disturbances are predicted to favor behaviorally flexible species capable of
+adapting to altered environments. When artificial light at night (ALAN) is introduced into
+urban areas, it has the potential to impede reproduction of local firefly populations by obscur-
+ing their bioluminescent courtship signals. Whether individual fireflies can brighten their sig-
+nals to maintain visibility against an illuminated background remains unknown. In this study,
+we exposed male Aquatica ficta fireflies to diffused light of varying wavelength and intensity,
+and recorded their alarm flash signals. When exposed to wavelengths at or below 533 nm,
+males emitted brighter signals with decreased frequency. This is the first evidence of individ-
+ual-level light signal plasticity in fireflies. In contrast, long wavelength ambient light ( 597
+nm) did not affect signal morphology, likely because A. ficta cannot perceive these wave-
+lengths. These results suggest long wavelength lighting is less likely to impact firefly court-
+ship, and its use in place of broad spectrum white lighting could augment firefly conservation
+efforts. More generally, this study demonstrates benefits of bioluminescent signal plasticity
+in a “noisy” signaling environment, and sheds light on an important yet understudied conse-
+quence of urbanization.
+Introduction
+As human populations grow, cities and suburbs expand into formerly natural lands [1].
+Urbanization is a severe form of ecosystem disturbance, and one of the leading causes of spe-
+cies endangerment [2]. The impacts of deforestation, habitat fragmentation, and chemical pol-
+lution on species endemic to affected habitats have been widely recorded [3–6]. However,
+many species manage to survive and even thrive in urban centers, despite these myriad threats
+[7–10]. Opportunistic generalists such as cockroaches, rats, bats, and pigeons are inherently
+disposed to disturbed habitats [11], while other species persist through adaptation to their
+altered surroundings [12]. Population-level phenotypic change may occur over relatively long
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 1 / 14

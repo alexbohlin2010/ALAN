@@ -1,0 +1,36 @@
+A. Table 1 rows parsed: 16 (dim 8, bright 8)
+   wavelengths dim [444, 463, 488, 515, 533, 597, 628, 663] ; bright [444, 463, 488, 515, 533, 597, 628, 663] ; identical=True ; unique=True
+   dark base: intensity 5420.0 counts, frequency 43.167 peaks/min (page 6 note)
+   JSON rows: 16
+   field mismatches Table 1: 0 (8 numeric fields x 16 rows = 128 compared + 16 printed strings)
+   JSON row order: d444, d463, d488, d515, d533, d597, d628, d663, b444, b463, b488, b515, b533, b597, b628, b663
+B. Ratio vs mean/dark base (rounded to printed 3 dp):
+   max |recomputed - printed| = 0.0010 ; rows beyond 0.0011: 0
+C. Text p-values parsed: 20 (19 by regex + 1 across the page 5/6 break, handled explicitly)
+   bright flash_frequency 444: 'p = 0.0019'
+   bright flash_frequency 463: 'p <0.0001'
+   bright flash_frequency 488: 'p <0.0001'
+   bright flash_frequency 515: 'p = 0.0018'
+   bright flash_frequency 533: 'p = 0.032'
+   bright flash_intensity 444: 'p = 0.23'
+   bright flash_intensity 463: 'p = 0.19'
+   bright flash_intensity 488: 'p = 0.13'
+   bright flash_intensity 515: 'p = 0.59'
+   bright flash_intensity 533: 'p = 0.051'
+   dim flash_frequency 444: 'p = 0.0042'
+   dim flash_frequency 463: 'p = 0.049'
+   dim flash_frequency 488: 'p = p <0.0001'
+   dim flash_frequency 515: 'p = 0.0098'
+   dim flash_frequency 533: 'p = 0.046'
+   dim flash_intensity 444: 'p = 0.0021'
+   dim flash_intensity 463: 'p = 0.01'
+   dim flash_intensity 488: 'p = 0.017'
+   dim flash_intensity 515: 'p = 0.021'
+   dim flash_intensity 533: 'p = 0.066'
+   JSON text_p_values: 20
+   text p mismatches: 0
+D. Independent text-vs-Table disagreements (3):
+   ('bright', 'flash_frequency', 463, 'p <0.0001', 0.00042)
+   ('dim', 'flash_frequency', 463, 'p = 0.049', 0.0049)
+   ('dim', 'flash_intensity', 488, 'p = 0.017', 0.018)
+   JSON lists 3: [('dim', 'flash_intensity', 488), ('dim', 'flash_frequency', 463), ('bright', 'flash_frequency', 463)] ; sets equal=True ; JSON checks=20

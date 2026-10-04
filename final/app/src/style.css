@@ -172,6 +172,21 @@ body.story-spectral #swipe, body.story-spectral .year { display: none; }
   border: 1px solid #444; border-radius: 12px; padding: 3px 10px; cursor: pointer; }
 #spectral-toggle button:hover { color: #fff; }
 #spectral-toggle button[aria-pressed="true"] { color: #fff; border-color: #aaa; }
+/* Signal production strip (spectral.js; Owens 2018 Table 1; AI_LOG Firefly narrative round 4g). */
+#spectral-strip { position: absolute; left: 16px; bottom: 60px; z-index: 4; padding: 8px 10px 6px;
+  background: rgba(3,5,8,0.8); border: 1px solid #222; border-radius: 4px; max-width: calc(100vw - 32px); }
+#spectral-strip[hidden] { display: none; }
+#spectral-strip svg { display: block; max-width: 100%; height: auto; font: 10px system-ui, sans-serif; overflow: visible; }
+#spectral-strip .title { fill: #ccc; font-size: 11px; }
+#spectral-strip .tick { fill: #888; text-anchor: end; }
+#spectral-strip .nm { fill: #999; text-anchor: middle; }
+#spectral-strip .legend { fill: #777; font-size: 9.5px; }
+#spectral-strip .axis { stroke: #333; }
+#spectral-strip .dark { stroke: #777; stroke-dasharray: 3 3; }
+#spectral-strip .m { cursor: pointer; opacity: 0.55; }
+#spectral-strip .m.on, #spectral-strip .m:hover { opacity: 1; }
+#spectral-strip .m line { stroke-width: 1.2; }
+#spectral-strip .m circle { stroke-width: 1.4; }
 /* Dark story screen (story key `dark: true`, e.g. Conclusion; Firefly transition task step 4): the globe fades out. */
 #globe { transition: opacity 1200ms ease; }
 body.story-dark #globe { opacity: 0; }

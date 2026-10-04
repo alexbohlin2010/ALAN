@@ -1,0 +1,48 @@
+Fireflies flash more brightly in illuminated environs
+Signal morphology
+To obtain action spectra of firefly flash behavior, specimens were isolated within the light
+chamber, and the intensity over time of their light signals recorded and analyzed. Fireflies
+were secured to a piece of foam by a thin wire (22 ga) slid between their wings and dorsal
+abdomen. The act of restraint induced a series of fast (approx. 200 ms duration, 200–300 ms
+flash interval) alarm flashes in this species, which were produced with remarkable consistency
+throughout the entire experimental period. The foam was mounted to a slide cover, which was
+adjusted within a transparent acrylic slide cover box (2.5 cm3) to align the light organ of the
+specimen to the sensor of a USB4000 FLAME-S-XR1-ES spectrometer (Ocean Optics, Dune-
+din) connected to a Dell XPS 9343 laptop running SpectraSuite software (Windows Vista ver-
+sion 6.2). The “color chart” function of SpectraSuite was used to record average relative
+intensity (counts) of wavelengths from 565 nm to 569 nm over 32 min, capturing the peak
+wavelength of A. fictabioluminescence. Averages were calculated and saved every 100 ms.
+Experimental protocol
+After a 5 min adaptation period, each specimen underwent one 32 min trial without interrup-
+tion, during which it was exposed to each of the eight pucks in a randomized order determined
+by a random sequence generator (http://www.random.org, S1 Table). For each wavelength,
+specimens were exposed to both dim (1×) and bright (10×) intensities; the order of exposure
+(i.e. dim or bright first) was secondarily randomized within wavelengths. Here intensity refers
+to quantum flux (photons per unit area per second), converted from power meter measure-
+ments of μW/cm2 and equalized across wavelengths: ranging from 0.107 ±0.02 μmol m-2 s-1
+and from 1.075 ±0.212 μmol m-2 s-1 for dim and bright exposures, respectively. For both
+intensities of all wavelengths, exposures lasted 1 min and were always preceded by 1 min dark
+recordings, a total recording time of 4 min per wavelength.
+Data analysis
+Eight sets of data were collected from eight A. fictamales on the evenings of May 5–9 and May
+12–14, 2016 (S2 Fig; one male died before it could be tested). Of these, two recordings (May 5
+and May 13) were disregarded due to measurement inconsistencies maintained over >10 min
+of recording time. Flash intensity and frequency data from six individuals were separated into
+1 min recordings (8×2×6 = 96 light recordings, and an equal number of dark recordings) and
+analyzed in R (version 3.2.3 [56]). The first 15 s of each recording was defined as the “adapta-
+tion period” (from light to dark or vice-versa) and omitted from subsequent analysis. Average
+intensity over time of light signals was zeroed within each recording to account for spectrome-
+ter noise, and average peak intensity calculated by isolating local maximums.
+Measurements 200 counts were excluded as noise, as peak intensity of A. fictaflashes consis-
+tently exceeded several thousand counts. The total number of peaks thus isolated was summed
+to obtain the average flash rate per individual for each exposure (peaks/min).
+After removing the 15 s adaptation period, dark recordings still showed significant varia-
+tion within and among individuals, suggesting high natural variation in A. fictasignal mor-
+phology as well as potential lingering effects of previous exposures (Fig 2A). Each set of light
+recordings was therefore compared to the initial set of dark recordings obtained previous to
+any ambient light exposure. Average flash intensity and frequency under each wavelength of
+exposure was compared using generalized linear mixed models (GLMM) from the R package
+‘lme4’ [57]. Exposure wavelength was set as a fixed effect, and both specimen and exposure
+order (1 to 16; eight wavelengths ×two intensities) initially included as random effects. Due to
+rank deficiency, both exposure intensities were analyzed separately, as were the effects on flash
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 4 / 14

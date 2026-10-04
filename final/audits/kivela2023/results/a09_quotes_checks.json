@@ -1,0 +1,157 @@
+{
+ "quotes": {
+  "abstract_treatments": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "abstract_result": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "site_and_dates": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "nights": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "dummy_led": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "dummy_intensity": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "light_heights": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "design": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "timing": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "recaptures": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "total_males": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "medians": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "success_total": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "count_result": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  },
+  "fig2_n": {
+   "count_on_stated_page": 1,
+   "on_other_pages": []
+  }
+ },
+ "checks": [
+  "control: traps with 0 males",
+  "control: traps with ≥ 1 male",
+  "control: success %",
+  "control: males_binary equals males ≥ 1",
+  "control: median males",
+  "blue: traps with 0 males",
+  "blue: traps with ≥ 1 male",
+  "blue: success %",
+  "blue: males_binary equals males ≥ 1",
+  "blue: median males",
+  "blue: lux",
+  "blue: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+  "white: traps with 0 males",
+  "white: traps with ≥ 1 male",
+  "white: success %",
+  "white: males_binary equals males ≥ 1",
+  "white: median males",
+  "white: lux",
+  "white: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+  "yellow: traps with 0 males",
+  "yellow: traps with ≥ 1 male",
+  "yellow: success %",
+  "yellow: males_binary equals males ≥ 1",
+  "yellow: median males",
+  "yellow: lux",
+  "yellow: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+  "red: traps with 0 males",
+  "red: traps with ≥ 1 male",
+  "red: success %",
+  "red: males_binary equals males ≥ 1",
+  "red: median males",
+  "red: lux",
+  "red: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+  "total traps",
+  "traps with ≥ 1 male",
+  "total males",
+  "nights",
+  "sites",
+  "blue: abstract peak nm vs Table 1",
+  "white: abstract peak nm vs Table 1",
+  "yellow: abstract peak nm vs Table 1",
+  "red: abstract peak nm vs Table 1"
+ ],
+ "n_checks": 42,
+ "check_agree_all": true,
+ "photon_checks": [
+  {
+   "check": "blue: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    6448000000000
+   ],
+   "paper": [
+    6450000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "white: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    5272000000000
+   ],
+   "paper": [
+    5270000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "yellow: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    4214000000000
+   ],
+   "paper": [
+    4210000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "red: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    12650000000000
+   ],
+   "paper": [
+    12700000000000.0
+   ],
+   "agree": true
+  }
+ ],
+ "control_lux_photon_check": []
+}

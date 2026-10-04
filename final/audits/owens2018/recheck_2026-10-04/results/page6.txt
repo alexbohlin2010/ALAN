@@ -1,0 +1,69 @@
+Fireflies flash more brightly in illuminated environs
+Table 1. Average peak intensity and frequency of light signals produced by A. fictaunder exposure to varying wavelengths and intensities of ambient light.
+Dim (1×) Exposure
+λ
+(nm)
+flash intensity
+x ±SD (counts)
+degree of change relative to dark
+(bright/dark)
+p-value flash frequency
+degree of change relative to dark
+p-value
+x ±SD (peaks/min)
+(bright/dark)
+444 11420 ±4498 2.106 0.0021 22.67 ±15.65 0.525 0.0042
+463 11330 ±4615 2.090 0.010 23.78 ±15.02 0.551 0.0049
+488 11380 ±4605 2.099 0.018 17.78 ±10.91 0.412 0.000014
+515 9879 ±3540 1.823 0.021 24.44 ±12.81 0.566 0.0098
+533 8584 ±3125 1.584 0.066 32.44 ±13.93 0.752 0.046
+597 5639 ±4912 1.040 0.94 44.89 ±6.504 1.040 0.30
+628 6605 ±2848 1.219 0.91 42.67 ±17.28 0.988 0.55
+663 6881 ±3381 1.269 0.72 46.22 ±16.67 1.071 0.43
+Bright (10×) Exposure
+λ
+(nm)
+flash intensity
+x ±SD (counts)
+degree of change relative to dark
+(bright/dark)
+p-value flash frequency
+degree of change relative to dark
+p-value
+x ±SD (peaks/min)
+(bright/dark)
+444 11719 ±5489 2.162 0.23 14.44 ±14.80 0.335 0.0019
+463 9259 ±2854 1.708 0.19 12.67 ±11.29 0.293 0.00042
+488 10606 ±4595 1.957 0.13 8.222 ±7.78 0.190 0.000014
+515 6594 ±3388 1.217 0.59 14.89 ±12.29 0.345 0.0018
+533 10462 ±4941 1.930 0.051 27.11 ±15.70 0.628 0.032
+597 4688 ±2615 0.865 0.48 56.44 ±11.38 1.308 0.92
+628 6381 ±3407 1.177 0.97 45.78 ±15.61 1.060 0.56
+663 4968 ±3351 0.917 0.98 54.00 ±22.45 1.251 0.87
+1×dim exposures (top) and 10×bright exposures (bottom) differ by one order of magnitude. Change from dark for each exposure is calculated by dividing by base
+values taken from 1 min dark recordings (average flash intensity: 5420 counts; frequency: 43.167 peaks/min).
+https://doi.org/10.1371/journal.pone.0191576.t001
+p = 0.032). In fact, under bright short- and mid-wavelength illumination, three of six males
+ceased signaling entirely (Fig 1B). Due to the consequent lack of data, average peak intensity of
+flash signals became erratic under bright short- and mid-wavelength illumination (444 nm:
+p = 0.23; 463 nm: p = 0.19; 488 nm: p = 0.13; 515 nm: p = 0.59; 533 nm: p = 0.051). Notably,
+neither dim nor bright intensities of long wavelength ( 597 nm) illumination had a signifi-
+cant effect on flash intensity or frequency (p 0.3 in all instances; Fig 2).
+Although some males underwent remarkably rapid changes in average flash intensity, indi-
+viduals often appeared to remain at least partially affected by the previous series of exposures
+(Fig 1A and 1B). When analysis of variance (ANOVA) was used to compare models, results
+showed that number of previous exposures had a significant negative effect on flash frequency
+(1×: p <0.0001, χ2
+= 15.205; 10×: p = 0.0012, χ2
+= 14.668), but not flash intensity (p = 1.0 and
+χ2
+= 0 in both 1×and 10×models). Thus, the brightness of male flashes was apparently only
+influenced by the current level of ambient illumination, while the total number of flashes per
+minute was determined by both current and previous light exposures.
+Discussion
+Our results suggest that A. fictais not visually responsive to red wavelengths. However, short
+wavelength ambient light (including blue) significantly affects their signaling behavior, induc-
+ing increased flash intensity as well as decreased flash frequency. Erratic measurements
+obtained during bright (10×) exposures across wavelengths may reflect the small sample size,
+necessitated by the limited population numbers and highly seasonal life history of A. ficta, or
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 6 / 14

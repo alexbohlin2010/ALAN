@@ -20,6 +20,8 @@ data/derived/impacts/*
 !data/derived/impacts/spectra_278.json
 !data/derived/impacts/spectra_299.json
 !data/derived/impacts/perception_299.json
+!data/derived/impacts/owens2018_results.json
+!data/derived/impacts/kivela2023.json
 !data/derived/spectra/
 data/derived/spectra/*
 # Two measured nights (human, Firefly narrative round 3a): the three files the app reads

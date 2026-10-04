@@ -1,0 +1,16 @@
+{
+ "narrative of fireflies/Kivela_Elgert_Lehtonen_Candolin_2023_STOTEN_glowworm.pdf": {
+  "actual": "870fcd71f1606f11891f28d43b7d1eade850efe239da84308fa494365b8e0a0a",
+  "manifest": [
+   "870fcd71f1606f11891f28d43b7d1eade850efe239da84308fa494365b8e0a0a"
+  ],
+  "match": true
+ },
+ "narrative of fireflies/Data_Kivela2022.xlsx": {
+  "actual": "3af6d0d6997f34343933a1bb24919fa43da72637cce44e086e6665c6a2a4030c",
+  "manifest": [
+   "3af6d0d6997f34343933a1bb24919fa43da72637cce44e086e6665c6a2a4030c"
+  ],
+  "match": true
+ }
+}

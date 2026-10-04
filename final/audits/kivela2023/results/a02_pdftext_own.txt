@@ -1,0 +1,652 @@
+
+=====PAGE 1=====
+Jukuri, open repository of the Natural Resources Institute Finland (Luke)
+This is an electronic reprint of the original article.
+This reprint may differ from the original in pagination and typographic detail.
+Author(s): Linnea Kivelä, Christina Elgert, Topi K. Lehtonen & Ulrika Candolin
+Title: The color of artificial light affects mate attraction in the common glow-worm
+Year: 2023
+Version: Published version
+Copyright: The Author(s) 2023
+Rights: CC BY 4.0
+Rights url: http://creativecommons.org/licenses/by/4.0/
+Please cite the original version:
+Kivelä, L., Elgert, C., Lehtonen, T. K., & Candolin, U. (2023). The color of artificial light affects mate
+attraction in the common glow-worm. Science of The Total Environment, 857, 159451.
+https://doi.org/10.1016/j.scitotenv.2022.159451
+All material supplied via Jukuri is protected by copyright and other intellectual property rights. Duplication
+or sale, in electronic or print form, of any part of the repository collections is prohibited. Making electronic
+or print copies of the material is permitted only for your own personal use or for educational purposes. For
+other purposes, this article may be used in accordance with the publisher’s terms. There may be
+differences between this version and the publisher’s version. You are advised to cite the publisher’s
+version.
+=====PAGE 2=====
+Science of the Total Environment 857 (2023) 159451
+Contents lists available at ScienceDirect
+Science of the Total Environment
+j o u r n a l h o m e p a g e : w w w . e l s e v i e r . c o m / l o c a t e / s c i t o t e n v
+The color of arti cial light affects mate attraction in the common glow-worm
+Linnea Kivelä a,b,⁎, Christina Elgerta,b, Topi K. Lehtonena,b,c, Ulrika Candolina,b
+a Organismal and Evolutionary Biology, University of Helsinki, PO Box 65, 00014 Helsinki, Finland
+b Tvärminne Zoological Station, University of Helsinki, J.A. Palménin tie 260, 10900 Hanko, Finland
+c Natural Resources Institute, Paavo Havaksen tie 3, 90570 Oulu, Finland
+H I G H L I G H T S G R A P H I C A L A B S T R A C T
+• Light pollution is an emerging environ-
+mental threat to nocturnal organisms.
+• Glow-worms are dependent on darkness
+for mate nding.
+• Dummy female glow-worms were ex-
+posed to four colors of light in the eld.
+• Long wavelength arti cial light was less
+detrimental to mate attraction success.
+• Spectral tuning of outdoor lighting is a po-
+tential mitigation measure.
+A R T I C L E I N F O
+A B S T R A C T
+Editor: Daniel Wunderlin
+Keywords:
+Arti cial light at night
+Environmental change
+Lampyridae
+Light pollution
+Mate choice
+Spectral tuning
+Arti cial light at night, often referred to as‘light pollution’, is a global environmental problem that threatens many
+nocturnal organisms. One such species is the European common glow-worm (Lampyris noctiluca), in which reproduc-
+tion relies on the ability of sedentary bioluminescent females to attract ying males to mate. Previous studies show
+that broad-spectrum white arti cial light interferes with mate attraction in this beetle. However, much less is
+known about wavelength-speci c effects. In this study, we experimentally investigate how the peak wavelength
+(color) of arti cial light affects glow-worm mate attraction success in the eld by using dummy females that trap
+males landing to mate. Each dummy was illuminated from above by either a blue (peak wavelength: 452 nm),
+white (449 nm), yellow (575 nm), or red (625 nm) LED lighting, or light switched off in the control. We estimated
+mate attraction success as both the probability of attracting at least one male and the number of males attracted. In
+both cases, mate attraction success depended on the peak wavelength of the arti cial light, with short wavelengths
+(blue and white) decreasing it more than long wavelengths (yellow and red). Hence, adjusting the spectrum of arti -
+cial light can be an effective measure for mitigating the negative effects of light pollution on glow-worm reproduction.
+1. Introduction
+Light pollution, or arti cial light at night (ALAN) (Davies and Smyth, 2017),
+is a potentially severe anthropogenic environmental challenge. Since electric
+lighting became common in the early 20th century, nighttime environments
+have become increasingly more illuminated by arti cial light, with light pollu-
+tion continuing to be a rapidly growing problem (estimated global increase of
+6 % per year (Hölker et al., 2010b)). Currently, light pollution is estimated to
+affect 49.5 % of the land surface area between 59°N and 55°S (Gaston et al.,
+2021). Natural dark-light cycles have, in the time scale of evolution, remained
+consistent, and therefore their disturbances can have various ecological conse-
+quences (Longcore and Rich, 2004; Gaston et al., 2015a; Davies and Smyth,
+2017). A wide diversity of organisms, from plants to both terrestrial and aquatic
+vertebrates and invertebrates, have been impacted, with the effects ranging
+⁎ Corresponding author at: Organismal and Evolutionary Biology, University of Helsinki,
+PO Box 65, 00014 Helsinki, Finland.
+E-mail address: linnea.kivela@helsinki. (L. Kivelä).
+http://dx.doi.org/10.1016/j.scitotenv.2022.159451
+Received 7 June 2022; Received in revised form 22 September 2022; Accepted 11 October 2022
+Available online 14 October 2022
+0048-9697/© 2022 The Authors. Published by Elsevier B.V. This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+=====PAGE 3=====
+L. Kivelä et al. from changes in individual physiology and behavior to those in population ecol-
+ogy and community structure (Gaston and Bennie, 2014; Davies and Smyth,
+2017). Nocturnal species, which constitute an estimated 30 % of all vertebrates
+and 60 % of all invertebrates, are particularly vulnerable to arti cial light
+(Hölker et al., 2010a). Indeed, light pollution has been proposed as a major
+driver of global insect declines (Owens et al., 2020).
+Light pollution may affect behavior by interfering with, for instance,
+foraging, reproduction, migration, or communication (Longcore and Rich,
+2004). For example, positively phototactic insects, such as many moths,
+are attracted to arti cial light sources. This response disrupts their normal
+behavioral patterns, sometimes with fatal consequences (Boyes et al.,
+2021). Arti cial light at night may also obscure the light from natural
+light sources, disorienting species that navigate by the moon and stars. Sim-
+ilarly, it can disturb communication in bioluminescent species, such as
+glow-worms and other re ies (Owens and Lewis, 2018).
+Due to the negative effects of light pollution highlighted by recent re-
+search, there is an urgent need for effective mitigation measures. Here,
+new technologies offer promising opportunities, for example by controlling
+the arti cial light spectrum and intensity with Light Emitting Diode (LED)
+based lighting infrastructure (Gaston et al., 2015a; Davies and Smyth,
+2017). However, increased ef ciency and lowered costs of light sources
+can also result in increased light use (Hölker et al., 2010b). Furthermore,
+the ecological consequences of the changing spectral landscape of arti cial
+light resulting from the application of these new technologies (Gaston et al.,
+2015a; Pagden et al., 2020) are poorly known. Given the global increase in
+light pollution, a better understanding of the ecological impacts of different
+types (e.g. spectral composition) of arti cial light is required, especially for
+the needs of policy development and strategic planning of lighting systems
+(Hölker et al., 2010a; Gaston et al., 2015b).
+Glow-worms and other re ies (Lampyridae), which use biolumines-
+cent signals to attract mates, are especially vulnerable to light pollution.
+Broad spectrum white arti cial light has been shown to affect both glow be-
+havior and mate attraction success of female common glow-worms
+(Lampyris noctiluca). For example, females exposed to arti cial light glow
+less and attract fewer males (Bird and Parker, 2014; Elgert et al., 2020a;
+Stewart et al., 2020; Van den Broeck et al., 2021a). The impact of arti cial
+light on mate attraction increases with light quantity (i.e. intensity) (Elgert
+et al., 2020b; Van den Broeck et al., 2021a), but we still know little about
+the in uence of light quality (e.g. spectrum). Such knowledge is essential,
+because the effects of arti cial light on glow-worm reproduction and, in
+the long term, even population viability, may vary depending on the type
+of light, especially its spectral composition. The use of new technologies
+should allow adjustment of e.g., public arti cial lights accordingly.
+In the current study, we investigated the effects of arti cial light wave-
+length spectrum (i.e. color) on mate attraction success in the common
+glow-worm. In particular, we assessed mate attraction success both in
+terms of the proportion of successful female dummies and the number of
+mates they attracted and, based on previous ndings, expected that the suc-
+cess is lower under exposure to arti cial light than in natural darkness
+(Ineichen and Rüttimann, 2012; Bird and Parker, 2014; Elgert et al.,
+2020a; Van den Broeck et al., 2021b). Furthermore, we predicted that
+mate attraction success is related to the spectrum of arti cial light, with
+light characterized by short wavelengths (white and blue) having a larger im-
+pact than long wavelengths (yellow and red). This prediction was based on
+the previous observations that a light signal is less attractive to males when
+a blue component is added to it, whereas the addition of a red light compo-
+nent does not have an adverse effect (Booth et al., 2004). In addition,
+white arti cial light has generally been considered more adverse to a range
+of animals than yellow light (Gaston et al., 2012; Longcore et al., 2018).
+2. Materials and methods
+2.1. Study species and area
+In the common glow-worm, sedentary and larviform females attract y-
+ing males by emitting a constant greenish glow at night (Lewis, 2016). The
+Science of the Total Environment 857 (2023) 159451
+brightness of the glow correlates with female body size, which, in turn, cor-
+relates with fecundity (i.e. the number of eggs the female produces)
+(Hopkins et al., 2015, 2021). Furthermore, brighter females tend to be
+more successful in attracting males (Hopkins et al., 2015; Elgert et al.,
+2020b; Lehtonen and Kaitala, 2020). The glow-worm is a capital breeder,
+with a typical adult lifespan of less than two weeks and females dying
+after having mated and laid their eggs (Lewis, 2016). Population surveys in-
+dicate that glow-worm populations have declined at least locally in the UK
+and probably also elsewhere (Gardiner, 2009; Gardiner and Didham,
+2020). The reasons for the declines are likely to include climate change,
+habitat fragmentation, and urbanization, including light pollution
+(Gardiner and Didham, 2020, 2021; Lewis et al., 2020; Lehtonen et al.,
+2021).
+All work was conducted in Southern Finland in the proximity of
+Tvärminne Zoological Station (N 59°51′, E 23°14′), during the glow-worm
+breeding season, between 12th June and 4th July in 2020. This period
+was chosen based on earlier observations of glow-worm reproduction in
+the same area (e.g. Elgert et al., 2020a; Lehtonen and Kaitala, 2020). The
+experiment was run only on nights of good weather (N = 20 nights), be-
+cause poor weather conditions (low temperatures, wind and rain) restrict
+male activity (Dreisig, 1971).
+2.2. Experimental setup
+We used dummy females (LED lures) that trapped males landing to
+mate. These were identical to those used in multiple recent studies (Elgert
+et al., 2020a, 2020b; Lehtonen and Kaitala, 2020), except for the brightness
+of the LED. In particular, the dummies were equipped with a green 5 mm
+LED that mimicked the glow of a female. The LED was attached to a halved
+1.5 L bottle of transparent, non-glossy plastic, with the top half inserted up-
+side down to form a funnel trap (Fig. 1). The green LED was powered by
+two AA batteries and wired with resistors (2000 Ω) to adjust the intensity
+to 0.065–0.075 μWnm−1 (microwatts per nanometer), as measured with
+a spectrophotometer and integrating sphere (Borshagovski et al., 2020).
+Its peak wavelength was 562 nm, which matches the glow of female
+glow-worms (550–570 nm) (Schwalb, 1961; De Cock, 2004).
+Each dummy female was lit from above by an arti cial light that simu-
+lated a light source, such as a streetlamp or yard light. The arti cial light
+sources were composed of white LEDs covered with EUROLITE color-foil
+to alter their light spectra (Table 1). We had ve treatments: blue, white,
+yellow, and red arti cial light, and a control (the LED switched off). The
+Fig. 1. The experimental setup for investigating the impact of color on mate
+attraction. A dummy female was placed under either a red, white, yellow, or blue
+arti cial light source. In the control the light was turned off. The height at which
+the light was attached was customized for each treatment to even out differences
+in intensity caused by the color-altering foils.
+2
+=====PAGE 4=====
+L. Kivelä et al. Table 1
+dummy female.
+Light treatment details. Light intensities were measured at the vertical level of the
+Intensity
+Color Filter Peak wavelength (nm) Photons/cm2/s Lux
+Blue Color-foil 165
+452 6.45 ∗ 1012 5.0
+“Daylight blue”
+White Diffusion lter
+449 5.27 ∗ 1012 5.6
+129“Heavy frost”
+Yellow Color-foil 104
+575 4.21 ∗ 1012 6.0
+“Deep amber”
+Red Color-foil 164
+625 1.27 ∗ 1013 8.0
+“Flame red”
+Control None None 0 0
+light source in the blue, white, and yellow light treatments consisted of a
+Fenix UC01 mini ashlight at medium output. Due to the stronger absorp-
+tion (i.e. a dimming effect) of the red color foil, the red light source needed
+to be more powerful to reach a similar intensity of light as that of the other
+treatments. Therefore, we used a VARTA Indestructible LED x5 headlamp
+at half output.
+We used opaque lampshades (made of plastic cups) to prevent the
+source of arti cial light from being directly visible from the outside, and
+to direct its cone downwards. Each light source was attached to a pole at
+100–120 cm above the ground level, i.e. 80–100 cm above the LED lure.
+To calibrate the light intensities and counter variation in the color foils' ab-
+sorption, the light sources were attached at the following heights above the
+ground: 100 cm (blue), 110 cm (yellow), 120 cm (white), and 120 cm (red)
+(Fig. 1). We measured the resulting intensity and peak wavelength of the ar-
+ti cial light in each treatment with a spectrophotometer and cosine correc-
+tor (Borshagovski et al., 2020) in an otherwise dark room to acquire precise
+values in the absence of external disturbances (Table 1). These intensities
+were comparable to the lower range of intensities of arti cial lights we
+measured in the area (but not closer than 50 m from any of the replicates
+of this study) (Table S1). The spectrophotometer measurements were
+taken at 20 cm above the ground level, corresponding to the position of
+the dummy females (in relation to the ground) in the experiment. Such a
+position is ecologically relevant, with females often perching on vegetation
+above the ground level (Tyler, 2002).
+The dummy females and arti cial lights were placed along a 1 km
+stretch of an unlit, forested road to Tvärminne Zoological Station, at 15 sep-
+arate sites where glow-worms had been observed in previous years, with
+the distance between adjacent sites at least 40 m. We randomized which
+treatment was conducted at a speci c site each night. We ran 3 repli-
+cates of each of the 5 treatments per night. Over the course of the exper-
+iment, we completed 4 replicates of each treatment at each of the 15
+sites. This resulted in 60 replicates per treatment (over 20 nights),
+except for the yellow treatment, in which one replicate was discarded
+due to battery failure.
+We activated the arti cial lights and dummy females each night be-
+tween 23:45 and 00:15 and turned them off between 01:45 and 02:15.
+We turned off the lights in the same order as we had turned them on,
+with each light and dummy female being active for two hours. We then
+inspected the dummy females for any male glow-worms that they had
+attracted and trapped, which were counted and placed into plastic vials.
+We kept the males indoors until the following morning. Males were then
+marked with a small dot of acrylic paint on their pronotum ( rst exoskeletal
+shield) and released. The markings allowed us to identify recaptured males.
+To ensure the independence of data points, recaptured males were not in-
+cluded in the data analyses (detailed below).
+2.3. Statistical analysis
+All statistical analyses were performed using R v. 4.2.0. (R Core
+Team, 2022) and RStudio v. 2022.02.3. (RStudio Team, 2022) for
+Science of the Total Environment 857 (2023) 159451
+macOS. We investigated the effect of the arti cial light treatments
+(blue, white, yellow, red, dark control) on mate attraction success (see
+below) by using a generalized linear mixed model (GLMM) with a neg-
+ative binomial distribution (R package lme4 v. 1.1.29.; Bates et al.,
+2015), as appropriate for overdispersed count data (Zuur et al., 2013).
+The number of males attracted into each trap was denoted as a count re-
+sponse variable and the treatment (color of arti cial light) as a categor-
+ical explanatory variable. To account for the effects of the night and site
+of each replicate, they were included as random effects. The model was
+selected based on Akaike information criteria (AIC, Akaike, 1973). The
+goodness of t of the model was checked using the R package DHARMa
+v. 0.4.5. (Hartig, 2022).
+As we cannot rule out the possibility that the presence of a male in a trap
+gives odor cues that might attract other males, or that males move in
+swarms, we also analyzed the data using male presence/absence data.
+Here, we used a binomial GLMM (suitable for binary data), with whether
+the dummy female attracted at least one male as a binary response variable
+(0/1), the arti cial light treatment as an explanatory variable, and each rep-
+licate's night and site as random effects.
+3. Results
+The dummy females attracted a total of 624 male glow-worms during
+the experiment. Dummy females in the blue and white light treatments
+attracted signi cantly fewer males than dummy females in the yellow,
+red and control treatments (Fig. 2, Table 2). The yellow and red light treat-
+ments did not signi cantly differ from the control treatment and the white
+and blue treatments did not signi cantly differ from each other (Fig. 2,
+Table 2). The median number of males attracted was two in the control, yel-
+low and red light treatments, and zero in the blue and white light treat-
+ments (Fig. 2).
+Over the whole experiment, 56.9 % (170/299) of the dummy females
+attracted at least one male. A signi cantly lower portion of dummies
+attracted at least one male in the blue and white light than in the yellow
+and red light treatments, and in the control (Tables 3 and 4). The proportion
+of attracted males did not signi cantly differ between the yellow, red, and
+control light treatments (Tables 3 and 4) or between the blue and white
+light treatments (Tables 3 and 4). Thus, results from the two analyses
+were qualitatively the same.
+Fig. 2. Number of males attracted by imitation females in the unlit control, and in
+the blue, white, yellow, and red, arti cial light treatments. The box plots show
+median values (horizontal black lines), interquartile ranges (colored boxes), upper
+quartiles (whiskers), and extreme values (black dots). Whiskers representing the
+lower quartiles are not visible, because in all treatments at least 25 % of the
+imitation females attracted zero males. Treatments with a different letter A-B
+were signi cantly different from each other (negative binomial GLMM). N = 60
+in all treatments except N = 59 in the yellow light treatment.
+3
+=====PAGE 5=====
+L. Kivelä et al. Table 2
+Estimates, z-values and p-values of pairwise treatment comparisons of numbers of
+attracted males using a negative binomial GLMM, with replicate night and site in-
+cluded as random factors.
+Pairwise comparisons of numbers of attracted males
+Treatment Estimate Z P
+Blue vs control−1.372−6.601 <0.001
+White vs control−1.891−7.735 <0.001
+Yellow vs control−0.203−1.157 0.247
+Red vs control−0.049−0.287 0.774
+White vs blue−0.519−1.905 0.057
+Yellow vs blue 1.168 5.461 <0.001
+Red vs blue 1.3225 6.231 <0.001
+Yellow vs white 1.687 6.768 <0.001
+Red vs white 1.842 7.435 <0.001
+Red vs yellow 0.1542 0.871 0.384
+4. Discussion
+The results show that female glow-worm mate attraction success under
+arti cial light depends on the peak wavelength of the light, independent of
+whether the success is measured as the number of attracted males or as
+mate attraction probability. In the eld, dummy females exposed to rela-
+tively short wavelengths of arti cial light (blue and white) had a signi -
+cantly lower mate attraction success than those exposed to longer
+wavelengths of arti cial light (yellow and red). Moreover, the mate attrac-
+tion success of dummy females under yellow and red arti cial light did not
+differ signi cantly from that of dummy females in the control.
+Our result that white arti cial light hinders the ability of female glow-
+worms to attract males is in line with previous ndings (e.g. Bird and
+Parker, 2014; Elgert et al., 2020a; Stewart et al., 2020). We also found
+blue light to have a very similar effect (with its spectrum also being very
+similar, only narrower, Fig. S1). In contrast to our initial hypothesis, we
+also found that the mate attraction success of dummy females under yellow
+and red arti cial light was similar to that observed in the control treatment.
+In particular, due to previous ndings of a lower mate attraction success
+even under sodium lamps (Ineichen and Rüttimann, 2012; Van den
+Broeck et al., 2021b), we hypothesized that mate attraction success
+would be lower in all arti cial light treatments compared to the control.
+In particular, Ineichen and Rüttimann (2012) found yellow‑tinted arti cial
+light from high-pressure sodium streetlights to prevent mate attraction in
+the common glow-worm, albeit under streetlights with considerably higher
+intensity of arti cial light than what was used in this experiment (46–64 lx
+vs 5–8 lx; for comparison, moonlight is typically only 0.01–0.6 lx (Kyba
+et al., 2017)). Moreover, Van den Broeck et al. (2021b) recently found
+that female glow-worms took longer to mate when exposed to light from
+low-pressure sodium streetlights, even when light intensity was relatively
+low.
+Why, then, did we not nd a difference between our long wavelength
+treatments, red and yellow, or between them and the control? First, wave-
+lengths may differ in the extent they interact with the greenish female glow.
+For example, adding a blue component to a female mimicking stimulus was
+Table 3
+Male attraction success of dummy females in the different light treatments. Treat-
+ments with a different letter (A or B) were signi cantly different from each other
+(logistic regression). N = 60 in all treatments except in the yellow-light treatment
+N = 59.
+Number of males attracted (frequency)
+Treatment 0 ≥1 Success % Signi cance
+Control 19 41 68.3 % A
+Blue 39 21 35.0 % B
+White 38 22 36.7 % B
+Yellow 17 42 71.2 % A
+Red 16 44 73.3 % A
+Science of the Total Environment 857 (2023) 159451
+Table 4
+Estimates, z-values and p-values of a binomial GLMM assessing whether the dummy
+female attracted at least one male, with replicate night and site included as random
+factors. Pairwise comparisons between the different light treatments are shown.
+Pairwise comparisons of numbers of attracted males
+Treatment Estimate Z P
+Blue vs control−1.573−3.769 <0.001
+White vs control−1.491−3.594 <0.001
+Yellow vs control 0.1627 0.386 0.699
+Red vs control 0.270 0.636 0.525
+White vs blue 0.082 0.202 0.840
+Yellow vs blue 1.735 4.075 <0.001
+Red vs blue 1.843 4.294 <0.001
+Yellow vs white 1.653 3.906 <0.001
+Red vs white 1.761 4.128 <0.001
+Red vs yellow 0.107 0.249 0.803
+found to reduce the attractiveness of the stimulus to male glow-worms,
+whereas adding a red component did not have an effect (Booth et al.,
+2004). Second, male glow-worms may not be able to perceive longer wave-
+length arti cial light; thus such light might not markedly reduce the visibil-
+ity of female signals to them. In another lampyrid species, the re y
+Aquatica ficta, male signaling behavior was altered as a result of exposure
+to arti cial light of short and mid wavelengths, but not too long wavelength
+(≥597 nm), implying a low visual sensitivity to yellow and red light
+(Owens et al., 2018). Third, it is possible that yellow, and even red, arti cial
+light did suppress female signal visibility, but to such a low degree that it
+did not signi cantly affect the number of males attracted (given the current
+sample sizes and study design). As in many recent studies (Hopkins et al.,
+2015; Elgert et al., 2020a; Lehtonen and Kaitala, 2020), the dummy female
+LEDs in the current study corresponded to the glow of a particularly bright
+glow-worm female, i.e. dummy females were notably brighter than the
+glow of an average female (A.-M. Borshagovski 2017–2018, unpublished
+data). Therefore, under long wavelength arti cial light, the apparent
+brightness of dummy females to males, or other aspects of their detectabil-
+ity or attractiveness, may not have decreased markedly (e.g. under a critical
+threshold level).
+The nal potential explanation we provide for the high number of males
+attracted by dummy females in the long wavelength treatments is that
+males may be attracted by long wavelength (yellow to red) arti cial light.
+Anecdotal observations suggest that glow-worm males do make approaches
+towards red light, although to a lesser extent than towards green light
+(Schwalb, 1961). More generally, positive phototaxis (attraction) in re-
+sponse to arti cial light is common in insects, with many moths, beetles,
+ies, and aquatic insects showing attraction especially to short wavelength
+(blue and UV) light (Park and Lee, 2017; Owens and Lewis, 2018). How-
+ever, observations of attraction to long wavelengths of light are rarer. Ex-
+amples include certain pest insects being attracted to red light, and
+nymphs of certain aquatic insects showing attraction to mid wavelength
+(green and yellow) light (Park and Lee, 2017; Kühne et al., 2021). Further-
+more, re ies of the genus Diaphanes have been found to be attracted to red
+LEDs (Pacheco et al., 2016). Hence, if long wavelength light attracts male
+glow-worms, the high male attraction success of dummy females in the yel-
+low and red light treatments may have been due to males being lured to
+their vicinity by the light. Being in the proximity may then have increased
+the probability of males noticing the dummy female within the cone of ar-
+ti cial light. Such a scenario could compensate for any reduction in the vis-
+ibility (or apparent brightness) of the dummy female under the arti cial
+light.
+Previous studies have shown that the intensity of arti cial light can also
+affect glow-worm mate attraction success (Elgert et al., 2020a, 2020b; Van
+den Broeck et al., 2021a). Here, our treatments had minor differences in
+light intensity, when measured both as photons/cm2/s and lux (Table 1,
+Fig. S2). However, these do not explain the differences in mate attraction,
+because the treatments with both the lowest (yellow) and highest (red)
+light intensity value attracted the greatest numbers of males (Fig. S2),
+4
+=====PAGE 6=====
+L. Kivelä et al. showing the minor light intensity differences did not explain treatment dif-
+ferences in mate attraction.
+Spectral tuning of arti cial lights has been suggested as a mitigation
+measure for reducing the harmful impacts of nighttime illumination, with
+yellow light often presented as a less detrimental alternative to white
+light (Gaston et al., 2012; Longcore and Rich, 2016). The suggestion is sup-
+ported by our result that the mate attraction success of dummy females
+under red and yellow arti cial light was not signi cantly reduced, unlike
+that of dummy females under blue and white light, indicating a lesser im-
+pact of the former on glow-worm reproduction. Nevertheless, we may
+need to be cautious about recommending yellow arti cial lighting instead
+of blue-white light in areas inhabited by glow-worms (or other re y spe-
+cies). For example, in the re y Photinus obscurellus, all tested colors of ar-
+ti cial light (cool white, warm white, blue, amber, and red) suppressed the
+courting activity of both sexes, with bright amber light having the greatest
+negative impact (Owens and Lewis, 2021). Furthermore, we cannot yet
+judge with con dence whether long wavelength arti cial light is truly in-
+nocuous to glow-worm mate nding and attraction. For instance, we do
+not know how long-wavelength arti cial light may affect female signaling
+behavior or the extent it may attract male glow-worms away from females.
+Moreover, the impact of arti cial light is likely to be more severe when a
+wide area is illuminated, while our setup was akin to the use of spotlights
+(e.g. in yards and gardens) that only illuminate a small area. Thus, we
+need more research into the effectiveness of spectral tuning as a mitigation
+measure for this species. In addition, other species may differ in their light
+sensitivities, which poses a challenge to nding a universal solution. Addi-
+tional measures to consider include reducing light intensity, limiting direct
+glare through shielding, and decreasing lighting duration, e.g., by using
+motion detection or timers (Longcore and Rich, 2016).
+Science of the Total Environment 857 (2023) 159451
+Declaration of competing interest
+The authors declare that they have no known competing ests or personal relationships that could have appeared to in work reported in this paper.
+nancial inter-
+uence the
+Acknowledgements
+We would like to thank Tvärminne Zoological Station for providing fa-
+cilities and accommodation. We also thank Anna-Maria Borshagovski for
+help with the usage of the spectrophotometer, Otso Valkeeniemi for partic-
+ipation in the construction of the eld equipment, Kenyon Mobley for
+proofreading an earlier version of the text, and Arja Kaitala for paving the
+way for glow-worm research at Tvärminne Zoological Station.
+Appendix A. Supplementary data
+Supplementary data to this article can be found online at https://doi.
+org/10.1016/j.scitotenv.2022.159451.
+References
+5. Conclusions
+To conclude, we found that long wavelength (yellow and red) arti cial
+light did not signi cantly reduce mate attraction success in the common
+glow-worm, whereas short wavelength (blue and white) arti cial light
+did. Hence, arti cial light wavelength appears to be an important factor
+in determining the effects of light pollution on glow-worms, with potential
+implications for glow-worm conservation. Our ndings indicate that favor-
+ing yellow over bluish and white lighting in the proximity of glow-worm
+habitats may be a useful method for mitigating the negative effects of
+light pollution on glow-worm reproduction. However, further investigation
+of how glow-worms respond to long wavelength light is still required. By
+showing that different arti cial light spectra can have different effects,
+this study strengthens our knowledge regarding the ecological effects of
+light pollution.
+Funding
+This work was supported by Societas pro Fauna et Flora Fennica (to LK),
+the Swedish Cultural Foundation in Finland (grant number 160603 to UC),
+the Maj and Tor Nessling Foundation (grant number 202000239 to CE).
+CRediT authorship contribution statement
+Linnea Kivelä: Conceptualization, Methodology, Formal analysis, In-
+vestigation, Writing– original draft, Writing– review & editing, Visualiza-
+tion. Christina Elgert: Conceptualization, Methodology, Investigation,
+Writing– original draft, Writing– review & editing. Topi K. Lehtonen:
+Conceptualization, Methodology, Formal analysis, Writing– review &
+editing. Ulrika Candolin: Conceptualization, Methodology, Writing–
+review & editing.
+Data availability
+The data are available at doi:https://doi.org/10.7910/DVN/QWQPLJ.
+Akaike, H., 1973. Information theory and an extension of the maximum likelihood principle.
+In: Petrov, B.N., Csáki, F. (Eds.), 2nd International Symposium on Information Theory.
+Akadémia Kiadó, Budapest, Hungary, pp. 267–281 https://doi.org/10.1007/978-1-
+4612-1694-0_15.
+Bates, D., Mächler, M., Bolker, B., Walker, S., 2015. Fitting linear mixed-effects models using
+lme4. J. Stat. Softw. 67, 1–48. https://doi.org/10.18637/jss.v067.i01.
+Bird, S., Parker, J., 2014. Low levels of light pollution may block the ability of male glow-
+worms (Lampyris noctiluca L.) to locate females. J. Insect Conserv. 18, 737–743.
+https://doi.org/10.1007/s10841-014-9664-2.
+Booth, D., Stewart, A.J.A., Osorio, D., 2004. Colour vision in the glow-worm Lampyris
+noctiluca (L.) (Coleoptera: Lampyridae): evidence for a green-blue chromatic mechanism.
+J. Exp. Biol. 207, 2373–2378. https://doi.org/10.1242/jeb.01044.
+Borshagovski, A.-M., Saari, P., Lehtonen, T.K., Kaitala, A., 2020. When night never falls: fe-
+male sexual signalling in a nocturnal insect along a latitudinal gradient. Behav. Ecol.
+Sociobiol. 74, 153. https://doi.org/10.1007/s00265-020-02927-9.
+Boyes, D.H., Evans, D.M., Fox, R., Parsons, M.S., Pocock, M.J.O., 2021. Is light pollution driv-
+ing moth population declines? A review of causal mechanisms across the life cycle. Insect
+Conserv. Divers. 14, 167–187. https://doi.org/10.1111/icad.12447.
+Davies, T.W., Smyth, T., 2017. Why arti cial light at night should be a focus for global change
+research in the 21st century. Glob. Chang. Biol. 24, 872–882. https://doi.org/10.1111/
+gcb.13927.
+De Cock, R., 2004. Larval and adult emission spectra of bioluminescence in three European
+re y species. Photochem. Photobiol. 79, 339–342. https://doi.org/10.1111/j.1751-
+1097.2004.tb00018.x.
+Dreisig, H., 1971. Control of the glowing of Lampyris noctiluca in the eld (Coleoptera:
+Lampyridae). J. Zool. 165, 229–244. https://doi.org/10.1111/j.1469-7998.1971.
+tb02183.x.
+Elgert, C., Hopkins, J., Kaitala, A., Candolin, U., 2020a. Reproduction under light pollution:
+maladaptive response to spatial variation in arti cial light in a glow-worm. Proc. R.
+Soc. B 287, 20200806. https://doi.org/10.1098/rspb.2020.0806.
+Elgert, C., Lehtonen, T.K., Kaitala, A., Candolin, U., 2020b. Sexual selection for bright females
+prevails under light pollution. Curr. Zool. 67, 329–331. https://doi.org/10.1093/cz/
+zoaa071.
+Gardiner, T., 2009. Glowing, Glowing, Gone? A History of Glow-Worm Recording in the UK.
+British Naturalists’ Association, Corby, UK.
+Gardiner, T., Didham, R.K., 2020. Glowing, glowing, gone? Monitoring long-term trends in
+glow-worm numbers in south-east England. Insect Conserv. Divers. 13, 162–174.
+https://doi.org/10.1111/icad.12407.
+Gardiner, T., Didham, R.K., 2021. Glow-worm abundance declines with increasing proximity
+to arti cial lighting. Entomol. Gaz. 72, 1–11. https://doi.org/10.31184/G00138894.721.
+1798.
+Gaston, K.J., Bennie, J., 2014. Demographic effects of arti cial nighttime lighting on animal
+populations. Environ. Rev. 22, 323–330. https://doi.org/10.1139/er-2014-0005.
+Gaston, K.J., Davies, T.W., Bennie, J., Hopkins, J., 2012. Reducing the ecological conse-
+quences of night-time light pollution: options and developments. J. Appl. Ecol. 49,
+1256–1266. https://doi.org/10.1111/j.1365-2664.2012.02212.x.
+Gaston, K.J., Gaston, S., Bennie, J., Hopkins, J., 2015a. Bene ts and costs of arti cial night-
+time lighting of the environment. Environ. Rev. 23, 14–23. https://doi.org/10.1139/er-
+2014-0041.
+Gaston, K.J., Visser, M.E., Hölker, F., 2015b. The biological impacts of arti cial light at night:
+the research challenge. Philos. Trans. R. Soc. B 370, 20140133. https://doi.org/10.1098/
+rstb.2014.0133.
+Gaston, K.J., Ackermann, S., Bennie, J., Cox, D.T.C., Phillips, B.B., Sánchez de Miguel, A.,
+Sanders, D., 2021. Pervasiveness of biological impacts of arti cial light at night. Integr.
+Comp. Biol. 61, 1098–1110. https://doi.org/10.1093/icb/icab145.
+Hartig, F., 2022. DHARMa: residual diagnostics for hierarchical (multi-level/mixed) regres-
+sion models. https://CRAN.R-project.org/package=DHARMa.
+5
+=====PAGE 7=====
+L. Kivelä et al. Hölker, F., Wolter, C., Perkin, E.K., Tockner, K., 2010a. Light pollution as a biodiversity threat.
+Trends Ecol. Evol. 25, 681–682. https://doi.org/10.1016/j.tree.2010.09.007.
+Hölker, F., Moss, T., Griefahn, B., Kloas, W., Voigt, C.C., Henckel, D., Hänel, A., Kappeler,
+P.M., Völker, S., Schwope, A., Franke, S., Uhrlandt, D., Fischer, J., Klenke, R., Wolter,
+C., Tockner, K., 2010b. The dark side of light: a transdisciplinary research agenda for
+light pollution policy. Ecol. Soc. 15, 13. https://doi.org/10.5751/es-03685-150413.
+Hopkins, J., Baudry, G., Candolin, U., Kaitala, A., 2015. I’m sexy and I glow it: female orna-
+mentation in a nocturnal capital breeder. Biol. Lett. 11, 20150599. https://doi.org/10.
+1098/rsbl.2015.0599.
+Hopkins, J., Lehtonen, T.K., Baudry, G., Kaitala, A., 2021. Costly mating delays drive female
+ornamentation in a capital breeder. Ecol. Evol. 11, 8863–8868. https://doi.org/10.
+1002/ece3.7719.
+Ineichen, S., Rüttimann, B., 2012. Impact of arti cial light on the distribution of the common
+European glow-worm, Lampyris noctiluca (Coleoptera: Lampyridae). Lampyrid 2, 31–36.
+Kühne, J.L., van Grunsven, R.H.A., Jechow, A., Hölker, F., 2021. Impact of different wave-
+lengths of arti cial light at night on phototaxis in aquatic insects. Integr. Comp. Biol.
+61, 1182–1190. https://doi.org/10.1093/icb/icab149.
+Kyba, C., Mohar, A. & Posch, T. 2017: How bright is moonlight.– Astron. Geophys. 58:31–32.
+doi: https://doi.org/10.1093/astrogeo/atx025.
+Lehtonen, T.K., Kaitala, A., 2020. Leave me alone: solitary females attract more mates in a
+nocturnal insect. Behav. Ecol. 31, 1040–1045. https://doi.org/10.1093/beheco/araa049.
+Lehtonen, T.K., Babic, N.L., Piepponen, T., Valkeeniemi, O., Borshagovski, A.-M., Kaitala, A.,
+2021. High road mortality during female-biased larval dispersal in an iconic beetle.
+Behav. Ecol. Sociobiol. 75, 26. https://doi.org/10.1007/s00265-020-02962-6.
+Lewis, S.M., 2016. Silent Sparks: The Wondrous World of Fire ies. Princeton University Press,
+Princeton.
+Lewis, S.M., Wong, C.H., Owens, A.C.S., Fallon, C., Jepsen, S., Thancharoen, A., Wu, C., De
+Cock, R., Novák, M., López-Palafox, T., Khoo, V., Reed, J.M., 2020. A global perspective
+on re y extinction threats. BioScience 70, 157–167. https://doi.org/10.1093/biosci/
+biz157.
+Longcore, T., Rich, C., 2004. Ecological light pollution. Front. Ecol. Environ. 2, 191–198.
+https://doi.org/10.1890/1540-9295(2004)002[0191:ELP]2.0.CO;2.
+Longcore, T., Rich, C., 2016. Arti cial night lighting and protected lands: ecological effects
+and management approaches. Natural Resource Report. Fort Collins, Colorado.
+Longcore, T., Rodríguez, A., Witherington, B., Penniman, J.F., Herf, L., Herf, M., 2018. Rapid
+assessment of lamp spectrum to quantify ecological effects of light at night. J. Exp. Zool. A
+Ecol. Integr. Physiol. 329, 511–521. https://doi.org/10.1002/jez.2184.
+Owens, A.C.S., Lewis, S.M., 2018. The impact of arti cial light at night on nocturnal insects: a
+review and synthesis. Ecol. Evol. 8, 11337–11358. https://doi.org/10.1002/ece3.4557.
+Science of the Total Environment 857 (2023) 159451
+Owens, A.C.S., Lewis, S.M., 2021. Narrow-spectrum arti cial light silences female re ies
+(Coleoptera: Lampyridae). Insect Conserv. Divers. 14, 199–210. https://doi.org/10.
+1111/icad.12487.
+Owens, A.C.S., Meyer-Rochow, V.B., Yang, E.-C., 2018. Short- and mid-wavelength arti cial
+light in uences the ash signals of Aquatica ficta re ies (Coleoptera: Lampyridae).
+PLoS One 13, e0191576. https://doi.org/10.1371/journal.pone.0191576.
+Owens, A.C.S., Cochard, P., Durrant, J., Farnworth, B., Perkin, E.K., Seymoure, B., 2020. Light
+pollution is a driver of insect declines. Biol. Conserv. 241, 108259. https://doi.org/10.
+1016/j.biocon.2019.108259.
+Pacheco, Y.M., Martin, G.J., Bybee, S.M., 2016. On the phototactic response of Rwandan
+Diaphanes Motschulsky (Coleoptera: Lampyridae) to a trap with a 630nm red light.
+Coleopt. Bull. 70, 559–561. https://doi.org/10.1649/0010-065X-70.3.559.
+Pagden, M., Ngahane, K., Amin, M.S.R., 2020. Changing the colour of night on urban streets–
+LED vs. part-night lighting system. Socio Econ. Plan. Sci. 69, 100692. https://doi.org/10.
+1016/j.seps.2019.02.007.
+Park, J.-H., Lee, H.-S., 2017. Phototactic behavioral response of agricultural insects and
+stored-product insects to light-emitting diodes (LEDs). Appl. Biol. Chem. 60, 137–144.
+https://doi.org/10.1007/s13765-017-0263-2.
+R Core Team, 2022. R: A Language and Environment for Statistical Computing. R Foundation
+for Statistical Computing, Vienna, Austria URL https://www.R-project.org/.
+Rstudio Team, 2022. Rstudio: integrated development for R.– Rstudio, Inc., Boston, MA. URL
+http://www.rstudio.com/.
+Schwalb, H., 1961. Beiträge zur biologie der einheimischen Lampyriden Lampyris noctiluca
+und Phausis splendidula un experimental analyse ihres beutefang- und sexualverhaltens.
+Zoologische Jahrbuecher. Abteilung fuer Systematik, Oekologie und Geographie der Tiere
+88, 399–550.
+Stewart, A.J.A., Perl, C.D., Niven, J.E., 2020. Arti cial lighting impairs mate attraction in a
+nocturnal capital breeder. J. Exp. Biol. 223, jeb.229146. https://doi.org/10.1242/jeb.
+229146.
+Tyler, J., 2002. The Glow-Worm. Lakeside Printing Ltd., Sevenoaks.
+Van den Broeck, M., De Cock, R., Van Dongen, S., Matthysen, E., 2021a. White LED light in-
+tensity, but not colour temperature, interferes with mate- nding by glow-worm (Lampyris
+noctiluca L.) males. J. Insect Conserv. 25, 229–247. https://doi.org/10.1007/s10841-
+021-00304-z.
+Van den Broeck, M., De Cock, R., Van Dongen, S., Matthysen, E., 2021b. Blinded by the light:
+arti cial light lowers mate attraction success in female glow-worms (Lampyris noctiluca
+L.). Insects 12, 734. https://doi.org/10.3390/insects12080734.
+Zuur, A.F., Hilbe, J., Ieno, E.N., 2013. A beginner’s Guide to GLM and GLMM with R: A
+Frequentist and Bayesian Perspective for Ecologists. Highland Statistics, Newburgh, U.K.
+6

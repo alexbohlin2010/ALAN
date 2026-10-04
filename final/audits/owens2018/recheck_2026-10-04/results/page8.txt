@@ -1,0 +1,50 @@
+Fireflies flash more brightly in illuminated environs
+conflict between two opposing behaviors: 1.) increasing light signal intensity in response to
+low level environmental light and 2.) ending light signal production in response to high level
+environmental light. The latter behavior likely relates to entrainment of diurnal and nocturnal
+modes of activity: fireflies do not engage in courtship activity during their subjective daytime
+[36,37]. The former may be an adjustment to the nocturnal mode of activity, a plastic response
+to increases in environmental light levels within some “nighttime” range.
+This is the first description of individual-level variation in the average peak intensity of fire-
+fly flash signals. Previous studies on the characteristic flash patterns of North American Photi-
+nusfireflies have described intraspecific variation in several other signal parameters. These
+include flash rate, flash duration, and interpulse interval [59–62], in addition to flash frequency
+(total flashes/min) [27,28,36,59] and flash wavelength [63]. Individual- and/or population-
+level variation has been shown to be related to age [64], habitat type [63], temperature, humid-
+ity, time of day, and ambient light [27,28,36]. Our results open up another dimension of signal
+morphology for future behavioral studies. They also suggest that while fireflies can brighten
+their flashes in response to ambient light, this potentially beneficial behavior may require some
+decrease in average flash frequency [correlation coefficient: -0.9655009 (1×), -0.8027756
+(10×)].
+The plastic increases in alarm flash intensity we observed during dim (1×) exposures may
+be a product of natural or sexual selection. Alarm flashes, which serve as aposematic signals
+[65,66], will be more easily perceived by potential predators if they have greater contrast
+against the background. When given a choice among simulated courtship flashes of varying
+intensity, P. pyralismales and females [67,68] and L. noctilucamales [46] all prefer brighter sig-
+nals, likely due to their greater visibility. Temporary increases in signal intensity could also
+help to maintain a base level of visibility against artificially illuminated backgrounds. Resil-
+ience of urban firefly populations to low level ALAN will depend on the success with which
+these signal modifications maintain inter- and intraspecific lines of communication, and the
+fitness costs of doing so. Flash signal production may have a relatively low metabolic cost [69].
+If this is the case, increasing the average intensity of one’s light signals could help ensure con-
+tinued predator deterrence and/or courtship success without any corresponding fitness cost,
+offering a fascinating case study of the benefits of behavioral plasticity in urbanized environ-
+ments. However, other evidence suggests that flash production does require high levels of lipid
+metabolism [70], and therefore certain tradeoffs (such as decreased flash frequency) may be
+involved.
+Regardless of metabolic cost, even extremely bright flashes should be impossible to perceive
+in sufficiently bright environments, which may be why half of the A. fictaspecimens stopped
+flashing under bright (10×) exposures (1×and 10×exposures roughly correspond to 20 and
+200 lux, respectively, although photometric units are not suited to the analysis of monochro-
+matic light; see S1 Text). Fireflies do not flash under daytime levels of artificial or natural illu-
+mination [36,37]. Hagen etal. [27] observed significant decreases in the average number of
+flashing Photinus sp1 individuals encountered in brightly lit conditions (1.5–4.45 lux). Fire-
+baugh and Haynes [28] also found decreases in flash frequency (flashes/min, a proxy for
+abundance) of Photurisversicolorin an experimental plot lit by LED floodlights to ~301 lux.
+However, flash frequency of Photinus pyralismales was unaffected. P. pyralisis a common cre-
+puscular species, while P. versicoloris nocturnal and may be less resilient to changes in the
+light environment. Despite this, the receptivity of P. pyralisfemales to male signals decreased
+in experimental plots. Females may have been unable to see these signals, or less receptive to
+them due to their decreased contrast against the background; females are likely unable to dis-
+tinguish decreases in contrast (perceived intensity) from decreases in emitted intensity. Plastic
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 8 / 14

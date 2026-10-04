@@ -1,0 +1,2 @@
+d8595dfcba165dfb510d2233b2924f6b1750568ab2ac17fa9cf6d1329ff7d846  data/derived/impacts/owens2018_results.json
+2b2470df721989c9246dea445b013d25dd90777e03e086859f1a63799f3b1228  data/derived/impacts/owens2018_pdftext.txt

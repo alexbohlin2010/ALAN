@@ -1,0 +1,46 @@
+Fireflies flash more brightly in illuminated environs
+activity vs. wavelength quantifies the effects of ambient light on two dimensions of A. fictasig-
+nal morphology, and positively identifies a range of wavelengths to which this species is visu-
+ally sensitive. It is also the first controlled study of firefly signal plasticity, investigating the
+capacity for individual-level variation in flash intensity and frequency. Although likely too
+costly and inefficient under daytime illumination [52], some degree of signal plasticity may be
+used to promote signal visibility under twilight illumination, or in areas with low level ALAN.
+Thus we predict that A. fictawill flash more brightly under dim ambient light, but only of
+wavelengths to which they are visually responsive.
+Materials and methods
+Study organism
+A. fictais a common Taiwanese firefly notable both for its aquatic larvae and multivoltine life
+history [53]: most adults eclose in late April to May, but a second generation ecloses in mid-
+August [54]. A. fictalarvae require clean water and soft, mildly alkaline soil for development
+[54]. Conversion of streams into cemented irrigation ditches prevents these fireflies from
+using stream beds as oviposition or pupation sites, while water pollution and pesticide use
+may affect larvae and adults alike. The impacts of light pollution on A. fictaare unknown.
+Notably, small populations of A. fictacan still be found in a few areas within Taipei city center.
+Additionally, in 2016 the Taipei City Government Department of Public Works in collabora-
+tion with NGOs (re)introduced A. fictato five prominent green spaces around Taipei: Da’an
+Forest Park, Muzha Cui Lake, Fuyang Eco Park, Zhongqiang Park, and Rongxing Garden
+[55].
+Three male A. fictafireflies were collected three times from Yongjian Eco Park (24.990195,
+121.555824; May 4, May 7, and May 11, 2016), where they could be found approximately 20
+min after sundown flying over a shaded stream emitting courtship flashes: periodic single yel-
+low-green flashes (peak wavelength: 565 nm; bandwidth: 60 nm; n = 6) approximately 1 sec in
+duration. Specimens were transferred into transparent containers (250 ml volume) under nat-
+ural conditions [54], and kept in an open-air courtyard by the National Taiwan University
+Insectarium. After a one day adjustment period, a single specimen was tested each evening
+over three consecutive evenings (no specimens were tested more than three days post-collec-
+tion). Trials commenced 30 min after sunset and ran for 32 min, after which the specimen was
+released to prevent accidental retesting. The final sample size was limited by small local popu-
+lation numbers as well as the short adult lifespan and brief nightly activity period of this
+species.
+Artificial light
+ALAN was simulated with eight LED pucks (Oznium.com, Pagosa Springs), circuit boards
+(diameter: 5 cm) populated by 30 monochromatic LEDs of identical peak wavelength, placed
+in plastic housing (diameter: 7 cm) and covered with 50% opaque frosted epoxy diffusers.
+Puck wavelengths were semi-evenly distributed across a range from near-UV to red (444 nm
+to 663 nm) in increments of 20–30 nm. Puck illumination was attenuated by a 72 mm H&Y
+adjustable neutral density filter (diameter: 7.5 cm, range: ND 0.3 to ND 2.4) before penetrat-
+ing an opaque light chamber (S1 Fig). Ambient illumination intensity could be adjusted and
+observed in real time using a model 1935-C series power meter sensor (Newport) placed
+inside the light chamber. Trials were conducted in near darkness to minimize interference
+from outside light.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 3 / 14

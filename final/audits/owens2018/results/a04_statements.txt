@@ -1,0 +1,38 @@
+pdftext.txt pages: 14 ; page numbers True
+  pages differing (whitespace-insensitive): 0
+
+Statements: 26 entries
+species                      page 3 quote_on_stated_page=True (found on [3])
+collection_site              page 3 quote_on_stated_page=True (found on [3])
+courtship_flash              page 3 quote_on_stated_page=True (found on [3])
+alarm_flash                  page 4 quote_on_stated_page=True (found on [4])
+recorded_band                page 4 quote_on_stated_page=True (found on [4])
+sampling                     page 4 quote_on_stated_page=True (found on [4])
+leds                         page 3 quote_on_stated_page=True (found on [3])
+exposure_protocol            page 4 quote_on_stated_page=True (found on [4])
+dim_bright_flux              page 4 quote_on_stated_page=True (found on [4])
+dim_bright_lux               page 8 quote_on_stated_page=True (found on [8])
+sample                       page 4 quote_on_stated_page=True (found on [4])
+n_analysed                   page 4 quote_on_stated_page=True (found on [4])
+noise_threshold              page 4 quote_on_stated_page=True (found on [4])
+adaptation                   page 4 quote_on_stated_page=True (found on [4])
+model                        page 4 quote_on_stated_page=True (found on [4])
+baseline_table1              page 6 quote_on_stated_page=True (found on [6])
+baseline_fig2                page 7 quote_on_stated_page=True (found on [7])
+fig2_error_bars              page 7 quote_on_stated_page=True (found on [7])
+intensity_increase           page 5 quote_on_stated_page=True (found on [5])
+ceased_signalling            page 6 quote_on_stated_page=True (found on [6])
+long_wavelength_no_effect    page 6 quote_on_stated_page=True (found on [6])
+exposure_order_anova         page 6 quote_on_stated_page=True (found on [6])
+intensity_frequency_correlation page 8 quote_on_stated_page=True (found on [8])
+half_stopped_bright          page 8 quote_on_stated_page=True (found on [8])
+red_not_responsive           page 6 quote_on_stated_page=True (found on [6])
+recommendation               page 9 quote_on_stated_page=True (found on [9])
+
+numeric fields checked in statements: 30 ; problems: 0
+correlation sign in text layer: '-0.9655009 (1×), -0.8027756 (10×)'
+as_printed noise_threshold              glyphs added vs quote: ['≤'] ; glyph_from_rendered_page=True
+as_printed long_wavelength_no_effect    glyphs added vs quote: ['≥'] ; glyph_from_rendered_page=True
+as_printed recommendation               glyphs added vs quote: ['≥'] ; glyph_from_rendered_page=True
+
+table1 caption in page 6 text: True

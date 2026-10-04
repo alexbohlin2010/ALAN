@@ -244,9 +244,8 @@ export const story = [
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '005-2', exampleLabel: 'Black swans, night-time rest',
-      // Door into the fireflies chapter (human: option B + click, door = 299-3 only; Firefly transition task step 2).
-      door: '299-3', doorLabel: '[DRAFT] Fireflies, female replies under dim blue light' },
+    // Door (299-3) removed when the fireflies chapter moved into "Female response" (human, AI_LOG Firefly tabs round 5b).
+    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
   },
   // ── Firefly section skeleton (human, 2026-10-04, AI_LOG "Firefly narrative" round 1): tab names are the agent's
   // proposal accepted by the human "for now". Each tab is a [PLACEHOLDER] until it is built; text says only what will go there.
@@ -257,36 +256,73 @@ export const story = [
     part: 2,
     label: 'Signal production',
     title: 'Signal production',
-    text: '[PLACEHOLDER] Owens, Meyer-Rochow & Yang 2018, *Aquatica ficta*.',
+    // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from owens2018_results.json.
+    text: '[DRAFT] Male *Aquatica ficta* fireflies in Taiwan, tested one at a time under eight colours of light, each ' +
+      'dim and ten times brighter (six males analysed). The authors report brighter, less frequent flashes at 533 nm ' +
+      'and below, and no significant change at 597 nm and above. Left: flashing at the dark base values; right: under ' +
+      'the chosen light, at the mean rate and relative brightness in Table 1.',
     sources: [
-      { label: 'Owens et al. 2018, PLoS ONE', url: 'https://doi.org/10.1371/journal.pone.0191576' },
+      { label: 'Owens et al. 2018, PLoS ONE, Table 1', url: 'https://doi.org/10.1371/journal.pone.0191576',
+        supports: 'mean ± SD flash intensity (counts) and flash frequency (peaks/min), ratio to dark and p, for 8 LED wavelengths (444–663 nm) at dim (1×) and bright (10×); dark base values 5420 counts, 43.167 peaks/min' },
+      { label: 'Owens et al. 2018, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
+        supports: 'A. ficta bioluminescence peak 565 nm; alarm flashes approx. 200 ms; dim 0.107, bright 1.075 μmol m⁻² s⁻¹' },
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
+    // Scene "A + B" (human, AI_LOG Firefly narrative round 4f): 3D beats + Table 1 strip (spectral.js, chapter 'signal').
+    // Beats: dark, then each wavelength dim, then each bright; numbers are read from owens2018_results.json.
+    spectral: { chapter: 'signal', manual: true, beats: [{},
+      ...['dim', 'bright'].flatMap(exposure => [444, 463, 488, 515, 533, 597, 628, 663].map(nm => ({ nm, exposure })))] },
   },
   {
     id: 'female-response',
     part: 2,
     label: 'Female response',
     title: 'Female response',
-    text: '[PLACEHOLDER] Owens & Lewis 2021, *Photinus obscurellus*. The earlier chapter on this study is parked at the end of the story.',
+    // The former '[DRAFT] Fireflies' chapter (study 299), moved here from Explore (human, AI_LOG Firefly tabs round 5a);
+    // its door from Light type removed (round 5b). Card text: agent draft on the human's request (round 5g), values as in
+    // the sources below.
+    text: '[DRAFT] Courting *Photinus obscurellus* fireflies: a male flashes, a female answers. In the dark 98.7 % of ' +
+      'females answered; under bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and ' +
+      'bright amber 0 %. Each lamp in turn, with the part of its light a firefly eye takes in (green).',
     sources: [
-      { label: 'Owens & Lewis 2021', url: 'https://doi.org/10.1111/icad.12487' },
+      { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
+      { label: 'Owens & Lewis 2021, Results', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'female response: dark 98.7 %, bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. The other five colour × intensity values are only in Fig. 2b (not shown)' },
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
+    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
+    spectral: { chapter: 'fireflies', manual: true, beats: [
+      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
+      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
+      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
+      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
+      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
+      { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0 },
+    ] },
   },
   {
     id: 'mate-finding',
     part: 2,
     label: 'Mate-finding',
     title: 'Mate-finding',
-    text: '[PLACEHOLDER] Kivelä et al. 2023, *Lampyris noctiluca*.',
+    // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from kivela2023.json.
+    text: '[DRAFT] Female *Lampyris noctiluca* glow-worms glow to attract flying males. Over 20 nights in southern ' +
+      'Finland (2020), 299 dummy females (green LEDs) were set under blue, white, yellow or red light, or none, and ' +
+      'the males each one trapped were counted. Each pillar is one dummy female, each point one male. Under blue and ' +
+      'white light 35.0 % and 36.7 % caught at least one male; under yellow, red and no light 71.2 %, 73.3 % and 68.3 %.',
     sources: [
-      { label: 'Kivelä et al. 2023, Sci. Total Environ.', url: 'https://doi.org/10.1016/j.scitotenv.2022.159451' },
+      { label: 'Kivelä et al. 2023, Sci. Total Environ., Tables 1 and 3', url: 'https://doi.org/10.1016/j.scitotenv.2022.159451',
+        supports: 'treatments: blue 452 nm, white 449 nm, yellow 575 nm, red 625 nm (peak wavelengths), control off; dummy female LED 562 nm; share of dummy females with ≥ 1 male per treatment (Table 3)' },
+      { label: 'Kivelä et al., Dataverse (CC0)', url: 'https://doi.org/10.7910/DVN/QWQPLJ',
+        supports: 'males trapped per dummy female, 299 traps over 20 nights (2020), one pillar per trap' },
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
+    // Continuous scene, third band (human, AI_LOG Firefly tabs round 5b): one pillar per trap (kivela2023.json).
+    spectral: { chapter: 'glow', manual: true, beats: ['control', 'blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
   },
   {
     id: 'communication',
@@ -359,7 +395,7 @@ export const story = [
   },
   // ── Parked at the end (human, 2026-10-04, Firefly narrative round 1: "firefly and Mice part both move to the end of
   // all tabs, that may be removed later until everything's built up"). Listed under Explore (part 3) so the step list
-  // order matches the story order. The Light type door (299-3) still opens the fireflies chapter here.
+  // order matches the story order. The fireflies chapter moved into "Female response" (AI_LOG Firefly tabs round 5a).
   // ── Spectral chapters (human: fireflies F-A + F-C, mice M-B, after "Light type"; Linda's look, two chapters,
   // beats loop automatically, perception layer; AI_LOG Impacts steps 74–78). All titles, texts and number labels
   // are DRAFT placeholders by the agent until the human writes them.
@@ -367,32 +403,6 @@ export const story = [
   // (with its firefly-weighted layer), `reply` = documented female reply share driving the dialogue animation,
   // `brighter` = the lamp grows ×10 (dim → bright photons). Mice: `show` = lux | melanopic | activity | clock.
   // Curves: data/derived/impacts/spectra_299.json, perception_299.json, spectra_278.json (inferred).
-  {
-    id: 'fireflies',
-    part: 3,
-    label: '[DRAFT] Fireflies',
-    title: '[DRAFT] Fireflies under five lamps',
-    text: '[DRAFT] Courting *Photinus obscurellus* fireflies (study 299): a male flashes, a female answers. ' +
-      'Each lamp in turn, and the part of its light a firefly eye takes in (green). Amber last, ten times brighter.',
-    sources: [
-      { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
-        supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
-      { label: 'Owens & Lewis 2021, Results', url: 'https://doi.org/10.1111/icad.12487',
-        supports: 'female response: dark 98.7 %, bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. The other five colour × intensity values are only in Fig. 2b (not shown)' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    // door: grows out of record 299-3 in the Light type chart when arriving from that step (main.js).
-    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
-    spectral: { chapter: 'fireflies', door: '299-3', manual: true, beats: [
-      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
-      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
-      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
-      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
-      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
-      { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0 },
-    ] },
-  },
   {
     id: 'mice',
     part: 3,

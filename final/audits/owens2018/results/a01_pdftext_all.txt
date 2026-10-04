@@ -1,0 +1,657 @@
+
+=====PAGE 1=====
+RESEARCH ARTICLE
+Short- and mid-wavelength artificial light
+influences the flash signals of Aquatica ficta
+fireflies (Coleoptera: Lampyridae)
+Avalon Celeste Stevahn Owens1
+, Victor Benno Meyer-Rochow2,3
+, En-Cheng Yang4*
+1 Department of Biology, Tufts University, Medford, Massachusetts, United States of America, 2 Department
+of Genetics and Physiology, Oulu University, Oulu, Finland, 3 Research Institute of Luminous Organisms,
+Tokyo, Japan, 4 Department of Entomology, National Taiwan University, Taipei, Taiwan
+* ecyang@ntu.edu.tw
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+a1111111111
+OPEN ACCESS
+Citation: Owens ACS, Meyer-Rochow VB, Yang E-
+C (2018) Short- and mid-wavelength artificial light
+influences the flash signals of Aquatica ficta fireflies
+(Coleoptera: Lampyridae). PLoS ONE 13(2):
+e0191576. https://doi.org/10.1371/journal.
+pone.0191576
+Editor: Christian Wegener, Biocenter, Universita ¨t
+Wu ¨rzburg, GERMANY
+Received: May 19, 2017
+Accepted: January 8, 2018
+Published: February 7, 2018
+Copyright: © 2018 Owens et al. This is an open
+access article distributed under the terms of the
+Creative Commons Attribution License, which
+permits unrestricted use, distribution, and
+reproduction in any medium, provided the original
+author and source are credited.
+Data Availability Statement: Dryad DOI: 10.5061/
+dryad.73qg8.
+Funding: Funding for firefly research provided to
+National Taiwan University by the Friends of Da’an
+Forest Park Foundation (http://www.
+daanforestpark.org.tw/ - grant number: FD97011).
+Some funding was allocated to ECY’s laboratory,
+and used by ECY and ACSO to purchase
+experimental equipment. The funders had no role
+in study design, data collection and analysis,
+Abstract
+Urbanization can radically disrupt natural ecosystems through alteration of the sensory envi-
+ronment. Habitat disturbances are predicted to favor behaviorally flexible species capable of
+adapting to altered environments. When artificial light at night (ALAN) is introduced into
+urban areas, it has the potential to impede reproduction of local firefly populations by obscur-
+ing their bioluminescent courtship signals. Whether individual fireflies can brighten their sig-
+nals to maintain visibility against an illuminated background remains unknown. In this study,
+we exposed male Aquatica ficta fireflies to diffused light of varying wavelength and intensity,
+and recorded their alarm flash signals. When exposed to wavelengths at or below 533 nm,
+males emitted brighter signals with decreased frequency. This is the first evidence of individ-
+ual-level light signal plasticity in fireflies. In contrast, long wavelength ambient light ( 597
+nm) did not affect signal morphology, likely because A. ficta cannot perceive these wave-
+lengths. These results suggest long wavelength lighting is less likely to impact firefly court-
+ship, and its use in place of broad spectrum white lighting could augment firefly conservation
+efforts. More generally, this study demonstrates benefits of bioluminescent signal plasticity
+in a “noisy” signaling environment, and sheds light on an important yet understudied conse-
+quence of urbanization.
+Introduction
+As human populations grow, cities and suburbs expand into formerly natural lands [1].
+Urbanization is a severe form of ecosystem disturbance, and one of the leading causes of spe-
+cies endangerment [2]. The impacts of deforestation, habitat fragmentation, and chemical pol-
+lution on species endemic to affected habitats have been widely recorded [3–6]. However,
+many species manage to survive and even thrive in urban centers, despite these myriad threats
+[7–10]. Opportunistic generalists such as cockroaches, rats, bats, and pigeons are inherently
+disposed to disturbed habitats [11], while other species persist through adaptation to their
+altered surroundings [12]. Population-level phenotypic change may occur over relatively long
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 1 / 14
+=====PAGE 2=====
+Fireflies flash more brightly in illuminated environs
+decision to publish, or preparation of the
+manuscript.
+Competing interests: The authors have declared
+that no competing interests exist.
+time scales, as has been observed in the case of industrial melanism in the peppered moth Bis-
+tonbetularia[13]. Concurrently, individual-level behavioral change can produce immediate
+fitness benefits. Urban populations of several bird species have been found to sing more loudly
+and at higher frequencies to compensate for increased ambient noise [14,15]. In these and
+other cases, signal plasticity promotes information transmission within noisy signaling envi-
+ronments [16].
+In addition to noise, heat, and chemical pollution, urbanization commonly results in the
+introduction of artificial light at night (ALAN), the effects of which are infrequently studied
+in isolation [17]. ALAN transforms the nocturnal landscape: upward-directed “astronomical
+light pollution” obscures the night sky [18], while downward-directed “ecological light pol-
+lution” can affect species on the ground [17,19]. Among invertebrates, the attraction of
+moths and other flying insects to streetlamps is a particularly well studied phenomenon
+[20,21]. In contrast, the potential vulnerability of species with light-based communication
+systems to ALAN interference has only recently attracted the attention of researchers [22–
+28].
+Bioluminescence has evolved multiple times within a broad range of bacterial, protist, fun-
+gal, and animal lineages, and is used in diverse contexts [29]. On land, bioluminescence is
+most common among insects: “glowworm” larvae of some fungus gnats use bioluminescent
+lures to attract prey [30], while four families of beetles, including the firefly family Lampyridae,
+have separately evolved a diverse range of light signals and signaling behavior [31,32]. Many
+adult fireflies use bioluminescent signals as part of courtship, with one or both sexes emitting
+prolonged glows, discrete flashes, or timed flash patterns to attract conspecifics [33–35]. Dur-
+ing the mating season, adults begin flashing late in the day, when ambient light levels have
+declined to a species-specific threshold [36,37]. High levels of broad spectrum ALAN can
+delay or inhibit male signaling activity, and negatively affect female receptivity to biolumines-
+cent signals [27,28].
+How a particular light source impacts firefly activity depends in part on the intersection of
+its spectral emission with the spectral sensitivity of the species in question: if the firefly does
+not detect most wavelengths emitted by the source, courtship activity will likely be unaffected.
+Single copies of UV-sensitive (UVS) and long-wavelength-sensitive (LWS) opsin genes have
+been identified in multiple firefly species [38,39]. Peak sensitivity of the LWS visual pigment,
+after filtration by associated screening pigments, often corresponds to the peak wavelength of
+conspecific bioluminescence [40–43]. Short-wavelength-sensitive (SWS) opsins have yet to be
+found, although blue sensitivity has been described from electroretinograms (ERGs) and
+behavioral studies of multiple species [44–47]. The discrepancy may be due to opsin sensitiza-
+tion by as-yet-undescribed “antenna pigments” [48], or secondary interactions of screening
+pigments [42,45].
+Recent studies have shown that broad spectrum white lighting negatively impacts firefly
+flash frequency (flashes/min) and/or the total number of flashing individuals present [27,28].
+However, few studies have measured how specific wavelengths of ambient light interact with
+the firefly visual system and overlying neurobehavioral architecture to influence courtship
+behavior (but see [49,50] for studies of the spectral cues that initiate male flash activity). Differ-
+ent wavelengths are likely to have different effects. For example, receptive Photinus pyralis
+females emit response flashes exclusively to simulated male flashes of wavelengths longer than
+480 nm, even though their eyes are sensitive to UV light [51]. To quantify the impact of differ-
+ent artificial light sources on firefly courtship behavior, we must compare the ways in which
+ambient light of different wavelengths affect firefly flash activity.
+In this study we used monochromatic LEDs to test how specific wavelengths affect the sig-
+naling activity (intensity and frequency of flashes) of Aquatica fictamales. The resulting plot of
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 2 / 14
+=====PAGE 3=====
+Fireflies flash more brightly in illuminated environs
+activity vs. wavelength quantifies the effects of ambient light on two dimensions of A. fictasig-
+nal morphology, and positively identifies a range of wavelengths to which this species is visu-
+ally sensitive. It is also the first controlled study of firefly signal plasticity, investigating the
+capacity for individual-level variation in flash intensity and frequency. Although likely too
+costly and inefficient under daytime illumination [52], some degree of signal plasticity may be
+used to promote signal visibility under twilight illumination, or in areas with low level ALAN.
+Thus we predict that A. fictawill flash more brightly under dim ambient light, but only of
+wavelengths to which they are visually responsive.
+Materials and methods
+Study organism
+A. fictais a common Taiwanese firefly notable both for its aquatic larvae and multivoltine life
+history [53]: most adults eclose in late April to May, but a second generation ecloses in mid-
+August [54]. A. fictalarvae require clean water and soft, mildly alkaline soil for development
+[54]. Conversion of streams into cemented irrigation ditches prevents these fireflies from
+using stream beds as oviposition or pupation sites, while water pollution and pesticide use
+may affect larvae and adults alike. The impacts of light pollution on A. fictaare unknown.
+Notably, small populations of A. fictacan still be found in a few areas within Taipei city center.
+Additionally, in 2016 the Taipei City Government Department of Public Works in collabora-
+tion with NGOs (re)introduced A. fictato five prominent green spaces around Taipei: Da’an
+Forest Park, Muzha Cui Lake, Fuyang Eco Park, Zhongqiang Park, and Rongxing Garden
+[55].
+Three male A. fictafireflies were collected three times from Yongjian Eco Park (24.990195,
+121.555824; May 4, May 7, and May 11, 2016), where they could be found approximately 20
+min after sundown flying over a shaded stream emitting courtship flashes: periodic single yel-
+low-green flashes (peak wavelength: 565 nm; bandwidth: 60 nm; n = 6) approximately 1 sec in
+duration. Specimens were transferred into transparent containers (250 ml volume) under nat-
+ural conditions [54], and kept in an open-air courtyard by the National Taiwan University
+Insectarium. After a one day adjustment period, a single specimen was tested each evening
+over three consecutive evenings (no specimens were tested more than three days post-collec-
+tion). Trials commenced 30 min after sunset and ran for 32 min, after which the specimen was
+released to prevent accidental retesting. The final sample size was limited by small local popu-
+lation numbers as well as the short adult lifespan and brief nightly activity period of this
+species.
+Artificial light
+ALAN was simulated with eight LED pucks (Oznium.com, Pagosa Springs), circuit boards
+(diameter: 5 cm) populated by 30 monochromatic LEDs of identical peak wavelength, placed
+in plastic housing (diameter: 7 cm) and covered with 50% opaque frosted epoxy diffusers.
+Puck wavelengths were semi-evenly distributed across a range from near-UV to red (444 nm
+to 663 nm) in increments of 20–30 nm. Puck illumination was attenuated by a 72 mm H&Y
+adjustable neutral density filter (diameter: 7.5 cm, range: ND 0.3 to ND 2.4) before penetrat-
+ing an opaque light chamber (S1 Fig). Ambient illumination intensity could be adjusted and
+observed in real time using a model 1935-C series power meter sensor (Newport) placed
+inside the light chamber. Trials were conducted in near darkness to minimize interference
+from outside light.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 3 / 14
+=====PAGE 4=====
+Fireflies flash more brightly in illuminated environs
+Signal morphology
+To obtain action spectra of firefly flash behavior, specimens were isolated within the light
+chamber, and the intensity over time of their light signals recorded and analyzed. Fireflies
+were secured to a piece of foam by a thin wire (22 ga) slid between their wings and dorsal
+abdomen. The act of restraint induced a series of fast (approx. 200 ms duration, 200–300 ms
+flash interval) alarm flashes in this species, which were produced with remarkable consistency
+throughout the entire experimental period. The foam was mounted to a slide cover, which was
+adjusted within a transparent acrylic slide cover box (2.5 cm3) to align the light organ of the
+specimen to the sensor of a USB4000 FLAME-S-XR1-ES spectrometer (Ocean Optics, Dune-
+din) connected to a Dell XPS 9343 laptop running SpectraSuite software (Windows Vista ver-
+sion 6.2). The “color chart” function of SpectraSuite was used to record average relative
+intensity (counts) of wavelengths from 565 nm to 569 nm over 32 min, capturing the peak
+wavelength of A. fictabioluminescence. Averages were calculated and saved every 100 ms.
+Experimental protocol
+After a 5 min adaptation period, each specimen underwent one 32 min trial without interrup-
+tion, during which it was exposed to each of the eight pucks in a randomized order determined
+by a random sequence generator (http://www.random.org, S1 Table). For each wavelength,
+specimens were exposed to both dim (1×) and bright (10×) intensities; the order of exposure
+(i.e. dim or bright first) was secondarily randomized within wavelengths. Here intensity refers
+to quantum flux (photons per unit area per second), converted from power meter measure-
+ments of μW/cm2 and equalized across wavelengths: ranging from 0.107 ±0.02 μmol m-2 s-1
+and from 1.075 ±0.212 μmol m-2 s-1 for dim and bright exposures, respectively. For both
+intensities of all wavelengths, exposures lasted 1 min and were always preceded by 1 min dark
+recordings, a total recording time of 4 min per wavelength.
+Data analysis
+Eight sets of data were collected from eight A. fictamales on the evenings of May 5–9 and May
+12–14, 2016 (S2 Fig; one male died before it could be tested). Of these, two recordings (May 5
+and May 13) were disregarded due to measurement inconsistencies maintained over >10 min
+of recording time. Flash intensity and frequency data from six individuals were separated into
+1 min recordings (8×2×6 = 96 light recordings, and an equal number of dark recordings) and
+analyzed in R (version 3.2.3 [56]). The first 15 s of each recording was defined as the “adapta-
+tion period” (from light to dark or vice-versa) and omitted from subsequent analysis. Average
+intensity over time of light signals was zeroed within each recording to account for spectrome-
+ter noise, and average peak intensity calculated by isolating local maximums.
+Measurements 200 counts were excluded as noise, as peak intensity of A. fictaflashes consis-
+tently exceeded several thousand counts. The total number of peaks thus isolated was summed
+to obtain the average flash rate per individual for each exposure (peaks/min).
+After removing the 15 s adaptation period, dark recordings still showed significant varia-
+tion within and among individuals, suggesting high natural variation in A. fictasignal mor-
+phology as well as potential lingering effects of previous exposures (Fig 2A). Each set of light
+recordings was therefore compared to the initial set of dark recordings obtained previous to
+any ambient light exposure. Average flash intensity and frequency under each wavelength of
+exposure was compared using generalized linear mixed models (GLMM) from the R package
+‘lme4’ [57]. Exposure wavelength was set as a fixed effect, and both specimen and exposure
+order (1 to 16; eight wavelengths ×two intensities) initially included as random effects. Due to
+rank deficiency, both exposure intensities were analyzed separately, as were the effects on flash
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 4 / 14
+=====PAGE 5=====
+Fireflies flash more brightly in illuminated environs
+Fig 1. Plastic effects of 533 nm ambient light exposure on firefly flash morphology. (A) Example of change in intensity of flashes emitted by A. ficta
+male under different illumination conditions (indicated above each section), recorded in units of average counts per 100 ms over 4 min. (B) Changes in
+signal intensity over 4 min of separate A. fictamale under the same illumination conditions (indicated above each section).
+https://doi.org/10.1371/journal.pone.0191576.g001
+intensity and flash frequency (S1 Table). Exposure order explained a large amount of observed
+variation in flash frequency. However, it did not have an observable impact on flash intensity
+and was subsequently dropped from that set of models.
+Results
+A. fictabioluminescent signaling behavior changed in response to environmental light (Fig
+1A, Table 1). In comparison to base level data taken in complete darkness, average peak inten-
+sity of flash signals significantly increased, sometimes more than 100%, when individuals were
+exposed to dim intensities of short- and mid-wavelength light (Fig 2A, Table 1; 444 nm:
+p = 0.0021; 463 nm: p = 0.01; 488 nm: p = 0.017; 515 nm: p = 0.021; 533 nm: p = 0.066).
+Increases in flash intensity under dim short- and mid-wavelength illumination were accompa-
+nied by significant reductions in flash frequency (Fig 2B, Table 1; 444 nm: p = 0.0042, 463 nm:
+p = 0.049, 488 nm: p = p <0.0001, 515 nm: p = 0.0098; 533 nm: p = 0.046). The decline is due
+to increases in interpulse interval [58] and, to a lesser extent, flash duration (S2 Table); in addi-
+tion, sporadic periods without flashing were more common under illumination, sometimes
+continuing for 10 or more seconds. More extreme reductions in flash frequency were seen
+when males were exposed to bright intensities of the same wavelengths (Fig 2B, Table 1; 444
+nm: p = 0.0019; 463 nm: p <0.0001, 488 nm: p <0.0001, 515 nm: p = 0.0018, 533 nm:
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 5 / 14
+=====PAGE 6=====
+Fireflies flash more brightly in illuminated environs
+Table 1. Average peak intensity and frequency of light signals produced by A. fictaunder exposure to varying wavelengths and intensities of ambient light.
+Dim (1×) Exposure
+λ
+(nm)
+flash intensity
+x ±SD (counts)
+degree of change relative to dark
+(bright/dark)
+p-value flash frequency
+degree of change relative to dark
+p-value
+x ±SD (peaks/min)
+(bright/dark)
+444 11420 ±4498 2.106 0.0021 22.67 ±15.65 0.525 0.0042
+463 11330 ±4615 2.090 0.010 23.78 ±15.02 0.551 0.0049
+488 11380 ±4605 2.099 0.018 17.78 ±10.91 0.412 0.000014
+515 9879 ±3540 1.823 0.021 24.44 ±12.81 0.566 0.0098
+533 8584 ±3125 1.584 0.066 32.44 ±13.93 0.752 0.046
+597 5639 ±4912 1.040 0.94 44.89 ±6.504 1.040 0.30
+628 6605 ±2848 1.219 0.91 42.67 ±17.28 0.988 0.55
+663 6881 ±3381 1.269 0.72 46.22 ±16.67 1.071 0.43
+Bright (10×) Exposure
+λ
+(nm)
+flash intensity
+x ±SD (counts)
+degree of change relative to dark
+(bright/dark)
+p-value flash frequency
+degree of change relative to dark
+p-value
+x ±SD (peaks/min)
+(bright/dark)
+444 11719 ±5489 2.162 0.23 14.44 ±14.80 0.335 0.0019
+463 9259 ±2854 1.708 0.19 12.67 ±11.29 0.293 0.00042
+488 10606 ±4595 1.957 0.13 8.222 ±7.78 0.190 0.000014
+515 6594 ±3388 1.217 0.59 14.89 ±12.29 0.345 0.0018
+533 10462 ±4941 1.930 0.051 27.11 ±15.70 0.628 0.032
+597 4688 ±2615 0.865 0.48 56.44 ±11.38 1.308 0.92
+628 6381 ±3407 1.177 0.97 45.78 ±15.61 1.060 0.56
+663 4968 ±3351 0.917 0.98 54.00 ±22.45 1.251 0.87
+1×dim exposures (top) and 10×bright exposures (bottom) differ by one order of magnitude. Change from dark for each exposure is calculated by dividing by base
+values taken from 1 min dark recordings (average flash intensity: 5420 counts; frequency: 43.167 peaks/min).
+https://doi.org/10.1371/journal.pone.0191576.t001
+p = 0.032). In fact, under bright short- and mid-wavelength illumination, three of six males
+ceased signaling entirely (Fig 1B). Due to the consequent lack of data, average peak intensity of
+flash signals became erratic under bright short- and mid-wavelength illumination (444 nm:
+p = 0.23; 463 nm: p = 0.19; 488 nm: p = 0.13; 515 nm: p = 0.59; 533 nm: p = 0.051). Notably,
+neither dim nor bright intensities of long wavelength ( 597 nm) illumination had a signifi-
+cant effect on flash intensity or frequency (p 0.3 in all instances; Fig 2).
+Although some males underwent remarkably rapid changes in average flash intensity, indi-
+viduals often appeared to remain at least partially affected by the previous series of exposures
+(Fig 1A and 1B). When analysis of variance (ANOVA) was used to compare models, results
+showed that number of previous exposures had a significant negative effect on flash frequency
+(1×: p <0.0001, χ2
+= 15.205; 10×: p = 0.0012, χ2
+= 14.668), but not flash intensity (p = 1.0 and
+χ2
+= 0 in both 1×and 10×models). Thus, the brightness of male flashes was apparently only
+influenced by the current level of ambient illumination, while the total number of flashes per
+minute was determined by both current and previous light exposures.
+Discussion
+Our results suggest that A. fictais not visually responsive to red wavelengths. However, short
+wavelength ambient light (including blue) significantly affects their signaling behavior, induc-
+ing increased flash intensity as well as decreased flash frequency. Erratic measurements
+obtained during bright (10×) exposures across wavelengths may reflect the small sample size,
+necessitated by the limited population numbers and highly seasonal life history of A. ficta, or
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 6 / 14
+=====PAGE 7=====
+Fireflies flash more brightly in illuminated environs
+Fig 2. Effects of exposure wavelength and intensity on firefly flash morphology. Change in average (±1 SE) flash intensity (A)
+and frequency (B) of light signals emitted by A. fictaunder illumination by eight wavelengths and two intensities of ambient light
+(N = 6). Base values for average flash intensity (5420 counts) and flash frequency (43.167 peaks/min) obtained from 1 min dark
+recordings have been subtracted out.
+https://doi.org/10.1371/journal.pone.0191576.g002
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 7 / 14
+=====PAGE 8=====
+Fireflies flash more brightly in illuminated environs
+conflict between two opposing behaviors: 1.) increasing light signal intensity in response to
+low level environmental light and 2.) ending light signal production in response to high level
+environmental light. The latter behavior likely relates to entrainment of diurnal and nocturnal
+modes of activity: fireflies do not engage in courtship activity during their subjective daytime
+[36,37]. The former may be an adjustment to the nocturnal mode of activity, a plastic response
+to increases in environmental light levels within some “nighttime” range.
+This is the first description of individual-level variation in the average peak intensity of fire-
+fly flash signals. Previous studies on the characteristic flash patterns of North American Photi-
+nusfireflies have described intraspecific variation in several other signal parameters. These
+include flash rate, flash duration, and interpulse interval [59–62], in addition to flash frequency
+(total flashes/min) [27,28,36,59] and flash wavelength [63]. Individual- and/or population-
+level variation has been shown to be related to age [64], habitat type [63], temperature, humid-
+ity, time of day, and ambient light [27,28,36]. Our results open up another dimension of signal
+morphology for future behavioral studies. They also suggest that while fireflies can brighten
+their flashes in response to ambient light, this potentially beneficial behavior may require some
+decrease in average flash frequency [correlation coefficient: -0.9655009 (1×), -0.8027756
+(10×)].
+The plastic increases in alarm flash intensity we observed during dim (1×) exposures may
+be a product of natural or sexual selection. Alarm flashes, which serve as aposematic signals
+[65,66], will be more easily perceived by potential predators if they have greater contrast
+against the background. When given a choice among simulated courtship flashes of varying
+intensity, P. pyralismales and females [67,68] and L. noctilucamales [46] all prefer brighter sig-
+nals, likely due to their greater visibility. Temporary increases in signal intensity could also
+help to maintain a base level of visibility against artificially illuminated backgrounds. Resil-
+ience of urban firefly populations to low level ALAN will depend on the success with which
+these signal modifications maintain inter- and intraspecific lines of communication, and the
+fitness costs of doing so. Flash signal production may have a relatively low metabolic cost [69].
+If this is the case, increasing the average intensity of one’s light signals could help ensure con-
+tinued predator deterrence and/or courtship success without any corresponding fitness cost,
+offering a fascinating case study of the benefits of behavioral plasticity in urbanized environ-
+ments. However, other evidence suggests that flash production does require high levels of lipid
+metabolism [70], and therefore certain tradeoffs (such as decreased flash frequency) may be
+involved.
+Regardless of metabolic cost, even extremely bright flashes should be impossible to perceive
+in sufficiently bright environments, which may be why half of the A. fictaspecimens stopped
+flashing under bright (10×) exposures (1×and 10×exposures roughly correspond to 20 and
+200 lux, respectively, although photometric units are not suited to the analysis of monochro-
+matic light; see S1 Text). Fireflies do not flash under daytime levels of artificial or natural illu-
+mination [36,37]. Hagen etal. [27] observed significant decreases in the average number of
+flashing Photinus sp1 individuals encountered in brightly lit conditions (1.5–4.45 lux). Fire-
+baugh and Haynes [28] also found decreases in flash frequency (flashes/min, a proxy for
+abundance) of Photurisversicolorin an experimental plot lit by LED floodlights to ~301 lux.
+However, flash frequency of Photinus pyralismales was unaffected. P. pyralisis a common cre-
+puscular species, while P. versicoloris nocturnal and may be less resilient to changes in the
+light environment. Despite this, the receptivity of P. pyralisfemales to male signals decreased
+in experimental plots. Females may have been unable to see these signals, or less receptive to
+them due to their decreased contrast against the background; females are likely unable to dis-
+tinguish decreases in contrast (perceived intensity) from decreases in emitted intensity. Plastic
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 8 / 14
+=====PAGE 9=====
+Fireflies flash more brightly in illuminated environs
+increases in male flash intensity are unlikely to greatly promote visibility in this context, due to
+the extreme brightness of the artificial light source.
+Selecting artificial light sources that have the least chance of interfering with firefly commu-
+nication can help to reduce disturbance of urban firefly populations. Blue light is often
+employed in firefly observations and experiments in the west, as it is thought to be minimally
+disruptive to local species. Although thus far genetic analysis has failed to uncover blue opsin
+genes in any firefly species [38,39], we found that blue wavelengths did significantly affect the
+flash signaling behavior of A. ficta. Our results suggest artificial light sources emitting the
+majority of their light in wavelengths 597 nm, including a range of yellow to red wavelengths
+visible to humans, would be most suitable for A. fictahabitats. These conclusions receive sup-
+port from ERG spectral sensitivity studies of Luciolacruciata, a close relative of A. ficta, which
+have described sensitivity peaks in the green-yellow range of 555–565 nm wavelengths [71,43].
+Low-pressure sodium vapor lamps emit light concentrated at 590 nm, well beyond this range
+[72]. However, in recent decades these lamps have been phased out in favor of brighter and
+more energy efficient alternatives such as LEDs, which often emit a large portion of their light
+in the blue region of the spectrum. We suggest spectral emission be given greater consideration
+when installing artificial lights around firefly habitats. The directionality of light sources (stree-
+tlamps vs. path lights) and distinction between point sources and larger sources of diffused
+light are also relevant to these discussions. Free-roaming A. fictain the lab continue to emit
+courtship signals when exposed to small points of light, regardless of the intensity or distance
+of the point source from their eyes, although they appear to exhibit some degree of negative
+phototaxis (pers. obs.). However, A. fictarespond to high levels of short wavelength diffused
+light by decreasing the frequency of their flash signals, and eventually ceasing them altogether.
+A. fictado not exchange precisely timed flash patterns during courtship, so decreases in
+flash frequency like those we observed in dim light conditions may not cause a significant loss
+of signal information, and the commensurate increase in intensity may suffice to maintain
+signal visibility in natural settings. It remains to be seen how ambient light affects the courtship
+of Photinus fireflies, which use flash patterns to communicate information about species
+identity and individual fitness. Changes to flash rate, flash duration, or interpulse interval are
+highly likely to impact the reproductive success of these species; even slight differences in flash
+rate have been shown to affect male reproductive success [60,73].
+Much remains to be done to quantify the total fitness impact of ALAN of varying spectral
+composition on firefly species of varying spectral sensitivity and courtship behavior. Observed
+decreases in A. fictapopulations over the past few decades indicates that they have been nega-
+tively affected by habitat alterations occuring within this time (Wu Chiahsiung, personal com-
+munication). The impacts of habitat destruction, climate change, pesticides, and ALAN on
+fireflies are all relevant, and likely mutually reinforcing, but those of ALAN deserve equal
+consideration. This is especially the case because fireflies can serve as “flagship species”, charis-
+matic mascots of public outreach efforts to reduce or eliminate ALAN in urban areas. Improv-
+ing our understanding of the degree to which fireflies everywhere are able to respond and
+adapt to ALAN is crucial should we hope to protect these species going forward, both for the
+robustness of the ecosystem and the enjoyment of many generations to come.
+Supporting information
+S1 Fig. Simplified schematic of experimental setup. LED pucks fitted into upper box (base:
+14×8.5 cm; height: 3 cm) shine through a neutral density filter, the transparency of which is
+adjusted via rotation of this box. Walls of the light chamber (base: 9×6.5 cm; height: 5.5 cm)
+are covered in opaque dark room fabric. The USB4000 spectrometer is connected to a Dell
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 9 / 14
+=====PAGE 10=====
+Fireflies flash more brightly in illuminated environs
+laptop running SpectraSuite software. Walls of the light chamber (base: 9×6.5 cm; height: 5.5
+cm) are covered in opaque dark room fabric.
+(TIF)
+S2 Fig. Signal morphology of eight A. fictamales over eight separate 32 min trials. During
+each trial, one unique individual was exposed to two intensities of eight wavelengths of LED
+for 1 min each. Trial date is given to the left of each recording. All light exposures were pre-
+ceded by a 1 min dark exposure, summing to 32 exposures total (16 light and 16 dark). Expo-
+sure order (intensity and wavelength) was randomized; semi-transparent colored overlays
+indicate the series of exposure intensities and wavelengths for each recording, corresponding
+to the colors used in Fig 2 and S1 Table. Bioluminescence was recorded in units of average
+intensity (counts) per 100 ms.
+(TIF)
+S1 Table. Sample experimental procedure, taken from trial on May 5, 2016. Trial began 30
+min post-sunset at 18:56. The order of LED wavelengths has been randomized, as has the
+order of exposure intensity (dim or bright first) within wavelengths. Relative quantum flux
+density (μmol m-2 s-1) is approximately equal across wavelengths; variation in energy measure-
+ments (μW/cm2) reflects inherent differences in the energy of photons of different wavelength.
+(DOCX)
+S2 Table. Change in A. fictaflash duration and interpulse interval under short- and mid-
+wavelength illumination. Data from four of eight experimental trials, organized by trial date,
+are given above. The first column contains average values of flash duration and interpulse
+interval (duration between flashes) from the initial 1 min dark recording of each insect. The
+following columns contain average values for all five short- to mid-wavelength exposures
+(444–533 nm), at 1×and 10×intensity, respectively.
+(DOCX)
+S1 Text. Relevance of experimental design to urban and suburban light environments.
+(DOCX)
+Acknowledgments
+We thank Leo Jeng and Phil Suslow for technical support, Duncan Wright for assistance with
+data collection, and Dr. Sara Lewis (Tufts University), Dr. Christian Wegener, and one anony-
+mous reviewer for valuable comments on the manuscript. This study was supported by a grant
+from the Friends of Da’an Forest Park Foundation to ACSO and ECY.
+Author Contributions
+Conceptualization: Victor Benno Meyer-Rochow, En-Cheng Yang.
+Data curation: Avalon Celeste Stevahn Owens.
+Formal analysis: Avalon Celeste Stevahn Owens.
+Funding acquisition: En-Cheng Yang.
+Investigation: Avalon Celeste Stevahn Owens.
+Methodology: Avalon Celeste Stevahn Owens, En-Cheng Yang.
+Project administration: En-Cheng Yang.
+Resources: En-Cheng Yang.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 10 / 14
+=====PAGE 11=====
+Fireflies flash more brightly in illuminated environs
+Supervision: En-Cheng Yang.
+Visualization: Avalon Celeste Stevahn Owens.
+Writing – original draft: Avalon Celeste Stevahn Owens.
+Writing – review & editing: Avalon Celeste Stevahn Owens, Victor Benno Meyer-Rochow,
+En-Cheng Yang.
+References
+1. 2. Gillham O. The Limitless City: A Primer on the Urban Sprawl Debate. Island Press; 2002.
+Czech B, Krausman PR, Devers PK. Economic associations among causes of species endangerment
+in the United States. Bioscience; Oxford. United States; US, United Kingdom: Oxford University Press,
+UK; 2000; 50: 593–601.
+3. Fahrig L. Effects of Habitat Fragmentation on Biodiversity. Annu Rev Ecol Evol Syst. Annual Reviews;
+2003; 34: 487–515.
+4. Zvereva EL, Kozlov MV. Responses of terrestrial arthropods to air pollution: a meta-analysis. Environ
+Sci Pollut Res Int. Springer-Verlag; 2010; 17: 297–311.
+5. Isaksson C. Pollution and its impact on wild animals: a meta-analysis on oxidative stress. Ecohealth.
+2010; 7: 342–350. https://doi.org/10.1007/s10393-010-0345-7 PMID: 20865439
+6. Kupfer JA, Franklin SB. Linking Spatial Pattern and Ecological Responses in Human-Modified Land-
+scapes: The Effects of Deforestation and Forest Fragmentation on Biodiversity. Geography Compass.
+Blackwell Publishing Ltd; 2009; 3: 1331–1355.
+7. McKinney ML. Effects of urbanization on species richness: A review of plants and animals. Urban Eco-
+syst. Springer US; 2008; 11: 161–176.
+8. 9. Adams CE, Lindsey KL. Urban Wildlife Management, Third Edition. 3 edition. CRC Press; 2016.
+Niemela ¨ J, Breuste JH, Elmqvist T, Guntenspergen G, James P, McIntyre NE, editors. Urban Ecology:
+Patterns, Processes, and Applications. Oxford: Oxford University Press; 2011.
+10. Kegel B. Tiere in der Stadt: Eine Naturgeschichte. 1st ed. DuMont Buchverlag GmbH & Co. KG;
+2013;21.
+11. Douglas I, James P. Urban Ecology: An Introduction. 1 edition. Routledge; 2015.
+12. Alberti M. Eco-evolutionary dynamics in an urbanizing planet. Trends Ecol Evol. 2015; 30: 114–126.
+https://doi.org/10.1016/j.tree.2014.11.007 PMID: 25498964
+13. Cook LM, Saccheri IJ. The peppered moth and industrial melanism: evolution of a natural selection
+case study. Heredity. 2013; 110: 207–212. https://doi.org/10.1038/hdy.2012.92 PMID: 23211788
+14. Hu Y, Cardoso GC. Which birds adjust the frequency of vocalizations in urban noise? Anim Behav.
+2010/4; 79: 863–867.
+15. Schuster S, Zollinger SA, Lesku JA, Brumm H. On the evolution of noise-dependent vocal plasticity in
+birds. Biol Lett. 2012; 8: 913–916. https://doi.org/10.1098/rsbl.2012.0676 PMID: 22977069
+16. Endler JA. Some general comments on the evolution and design of animal communication systems.
+Philos Trans R Soc Lond B Biol Sci. 1993; 340: 215–225. https://doi.org/10.1098/rstb.1993.0060 PMID:
+8101656
+17. 18. Rich C, Longcore T. Ecological Consequences of Artificial Night Lighting. Island Press; 2006.
+Falchi F, Cinzano P, Duriscoe D, Kyba CCM, Elvidge CD, Baugh K, et al. The new world atlas of artificial
+night sky brightness. Sci Adv. 2016; 2: e1600377. https://doi.org/10.1126/sciadv.1600377 PMID:
+27386582
+19. 20. 21. Navara KJ, Nelson RJ. The dark side of light at night: physiological, epidemiological, and ecological
+consequences. J Pineal Res. 2007; 43: 215–224. https://doi.org/10.1111/j.1600-079X.2007.00473.x
+PMID: 17803517
+MacGregor CJ, Pocock MJO, Fox R, Evans DM. Pollination by nocturnal Lepidoptera, and the effects of
+light pollution: a review. Ecol Entomol. 2015; 40: 187–198. https://doi.org/10.1111/een.12174 PMID:
+25914438
+Longcore T, Aldern HL, Eggers JF, Flores S, Franco L, Hirshfield-Yamanishi E, et al. Tuning the white
+light spectrum of light emitting diode lamps to reduce attraction of nocturnal arthropods. Philos Trans R
+Soc Lond B Biol Sci. 2015; 370. https://doi.org/10.1098/rstb.2014.0125 PMID: 25780237
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 11 / 14
+=====PAGE 12=====
+Fireflies flash more brightly in illuminated environs
+22. 23. 24. 25. 26. 27. 28. 29. 30. 31. 32. 33. 34. 35. 36. 37. 38. 39. 40. 41. 42. 43. 44. 45. 46. Viviani VR, Rocha MY, Hagen O. Fauna de besouros bioluminescentes (Coleoptera: Elateroidea: Lam-
+pyridae; Phengodidae, Elateridae) nos municı ´pios de Campinas, Sorocaba-Votorantim e Rio Claro-
+Limeira (SP, Brasil): biodiversidade e influência da urbanizac ¸ão. Biota Neotrop. 2010; 10: 103–116.
+Ineichen S, Ru ¨ttimann B. Impact of artificial light on the distribution of the common European glow-
+worm, Lampyris noctiluca (Coleoptera: Lampyridae). Lampyrid. 2012.
+Picchi MS, Avolio L, Azzani L, Brombin O, Camerini G. Fireflies and land use in an urban landscape: the
+case of Luciola italica L. (Coleoptera: Lampyridae) in the city of Turin. J Insect Conserv. Springer Neth-
+erlands; 2013; 17: 797–805.
+Merritt DJ, Clarke AK. The impact of cave lighting on the bioluminescent display of the Tasmanian glow-
+worm Arachnocampa tasmaniensis. J Insect Conserv. Springer Netherlands; 2013; 17: 147–153.
+Bird S, Parker J. Low levels of light pollution may block the ability of male glow-worms (Lampyris nocti-
+luca L.) to locate females. J Insect Conserv. Springer International Publishing; 2014; 18: 737–743.
+Hagen O, Santos RM, Schlindwein MN, Viviani VR. Artificial night lighting reduces firefly (Coleoptera:
+Lampyridae) occurrence in Sorocaba, Brazil. AE. 2015; 03: 24–32.
+Firebaugh A, Haynes KJ. Experimental tests of light-pollution impacts on nocturnal insect courtship and
+dispersal. Oecologia. 2016; https://doi.org/10.1007/s00442-016-3723-1 PMID: 27646716
+Oba Y, Schultz DT. Eco-evo bioluminescence on land and in the sea. Adv Biochem Eng Biotechnol.
+2014; 144: 3–36. https://doi.org/10.1007/978-3-662-43385-0_1 PMID: 25084993
+Meyer-Rochow VB. Glowworms: a review of Arachnocampa spp. and kin. Luminescence. 2007; 22:
+251–265. https://doi.org/10.1002/bio.955 PMID: 17285566
+Lloyd JE. Bioluminescent Communication in Insects. Annu Rev Entomol. Annual Reviews; 1971; 16:
+97–122.
+Kundrata R, Bocakova M, Bocak L. The comprehensive phylogeny of the superfamily Elateroidea
+(Coleoptera: Elateriformia). Mol Phylogenet Evol. 2014; 76: 162–171. https://doi.org/10.1016/j.ympev.
+2014.03.012 PMID: 24680915
+Jeng ML. The firefly legacy. Science Development. 2013;18–27 (in Chinese).
+Lewis SM, Cratsley CK. Flash signal evolution, mate choice, and predation in fireflies. Annu Rev Ento-
+mol. 2008; 53: 293–321. https://doi.org/10.1146/annurev.ento.53.103106.093346 PMID: 17877452
+Lewis SM. Bioluminescence and sexual signaling in fireflies. In: Meyer-Rochow VB, editor. Biolumines-
+cence in focus: a collection of illuminating essays. Kerala, India: Research Signpost; 2009.
+Buck JB. Studies on the Firefly. I. The Effects of Light and Other Agents on Flashing in Photinus pyralis,
+with Special Reference to Periodicity and Diurnal Rhythm. Physiol Zool.; 1937; 10: 45–58.
+Dreisig H. Environmental control of the daily onset of luminescent activity in glowworms and fireflies
+(Coleoptera: Lampyridae). Oecologia. Springer-Verlag; 1975; 18: 85–99.
+Martin GJ, Lord NP, Branham MA, Bybee SM. Review of the firefly visual system (Coleoptera: Lampyri-
+dae) and evolution of the opsin genes underlying color vision. Org Divers Evol. Springer Berlin Heidel-
+berg; 2015; 15: 513–526.
+Sander SE, Hall DW. Variation in opsin genes correlates with signalling ecology in North American fire-
+flies. Mol Ecol. 2015; 24: 4679–4696. https://doi.org/10.1111/mec.13346 PMID: 26289828
+Lall AB, Chapman RM, Ovid Trouth C, Holloway JA. Spectral mechanisms of the compound eye in the
+firefly Photinus pyralis (Coleoptera: Lampyridae). J Comp Physiol. Springer-Verlag; 1980; 135: 21–27.
+Seliger HH, Lall AB, Lloyd JE, Biggley WH. The colors of firefly bioluminescence—I. Optimization
+model. Photochem Photobiol. Blackwell Publishing Ltd; 1982; 36: 673–680.
+¨
+Cronin TW, Ja ¨rvilehto M, Weckstro
+m M, Lall AB. Tuning of photoreceptor spectral sensitivity in fireflies
+(Coleoptera: Lampyridae). J Comp Physiol A. 2000; 186: 1–12. PMID: 10659037
+Oba Y, Kainuma T. Diel changes in the expression of long wavelength-sensitive and ultraviolet-sensi-
+tive opsin genes in the Japanese firefly, Luciola cruciata. Gene. Elsevier B.V; 2009; 436: 66–70.
+Lall AB, Lord ET, Ovid Trouth C. Vision in the firefly Photuris lucicrescens (Coleoptera: Lampyridae):
+Spectral sensitivity and selective adaptation in the compound eye. J Comp Physiol. Springer-Verlag;
+1982; 147: 195–200.
+Lall AB, Strother GK, Cronin TW, Seliger HH. Modification of spectral sensitivities by screening pig-
+ments in the compound eyes of twilight-active fireflies (Coleoptera: Lampyridae). J Comp Physiol A.
+1988; 162: 23–33. PMID: 3351784
+Booth D, Stewart AJA, Osorio D. Colour vision in the glow-worm Lampyris noctiluca (L.) (Coleoptera:
+Lampyridae): evidence for a green-blue chromatic mechanism. J Exp Biol. 2004; 207: 2373–2378.
+https://doi.org/10.1242/jeb.01044 PMID: 15184509
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 12 / 14
+=====PAGE 13=====
+Fireflies flash more brightly in illuminated environs
+47. 48. 49. 50. 51. 52. 53. 54. 55. 56. 57. 58. 59. 60. 61. 62. 63. 64. 65. 66. 67. 68. 69. 70. Lau TFS, Ohba N, Arikawa K, Meyer-Rochow VB. Sexual dimorphism in the compound eye of Rha-
+gophthalmus ohbai (Coleoptera: Rhagophthalmidae): II. Physiology and function of the eye of the male.
+J Asia-Pacific Entomol. 2007; 10(1): 27–31.
+Kirschfeld K, Feiler R, Franceschini N. A Photostable Pigment within the Rhabdomere of Fly Photore-
+ceptors No. 7. J Comp Physiol. 1978; 125: 275–284.
+Lall AB. Action spectra for the initiation of bioluminescent flashing activity in males of twilight-active fire-
+fly Photinus scintillans (Coleoptera: Lampyridae). J Insect Physiol. Elsevier Ltd; 1993; 39: 123–127.
+Lall AB. Spectral cues for the regulation of bioluminescent flashing activity in the males of twilight-active
+firefly Photinus scintillans (Coleoptera: Lampyridae) in nature. J Insect Physiol. Elsevier Ltd; 1994; 40:
+359–363.
+Lall AB, Worthy KM. Action spectra of the female’s response in the firefly Photinus pyralis (Coleoptera:
+Lampyridae): evidence for an achromatic detection of the bioluminescent optical signal. J Insect Phy-
+siol. 2000; 46: 965–968. PMID: 10802109
+Mills R, Popple J-A, Veidt M, Merritt DJ. Detection of light and vibration modulates bioluminescence
+intensity in the glowworm, Arachnocampa flava. J Comp Physiol A Neuroethol Sens Neural Behav Phy-
+siol. 2016; 202: 313–327. https://doi.org/10.1007/s00359-016-1077-0 PMID: 26897608
+Fu X, Ballantyne LA, Lambkin CL. Aquatica Gen. Nov. From Mainland China With A Description Of
+Aquatica Wuhana Sp. Nov. (Coleoptera: Lampyridae: Luciolinae). Zootaxa. 2010; 2530(2530). https://
+doi.org/10.5281/zenodo.196535
+Ho J-Z, Chiang P-H, Wu C-H, Yang P-S. Life cycle of the aquatic firefly Luciola ficta (Coleoptera: Lam-
+pyridae). J Asia Pac Entomol. 2010/9; 13: 189–196.
+Wu C, Yang P, Jeng M, Ho J, Chen H, Tsai J. Habitat restoration of the Aquatic firefly, Aquatica ficta
+(Olivier, 1909) restoration in Taipei city, Taiwan [Internet]. The International Firefly Symposium 2014;
+2014 Aug 14; Gainesville, FL.
+R Core Team. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Founda-
+tion for Statistical Computing. 2014.
+Bates D, Maechler M, Bolker B, Walker S. Fitting Linear Mixed-Effects Models Using lme4. Journal of
+Statistical Software 2015; 67(1): 1–48. https://doi.org/10.18637/jss.v067.i01
+Stanger-Hall KF, Lloyd JE. Flash signal evolution in Photinus fireflies: character displacement and sig-
+nal exploitation in a visual communication system. Evolution. 2015; 69: 666–682. https://doi.org/10.
+1111/evo.12606 PMID: 25627920
+Branham MA, Greenfield MD. Flashing males win mate success. Nature. Nature Publishing Group;
+1996; 381: 745–746.
+Michaelidis CI, Demary KC, Lewis SM. Male courtship signals and female signal assessment in Photi-
+nus greeni fireflies. Behav Ecol. 2006; 17: 329–335.
+Cratsley CK. Sexual selection in Photinus fireflies. Lewis SM, editor. PhD, Tufts. 2000.
+Cratsley CK, Lewis SM. Female preference for male courtship flashes in Photinus ignitus fireflies.
+Behav Ecol. 2003; 14: 135–140.
+Hall DW, Sander SE, Pallansch JC, Stanger-Hall KF. The evolution of adult light emission color in North
+American fireflies. Evolution. 2016; 70: 2033–2048. https://doi.org/10.1111/evo.13002 PMID:
+27412777
+Sharkey EK, South A, Moosman PR, Cratsley CK, Lewis SM. Assessing Condition-dependence of
+Male Flash Signals in Photinus Fireflies. J Insect Behav. Springer Science & Business Media; 2010; 23:
+215–225.
+Moosman PR, Cratsley CK, Lehto SD, Thomas HH. Do courtship flashes of fireflies (Coleoptera: Lam-
+pyridae) serve as aposematic signals to insectivorous bats? Anim Behav. 2009; 78: 1019–1025.
+Long SM, Lewis S, Jean-Louis L, Ramos G, Richmond J, Jakob EM. Firefly flashing and jumping spider
+predation. Anim Behav. 2012; 83: 81–86.
+Vencl FV, Carlson AD. Proximate Mechanisms of Sexual Selection in the Firefly Photinus pyralis (Cole-
+optera: Lampyridae). J Insect Behav. Kluwer Academic Publishers-Plenum Publishers; 1998; 11: 191–
+207.
+Case JF. Flight Studies on Photic Communication by the Firefly Photinus pyralis. Integr Comp Biol.
+Society for Integrative and Comparative Biology; 2004; 44: 250–258.
+Woods WA Jr, Hendrickson H, Mason J, Lewis SM. Energy and Predation Costs of Firefly Courtship
+Signals. Am Nat. The University of Chicago Press; 2007; https://doi.org/10.1086/521964 PMID:
+17926292
+Goh K-S, Li C-W. A Photocytes-Associated Fatty Acid-Binding Protein from the Light Organ of Adult
+Taiwanese Firefly, Luciola cerata. PLoS One. Public Library of Science; 2011; 6: e29576.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 13 / 14
+=====PAGE 14=====
+Fireflies flash more brightly in illuminated environs
+71. 72. 73. Eguchi E, Nemoto A, Meyer-Rochow VB, Ohba N. A comparative study of spectral sensitivity curves in
+three diurnal and eight nocturnal species of Japanese fireflies. J Insect Physiol. 1984; 30: 607–612.
+Elvidge CD, Keith DM, Tuttle BT, Baugh KE. Spectral identification of lighting type and character. Sen-
+sors. 2010; 10: 3961–3988. https://doi.org/10.3390/s100403961 PMID: 22319336
+Demary K, Michaelidis CI, Lewis SM. Firefly Courtship: Behavioral and Morphological Predictors of
+Male Mating Success in Photinus greeni. Ethology. Blackwell Verlag, GmbH; 2005; 112: 485–492.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 14 / 14

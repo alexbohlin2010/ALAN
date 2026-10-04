@@ -1,0 +1,55 @@
+Fireflies flash more brightly in illuminated environs
+decision to publish, or preparation of the
+manuscript.
+Competing interests: The authors have declared
+that no competing interests exist.
+time scales, as has been observed in the case of industrial melanism in the peppered moth Bis-
+tonbetularia[13]. Concurrently, individual-level behavioral change can produce immediate
+fitness benefits. Urban populations of several bird species have been found to sing more loudly
+and at higher frequencies to compensate for increased ambient noise [14,15]. In these and
+other cases, signal plasticity promotes information transmission within noisy signaling envi-
+ronments [16].
+In addition to noise, heat, and chemical pollution, urbanization commonly results in the
+introduction of artificial light at night (ALAN), the effects of which are infrequently studied
+in isolation [17]. ALAN transforms the nocturnal landscape: upward-directed “astronomical
+light pollution” obscures the night sky [18], while downward-directed “ecological light pol-
+lution” can affect species on the ground [17,19]. Among invertebrates, the attraction of
+moths and other flying insects to streetlamps is a particularly well studied phenomenon
+[20,21]. In contrast, the potential vulnerability of species with light-based communication
+systems to ALAN interference has only recently attracted the attention of researchers [22–
+28].
+Bioluminescence has evolved multiple times within a broad range of bacterial, protist, fun-
+gal, and animal lineages, and is used in diverse contexts [29]. On land, bioluminescence is
+most common among insects: “glowworm” larvae of some fungus gnats use bioluminescent
+lures to attract prey [30], while four families of beetles, including the firefly family Lampyridae,
+have separately evolved a diverse range of light signals and signaling behavior [31,32]. Many
+adult fireflies use bioluminescent signals as part of courtship, with one or both sexes emitting
+prolonged glows, discrete flashes, or timed flash patterns to attract conspecifics [33–35]. Dur-
+ing the mating season, adults begin flashing late in the day, when ambient light levels have
+declined to a species-specific threshold [36,37]. High levels of broad spectrum ALAN can
+delay or inhibit male signaling activity, and negatively affect female receptivity to biolumines-
+cent signals [27,28].
+How a particular light source impacts firefly activity depends in part on the intersection of
+its spectral emission with the spectral sensitivity of the species in question: if the firefly does
+not detect most wavelengths emitted by the source, courtship activity will likely be unaffected.
+Single copies of UV-sensitive (UVS) and long-wavelength-sensitive (LWS) opsin genes have
+been identified in multiple firefly species [38,39]. Peak sensitivity of the LWS visual pigment,
+after filtration by associated screening pigments, often corresponds to the peak wavelength of
+conspecific bioluminescence [40–43]. Short-wavelength-sensitive (SWS) opsins have yet to be
+found, although blue sensitivity has been described from electroretinograms (ERGs) and
+behavioral studies of multiple species [44–47]. The discrepancy may be due to opsin sensitiza-
+tion by as-yet-undescribed “antenna pigments” [48], or secondary interactions of screening
+pigments [42,45].
+Recent studies have shown that broad spectrum white lighting negatively impacts firefly
+flash frequency (flashes/min) and/or the total number of flashing individuals present [27,28].
+However, few studies have measured how specific wavelengths of ambient light interact with
+the firefly visual system and overlying neurobehavioral architecture to influence courtship
+behavior (but see [49,50] for studies of the spectral cues that initiate male flash activity). Differ-
+ent wavelengths are likely to have different effects. For example, receptive Photinus pyralis
+females emit response flashes exclusively to simulated male flashes of wavelengths longer than
+480 nm, even though their eyes are sensitive to UV light [51]. To quantify the impact of differ-
+ent artificial light sources on firefly courtship behavior, we must compare the ways in which
+ambient light of different wavelengths affect firefly flash activity.
+In this study we used monochromatic LEDs to test how specific wavelengths affect the sig-
+naling activity (intensity and frequency of flashes) of Aquatica fictamales. The resulting plot of
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 2 / 14

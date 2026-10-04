@@ -1,0 +1,3848 @@
+{
+ "source": {
+  "paper": {
+   "citation": "Kivelä L, Elgert C, Lehtonen TK, Candolin U (2023). The color of artificial light affects mate attraction in the common glow-worm. Science of the Total Environment 857: 159451",
+   "doi": "https://doi.org/10.1016/j.scitotenv.2022.159451",
+   "file": "data/raw/impacts/narrative of fireflies/Kivela_Elgert_Lehtonen_Candolin_2023_STOTEN_glowworm.pdf",
+   "sha256": "870fcd71f1606f11891f28d43b7d1eade850efe239da84308fa494365b8e0a0a",
+   "licence": "CC BY 4.0",
+   "note": "Jukuri repository reprint; PDF page 1 is a cover page (printed page = PDF page - 1)"
+  },
+  "traps": {
+   "citation": "Kivelä L, Elgert C, Lehtonen TK, Candolin U. Replication data for: The color of artificial light affects mate attraction in the common glow-worm. Harvard Dataverse",
+   "doi": "https://doi.org/10.7910/DVN/QWQPLJ",
+   "file": "data/raw/impacts/narrative of fireflies/Data_Kivela2022.xlsx",
+   "sha256": "3af6d0d6997f34343933a1bb24919fa43da72637cce44e086e6665c6a2a4030c",
+   "licence": "CC0 1.0"
+  }
+ },
+ "scope": "The paper's reported results and the deposited trap table, copied as stored; no new statistics (human decision, AI_LOG Firefly tabs round 5a).",
+ "labels": {
+  "paper": "documented",
+  "traps": "measured",
+  "trap_variables": "documented",
+  "checks": "inferred"
+ },
+ "label_notes": {
+  "documented": "Kivelä L, Elgert C, Lehtonen TK, Candolin U (2023). The color of artificial light affects mate attraction in the common glow-worm. Science of the Total Environment 857: 159451, https://doi.org/10.1016/j.scitotenv.2022.159451; PDF page per item. trap_variables: the deposit's own variable table.",
+  "measured": "field counts and the treatment light values per trap, https://doi.org/10.7910/DVN/QWQPLJ (sheet 1, columns A-H)",
+  "inferred": "checks: rules in the script docstring; inputs named per check."
+ },
+ "units": {
+  "peak_nm": "nm",
+  "photons_cm2_s": "photons/cm2/s (Table 1 header \"Photons/cm2/s\")",
+  "lux": "lux",
+  "males": "number of males attracted (trapped) per dummy female per night (2 h)",
+  "males_binary": "1 = at least one male",
+  "success_percent": "% of traps with ≥ 1 male",
+  "night": "Testnight (1-20)",
+  "site": "Site ID (1-15)",
+  "date": "as stored, e.g. \"12.-13.6.\" (2020)"
+ },
+ "text_layer_notes": "Quotes are as in the PDF text layer, which drops the fi/fl ligatures (e.g. \"arti cial\", \"signi cantly\") and joins hyphenated line breaks with a space.",
+ "paper": {
+  "table1": {
+   "page": 4,
+   "caption": "Light treatment details. Light intensities were measured at the vertical level of the dummy female.",
+   "rows": [
+    {
+     "treatment": "blue",
+     "peak_nm": 452,
+     "photons_cm2_s": 6450000000000.0,
+     "lux": 5.0,
+     "printed": "452 6.45 ∗ 1012 5.0",
+     "printed_as": "6.45 ∗ 10^12"
+    },
+    {
+     "treatment": "white",
+     "peak_nm": 449,
+     "photons_cm2_s": 5270000000000.0,
+     "lux": 5.6,
+     "printed": "449 5.27 ∗ 1012 5.6",
+     "printed_as": "5.27 ∗ 10^12"
+    },
+    {
+     "treatment": "yellow",
+     "peak_nm": 575,
+     "photons_cm2_s": 4210000000000.0,
+     "lux": 6.0,
+     "printed": "575 4.21 ∗ 1012 6.0",
+     "printed_as": "4.21 ∗ 10^12"
+    },
+    {
+     "treatment": "red",
+     "peak_nm": 625,
+     "photons_cm2_s": 12700000000000.0,
+     "lux": 8.0,
+     "printed": "625 1.27 ∗ 1013 8.0",
+     "printed_as": "1.27 ∗ 10^13"
+    },
+    {
+     "treatment": "control",
+     "peak_nm": null,
+     "photons_cm2_s": 0,
+     "lux": 0,
+     "printed": "Control None None 0 0",
+     "note": "peak wavelength printed \"None\""
+    }
+   ]
+  },
+  "table2": {
+   "page": 5,
+   "caption": "Estimates, z-values and p-values of pairwise treatment comparisons of numbers of attracted males using a negative binomial GLMM, with replicate night and site included as random factors.",
+   "rows": [
+    {
+     "comparison": "blue vs control",
+     "estimate": -1.372,
+     "z": -6.601,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Blue vs control−1.372−6.601 <0.001"
+    },
+    {
+     "comparison": "white vs control",
+     "estimate": -1.891,
+     "z": -7.735,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "White vs control−1.891−7.735 <0.001"
+    },
+    {
+     "comparison": "yellow vs control",
+     "estimate": -0.203,
+     "z": -1.157,
+     "p": 0.247,
+     "p_comparator": "=",
+     "printed": "Yellow vs control−0.203−1.157 0.247"
+    },
+    {
+     "comparison": "red vs control",
+     "estimate": -0.049,
+     "z": -0.287,
+     "p": 0.774,
+     "p_comparator": "=",
+     "printed": "Red vs control−0.049−0.287 0.774"
+    },
+    {
+     "comparison": "white vs blue",
+     "estimate": -0.519,
+     "z": -1.905,
+     "p": 0.057,
+     "p_comparator": "=",
+     "printed": "White vs blue−0.519−1.905 0.057"
+    },
+    {
+     "comparison": "yellow vs blue",
+     "estimate": 1.168,
+     "z": 5.461,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Yellow vs blue 1.168 5.461 <0.001"
+    },
+    {
+     "comparison": "red vs blue",
+     "estimate": 1.3225,
+     "z": 6.231,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Red vs blue 1.3225 6.231 <0.001"
+    },
+    {
+     "comparison": "yellow vs white",
+     "estimate": 1.687,
+     "z": 6.768,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Yellow vs white 1.687 6.768 <0.001"
+    },
+    {
+     "comparison": "red vs white",
+     "estimate": 1.842,
+     "z": 7.435,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Red vs white 1.842 7.435 <0.001"
+    },
+    {
+     "comparison": "red vs yellow",
+     "estimate": 0.1542,
+     "z": 0.871,
+     "p": 0.384,
+     "p_comparator": "=",
+     "printed": "Red vs yellow 0.1542 0.871 0.384"
+    }
+   ]
+  },
+  "table3": {
+   "page": 5,
+   "caption": "Male attraction success of dummy females in the different light treatments. Treatments with a different letter (A or B) were significantly different from each other (logistic regression). N = 60 in all treatments except in the yellow-light treatment N = 59.",
+   "rows": [
+    {
+     "treatment": "control",
+     "n_zero": 19,
+     "n_at_least_one": 41,
+     "success_percent": 68.3,
+     "letter": "A",
+     "printed": "Control 19 41 68.3 % A"
+    },
+    {
+     "treatment": "blue",
+     "n_zero": 39,
+     "n_at_least_one": 21,
+     "success_percent": 35.0,
+     "letter": "B",
+     "printed": "Blue 39 21 35.0 % B"
+    },
+    {
+     "treatment": "white",
+     "n_zero": 38,
+     "n_at_least_one": 22,
+     "success_percent": 36.7,
+     "letter": "B",
+     "printed": "White 38 22 36.7 % B"
+    },
+    {
+     "treatment": "yellow",
+     "n_zero": 17,
+     "n_at_least_one": 42,
+     "success_percent": 71.2,
+     "letter": "A",
+     "printed": "Yellow 17 42 71.2 % A"
+    },
+    {
+     "treatment": "red",
+     "n_zero": 16,
+     "n_at_least_one": 44,
+     "success_percent": 73.3,
+     "letter": "A",
+     "printed": "Red 16 44 73.3 % A"
+    }
+   ]
+  },
+  "table4": {
+   "page": 5,
+   "caption": "Estimates, z-values and p-values of a binomial GLMM assessing whether the dummy female attracted at least one male, with replicate night and site included as random factors.",
+   "rows": [
+    {
+     "comparison": "blue vs control",
+     "estimate": -1.573,
+     "z": -3.769,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Blue vs control−1.573−3.769 <0.001"
+    },
+    {
+     "comparison": "white vs control",
+     "estimate": -1.491,
+     "z": -3.594,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "White vs control−1.491−3.594 <0.001"
+    },
+    {
+     "comparison": "yellow vs control",
+     "estimate": 0.1627,
+     "z": 0.386,
+     "p": 0.699,
+     "p_comparator": "=",
+     "printed": "Yellow vs control 0.1627 0.386 0.699"
+    },
+    {
+     "comparison": "red vs control",
+     "estimate": 0.27,
+     "z": 0.636,
+     "p": 0.525,
+     "p_comparator": "=",
+     "printed": "Red vs control 0.270 0.636 0.525"
+    },
+    {
+     "comparison": "white vs blue",
+     "estimate": 0.082,
+     "z": 0.202,
+     "p": 0.84,
+     "p_comparator": "=",
+     "printed": "White vs blue 0.082 0.202 0.840"
+    },
+    {
+     "comparison": "yellow vs blue",
+     "estimate": 1.735,
+     "z": 4.075,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Yellow vs blue 1.735 4.075 <0.001"
+    },
+    {
+     "comparison": "red vs blue",
+     "estimate": 1.843,
+     "z": 4.294,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Red vs blue 1.843 4.294 <0.001"
+    },
+    {
+     "comparison": "yellow vs white",
+     "estimate": 1.653,
+     "z": 3.906,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Yellow vs white 1.653 3.906 <0.001"
+    },
+    {
+     "comparison": "red vs white",
+     "estimate": 1.761,
+     "z": 4.128,
+     "p": 0.001,
+     "p_comparator": "<",
+     "printed": "Red vs white 1.761 4.128 <0.001"
+    },
+    {
+     "comparison": "red vs yellow",
+     "estimate": 0.107,
+     "z": 0.249,
+     "p": 0.803,
+     "p_comparator": "=",
+     "printed": "Red vs yellow 0.107 0.249 0.803"
+    }
+   ]
+  },
+  "statements": {
+   "abstract_treatments": {
+    "page": 2,
+    "quote": "Each dummy was illuminated from above by either a blue (peak wavelength: 452 nm), white (449 nm), yellow (575 nm), or red (625 nm) LED lighting, or light switched off in the control.",
+    "label": "documented",
+    "blue_nm": {
+     "value": 452,
+     "unit": "nm"
+    },
+    "white_nm": {
+     "value": 449,
+     "unit": "nm"
+    },
+    "yellow_nm": {
+     "value": 575,
+     "unit": "nm"
+    },
+    "red_nm": {
+     "value": 625,
+     "unit": "nm"
+    }
+   },
+   "abstract_result": {
+    "page": 2,
+    "quote": "with short wavelengths (blue and white) decreasing it more than long wavelengths (yellow and red).",
+    "label": "documented"
+   },
+   "site_and_dates": {
+    "page": 3,
+    "quote": "All work was conducted in Southern Finland in the proximity of Tvärminne Zoological Station (N 59°51′, E 23°14′), during the glow-worm breeding season, between 12th June and 4th July in 2020.",
+    "label": "documented"
+   },
+   "nights": {
+    "page": 3,
+    "quote": "The experiment was run only on nights of good weather (N = 20 nights)",
+    "label": "documented",
+    "n_nights": {
+     "value": 20,
+     "unit": "nights"
+    }
+   },
+   "dummy_led": {
+    "page": 3,
+    "quote": "Its peak wavelength was 562 nm, which matches the glow of female glow-worms (550–570 nm)",
+    "label": "documented",
+    "peak_nm": {
+     "value": 562,
+     "unit": "nm"
+    },
+    "female_glow_from": {
+     "value": 550,
+     "unit": "nm"
+    },
+    "female_glow_to": {
+     "value": 570,
+     "unit": "nm"
+    }
+   },
+   "dummy_intensity": {
+    "page": 3,
+    "quote": "to adjust the intensity to 0.065–0.075 μWnm−1 (microwatts per nanometer)",
+    "label": "documented",
+    "from": {
+     "value": 0.065,
+     "unit": "μW nm−1"
+    },
+    "to": {
+     "value": 0.075,
+     "unit": "μW nm−1"
+    }
+   },
+   "light_heights": {
+    "page": 4,
+    "quote": "the light sources were attached at the following heights above the ground: 100 cm (blue), 110 cm (yellow), 120 cm (white), and 120 cm (red)",
+    "label": "documented",
+    "blue_cm": {
+     "value": 100,
+     "unit": "cm"
+    },
+    "yellow_cm": {
+     "value": 110,
+     "unit": "cm"
+    },
+    "white_cm": {
+     "value": 120,
+     "unit": "cm"
+    },
+    "red_cm": {
+     "value": 120,
+     "unit": "cm"
+    }
+   },
+   "design": {
+    "page": 4,
+    "quote": "We ran 3 repli- cates of each of the 5 treatments per night. Over the course of the exper- iment, we completed 4 replicates of each treatment at each of the 15 sites. This resulted in 60 replicates per treatment (over 20 nights), except for the yellow treatment, in which one replicate was discarded due to battery failure.",
+    "label": "documented",
+    "replicates_per_treatment": {
+     "value": 60,
+     "unit": "replicates"
+    },
+    "sites": {
+     "value": 15,
+     "unit": "sites"
+    }
+   },
+   "timing": {
+    "page": 4,
+    "quote": "We activated the arti cial lights and dummy females each night be- tween 23:45 and 00:15 and turned them off between 01:45 and 02:15.",
+    "label": "documented"
+   },
+   "recaptures": {
+    "page": 4,
+    "quote": "recaptured males were not in- cluded in the data analyses",
+    "label": "documented"
+   },
+   "total_males": {
+    "page": 4,
+    "quote": "The dummy females attracted a total of 624 male glow-worms during the experiment.",
+    "label": "documented",
+    "males": {
+     "value": 624,
+     "unit": "males"
+    }
+   },
+   "medians": {
+    "page": 4,
+    "quote": "The median number of males attracted was two in the control, yel- low and red light treatments, and zero in the blue and white light treat- ments (Fig. 2).",
+    "label": "documented"
+   },
+   "success_total": {
+    "page": 4,
+    "quote": "Over the whole experiment, 56.9 % (170/299) of the dummy females attracted at least one male.",
+    "label": "documented",
+    "percent": {
+     "value": 56.9,
+     "unit": "%"
+    },
+    "successes": {
+     "value": 170,
+     "unit": "traps"
+    },
+    "traps": {
+     "value": 299,
+     "unit": "traps"
+    }
+   },
+   "count_result": {
+    "page": 4,
+    "quote": "Dummy females in the blue and white light treatments attracted signi cantly fewer males than dummy females in the yellow, red and control treatments (Fig. 2, Table 2).",
+    "label": "documented"
+   },
+   "fig2_n": {
+    "page": 4,
+    "quote": "N = 60 in all treatments except N = 59 in the yellow light treatment.",
+    "label": "documented"
+   }
+  }
+ },
+ "traps": [
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 1,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 8,
+   "males_binary": 1
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 2,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 3,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 4,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 5,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 6,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 7,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 8,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 9,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 10,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 11,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 12,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 13,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 14,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "12.-13.6.",
+   "night": 1,
+   "site": 15,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 1,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 2,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 3,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 7,
+   "males_binary": 1
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 4,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 5,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 6,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 7,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 8,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 9,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 10,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 11,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 12,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 13,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 14,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "13.-14.6.",
+   "night": 2,
+   "site": 15,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 1,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 2,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 3,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 4,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 5,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 6,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 7,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 8,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 9,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 10,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 11,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 12,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 13,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 14,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "14.-15.6.",
+   "night": 3,
+   "site": 15,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 1,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 16,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 2,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 3,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 4,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 5,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 6,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 11,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 7,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 8,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 9,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 10,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 11,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 6,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 12,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 13,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 14,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "15.-16.6.",
+   "night": 4,
+   "site": 15,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 1,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 2,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 3,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 4,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 5,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 6,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 7,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 8,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 9,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 10,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 11,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 12,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 13,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 14,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "16.-17.6.",
+   "night": 5,
+   "site": 15,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 1,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 2,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 8,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 3,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 25,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 4,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 6,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 5,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 14,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 6,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 7,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 11,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 8,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 9,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 10,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 11,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 12,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 13,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 14,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "17.-18.6.",
+   "night": 6,
+   "site": 15,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 1,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 2,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 3,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 14,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 4,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 8,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 5,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 6,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 7,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 7,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 8,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 9,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 10,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 11,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 6,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 12,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 13,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 14,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "18.-19.6.",
+   "night": 7,
+   "site": 15,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 1,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 10,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 2,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 10,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 3,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 12,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 4,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 5,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 14,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 6,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 7,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 8,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 9,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 10,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 11,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 6,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 12,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 13,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 14,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "19.-20.6.",
+   "night": 8,
+   "site": 15,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 1,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 2,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 3,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 4,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 5,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 6,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 7,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 8,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 10,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 9,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 10,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 11,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 12,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 13,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 14,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "20.-21.6.",
+   "night": 9,
+   "site": 15,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 1,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 2,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 4,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 10,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 5,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 6,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 7,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 8,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 9,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 10,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 11,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 12,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 13,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 14,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "21.-22.6.",
+   "night": 10,
+   "site": 15,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 1,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 2,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 3,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 4,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 5,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 11,
+   "males_binary": 1
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 6,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 7,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 8,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 9,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 10,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 11,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 12,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 13,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 14,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "22.-23.6.",
+   "night": 11,
+   "site": 15,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 1,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 11,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 2,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 3,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 7,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 4,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 9,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 5,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 11,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 6,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 7,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 8,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 11,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 9,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 10,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 11,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 12,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 13,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 14,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "23.-24.6.",
+   "night": 12,
+   "site": 15,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 1,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 2,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 3,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 4,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 5,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 10,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 6,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 7,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 8,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 9,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 10,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 11,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 12,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 13,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 14,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "24.-25.6.",
+   "night": 13,
+   "site": 15,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 1,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 2,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 3,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 4,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 5,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 6,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 7,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 8,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 9,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 10,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 11,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 12,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 13,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 14,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "25.-26.6.",
+   "night": 14,
+   "site": 15,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 1,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 2,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 3,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 4,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 5,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 6,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 7,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 8,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 9,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 10,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 11,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 12,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 13,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 14,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "26.-27.6.",
+   "night": 15,
+   "site": 15,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 1,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 2,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 3,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 4,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 6,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 5,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 6,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 7,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 8,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 9,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 10,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 11,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 12,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 13,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 14,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "28.-29.6.",
+   "night": 16,
+   "site": 15,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 1,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 2,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 3,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 4,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 5,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 6,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 7,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 8,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 9,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 5,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 10,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 11,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 12,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 13,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 14,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "29.-30.6.",
+   "night": 17,
+   "site": 15,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 1,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 4,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 2,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 3,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 4,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 5,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 6,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 7,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 8,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 9,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 10,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 8,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 11,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 12,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 13,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 14,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 8,
+   "males_binary": 1
+  },
+  {
+   "date": "1.-2.7.",
+   "night": 18,
+   "site": 15,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 1,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 2,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 3,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 4,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 5,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 6,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 7,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 8,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 9,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 10,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 11,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 12,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 13,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 14,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "2.-3.7.",
+   "night": 19,
+   "site": 15,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 1,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 2,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 3,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 4,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 3,
+   "males_binary": 1
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 5,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 6,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 7,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 8,
+   "treatment": "red",
+   "lux": 8,
+   "photons_cm2_s": 12650000000000,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 9,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 2,
+   "males_binary": 1
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 10,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 11,
+   "treatment": "yellow",
+   "lux": 6,
+   "photons_cm2_s": 4214000000000,
+   "males": 1,
+   "males_binary": 1
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 12,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 13,
+   "treatment": "blue",
+   "lux": 5,
+   "photons_cm2_s": 6448000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 14,
+   "treatment": "white",
+   "lux": 5.6,
+   "photons_cm2_s": 5272000000000,
+   "males": 0,
+   "males_binary": 0
+  },
+  {
+   "date": "3.-4.7.",
+   "night": 20,
+   "site": 15,
+   "treatment": "control",
+   "lux": 0,
+   "photons_cm2_s": 0,
+   "males": 0,
+   "males_binary": 0
+  }
+ ],
+ "traps_excluded": [
+  {
+   "Date": "21.-22.6.",
+   "Testnight": "10",
+   "Site": "3",
+   "Color": "NA",
+   "Lux": "NA",
+   "Photons": "NA",
+   "Males": "NA",
+   "Males_binary": "NA",
+   "reason": "Color is not a treatment name in the source (all fields \"NA\")"
+  }
+ ],
+ "traps_empty_rows_skipped": 1,
+ "trap_variables": [
+  {
+   "name": "Date",
+   "definition": "Date of the experiment.",
+   "unit": "N/A"
+  },
+  {
+   "name": "Testnight",
+   "definition": "Night of the experiment.",
+   "unit": "N/A"
+  },
+  {
+   "name": "Site",
+   "definition": "Site ID.",
+   "unit": "N/A"
+  },
+  {
+   "name": "Color",
+   "definition": "Artificial light treatment.",
+   "unit": "N/A"
+  },
+  {
+   "name": "Lux",
+   "definition": "Light intensity corresponding to treatment measured in lux.",
+   "unit": "Lux"
+  },
+  {
+   "name": "Photons",
+   "definition": "Light intensity corresponding to treatment measured in photons.",
+   "unit": "Photons/cm2/s"
+  },
+  {
+   "name": "Males",
+   "definition": "Number of males attracted by dummy female.",
+   "unit": "Number"
+  },
+  {
+   "name": "Males_binary",
+   "definition": "Success of dummy female in attracting at least one male.",
+   "unit": "Binary"
+  }
+ ],
+ "checks": [
+  {
+   "check": "control: traps with 0 males",
+   "inputs": "traps; Table 3",
+   "from_traps": 19,
+   "paper": 19,
+   "agree": true
+  },
+  {
+   "check": "control: traps with ≥ 1 male",
+   "inputs": "traps; Table 3",
+   "from_traps": 41,
+   "paper": 41,
+   "agree": true
+  },
+  {
+   "check": "control: success %",
+   "inputs": "traps (100 × n≥1 / n, 1 decimal); Table 3",
+   "from_traps": 68.3,
+   "paper": 68.3,
+   "agree": true
+  },
+  {
+   "check": "control: males_binary equals males ≥ 1",
+   "inputs": "traps",
+   "from_traps": true,
+   "paper": true,
+   "agree": true
+  },
+  {
+   "check": "control: median males",
+   "inputs": "traps; statement `medians`",
+   "from_traps": 2.0,
+   "paper": 2,
+   "agree": true
+  },
+  {
+   "check": "blue: traps with 0 males",
+   "inputs": "traps; Table 3",
+   "from_traps": 39,
+   "paper": 39,
+   "agree": true
+  },
+  {
+   "check": "blue: traps with ≥ 1 male",
+   "inputs": "traps; Table 3",
+   "from_traps": 21,
+   "paper": 21,
+   "agree": true
+  },
+  {
+   "check": "blue: success %",
+   "inputs": "traps (100 × n≥1 / n, 1 decimal); Table 3",
+   "from_traps": 35.0,
+   "paper": 35.0,
+   "agree": true
+  },
+  {
+   "check": "blue: males_binary equals males ≥ 1",
+   "inputs": "traps",
+   "from_traps": true,
+   "paper": true,
+   "agree": true
+  },
+  {
+   "check": "blue: median males",
+   "inputs": "traps; statement `medians`",
+   "from_traps": 0.0,
+   "paper": 0,
+   "agree": true
+  },
+  {
+   "check": "blue: lux",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    5
+   ],
+   "paper": [
+    5.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "blue: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    6448000000000
+   ],
+   "paper": [
+    6450000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "white: traps with 0 males",
+   "inputs": "traps; Table 3",
+   "from_traps": 38,
+   "paper": 38,
+   "agree": true
+  },
+  {
+   "check": "white: traps with ≥ 1 male",
+   "inputs": "traps; Table 3",
+   "from_traps": 22,
+   "paper": 22,
+   "agree": true
+  },
+  {
+   "check": "white: success %",
+   "inputs": "traps (100 × n≥1 / n, 1 decimal); Table 3",
+   "from_traps": 36.7,
+   "paper": 36.7,
+   "agree": true
+  },
+  {
+   "check": "white: males_binary equals males ≥ 1",
+   "inputs": "traps",
+   "from_traps": true,
+   "paper": true,
+   "agree": true
+  },
+  {
+   "check": "white: median males",
+   "inputs": "traps; statement `medians`",
+   "from_traps": 0.0,
+   "paper": 0,
+   "agree": true
+  },
+  {
+   "check": "white: lux",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    5.6
+   ],
+   "paper": [
+    5.6
+   ],
+   "agree": true
+  },
+  {
+   "check": "white: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    5272000000000
+   ],
+   "paper": [
+    5270000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "yellow: traps with 0 males",
+   "inputs": "traps; Table 3",
+   "from_traps": 17,
+   "paper": 17,
+   "agree": true
+  },
+  {
+   "check": "yellow: traps with ≥ 1 male",
+   "inputs": "traps; Table 3",
+   "from_traps": 42,
+   "paper": 42,
+   "agree": true
+  },
+  {
+   "check": "yellow: success %",
+   "inputs": "traps (100 × n≥1 / n, 1 decimal); Table 3",
+   "from_traps": 71.2,
+   "paper": 71.2,
+   "agree": true
+  },
+  {
+   "check": "yellow: males_binary equals males ≥ 1",
+   "inputs": "traps",
+   "from_traps": true,
+   "paper": true,
+   "agree": true
+  },
+  {
+   "check": "yellow: median males",
+   "inputs": "traps; statement `medians`",
+   "from_traps": 2,
+   "paper": 2,
+   "agree": true
+  },
+  {
+   "check": "yellow: lux",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    6
+   ],
+   "paper": [
+    6.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "yellow: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    4214000000000
+   ],
+   "paper": [
+    4210000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "red: traps with 0 males",
+   "inputs": "traps; Table 3",
+   "from_traps": 16,
+   "paper": 16,
+   "agree": true
+  },
+  {
+   "check": "red: traps with ≥ 1 male",
+   "inputs": "traps; Table 3",
+   "from_traps": 44,
+   "paper": 44,
+   "agree": true
+  },
+  {
+   "check": "red: success %",
+   "inputs": "traps (100 × n≥1 / n, 1 decimal); Table 3",
+   "from_traps": 73.3,
+   "paper": 73.3,
+   "agree": true
+  },
+  {
+   "check": "red: males_binary equals males ≥ 1",
+   "inputs": "traps",
+   "from_traps": true,
+   "paper": true,
+   "agree": true
+  },
+  {
+   "check": "red: median males",
+   "inputs": "traps; statement `medians`",
+   "from_traps": 2.0,
+   "paper": 2,
+   "agree": true
+  },
+  {
+   "check": "red: lux",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    8
+   ],
+   "paper": [
+    8.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "red: photons/cm2/s (within half a unit of Table 1's last printed digit)",
+   "inputs": "traps; Table 1",
+   "from_traps": [
+    12650000000000
+   ],
+   "paper": [
+    12700000000000.0
+   ],
+   "agree": true
+  },
+  {
+   "check": "total traps",
+   "inputs": "traps; statement `success_total`",
+   "from_traps": 299,
+   "paper": 299,
+   "agree": true
+  },
+  {
+   "check": "traps with ≥ 1 male",
+   "inputs": "traps; statement `success_total`",
+   "from_traps": 170,
+   "paper": 170,
+   "agree": true
+  },
+  {
+   "check": "total males",
+   "inputs": "traps; statement `total_males`",
+   "from_traps": 624,
+   "paper": 624,
+   "agree": true
+  },
+  {
+   "check": "nights",
+   "inputs": "traps; statement `nights`",
+   "from_traps": 20,
+   "paper": 20,
+   "agree": true
+  },
+  {
+   "check": "sites",
+   "inputs": "traps; statement `design`",
+   "from_traps": 15,
+   "paper": 15,
+   "agree": true
+  },
+  {
+   "check": "blue: abstract peak nm vs Table 1",
+   "inputs": "statement `abstract_treatments`; Table 1",
+   "from_traps": 452,
+   "paper": 452,
+   "agree": true
+  },
+  {
+   "check": "white: abstract peak nm vs Table 1",
+   "inputs": "statement `abstract_treatments`; Table 1",
+   "from_traps": 449,
+   "paper": 449,
+   "agree": true
+  },
+  {
+   "check": "yellow: abstract peak nm vs Table 1",
+   "inputs": "statement `abstract_treatments`; Table 1",
+   "from_traps": 575,
+   "paper": 575,
+   "agree": true
+  },
+  {
+   "check": "red: abstract peak nm vs Table 1",
+   "inputs": "statement `abstract_treatments`; Table 1",
+   "from_traps": 625,
+   "paper": 625,
+   "agree": true
+  }
+ ],
+ "not_reported": [
+  "Table S1, Fig. S1 (treatment spectra), Fig. S2: supplementary files, not in this PDF and not obtained. The paper gives peak wavelengths only, no spectra.",
+  "Fig. 2 (box plots of males per trap): drawn only; the trap table holds the underlying counts.",
+  "Which source row is the discarded yellow replicate: the paper says one yellow replicate was discarded (battery failure); the trap table has one row with every field \"NA\" (night 10, site 3). The file does not say they are the same row.",
+  "Model estimates are on the model scale (link function not restated in the tables); kept as printed."
+ ]
+}

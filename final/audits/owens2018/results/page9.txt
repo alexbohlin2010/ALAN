@@ -1,0 +1,49 @@
+Fireflies flash more brightly in illuminated environs
+increases in male flash intensity are unlikely to greatly promote visibility in this context, due to
+the extreme brightness of the artificial light source.
+Selecting artificial light sources that have the least chance of interfering with firefly commu-
+nication can help to reduce disturbance of urban firefly populations. Blue light is often
+employed in firefly observations and experiments in the west, as it is thought to be minimally
+disruptive to local species. Although thus far genetic analysis has failed to uncover blue opsin
+genes in any firefly species [38,39], we found that blue wavelengths did significantly affect the
+flash signaling behavior of A. ficta. Our results suggest artificial light sources emitting the
+majority of their light in wavelengths 597 nm, including a range of yellow to red wavelengths
+visible to humans, would be most suitable for A. fictahabitats. These conclusions receive sup-
+port from ERG spectral sensitivity studies of Luciolacruciata, a close relative of A. ficta, which
+have described sensitivity peaks in the green-yellow range of 555–565 nm wavelengths [71,43].
+Low-pressure sodium vapor lamps emit light concentrated at 590 nm, well beyond this range
+[72]. However, in recent decades these lamps have been phased out in favor of brighter and
+more energy efficient alternatives such as LEDs, which often emit a large portion of their light
+in the blue region of the spectrum. We suggest spectral emission be given greater consideration
+when installing artificial lights around firefly habitats. The directionality of light sources (stree-
+tlamps vs. path lights) and distinction between point sources and larger sources of diffused
+light are also relevant to these discussions. Free-roaming A. fictain the lab continue to emit
+courtship signals when exposed to small points of light, regardless of the intensity or distance
+of the point source from their eyes, although they appear to exhibit some degree of negative
+phototaxis (pers. obs.). However, A. fictarespond to high levels of short wavelength diffused
+light by decreasing the frequency of their flash signals, and eventually ceasing them altogether.
+A. fictado not exchange precisely timed flash patterns during courtship, so decreases in
+flash frequency like those we observed in dim light conditions may not cause a significant loss
+of signal information, and the commensurate increase in intensity may suffice to maintain
+signal visibility in natural settings. It remains to be seen how ambient light affects the courtship
+of Photinus fireflies, which use flash patterns to communicate information about species
+identity and individual fitness. Changes to flash rate, flash duration, or interpulse interval are
+highly likely to impact the reproductive success of these species; even slight differences in flash
+rate have been shown to affect male reproductive success [60,73].
+Much remains to be done to quantify the total fitness impact of ALAN of varying spectral
+composition on firefly species of varying spectral sensitivity and courtship behavior. Observed
+decreases in A. fictapopulations over the past few decades indicates that they have been nega-
+tively affected by habitat alterations occuring within this time (Wu Chiahsiung, personal com-
+munication). The impacts of habitat destruction, climate change, pesticides, and ALAN on
+fireflies are all relevant, and likely mutually reinforcing, but those of ALAN deserve equal
+consideration. This is especially the case because fireflies can serve as “flagship species”, charis-
+matic mascots of public outreach efforts to reduce or eliminate ALAN in urban areas. Improv-
+ing our understanding of the degree to which fireflies everywhere are able to respond and
+adapt to ALAN is crucial should we hope to protect these species going forward, both for the
+robustness of the ecosystem and the enjoyment of many generations to come.
+Supporting information
+S1 Fig. Simplified schematic of experimental setup. LED pucks fitted into upper box (base:
+14×8.5 cm; height: 3 cm) shine through a neutral density filter, the transparency of which is
+adjusted via rotation of this box. Walls of the light chamber (base: 9×6.5 cm; height: 5.5 cm)
+are covered in opaque dark room fabric. The USB4000 spectrometer is connected to a Dell
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 9 / 14

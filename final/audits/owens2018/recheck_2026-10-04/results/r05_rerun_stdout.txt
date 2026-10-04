@@ -1,0 +1,6 @@
+data/derived/impacts/owens2018_pdftext.txt: 14 pages, 48812 characters
+data/derived/impacts/owens2018_results.json: 16 Table 1 rows, 20 text p-values, 31 statements, 3 text/table disagreements
+  disagree: {'exposure': 'dim', 'measure': 'flash_intensity', 'wavelength_nm': 488, 'text': 'p = 0.017', 'table1_p': 0.018, 'agree': False}
+  disagree: {'exposure': 'dim', 'measure': 'flash_frequency', 'wavelength_nm': 463, 'text': 'p = 0.049', 'table1_p': 0.0049, 'agree': False}
+  disagree: {'exposure': 'bright', 'measure': 'flash_frequency', 'wavelength_nm': 463, 'text': 'p < 0.0001', 'table1_p': 0.00042, 'agree': False}
+exit=0

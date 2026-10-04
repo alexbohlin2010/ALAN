@@ -1,0 +1,989 @@
+{
+ "source": {
+  "citation": "Owens ACS, Meyer-Rochow VB, Yang E-C (2018). Short- and mid-wavelength artificial light influences the flash signals of Aquatica ficta fireflies (Coleoptera: Lampyridae). PLoS ONE 13(2): e0191576",
+  "doi": "https://doi.org/10.1371/journal.pone.0191576",
+  "file": "data/raw/impacts/narrative of fireflies/Owens_MeyerRochow_Yang_2018_PLoSONE_Aquatica_ficta.pdf",
+  "sha256": "9272dd5507fd51ea34a9f42d7e2e7e71c9082d08aca4ce4ea06f7e0f36d5f51a",
+  "licence": "CC BY 4.0",
+  "pages": 14
+ },
+ "scope": "Reported results of the paper only; no re-analysis of the raw recordings (human decision, AI_LOG round 4a). Values are copied as printed.",
+ "labels": {
+  "table1": "documented",
+  "text_p_values": "documented",
+  "statements": "documented",
+  "text_vs_table1": "inferred"
+ },
+ "label_notes": {
+  "documented": "Owens ACS, Meyer-Rochow VB, Yang E-C (2018). Short- and mid-wavelength artificial light influences the flash signals of Aquatica ficta fireflies (Coleoptera: Lampyridae). PLoS ONE 13(2): e0191576, https://doi.org/10.1371/journal.pone.0191576; page given per item.",
+  "inferred": "text_vs_table1: rule in pipeline/impacts/08_owens2018.py docstring; inputs = text_p_values and table1."
+ },
+ "units": {
+  "flash_intensity": "counts (spectrometer, average relative intensity 565-569 nm per 100 ms; average peak intensity per 1 min recording, first 15 s omitted)",
+  "flash_frequency": "peaks/min",
+  "ratio_to_dark": "Table 1 \"degree of change relative to dark\": mean divided by the 1 min dark base value (5420 counts; 43.167 peaks/min)",
+  "sd": "standard deviation, as printed (\"x̄ ± SD\" in the Table 1 header); Fig 2 caption: N = 6",
+  "p": "Table 1 \"p-value\" column, as printed. The table does not name the test; the Methods (p. 4) compare intensity and frequency per wavelength with GLMMs, dim and bright analysed separately",
+  "wavelength_nm": "LED peak wavelength, nm",
+  "exposure": "dim = 1×, bright = 10× quantum flux (see statements.dim_bright_flux)"
+ },
+ "table1": {
+  "page": 6,
+  "caption": "Table 1. Average peak intensity and frequency of light signals produced by A. ficta under exposure to varying wavelengths and intensities of ambient light.",
+  "columns_printed": "λ (nm) | flash intensity x̄ ± SD (counts) | degree of change relative to dark (bright/dark) | p-value | flash frequency x̄ ± SD (peaks/min) | degree of change relative to dark (bright/dark) | p-value",
+  "rows": [
+   {
+    "exposure": "dim",
+    "wavelength_nm": 444,
+    "flash_intensity": {
+     "mean": 11420,
+     "sd": 4498,
+     "ratio_to_dark": 2.106,
+     "p": 0.0021
+    },
+    "flash_frequency": {
+     "mean": 22.67,
+     "sd": 15.65,
+     "ratio_to_dark": 0.525,
+     "p": 0.0042
+    },
+    "printed": "444 11420 ±4498 2.106 0.0021 22.67 ±15.65 0.525 0.0042"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 463,
+    "flash_intensity": {
+     "mean": 11330,
+     "sd": 4615,
+     "ratio_to_dark": 2.09,
+     "p": 0.01
+    },
+    "flash_frequency": {
+     "mean": 23.78,
+     "sd": 15.02,
+     "ratio_to_dark": 0.551,
+     "p": 0.0049
+    },
+    "printed": "463 11330 ±4615 2.090 0.010 23.78 ±15.02 0.551 0.0049"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 488,
+    "flash_intensity": {
+     "mean": 11380,
+     "sd": 4605,
+     "ratio_to_dark": 2.099,
+     "p": 0.018
+    },
+    "flash_frequency": {
+     "mean": 17.78,
+     "sd": 10.91,
+     "ratio_to_dark": 0.412,
+     "p": 1.4e-05
+    },
+    "printed": "488 11380 ±4605 2.099 0.018 17.78 ±10.91 0.412 0.000014"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 515,
+    "flash_intensity": {
+     "mean": 9879,
+     "sd": 3540,
+     "ratio_to_dark": 1.823,
+     "p": 0.021
+    },
+    "flash_frequency": {
+     "mean": 24.44,
+     "sd": 12.81,
+     "ratio_to_dark": 0.566,
+     "p": 0.0098
+    },
+    "printed": "515 9879 ±3540 1.823 0.021 24.44 ±12.81 0.566 0.0098"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 533,
+    "flash_intensity": {
+     "mean": 8584,
+     "sd": 3125,
+     "ratio_to_dark": 1.584,
+     "p": 0.066
+    },
+    "flash_frequency": {
+     "mean": 32.44,
+     "sd": 13.93,
+     "ratio_to_dark": 0.752,
+     "p": 0.046
+    },
+    "printed": "533 8584 ±3125 1.584 0.066 32.44 ±13.93 0.752 0.046"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 597,
+    "flash_intensity": {
+     "mean": 5639,
+     "sd": 4912,
+     "ratio_to_dark": 1.04,
+     "p": 0.94
+    },
+    "flash_frequency": {
+     "mean": 44.89,
+     "sd": 6.504,
+     "ratio_to_dark": 1.04,
+     "p": 0.3
+    },
+    "printed": "597 5639 ±4912 1.040 0.94 44.89 ±6.504 1.040 0.30"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 628,
+    "flash_intensity": {
+     "mean": 6605,
+     "sd": 2848,
+     "ratio_to_dark": 1.219,
+     "p": 0.91
+    },
+    "flash_frequency": {
+     "mean": 42.67,
+     "sd": 17.28,
+     "ratio_to_dark": 0.988,
+     "p": 0.55
+    },
+    "printed": "628 6605 ±2848 1.219 0.91 42.67 ±17.28 0.988 0.55"
+   },
+   {
+    "exposure": "dim",
+    "wavelength_nm": 663,
+    "flash_intensity": {
+     "mean": 6881,
+     "sd": 3381,
+     "ratio_to_dark": 1.269,
+     "p": 0.72
+    },
+    "flash_frequency": {
+     "mean": 46.22,
+     "sd": 16.67,
+     "ratio_to_dark": 1.071,
+     "p": 0.43
+    },
+    "printed": "663 6881 ±3381 1.269 0.72 46.22 ±16.67 1.071 0.43"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 444,
+    "flash_intensity": {
+     "mean": 11719,
+     "sd": 5489,
+     "ratio_to_dark": 2.162,
+     "p": 0.23
+    },
+    "flash_frequency": {
+     "mean": 14.44,
+     "sd": 14.8,
+     "ratio_to_dark": 0.335,
+     "p": 0.0019
+    },
+    "printed": "444 11719 ±5489 2.162 0.23 14.44 ±14.80 0.335 0.0019"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 463,
+    "flash_intensity": {
+     "mean": 9259,
+     "sd": 2854,
+     "ratio_to_dark": 1.708,
+     "p": 0.19
+    },
+    "flash_frequency": {
+     "mean": 12.67,
+     "sd": 11.29,
+     "ratio_to_dark": 0.293,
+     "p": 0.00042
+    },
+    "printed": "463 9259 ±2854 1.708 0.19 12.67 ±11.29 0.293 0.00042"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 488,
+    "flash_intensity": {
+     "mean": 10606,
+     "sd": 4595,
+     "ratio_to_dark": 1.957,
+     "p": 0.13
+    },
+    "flash_frequency": {
+     "mean": 8.222,
+     "sd": 7.78,
+     "ratio_to_dark": 0.19,
+     "p": 1.4e-05
+    },
+    "printed": "488 10606 ±4595 1.957 0.13 8.222 ±7.78 0.190 0.000014"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 515,
+    "flash_intensity": {
+     "mean": 6594,
+     "sd": 3388,
+     "ratio_to_dark": 1.217,
+     "p": 0.59
+    },
+    "flash_frequency": {
+     "mean": 14.89,
+     "sd": 12.29,
+     "ratio_to_dark": 0.345,
+     "p": 0.0018
+    },
+    "printed": "515 6594 ±3388 1.217 0.59 14.89 ±12.29 0.345 0.0018"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 533,
+    "flash_intensity": {
+     "mean": 10462,
+     "sd": 4941,
+     "ratio_to_dark": 1.93,
+     "p": 0.051
+    },
+    "flash_frequency": {
+     "mean": 27.11,
+     "sd": 15.7,
+     "ratio_to_dark": 0.628,
+     "p": 0.032
+    },
+    "printed": "533 10462 ±4941 1.930 0.051 27.11 ±15.70 0.628 0.032"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 597,
+    "flash_intensity": {
+     "mean": 4688,
+     "sd": 2615,
+     "ratio_to_dark": 0.865,
+     "p": 0.48
+    },
+    "flash_frequency": {
+     "mean": 56.44,
+     "sd": 11.38,
+     "ratio_to_dark": 1.308,
+     "p": 0.92
+    },
+    "printed": "597 4688 ±2615 0.865 0.48 56.44 ±11.38 1.308 0.92"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 628,
+    "flash_intensity": {
+     "mean": 6381,
+     "sd": 3407,
+     "ratio_to_dark": 1.177,
+     "p": 0.97
+    },
+    "flash_frequency": {
+     "mean": 45.78,
+     "sd": 15.61,
+     "ratio_to_dark": 1.06,
+     "p": 0.56
+    },
+    "printed": "628 6381 ±3407 1.177 0.97 45.78 ±15.61 1.060 0.56"
+   },
+   {
+    "exposure": "bright",
+    "wavelength_nm": 663,
+    "flash_intensity": {
+     "mean": 4968,
+     "sd": 3351,
+     "ratio_to_dark": 0.917,
+     "p": 0.98
+    },
+    "flash_frequency": {
+     "mean": 54.0,
+     "sd": 22.45,
+     "ratio_to_dark": 1.251,
+     "p": 0.87
+    },
+    "printed": "663 4968 ±3351 0.917 0.98 54.00 ±22.45 1.251 0.87"
+   }
+  ]
+ },
+ "text_p_values": [
+  {
+   "exposure": "dim",
+   "measure": "flash_intensity",
+   "wavelength_nm": 444,
+   "comparator": "=",
+   "p": 0.0021,
+   "printed": "444 nm: p = 0.0021",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_intensity",
+   "wavelength_nm": 463,
+   "comparator": "=",
+   "p": 0.01,
+   "printed": "463 nm: p = 0.01",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_intensity",
+   "wavelength_nm": 488,
+   "comparator": "=",
+   "p": 0.017,
+   "printed": "488 nm: p = 0.017",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_intensity",
+   "wavelength_nm": 515,
+   "comparator": "=",
+   "p": 0.021,
+   "printed": "515 nm: p = 0.021",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_intensity",
+   "wavelength_nm": 533,
+   "comparator": "=",
+   "p": 0.066,
+   "printed": "533 nm: p = 0.066",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_frequency",
+   "wavelength_nm": 444,
+   "comparator": "=",
+   "p": 0.0042,
+   "printed": "444 nm: p = 0.0042",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_frequency",
+   "wavelength_nm": 463,
+   "comparator": "=",
+   "p": 0.049,
+   "printed": "463 nm: p = 0.049",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_frequency",
+   "wavelength_nm": 488,
+   "comparator": "<",
+   "p": 0.0001,
+   "printed": "488 nm: p = p <0.0001",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_frequency",
+   "wavelength_nm": 515,
+   "comparator": "=",
+   "p": 0.0098,
+   "printed": "515 nm: p = 0.0098",
+   "page": 5
+  },
+  {
+   "exposure": "dim",
+   "measure": "flash_frequency",
+   "wavelength_nm": 533,
+   "comparator": "=",
+   "p": 0.046,
+   "printed": "533 nm: p = 0.046",
+   "page": 5
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_frequency",
+   "wavelength_nm": 444,
+   "comparator": "=",
+   "p": 0.0019,
+   "printed": "444 nm: p = 0.0019",
+   "page": 5
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_frequency",
+   "wavelength_nm": 463,
+   "comparator": "<",
+   "p": 0.0001,
+   "printed": "463 nm: p <0.0001",
+   "page": 5
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_frequency",
+   "wavelength_nm": 488,
+   "comparator": "<",
+   "p": 0.0001,
+   "printed": "488 nm: p <0.0001",
+   "page": 5
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_frequency",
+   "wavelength_nm": 515,
+   "comparator": "=",
+   "p": 0.0018,
+   "printed": "515 nm: p = 0.0018",
+   "page": 5
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_frequency",
+   "wavelength_nm": 533,
+   "comparator": "=",
+   "p": 0.032,
+   "printed": "533 nm: p = 0.032",
+   "page": "5-6"
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_intensity",
+   "wavelength_nm": 444,
+   "comparator": "=",
+   "p": 0.23,
+   "printed": "444 nm: p = 0.23",
+   "page": 6
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_intensity",
+   "wavelength_nm": 463,
+   "comparator": "=",
+   "p": 0.19,
+   "printed": "463 nm: p = 0.19",
+   "page": 6
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_intensity",
+   "wavelength_nm": 488,
+   "comparator": "=",
+   "p": 0.13,
+   "printed": "488 nm: p = 0.13",
+   "page": 6
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_intensity",
+   "wavelength_nm": 515,
+   "comparator": "=",
+   "p": 0.59,
+   "printed": "515 nm: p = 0.59",
+   "page": 6
+  },
+  {
+   "exposure": "bright",
+   "measure": "flash_intensity",
+   "wavelength_nm": 533,
+   "comparator": "=",
+   "p": 0.051,
+   "printed": "533 nm: p = 0.051",
+   "page": 6
+  }
+ ],
+ "text_vs_table1": {
+  "rule": "same exposure, measure, wavelength; \"=\" agrees if equal, \"<\" agrees if the Table 1 p is below the bound",
+  "checks": [
+   {
+    "exposure": "dim",
+    "measure": "flash_intensity",
+    "wavelength_nm": 444,
+    "text": "p = 0.0021",
+    "table1_p": 0.0021,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_intensity",
+    "wavelength_nm": 463,
+    "text": "p = 0.01",
+    "table1_p": 0.01,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_intensity",
+    "wavelength_nm": 488,
+    "text": "p = 0.017",
+    "table1_p": 0.018,
+    "agree": false
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_intensity",
+    "wavelength_nm": 515,
+    "text": "p = 0.021",
+    "table1_p": 0.021,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_intensity",
+    "wavelength_nm": 533,
+    "text": "p = 0.066",
+    "table1_p": 0.066,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_frequency",
+    "wavelength_nm": 444,
+    "text": "p = 0.0042",
+    "table1_p": 0.0042,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_frequency",
+    "wavelength_nm": 463,
+    "text": "p = 0.049",
+    "table1_p": 0.0049,
+    "agree": false
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_frequency",
+    "wavelength_nm": 488,
+    "text": "p < 0.0001",
+    "table1_p": 1.4e-05,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_frequency",
+    "wavelength_nm": 515,
+    "text": "p = 0.0098",
+    "table1_p": 0.0098,
+    "agree": true
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_frequency",
+    "wavelength_nm": 533,
+    "text": "p = 0.046",
+    "table1_p": 0.046,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_frequency",
+    "wavelength_nm": 444,
+    "text": "p = 0.0019",
+    "table1_p": 0.0019,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_frequency",
+    "wavelength_nm": 463,
+    "text": "p < 0.0001",
+    "table1_p": 0.00042,
+    "agree": false
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_frequency",
+    "wavelength_nm": 488,
+    "text": "p < 0.0001",
+    "table1_p": 1.4e-05,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_frequency",
+    "wavelength_nm": 515,
+    "text": "p = 0.0018",
+    "table1_p": 0.0018,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_frequency",
+    "wavelength_nm": 533,
+    "text": "p = 0.032",
+    "table1_p": 0.032,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_intensity",
+    "wavelength_nm": 444,
+    "text": "p = 0.23",
+    "table1_p": 0.23,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_intensity",
+    "wavelength_nm": 463,
+    "text": "p = 0.19",
+    "table1_p": 0.19,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_intensity",
+    "wavelength_nm": 488,
+    "text": "p = 0.13",
+    "table1_p": 0.13,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_intensity",
+    "wavelength_nm": 515,
+    "text": "p = 0.59",
+    "table1_p": 0.59,
+    "agree": true
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_intensity",
+    "wavelength_nm": 533,
+    "text": "p = 0.051",
+    "table1_p": 0.051,
+    "agree": true
+   }
+  ],
+  "disagreements": [
+   {
+    "exposure": "dim",
+    "measure": "flash_intensity",
+    "wavelength_nm": 488,
+    "text": "p = 0.017",
+    "table1_p": 0.018,
+    "agree": false
+   },
+   {
+    "exposure": "dim",
+    "measure": "flash_frequency",
+    "wavelength_nm": 463,
+    "text": "p = 0.049",
+    "table1_p": 0.0049,
+    "agree": false
+   },
+   {
+    "exposure": "bright",
+    "measure": "flash_frequency",
+    "wavelength_nm": 463,
+    "text": "p < 0.0001",
+    "table1_p": 0.00042,
+    "agree": false
+   }
+  ]
+ },
+ "statements": {
+  "species": {
+   "page": 3,
+   "quote": "Three male A. fictafireflies were collected three times from Yongjian Eco Park",
+   "label": "documented"
+  },
+  "collection_site": {
+   "page": 3,
+   "quote": "Yongjian Eco Park (24.990195, 121.555824; May 4, May 7, and May 11, 2016)",
+   "label": "documented",
+   "latitude": {
+    "value": 24.990195,
+    "unit": "degrees (as printed)"
+   },
+   "longitude": {
+    "value": 121.555824,
+    "unit": "degrees (as printed)"
+   }
+  },
+  "courtship_flash": {
+   "page": 3,
+   "quote": "periodic single yel- low-green flashes (peak wavelength: 565 nm; bandwidth: 60 nm; n = 6)",
+   "label": "documented",
+   "peak_wavelength": {
+    "value": 565,
+    "unit": "nm"
+   },
+   "bandwidth": {
+    "value": 60,
+    "unit": "nm"
+   },
+   "n": {
+    "value": 6,
+    "unit": "flashes or individuals (not stated)"
+   }
+  },
+  "alarm_flash": {
+   "page": 4,
+   "quote": "fast (approx. 200 ms duration, 200–300 ms flash interval) alarm flashes",
+   "label": "documented",
+   "duration_approx": {
+    "value": 200,
+    "unit": "ms"
+   }
+  },
+  "recorded_band": {
+   "page": 4,
+   "quote": "average relative intensity (counts) of wavelengths from 565 nm to 569 nm over 32 min",
+   "label": "documented",
+   "from": {
+    "value": 565,
+    "unit": "nm"
+   },
+   "to": {
+    "value": 569,
+    "unit": "nm"
+   }
+  },
+  "sampling": {
+   "page": 4,
+   "quote": "Averages were calculated and saved every 100 ms.",
+   "label": "documented",
+   "interval": {
+    "value": 100,
+    "unit": "ms"
+   }
+  },
+  "leds": {
+   "page": 3,
+   "quote": "Puck wavelengths were semi-evenly distributed across a range from near-UV to red (444 nm to 663 nm)",
+   "label": "documented"
+  },
+  "exposure_protocol": {
+   "page": 4,
+   "quote": "exposures lasted 1 min and were always preceded by 1 min dark recordings",
+   "label": "documented"
+  },
+  "dim_bright_flux": {
+   "page": 4,
+   "quote": "ranging from 0.107 ±0.02 μmol m-2 s-1 and from 1.075 ±0.212 μmol m-2 s-1 for dim and bright exposures, respectively",
+   "label": "documented",
+   "dim": {
+    "value": 0.107,
+    "unit": "μmol m-2 s-1"
+   },
+   "dim_pm": {
+    "value": 0.02,
+    "unit": "μmol m-2 s-1"
+   },
+   "bright": {
+    "value": 1.075,
+    "unit": "μmol m-2 s-1"
+   },
+   "bright_pm": {
+    "value": 0.212,
+    "unit": "μmol m-2 s-1"
+   }
+  },
+  "dim_bright_lux": {
+   "page": 8,
+   "quote": "1×and 10×exposures roughly correspond to 20 and 200 lux, respectively, although photometric units are not suited to the analysis of monochro- matic light",
+   "label": "documented",
+   "dim": {
+    "value": 20,
+    "unit": "lux (rough)"
+   },
+   "bright": {
+    "value": 200,
+    "unit": "lux (rough)"
+   }
+  },
+  "sample": {
+   "page": 4,
+   "quote": "Eight sets of data were collected from eight A. fictamales on the evenings of May 5–9 and May 12–14, 2016 (S2 Fig; one male died before it could be tested). Of these, two recordings (May 5 and May 13) were disregarded",
+   "label": "documented"
+  },
+  "n_analysed": {
+   "page": 4,
+   "quote": "Flash intensity and frequency data from six individuals",
+   "label": "documented"
+  },
+  "noise_threshold": {
+   "page": 4,
+   "quote": "Measurements 200 counts were excluded as noise",
+   "label": "documented",
+   "as_printed": "Measurements ≤ 200 counts were excluded as noise",
+   "glyph_from_rendered_page": true,
+   "threshold": {
+    "value": 200,
+    "unit": "counts"
+   }
+  },
+  "adaptation": {
+   "page": 4,
+   "quote": "The first 15 s of each recording was defined as the “adapta- tion period”",
+   "label": "documented"
+  },
+  "model": {
+   "page": 4,
+   "quote": "Average flash intensity and frequency under each wavelength of exposure was compared using generalized linear mixed models (GLMM)",
+   "label": "documented"
+  },
+  "baseline_table1": {
+   "page": 6,
+   "quote": "(average flash intensity: 5420 counts; frequency: 43.167 peaks/min)",
+   "label": "documented",
+   "flash_intensity": {
+    "value": 5420,
+    "unit": "counts"
+   },
+   "flash_frequency": {
+    "value": 43.167,
+    "unit": "peaks/min"
+   }
+  },
+  "baseline_fig2": {
+   "page": 7,
+   "quote": "Base values for average flash intensity (5420 counts) and flash frequency (43.167 peaks/min) obtained from 1 min dark recordings",
+   "label": "documented",
+   "flash_intensity": {
+    "value": 5420,
+    "unit": "counts"
+   },
+   "flash_frequency": {
+    "value": 43.167,
+    "unit": "peaks/min"
+   }
+  },
+  "fig2_error_bars": {
+   "page": 7,
+   "quote": "Change in average (±1 SE) flash intensity (A) and frequency (B)",
+   "label": "documented"
+  },
+  "abstract_short_mid": {
+   "page": 1,
+   "quote": "When exposed to wavelengths at or below 533 nm, males emitted brighter signals with decreased frequency.",
+   "label": "documented",
+   "wavelength_bound": {
+    "value": 533,
+    "unit": "nm"
+   }
+  },
+  "abstract_long": {
+   "page": 1,
+   "quote": "long wavelength ambient light ( 597 nm) did not affect signal morphology",
+   "label": "documented",
+   "as_printed": "long wavelength ambient light (≥ 597 nm) did not affect signal morphology",
+   "glyph_from_rendered_page": true,
+   "wavelength_bound": {
+    "value": 597,
+    "unit": "nm"
+   }
+  },
+  "exposure_order_models": {
+   "page": 5,
+   "quote": "Exposure order explained a large amount of observed variation in flash frequency. However, it did not have an observable impact on flash intensity and was subsequently dropped from that set of models.",
+   "label": "documented"
+  },
+  "frequency_decline_cause": {
+   "page": 5,
+   "quote": "The decline is due to increases in interpulse interval [58] and, to a lesser extent, flash duration (S2 Table)",
+   "label": "documented"
+  },
+  "pauses": {
+   "page": 5,
+   "quote": "sporadic periods without flashing were more common under illumination, sometimes continuing for 10 or more seconds",
+   "label": "documented",
+   "pause_at_least": {
+    "value": 10,
+    "unit": "s"
+   }
+  },
+  "intensity_increase": {
+   "page": 5,
+   "quote": "average peak inten- sity of flash signals significantly increased, sometimes more than 100%, when individuals were exposed to dim intensities of short- and mid-wavelength light",
+   "label": "documented"
+  },
+  "ceased_signalling": {
+   "page": 6,
+   "quote": "under bright short- and mid-wavelength illumination, three of six males ceased signaling entirely",
+   "label": "documented"
+  },
+  "long_wavelength_no_effect": {
+   "page": 6,
+   "quote": "neither dim nor bright intensities of long wavelength ( 597 nm) illumination had a signifi- cant effect on flash intensity or frequency (p 0.3 in all instances; Fig 2)",
+   "label": "documented",
+   "as_printed": "neither dim nor bright intensities of long wavelength (≥ 597 nm) illumination had a signifi- cant effect on flash intensity or frequency (p ≥ 0.3 in all instances; Fig 2)",
+   "glyph_from_rendered_page": true,
+   "wavelength_bound": {
+    "value": 597,
+    "unit": "nm"
+   },
+   "p_bound": {
+    "value": 0.3,
+    "unit": "p"
+   }
+  },
+  "exposure_order_anova": {
+   "page": 6,
+   "quote": "number of previous exposures had a significant negative effect on flash frequency (1×: p <0.0001, χ2 = 15.205; 10×: p = 0.0012, χ2 = 14.668), but not flash intensity (p = 1.0 and χ2 = 0 in both 1×and 10×models)",
+   "label": "documented",
+   "frequency_dim_p_below": {
+    "value": 0.0001,
+    "unit": "p"
+   },
+   "frequency_dim_chi2": {
+    "value": 15.205,
+    "unit": "χ²"
+   },
+   "frequency_bright_p": {
+    "value": 0.0012,
+    "unit": "p"
+   },
+   "frequency_bright_chi2": {
+    "value": 14.668,
+    "unit": "χ²"
+   },
+   "intensity_p": {
+    "value": 1.0,
+    "unit": "p"
+   },
+   "intensity_chi2": {
+    "value": 0,
+    "unit": "χ²"
+   }
+  },
+  "intensity_frequency_correlation": {
+   "page": 8,
+   "quote": "this potentially beneficial behavior may require some decrease in average flash frequency [correlation coefficient: -0.9655009 (1×), -0.8027756 (10×)]",
+   "label": "documented",
+   "dim": {
+    "value": -0.9655009,
+    "unit": "r (type not stated)"
+   },
+   "bright": {
+    "value": -0.8027756,
+    "unit": "r (type not stated)"
+   }
+  },
+  "half_stopped_bright": {
+   "page": 8,
+   "quote": "half of the A. fictaspecimens stopped flashing under bright (10×) exposures",
+   "label": "documented"
+  },
+  "red_not_responsive": {
+   "page": 6,
+   "quote": "Our results suggest that A. fictais not visually responsive to red wavelengths.",
+   "label": "documented"
+  },
+  "recommendation": {
+   "page": 9,
+   "quote": "Our results suggest artificial light sources emitting the majority of their light in wavelengths 597 nm, including a range of yellow to red wavelengths visible to humans, would be most suitable for A. fictahabitats.",
+   "label": "documented",
+   "as_printed": "Our results suggest artificial light sources emitting the majority of their light in wavelengths ≥ 597 nm, including a range of yellow to red wavelengths visible to humans, would be most suitable for A. fictahabitats.",
+   "glyph_from_rendered_page": true
+  }
+ },
+ "not_reported": [
+  "Per-male values: the paper gives means ± SD (Table 1), not the individual values.",
+  "Fig 1 (p. 5): example recordings of two males (counts per 100 ms over 4 min; dark / dim / bright 533 nm); drawn only, not digitised (not requested).",
+  "Fig 2 means and SE: drawn only (bars, ±1 SE); no numbers in the text. Not digitised (not requested).",
+  "S1 Table (exposure sequence, μW/cm2), S2 Table (flash duration, interpulse interval), S1 Text, S1-S2 Fig: separate supplementary files, not in this PDF and not obtained.",
+  "Bold p-values in Table 1: the rendered page shows some p-values in bold; the text layer carries no bold and the paper does not state what bold means. Not recorded.",
+  "What \"±\" means for the dim/bright photon flux (SD or other) is not stated.",
+  "Table 1 headers read \"degree of change relative to dark (bright/dark)\" in both the dim and the bright block, as printed.",
+  "The correlation coefficients (p. 8) do not say which correlation statistic or which variables per se; kept as the quote."
+ ]
+}

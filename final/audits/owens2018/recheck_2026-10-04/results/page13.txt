@@ -1,0 +1,60 @@
+Fireflies flash more brightly in illuminated environs
+47. 48. 49. 50. 51. 52. 53. 54. 55. 56. 57. 58. 59. 60. 61. 62. 63. 64. 65. 66. 67. 68. 69. 70. Lau TFS, Ohba N, Arikawa K, Meyer-Rochow VB. Sexual dimorphism in the compound eye of Rha-
+gophthalmus ohbai (Coleoptera: Rhagophthalmidae): II. Physiology and function of the eye of the male.
+J Asia-Pacific Entomol. 2007; 10(1): 27–31.
+Kirschfeld K, Feiler R, Franceschini N. A Photostable Pigment within the Rhabdomere of Fly Photore-
+ceptors No. 7. J Comp Physiol. 1978; 125: 275–284.
+Lall AB. Action spectra for the initiation of bioluminescent flashing activity in males of twilight-active fire-
+fly Photinus scintillans (Coleoptera: Lampyridae). J Insect Physiol. Elsevier Ltd; 1993; 39: 123–127.
+Lall AB. Spectral cues for the regulation of bioluminescent flashing activity in the males of twilight-active
+firefly Photinus scintillans (Coleoptera: Lampyridae) in nature. J Insect Physiol. Elsevier Ltd; 1994; 40:
+359–363.
+Lall AB, Worthy KM. Action spectra of the female’s response in the firefly Photinus pyralis (Coleoptera:
+Lampyridae): evidence for an achromatic detection of the bioluminescent optical signal. J Insect Phy-
+siol. 2000; 46: 965–968. PMID: 10802109
+Mills R, Popple J-A, Veidt M, Merritt DJ. Detection of light and vibration modulates bioluminescence
+intensity in the glowworm, Arachnocampa flava. J Comp Physiol A Neuroethol Sens Neural Behav Phy-
+siol. 2016; 202: 313–327. https://doi.org/10.1007/s00359-016-1077-0 PMID: 26897608
+Fu X, Ballantyne LA, Lambkin CL. Aquatica Gen. Nov. From Mainland China With A Description Of
+Aquatica Wuhana Sp. Nov. (Coleoptera: Lampyridae: Luciolinae). Zootaxa. 2010; 2530(2530). https://
+doi.org/10.5281/zenodo.196535
+Ho J-Z, Chiang P-H, Wu C-H, Yang P-S. Life cycle of the aquatic firefly Luciola ficta (Coleoptera: Lam-
+pyridae). J Asia Pac Entomol. 2010/9; 13: 189–196.
+Wu C, Yang P, Jeng M, Ho J, Chen H, Tsai J. Habitat restoration of the Aquatic firefly, Aquatica ficta
+(Olivier, 1909) restoration in Taipei city, Taiwan [Internet]. The International Firefly Symposium 2014;
+2014 Aug 14; Gainesville, FL.
+R Core Team. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Founda-
+tion for Statistical Computing. 2014.
+Bates D, Maechler M, Bolker B, Walker S. Fitting Linear Mixed-Effects Models Using lme4. Journal of
+Statistical Software 2015; 67(1): 1–48. https://doi.org/10.18637/jss.v067.i01
+Stanger-Hall KF, Lloyd JE. Flash signal evolution in Photinus fireflies: character displacement and sig-
+nal exploitation in a visual communication system. Evolution. 2015; 69: 666–682. https://doi.org/10.
+1111/evo.12606 PMID: 25627920
+Branham MA, Greenfield MD. Flashing males win mate success. Nature. Nature Publishing Group;
+1996; 381: 745–746.
+Michaelidis CI, Demary KC, Lewis SM. Male courtship signals and female signal assessment in Photi-
+nus greeni fireflies. Behav Ecol. 2006; 17: 329–335.
+Cratsley CK. Sexual selection in Photinus fireflies. Lewis SM, editor. PhD, Tufts. 2000.
+Cratsley CK, Lewis SM. Female preference for male courtship flashes in Photinus ignitus fireflies.
+Behav Ecol. 2003; 14: 135–140.
+Hall DW, Sander SE, Pallansch JC, Stanger-Hall KF. The evolution of adult light emission color in North
+American fireflies. Evolution. 2016; 70: 2033–2048. https://doi.org/10.1111/evo.13002 PMID:
+27412777
+Sharkey EK, South A, Moosman PR, Cratsley CK, Lewis SM. Assessing Condition-dependence of
+Male Flash Signals in Photinus Fireflies. J Insect Behav. Springer Science & Business Media; 2010; 23:
+215–225.
+Moosman PR, Cratsley CK, Lehto SD, Thomas HH. Do courtship flashes of fireflies (Coleoptera: Lam-
+pyridae) serve as aposematic signals to insectivorous bats? Anim Behav. 2009; 78: 1019–1025.
+Long SM, Lewis S, Jean-Louis L, Ramos G, Richmond J, Jakob EM. Firefly flashing and jumping spider
+predation. Anim Behav. 2012; 83: 81–86.
+Vencl FV, Carlson AD. Proximate Mechanisms of Sexual Selection in the Firefly Photinus pyralis (Cole-
+optera: Lampyridae). J Insect Behav. Kluwer Academic Publishers-Plenum Publishers; 1998; 11: 191–
+207.
+Case JF. Flight Studies on Photic Communication by the Firefly Photinus pyralis. Integr Comp Biol.
+Society for Integrative and Comparative Biology; 2004; 44: 250–258.
+Woods WA Jr, Hendrickson H, Mason J, Lewis SM. Energy and Predation Costs of Firefly Courtship
+Signals. Am Nat. The University of Chicago Press; 2007; https://doi.org/10.1086/521964 PMID:
+17926292
+Goh K-S, Li C-W. A Photocytes-Associated Fatty Acid-Binding Protein from the Light Organ of Adult
+Taiwanese Firefly, Luciola cerata. PLoS One. Public Library of Science; 2011; 6: e29576.
+PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 13 / 14

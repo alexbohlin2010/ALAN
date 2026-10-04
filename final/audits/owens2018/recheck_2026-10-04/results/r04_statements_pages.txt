@@ -1,0 +1,37 @@
+== F2 statements
+abstract_short_mid stated page 1 occurrences by page {1: 1} -> PASS {'wavelength_bound': {'value': 533, 'unit': 'nm'}}
+abstract_long stated page 1 occurrences by page {1: 1} -> PASS {'wavelength_bound': {'value': 597, 'unit': 'nm'}}
+exposure_order_models stated page 5 occurrences by page {5: 1} -> PASS {}
+frequency_decline_cause stated page 5 occurrences by page {5: 1} -> PASS {}
+pauses stated page 5 occurrences by page {5: 1} -> PASS {'pause_at_least': {'value': 10, 'unit': 's'}}
+533 in abstract_short_mid quote: True
+597 in abstract_long quote: True ; PDFKit raw p1 around: 'long wavelength ambient light ( 597\nnm) did not affect signal morphology, likely because '
+"10 or more seconds" -> {'value': 10, 'unit': 's'}
+as_printed minus quote chars:  ['≥'] ; as_printed with glyph removed equals quote: True
+quote prefix in p1 text layer: True
+== F4 pages
+0 dim flash_intensity 444 '444 nm: p = 0.0021' json page 5 | full-match pages [5]
+1 dim flash_intensity 463 '463 nm: p = 0.01' json page 5 | full-match pages [5]
+2 dim flash_intensity 488 '488 nm: p = 0.017' json page 5 | full-match pages [5]
+3 dim flash_intensity 515 '515 nm: p = 0.021' json page 5 | full-match pages [5]
+4 dim flash_intensity 533 '533 nm: p = 0.066' json page 5 | full-match pages [5]
+5 dim flash_frequency 444 '444 nm: p = 0.0042' json page 5 | full-match pages [5]
+6 dim flash_frequency 463 '463 nm: p = 0.049' json page 5 | full-match pages [5]
+7 dim flash_frequency 488 '488 nm: p = p <0.0001' json page 5 | full-match pages [5]
+8 dim flash_frequency 515 '515 nm: p = 0.0098' json page 5 | full-match pages [5]
+9 dim flash_frequency 533 '533 nm: p = 0.046' json page 5 | full-match pages [5]
+10 bright flash_frequency 444 '444 nm: p = 0.0019' json page 5 | full-match pages [5]
+11 bright flash_frequency 463 '463 nm: p <0.0001' json page 5 | full-match pages [5]
+12 bright flash_frequency 488 '488 nm: p <0.0001' json page 5 | full-match pages [5]
+13 bright flash_frequency 515 '515 nm: p = 0.0018' json page 5 | full-match pages [5]
+14 bright flash_frequency 533 '533 nm: p = 0.032' json page 5-6 | full-match pages []
+15 bright flash_intensity 444 '444 nm: p = 0.23' json page 6 | full-match pages [6]
+16 bright flash_intensity 463 '463 nm: p = 0.19' json page 6 | full-match pages [6]
+17 bright flash_intensity 488 '488 nm: p = 0.13' json page 6 | full-match pages [6]
+18 bright flash_intensity 515 '515 nm: p = 0.59' json page 6 | full-match pages [6]
+19 bright flash_intensity 533 '533 nm: p = 0.051' json page 6 | full-match pages [6]
+--- p5 tail / p6 post-table head
+'same wavelengths (Fig 2B, Table 1; 444 nm: p = 0.0019; 463 nm: p <0.0001, 488 nm: p <0.0001, 515 nm: p = 0.0018, 533 nm: PLOS ONE | https://doi.org/10.1371/journal.pone.0191576 February 7, 2018 5 / 14'
+'t001 p = 0.032). In fact, under bright short- and mid-wavelength illumination, three of six males ceased signaling entir'
+5 ['444 nm: p = 0.0021', '463 nm: p = 0.01', '488 nm: p = 0.017', '515 nm: p = 0.021', '533 nm: p = 0.066', '444 nm: p = 0.0042', '463 nm: p = 0.049', '488 nm: p = p <0.0001', '515 nm: p = 0.0098', '533 nm: p = 0.046', '444 nm: p = 0.0019', '463 nm: p <0.0001', '488 nm: p <0.0001', '515 nm: p = 0.0018']
+6 ['444 nm: p = 0.23', '463 nm: p = 0.19', '488 nm: p = 0.13', '515 nm: p = 0.59', '533 nm: p = 0.051']

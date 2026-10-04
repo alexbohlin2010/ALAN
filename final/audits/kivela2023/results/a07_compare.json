@@ -1,0 +1,67 @@
+{
+ "n_raw": 299,
+ "n_json": 299,
+ "mismatches": [],
+ "order_preserved": true,
+ "key_sets": [
+  [
+   "date",
+   "lux",
+   "males",
+   "males_binary",
+   "night",
+   "photons_cm2_s",
+   "site",
+   "treatment"
+  ]
+ ],
+ "types": {
+  "date": [
+   "str"
+  ],
+  "night": [
+   "int"
+  ],
+  "site": [
+   "int"
+  ],
+  "treatment": [
+   "str"
+  ],
+  "lux": [
+   "float",
+   "int"
+  ],
+  "photons_cm2_s": [
+   "int"
+  ],
+  "males": [
+   "int"
+  ],
+  "males_binary": [
+   "int"
+  ]
+ },
+ "json_per_treatment": {
+  "red": 60,
+  "blue": 60,
+  "white": 60,
+  "control": 60,
+  "yellow": 59
+ },
+ "excluded_vs_raw": [
+  {
+   "Date": "21.-22.6.",
+   "Testnight": "10",
+   "Site": "3",
+   "Color": "NA",
+   "Lux": "NA",
+   "Photons": "NA",
+   "Males": "NA",
+   "Males_binary": "NA",
+   "reason": "Color is not a treatment name in the source (all fields \"NA\")"
+  }
+ ],
+ "has_source_row_field": false,
+ "paper_mismatches_vs_my_transcription": []
+}

@@ -1,0 +1,10 @@
+ObjC.import('PDFKit');ObjC.import('Foundation');ObjC.import('AppKit');
+var env=$.NSProcessInfo.processInfo.environment;
+var pg=parseInt(ObjC.unwrap(env.objectForKey('PG')));var out=ObjC.unwrap(env.objectForKey('OUT'));
+var p='data/raw/impacts/narrative of fireflies/Kivela_Elgert_Lehtonen_Candolin_2023_STOTEN_glowworm.pdf';
+var d=$.PDFDocument.alloc.initWithURL($.NSURL.fileURLWithPath($.NSFileManager.defaultManager.currentDirectoryPath.js+'/'+p));
+var page=d.pageAtIndex(pg-1);
+var img=page.thumbnailOfSizeForBox($.NSMakeSize(1800,2330),1);
+var rep=$.NSBitmapImageRep.imageRepWithData(img.TIFFRepresentation);
+var data=rep.representationUsingTypeProperties(4,$());
+data.writeToFileAtomically(out,true);
