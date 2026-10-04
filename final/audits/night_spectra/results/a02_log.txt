@@ -1,0 +1,34 @@
+  data/raw/spectra/spitschan2016/DRL_spectra.csv: rows ending in an empty field (trailing comma), 1-based: [1]; empty fields elsewhere: 0
+[philadelphia] DRL_spectra.csv: rows 566, columns per row [3199]; dataquality {'N total spectra': 5383, 'N saturated spectra': 323, 'N NaN or Zero spectra': 1861, 'N final spectra': 3199}
+  columns == dataquality 'N final spectra': True
+  row 2: NaN 0, min 1.0, max 9.0, distinct 9
+  row 3: NaN 0, min -29.0152823, max 49.33477599, distinct 3199
+  row 4: NaN 0, min -60.39363833, max 56.88424587, distinct 3199
+  row 5: NaN 0, min 0.5510933333, max 0.996, distinct 1150
+  timestamps: distinct 3199 of 3199; first 05-Jul-2014 19:30:28; last 18-Jul-2014 06:33:32
+  all-column irradiance cells: 1794639, NaN 44000, zero 2883, negative 0
+  night columns (solar < -18): 1200; solar == -18 exactly: 0
+  night blocks (0-based column ranges): 5: [[180, 450], [967, 1166], [1533, 1606], [1849, 2174], [2717, 3045]]
+  night ids per block: [['1', '2'], ['3'], ['4'], ['6', '7'], ['8', '9']]
+  float vs exact round-half-up indices identical: True; exact .5 ties: 0
+  selected: 240, distinct 240, strictly increasing True, first/last night used True/True
+  selected cells 67440: NaN 0, zero 214, negative 0, positive 67226; min>0 8.604166434e-11, max 2.875599874e-05
+  zero text forms: ['0']; texts with exponent: 67226
+  data/raw/spectra/spitschan2016/CSSP_spectra.csv: rows ending in an empty field (trailing comma), 1-based: [1]; empty fields elsewhere: 0
+[cherry_springs] CSSP_spectra.csv: rows 566, columns per row [3192]; dataquality {'N total spectra': 3755, 'N saturated spectra': 4, 'N NaN or Zero spectra': 559, 'N final spectra': 3192}
+  columns == dataquality 'N final spectra': True
+  row 2: NaN 0, min 1.0, max 10.0, distinct 10
+  row 3: NaN 0, min -29.19323373, max 70.53773353, distinct 3192
+  row 4: NaN 0, min -59.58501903, max 56.83211389, distinct 3192
+  row 5: NaN 0, min 0.116, max 0.994, distinct 1168
+  timestamps: distinct 3192 of 3192; first 30-Jun-2014 18:52:55; last 19-Jul-2014 18:48:58
+  all-column irradiance cells: 1790712, NaN 48960, zero 101963, negative 0
+  night columns (solar < -18): 1268; solar == -18 exactly: 0
+  night blocks (0-based column ranges): 5: [[221, 519], [935, 1195], [1401, 1694], [2040, 2122], [2697, 3027]]
+  night ids per block: [['1', '2'], ['3'], ['4', '5'], ['6'], ['8', '9']]
+  float vs exact round-half-up indices identical: True; exact .5 ties: 0
+  selected: 240, distinct 240, strictly increasing True, first/last night used True/True
+  selected cells 67440: NaN 0, zero 7780, negative 0, positive 59660; min>0 6.744531894e-13, max 5.93382162e-07
+  zero text forms: ['0']; texts with exponent: 59660
+[pooled] n_positive 126886, p01 -8.967243953229161, p50 -6.955651512236926, p99 -5.325790621417104, floor -9, ceil -5
+  log10 range of selected positives: -12.171048187268205 .. -4.54127154408996

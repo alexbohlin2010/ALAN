@@ -5,6 +5,7 @@ import { startStory } from './story.js';
 import { createIntroScene, INTRO_MODE } from './introScene.js';
 import { createImpacts } from './impacts.js';
 import { createSpectral } from './spectral.js';
+import { createTwoNights } from './twoNights.js';
 import { story } from '../content/story.js';
 
 const TILE_BASE = import.meta.env.VITE_TILE_BASE || '/tiles/v1/';
@@ -114,6 +115,9 @@ const impacts = createImpacts({ globe, globeEl: el, card: document.getElementByI
 // Spectral chapters (app/src/spectral.js): a 3D view over the globe on steps with a `spectral` key
 // (human decisions, AI_LOG Impacts steps 74–75).
 const spectral = createSpectral({ parent: document.body });
+// Two measured nights (app/src/twoNights.js): City vs Rural night spectra behind a divider, on steps with
+// `nights: true` (human decision, AI_LOG Firefly narrative round 3c).
+const nights = createTwoNights({ parent: document.body });
 
 let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0;
 // Story steps with an `impacts` stage show the Impacts layer inside the story (Part 2; human
@@ -129,6 +133,8 @@ function applyStage(i) {
   document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
   document.body.classList.toggle('story-spectral', Boolean(sp));
   document.body.classList.toggle('story-impacts', Boolean(st));
+  document.body.classList.toggle('story-nights', Boolean(story[i].nights));
+  nights.set(story[i].nights);
   const at = sp?.door && prev.impacts?.door === sp.door ? impacts.doorAt(sp.door) : null;
   if (at) {   // forward: the chart stays (its filter bar hidden) under the opening view, then goes
     impacts.setStage({ ...prev.impacts, filter: false }, { snap: true });
@@ -169,8 +175,9 @@ function setMode(m) {
     storyCtl.pause();
     lightSwipe = swipeFrac;
     swipeFrac = 0; placeSwipe();   // 0 = all 2025
-    document.body.classList.remove('story-impacts', 'story-spectral');
+    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights');
     spectral.set(null);
+    nights.set(false);
     impacts.hide();
     impacts.show(); impacts.setStage(null);
   } else {

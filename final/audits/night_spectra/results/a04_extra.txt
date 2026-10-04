@@ -1,0 +1,33 @@
+[philadelphia]
+  raw: CSV rows containing NaN: 6..85 (= 280..359 nm), 80 rows; contiguous True
+  raw: columns entirely NaN 0; entirely zero 0
+  raw: timestamps strictly increasing in column order: True
+  output: selected timestamps strictly increasing: True
+  output: timestamp[i] == raw row 1 at column source_column[i] for all i: True
+  output: solar_elevation_deg all < -18: True; max -18.02145641
+  output: distinct column steps between consecutive selected spectra: [5, 6, 247, 371, 521, 547]
+  night blocks: 5; source columns (1-based) [[181, 451], [968, 1167], [1534, 1607], [1850, 2175], [2718, 3046]]; spectra per block [271, 200, 74, 326, 329]; selected per block [54, 40, 15, 65, 66]
+  block date spans: [('05-Jul-2014 22:34:04', '06-Jul-2014 03:37:35'), ('06-Jul-2014 22:32:48', '07-Jul-2014 03:38:23'), ('10-Jul-2014 22:29:50', '10-Jul-2014 23:44:06'), ('16-Jul-2014 22:24:37', '17-Jul-2014 03:49:37'), ('17-Jul-2014 22:23:03', '18-Jul-2014 03:51:03')]
+  output night_id distinct values: [1.0, 2.0, 3.0, 4.0, 6.0, 7.0, 8.0, 9.0]
+  night blocks whose source row-2 value changes inside the block: 3 [('1', '2'), ('6', '7'), ('8', '9')]
+  selected spectra with lunar elevation > 0: 169 of 240; lunar fraction range 0.56..0.973
+  zero cells in selected output by wavelength (top 5): [(23, 310), (20, 314), (17, 312), (15, 308), (15, 282)]
+  site file has unit / wavelength / source URL / time-zone fields: []
+  site-file keys with no entry in 'labels': ['site', 'place', 'paper_label', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'source_column']
+[cherry_springs]
+  raw: CSV rows containing NaN: 6..85 (= 280..359 nm), 80 rows; contiguous True
+  raw: columns entirely NaN 0; entirely zero 0
+  raw: timestamps strictly increasing in column order: True
+  output: selected timestamps strictly increasing: True
+  output: timestamp[i] == raw row 1 at column source_column[i] for all i: True
+  output: solar_elevation_deg all < -18: True; max -18.00666999
+  output: distinct column steps between consecutive selected spectra: [5, 6, 210, 351, 420, 579]
+  night blocks: 5; source columns (1-based) [[222, 520], [936, 1196], [1402, 1695], [2041, 2123], [2698, 3028]]; spectra per block [299, 261, 294, 83, 331]; selected per block [57, 49, 55, 16, 63]
+  block date spans: [('30-Jun-2014 22:35:39', '01-Jul-2014 03:33:39'), ('01-Jul-2014 22:35:51', '02-Jul-2014 03:34:24'), ('02-Jul-2014 22:35:33', '03-Jul-2014 03:34:49'), ('12-Jul-2014 22:28:00', '12-Jul-2014 23:50:01'), ('18-Jul-2014 22:22:16', '19-Jul-2014 03:52:17')]
+  output night_id distinct values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 9.0]
+  night blocks whose source row-2 value changes inside the block: 3 [('1', '2'), ('4', '5'), ('8', '9')]
+  selected spectra with lunar elevation > 0: 67 of 240; lunar fraction range 0.125..0.992
+  zero cells in selected output by wavelength (top 5): [(155, 314), (145, 308), (140, 310), (134, 284), (134, 282)]
+  site file has unit / wavelength / source URL / time-zone fields: []
+  site-file keys with no entry in 'labels': ['site', 'place', 'paper_label', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'source_column']
+[spectra_meta] labelled blocks: ['selection', 'display_limits_log10'] | has source citation: True | has source_url: True

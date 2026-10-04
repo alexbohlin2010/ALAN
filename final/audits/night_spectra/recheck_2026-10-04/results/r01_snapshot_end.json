@@ -1,0 +1,50 @@
+{
+ "data/raw/spectra/spitschan2016/CSSP_dataquality.csv": {
+  "sha256": "8ff951e7e29df0b4539f417f7934c2068ce0dcef356a8e46cfb2ea3c34df3584",
+  "size": 90,
+  "mtime_ns": 1791140024243170941,
+  "mode": "0o100644"
+ },
+ "data/raw/spectra/spitschan2016/CSSP_spectra.csv": {
+  "sha256": "e0e3e895b3a66fc83d9f63bd02e92899a11a44b1d1707f8a6d7a05279cbe6bab",
+  "size": 25481368,
+  "mtime_ns": 1791140024291826750,
+  "mode": "0o100644"
+ },
+ "data/raw/spectra/spitschan2016/DRL_dataquality.csv": {
+  "sha256": "64619c6c451ba5427f21a7ff1246fd68d088b3770b5b149d9bed42c2886cbf0e",
+  "size": 93,
+  "mtime_ns": 1791140024291951125,
+  "mode": "0o100644"
+ },
+ "data/raw/spectra/spitschan2016/DRL_spectra.csv": {
+  "sha256": "dff37ac269ae3da27f2064ff38052a0a4ffa6c84dde3ef71707337a79e766ba0",
+  "size": 26969354,
+  "mtime_ns": 1791140024353566449,
+  "mode": "0o100644"
+ },
+ "data/derived/spectra/philadelphia.json": {
+  "sha256": "84fd2b83056bbf78058b19b4bc712bd7b07a685d2bd57398a727be70173bd899",
+  "size": 1085989,
+  "mtime_ns": 1791142033144721710,
+  "mode": "0o100644"
+ },
+ "data/derived/spectra/cherry_springs.json": {
+  "sha256": "670472fef2a59c28478a4cd02a41ce9efefbbdb3a52033a10d2cee6dd91a5181",
+  "size": 980949,
+  "mtime_ns": 1791142033151708063,
+  "mode": "0o100644"
+ },
+ "data/derived/spectra/spectra_meta.json": {
+  "sha256": "4446efd5fef22ac60d6d2b7a0f2e4dd35dd1b041ec0ac969f6d9286e57c3c2e3",
+  "size": 4848,
+  "mtime_ns": 1791142033152235148,
+  "mode": "0o100644"
+ },
+ "pipeline/spectra/01_night_spectra.py": {
+  "sha256": "be7688a4af0c66075e8f3b6c1e984403bfb63849a3815cc0170e04d95547f3af",
+  "size": 14856,
+  "mtime_ns": 1791142023269344007,
+  "mode": "0o100644"
+ }
+}

@@ -1,0 +1,16 @@
+end MANIFEST rows: 4
+  CSSP_dataquality.csv: sha256 8ff951e7e29df0b4539f417f7934c2068ce0dcef356a8e46cfb2ea3c34df3584 manifest 8ff951e7e29df0b4539f417f7934c2068ce0dcef356a8e46cfb2ea3c34df3584 match=True | size 90 manifest 90 match=True
+  CSSP_spectra.csv: sha256 e0e3e895b3a66fc83d9f63bd02e92899a11a44b1d1707f8a6d7a05279cbe6bab manifest e0e3e895b3a66fc83d9f63bd02e92899a11a44b1d1707f8a6d7a05279cbe6bab match=True | size 25481368 manifest 25481368 match=True
+  DRL_dataquality.csv: sha256 64619c6c451ba5427f21a7ff1246fd68d088b3770b5b149d9bed42c2886cbf0e manifest 64619c6c451ba5427f21a7ff1246fd68d088b3770b5b149d9bed42c2886cbf0e match=True | size 93 manifest 93 match=True
+  DRL_spectra.csv: sha256 dff37ac269ae3da27f2064ff38052a0a4ffa6c84dde3ef71707337a79e766ba0 manifest dff37ac269ae3da27f2064ff38052a0a4ffa6c84dde3ef71707337a79e766ba0 match=True | size 26969354 manifest 26969354 match=True
+  files under data/raw/spectra not in MANIFEST (excluding MANIFEST.csv): []
+  MANIFEST rows with no file: []
+  files under data/raw: 38 | data/derived/spectra: 3 | pipeline/spectra: 1
+  tree hash of data/raw (path, sha256, size): 0dff3b5b6a500bcc8291a763e5fb5db7f79a60a2a24629c36468afda80af3943
+  data/derived/spectra/cherry_springs.json: 42f5b5d63c41fb81e317f906f9854ad4e04059c85b3d5c8772d6735677704c39
+  data/derived/spectra/philadelphia.json: d54792a1d5edb48db190abeb7c4f5d4b1c14b1fc7978279cc3699228ec11e906
+  data/derived/spectra/spectra_meta.json: 1e3a966bf058cb6e344fc1c5b3b0121bac2eb3a66a8bf3bba3f267b14b5c5ae0
+  pipeline/spectra/01_night_spectra.py: 3121709107fb91f8f9dade906ef678e3ef7f07eb9558688287ba7db84b46d177
+  raw: identical start vs end (sha256, size, mtime): True
+  derived_spectra: identical start vs end (sha256, size, mtime): True
+  pipeline_spectra: identical start vs end (sha256, size, mtime): True

@@ -4066,3 +4066,144 @@ Append only. One entry per AI step (see RULES.md §4).
 - **Human decisions:** keep axis/unit labels ("yes"); keep 240 sampled spectra per site; moon difference not considered; keep the Light type door for now.
 - **Done:** answers written into `handoffs/2026-10-04_two-nights-spectra.md`. Commit (human request) on new branch `linda-firefly-narrative` (repo was on `main`; not pushed) with: `AI_LOG.md`, `app/content/story.js`, `data/raw/impacts/MANIFEST.csv`, `data/raw/impacts/narrative of fireflies/` (20 files), `data/raw/spectra/` (MANIFEST + 4 CSVs, ≈52 MB), the two new handoffs. Not included: `ALAN/.claude/`, `Linda/` folders. A fresh-session task chip was offered with a prompt to read RULES.md and the latest handoff.
 - **Files changed:** `handoffs/2026-10-04_two-nights-spectra.md`, this log.
+
+## 2026-10-04: Firefly narrative, round 3a. Fresh session: rules + handoffs read, branch merged, decisions (no data values changed)
+- **Tool / model:** Claude Code (desktop, worktree `cool-ishizaka-9fd75f`) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Work in the ALAN repo, folder `final/`. The previous session's work is committed on local branch `linda-firefly-narrative` (commit 80750733c, not pushed). If your worktree is not on that commit, check out or merge `linda-firefly-narrative` first.
+  >
+  > Before doing anything else:
+  > 1. Read `final/RULES.md` and follow it for the whole session (log every step verbatim in `final/AI_LOG.md`, no guessing, scripts for every transformation, ask before new dependencies or file layouts, never commit/push unless asked).
+  > 2. Read the latest handoff, `final/handoffs/2026-10-04_two-nights-spectra.md` (and the one before it, `final/handoffs/2026-10-04_firefly-narrative-sources.md`).
+  > 3. Summarise back to the human, in a few lines, the decisions and next steps you read, and confirm before building.
+  >
+  > The agreed next steps (from the handoff): (1) a pipeline script that turns the raw Spitschan et al. 2016 spectra in `final/data/raw/spectra/spitschan2016/` into per-site night spectra for the app (240 evenly sampled astronomical-night spectra per site, 2 nm step, shared log10 display limits), labelled per RULES §2, then the audits of RULES §3; (2) a renderer in `final/app` (plain three.js, already a dependency) for the `two-nights` story step that reproduces the draft's "3D Spectrum" Physical dot view from `Linda/visual tests/spatial/philadelphia-spectral-space/`, with both sites in one space behind a draggable divider, axis and unit labels kept, no surrounding text panels.
+  >
+  > Environment notes: Node/npm are installed (`/usr/local/bin`); in a new worktree run `npm install` in `final/app` before `npm run dev` (port 5173). There is no `.venv`; system `python3` works for stdlib scripts.
+- **Done:** read `RULES.md`, `handoffs/2026-10-04_two-nights-spectra.md`, `handoffs/2026-10-04_firefly-narrative-sources.md`. Worktree branch `claude/cool-ishizaka-9fd75f` was at `main` 6ea64b8f4 (sunrise intro + taglines), which `linda-firefly-narrative` (80750733c) does not contain; a test merge showed one conflict, `AI_LOG.md` (both sides appended at the end); `story.js` auto-merges. Summary of decisions / next steps given to the human, with three questions.
+- **Human answers (multiple choice, verbatim):** merge = "Merge, keep both logs (Recommended)"; output layout = "JSON per site + meta (Recommended)" (i.e. `data/derived/spectra/{philadelphia,cherry_springs}.json` + `spectra_meta.json`, a `/spectra` dev route in `vite.config.js`, a `.gitignore` exception so the files can be committed later); cross-agent audit agent = "still use opus 5.5 to run it, not sonnet" (a separate subagent with fresh context, model Opus 5.5).
+- **Done (merge, human-approved):** `git merge --no-ff --no-commit linda-firefly-narrative`; `AI_LOG.md` conflict resolved by script (removed the three conflict-marker lines only, kept main's block, then the narrative block; `git diff` against each parent shows 0 removed lines). Merged `story.js` imports cleanly (node); steps include India, Tanzania and the six narrative tabs. Merge commit acdd8f9a5 (not pushed).
+- **Files changed:** `AI_LOG.md` (merge resolution + this entry); git history (merge commit).
+
+## 2026-10-04: Firefly narrative, round 3b. Night spectra pipeline script (data values derived)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt:** same as round 3a (agreed next step 1), plus the round 3a answers.
+- **Done:** wrote `pipeline/spectra/01_night_spectra.py` (stdlib; rules, inputs, outputs and labels in its docstring) and ran it from `final/` with system `python3`. It first checks the four raw files' SHA-256 against `data/raw/spectra/MANIFEST.csv` (all match). Rules reproduce the draft's `scripts/preprocess.ts`: night = solar elevation < −18°; 240 spectra evenly sampled in source column order (`round_half_up(i*(n−1)/239)`); every 2nd wavelength 280–840 nm (281); irradiance written as the verbatim source text (NaN → null); shared display limits floor(p01), ceil(p99) of log₁₀ of all selected positive values of both sites (linear-interpolation percentile as the draft's `percentile`). One bug fixed during the run (the JSON post-processing split on the first `"irradiance":`, which is the `labels` key; changed to the last).
+- **Result:** Philadelphia 3,199 source spectra → 1,200 night → 240 selected (67,440 cells: 0 null, 214 zero, 67,226 positive). Cherry Springs 3,192 → 1,268 → 240 (0 null, 7,780 zero, 59,660 positive). Display limits log₁₀: p01 −8.967, p50 −6.956, p99 −5.326 → floor −9, ceil −5 (N positive 126,886).
+- **Check against the draft (read-only):** the draft's `public/data/manifest.json` + `.bin` files have the same 240 source indices and timestamps per site, the same floor/ceil (−9, −5), the same zero/NaN counts, and 0 cell mismatches when my values are cast to float32 (the draft's storage type).
+- **Labels:** irradiance, timestamp `measured`; night id, solar elevation, lunar elevation, lunar illuminated fraction `documented` (computed and published by the dataset authors; this label choice is the agent's, for the human to confirm); selection and display limits `inferred`. No empty cells created (no NaN in the selected spectra).
+- **Units / filters written in:** `spectra_meta.json` (W m⁻² nm⁻¹; wavelength grid; timestamps as in the source, no time zone; degrees; fraction 0–1; selection rule; moon not considered, human decision).
+- **Wiring (human-approved layout, round 3a):** `app/vite.config.js` `/spectra` route with an allow-list of the three files; `.gitignore` exception for the three files (not committed).
+- **Files created:** `pipeline/spectra/01_night_spectra.py`, `data/derived/spectra/philadelphia.json` (1,085,417 B, sha256 d54792a1d5edb48d…), `data/derived/spectra/cherry_springs.json` (980,377 B, 42f5b5d63c41fb81…), `data/derived/spectra/spectra_meta.json` (1e3a966bf058cb6e…). **Changed:** `app/vite.config.js`, `.gitignore`, this log.
+
+## 2026-10-04: Firefly narrative, round 3c. Cross-agent audit started; renderer layout decided (no data values changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`; audit subagent `claude-opus-5-5` (human: "still use opus 5.5 to run it, not sonnet"), fresh context, background.
+- **Done:** started the RULES §3.1 cross-agent audit of `data/derived/spectra/` as a separate subagent (own extraction from raw before reading the pipeline script; writes only to `audits/night_spectra/`; also draws the §3.2 spot-check sample, human check left empty). Read the draft's `SpectralPoints.tsx`, `SceneCanvas.tsx`, `particles.ts`, `cameras.ts`, `timePlayback.ts`, `styles.css` (`.axis-label`) and the app's `main.js`, `spectral.js`, `style.css`. Asked the human three layout questions.
+- **Human answers (multiple choice, verbatim):** module = "New file twoNights.js (Recommended)" (own canvas, labels and divider; `nights: true` key on the `two-nights` step; globe year swipe hidden on the step; step card stays); three addons = "OrbitControls,CSS3DRenderer" (from the installed `three` package's examples folder, no new dependency); sides = "Philadelphia left (Recommended)" (place names only; divider starts at the centre).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly narrative, round 3d. Cross-agent audit result (no data values changed)
+- **Tool / model:** audit subagent `claude-opus-5-5` (separate session, fresh context), reported to the main session `claude-opus-5-5`.
+- **Prompt:** the main session's audit brief (round 3c); no new human prompt.
+- **Result:** `audits/night_spectra/AUDIT_2026-10-04.md`. All six intended rules PASS against the auditor's own extraction (written and run before reading the pipeline script): raw checksums unchanged start/end; same 240 `source_column` per site; irradiance text identical to source in 67,440/67,440 cells per site; display limits bit-identical (p01/p50/p99, floor −9, ceil −5); timestamps and metadata match; strict JSON valid; matches the draft's output after float32 rounding. Same model as the builder (human instruction), so RULES 3.1 "ideally a different model" is not met (recorded in the audit).
+- **Findings (facts, for the human):** F1 `night_id` written as `1.0` (source text `1`); F2 source row 2 (night id) changes about 01:05 within one night, 8 ids over 5 night blocks per site; F3 the two site files carry no unit / wavelength / source-URL / time-zone fields (only `spectra_meta.json` does); F4 13 site-file fields have no label (e.g. `source_column`, `selected_cells`, date ranges, `source_dataquality`); F5 the draft's `preprocess.ts` named in `spectra_meta.json` is not tracked in git; F6 the raw CSVs have no wavelength row (280–840 nm from MANIFEST / repo README). Script risks (not triggered by the data): verbatim-text step relies on `irradiance` being the last key; post-write JSON check uses Python's lenient parser after writing; a site with ≤ 240 night spectra would silently give fewer than 240.
+- **RULES 3.2:** sample drawn, seed 20261004, N = 20 (10 per site), `audits/night_spectra/results/a06_spotcheck.md`. **Match rate: pending (human).**
+- **Files created (by the auditor):** `audits/night_spectra/` (`AUDIT_2026-10-04.md`, `a01_raw_integrity.py` … `a06_spotcheck_sample.py`, `results/`). **Changed:** this log.
+
+## 2026-10-04: Firefly narrative, round 3e. Two measured nights renderer (no data values changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt:** agreed next step 2 (round 3a prompt) with the round 3c answers.
+- **Done:** new `app/src/twoNights.js` (`createTwoNights`), plain three.js + `OrbitControls` and `CSS3DRenderer` from `three/examples/jsm` (installed `three` 0.186.1, no new dependency; `npm install` run in `final/app` of this worktree). Reproduces the draft's Physical (log) layer: same vertex/fragment shader maths (focus smoothstep 0.022, alpha, point size, ring/disc/diamond bands), geometry (x −12…12, z −8…8, y = normalised log₁₀ × 9), `wavelengthToRgb`, additive blending, depthWrite off, background/fog, camera [17, 11, 20] → [0, 3.2, 0] fov 44, OrbitControls limits, axis frame (grid, axes, 380/700 nm lines, focus plane + outline, all draft labels with drei's 0.025 world-units-per-px scale), 90 s auto-scan of the 240 spectra. Both sites share one space and one focus index; a fragment-shader split (`uSplit`, `uSide`) shows Philadelphia left / Cherry Springs right of a draggable divider (look of the globe's `#swipe`); place names at the screen edges like the year labels. Wiring: `nights: true` on the `two-nights` step (`content/story.js`), `main.js` toggles `story-nights` and calls `nights.set`; `style.css` rules; globe year swipe hidden on the step. Not reproduced: the draft's fat lines (drei `Line`, 0.7–1.25 px) are 1 px `LineBasicMaterial`; species markers / receptor layers (outside the agreed physical view).
+- **Checked (in-app browser, dev server on port 5174 via `.claude/launch.json` in the worktree root, not in `final/`):** step 17/22 renders both sites, divider drag moves the split, orbit drag works, leaving the step hides the view, no console errors. Compared by eye with the built draft (`dist/` served on 5199, stopped afterwards): same dot sheets, colours and focus plane.
+- **Files created:** `app/src/twoNights.js`, `../.claude/launch.json` (worktree root, preview config only). **Changed:** `app/src/main.js`, `app/content/story.js`, `app/src/style.css`, this log.
+- **Handoff written:** `handoffs/2026-10-04_two-nights-built.md` (state, human decisions, audit, open questions).
+
+## 2026-10-04: Firefly narrative, round 3f. Unit on the height axis; answers recorded (no data values changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 1. yes. 2. you can label them , but do not show them in visualization web page. 3. what are the audit findings? 4. do not commit yet
+- **Human decisions:** (1) add the unit to the height axis label; (2) the `documented` labels for night id / solar & lunar elevation / lunar fraction stay in the data files and are **not shown** on the web page (the renderer does not read or show them; no change needed); (4) no commit yet.
+- **Done:** `app/src/twoNights.js` height label now "HEIGHT · LOG₁₀ IRRADIANCE · W m⁻² nm⁻¹" (unit in its normal case, so "m" stays metre, not "M"). Checked in the in-app browser: the label is in the page; at the default camera it sits at the left end of the vertical axis, which the step list can cover in a narrow window. (3) audit findings explained to the human in plain words; no fix made yet.
+- **Files changed:** `app/src/twoNights.js`, this log.
+
+## 2026-10-04: Firefly narrative, round 3g. Suggestions per audit finding (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > what's your suggestion on the each audit finding?
+- **Done:** gave one suggestion per finding F1–F6 and risk R1–R3 (options only; the human decides). No files changed except this log.
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly narrative, round 3h. Audit findings fixed (F1–F6, R1, R2; R3 kept) and pipeline re-run
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > fix all except for R3, keep R3 as it is
+- **Done:** rewrote `pipeline/spectra/01_night_spectra.py` (docstring updated) and re-ran it.
+  - F1: night id, solar/lunar elevation, lunar fraction and the copied data-quality counts are now written as source text (like irradiance); `night_id` reads `1`…`9`.
+  - F2: `spectra_meta.json` `night_id_note` (row 2 as published; changes about 01:05 inside a night; 8 ids over 5 night blocks; not used by the app). No data change.
+  - F3: each site file has `unit` and `meta_file` fields.
+  - F4: every site-file field has a label (`labels` + `label_notes`); `site`, `source_file`, `meta_file` marked as identifiers; the script stops if a field has no label.
+  - F5: meta `selection.rules_from` = handoff 2026-10-04_two-nights-spectra.md; `draft_reference` marked "(not in git)".
+  - F6: meta `wavelength_source` (README Table S1 + MANIFEST; CSVs have no wavelength row).
+  - R1: custom serializer (`Raw` values written unquoted, each checked against the JSON number grammar), independent of key order.
+  - R2: each file is serialised in memory, parsed back strictly (no NaN/Infinity constants, no duplicate keys), then written.
+  - R3: unchanged (a site with ≤ 240 night spectra keeps all of them); noted in the docstring as a human decision.
+- **Before/after check (copy of the previous outputs in the session scratchpad, outside the repo):** unchanged in both site files: irradiance, source_column, timestamps, elevations, lunar fraction, counts, date ranges, data-quality counts; changed only `night_id` text and `labels`; new `unit`, `meta_file`, `label_notes`. Meta: same wavelengths and display limits (floor −9, ceil −5); `selection` text changed; new `wavelength_source`, `night_id_note`, `verbatim`. App reloaded: step renders, 18 axis labels, no console errors.
+- **Labels:** as listed in the script docstring (unchanged for the values; new labels for the bookkeeping fields). No empty cells.
+- **Files changed:** `pipeline/spectra/01_night_spectra.py`, `data/derived/spectra/philadelphia.json` (sha256 84fd2b83056bbf78…), `cherry_springs.json` (670472fef2a59c28…), `spectra_meta.json` (4446efd5fef22ac6…), this log.
+
+## 2026-10-04: Firefly narrative, round 3i. Status question (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > still working?
+- **Done:** told the human the re-check subagent (round 3h fixes, `claude-opus-5-5`, writes to `audits/night_spectra/recheck_2026-10-04/`) is still running; no result yet.
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly narrative, round 3j. Re-check result after the fixes (no data values changed)
+- **Tool / model:** re-check subagent `claude-opus-5-5` (separate session, fresh context), reported to the main session `claude-opus-5-5`.
+- **Prompt:** the main session's re-check brief (round 3h); no new human prompt.
+- **Result:** `audits/night_spectra/recheck_2026-10-04/RECHECK.md`. Own extraction from raw (written before reading the script) equals every field of the new outputs as text (67,440 irradiance cells per site; timestamps, night ids, elevations, lunar fraction, selected columns, counts, date ranges, display limits −9/−5). Raw matches MANIFEST start and end. Before/after diff: only the intended changes (site files: + `unit`, `meta_file`, `label_notes`, 15 label entries, − `labels.selection`, `night_id` text `1.0` → `1`; meta: + `wavelength_source`, `night_id_note`, `verbatim`, `rules_from`, `draft_reference`, − `reproduces`). F1–F6, R1, R2 done (R1/R2 by unit tests of the script's functions; `main()` not run by the auditor); R3 unchanged, not triggered. Docstring matches the code except its verbatim list omits the data-quality counts.
+- **Concerning (no value wrong):** C1 `source_column` is 1-based but no output file says so (only a code comment); C2 the label `identifier` is not one of the four RULES 2.3 labels (the agent's choice in round 3h, not a human decision); C3 elevation units, time-zone note and selection rule only in `spectra_meta.json`; C4 the three files are not written atomically; the parser strips `\r` and timestamp whitespace silently (not present here); the NaN → null path is not exercised by this data; C5 MANIFEST says raw files were made read-only but they are 0644 (owner-writable); C6 same model as builder (RULES 3.1 "ideally a different model" not met).
+- **RULES 3.2:** the existing sample (seed 20261004, `audits/night_spectra/results/a06_spotcheck.md`) still points at the same 20 cells with the same values. Match rate: pending (human).
+- **Files created (by the auditor):** `audits/night_spectra/recheck_2026-10-04/` (`RECHECK.md`, `r01`–`r06` scripts, `results/` with 10 files incl. `r02_extract.json` 2.5 MB). **Changed:** this log, `handoffs/2026-10-04_two-nights-built.md` (state updated).
+
+## 2026-10-04: Firefly narrative, round 3k. Re-check notes acted on (C1, C2 fixed; C3, C4, C6 left; C5 explained) — no data values changed
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > ok, fix all of them based on ur suggestions, and tell me what should be the next step to build the web
+- **Done (per the agent's stated suggestions, round 3j reply):**
+  - C1: `spectra_meta.json` `source_column_note` (1-based; CSV row 6 + (w − 280)).
+  - C2: the non-RULES label `identifier` removed; `site`, `source_file`, `meta_file` now listed under a `not_values` key (names, no label). Labels used: `measured`, `documented`, `inferred` only. Docstring updated (also adds the data-quality counts to the verbatim list, per the re-check's docstring note).
+  - C3, C4: left as is (suggestion). C6: already recorded.
+  - C5: checked: in the main checkout (branch `linda-firefly-narrative`) the four raw files are `-r--r--r--` (read-only, as MANIFEST says); this worktree's copies are `-rw-r--r--` because git does not store the read-only bit on checkout. No permission changed.
+- **Re-run + before/after (previous outputs copied to the session scratchpad):** site files: only `labels`, `label_notes` changed, `not_values` added; meta: only `source_column_note` added. All values unchanged.
+- **Files changed:** `pipeline/spectra/01_night_spectra.py`, `data/derived/spectra/{philadelphia,cherry_springs,spectra_meta}.json`, this log.
+
+## 2026-10-04: Firefly narrative, round 3l. Second re-check result; next-step options; handoff finished (no data values changed)
+- **Tool / model:** re-check subagent `claude-opus-5-5` (separate session, fresh context); main session `claude-opus-5-5`.
+- **Prompt:** the main session's brief (round 3k); no new human prompt. Next-step options were given to the human in reply to the round 3k prompt.
+- **Result:** `audits/night_spectra/recheck2_2026-10-04/RECHECK2.md`, 7/7 checks pass. Raw files match MANIFEST at start and end. Site files: + `not_values`, − `labels/site`, `labels/meta_file`, `labels/source_file`, `label_notes/identifier`. Meta: + `source_column_note` only. Every data field identical as text. Strict JSON. 24 keys per site file = 18 labelled (measured/documented/inferred) + 3 `not_values` + 3 container keys. The 1-based note is correct (240/240 spectra, 67,440/67,440 cells per site). Docstring matches the code. Spot-check sample still matches (20/20 rows; human check not done).
+- **Notes (no value affected):** no copy of the pre-edit script was kept (only its outputs were compared); RULES does not define `not_values`; the scratchpad copy is 0644; same model as builder.
+- **Next-step options given to the human (human decides):** close this step (human spot check, commit when asked, card text by the human); then fill the firefly tabs in the workflow order, starting with Signal production (Owens et al. 2018 reported results → labelled file by script → audit → scene after "Light type", as agreed in handoff 2026-10-04_firefly-narrative-sources.md); still-open items listed in the handoff. Suggested a fresh session (RULES §5, context past ~30%).
+- **Files created (by the auditor):** `audits/night_spectra/recheck2_2026-10-04/`. **Changed:** this log, `handoffs/2026-10-04_two-nights-built.md`.
+
+## 2026-10-04: Firefly narrative, round 3m. Why the spectrum view is not visible; spot check reported done (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 1. done. 2. commit later. 3. I didn't see any spectrum visualization in the current web. find the reasong
+- **Human:** (1) RULES 3.2 spot check done by the human (match rate not yet given to the agent; asked for it); (2) commit later.
+- **Found (3):** two dev servers run. Port 5173 (pid 98066) serves the main checkout `ALAN/final/app`, which is on branch `linda-firefly-narrative` at 80750733c and has none of this session's work (`app/src/twoNights.js` absent there; `/spectra/spectra_meta.json` on 5173 returns the app's index.html, i.e. no route). Port 5174 serves this worktree (`.claude/worktrees/cool-ishizaka-9fd75f/final/app`), where the work is uncommitted; `/spectra/spectra_meta.json` returns the data. The view only exists at http://localhost:5174 until the work is committed and brought into the main checkout.
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly narrative, round 3n. Human spot check result recorded; session closed (no data values changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 20/20 matched. starting the Owens 2018 step in a fresh session from that handoff.
+- **Done:** RULES 3.2 match rate recorded as **20/20 (100 %)** (human check, seed 20261004, N = 20; per-row y/n not given) in `audits/night_spectra/results/a06_spotcheck.md` and `audits/night_spectra/AUDIT_2026-10-04.md`; handoff `2026-10-04_two-nights-built.md` updated. The human starts the Owens 2018 step in a fresh session from the handoff. Work in this worktree stays uncommitted (human: commit later); the dev server on port 5174 is left running.
+- **Files changed:** `audits/night_spectra/results/a06_spotcheck.md`, `audits/night_spectra/AUDIT_2026-10-04.md`, `handoffs/2026-10-04_two-nights-built.md`, this log.
+
+## 2026-10-04: Firefly narrative, round 3o. Commit (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > commit the session first, and then start the new worktree
+- **Done:** one commit on worktree branch `claude/cool-ishizaka-9fd75f` (on top of merge acdd8f9a5; not pushed) with all of this session's `final/` changes: `pipeline/spectra/01_night_spectra.py`, `data/derived/spectra/` (3 files, ≈2 MB; `.gitignore` exception), `audits/night_spectra/` (incl. `recheck_2026-10-04/`, `recheck2_2026-10-04/` and their `results/`, ≈5 MB; the two 2.4 MB auditor extracts included, following the earlier audits whose `results/` folders are committed), `app/src/twoNights.js`, `app/src/main.js`, `app/src/style.css`, `app/content/story.js`, `app/vite.config.js`, `.gitignore`, `handoffs/2026-10-04_two-nights-built.md`, this log. Not included: `.claude/launch.json` in the worktree root (preview config, outside `final/`). Then a fresh-session task chip offered for the Owens 2018 step, telling the new session to bring in this branch first.
+- **Files changed:** this log; git history.

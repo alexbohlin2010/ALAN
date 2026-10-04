@@ -20,6 +20,12 @@ data/derived/impacts/*
 !data/derived/impacts/spectra_278.json
 !data/derived/impacts/spectra_299.json
 !data/derived/impacts/perception_299.json
+!data/derived/spectra/
+data/derived/spectra/*
+# Two measured nights (human, Firefly narrative round 3a): the three files the app reads
+!data/derived/spectra/philadelphia.json
+!data/derived/spectra/cherry_springs.json
+!data/derived/spectra/spectra_meta.json
 !data/derived/radiance/
 data/derived/radiance/*
 !data/derived/radiance/tiles/

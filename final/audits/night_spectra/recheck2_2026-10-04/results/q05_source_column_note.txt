@@ -1,0 +1,15 @@
+note: 'source_column in the site files is 1-based: column 1 = the first spectrum column of the source CSV; the irradiance at wavelength w is in CSV row 6 + (w - 280)'
+== philadelphia (DRL_spectra.csv): 566 CSV rows, 3200 fields in row 1 (last field ''); CSV row 1 column 1 = '05-Jul-2014 19:30:28' (timestamp)
+  1-based matches: timestamp 240, night_id 240, solar 240, lunar_el 240, lunar_frac 240, irradiance_cells 67440 (of 240; cells of 67440)
+  0-based reading timestamp matches: 0/240
+  example spectrum 0: source_column 181; CSV row1 col 181 = '05-Jul-2014 22:34:04'; output timestamp '05-Jul-2014 22:34:04'; CSV row 226 (500 nm) col 181 = '8.253311712e-07'; output '8.253311712e-07'
+  example spectrum 1: source_column 186; CSV row1 col 186 = '05-Jul-2014 22:39:04'; output timestamp '05-Jul-2014 22:39:04'; CSV row 226 (500 nm) col 186 = '8.236939811e-07'; output '8.236939811e-07'
+  example spectrum 120: source_column 1907; CSV row1 col 1907 = '16-Jul-2014 23:21:37'; output timestamp '16-Jul-2014 23:21:37'; CSV row 226 (500 nm) col 1907 = '8.226579266e-07'; output '8.226579266e-07'
+  example spectrum 239: source_column 3046; CSV row1 col 3046 = '18-Jul-2014 03:51:03'; output timestamp '18-Jul-2014 03:51:03'; CSV row 226 (500 nm) col 3046 = '9.01622224e-07'; output '9.01622224e-07'
+== cherry_springs (CSSP_spectra.csv): 566 CSV rows, 3193 fields in row 1 (last field ''); CSV row 1 column 1 = '30-Jun-2014 18:52:55' (timestamp)
+  1-based matches: timestamp 240, night_id 240, solar 240, lunar_el 240, lunar_frac 240, irradiance_cells 67440 (of 240; cells of 67440)
+  0-based reading timestamp matches: 0/240
+  example spectrum 0: source_column 222; CSV row1 col 222 = '30-Jun-2014 22:35:39'; output timestamp '30-Jun-2014 22:35:39'; CSV row 226 (500 nm) col 222 = '9.877895695e-09'; output '9.877895695e-09'
+  example spectrum 1: source_column 227; CSV row1 col 227 = '30-Jun-2014 22:40:39'; output timestamp '30-Jun-2014 22:40:39'; CSV row 226 (500 nm) col 227 = '8.931881525e-09'; output '8.931881525e-09'
+  example spectrum 120: source_column 1478; CSV row1 col 1478 = '02-Jul-2014 23:51:33'; output timestamp '02-Jul-2014 23:51:33'; CSV row 226 (500 nm) col 1478 = '4.038214547e-09'; output '4.038214547e-09'
+  example spectrum 239: source_column 3028; CSV row1 col 3028 = '19-Jul-2014 03:52:17'; output timestamp '19-Jul-2014 03:52:17'; CSV row 226 (500 nm) col 3028 = '7.147127035e-08'; output '7.147127035e-08'

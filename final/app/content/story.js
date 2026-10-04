@@ -314,6 +314,9 @@ export const story = [
     text: '[PLACEHOLDER] Measured night spectra, Philadelphia and Cherry Springs.',
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
+    // 3D night spectra, Philadelphia | Cherry Springs (app/src/twoNights.js; data/derived/spectra/, Spitschan et al.
+    // 2016; human decisions: handoff 2026-10-04_two-nights-spectra.md, AI_LOG Firefly narrative round 3c).
+    nights: true,
   },
   // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
   // charts, data and sources on ecosystem-level impacts may follow here (not started).

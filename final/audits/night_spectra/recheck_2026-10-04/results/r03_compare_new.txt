@@ -1,0 +1,48 @@
+PASS spectra_meta.json strict parse (UTF-8, no NaN/Infinity, no duplicate keys)
+PASS [philadelphia] strict parse (UTF-8, no NaN/Infinity, no duplicate keys)
+PASS [philadelphia] no NaN/Infinity tokens outside string literals
+PASS [philadelphia] n_source_spectra text -- 3199 vs 3199
+PASS [philadelphia] n_night_spectra text -- 1200 vs 1200
+PASS [philadelphia] n_selected text -- 240 vs 240
+PASS [philadelphia] source_date_range (column order first/last) -- ['05-Jul-2014 19:30:28', '18-Jul-2014 06:33:32']
+PASS [philadelphia] selected_date_range -- ['05-Jul-2014 22:34:04', '18-Jul-2014 03:51:03']
+PASS [philadelphia] source_dataquality keys+order+text -- {'N total spectra': '5383', 'N saturated spectra': '323', 'N NaN or Zero spectra': '1861', 'N final spectra': '3199'}
+PASS [philadelphia] selected_cells -- {'total': '67440', 'null_nan': '0', 'zero': '214', 'positive': '67226'} vs {'total': '67440', 'null_nan': '0', 'zero': '214', 'positive': '67226'}
+PASS [philadelphia] source_column == my 0-based column + 1
+PASS [philadelphia] source_column != my 0-based column (i.e. it is 1-based)
+PASS [philadelphia] timestamp: length 240, text identical 240/240, float-equal 240/240
+PASS [philadelphia] night_id: length 240, text identical 240/240, float-equal 240/240
+PASS [philadelphia] solar_elevation_deg: length 240, text identical 240/240, float-equal 240/240
+PASS [philadelphia] lunar_elevation_deg: length 240, text identical 240/240, float-equal 240/240
+PASS [philadelphia] lunar_illuminated_fraction: length 240, text identical 240/240, float-equal 240/240
+PASS [philadelphia] irradiance shape 240x281, text identical 67440/67440, float-equal 67440/67440, nulls 0
+PASS [philadelphia] float mode: irradiance all numbers/None, night_id ints
+PASS [philadelphia] meta.sites block equals site file counts
+PASS [cherry_springs] strict parse (UTF-8, no NaN/Infinity, no duplicate keys)
+PASS [cherry_springs] no NaN/Infinity tokens outside string literals
+PASS [cherry_springs] n_source_spectra text -- 3192 vs 3192
+PASS [cherry_springs] n_night_spectra text -- 1268 vs 1268
+PASS [cherry_springs] n_selected text -- 240 vs 240
+PASS [cherry_springs] source_date_range (column order first/last) -- ['30-Jun-2014 18:52:55', '19-Jul-2014 18:48:58']
+PASS [cherry_springs] selected_date_range -- ['30-Jun-2014 22:35:39', '19-Jul-2014 03:52:17']
+PASS [cherry_springs] source_dataquality keys+order+text -- {'N total spectra': '3755', 'N saturated spectra': '4', 'N NaN or Zero spectra': '559', 'N final spectra': '3192'}
+PASS [cherry_springs] selected_cells -- {'total': '67440', 'null_nan': '0', 'zero': '7780', 'positive': '59660'} vs {'total': '67440', 'null_nan': '0', 'zero': '7780', 'positive': '59660'}
+PASS [cherry_springs] source_column == my 0-based column + 1
+PASS [cherry_springs] source_column != my 0-based column (i.e. it is 1-based)
+PASS [cherry_springs] timestamp: length 240, text identical 240/240, float-equal 240/240
+PASS [cherry_springs] night_id: length 240, text identical 240/240, float-equal 240/240
+PASS [cherry_springs] solar_elevation_deg: length 240, text identical 240/240, float-equal 240/240
+PASS [cherry_springs] lunar_elevation_deg: length 240, text identical 240/240, float-equal 240/240
+PASS [cherry_springs] lunar_illuminated_fraction: length 240, text identical 240/240, float-equal 240/240
+PASS [cherry_springs] irradiance shape 240x281, text identical 67440/67440, float-equal 67440/67440, nulls 0
+PASS [cherry_springs] float mode: irradiance all numbers/None, night_id ints
+PASS [cherry_springs] meta.sites block equals site file counts
+PASS meta display n_positive text -- 126886 vs 126886
+PASS meta display floor text -- -9 vs -9
+PASS meta display ceil text -- -5 vs -5
+PASS meta display p01 text == repr(my float) -- -8.967243953229161 vs -8.967243953229161
+PASS meta display p50 text == repr(my float) -- -6.955651512236926 vs -6.955651512236926
+PASS meta display p99 text == repr(my float) -- -5.325790621417104 vs -5.325790621417104
+PASS meta wavelength_nm == 280..840 step 2 (281 values)
+PASS meta wavelength_step_nm == 2
+TOTAL: 0 FAIL

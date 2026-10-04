@@ -1,0 +1,19 @@
+PASS philadelphia.json: labels == SITE_LABELS (incl. order)
+PASS philadelphia.json: label_notes == LABEL_NOTES
+PASS philadelphia.json: not_values == NOT_VALUES
+PASS cherry_springs.json: labels == SITE_LABELS (incl. order)
+PASS cherry_springs.json: label_notes == LABEL_NOTES
+PASS cherry_springs.json: not_values == NOT_VALUES
+PASS spectra_meta source_column_note == code literal
+PASS code writes source_column as j + 1 (1-based) with comment
+PASS code check: unlabelled-field guard subtracts SITE_LABELS, NOT_VALUES and the 3 containers
+PASS 'identifier' absent from script
+PASS docstring mentions round 3k C1 (1-based) and C2 (no non-RULES label)
+docstring label sentence: irradiance and timestamps `measured`; night id, solar/lunar elevation, lunar fraction, place, paper label, unit and the copied data-quality counts `documented`; the selection (source columns), counts, date ranges, cell counts, file checksum and the display limits `inferred` (rules above). 
+PASS docstring 'measured' group == SITE_LABELS keys labelled measured
+PASS docstring 'documented' group == SITE_LABELS keys labelled documented
+PASS docstring 'inferred' group == SITE_LABELS keys labelled inferred
+PASS docstring: display limits inferred == meta display_limits_log10.label
+PASS docstring: `site`, `source_file`, `meta_file` listed under `not_values`, no label
+PASS docstring verbatim list includes data-quality counts; code writes them via raw()
+ALL PASS

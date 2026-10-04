@@ -1,0 +1,75 @@
+spectra_3h/philadelphia.json sha256 84fd2b83056bbf78058b19b4bc712bd7b07a685d2bd57398a727be70173bd899 == previous recheck
+spectra_3h/cherry_springs.json sha256 670472fef2a59c28478a4cd02a41ce9efefbbdb3a52033a10d2cee6dd91a5181 == previous recheck
+spectra_3h/spectra_meta.json sha256 4446efd5fef22ac60d6d2b7a0f2e4dd35dd1b041ec0ac969f6d9286e57c3c2e3 == previous recheck
+
+== philadelphia.json: 5 differences (top-level keys old 23, new 24)
+  ADDED not_values: null -> {"site": "site id", "source_file": "path of the raw file", "meta_file": "path of the meta file"}
+  REMOVED labels/site: "identifier" -> null
+  REMOVED labels/meta_file: "identifier" -> null
+  REMOVED labels/source_file: "identifier" -> null
+  REMOVED label_notes/identifier: "a name or file path, not a value" -> null
+  IDENTICAL source_column (240 items)
+  IDENTICAL timestamp (240 items)
+  IDENTICAL night_id (240 items)
+  IDENTICAL solar_elevation_deg (240 items)
+  IDENTICAL lunar_elevation_deg (240 items)
+  IDENTICAL lunar_illuminated_fraction (240 items)
+  IDENTICAL irradiance (240 items, 67440 cells)
+  IDENTICAL n_source_spectra
+  IDENTICAL n_night_spectra
+  IDENTICAL n_selected
+  IDENTICAL source_date_range (2 items)
+  IDENTICAL selected_date_range (2 items)
+  IDENTICAL source_dataquality
+  IDENTICAL selected_cells
+  IDENTICAL source_sha256
+  IDENTICAL unit
+  IDENTICAL place
+  IDENTICAL paper_label
+  IDENTICAL site
+  IDENTICAL source_file
+  IDENTICAL meta_file
+
+== cherry_springs.json: 5 differences (top-level keys old 23, new 24)
+  ADDED not_values: null -> {"site": "site id", "source_file": "path of the raw file", "meta_file": "path of the meta file"}
+  REMOVED labels/site: "identifier" -> null
+  REMOVED labels/meta_file: "identifier" -> null
+  REMOVED labels/source_file: "identifier" -> null
+  REMOVED label_notes/identifier: "a name or file path, not a value" -> null
+  IDENTICAL source_column (240 items)
+  IDENTICAL timestamp (240 items)
+  IDENTICAL night_id (240 items)
+  IDENTICAL solar_elevation_deg (240 items)
+  IDENTICAL lunar_elevation_deg (240 items)
+  IDENTICAL lunar_illuminated_fraction (240 items)
+  IDENTICAL irradiance (240 items, 67440 cells)
+  IDENTICAL n_source_spectra
+  IDENTICAL n_night_spectra
+  IDENTICAL n_selected
+  IDENTICAL source_date_range (2 items)
+  IDENTICAL selected_date_range (2 items)
+  IDENTICAL source_dataquality
+  IDENTICAL selected_cells
+  IDENTICAL source_sha256
+  IDENTICAL unit
+  IDENTICAL place
+  IDENTICAL paper_label
+  IDENTICAL site
+  IDENTICAL source_file
+  IDENTICAL meta_file
+
+== spectra_meta.json: 1 differences (top-level keys old 18, new 19)
+  ADDED source_column_note: null -> "source_column in the site files is 1-based: column 1 = the first spectrum column of the source CSV; the irradiance at wavelength w is in CSV row 6 + (w - 280)"
+  IDENTICAL wavelength_nm (281 items)
+  IDENTICAL wavelength_step_nm
+  IDENTICAL display_limits_log10
+  IDENTICAL sites
+  IDENTICAL unit
+  IDENTICAL units_other
+  IDENTICAL timestamp_format
+  IDENTICAL selection
+  IDENTICAL files
+  IDENTICAL null_means
+  IDENTICAL verbatim
+  IDENTICAL source
+  IDENTICAL source_url

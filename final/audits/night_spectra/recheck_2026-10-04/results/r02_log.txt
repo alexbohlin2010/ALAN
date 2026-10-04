@@ -1,0 +1,21 @@
+[philadelphia] DRL_spectra.csv: 566 lines; field counts per line: [3199, 3200]
+[philadelphia] row 1 has a trailing empty field (removed)
+[philadelphia] tokens rows 2-566: {'NaN': 44000, 'num': 1763435, 'other': 0}
+[philadelphia] NaN in metadata rows: {'night_id': 0, 'solar': 0, 'lunar': 0, 'fraction': 0}
+[philadelphia] columns with solar elevation exactly -18: []
+[philadelphia] n columns 3199, night 1200, exact-int vs float floor(x+.5) indices equal: True, exact .5 ties: []
+[philadelphia] timestamps strictly increasing in column order: True; duplicates: 0
+[philadelphia] night blocks: 5, selected per block: [54, 40, 15, 65, 66]; distinct night_id in selection: ['1', '2', '3', '4', '6', '7', '8', '9']
+[philadelphia] dataquality: {'N total spectra': '5383', 'N saturated spectra': '323', 'N NaN or Zero spectra': '1861', 'N final spectra': '3199'}; N final == n columns: True
+[philadelphia] cells 67440: NaN 0, zero 214, positive 67226, negative 0
+[cherry_springs] CSSP_spectra.csv: 566 lines; field counts per line: [3192, 3193]
+[cherry_springs] row 1 has a trailing empty field (removed)
+[cherry_springs] tokens rows 2-566: {'NaN': 48960, 'num': 1754520, 'other': 0}
+[cherry_springs] NaN in metadata rows: {'night_id': 0, 'solar': 0, 'lunar': 0, 'fraction': 0}
+[cherry_springs] columns with solar elevation exactly -18: []
+[cherry_springs] n columns 3192, night 1268, exact-int vs float floor(x+.5) indices equal: True, exact .5 ties: []
+[cherry_springs] timestamps strictly increasing in column order: True; duplicates: 0
+[cherry_springs] night blocks: 5, selected per block: [57, 49, 55, 16, 63]; distinct night_id in selection: ['1', '2', '3', '4', '5', '6', '8', '9']
+[cherry_springs] dataquality: {'N total spectra': '3755', 'N saturated spectra': '4', 'N NaN or Zero spectra': '559', 'N final spectra': '3192'}; N final == n columns: True
+[cherry_springs] cells 67440: NaN 0, zero 7780, positive 59660, negative 0
+display: {'n_positive': 126886, 'p01': -8.967243953229161, 'p50': -6.955651512236926, 'p99': -5.325790621417104, 'floor': -9, 'ceil': -5}

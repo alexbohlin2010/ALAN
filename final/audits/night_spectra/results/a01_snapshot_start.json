@@ -1,0 +1,218 @@
+{
+ "raw": {
+  "data/raw/.gitkeep": [
+   "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   0,
+   1791139690.6370625
+  ],
+  "data/raw/spectra/MANIFEST.csv": [
+   "07c9ade8708d136165531dc1f75f188f67aa663f962e966ca489d1ae56a50331",
+   5267,
+   1791140024.243071
+  ],
+  "data/raw/spectra/spitschan2016/DRL_spectra.csv": [
+   "dff37ac269ae3da27f2064ff38052a0a4ffa6c84dde3ef71707337a79e766ba0",
+   26969354,
+   1791140024.3535664
+  ],
+  "data/raw/spectra/spitschan2016/DRL_dataquality.csv": [
+   "64619c6c451ba5427f21a7ff1246fd68d088b3770b5b149d9bed42c2886cbf0e",
+   93,
+   1791140024.2919512
+  ],
+  "data/raw/spectra/spitschan2016/CSSP_spectra.csv": [
+   "e0e3e895b3a66fc83d9f63bd02e92899a11a44b1d1707f8a6d7a05279cbe6bab",
+   25481368,
+   1791140024.2918267
+  ],
+  "data/raw/spectra/spitschan2016/CSSP_dataquality.csv": [
+   "8ff951e7e29df0b4539f417f7934c2068ce0dcef356a8e46cfb2ea3c34df3584",
+   90,
+   1791140024.243171
+  ],
+  "data/raw/impacts/MANIFEST.csv": [
+   "1e5f2ef9094f2a59c8b244e1d3d5c0b0c8474e801093bcf8bee1ed48acb126c9",
+   23042,
+   1791140024.2213867
+  ],
+  "data/raw/impacts/narrative of fireflies/Data_Kivela2022.xlsx": [
+   "3af6d0d6997f34343933a1bb24919fa43da72637cce44e086e6665c6a2a4030c",
+   21228,
+   1791140024.2353768
+  ],
+  "data/raw/impacts/narrative of fireflies/Owens_MeyerRochow_Yang_2018_PLoSONE_Aquatica_ficta.pdf": [
+   "9272dd5507fd51ea34a9f42d7e2e7e71c9082d08aca4ce4ea06f7e0f36d5f51a",
+   1329473,
+   1791140024.241572
+  ],
+  "data/raw/impacts/narrative of fireflies/README_for_Aquatica_ficta.txt": [
+   "51e9ec07220f7f6ff6e0488afe5d79485dd51cd3b75a3674efbf53389b6e8208",
+   890,
+   1791140024.2416594
+  ],
+  "data/raw/impacts/narrative of fireflies/Kivela_Elgert_Lehtonen_Candolin_2023_STOTEN_glowworm.pdf": [
+   "870fcd71f1606f11891f28d43b7d1eade850efe239da84308fa494365b8e0a0a",
+   747164,
+   1791140024.238536
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May13.txt": [
+   "733b297aea4edf28614b65e4e0b5f68fd57aa193d1e16f20eab4f0d33bd46daa",
+   706443,
+   1791140024.2241473
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May12.txt": [
+   "fe1a8744645d9627c67a6599578d65f5f169d06a1269d1eb337e4a6122ee8b6c",
+   687921,
+   1791140024.2229586
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May5.txt": [
+   "e87eff9d37b2e02195a9d60f0a1b7e1b7c0578a4ac237a86049ebf17f120f0bf",
+   708051,
+   1791140024.2285998
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May7.txt": [
+   "7bcc7f03918e00f1568dd2e4e9395cb31e4e9cc7b1a63035a6ef516c6d229fda",
+   678630,
+   1791140024.2315495
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May14.txt": [
+   "02adcba7a14d7e133c690c7c0f65befdd8076ca3cc1eb10ff6faf52cedf947d6",
+   684687,
+   1791140024.227449
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May6.txt": [
+   "f493b5a6077b6cf2c702bfe321dd75a31918ed11ca9b20c665f1e5fd58877a5e",
+   690386,
+   1791140024.2304072
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May12.key.txt": [
+   "35c8e4bfe349a154ed6d688f1ffc607ebdd97a76f5d35b029b05f62f6167bca6",
+   228,
+   1791140024.2216876
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May8.key.txt": [
+   "16a3bc4a2f5cfe6cdeaf881f29a5add345baf783d90c014a4ad6f97f29d4ca9f",
+   227,
+   1791140024.2316282
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May13.key.txt": [
+   "389ab6c6dfb9618e02944c590ca6fe55b4e8fe9cf2abf325d4e6fe88868d9469",
+   229,
+   1791140024.223055
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May9.key.txt": [
+   "1d8b40b3468c36ad345ae15ceb93b03dc4bc6b387d57e3c341748eff3bfaef0f",
+   227,
+   1791140024.2328103
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May5.key.txt": [
+   "b19eed1a4e1795eefe4de9a67136f370b5f0935dbbe943afaeb86d6f654e424c",
+   227,
+   1791140024.2275293
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May8.txt": [
+   "a57f25acb15da3cea138397151c63ca4077305099214b6f8b7fdb8fd6ee54a30",
+   677787,
+   1791140024.2327042
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May6.key.txt": [
+   "a8a9352f89769514c1ba360dfe87d8980826256f5dc7e2045d9fd22a2006be7a",
+   227,
+   1791140024.2286766
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May9.txt": [
+   "380dad1531f5cdcb0d9f98b40859f7c72013580593da431c79b05b7504093d73",
+   709121,
+   1791140024.2351105
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May7.key.txt": [
+   "ce07d94d895cbe45f230826c81e0d3fdae6a68f351c754a0c17eb90c384062bd",
+   227,
+   1791140024.2304883
+  ],
+  "data/raw/impacts/narrative of fireflies/Aquatica_ficta/May14.key.txt": [
+   "12eece99c4797af4fd6553f584c4bf218e1a9e8d573a6bb1a390b7f1f741cc84",
+   229,
+   1791140024.2242217
+  ],
+  "data/raw/impacts/czarnecka2025/Data_S1_Czarnecka_et_al..xlsx": [
+   "8fae8a0244047ab057808ea321962bf848cff42b6fd521f34b37a360efa154d6",
+   1129241,
+   1791139690.7133594
+  ],
+  "data/raw/impacts/czarnecka2025/README.md": [
+   "f4f4e7005be4bcdb84baae13dc652d9ecd27b8cd5f8556a1251207d9b7d1411b",
+   5006,
+   1791139690.713454
+  ],
+  "data/raw/boundaries/MANIFEST.csv": [
+   "92731424cacafd79377698e96beac993a97c5abcb018436cf229bff22f9d1851",
+   2538,
+   1791139690.637222
+  ],
+  "data/raw/boundaries/naturalearth/ne_10m_admin_0_disputed_areas.zip": [
+   "a250c1cf8ab68898399928a1fa1d5c242eb4de6335cb51a7f7a7f12a9f3c8438",
+   215221,
+   1791139690.6614857
+  ],
+  "data/raw/boundaries/naturalearth/ne_10m_admin_0_countries.zip": [
+   "ce1ac7036499a0edd641fbc093cd209a98f96a49d2eca8480aaacad35138a7f6",
+   4930492,
+   1791139690.6577864
+  ],
+  "data/raw/boundaries/naturalearth/ne_10m_admin_0_map_units.zip": [
+   "45bebe2aaf8bf42b9daf4428594925bcb11eabd32fe9dc6e0acf681438053eb5",
+   5003719,
+   1791139690.6887376
+  ],
+  "data/raw/radiance/MANIFEST.csv": [
+   "823027a39e35dc29f1d5f6a5112f49f36a149023a99fa159477765320bea012d",
+   3391,
+   1791139690.7135193
+  ],
+  "data/raw/colour/MANIFEST.csv": [
+   "caa614b97e721eee396abce49d6bc479cddaa5309807aafb275ca6f7a73a59f0",
+   1047,
+   1791139690.688877
+  ],
+  "data/raw/colour/eol/nef/MANIFEST.csv": [
+   "d9eab45461b75ca8437f6099075697d9631984f99a5cc262dace885784bf441b",
+   2884,
+   1791139690.6890025
+  ],
+  "data/raw/colour/eol/small/MANIFEST.csv": [
+   "4cb3357745eb6908ecd3a6f4b4b9c3a2bac8d743c90f2140d66fe9de4c509501",
+   5256501,
+   1791139690.704662
+  ],
+  "data/raw/colour/eol/jpeg/MANIFEST.csv": [
+   "c15922bfbda725136fbe5122c12fc4eaa11581a73b49b2e1956cbab6e3b7c7af",
+   1961,
+   1791139690.688935
+  ]
+ },
+ "derived_spectra": {
+  "data/derived/spectra/spectra_meta.json": [
+   "1e3a966bf058cb6e344fc1c5b3b0121bac2eb3a66a8bf3bba3f267b14b5c5ae0",
+   4158,
+   1791140196.7176216
+  ],
+  "data/derived/spectra/philadelphia.json": [
+   "d54792a1d5edb48db190abeb7c4f5d4b1c14b1fc7978279cc3699228ec11e906",
+   1085417,
+   1791140196.7063081
+  ],
+  "data/derived/spectra/cherry_springs.json": [
+   "42f5b5d63c41fb81e317f906f9854ad4e04059c85b3d5c8772d6735677704c39",
+   980377,
+   1791140196.7143111
+  ]
+ },
+ "pipeline_spectra": {
+  "pipeline/spectra/01_night_spectra.py": [
+   "3121709107fb91f8f9dade906ef678e3ef7f07eb9558688287ba7db84b46d177",
+   10922,
+   1791140196.5148335
+  ]
+ }
+}

@@ -4,6 +4,7 @@
 // Impacts (dev): data/derived/impacts at /impacts/, and the human-approved light_types map
 // from pipeline/impacts/maps at /impacts/maps/ (allow-list). Publication hosting undecided.
 // Colour (dev): the regional white-share grid from data/derived/colour at /colour/ (allow-list).
+// Spectra (dev): the Two measured nights files from data/derived/spectra at /spectra/ (allow-list).
 import { defineConfig } from 'vite';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { resolve, normalize, sep } from 'node:path';
@@ -15,6 +16,8 @@ const APPROVED_MAPS = ['light_types.csv'];
 const COLOUR_ROOT = resolve(__dirname, '../data/derived/colour');
 const APPROVED_COLOUR = ['iberia_white_share_grid.json', 'global_white_share_grid.json', 'global_white_share_grid.png',
   'global_white_share_values.png'];  // prototype colour modes (human 2026-10-04)
+const SPECTRA_ROOT = resolve(__dirname, '../data/derived/spectra');
+const APPROVED_SPECTRA = ['philadelphia.json', 'cherry_springs.json', 'spectra_meta.json'];  // human 2026-10-04
 const TYPES = { '.webp': 'image/webp', '.png': 'image/png', '.json': 'application/json', '.csv': 'text/csv; charset=utf-8' };
 
 // Serves files under root at the request path; 404 for anything outside root or missing.
@@ -41,6 +44,10 @@ function serveTiles() {
       server.middlewares.use('/colour', (req, res) => {
         if (!APPROVED_COLOUR.includes(req.url.split('?')[0].slice(1))) { res.statusCode = 404; return res.end(); }
         sendFrom(COLOUR_ROOT, req, res);
+      });
+      server.middlewares.use('/spectra', (req, res) => {
+        if (!APPROVED_SPECTRA.includes(req.url.split('?')[0].slice(1))) { res.statusCode = 404; return res.end(); }
+        sendFrom(SPECTRA_ROOT, req, res);
       });
     },
   };

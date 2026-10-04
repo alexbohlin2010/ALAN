@@ -1,0 +1,62 @@
+philadelphia.json: strict JSON parse OK (no NaN/Infinity, no duplicate keys), utf-8
+cherry_springs.json: strict JSON parse OK (no NaN/Infinity, no duplicate keys), utf-8
+spectra_meta.json: strict JSON parse OK (no NaN/Infinity, no duplicate keys), utf-8
+
+[philadelphia]
+  source_file equal: True
+  source_sha256 equals actual raw file sha256: True
+  n_source_spectra: output 3199 mine 3199 equal True
+  n_night_spectra: output 1200 mine 1200 equal True
+  n_selected: 240 equal 240: True
+  source_date_range equal: True ['05-Jul-2014 19:30:28', '18-Jul-2014 06:33:32']
+  selected_date_range equal: True ['05-Jul-2014 22:34:04', '18-Jul-2014 03:51:03']
+  source_dataquality equal to raw *_dataquality.csv: True
+  selected_cells equal: True {'total': 67440, 'null_nan': 0, 'zero': 214, 'positive': 67226} | meta copy equal: True | meta n_* equal: True
+  source_column: len 240 equal to mine (1-based): True | distinct 240 | strictly increasing True
+  timestamp equal (exact text): True
+  night_id: len 240; exact-text equal 0/240; float equal 240/240; text differences e.g. output '1.0' vs source '1' (240 cells)
+  solar_elevation_deg: len 240; exact-text equal 240/240; float equal 240/240
+  lunar_elevation_deg: len 240; exact-text equal 240/240; float equal 240/240
+  lunar_illuminated_fraction: len 240; exact-text equal 240/240; float equal 240/240
+  irradiance shape 240 x 281: True; cells 67440; null 0 (source NaN at those: 0); exact-text equal 67440; float equal 67440; float differences 0
+  irradiance cells whose output literal text differs from the source text: 0
+  irradiance negatives in output: 0; min>0 8.604166434e-11; max 2.875599874e-05
+  labels: {'irradiance': 'measured', 'timestamp': 'measured', 'night_id': 'documented', 'solar_elevation_deg': 'documented', 'lunar_elevation_deg': 'documented', 'lunar_illuminated_fraction': 'documented', 'selection': 'inferred'}
+  top-level keys: ['site', 'place', 'paper_label', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'labels', 'source_column', 'timestamp', 'night_id', 'solar_elevation_deg', 'lunar_elevation_deg', 'lunar_illuminated_fraction', 'irradiance']
+
+[cherry_springs]
+  source_file equal: True
+  source_sha256 equals actual raw file sha256: True
+  n_source_spectra: output 3192 mine 3192 equal True
+  n_night_spectra: output 1268 mine 1268 equal True
+  n_selected: 240 equal 240: True
+  source_date_range equal: True ['30-Jun-2014 18:52:55', '19-Jul-2014 18:48:58']
+  selected_date_range equal: True ['30-Jun-2014 22:35:39', '19-Jul-2014 03:52:17']
+  source_dataquality equal to raw *_dataquality.csv: True
+  selected_cells equal: True {'total': 67440, 'null_nan': 0, 'zero': 7780, 'positive': 59660} | meta copy equal: True | meta n_* equal: True
+  source_column: len 240 equal to mine (1-based): True | distinct 240 | strictly increasing True
+  timestamp equal (exact text): True
+  night_id: len 240; exact-text equal 0/240; float equal 240/240; text differences e.g. output '1.0' vs source '1' (240 cells)
+  solar_elevation_deg: len 240; exact-text equal 240/240; float equal 240/240
+  lunar_elevation_deg: len 240; exact-text equal 240/240; float equal 240/240
+  lunar_illuminated_fraction: len 240; exact-text equal 240/240; float equal 240/240
+  irradiance shape 240 x 281: True; cells 67440; null 0 (source NaN at those: 0); exact-text equal 67440; float equal 67440; float differences 0
+  irradiance cells whose output literal text differs from the source text: 0
+  irradiance negatives in output: 0; min>0 6.744531894e-13; max 5.93382162e-07
+  labels: {'irradiance': 'measured', 'timestamp': 'measured', 'night_id': 'documented', 'solar_elevation_deg': 'documented', 'lunar_elevation_deg': 'documented', 'lunar_illuminated_fraction': 'documented', 'selection': 'inferred'}
+  top-level keys: ['site', 'place', 'paper_label', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'labels', 'source_column', 'timestamp', 'night_id', 'solar_elevation_deg', 'lunar_elevation_deg', 'lunar_illuminated_fraction', 'irradiance']
+
+[spectra_meta]
+  wavelength_nm == 280..840 step 2: True len 281 | wavelength_step_nm 2
+  display n_positive: output 126886 mine 126886 equal True
+  display p01: output -8.967243953229161 mine -8.967243953229161 equal True
+  display p50: output -6.955651512236926 mine -6.955651512236926 equal True
+  display p99: output -5.325790621417104 mine -5.325790621417104 equal True
+  display floor: output -9 mine -9 equal True
+  display ceil: output -5 mine -5 equal True
+  display label: inferred | rule present: True
+  selection: {'label': 'inferred', 'rule': 'solar elevation < -18 deg; then 240 spectra evenly sampled in source column order (index round_half_up(i*(n-1)/239)); every 2nd wavelength 280-840 nm; values verbatim', 'moon': 'not considered (human decision, handoff 2026-10-04_two-nights-spectra.md)', 'reproduces': 'Linda/visual tests/spatial/philadelphia-spectral-space/scripts/preprocess.ts'}
+  unit: W m^-2 nm^-1 | quantity: absolute downwelling spectral irradiance (radiance x pi, paper Methods) | timestamp_format: dd-MMM-yyyy HH:mm:ss, as in the source; no time zone in the source
+  units_other: {'solar_elevation_deg': 'degrees', 'lunar_elevation_deg': 'degrees', 'lunar_illuminated_fraction': '0-1'} | null_means: NaN in the source (no value)
+  files exist: {'philadelphia': True, 'cherry_springs': True} | script: pipeline/spectra/01_night_spectra.py
+  top-level keys: ['source', 'source_url', 'licence', 'quantity', 'unit', 'timestamp_format', 'units_other', 'wavelength_nm', 'wavelength_step_nm', 'null_means', 'selection', 'display_limits_log10', 'files', 'script', 'sites']

@@ -1,0 +1,63 @@
+PASS F1 [philadelphia] night_id text has no '.' (source ints written as ints)
+PASS F1 [philadelphia] source_dataquality values are source text
+PASS F1 [cherry_springs] night_id text has no '.' (source ints written as ints)
+PASS F1 [cherry_springs] source_dataquality values are source text
+PASS F1 meta 'verbatim' and 'null_means' present -- 'every number taken from the source is written as its source text'; 'NaN in the source (no value)'
+NOTE F1: no NaN occurs in any selected cell or metadata row (r02), so the NaN -> null path is exercised only by the unit test of raw('NaN') below, not by the data.
+PASS F2 meta night_id_note present -- 'night_id = source row 2 ("date/night") as published. It changes at about 01:05 (source time) inside one continuous night, so one night of measuring can carry two ids (8 ids over 5 night blocks per site). Not used by the app.'
+INFO F2 [philadelphia] night blocks 5, distinct night_id over all night spectra 8 ['1', '2', '3', '4', '6', '7', '8', '9']; in-block changes: [('1', '2', '06-Jul-2014 01:06:35'), ('6', '7', '17-Jul-2014 01:06:37'), ('8', '9', '18-Jul-2014 01:06:03')]
+PASS F2 [philadelphia] note claim '8 ids over 5 night blocks' holds
+PASS F2 [philadelphia] note claim 'changes at about 01:05' holds (all in-block changes 01:04-01:07)
+INFO F2 [cherry_springs] night blocks 5, distinct night_id over all night spectra 8 ['1', '2', '3', '4', '5', '6', '8', '9']; in-block changes: [('1', '2', '01-Jul-2014 01:05:39'), ('4', '5', '03-Jul-2014 01:05:48'), ('8', '9', '19-Jul-2014 01:06:16')]
+PASS F2 [cherry_springs] note claim '8 ids over 5 night blocks' holds
+PASS F2 [cherry_springs] note claim 'changes at about 01:05' holds (all in-block changes 01:04-01:07)
+PASS F2 no data change: night_id values equal source row 2 (see r03)
+PASS F3 [philadelphia] unit + meta_file fields
+PASS F3 [cherry_springs] unit + meta_file fields
+PASS F4 [philadelphia] every site-file field has a label (excluding the labels/label_notes containers) -- unlabelled [], labels without field []
+PASS F4 [philadelphia] every label used is explained in label_notes
+INFO F4 [philadelphia] labels used ['documented', 'identifier', 'inferred', 'measured']; outside RULES 2.3 vocabulary: ['identifier']; identifier fields: ['site', 'meta_file', 'source_file']
+PASS F4 [cherry_springs] every site-file field has a label (excluding the labels/label_notes containers) -- unlabelled [], labels without field []
+PASS F4 [cherry_springs] every label used is explained in label_notes
+INFO F4 [cherry_springs] labels used ['documented', 'identifier', 'inferred', 'measured']; outside RULES 2.3 vocabulary: ['identifier']; identifier fields: ['site', 'meta_file', 'source_file']
+PASS F5 meta selection.rules_from cites the handoff -- 'human decisions in handoff 2026-10-04_two-nights-spectra.md (reproducing the draft "3D Spectrum" view)'
+PASS F5 handoff file exists
+PASS F5 draft_reference marked 'not in git' -- 'Linda/visual tests/spatial/philadelphia-spectral-space/scripts/preprocess.ts (not in git)'
+PASS F5 old 'reproduces' key gone
+PASS F6 meta wavelength_source present -- 'the source CSVs have no wavelength row; rows 6-566 = 280-840 nm at 1 nm per the IlluminationSpectraDataset README (Table S1) and data/raw/spectra/MANIFEST.csv; 561 rows are consistent with this'
+INFO 2.5 [philadelphia] in site file: unit='W m^-2 nm^-1'; time zone field: []; filter/rule fields: []; elevation/fraction units: none in site file (meta units_other)
+INFO 2.5 [cherry_springs] in site file: unit='W m^-2 nm^-1'; time zone field: []; filter/rule fields: []; elevation/fraction units: none in site file (meta units_other)
+INFO 2.5 meta: unit='W m^-2 nm^-1'; units_other={'solar_elevation_deg': 'degrees', 'lunar_elevation_deg': 'degrees', 'lunar_illuminated_fraction': '0-1'}; timestamp_format='dd-MMM-yyyy HH:mm:ss, as in the source; no time zone in the source'; selection.rule='solar elevation < -18 deg; then 240 spectra evenly sampled in source column order (index round_half_up(i*(n-1)/239)); every 2nd wavelength 280-840 nm; values verbatim'
+FAIL 2.5 source_column indexing base (1-based) stated in the output files -- searched meta + site labels/label_notes for '1-based'/'0-based'
+PASS R1 dump: Raw in first/middle/nested positions written unquoted as source text
+PASS R1 raw accepts '0' unchanged
+PASS R1 raw accepts '-0.5' unchanged
+PASS R1 raw accepts '1e-08' unchanged
+PASS R1 raw accepts '9.593539019e-08' unchanged
+PASS R1 raw accepts '16.72706168' unchanged
+PASS R1 raw accepts '5383' unchanged
+PASS R1 raw accepts '-0' unchanged
+PASS R1 raw('NaN') -> None
+PASS R1 raw rejects 'nan'
+PASS R1 raw rejects 'Infinity'
+PASS R1 raw rejects '-Infinity'
+PASS R1 raw rejects '1.'
+PASS R1 raw rejects '.5'
+PASS R1 raw rejects '+1'
+PASS R1 raw rejects '01'
+PASS R1 raw rejects ' 1'
+PASS R1 raw rejects '1 '
+PASS R1 raw rejects ''
+PASS R1 raw rejects '1,0'
+PASS R1 raw rejects '0x1'
+PASS R1 dump rejects a non-finite float
+PASS R2 strict_parse rejects {"a":NaN}
+PASS R2 strict_parse rejects [Infinity]
+PASS R2 strict_parse rejects {"a":1,"a":2}
+PASS R2 strict_parse rejects [-Infinity]
+PASS R2 write_checked raises on invalid text and writes nothing
+PASS R3 unchanged: even_sample keeps all n when n <= 240
+PASS selection: even_sample(1200) and (1268) == exact-integer round_half_up
+INFO float floor(x+0.5) vs exact round_half_up, n = 241..20000: 0 n differ (first: [])
+PASS percentile matches own implementation (random data, q in 0,0.01,0.5,0.99,1)
+TOTAL: 1 FAIL

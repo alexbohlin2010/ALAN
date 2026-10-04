@@ -1,0 +1,67 @@
+== philadelphia.json: 24 top-level keys; 18 labelled, 3 not_values, 3 containers
+  PASS every key labelled or in not_values
+  PASS no key both labelled and in not_values
+  PASS every label value in {measured, documented, inferred}
+  PASS labels has no key absent from the file
+  PASS not_values has no key absent from the file
+  PASS not_values == {site, source_file, meta_file}
+  PASS label_notes keys == labels used
+  PASS string 'identifier' absent from labels/label_notes/not_values
+    site: not_values
+    place: documented
+    paper_label: documented
+    unit: documented
+    meta_file: not_values
+    source_file: not_values
+    source_sha256: inferred
+    n_source_spectra: inferred
+    n_night_spectra: inferred
+    n_selected: inferred
+    source_date_range: inferred
+    selected_date_range: inferred
+    source_dataquality: documented
+    selected_cells: inferred
+    labels: container
+    label_notes: container
+    not_values: container
+    source_column: inferred
+    timestamp: measured
+    night_id: documented
+    solar_elevation_deg: documented
+    lunar_elevation_deg: documented
+    lunar_illuminated_fraction: documented
+    irradiance: measured
+== cherry_springs.json: 24 top-level keys; 18 labelled, 3 not_values, 3 containers
+  PASS every key labelled or in not_values
+  PASS no key both labelled and in not_values
+  PASS every label value in {measured, documented, inferred}
+  PASS labels has no key absent from the file
+  PASS not_values has no key absent from the file
+  PASS not_values == {site, source_file, meta_file}
+  PASS label_notes keys == labels used
+  PASS string 'identifier' absent from labels/label_notes/not_values
+    site: not_values
+    place: documented
+    paper_label: documented
+    unit: documented
+    meta_file: not_values
+    source_file: not_values
+    source_sha256: inferred
+    n_source_spectra: inferred
+    n_night_spectra: inferred
+    n_selected: inferred
+    source_date_range: inferred
+    selected_date_range: inferred
+    source_dataquality: documented
+    selected_cells: inferred
+    labels: container
+    label_notes: container
+    not_values: container
+    source_column: inferred
+    timestamp: measured
+    night_id: documented
+    solar_elevation_deg: documented
+    lunar_elevation_deg: documented
+    lunar_illuminated_fraction: documented
+    irradiance: measured
+ALL PASS

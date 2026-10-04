@@ -1,0 +1,117 @@
+== philadelphia.json
+  added (21): ['unit', 'meta_file', 'labels.site', 'labels.place', 'labels.paper_label', 'labels.unit', 'labels.meta_file', 'labels.source_file', 'labels.source_sha256', 'labels.n_source_spectra', 'labels.n_night_spectra', 'labels.n_selected', 'labels.source_date_range', 'labels.selected_date_range', 'labels.source_dataquality', 'labels.selected_cells', 'labels.source_column', 'label_notes.documented', 'label_notes.inferred', 'label_notes.measured', 'label_notes.identifier']
+  removed (1): ['labels.selection']
+  same    site
+  same    place
+  same    paper_label
+  same    source_file
+  same    source_sha256
+  same    n_source_spectra
+  same    n_night_spectra
+  same    n_selected
+  same    source_date_range
+  same    selected_date_range
+  same    source_dataquality.N total spectra
+  same    source_dataquality.N saturated spectra
+  same    source_dataquality.N NaN or Zero spectra
+  same    source_dataquality.N final spectra
+  same    selected_cells.total
+  same    selected_cells.null_nan
+  same    selected_cells.zero
+  same    selected_cells.positive
+  same    labels.timestamp
+  same    labels.night_id
+  same    labels.solar_elevation_deg
+  same    labels.lunar_elevation_deg
+  same    labels.lunar_illuminated_fraction
+  same    labels.irradiance
+  same    source_column
+  same    timestamp
+  CHANGED night_id: text-different elements 240, number-different elements 0
+  same    solar_elevation_deg
+  same    lunar_elevation_deg
+  same    lunar_illuminated_fraction
+  same    irradiance
+  key order before: ['site', 'place', 'paper_label', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'labels', 'source_column', 'timestamp', 'night_id', 'solar_elevation_deg', 'lunar_elevation_deg', 'lunar_illuminated_fraction', 'irradiance']
+  key order after:  ['site', 'place', 'paper_label', 'unit', 'meta_file', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'labels', 'label_notes', 'source_column', 'timestamp', 'night_id', 'solar_elevation_deg', 'lunar_elevation_deg', 'lunar_illuminated_fraction', 'irradiance']
+== cherry_springs.json
+  added (21): ['unit', 'meta_file', 'labels.site', 'labels.place', 'labels.paper_label', 'labels.unit', 'labels.meta_file', 'labels.source_file', 'labels.source_sha256', 'labels.n_source_spectra', 'labels.n_night_spectra', 'labels.n_selected', 'labels.source_date_range', 'labels.selected_date_range', 'labels.source_dataquality', 'labels.selected_cells', 'labels.source_column', 'label_notes.documented', 'label_notes.inferred', 'label_notes.measured', 'label_notes.identifier']
+  removed (1): ['labels.selection']
+  same    site
+  same    place
+  same    paper_label
+  same    source_file
+  same    source_sha256
+  same    n_source_spectra
+  same    n_night_spectra
+  same    n_selected
+  same    source_date_range
+  same    selected_date_range
+  same    source_dataquality.N total spectra
+  same    source_dataquality.N saturated spectra
+  same    source_dataquality.N NaN or Zero spectra
+  same    source_dataquality.N final spectra
+  same    selected_cells.total
+  same    selected_cells.null_nan
+  same    selected_cells.zero
+  same    selected_cells.positive
+  same    labels.timestamp
+  same    labels.night_id
+  same    labels.solar_elevation_deg
+  same    labels.lunar_elevation_deg
+  same    labels.lunar_illuminated_fraction
+  same    labels.irradiance
+  same    source_column
+  same    timestamp
+  CHANGED night_id: text-different elements 240, number-different elements 0
+  same    solar_elevation_deg
+  same    lunar_elevation_deg
+  same    lunar_illuminated_fraction
+  same    irradiance
+  key order before: ['site', 'place', 'paper_label', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'labels', 'source_column', 'timestamp', 'night_id', 'solar_elevation_deg', 'lunar_elevation_deg', 'lunar_illuminated_fraction', 'irradiance']
+  key order after:  ['site', 'place', 'paper_label', 'unit', 'meta_file', 'source_file', 'source_sha256', 'n_source_spectra', 'n_night_spectra', 'n_selected', 'source_date_range', 'selected_date_range', 'source_dataquality', 'selected_cells', 'labels', 'label_notes', 'source_column', 'timestamp', 'night_id', 'solar_elevation_deg', 'lunar_elevation_deg', 'lunar_illuminated_fraction', 'irradiance']
+== spectra_meta.json
+  added (5): ['wavelength_source', 'night_id_note', 'verbatim', 'selection.rules_from', 'selection.draft_reference']
+  removed (1): ['selection.reproduces']
+  same    source
+  same    source_url
+  same    licence
+  same    quantity
+  same    unit
+  same    timestamp_format
+  same    units_other.solar_elevation_deg
+  same    units_other.lunar_elevation_deg
+  same    units_other.lunar_illuminated_fraction
+  same    wavelength_nm
+  same    wavelength_step_nm
+  same    null_means
+  same    selection.label
+  same    selection.rule
+  same    selection.moon
+  same    display_limits_log10.label
+  same    display_limits_log10.floor
+  same    display_limits_log10.ceil
+  same    display_limits_log10.rule
+  same    display_limits_log10.n_positive
+  same    display_limits_log10.p01
+  same    display_limits_log10.p50
+  same    display_limits_log10.p99
+  same    files.philadelphia
+  same    files.cherry_springs
+  same    script
+  same    sites.philadelphia.n_source_spectra
+  same    sites.philadelphia.n_night_spectra
+  same    sites.philadelphia.n_selected
+  same    sites.philadelphia.selected_cells.total
+  same    sites.philadelphia.selected_cells.null_nan
+  same    sites.philadelphia.selected_cells.zero
+  same    sites.philadelphia.selected_cells.positive
+  same    sites.cherry_springs.n_source_spectra
+  same    sites.cherry_springs.n_night_spectra
+  same    sites.cherry_springs.n_selected
+  same    sites.cherry_springs.selected_cells.total
+  same    sites.cherry_springs.selected_cells.null_nan
+  same    sites.cherry_springs.selected_cells.zero
+  same    sites.cherry_springs.selected_cells.positive
+  key order before: ['source', 'source_url', 'licence', 'quantity', 'unit', 'timestamp_format', 'units_other', 'wavelength_nm', 'wavelength_step_nm', 'null_means', 'selection', 'display_limits_log10', 'files', 'script', 'sites']
+  key order after:  ['source', 'source_url', 'licence', 'quantity', 'unit', 'timestamp_format', 'units_other', 'wavelength_nm', 'wavelength_step_nm', 'wavelength_source', 'night_id_note', 'null_means', 'verbatim', 'selection', 'display_limits_log10', 'files', 'script', 'sites']
