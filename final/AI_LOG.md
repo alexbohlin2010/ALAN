@@ -3270,3 +3270,262 @@ Append only. One entry per AI step (see RULES.md §4).
 - **Commit:** b63e2836f on `alexander-final-rebuild` (177 files). Second commit: this log entry + `handoffs/2026-10-04_mice-option2-and-push.md`.
 - **Zip (B1):** `~/Desktop/ALAN_derived_for_Linda.zip` (outside the repo), 220,117,658 bytes, sha256 83616116a85c44b783068a98ea8763b08681274bcd9f05f5f22206f881a0b1e6, 21,033 entries: `data/derived/radiance/tiles/v1/`, six impacts JSON (effects, studies, study_locations, spectra_278, spectra_299, perception_299), `colour/global_white_share_grid.json` + `.png`. Paths relative to `final/`.
 - **Files changed:** `handoffs/2026-10-04_mice-option2-and-push.md` (new), this log; `~/Desktop/ALAN_derived_for_Linda.zip` (new, outside the repo).
+
+## 2026-10-04: Push task, step 14. Human pushed and merged via GitHub Desktop; notes for Linda drafted in chat (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Okay i published and merged branch ... please provide final notes I should send to Linda
+- **Actions:** tried `git fetch origin` to confirm the merge: failed (no stored credentials; repo needs auth), so the merge is not verified by the agent; local `origin/main` still at 6e1d06d40. Drafted a message to Linda in chat (setup, zip, where to start, open items); the human sends it.
+- **Note:** this entry is written after the merge, so it is not in the merged commits; it stays as a local change in `final/AI_LOG.md`.
+- **Files changed:** this log.
+
+## 2026-10-04: Push task, step 15. Human asked what the derived zip is and where it is; explained in chat; zip shown in Finder (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > where is ALAN derived for linda - what is that, why does she need it to open the app?
+- **Actions:** `open -R ~/Desktop/ALAN_derived_for_Linda.zip` (reveal in Finder). Explained: the app reads its data from `final/data/derived/` (served by `app/vite.config.js` at /tiles/, /impacts/, /colour/), which is git-ignored (human decision B1, step 11).
+- **Files changed:** this log.
+
+## 2026-10-04: Colour (CCT) task, step 60. Human asks whether India's 2025 whiteness is realistic (analysis only, no repo code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompts (verbatim):**
+  > How about India? India turns super white ... is that at all realistic? My problem is, if you look at the globe now, the combination of the increased radiance and the whiteness just makes it seem unrealistic
+  > hell maybe it's true https://www.deccanherald.com/science/space/nasa-shares-stunning-images-of-indias-night-glow-captured-from-iss-3927415#3
+- **Kept photos with country India** (previous session's scratch `photos_near.json`, Natural Earth by record point):
+  - 2015: 19 photos, median share 0.243, 14 below 0.5.
+  - 2025: 23 photos, median 0.988, all ≥ 0.9.
+  - The 2025 photos come from 5 runs: ISS069-E-891xx–892xx (12), ISS072-E-1513xx (5), ISS067-E-1603xx (4), ISS066-E-168398, ISS072-E-480868. Dates 2022-03-15 to 2025-01-02.
+- **By eye (agent, scratch `india_sheet.py` → `india_0..3.png`):**
+  - One near-nadir city frame (ISS066-E-168398).
+  - The others are oblique, with:
+    - ISS067: limb, airglow and Moon.
+    - ISS069: lightning flashes.
+    - ISS072-E-1513xx: a bright limb band counted white.
+  - The town lights in the ISS069 frames look grey-white in the JPEGs, with a few orange points.
+- **Step-58 limb + glow rules on these frames** (scratch `count_all.json`): shares stay 0.95–1.0 in every frame that keeps values; 2 ISS067 frames fall below 200 px. Removing the contamination does not lower the share: the remaining city lights are counted ≥ 2,700 K. City CCT accuracy is still untested.
+- **Sources (web search; not downloaded):**
+  - SLNP: 1.31 crore (13.1 M) LED streetlights installed by 7 Nov 2024 (tndindia.com, citing EESL). Programme aim: replace 3.5 crore (35 M) conventional streetlights (vikaspedia).
+  - 13.1 / 35 ≈ 0.37 (`inferred`; the denominator is a programme target, not a census of all streetlights; LEDs installed outside SLNP are not counted).
+  - City reports: Hyderabad 4.03 of 4.65 lakh; Chennai ~70 % of 257,000; Bengaluru ~4–5 % (older report).
+- **Article given by the human:** deccanherald.com returned HTTP 403, so not read. A search found NASA image pages of New Delhi and India at night (2025–26 expeditions); not in the photo pool.
+- **Files changed:** this log.
+
+## 2026-10-04: Colour (CCT) task, step 61. Human asks whether the globe's colours match the view from space, and whether LED and sodium really look different from orbit (answer only, no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I have a question about our color temperature ruling: do the colors on the globe really match how they would appear in the atmosphere from a satellite? Does white LED really render that differently to sodium from space?
+- **Read:** METHOD.md "Display ramp" (tints: blackbody 2000 K and 4000 K, brightest pixels white first, display choice); `display_tints.json` (4000 K sRGB 1.0/0.83/0.65).
+- **Computed (read-only, `global_thumb_cct.csv`, kept frames):** median of photo median CCT.
+  - 2015: 2,249 K (quartiles 2,033 / 2,249 / 2,564).
+  - 2025: 3,207 K (2,800 / 3,207 / 3,626).
+  - India 2025: 3,811–4,851 K.
+- **Answer given:**
+  - Literature cited from memory, not verified this session: Sánchez de Miguel et al. 2019 (Remote Sensing of Environment), Milan ISS photos 2012 vs 2015.
+  - The globe's tints are display choices. Atmosphere is not modelled.
+- **Files changed:** this log.
+
+## 2026-10-04: Colour (CCT) task, step 62. White display tint changed from 4000 K to 3000 K (human decision); Italy compared with a documented LED share
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompts (verbatim):**
+  > well why don't we bring the white temperature down to 3000k instead of 4000k? I agree it will be a different color but the difference seems too stark right now. The transition to India 2025 just doesn't make sense ...
+  > and what about a place like Italy, is it as white as we are displaying?
+- **Human decision:** white display tint 3000 K instead of 4000 K. A display choice, not data.
+- **Code:** `app/src/tileLayer.js` `RAMP_TINTS[1]`: [1.0, 0.8317, 0.649] (4000 K) → [1.0, 0.7247, 0.4295] (3000 K).
+  - The value is copied from `data/derived/colour/display_tints.json` class 2 (`08_display_tints.py`, blackbody 3000 K). No script rerun; the grid and data are unchanged.
+- **Docs:** METHOD.md "Display ramp", "What is drawn": the tint sentence was updated in place, with the date and the human's words.
+- **Render check** (localhost:5173, `alan-final-app` preview, viewport 1200×800, camera set with the dev `window.globe` handle, divider moved by synthetic pointer events, inspection only): no console errors.
+  - India 2025 draws warm peach, not near-white.
+  - Italy 2025: peach in the Po valley and on the peninsula; France and Spain more orange.
+- **Italy facts:**
+  - Kept photos (scratch `photos_near.json`): 2015 88 photos, median share 0.098; 2025 32 photos, median 0.725 (quartiles 0.58 / 0.73 / 0.80).
+  - Drawn white share (step 56): 0.10 → 0.62.
+  - `documented`: about 10 million public light points, about 65 % converted to LED; ASSIL with Politecnico di Milano, cited in Il Fatto Quotidiano, 11 Feb 2026 (https://www.ilfattoquotidiano.it/2026/02/11/illuminazione-pubblica-un-disegno-di-legge-per-consumare-e-inquinare-meno-e-far-risparmiare-le-amministrazioni/8286507/). The year the share refers to is not stated in the article excerpt.
+- **Files changed:** `app/src/tileLayer.js`, `pipeline/colour/METHOD.md`, this log.
+- **Not done:** handoff update; nothing committed.
+
+## 2026-10-04: Colour (CCT) task, step 63. Human notes the 2025 globe looks monotone (e.g. the US); options explained (answer only, no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > My thinking here is that the less stark difference may just be more realistic at least to the viewer... but I'm not really sure about all of that. Especially looking at places like the US which are now monotone ... there's a lot of monotone in 2025 globe
+- **Read:** `app/src/tileLayer.js` fragment shader. The rule is brightest-first: a pixel is white if its display grey > the cell threshold (the (1 − share) grey quantile).
+- **Answer given:**
+  - Why it looks monotone: with high shares (US drawn 0.80; step 56), only the dimmest pixels stay orange, and those are near-black on screen. 2000 K and 3000 K are both warm.
+  - Documented US LED share: 48.6 % (2018; step 33/52).
+  - Options for the human:
+    - A: keep as is.
+    - B: assign white by a position-based random draw with probability = share, independent of brightness.
+    - C: one mixed tint per pixel by share.
+    - D: tint by measured CCT.
+    - E: different tints.
+  - None chosen; none prototyped.
+- **Files changed:** this log.
+
+## 2026-10-04: Colour (CCT) task, step 64. Prototype colour modes B (white by place) and C (blend by share) built as a URL/dev switch; screenshots
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > prototype B and C, show me screenshots
+- **Data / script:** `pipeline/colour/10_white_share_grid.py`, new step 5. It writes the cell white share it already computes to `data/derived/colour/global_white_share_values.png`:
+  - R/G = share 2015/2025 × 255, 0 where coverage is 0 or < MIN_LIT; B/A = coverage. Label `estimated` (same as the existing photo shares).
+  - Sidecar gains `share_png` and `share_png_channels`.
+  - Rerun (`--pilot global`, 1 min 49 s): `global_white_share_grid.png` and `global_thumb_shares.csv` byte-identical to before (cmp); the JSON differs only by the 2 new fields. The pre-run copies are in the session scratchpad (`before62/`).
+- **App (prototype):**
+  - `app/src/tileLayer.js`:
+    - URL `?ramp=brightest|place|blend` (default brightest = unchanged) and `?block=N` (place-mode blocks per degree, default 120).
+    - New uniforms uShare, uFbShare, uMode, uBlocks. Share = mix(fallback share, cell share, coverage).
+    - place: white if a fixed position hash < share. blend: tint = mix(sodium, white, share).
+    - The share PNG always loads.
+  - `app/src/main.js`: dev-only `window.tileLayer`.
+  - `app/vite.config.js`: allow-list adds `global_white_share_values.png`.
+- **Screenshots** (preview `alan-final-app`, viewport 1200×800, 2025 full screen, dev handles, inspection only; no console errors). Composed in scratch: `modes_regions.png` (US / India / Italy × brightest, place 5 km, blend) and `modes_po_valley.png` (Po valley × brightest, place 1 km, place 5 km, blend).
+  - At country zoom the three modes look nearly the same. At 1 km, place-mode blocks are below screen resolution at that zoom.
+  - Up close (Po valley), place 5 km shows an orange/peach block mosaic, place 1 km a fine speckle, blend one even tint.
+- **Labels:** cell shares `estimated`; the modes are display prototypes, not data.
+- **Files changed:** `pipeline/colour/10_white_share_grid.py`, `data/derived/colour/global_white_share_values.png` (new), `data/derived/colour/global_white_share_grid.json`, `global_white_share_grid.png` and `global_thumb_shares.csv` (rewritten, identical), `app/src/tileLayer.js`, `app/src/main.js`, `app/vite.config.js`, this log.
+- **Not done:** METHOD.md not updated (prototype, no human decision yet); nothing committed.
+
+## 2026-10-04: Colour (CCT) task, step 65. White display tint 3200 K (human decision); session closed
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay move white to 3200k please and then I think we can call it
+- **Script:** `pipeline/colour/08_display_tints.py`:
+  - New `RAMP_WHITE_CCT_K = 3200`. The rerun writes `"ramp_white": {cct_k 3200, srgb [1.0, 0.7499, 0.4789]}` into `display_tints.json`.
+  - Class entries 1–3 unchanged (json diff: only the new key).
+- **App:** `app/src/tileLayer.js` `RAMP_TINTS[1]` = [1.0, 0.7499, 0.4789] (3200 K), copied from `display_tints.json`.
+- **Docs:** METHOD.md "Display ramp" tint sentence updated in place.
+- **Render check** (localhost:5173): no console errors; India 2025 drawn warm peach.
+- **Labels:** display choice, not data.
+- **Prototype modes (step 64):** left in place, default off. Removing or keeping them is open for the human.
+- **Files changed:** `pipeline/colour/08_display_tints.py`, `data/derived/colour/display_tints.json`, `app/src/tileLayer.js`, `pipeline/colour/METHOD.md`, `handoffs/2026-10-04_colour-mask-not-pursued.md` (update 3), this log.
+- **Not done:** audits (RULES §3); nothing committed or deleted.
+
+## 2026-10-04: Colour (CCT) task, step 66. Prototype mode B opened in the preview for the human to view (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > india's 2025 radiance really visually does expand isn't that impressive. Can you put option B into the globe just so I can view it?
+- **Done:** preview opened at `http://localhost:5173/?ramp=place&block=20` (B, 5 km blocks), camera on India. Checked uMode = 1, uBlocks = 20; no console errors. The default URL is still brightest-first.
+- **Files changed:** this log.
+
+## 2026-10-04: Colour (CCT) task, step 67. Option B (white by place, 1/20 deg blocks) made the default colour mode (human decision)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > make B the default
+- **Code:** `app/src/tileLayer.js`: default `RAMP_MODE` 0 → 1 (place), default `RAMP_BLOCKS` 120 → 20 (~5 km, the version the human viewed in step 66). `?ramp=brightest` and `?ramp=blend` still work. Comment updated.
+- **Docs:** METHOD.md "Display ramp": new paragraph on the default (method, share source, display-choice caveat, URL switches).
+- **Render check** (localhost:5173, no URL parameters): uMode 1, uBlocks 20; no console errors.
+- **Labels:** display choice, not data. Cell shares `estimated` (as before).
+- **Still dev-only:** `window.tileLayer` (main.js); the share PNG is served via the dev allow-list (publication hosting undecided, as for the other colour files).
+- **Files changed:** `app/src/tileLayer.js`, `pipeline/colour/METHOD.md`, `handoffs/2026-10-04_colour-mask-not-pursued.md` (update 4), this log.
+
+## 2026-10-04: Push task (earlier session), step 14. Prompt written for a new session: animated transition from the effects chart into the fireflies 3D chapter (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I need a new prompt to start the day fresh. I want to create an animation from the effects chart into the firefly 3D visualization... the animation would be that the UX selects a study/effect of the firefly, and then sort of visually expands into the firefly example.. could you get me a prompt to start a new session?
+- **Facts gathered (read-only):** newest handoffs `2026-10-04_mice-option2-and-push.md`, `2026-10-04_colour-mask-not-pursued.md`; git branch `alexander-final-rebuild` (commits b63e2836f, 5c0bfd07f). Story order: … `effects`, `intensity`, `light-type` (chart, records, filter, example 005-2 black swans) → `fireflies` → `mice` → `species` …. Study 299 has 4 records in `data/derived/impacts/effects.json`: 299-1 / 299-2 male flash rate (blue LED 31 lx, g −1.12; red LED 70 lx, g −1.74), 299-3 / 299-4 female response rate (blue g −2.68; red g −1.46); all "only for reduced intensity". The fireflies chapter shows female reply % for five lamps from the paper (photons, not lux).
+- **Actions:** next-session prompt given in chat.
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly transition task, step 1. Read-only review; 299 facts checked; options given (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; current branch alexander-final-rebuild). Read RULES.md first and follow it for the whole session. Then read the newest handoffs: handoffs/2026-10-04_mice-option2-and-push.md and handoffs/2026-10-03_spectral-chapters-build.md (incl. addendum), plus the last entries of AI_LOG.md.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour task). They also edit app/vite.config.js, app/src/tileLayer.js, main.js, style.css and content/story.js.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/ or the radiance tiles.
+  > - data/raw/ is read-only. ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only.
+  > - Do not commit, push, merge, delete or install anything without my explicit go-ahead. Ask before any new dependency, framework or build step.
+  >
+  > Task: an animated transition from the effects chart into the fireflies 3D chapter. The viewer selects a firefly study/effect (study 299, Owens & Lewis 2021) in the effects chart, and it visually expands into the firefly example (app/src/spectral.js, step "fireflies").
+  >
+  > 1. Read first (no edits): app/src/impacts.js (chart drawing, record dots, how `example` highlights a record, click/hit handling), app/src/spectral.js (createSpectral, the fireflies scene), app/src/main.js (applyStage: how impacts and spectral are shown/hidden per step), and the "light-type", "fireflies" and "mice" steps in app/content/story.js.
+  > 2. Facts to check and report (with sources): study 299 has 4 records in data/derived/impacts/effects.json. 299-1 / 299-2 are male flash rate (blue LED 31 lx, g −1.12; red LED 70 lx, g −1.74). 299-3 / 299-4 are female response rate (blue g −2.68; red g −1.46). All are marked "only for reduced intensity". The fireflies chapter instead shows female reply % for five lamps from the paper, standardised by photons, not lux. Say which record(s) could honestly be the "door" into the chapter and whether the workbook values and the paper values describe the same conditions (check the raw paper / Data S1, cite section).
+  > 3. Then give me 2–3 short options, with trade-offs, covering:
+  >    - the trigger: the viewer clicks a 299 dot in the chart vs the story arrow moving from "Light type" to "Fireflies" with 299 highlighted vs both;
+  >    - which chart view it starts from (light-type lanes or another);
+  >    - what "expands" visually (e.g. the dot grows and fades into the 3D scene's first beat; a crossfade between the 2D canvas and the three.js canvas; a camera move);
+  >    - how it reverses when going back;
+  >    - what changes in which files, keeping it as simple as the rest of our renderings (plain JS + three, no new libraries).
+  >    Then stop and wait for my choice.
+  > 4. Build only what I pick. Verify in the browser (preview port 5173; if another chat's server already runs there, use it; the pane throttles animation while hidden, so use screenshots), including forwards, backwards and other steps not affected (e.g. the filter bar stays hidden on Light steps). Log every step; all on-screen text stays DRAFT unless I write it.
+  >
+  > Write a handoff when done or at ~30% context.
+- **Read (no edits):** RULES.md, the two handoffs, AI_LOG tail; `app/src/impacts.js`, `app/src/spectral.js`, `app/src/main.js`; story steps `light-type`, `fireflies`, `mice`.
+- **Facts (read-only checks):**
+  - `data/derived/impacts/effects.json`: 299-1..4 confirmed as stated (workbook rows 4456–4459). Means: 299-1/2 male flash rate control 10.3, lit 5.72 (blue) / 4.58 (red); 299-3/4 female response control 96.21 %, lit 36.03 % (blue) / 50.17 % (red); n = 22 each. Light-type lanes: 299-1, 299-3 in `NS blue`; 299-2, 299-4 in `NS yellow-red`.
+  - Owens & Lewis 2021 (raw PDF), Methods p. 201: 2018 trials, five LEDs, each at dim (2.079e19) and bright (2.079e20 photons cm⁻² s⁻¹ at 60.8 cm); photons standardised. Results p. 203: dark 98.7 ± 0.4 %; dim blue 36.1 ± 6.1 %; dim red 48.6 ± 8.8 %; intensity had no effect on male flash rate (χ² = 2.484, P = 0.115).
+  - No lux value appears in the paper or its SI (only the field sites' sky brightness, 0.86 lx). Czarnecka et al. 2025 sec. 2.1 says non-photometric units were converted to lux; the conversion behind 31 / 70 lx was not found in the article text read.
+  - Workbook vs paper: 299-3 lit 36.03 % ≈ dim blue 36.1 %; 299-4 lit 50.17 % vs dim red 48.6 %; control 96.21 % vs dark 98.7 %. SD/√22 = 6.38 / 9.14 vs paper SE 6.1 / 8.8. "only for reduced intensity" matches the dim treatments. The workbook values look read from Fig. 2b (inference, not confirmed).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly transition task, step 2. Amber question answered; door transition built (option B + click, door 299-3)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > B with the click (C), door 299-3 only
+  >
+  > Before you start - the study also details the amber light interrupts the mating pattern correct?
+- **Amber (read-only, raw PDF):** yes. Abstract point 6: bright amber light had the greatest impact. Results p. 203: females never answered under bright amber; in the 2018 trials males produced the fewest flash patterns under amber (Tukey, P ≤ 0.0097). Discussion p. 204: amber light "of any intensity is most disruptive to the firefly courtship dialogue". Dim-amber female value only in Fig. 2b (not in text). Data S1 has no amber record for 299 (blue and red only).
+- **Human decisions:** option B (the 3D view grows out of the chart dot) plus the click trigger (C); door = record 299-3 only. The question on which beat the chapter starts with was not answered: unchanged (dark, 98.7 %).
+- **Code:**
+  - `app/src/impacts.js`: `onDoor` option; stage keys `door` / `doorLabel` draw a pulsing white ring and label on that record (follows the Dots: Studies merge and the filter; hidden while lanes regroup); clicking it calls `onDoor`. `setStage(s, { snap })` jumps animations to their end state. `doorAt(id)` returns the record's screen position.
+  - `app/src/spectral.js`: `set(st, { from, to, onDone })`. `from`: a circle clip around the dot widens (6 px → screen) while the canvas scales 0.3 → 1 about it, 1.3 s. `to`: the reverse, 0.9 s, then hidden. Labels and the number appear once open.
+  - `app/src/main.js`: `onDoor` → story goes to the spectral step with that door. `applyStage`: Light type → Fireflies grows from 299-3 (chart kept under it with its filter bar hidden, then hidden); Fireflies → Light type shrinks back into the dot (chart snapped in place, filter bar back after). All other step changes unchanged.
+  - `app/content/story.js`: `light-type` impacts stage gains `door: '299-3'`, `doorLabel: '[DRAFT] Fireflies, female replies under dim blue light'` (agent wording, DRAFT); `fireflies` spectral gains `door: '299-3'`.
+- **Browser check** (localhost:5173, another chat's server, 800×600 pane, screenshots): click on the ring → circle grows from the dot into the scene; arrow → same; arrow back → scene shrinks into the dot, then filter bar returns. Statistic (Light step): filter bar, impacts and spectral hidden. Menu jump to Fireflies and Mice → Fireflies: no transition, impacts hidden. Light level step: no ring. Dots: Studies: ring moves to the 299 study dot in the Blue lane. No console errors.
+- **Noted, not changed:** at 800×600 the door label runs under the story card; with Dots: Studies the label still names the 299-3 record while the dot is the study's median of 299-1 and 299-3.
+- **Labels:** no data values changed.
+- **Files changed:** `app/src/impacts.js`, `app/src/spectral.js`, `app/src/main.js`, `app/content/story.js`, `handoffs/2026-10-04_firefly-door-transition.md` (new), this log.
+
+## 2026-10-04: Firefly transition task, step 3. Door kept at 299-3; fireflies chapter made manual (top-right toggle, ← → through the states)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > surely the effect dot we take it from shouldn't be from the 'blue light' lane, but rather yllow to red or something?
+  >
+  > Moreover, can we add a simple toggle through the different parts of the 'firefly' story in the top right of screen -- i.e. through different wavelength states -- and stop having it autojump to next one once it finishes running. It's good to have it sit for impact, we can change with arrows.
+- **Agent asked (two questions):** door record (only Yellow-to-red female record = 299-4, red not amber; Data S1 has no amber for 299) and which arrows step the states.
+- **Human answers (verbatim):** door: "okay can keep original that's fine. Don't want to overthink it"; arrows: "Keyboard ← → too".
+- **Code:**
+  - `app/src/spectral.js`: new `#spectral-toggle` (one button per beat; names = the scene's lamp names, no lamp = "dark"); `manual` chapters show the chosen beat and do not advance; `step(delta)` returns false at either end; `set(..., { beat: 'last' })`. Toggle hidden during the door transition.
+  - `app/content/story.js`: fireflies `spectral` gains `manual: true` (`every` removed). Mice unchanged (still loops).
+  - `app/src/main.js`: capture-phase keydown on a manual spectral step: ← → step beats; past the ends the story moves as before (→ after amber = Mice; ← before dark = Light type through the door). Arriving at Fireflies from Mice starts on the last beat (agent choice).
+  - `app/src/style.css`: toggle block appended at the end (same look as the filter buttons).
+- **Browser check** (localhost:5173): door → dark; → ×4 = red, held 6 s without advancing; → amber; → Mice (toggle hidden, Mice still loops); ← → Fireflies on amber; click "warm white" → 11.6 %; ← ← → dark; ← → Light type, door closes, chart shown. Statistic (Light step): toggle, filter bar, spectral hidden. No console errors.
+- **Not changed:** the bottom-right story ‹ › buttons still change story steps (not beats).
+- **Labels:** no data values changed.
+- **Files changed:** `app/src/spectral.js`, `app/src/main.js`, `app/content/story.js`, `app/src/style.css`, `handoffs/2026-10-04_firefly-door-transition.md` (update), this log.
+
+## 2026-10-04: Firefly transition task, step 4. Species groups retired; one-effect bars held until →; Broader Impacts and Conclusion screens; Explore as a third heading
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > A few quick changes - could you remove the "species group" sub chapter please as it's not telling any story ... thank you.
+  >
+  > Can you make it such that once I skip the "one effect" scene, the swan sleep bar chart collapses into the dot and doesn't have to go through its entire animation ... this is tiring. Also, it's timed, I'd rather control that with an arrow so people have enough time to digest it.
+  >
+  > After the Mice 3D subchapter, could you bring in a filler screen called "Broader Impacts" which is where we ask the question, "So how does this translate to ecosystem level impacts?" and maybe we will include some charts, data, sources on that topic as a concluding piece.
+  >
+  > Then after that a dark screen called "Conclusion" where we will have some final call to action ... this can be a draft or something like "We need light at night, but do we need it all the time, everywhere?"
+  >
+  > And then the explore all studies section can move to a 3rd top level category, out of impacts just called EXPLORE that we reach after the conclusion
+- **Story (`app/content/story.js`):**
+  - `species` step moved to the `retired` list (sourced text kept, as for France / Ukraine / Iceland); not deleted. Its chart code (`GROUPS.species` in impacts.js) is left in place, unused by the story.
+  - New `broader` (part 2, kind `fact`, label "Broader Impacts", text = the human's question verbatim, globe without dots).
+  - New `conclusion` (part 2, kind `fact`, label "Conclusion", `dark: true`, text "[DRAFT] We need light at night, but do we need it all the time, everywhere?" = the human's suggested wording, marked DRAFT).
+  - `explore` moved to `part: 3`. Order now: … Fireflies, Mice, Broader Impacts, Conclusion | Explore all studies (16 steps).
+- **Code:**
+  - `app/src/impacts.js`: worked-example timer removed (`EXAMPLE_HOLD`); bars hold on "One effect" until the story moves to a step with all records, then collapse into the dot at once (1.3 s, as before). Arriving straight at a records step still shows the dot; going back to One effect shows the bars again.
+  - `app/index.html`: third heading "Explore" with its step list (`data-part="3"`). Written "Explore" to match "Light" / "Impacts" (the human wrote EXPLORE).
+  - `app/src/main.js`: headings / collapsing lists for three parts (`PART_OF_MODE`); heading click jumps to its part's first step; `story-dark` body class from the step's `dark` key.
+  - `app/src/style.css`: `body.story-dark` fades the globe out (1.2 s) and hides swipe / year labels.
+- **Browser check** (localhost:5173): One effect bars still held after 8 s; → collapses them into the dot while records arrive. Mice → Broader Impacts (question over the globe) → Conclusion (dark, DRAFT text) → Explore (own heading, study dots, colour toggle). Back to Conclusion: dark again. Heading clicks Light / Impacts / Explore jump and open the right list. Species groups no longer in the menu. Light step: filter bar hidden. No console errors.
+- **Noted, not changed:** at the 800×600 pane width the big `fact` text (Broader Impacts, Conclusion; same layout as Ecosystems) sits over the longer Impacts step list.
+- **Labels:** no data values changed.
+- **Files changed:** `app/content/story.js`, `app/src/impacts.js`, `app/index.html`, `app/src/main.js`, `app/src/style.css`, `handoffs/2026-10-04_firefly-door-transition.md` (update), this log.
+
+## 2026-10-04: Firefly transition task, step 5. Commit of all uncommitted final/ changes (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay let's commit all these new changes so I can share with Linda
+- **Agent asked:** whether to include the colour session's uncommitted changes (tileLayer.js, vite.config.js, pipeline/colour, METHOD.md, its handoff); noted that the new default colour mode needs `data/derived/colour/global_white_share_values.png`, which is git-ignored and not in the zip made for Linda.
+- **Human answer:** "Everything, one commit".
+- **Done:** one commit on branch `alexander-final-rebuild` with all modified files under `final/` plus `handoffs/2026-10-04_firefly-door-transition.md`. Not pushed.
+- **Files changed:** this log (then committed).

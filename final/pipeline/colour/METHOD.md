@@ -36,7 +36,16 @@ Status: **pilot / test**. Every class value is labelled `estimated`, and was req
 Status: **prototype / first look**. Chosen by the human (Alexander) on 2026-10-03 after the disc render was judged "totally unrealistic". No legend (human). AI_LOG colour steps 17–18.
 
 ## What is drawn
-Every lit pixel is drawn as grey × tint. The tint is **sodium (blackbody 2000 K)** below the year's grey threshold and **white LED (blackbody 4000 K)** above it, with a soft blend of ±8 grey levels. The brightest pixels turn white first. Shader: `app/src/tileLayer.js`. It works on tiles v1 and v2 and ignores the v2 class bits.
+Every lit pixel is drawn as grey × tint. The tint is **sodium (blackbody 2000 K)** below the year's grey threshold and **white (blackbody 3200 K**, `display_tints.json` "ramp_white" from `08_display_tints.py`; was 4000 K, then 3000 K on 2026-10-04 (AI_LOG colour step 62), then 3200 K, human: "move white to 3200k", step 65) above it, with a soft blend of ±8 grey levels. The brightest pixels turn white first. Shader: `app/src/tileLayer.js`. It works on tiles v1 and v2 and ignores the v2 class bits.
+
+**Default since 2026-10-04: white by place (option B; human: "make B the default", AI_LOG colour steps 63–67).**
+- A 1/20° block (~5 km) is drawn white if a fixed hash of its position is below the cell's white share. Otherwise it is drawn sodium. Pixel brightness does not matter.
+- Share = mix(fallback share, cell share, coverage).
+  - Cell shares: `data/derived/colour/global_white_share_values.png`, written by `10_white_share_grid.py` step 5.
+  - Fallback shares: the sidecar.
+- So the share of lit blocks drawn white matches the cell's estimated share at every brightness.
+- Which blocks are white is random (fixed by position) and is a **display choice, not an observation**. The square blocks are visible up close.
+- The brightest-first rule below stays available with `?ramp=brightest`; `?ramp=blend` gives one tint mixed by the share.
 
 ## How the thresholds are set (`09_display_ramp.py` → `data/derived/colour/display_ramp.json`)
 | Year | White share | Label | Grey threshold | Label |

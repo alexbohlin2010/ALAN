@@ -63,7 +63,12 @@ export function createSpectral({ parent }) {
   const canvas = Object.assign(document.createElement('canvas'), { id: 'spectral-canvas', hidden: true });
   const labels = Object.assign(document.createElement('div'), { id: 'spectral-labels', hidden: true });
   const number = Object.assign(document.createElement('div'), { id: 'spectral-number', hidden: true });
-  parent.append(canvas, labels, number);
+  // Beat toggle (top right) for chapters with `manual: true`: one button per beat, no auto-advance (human request,
+  // Firefly transition task step 3). Button names = the lamp names used in the scene; no lamp = 'dark'.
+  const toggle = Object.assign(document.createElement('nav'), { id: 'spectral-toggle', hidden: true });
+  toggle.setAttribute('aria-label', 'Light states');
+  parent.append(canvas, labels, number, toggle);
+  toggle.addEventListener('click', e => { const b = e.target.closest('button'); if (b) goBeat(Number(b.dataset.beat)); });
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
   const scale = Math.min(window.devicePixelRatio, 1.5);
@@ -76,6 +81,12 @@ export function createSpectral({ parent }) {
   const chapters = {};       // name → { group, view, ... }
   const tags = [];           // { el, pos, chapter }
   let data = null, current = null, running = false, t0 = 0, beatIndex = -1, fades = [], cam = null;
+  // Door transition (human: option B + click, Firefly transition task step 2): the view grows out of a chart dot
+  // (dir 1) or shrinks back into it (dir −1): a circle clip around the dot widens while the canvas scales up
+  // about it. { dir, x, y, t, ms, done } or null. Labels and the number wait until it is open.
+  let trans = null;
+  let manualBeat = 0;   // the shown beat when the chapter is manual
+  const OPEN_MS = 1300, CLOSE_MS = 900, DOOR_R = 6;
 
   const loaded = Promise.all(['spectra_299', 'perception_299', 'spectra_278'].map(f =>
     fetch(`/impacts/${f}.json`).then(r => r.json()))).then(([f, p, m]) => { data = { f, p, m }; build(); });
@@ -321,11 +332,45 @@ export function createSpectral({ parent }) {
     F.talk.signal.position.x = Math.min(1, Math.max(0, (ph - 0.2) / 0.3)) * 1.8 - 0.9;
   }
 
+  function plain() {
+    canvas.style.transform = canvas.style.transformOrigin = canvas.style.clipPath = '';
+    labels.style.visibility = number.style.visibility = toggle.style.visibility = '';
+  }
+  function door(now) {
+    if (!trans) return;
+    const { x: dx, y: dy } = trans, w = window.innerWidth, h = window.innerHeight;
+    const k0 = Math.min(1, Math.max(0, (now - trans.t) / trans.ms)), k = ease(trans.dir > 0 ? k0 : 1 - k0);
+    const R = Math.hypot(Math.max(dx, w - dx), Math.max(dy, h - dy)), rs = DOOR_R + (R - DOOR_R) * k, sc = 0.3 + 0.7 * k;
+    canvas.style.transformOrigin = `${dx}px ${dy}px`;
+    canvas.style.transform = `scale(${sc})`;
+    canvas.style.clipPath = `circle(${rs / sc}px at ${dx}px ${dy}px)`;
+    labels.style.visibility = number.style.visibility = toggle.style.visibility = 'hidden';
+    if (k0 >= 1) { const t = trans; trans = null; plain(); t.done?.(); }
+  }
+  function hideNow() {
+    trans = null; plain();
+    canvas.hidden = labels.hidden = number.hidden = toggle.hidden = true; running = false; current = null;
+  }
+  function renderToggle() {
+    toggle.hidden = !current?.manual;
+    if (toggle.hidden) return;
+    toggle.innerHTML = current.beats.map((b, i) =>
+      `<button data-beat="${i}" aria-pressed="${i === manualBeat}">${b.lamp ? LAMP_NAME[b.lamp] : 'dark'}</button>`).join('');
+  }
+  function goBeat(i) {
+    if (!current?.manual || i < 0 || i >= current.beats.length) return false;
+    manualBeat = i;
+    renderToggle();
+    return true;
+  }
+
   // ── loop ─────────────────────────────────────────────────────────────────
   const v = new THREE.Vector3();
   function frame(now) {
     if (!running) return;
-    const ms = current.every ?? 4200, i = Math.floor((now - t0) / ms) % current.beats.length;
+    door(now);
+    if (!running) return;   // a closing door just finished
+    const ms = current.every ?? 4200, i = current.manual ? manualBeat : Math.floor((now - t0) / ms) % current.beats.length;
     if (i !== beatIndex) { beatIndex = i; enterBeat(current.beats[i]); }
     fades = fades.filter(f => {
       const k = Math.min(1, Math.max(0, (now - f.t) / f.ms));
@@ -364,9 +409,16 @@ export function createSpectral({ parent }) {
 
   return {
     // st = a story step's `spectral` key ({ chapter, beats, every }), or null to hide the view.
-    async set(st) {
+    // from = {x, y}: grow out of that screen point; to = {x, y}: shrink into it, then hide. onDone: when finished.
+    // beat: 'last' starts a manual chapter on its last beat (arriving backwards).
+    async set(st, { from = null, to = null, onDone = null, beat = 0 } = {}) {
+      if (!st) {
+        if (to && running && current) trans = { dir: -1, x: to.x, y: to.y, t: performance.now(), ms: CLOSE_MS, done: () => { hideNow(); onDone?.(); } };
+        else hideNow();
+        return;
+      }
       current = st;
-      if (!st) { canvas.hidden = labels.hidden = number.hidden = true; running = false; return; }
+      trans = null; plain();
       await loaded;
       if (current !== st) return;  // the step changed while the data was loading
       Object.entries(chapters).forEach(([k, c]) => { c.group.visible = k === st.chapter; });
@@ -374,10 +426,15 @@ export function createSpectral({ parent }) {
       tags.forEach(t => t.el.classList.remove('on'));
       fades = [];
       beatIndex = -1;
+      manualBeat = beat === 'last' ? st.beats.length - 1 : 0;
+      renderToggle();
       cam = null;  // snap to the first view on entering a step
       t0 = performance.now();
+      if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone }; door(t0); }
       canvas.hidden = labels.hidden = false;
       if (!running) { running = true; requestAnimationFrame(frame); }
     },
+    // Manual chapters: move one beat; false at either end (or when not manual), so the caller can change step.
+    step(delta) { return !trans && goBeat(manualBeat + delta); },
   };
 }
