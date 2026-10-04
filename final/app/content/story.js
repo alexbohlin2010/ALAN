@@ -238,68 +238,72 @@ export const story = [
       // Door into the fireflies chapter (human: option B + click, door = 299-3 only; Firefly transition task step 2).
       door: '299-3', doorLabel: '[DRAFT] Fireflies, female replies under dim blue light' },
   },
-  // ── Spectral chapters (human: fireflies F-A + F-C, mice M-B, after "Light type"; Linda's look, two chapters,
-  // beats loop automatically, perception layer; AI_LOG Impacts steps 74–78). All titles, texts and number labels
-  // are DRAFT placeholders by the agent until the human writes them.
-  // `spectral.beats` loop every `every` ms; each beat shows one documented number. Fireflies: `lamp` = the lamp lit
-  // (with its firefly-weighted layer), `reply` = documented female reply share driving the dialogue animation,
-  // `brighter` = the lamp grows ×10 (dim → bright photons). Mice: `show` = lux | melanopic | activity | clock.
-  // Curves: data/derived/impacts/spectra_299.json, perception_299.json, spectra_278.json (inferred).
+  // ── Firefly section skeleton (human, 2026-10-04, AI_LOG "Firefly narrative" round 1): tab names are the agent's
+  // proposal accepted by the human "for now". Each tab is a [PLACEHOLDER] until it is built; text says only what will go there.
+  // Order (human): signal production (Owens 2018) → female response (Owens & Lewis 2021) → mate-finding (Kivelä 2023)
+  // → synthesis → local firefly (Photinus pyralis) → Philadelphia vs Cherry Springs measured spectra.
   {
-    id: 'fireflies',
+    id: 'signal-production',
     part: 2,
-    label: '[DRAFT] Fireflies',
-    title: '[DRAFT] Fireflies under five lamps',
-    text: '[DRAFT] Courting *Photinus obscurellus* fireflies (study 299): a male flashes, a female answers. ' +
-      'Each lamp in turn, and the part of its light a firefly eye takes in (green). Amber last, ten times brighter.',
+    label: 'Signal production',
+    title: 'Signal production',
+    text: '[PLACEHOLDER] Owens, Meyer-Rochow & Yang 2018, *Aquatica ficta*.',
     sources: [
-      { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
-        supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
-      { label: 'Owens & Lewis 2021, Results', url: 'https://doi.org/10.1111/icad.12487',
-        supports: 'female response: dark 98.7 %, bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. The other five colour × intensity values are only in Fig. 2b (not shown)' },
+      { label: 'Owens et al. 2018, PLoS ONE', url: 'https://doi.org/10.1371/journal.pone.0191576' },
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    // door: grows out of record 299-3 in the Light type chart when arriving from that step (main.js).
-    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
-    spectral: { chapter: 'fireflies', door: '299-3', manual: true, beats: [
-      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
-      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
-      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
-      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
-      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
-      { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0 },
-    ] },
   },
   {
-    id: 'mice',
+    id: 'female-response',
     part: 2,
-    label: '[DRAFT] Mice',
-    title: '[DRAFT] Mice: two night lights at 10 lux',
-    text: '[DRAFT] Study 278: mice under dim light at night from a blue-rich or a long-wavelength lamp. ' +
-      'Blue line: the peak of melanopsin. Dials: one day for each lamp (outer blue-rich, inner long-wavelength); ' +
-      'moving points = activity at night.',
+    label: 'Female response',
+    title: 'Female response',
+    text: '[PLACEHOLDER] Owens & Lewis 2021, *Photinus obscurellus*. The earlier chapter on this study is parked at the end of the story.',
     sources: [
-      { label: 'Wang et al. 2023, S. Fig. 1 and Methods', url: 'https://doi.org/10.1016/j.nbd.2022.105944',
-        supports: 'two LED spectra; 10.0 lx (short-λ) and 10.4 lx (long-λ); melanopic EDI 15 vs 1 mel lx; melanopsin peak ≈480 nm (Hattar 2002; Panda 2005); 12:12 light:dark, ZT 0 = lights on' },
-      { label: 'Wang et al. 2023, sec. 3.1, Fig. 1', url: 'https://doi.org/10.1016/j.nbd.2022.105944',
-        supports: 'activity suppressed 51 ± 5 % vs 14 ± 7 % (1 h at ZT 14); phase delay −117 ± 6 vs −26 ± 4 min (15 min at CT 16); all 10 lx' },
+      { label: 'Owens & Lewis 2021', url: 'https://doi.org/10.1111/icad.12487' },
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    // Dial look after Linda's body-clock scene (human decision, AI_LOG Push task step 5). Lamp beats zoom to
-    // the night quarter; the clock test gets its own constant-darkness dial (human: option 2, Push task step 8).
-    spectral: { chapter: 'mice', every: 4500, beats: [
-      { show: 'lux', value: '10 lx · 10 lx', label: 'same measured brightness · blue-rich · long-wavelength' },
-      { lamp: 'short', supp: 0.51, view: 'night', value: '−51 %', colours: ['short'],
-        label: 'night activity during 1 h of blue-rich light · 15 melanopic lux' },
-      { lamp: 'long', supp: 0.14, view: 'night', value: '−14 %', colours: ['long'],
-        label: 'night activity during 1 h of long-wavelength light · 1 melanopic lux' },
-      { show: 'dark', view: 'dial', value: '15 min',
-        label: '[DRAFT] 10 lx pulse at CT 16, 4 h after activity onset, in constant darkness' },
-      { show: 'clock', view: 'dial', minutes: [117, 26], value: '117 vs 26 min', colours: ['short', 'long'],
-        label: 'later start of the active night after a 15 min pulse of light' },
-    ] },
+  },
+  {
+    id: 'mate-finding',
+    part: 2,
+    label: 'Mate-finding',
+    title: 'Mate-finding',
+    text: '[PLACEHOLDER] Kivelä et al. 2023, *Lampyris noctiluca*.',
+    sources: [
+      { label: 'Kivelä et al. 2023, Sci. Total Environ.', url: 'https://doi.org/10.1016/j.scitotenv.2022.159451' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+  },
+  {
+    id: 'communication',
+    part: 2,
+    label: 'One communication problem',
+    title: 'One communication problem',
+    text: '[PLACEHOLDER] Synthesis of the three studies.',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+  },
+  {
+    id: 'local-firefly',
+    part: 2,
+    label: 'Local firefly',
+    title: 'Local firefly',
+    text: '[PLACEHOLDER] *Photinus pyralis*, Philadelphia and Cherry Springs.',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+  },
+  {
+    id: 'two-nights',
+    part: 2,
+    label: 'Two measured nights',
+    title: 'Two measured nights',
+    text: '[PLACEHOLDER] Measured night spectra, Philadelphia and Cherry Springs.',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
   },
   // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
   // charts, data and sources on ecosystem-level impacts may follow here (not started).
@@ -339,6 +343,72 @@ export const story = [
     fly: 2500,
     swipe: 0,
     impacts: { view: 'globe', explore: true },
+  },
+  // ── Parked at the end (human, 2026-10-04, Firefly narrative round 1: "firefly and Mice part both move to the end of
+  // all tabs, that may be removed later until everything's built up"). Listed under Explore (part 3) so the step list
+  // order matches the story order. The Light type door (299-3) still opens the fireflies chapter here.
+  // ── Spectral chapters (human: fireflies F-A + F-C, mice M-B, after "Light type"; Linda's look, two chapters,
+  // beats loop automatically, perception layer; AI_LOG Impacts steps 74–78). All titles, texts and number labels
+  // are DRAFT placeholders by the agent until the human writes them.
+  // `spectral.beats` loop every `every` ms; each beat shows one documented number. Fireflies: `lamp` = the lamp lit
+  // (with its firefly-weighted layer), `reply` = documented female reply share driving the dialogue animation,
+  // `brighter` = the lamp grows ×10 (dim → bright photons). Mice: `show` = lux | melanopic | activity | clock.
+  // Curves: data/derived/impacts/spectra_299.json, perception_299.json, spectra_278.json (inferred).
+  {
+    id: 'fireflies',
+    part: 3,
+    label: '[DRAFT] Fireflies',
+    title: '[DRAFT] Fireflies under five lamps',
+    text: '[DRAFT] Courting *Photinus obscurellus* fireflies (study 299): a male flashes, a female answers. ' +
+      'Each lamp in turn, and the part of its light a firefly eye takes in (green). Amber last, ten times brighter.',
+    sources: [
+      { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
+      { label: 'Owens & Lewis 2021, Results', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'female response: dark 98.7 %, bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. The other five colour × intensity values are only in Fig. 2b (not shown)' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    // door: grows out of record 299-3 in the Light type chart when arriving from that step (main.js).
+    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
+    spectral: { chapter: 'fireflies', door: '299-3', manual: true, beats: [
+      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
+      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
+      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
+      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
+      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
+      { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0 },
+    ] },
+  },
+  {
+    id: 'mice',
+    part: 3,
+    label: '[DRAFT] Mice',
+    title: '[DRAFT] Mice: two night lights at 10 lux',
+    text: '[DRAFT] Study 278: mice under dim light at night from a blue-rich or a long-wavelength lamp. ' +
+      'Blue line: the peak of melanopsin. Dials: one day for each lamp (outer blue-rich, inner long-wavelength); ' +
+      'moving points = activity at night.',
+    sources: [
+      { label: 'Wang et al. 2023, S. Fig. 1 and Methods', url: 'https://doi.org/10.1016/j.nbd.2022.105944',
+        supports: 'two LED spectra; 10.0 lx (short-λ) and 10.4 lx (long-λ); melanopic EDI 15 vs 1 mel lx; melanopsin peak ≈480 nm (Hattar 2002; Panda 2005); 12:12 light:dark, ZT 0 = lights on' },
+      { label: 'Wang et al. 2023, sec. 3.1, Fig. 1', url: 'https://doi.org/10.1016/j.nbd.2022.105944',
+        supports: 'activity suppressed 51 ± 5 % vs 14 ± 7 % (1 h at ZT 14); phase delay −117 ± 6 vs −26 ± 4 min (15 min at CT 16); all 10 lx' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    // Dial look after Linda's body-clock scene (human decision, AI_LOG Push task step 5). Lamp beats zoom to
+    // the night quarter; the clock test gets its own constant-darkness dial (human: option 2, Push task step 8).
+    spectral: { chapter: 'mice', every: 4500, beats: [
+      { show: 'lux', value: '10 lx · 10 lx', label: 'same measured brightness · blue-rich · long-wavelength' },
+      { lamp: 'short', supp: 0.51, view: 'night', value: '−51 %', colours: ['short'],
+        label: 'night activity during 1 h of blue-rich light · 15 melanopic lux' },
+      { lamp: 'long', supp: 0.14, view: 'night', value: '−14 %', colours: ['long'],
+        label: 'night activity during 1 h of long-wavelength light · 1 melanopic lux' },
+      { show: 'dark', view: 'dial', value: '15 min',
+        label: '[DRAFT] 10 lx pulse at CT 16, 4 h after activity onset, in constant darkness' },
+      { show: 'clock', view: 'dial', minutes: [117, 26], value: '117 vs 26 min', colours: ['short', 'long'],
+        label: 'later start of the active night after a 15 min pulse of light' },
+    ] },
   },
 ];
 
