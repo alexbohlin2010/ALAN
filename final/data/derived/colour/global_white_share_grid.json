@@ -1,0 +1,64 @@
+{
+ "extent": {
+  "west": -180.0,
+  "north": 60.0,
+  "east": 180.0,
+  "south": -56.0
+ },
+ "step_deg": 0.25,
+ "nx": 1440,
+ "ny": 464,
+ "png": "global_white_share_grid.png",
+ "share_png": "global_white_share_values.png",
+ "share_png_channels": "R = white share 2015 x 255, G = white share 2025 x 255, B/A = coverage as png (display prototype, human 2026-10-04)",
+ "png_channels": "R = grey threshold 2015, G = grey threshold 2025, B = coverage 2015 x 255, A = coverage 2025 x 255; row 0 = north; cells without photos: 0",
+ "params": {
+  "MIN_PIXELS": 200,
+  "MIN_FOCAL_MM": 50,
+  "MAX_GR": 1.3,
+  "MAX_BG": 1.2,
+  "MIN_WHITE_BR": 0.5,
+  "SIGMA_DEG": 0.5,
+  "CUT_SIGMA": 5,
+  "W_FULL": 2.0,
+  "WINDOW_CELLS": 2,
+  "MIN_LIT": 50,
+  "WHITE_GR": 0.8,
+  "REGIONAL": true,
+  "REGION_STEP_DEG": 1.0,
+  "REGION_SIGMA_DEG": 5.0,
+  "REGION_CUT_SIGMA": 3
+ },
+ "labels": {
+  "white_share": "estimated",
+  "coverage": "inferred",
+  "grey_threshold": "inferred",
+  "fallback_white_share": "estimated",
+  "fallback_grey_threshold": "inferred"
+ },
+ "frame_flags": "global_frame_flags.csv",
+ "share_source": "cct (global_thumb_cct.csv white_share)",
+ "note": "human request 2026-10-03; see pipeline/colour/METHOD.md",
+ "epochs": {
+  "2015": {
+   "photos_used": 2683,
+   "photos_flagged_out": 11608,
+   "fallback_white_share": 0.1844,
+   "fallback_source": "median of photo shares",
+   "photo_share_median": 0.1844,
+   "fallback_grey_threshold": 203,
+   "lit_pixels": 64243563,
+   "cells_coverage_gt_0_5": 143406
+  },
+  "2025": {
+   "photos_used": 1999,
+   "photos_flagged_out": 4661,
+   "fallback_white_share": 0.41,
+   "fallback_source": "1 - sodium-vapour share (59.0 %) of Brazil's public lighting points, ABCIP Censo da Iluminacao Publica Brasil, base 2023 (ANEEL), Table 9, publ. Sept 2024",
+   "photo_share_median": 0.848,
+   "fallback_grey_threshold": 159,
+   "lit_pixels": 79500816,
+   "cells_coverage_gt_0_5": 128834
+  }
+ }
+}
