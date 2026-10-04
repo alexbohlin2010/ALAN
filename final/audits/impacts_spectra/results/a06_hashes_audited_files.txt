@@ -1,0 +1,2 @@
+c7091c1e3dbb705a631cf18b9dd4d241a77c06545ce91d451c9869018c0ba081  data/derived/impacts/spectra_278.json
+ea275eff11d270dbc6887836aee42e892d11a3c8770e1c1112e150d6447c08d3  pipeline/impacts/05_spectra_278.py

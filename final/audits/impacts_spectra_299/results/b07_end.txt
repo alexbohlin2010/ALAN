@@ -1,0 +1,6 @@
+MANIFEST columns: ['path', 'filename', 'source_url', 'source_doi_or_citation', 'product', 'version', 'licence', 'obtained', 'copied_by', 'size_bytes', 'sha256', 'notes'] rows: 14
+manifest rows verified (sha256 + size): 14 of 14 bad: []
+study 299 PDF: sha256 8d2d11537c55d3843f8be01b10f5c1818458bd7f3974140f31c5f68d852b425b size 825500 | MANIFEST 8d2d11537c55d3843f8be01b10f5c1818458bd7f3974140f31c5f68d852b425b 825500 | MATCH: True
+files in impacts/: 15 unlisted: [] listed but absent: []
+data/raw tree: files 27857 metadata digest (path,size,mtime_ns) c6d1292d2a7e0ed66df55822f492cacd0d4fc902922e3298e033a731bbcd65b3
+END vs START: tree digest identical: True | file count 27857 27857 | impacts hashes identical: True | impacts size/mtime identical: True

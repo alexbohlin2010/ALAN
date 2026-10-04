@@ -1,0 +1,578 @@
+{
+ "geotransform": [
+  -180.00208333335,
+  0.0041666667,
+  0.0,
+  75.00208333335,
+  0.0,
+  -0.0041666667
+ ],
+ "areas": {
+  "India": {
+   "search_window": {
+    "col0": 59552,
+    "row0": 9479,
+    "width": 7018,
+    "height": 6905
+   },
+   "mask_tight_bbox": {
+    "col0": 59555,
+    "row0": 9482,
+    "width": 7012,
+    "height": 6899
+   },
+   "mask_tight_bbox_lonlat": {
+    "lon_min": 68.14583531850002,
+    "lon_max": 97.35833555220003,
+    "lat_max": 35.4916663506,
+    "lat_min": 6.749999454000005
+   },
+   "pipeline_window": {
+    "col0": 59554,
+    "row0": 9481,
+    "width": 7015,
+    "height": 6902
+   },
+   "pipeline_window_contains_mask": true,
+   "pixels_scanline": 16045982,
+   "pixels_gdal": 16045982,
+   "pixels_differ": 0,
+   "differing_pixels": [],
+   "pipeline_pixels_inside": 16045982,
+   "area_mask_km2": 3158334.493648901,
+   "area_polygon_sphere_km2": 3158315.025915723,
+   "mask_vs_polygon_pct": 0.000616396180195586,
+   "pipeline_area_inside_km2": 3158334.4936498916,
+   "pipeline_area_relerr": 3.1360248893680234e-13,
+   "boundary_inside_px": 43769,
+   "boundary_outside_px": 43998,
+   "n_polygons": 35,
+   "n_vertices": 7737
+  },
+  "France (mainland incl. Corsica)": {
+   "search_window": {
+    "col0": 41966,
+    "row0": 5737,
+    "width": 3531,
+    "height": 2338
+   },
+   "mask_tight_bbox": {
+    "col0": 41969,
+    "row0": 5740,
+    "width": 3526,
+    "height": 2333
+   },
+   "mask_tight_bbox_lonlat": {
+    "lon_min": -5.129165267699989,
+    "lon_max": 9.55833484980002,
+    "lat_max": 51.083333142,
+    "lat_min": 41.3666663976
+   },
+   "pipeline_window": {
+    "col0": 41968,
+    "row0": 5739,
+    "width": 3528,
+    "height": 2335
+   },
+   "pipeline_window_contains_mask": true,
+   "pixels_scanline": 3704350,
+   "pixels_gdal": 3704350,
+   "pixels_differ": 0,
+   "differing_pixels": [],
+   "pipeline_pixels_inside": 3704350,
+   "area_mask_km2": 546430.58836098,
+   "area_polygon_sphere_km2": 546435.0936480412,
+   "mask_vs_polygon_pct": -0.000824487137371605,
+   "pipeline_area_inside_km2": 546430.5883611757,
+   "pipeline_area_relerr": 3.5813177402457e-13,
+   "boundary_inside_px": 17219,
+   "boundary_outside_px": 17229,
+   "n_polygons": 10,
+   "n_vertices": 3672
+  },
+  "France (mainland excl. Corsica)": {
+   "search_window": {
+    "col0": 41966,
+    "row0": 5737,
+    "width": 3205,
+    "height": 2108
+   },
+   "mask_tight_bbox": {
+    "col0": 41969,
+    "row0": 5740,
+    "width": 3199,
+    "height": 2102
+   },
+   "mask_tight_bbox_lonlat": {
+    "lon_min": -5.129165267699989,
+    "lon_max": 8.195834838900026,
+    "lat_max": 51.083333142,
+    "lat_min": 42.3291664053
+   },
+   "pipeline_window": {
+    "col0": 41968,
+    "row0": 5739,
+    "width": 3202,
+    "height": 2105
+   },
+   "pipeline_window_contains_mask": true,
+   "pixels_scanline": 3649985,
+   "pixels_gdal": 3649985,
+   "pixels_differ": 0,
+   "differing_pixels": [],
+   "pipeline_pixels_inside": 3649985,
+   "area_mask_km2": 537779.6011031888,
+   "area_polygon_sphere_km2": 537782.2711249561,
+   "mask_vs_polygon_pct": -0.0004964875025867073,
+   "pipeline_area_inside_km2": 537779.6011033815,
+   "pipeline_area_relerr": 3.5826453295787843e-13,
+   "boundary_inside_px": 15784,
+   "boundary_outside_px": 15778,
+   "n_polygons": 8,
+   "n_vertices": 3266
+  },
+  "Ukraine (excl. Crimea)": {
+   "search_window": {
+    "col0": 48510,
+    "row0": 5429,
+    "width": 4331,
+    "height": 1723
+   },
+   "mask_tight_bbox": {
+    "col0": 48512,
+    "row0": 5432,
+    "width": 4327,
+    "height": 1717
+   },
+   "mask_tight_bbox_lonlat": {
+    "lon_min": 22.133334950400013,
+    "lon_max": 40.158335094600005,
+    "lat_max": 52.3666664856,
+    "lat_min": 45.2166664284
+   },
+   "pipeline_window": {
+    "col0": 48512,
+    "row0": 5431,
+    "width": 4328,
+    "height": 1720
+   },
+   "pipeline_window_contains_mask": true,
+   "pixels_scanline": 4063138,
+   "pixels_gdal": 4063138,
+   "pixels_differ": 0,
+   "differing_pixels": [],
+   "pipeline_pixels_inside": 4063138,
+   "area_mask_km2": 570174.3064463489,
+   "area_polygon_sphere_km2": 570179.559496881,
+   "mask_vs_polygon_pct": -0.0009212975885545248,
+   "pipeline_area_inside_km2": 570174.3064465479,
+   "pipeline_area_relerr": 3.489350234705515e-13,
+   "boundary_inside_px": 16348,
+   "boundary_outside_px": 16439,
+   "n_polygons": 4,
+   "n_vertices": 2659
+  }
+ },
+ "checks": {
+  "feature_counts": {
+   "India": 1,
+   "Ukraine": 1,
+   "France_FXX": 1,
+   "France_GU_A3": [
+    "FXX"
+   ]
+  },
+  "france_parts": [
+   {
+    "index": 0,
+    "envelope": [
+     -4.784901495999918,
+     42.32566050300004,
+     8.200305216000032,
+     51.08754088371883
+    ],
+    "area_km2": 537329.7063011978,
+    "corsica": false,
+    "holes": 1
+   },
+   {
+    "index": 1,
+    "envelope": [
+     9.456553582000083,
+     42.61908600500004,
+     9.48210696700005,
+     42.64740631700005
+    ],
+    "area_km2": 0.7510624439143332,
+    "corsica": true,
+    "holes": 0
+   },
+   {
+    "index": 2,
+    "envelope": [
+     8.545258009000065,
+     41.36591217700004,
+     9.559580925000091,
+     43.01740143400008
+    ],
+    "area_km2": 8652.071460641168,
+    "corsica": true,
+    "holes": 0
+   },
+   {
+    "index": 3,
+    "envelope": [
+     -1.4049373039999296,
+     45.814154364000046,
+     -1.1760961579999503,
+     46.053168036000045
+    ],
+    "area_km2": 182.2163044378625,
+    "corsica": false,
+    "holes": 0
+   },
+   {
+    "index": 4,
+    "envelope": [
+     -1.5558162099999322,
+     46.15619538000004,
+     -1.2541397779999102,
+     46.26190827000005
+    ],
+    "area_km2": 78.89054797412126,
+    "corsica": false,
+    "holes": 0
+   },
+   {
+    "index": 5,
+    "envelope": [
+     -2.382923956999946,
+     46.69741445500006,
+     -2.2689509759999282,
+     46.73379140800006
+    ],
+    "area_km2": 19.511713330948815,
+    "corsica": false,
+    "holes": 0
+   },
+   {
+    "index": 6,
+    "envelope": [
+     -2.295643683999913,
+     46.909857489000046,
+     -2.137684699999909,
+     47.03534577000005
+    ],
+    "area_km2": 57.37998906508284,
+    "corsica": false,
+    "holes": 0
+   },
+   {
+    "index": 7,
+    "envelope": [
+     -3.262074347999942,
+     47.29661692900004,
+     -3.0628149079999503,
+     47.39533112200007
+    ],
+    "area_km2": 83.53398736256473,
+    "corsica": false,
+    "holes": 0
+   },
+   {
+    "index": 8,
+    "envelope": [
+     -5.132801886999914,
+     48.444647528000075,
+     -5.0366104809999115,
+     48.48505280200004
+    ],
+    "area_km2": 16.034136343728726,
+    "corsica": false,
+    "holes": 0
+   },
+   {
+    "index": 9,
+    "envelope": [
+     6.1647241550000444,
+     42.98712799700007,
+     6.252208826000071,
+     43.02564971800007
+    ],
+    "area_km2": 14.998145243978765,
+    "corsica": false,
+    "holes": 0
+   }
+  ],
+  "disputed_B89": {
+   "name": "Crimea",
+   "note": "Admin. by Russia; Claimed by Ukraine",
+   "pixels": 179076,
+   "compared_with": "Ukraine",
+   "pixels_also_in_mask": 0,
+   "share_in_mask_pct": 0.0,
+   "area_polygon_km2": 27032.93617562529
+  },
+  "disputed_C02": {
+   "name": "Ukraine",
+   "note": "Self admin.; Claimed by Ukraine",
+   "pixels": 65382,
+   "compared_with": "Ukraine",
+   "pixels_also_in_mask": 65382,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 9424.251506756225
+  },
+  "disputed_C03": {
+   "name": "Ukraine",
+   "note": "Self admin.; Claimed by Ukraine",
+   "pixels": 58000,
+   "compared_with": "Ukraine",
+   "pixels_also_in_mask": 58000,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 8281.163415391053
+  },
+  "disputed_B00": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by China",
+   "pixels": 359504,
+   "compared_with": "India",
+   "pixels_also_in_mask": 359504,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 68069.94653911998
+  },
+  "disputed_B01": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by China",
+   "pixels": 6229,
+   "compared_with": "India",
+   "pixels_also_in_mask": 6229,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 1143.9068460504202
+  },
+  "disputed_B02": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by China",
+   "pixels": 1840,
+   "compared_with": "India",
+   "pixels_also_in_mask": 1840,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 339.92392204074315
+  },
+  "disputed_B03": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by China",
+   "pixels": 12608,
+   "compared_with": "India",
+   "pixels_also_in_mask": 12608,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 2269.6431722996185
+  },
+  "disputed_B04": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by China",
+   "pixels": 1674,
+   "compared_with": "India",
+   "pixels_also_in_mask": 1674,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 304.5120000103994
+  },
+  "disputed_B05": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by Pakistan",
+   "pixels": 586104,
+   "compared_with": "India",
+   "pixels_also_in_mask": 586104,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 104574.9371431053
+  },
+  "disputed_B06": {
+   "name": "China",
+   "note": "Admin. by China; Ceded to China by Pakistan; Claimed by India",
+   "pixels": 30567,
+   "compared_with": "India",
+   "pixels_also_in_mask": 0,
+   "share_in_mask_pct": 0.0,
+   "area_polygon_km2": 5315.593826360239
+  },
+  "disputed_B07": {
+   "name": "China",
+   "note": "Admin. by China; Claimed by India",
+   "pixels": 176460,
+   "compared_with": "India",
+   "pixels_also_in_mask": 0,
+   "share_in_mask_pct": 0.0,
+   "area_polygon_km2": 31005.361495019533
+  },
+  "disputed_B08": {
+   "name": "Pakistan",
+   "note": "Admin. by Pakistan; Claimed by India",
+   "pixels": 374760,
+   "compared_with": "India",
+   "pixels_also_in_mask": 0,
+   "share_in_mask_pct": 0.0,
+   "area_polygon_km2": 65237.126657140914
+  },
+  "disputed_B09": {
+   "name": "Pakistan",
+   "note": "Admin. by Pakistan; Claimed by India",
+   "pixels": 67365,
+   "compared_with": "India",
+   "pixels_also_in_mask": 0,
+   "share_in_mask_pct": 0.0,
+   "area_polygon_km2": 11966.420198005071
+  },
+  "disputed_B45": {
+   "name": "Siachen Glacier",
+   "note": "Claimed by Pakistan and India",
+   "pixels": 11935,
+   "compared_with": "India",
+   "pixels_also_in_mask": 0,
+   "share_in_mask_pct": 0.0,
+   "area_polygon_km2": 2087.547186902914
+  },
+  "disputed_B88": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by Nepal",
+   "pixels": 325,
+   "compared_with": "India",
+   "pixels_also_in_mask": 325,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 60.15219178762143
+  },
+  "disputed_C01": {
+   "name": "India",
+   "note": "Admin. by India; Claimed by Pakistan",
+   "pixels": 43345,
+   "compared_with": "India",
+   "pixels_also_in_mask": 43345,
+   "share_in_mask_pct": 100.0,
+   "area_polygon_km2": 8674.275973662154
+  },
+  "point_checks_note": "approximate city coordinates typed by the agent from general knowledge; for orientation only",
+  "point_checks": {
+   "Simferopol": {
+    "lon": 34.1,
+    "lat": 44.95,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Sevastopol": {
+    "lon": 33.52,
+    "lat": 44.6,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Kerch": {
+    "lon": 36.47,
+    "lat": 45.36,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Donetsk": {
+    "lon": 37.8,
+    "lat": 48.0,
+    "in_India": false,
+    "in_Ukraine": true,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Luhansk": {
+    "lon": 39.31,
+    "lat": 48.57,
+    "in_India": false,
+    "in_Ukraine": true,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Kyiv": {
+    "lon": 30.52,
+    "lat": 50.45,
+    "in_India": false,
+    "in_Ukraine": true,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Corte (Corsica)": {
+    "lon": 9.15,
+    "lat": 42.31,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": true,
+    "in_France_excl_Corsica": false
+   },
+   "Bastia (Corsica)": {
+    "lon": 9.45,
+    "lat": 42.7,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": true,
+    "in_France_excl_Corsica": false
+   },
+   "Paris": {
+    "lon": 2.35,
+    "lat": 48.86,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": true,
+    "in_France_excl_Corsica": true
+   },
+   "Cayenne (Fr. Guiana)": {
+    "lon": -52.33,
+    "lat": 4.94,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Saint-Denis (Reunion)": {
+    "lon": 55.45,
+    "lat": -20.88,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "New Delhi": {
+    "lon": 77.21,
+    "lat": 28.61,
+    "in_India": true,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Srinagar": {
+    "lon": 74.8,
+    "lat": 34.08,
+    "in_India": true,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Leh": {
+    "lon": 77.58,
+    "lat": 34.16,
+    "in_India": true,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   },
+   "Gilgit": {
+    "lon": 74.31,
+    "lat": 35.92,
+    "in_India": false,
+    "in_Ukraine": false,
+    "in_France_FXX": false,
+    "in_France_excl_Corsica": false
+   }
+  },
+  "countries_layer_France_area_km2": 635737.1721603858,
+  "map_units_FXX_area_km2": 546435.0936480412
+ },
+ "runtime_s": 1.5764918327331543
+}

@@ -1,0 +1,22 @@
+location,decision,value,decided_by,date,note
+Brasil,accept,,human,2026-10-03,AI_LOG Impacts step 11
+UK,accept,,human,2026-10-03,AI_LOG Impacts step 11
+USA,accept,,human,2026-10-03,AI_LOG Impacts step 11
+French Polynesia,accept,,human,2026-10-03,AI_LOG Impacts step 11
+"Moorea, French Polynesia",accept,,human,2026-10-03,AI_LOG Impacts step 11
+Wageningen,accept,,human,2026-10-03,AI_LOG Impacts step 11
+"University of Antwerp, Belgium",accept,,human,2026-10-03,AI_LOG Impacts step 11
+IGB Berlin,accept,,human,2026-10-03,AI_LOG Impacts step 11 (top result: IGB/FU building Dahlem)
+"Kentucky University, USA",accept,,human,2026-10-03,AI_LOG Impacts step 11 (top result: University of Kentucky)
+Kinki University,accept,,human,2026-10-03,AI_LOG Impacts step 11 (top result: Nara)
+"Lake Washington, Seattle, US",accept,,human,2026-10-03,AI_LOG Impacts step 11
+Phillipines,paper_coords,16.293883 120.01455,human,2026-10-03,"AI_LOG Impacts step 14: study 262, Baquiran et al. 2020 Microorganisms 8:1566 (PMC7601249), Methods 2.1: Caniogan Reef, Anda, Pangasinan, 16°17.633' N, 120°00.873' E (degrees + minutes/60)"
+"Seewiesen (southern Germany) four sites (site 1: coordinates 47,96928ĺÁN, 11,2357ĺÁE; site 2: 47,9708ĺÁN, 11,2385ĺÁE; site 3: 47,97235ĺÁN, 11,2363ĺÁE; site 4: 47,9730ĺÁN, 11,2325ĺÁE",source_coords_mean,47.96928 11.2357;47.9708 11.2385;47.97235 11.2363;47.9730 11.2325,human,2026-10-03,AI_LOG Impacts step 11: mean of the four site coordinates given in the source string (decimal commas read as decimal points)
+"Westhavelland Nature Park, Brandenburg, Germany (52ĺÁ69? N, 12ĺÁ46? E).",use_location,"Brandenburg, Germany",human,2026-10-03,AI_LOG Impacts step 11: source coordinate malformed; region level
+Westhavelland Nature Park,use_location,"Brandenburg, Germany",human,2026-10-03,AI_LOG Impacts step 11: region level
+"Westhavelland Nature Park, Germany",use_location,"Brandenburg, Germany",human,2026-10-03,AI_LOG Impacts step 11: region level
+eastern France,use_location,France,human,2026-10-03,AI_LOG Impacts step 11: country level
+north-central Chile,use_location,Chile,human,2026-10-03,AI_LOG Impacts step 11: country level
+southern England,use_location,England,human,2026-10-03,AI_LOG Impacts step 11: region level
+"southern England, UK",use_location,England,human,2026-10-03,AI_LOG Impacts step 11: region level
+southern Sweden,use_location,Sweden,human,2026-10-03,AI_LOG Impacts step 11: country level

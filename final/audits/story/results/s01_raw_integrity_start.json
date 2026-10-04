@@ -1,0 +1,88 @@
+{
+ "tag": "start",
+ "utc": "2026-10-03T19:24:50Z",
+ "pass": true,
+ "radiance": {
+  "files": [
+   {
+    "path": "data/raw/radiance/eog/VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz",
+    "sha256": "1cdafa2039e49fe64b629592e20d33dc746ecc77824a6a4898a76c03311104fa",
+    "manifest_sha256": "1cdafa2039e49fe64b629592e20d33dc746ecc77824a6a4898a76c03311104fa",
+    "size": 280997747,
+    "manifest_size": 280997747,
+    "mtime": 1790971184.4592485,
+    "pass_": true
+   },
+   {
+    "path": "data/raw/radiance/eog/VNL_npp_2025_global_vcmslcfg_v2_c202604011200.average_masked.dat.tif.gz",
+    "sha256": "55cdc85dab51a26b2806071c2efee49314d1d8bb235581df2b0a03574c95e3ab",
+    "manifest_sha256": "55cdc85dab51a26b2806071c2efee49314d1d8bb235581df2b0a03574c95e3ab",
+    "size": 340942192,
+    "manifest_size": 340942192,
+    "mtime": 1790971165.4927454,
+    "pass_": true
+   }
+  ],
+  "unexpected_files": [],
+  "pass_": true
+ },
+ "boundaries": {
+  "files": [
+   {
+    "path": "data/raw/boundaries/naturalearth/ne_10m_admin_0_countries.zip",
+    "sha256": "ce1ac7036499a0edd641fbc093cd209a98f96a49d2eca8480aaacad35138a7f6",
+    "manifest_sha256": "ce1ac7036499a0edd641fbc093cd209a98f96a49d2eca8480aaacad35138a7f6",
+    "size": 4930492,
+    "manifest_size": 4930492,
+    "mtime": 1791055073.4644861,
+    "pass_": true
+   },
+   {
+    "path": "data/raw/boundaries/naturalearth/ne_10m_admin_0_map_units.zip",
+    "sha256": "45bebe2aaf8bf42b9daf4428594925bcb11eabd32fe9dc6e0acf681438053eb5",
+    "manifest_sha256": "45bebe2aaf8bf42b9daf4428594925bcb11eabd32fe9dc6e0acf681438053eb5",
+    "size": 5003719,
+    "manifest_size": 5003719,
+    "mtime": 1791055073.6596034,
+    "pass_": true
+   },
+   {
+    "path": "data/raw/boundaries/naturalearth/ne_10m_admin_0_disputed_areas.zip",
+    "sha256": "a250c1cf8ab68898399928a1fa1d5c242eb4de6335cb51a7f7a7f12a9f3c8438",
+    "manifest_sha256": "a250c1cf8ab68898399928a1fa1d5c242eb4de6335cb51a7f7a7f12a9f3c8438",
+    "size": 215221,
+    "manifest_size": 215221,
+    "mtime": 1791055073.717537,
+    "pass_": true
+   }
+  ],
+  "unexpected_files": [],
+  "pass_": true
+ },
+ "fingerprint_not_raw": {
+  "data/derived/story/radiance_change_2015_2025.json": {
+   "sha256": "4584e67aec77419d3f698d57581bc81c173b25ea44825bf9e9c0fab5ef7d2a20",
+   "mtime": 1791051884.1971936
+  },
+  "data/derived/story/country_change_2015_2025.json": {
+   "sha256": "850db62c094e027a23cca149499950320dbd77cf7d112b27e0bb6598163606b2",
+   "mtime": 1791055174.2132137
+  },
+  "pipeline/story/01_radiance_change.py": {
+   "sha256": "10263779883ff3e7ef51c0cb4446918957b0a03ae7721e2db8e767380d2e3511",
+   "mtime": 1791051779.7202988
+  },
+  "pipeline/story/02_country_change.py": {
+   "sha256": "82670265e4192b9e6da1494ffe1b150317f8f30bb2c11c8c54b6fff367b5ba68",
+   "mtime": 1791055171.485935
+  },
+  "data/derived/radiance/cog/vnl_2015_average_masked.tif": {
+   "sha256": "85b65d30d050b3541e27974c165acdd52a3343ae22e855067f08d0f850d466c3",
+   "mtime": 1791040405.8010163
+  },
+  "data/derived/radiance/cog/vnl_2025_average_masked.tif": {
+   "sha256": "d4e14b4199e8afd05580b66bcdeae0f314ed623229949023d294c59bef5f544b",
+   "mtime": 1791040486.4097004
+  }
+ }
+}

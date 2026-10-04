@@ -1,0 +1,7 @@
+# Python env: venv created with --system-site-packages on Homebrew python3.14
+#   /opt/homebrew/bin/python3.14 -m venv --system-site-packages .venv   (run in final/)
+# GDAL Python bindings come from Homebrew (brew install gdal), not pip.
+# Versions recorded 2026-10-03:
+#   GDAL 3.13.3 (Homebrew), numpy 2.5.3 (Homebrew site-packages)
+numpy==2.5.3
+rawpy==0.27.1  # colour: decode ISS NEF raw files without colour processing (human approved 2026-10-03, AI_LOG colour step 35)

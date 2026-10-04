@@ -1,0 +1,23 @@
+calibration: mine x_resid 0.0055 nm y_resid 9.43e-06 | json x 0.0045 y 1.10e-05
+json top-level keys: ['study_id', 'label', 'label_note', 'rule', 'source', 'units', 'documented', 'calibration', 'curves']
+  present: label True
+  present: rule True
+  present: source True
+  present: units True
+red            json n=376 (field n=376) range 400-775 | mine n=376 | only-json [] only-mine [] | max|diff| 0.000104 at 665 nm | strictly increasing True | value min 0.0000 max 0.9982 | peak json [658, 0.9982] mine [658, 0.9982065844638743] | documented 658.06, json-peak minus documented = -0.06 nm
+     parabolic sub-nm peak (my samples): 658.14 nm ; |.-documented| = 0.08 nm
+     n field == len(samples): True | curve dict keys: ['kind', 'line_colour', 'legend_blend_alpha', 'line_thickness_y_median', 'peak_nm_extracted', 'peak_value_extracted', 'peak_nm_documented', 'n']
+amber          json n=375 (field n=375) range 400-774 | mine n=375 | only-json [] only-mine [] | max|diff| 0.000083 at 619 nm | strictly increasing True | value min 0.0000 max 0.9013 | peak json [613, 0.9013] mine [613, 0.90125053492] | documented 613.41, json-peak minus documented = -0.41 nm
+     parabolic sub-nm peak (my samples): 613.08 nm ; |.-documented| = 0.33 nm
+     n field == len(samples): True | curve dict keys: ['kind', 'line_colour', 'legend_blend_alpha', 'line_thickness_y_median', 'peak_nm_extracted', 'peak_value_extracted', 'peak_nm_documented', 'n']
+blue           json n=375 (field n=375) range 400-774 | mine n=375 | only-json [] only-mine [] | max|diff| 0.000122 at 447 nm | strictly increasing True | value min 0.0000 max 0.9246 | peak json [454, 0.9246] mine [454, 0.92461495404714] | documented 455.31, json-peak minus documented = -1.31 nm
+     parabolic sub-nm peak (my samples): 454.46 nm ; |.-documented| = 0.85 nm
+     n field == len(samples): True | curve dict keys: ['kind', 'line_colour', 'legend_blend_alpha', 'line_thickness_y_median', 'peak_nm_extracted', 'peak_value_extracted', 'peak_nm_documented', 'n']
+warm_white     json n=376 (field n=376) range 400-775 | mine n=376 | only-json [] only-mine [] | max|diff| 0.000053 at 717 nm | strictly increasing True | value min 0.0000 max 0.1478 | peak json [618, 0.1478] mine [618, 0.14776155196145435] | documented 616.43, json-peak minus documented = 1.57 nm
+     parabolic sub-nm peak (my samples): 618.27 nm ; |.-documented| = 1.84 nm
+     n field == len(samples): True | curve dict keys: ['kind', 'line_colour', 'legend_blend_alpha', 'line_thickness_y_median', 'peak_nm_extracted', 'peak_value_extracted', 'peak_nm_documented', 'n']
+cool_white     json n=376 (field n=376) range 400-775 | mine n=376 | only-json [] only-mine [] | max|diff| 0.000054 at 486 nm | strictly increasing True | value min 0.0000 max 0.1595 | peak json [453, 0.1595] mine [453, 0.15945342214140457] | documented 453.2, json-peak minus documented = -0.20 nm
+     parabolic sub-nm peak (my samples): 453.17 nm ; |.-documented| = 0.03 nm
+     n field == len(samples): True | curve dict keys: ['kind', 'line_colour', 'legend_blend_alpha', 'line_thickness_y_median', 'peak_nm_extracted', 'peak_value_extracted', 'peak_nm_documented', 'n']
+p_scintillans  json n=326 (field n=326) range 350-675 | mine n=326 | only-json [] only-mine [] | max|diff| 0.000144 at 354 nm | strictly increasing True | value min -0.0000 max 0.9977 | peak json [575, 0.9977] mine [575, 0.9977333171410425]
+     n field == len(samples): True | curve dict keys: ['kind', 'species', 'source_cited_in_299', 'peak_nm_extracted', 'peak_value_extracted', 'n']

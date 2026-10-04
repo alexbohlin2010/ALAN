@@ -1,0 +1,18 @@
+wrote audits/radiance/results/a02_cog_vs_raw_2015.json
+{
+ "meta_width_equal": true,
+ "meta_height_equal": true,
+ "meta_bands_equal": true,
+ "meta_dtype_equal": true,
+ "meta_geotransform_equal": true,
+ "meta_epsg_equal": true,
+ "meta_nodata_equal": true,
+ "crs_is_same": true,
+ "cog_layout_is_COG": true,
+ "cog_compression": "DEFLATE",
+ "pixels_bitwise_equal": true,
+ "counts_sum_to_pixels": true,
+ "counts_match_manifest": true,
+ "counts_json_matches_raw": true
+}
+PASS

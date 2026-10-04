@@ -1,0 +1,29 @@
+chunk 1/66  10s
+chunk 9/66  49s
+chunk 17/66  94s
+chunk 25/66  138s
+chunk 33/66  171s
+chunk 41/66  204s
+chunk 49/66  236s
+chunk 57/66  267s
+chunk 65/66  297s
+wrote audits/radiance/results/a04_tiles.json
+{
+ "raw_years_same_grid": true,
+ "json_max_level": true,
+ "json_tile_size": true,
+ "json_raster_size": true,
+ "json_origin_equals_raw": true,
+ "json_pixel_deg_equals_raw": true,
+ "json_crs": true,
+ "json_flags": true,
+ "json_level_list_complete": true,
+ "json_level_geometry": true,
+ "json_bitmask_matches_files": true,
+ "no_stray_files": true,
+ "every_level_tiles_match_raw": true,
+ "native_flag1_count_equals_raw_minus_1_5": true,
+ "native_flag2_count_equals_raw_minus_1_5": true,
+ "second_decoder_agrees": true
+}
+PASS

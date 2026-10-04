@@ -1,0 +1,3272 @@
+# AI log
+
+Append only. One entry per AI step (see RULES.md §4).
+
+---
+
+## 2026-10-02: Create RULES.md and final/ scaffold
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Okay very good. NOW ... what we need to do is a sequence of the following.
+  >
+  > I'm going to be setting up the final project in a new directory within the Github - let's call that final. But here, we NEED a Rules.md file which explains how agents can interact with the data and the software.
+  >
+  > I'm going to be trying to minimize bias, and maximize human control on this process, while leveraging you're very special superpowers :)
+  >
+  > So, let's start by setting up the Rules.md file in a new top level directory, and then slowly we will start to rebuild the final data visualization app .... see the attached for inspiration on the rules.md and note the ethos of the document
+  >
+  > (attached: XAI Doc.docx)
+- **Actions:** Drafted RULES.md from the XAI doc. Added CLAUDE.md / AGENTS.md so agents load the rules automatically, plus empty `data/raw/`, `audits/` and `handoffs/` folders and this log.
+- **Files created:** `final/RULES.md`, `final/CLAUDE.md`, `final/AGENTS.md`, `final/AI_LOG.md`, `final/data/raw/.gitkeep`, `final/audits/.gitkeep`, `final/handoffs/.gitkeep`
+- **Data values changed:** none
+- **Not committed**: awaiting human review.
+
+---
+
+## 2026-10-02: Raw vs generated data inventory (read-only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`, plus 3 read-only sub-agents (same model)
+- **Prompt (verbatim):**
+  > So before we start a fresh session, and I appreciate you're attention to the rules - I want to understand a little bit the state of our raw data versus generated data. We have a ton and it's all mixed up ... I want to start fresh from original datasets, and then rebuild estimated data on top of that slowly but surely so I have more control. Do you have the ability to look at our data and understand what we can do?
+  >
+  > For example the light radiance data is from this group of chinese researchers who enriched VIIRS data from 2012-2024 or so. We manipulated it though, and I don't know how at each step ... maybe we need to start fresh. SO let's try to build an idea of that
+- **Actions:** Read `Alexander/DATA.md`. Started 3 read-only sub-agents to trace provenance for (1) radiance/VIIRS, (2) Alexander's spectra/CCT/colour tables, (3) Linda's datasets on `linda-multiscale-alan`. Sub-agents were told not to write, move or delete anything and not to download.
+- **Files created/changed:** this log entry only (results pending)
+- **Data values changed:** none
+- **Result (appended same day):** All 3 sub-agents finished; nothing was modified. Their findings are combined into `final/DATA_INVENTORY.md` (facts plus open questions, not human-verified). Sub-agent finding: `main` and `linda-multiscale-alan` now have identical content (PR #2 merged).
+- **Files created:** `final/DATA_INVENTORY.md`
+
+---
+
+## 2026-10-02: HDNTL explanation + trace of past agent decisions (read-only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > what's the deal with HDNTL? 653 cities ... does it give us the light color for cities?
+  >
+  > Were we using school of mines data? I thought we were using the Chinese research data to populate the globe ... this is the problem, the agents were doing things and I had no idea. By the way, you should be able to trace agent workflows by looking at our other claude code chats...
+  >
+  > Will get raw data from Linda
+- **Actions:** Read the HDNTL section of `Alexander/docs/HANDOFF_globe_session.md`. Searched past session transcripts in `~/.claude/projects/-Users-alexander/` (read-only) and pulled out the user prompts and assistant replies at the points where the data source was chosen.
+- **Files changed:** `final/DATA_INVENTORY.md` (added a decision-history section)
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Does HDNTL contain colour temperature? (read-only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > does the HDNTL data have color temperature somewhat in 2012 and 2024? beause i'm thinking I may prefer to combine the datasets for my final iteration ...
+- **Actions:** Read local notes. Fetched the public Zenodo record 17079409 for HDNTL's metadata.
+- **Finding:** No colour or CCT in any year (one band, VIIRS DNB). HDNTL values are angular-corrected and partly interpolated, and flag rasters mark which are which.
+- **Files changed:** `final/DATA_INVENTORY.md` (HDNTL row: authors, version, licence, paper, interpolation caveat)
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: ISS for colour; SDGSAT-1 access options (read-only research)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > definitely would prefer to use ISS astronaut photos for color .. much more simple even though it gives us an estimation.
+  >
+  > Is that true about SDGSAT-1 is there no way to get approval or data faster?
+- **Actions:** Searched past transcripts for earlier SDGSAT-1 claims (they contradicted each other: "free registration" vs "apply with a short proposal"). Web searches; fetched the JRC GHS_SDGSAT page and its open FTP readme. Tried to read the CBAS user manual PDF but had no PDF tool, so I relied on the search-engine summary of it.
+- **Human decision recorded:** prefers ISS photos for colour.
+- **Files changed:** `final/DATA_INVENTORY.md` (added a colour-sources section)
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Handoff + prompt for the raw-radiance collection session
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i mean ... really we want to create some color temperature map for the entire globe right, even if it's somewhat crude. Maybe I should give this to the next agent though.
+  >
+  > I want to start collecting the raw data to be used for populating the radiance of the globe ... could you write me a prompt to do that please
+- **Actions:** Wrote a handoff with facts, human decisions and the task scope. Recorded the global CCT map as a separate future task, not part of this one.
+- **Files created:** `final/handoffs/2026-10-02_radiance-raw-data.md`
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Radiance raw data, step 1: research options (read-only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Before doing anything, read these in order:
+  > 1. RULES.md — these govern everything you do.
+  > 2. handoffs/2026-10-02_radiance-raw-data.md — your task, the facts so far, and my decisions.
+  > 3. DATA_INVENTORY.md — background on our existing data (AI-traced, not yet verified by me).
+  > Your task: help me collect the raw radiance data that will populate the globe — acquisition only, no processing, tiling or rendering.
+  > Start with step 1 of the handoff: research the options for a consistent 2012–2024 VIIRS radiance series and present them to me as a short comparison (source, version, licence, size, what's lost or altered, account needed). Then stop and wait for my choice. Don't download anything, create accounts, or decide storage until I say so. If a download needs a login, tell me and I'll do that part myself.
+  > Log every step in AI_LOG.md with my exact prompt, and write a new handoff when the task is done or you reach ~30% context.
+- **Actions:** Read RULES.md, the handoff and DATA_INVENTORY.md. Fetched public pages: eogdata.mines.edu/products/vnl/, the Zenodo 17294744 record and API, and the GEE catalog pages / STAC JSON for NOAA_VIIRS_DNB_ANNUAL_V21 and _V22. Ran web searches. The EOG directories `annual/v21/` and `annual/v22/` redirect to the EOG Keycloak login, so I did not follow them and have not seen their file lists or sizes. Listed `~/alan-streetlight-cct/vnl/` (read-only, `ls` only).
+- **Disclosure:** to read them, I saved 2 small public **documentation** files (not data) to the session scratchpad, outside the repo: `VNL_v22_readme_20230707.pptx` (54 KB, from eogdata.mines.edu/products/vnl/) and `EOG_products_CC_License.pdf` (681 KB; its text could not be extracted).
+- **Findings (facts, unverified by a human):**
+  - EOG readme: v2.1 fixed a v2 averaging bug and removed v2's low-tally filter. v2.2 mixes satellites (11 months S-NPP + 3 months NOAA-20 for 2022), lets months with ≥1 cloud-free coverage into the median (v2/v2.1 need ≥3), and changes how the data range is computed.
+  - The GEE V21 collection covers 2013–2021 (2012 left out). The GEE V22 description says "for 2022", but its temporal extent is 2012-04-01 to 2025-01-01. Which years exist as v2.2 on EOG is **not confirmed** (needs the login listing).
+  - Licence statements conflict: the EOG page says "many" products are CC BY 4.0; GEE says public domain. Zenodo 17294744 is CC BY 4.0.
+  - Zenodo 17294744 v0.4 (Hengl, 2025-10-08): the 13 files for 2012–2024 total 1,686,973,201 bytes. All are named `v21`, and each year is labelled Jan–Dec, including 2012. The description says values were "converted from 0–200 to 0–2000 scale" (a possible cap at 200 nW/cm²/sr; not checked). The local `vnl_2012..2018.tif` byte sizes match the Zenodo files exactly (checksums not compared).
+- **Files changed:** this log entry only
+- **Data values changed:** none
+- **Status:** options shown to the human in chat; waiting for their choice.
+
+---
+
+## 2026-10-02: Human scope decision (2012 + 2024 only); HDNTL resolution check (read-only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > so I think we are already using the school of mines data and that's fine to continue with as it will show us radiance at a global level. I only want the 2012 and 2024 data, not everything in between. And we need to make sure it's the same time of the year to avoid seasonality bias.
+  >
+  > I may want us to supplement this dataset with HDNTL data which has data for 653 cities globally. That just helps us by adding more granularity (I think) but want to verify
+- **Human decisions recorded:** globe radiance source = School of Mines (EOG) VNL; years 2012 and 2024 only; the two years must cover the same time of year (to avoid seasonal bias). HDNTL supplement: under consideration, not decided.
+- **Actions:** Read the Zenodo API metadata for HDNTL record 17079409 (public, no download).
+- **Findings:** HDNTL "inherit[s]" the spatial resolution of VNP46A2 (15 arc-sec, ~500 m), the same grid size as VNL, so it adds no spatial detail. What it adds: daily time steps, angular correction, 653 cities only, and gap interpolation (flagged). The record has 68 files, 32,876,576,963 bytes in total, CC BY 4.0. Still open: which EOG copy (Zenodo repackage or EOG originals), and how to match the time of year (the Zenodo 2012 file is labelled Jan–Dec, but VNL 2012 starts in April).
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Human decision, one matching month per year; monthly product facts (read-only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > do i need to download originals manually? You can't?
+  >
+  > I think we should have monthly files for same months in both years. I don't need multiple months, I need one month in each year because we are going to render the lights on a globe.gl in a later step, so multiple months shouldn't be necessary unless you say so
+- **Human decisions recorded:** EOG originals; **monthly** composites; **one** month, the same calendar month in 2012 and 2024. The month itself is not chosen yet.
+- **Actions:** Read the monthly section of eogdata.mines.edu/products/vnl/ (public page).
+- **Findings (facts):** Monthly VNL v1 has the layers `avg_rade9h`, `cf_cvg`, `cvg`, and two configs: `vcm` (excludes stray-light data) and `vcmsl` (includes stray-light-corrected data: more polar coverage, lower quality). It comes tiled (`monthly/v10/`) or non-tiled (`monthly_notile/`). The EOG page says that for 2012–2020 non-tiled months, "the annual v2 masks for each year were applied". Whether 2024 non-tiled months are masked is not stated. EOG warns that many areas lack good monthly coverage (clouds in the tropics, summer daylight toward the poles) and that zero ≠ no lights, so `cf_cvg` must be used. The earliest month is April 2012. A month that suits both years has not been checked against the file listings (they need a login).
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Q&A, does a yearly product clean up aurora and fires? (no new research)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > wait - is there a yearly option which does cleanup for aurora and fires?
+- **Actions:** Answered from the EOG v2.2 readme and the products page already read this session. The yearly VNL V2 `average_masked` / `median_masked` layers have fire/outlier removal (12-month median), aurora filtering, and background zeroing (lit mask). The plain `average` layer doesn't have the lit mask applied. For 2012, only set B (Apr 2012–Mar 2013) has masked layers.
+- **Files changed:** this log entry only
+- **Data values changed:** none
+- **Decision status:** the earlier choice (one month per year) is now open again pending the human's reply.
+
+---
+
+## 2026-10-02: Human decision, yearly `average_masked`; download instructions
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes i want to switch to average_masked for sure - tell me how I can go grab those please (somehow the other agents were able to get some data downloaded, idk how because it seemed like those had aurora lights in them)
+- **Human decisions recorded:** EOG originals, yearly VNL V2.x **`average_masked`**, 2012 (set B, 201204–201303) and 2024. This replaces the monthly decision in the previous entries. The human downloads after logging in.
+- **Explanation given (inferred, not verified):** earlier agents used Zenodo 17294744, which needs no login. Its filenames say `average_viirs`, which suggests the unmasked `average` layer, consistent with the aurora the human saw and with `tiler.py`'s aurora fill (DATA_INVENTORY Tier D).
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Human downloaded 2 EOG files; read-only integrity check
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay i dragged the zip files in data > raw and then here are the attached screenshots
+  >
+  > (attached: 2 screenshots of EOG folder listings, showing `VNL_v21_npp_201204-201303_global_vcmcfg_c202205302300.average_masked.dat.tif.gz` 2022-07-07 17:12 267M and `VNL_npp_2024_global_vcmslcfg_v2_c202502261200.average_masked.dat.tif.gz` 2025-12-11 12:58 313M)
+- **Downloaded by:** human (EOG account, browser), 2026-10-02. Placed in `final/data/raw/` (top level).
+- **Actions (read-only):** `ls`, `stat`, `shasum -a 256`, `gzip -t`. Read the start of each gzip stream to identify the file format. Nothing was moved, renamed, unzipped to disk, or written in `data/raw/`.
+- **Results:**
+  | File | Bytes | SHA-256 | gzip -t |
+  |---|---|---|---|
+  | `VNL_v21_npp_201204-201303_global_vcmcfg_c202205302300.average_masked.dat.tif.gz` | 280039291 | `966f5afdd08746da0275f039f2a8cfa0e3cb40a0aa692ccc7c852cba97f52f90` | ok |
+  | `VNL_npp_2024_global_vcmslcfg_v2_c202502261200.average_masked.dat.tif.gz` | 328397352 | `3ca90702b5fef27c7ece4e64c72537a08cebb251e31402157fa65d51bdf84971` | ok |
+  - Byte sizes match the listing sizes in the screenshots (267 MiB, 313 MiB).
+  - Both are BigTIFF inside gzip. The image directory sits at uncompressed offset 11,612,640,020 (near the end), so dims/dtype/CRS need a full streaming read (not done yet). GDAL, rasterio and tifffile are not installed.
+- **Facts flagged to the human:** the 2012 file is config `vcmcfg` (excludes stray light) and version v2.1. The 2024 file is `vcmslcfg` (includes stray-light-corrected data) and is tagged `v2`. Source URLs are not recorded yet.
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Human switched years to 2015 + 2025; read-only integrity check
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay here's what I'll do instead - i'll do 2015 and 2025 which should be the same type: i've brought them into the data > raw folder now
+  >
+  > (attached: 2 screenshots of EOG folder listings, showing `VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz` 2022-07-07 15:21 268M and `VNL_npp_2025_global_vcmslcfg_v2_c202604011200.average_masked.dat.tif.gz` 2026-04-08 10:54 325M)
+- **Human decisions recorded:** years are now **2015 and 2025** (replacing 2012 and 2024), both `vcmslcfg`, layer `average_masked`. Downloaded by the human, 2026-10-02, into `final/data/raw/`. The 2012 and 2024 files from the previous entry are no longer in `data/raw/` (removed by the human, not the agent).
+- **Actions (read-only):** `ls`, `stat`, `shasum -a 256`, `gzip -t`.
+- **Results:**
+  | File | Bytes | SHA-256 | gzip -t |
+  |---|---|---|---|
+  | `VNL_v21_npp_2015_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz` | 280997747 | `1cdafa2039e49fe64b629592e20d33dc746ecc77824a6a4898a76c03311104fa` | ok |
+  | `VNL_npp_2025_global_vcmslcfg_v2_c202604011200.average_masked.dat.tif.gz` | 340942192 | `55cdc85dab51a26b2806071c2efee49314d1d8bb235581df2b0a03574c95e3ab` | ok |
+  - Byte sizes match the screenshot listings (268 MiB, 325 MiB).
+- **Facts flagged:** both files are `vcmslcfg`, S-NPP (`npp`), full calendar years. The version labels still differ in the filenames: 2015 = `v21`, 2025 = `v2` (the folder name is unknown). 2025 lies outside the handoff's original 2012–2024 range (human's change). Source URLs are still not recorded.
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Move files to radiance/eog, write MANIFEST.csv, attempt GDAL install
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes it was …/annual/v21/2015/ and …/annual/v22/2025/? but v22 only goes back to 2021 and i wanted more like a decade in between so we can really visualize the difference...
+  >
+  > those urls are good for the manifest, the location suggestion is good too. I'm not sure on GIT for now but no need to make any git decisions until later. For now this is a data collection exercise. What is the header and value check? I'm fine with gdal
+- **Human decisions recorded:** source folders `annual/v21/2015/` and `annual/v22/2025/`. The v2.1/v2.2 mix is accepted so the years are about a decade apart (v22 starts at 2021, per the human). Location `data/raw/radiance/eog/` approved. Git decision deferred. GDAL approved.
+- **Actions:**
+  - Moved (on the human's approval) the 2 files from `data/raw/` to `data/raw/radiance/eog/`. SHA-256 re-checked after the move: unchanged.
+  - Wrote `data/raw/radiance/MANIFEST.csv` (2 rows). The full URLs are put together by the agent from the EOG base path, the folder the human gave, and the filename.
+  - Tried `brew install gdal`: Homebrew isn't installed, so nothing was installed.
+- **Files created/changed:** `data/raw/radiance/eog/` (directory; files moved, not modified), `data/raw/radiance/MANIFEST.csv`
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: GDAL install + read-only header/value checks
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i installed homebrew
+- **Actions:**
+  - `brew install gdal` → GDAL 3.13.3 (Homebrew, `/opt/homebrew`), including the Python bindings for Homebrew python3.14. Homebrew itself was installed by the human.
+  - `gdalinfo -stats /vsigzip/<file>` on both files with `GDAL_PAM_ENABLED=NO` and `CPL_VSIL_GZIP_WRITE_PROPERTIES=NO`, so no `.aux.xml` or `.properties` files are written next to the raw data. Afterwards `ls` confirmed `eog/` still holds only the 2 files.
+  - Value census with a read-only script in the session scratchpad (`value_counts.py`, **not in the repo**). It reads in 1024-row chunks and counts NaN, ==−1.5, other negatives, zero, >0, <1, >200 and >1000.
+- **Results:** both files are 86401×33601, Float32, EPSG:4326, 15 arc-sec, 75N–65S, with no nodata tag. Full numbers are in the `notes` column of `data/raw/radiance/MANIFEST.csv`. Facts for the human:
+  - Neither year is capped at 200: max 99290.08 (2015), 83972.15 (2025). There are 30,745 / 37,533 pixels above 200.
+  - Negative values exist. ==−1.5: 35,995 px (2015), 1,977 px (2025). Other negatives: 27,073 (2015), 315 (2025). Their meaning is not stated in the file.
+  - Zero pixels: 97.74% (2015), 97.19% (2025), as expected for a masked product.
+- **Files changed:** `data/raw/radiance/MANIFEST.csv` (`notes` column filled in; raw rasters untouched), this log
+- **Data values changed:** none (the raster files are unmodified; the manifest records metadata only)
+- **Also (same step):** wrote the handoff `handoffs/2026-10-02_radiance-raw-collected.md` because the acquisition task is complete.
+
+---
+
+## 2026-10-02: Q&A, HDNTL value; why the files are ~11.6 GB unzipped (no new research)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i'm fine without companion files for now. Based on what you told me before, it doesn't seem like HDNTL is offering much detail or value on top of this, right?
+  >
+  > What's shocking for me is how large these files are unzipped ... 11gb? How is that possible?
+- **Human decisions recorded:** no companion files (`cf_cvg`, `lit_mask`) for now. HDNTL: the human asked for confirmation; still not formally decided.
+- **Answer given (facts):** HDNTL adds no spatial detail (same ~500 m grid). What it adds is daily time steps and an angular correction for 653 cities, which only matters if the story needs within-year or daily city changes. File size: 86401 × 33601 = 2,903,160,001 px × 4 bytes (Float32) = 11,612,640,004 bytes, stored with no internal TIFF compression. Gzip shrinks it to ~0.3 GB because ~97% of the pixels are 0.
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Q&A, does tiling for globe.gl make the data smaller? (no new research)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > moreover, when we tile these later for rendering on the globe.gl do they become a lot smaller?
+- **Answer given:** yes, usually by orders of magnitude. The size depends on human choices: maximum zoom/resolution, bit depth (8-bit display values vs float), image format, and whether empty tiles are skipped. The arithmetic examples given are computed, not measured. No tiling, format or architecture was chosen; rendering is out of scope for this task.
+- **Files changed:** this log entry only
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Human dropped HDNTL; Q&A on when colour estimation fits
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > let's drop HDNTL as it won't add further resolution and it's not clear to me yet how correcting for viewing angle will impact the visualization.
+  >
+  > Okay I'll be looking forward to that zoom/tiling process with a future agent.
+  >
+  > Before we handoff to another,  I want to present the idea of applying some sort of color mapping for these pixels ... we had discussed using satellite photos and doing a mapping based on those. However, that may not make sense at this stage as we haven't tiled them yet, is that right? Maybe color estimates should happen at a later stage ...?
+- **Human decisions recorded:** **HDNTL dropped** (reasons: no added spatial resolution; the effect of the angular correction on the visualization is unclear). Tiling/zoom goes to a future agent.
+- **Answer given (facts, no decision):** colour/CCT estimation doesn't depend on tiling. It would be a separate `estimated` data layer (RULES §2.3) made from the radiance data and the colour sources. Tiles are display products and would sit downstream of both. The order and the layer architecture are left to the human.
+- **Files changed:** this log entry; `handoffs/2026-10-02_radiance-raw-collected.md` (HDNTL item updated, colour/tiling ordering added as an open question)
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Next-session prompt for the tiling task
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think my first task will be to tile the globe with lights for those two years, with a comparison. Could you generate a prompt so I can move onto the next agent please
+- **Human decision recorded:** the next task is tiling 2015 + 2025 radiance for globe.gl, with a comparison.
+- **Actions:** added a "next task" section to `handoffs/2026-10-02_radiance-raw-collected.md` (facts and open decisions only). Wrote the next-session prompt in chat.
+- **Files changed:** `handoffs/2026-10-02_radiance-raw-collected.md`, this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-02: Tiling task, step 0. Read context, audited earlier apps, presented architecture options (no code, no new files)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Before doing anything, read these in order:
+  > 1. RULES.md — these govern everything you do.
+  > 2. handoffs/2026-10-02_radiance-raw-collected.md — the facts so far, my decisions, and the task (see "The next task").
+  > 3. data/raw/radiance/MANIFEST.csv — the two raw radiance files and their read-only check results.
+  >
+  > Your task: tile the globe with night lights for 2015 and 2025, with a comparison between the two years, for rendering in globe.gl. Work only from the two raw files in data/raw/radiance/eog/, and never modify them. Colour/CCT is out of scope.
+  >
+  > Start by presenting short options, with trade-offs, for the decisions listed in the handoff: how the comparison is shown, tile scheme and max zoom, bit depth and format, how raw values map to display brightness, how negative values and very bright pixels are handled, and where scripts and outputs live in the repo. Do not reuse the old tiler.py choices (tone curve, aurora fill, amber colour) unless I re-decide them. Then stop and wait for my choices before writing any code or creating files.
+  >
+  > Every transformation must be a script in the repo. Ask before adding any dependency other than GDAL (already installed). Log every step in AI_LOG.md with my exact prompt, and write a new handoff when the task is done or you reach ~30% context.
+  >
+  > BEFORE ANY WORK IS STARTED, I would like to have a solid grasp on the architectural decisions being made. I should say here: the goal is not just to render, but to render within a web app which we eventually want to publish. Therefore, let's make sure we start to set up the bones for a functional web app which will then render the globe, and other data that we will begin to append ...
+  >
+  > If you'd like to look at our prior example check out "earth-after-dark" in Linda's or Alex's folder to see what design and engineering decisions were made. These were entirely agentic, so strong caution in re-using them. We may learn that bad decisions were made. I would like to control this process.
+- **Actions:**
+  - Read `RULES.md`, the handoff `2026-10-02_radiance-raw-collected.md`, `MANIFEST.csv`, `DATA_INVENTORY.md`.
+  - Two read-only sub-agents (Explore) audited `../Linda/visual tests/earth-after-dark/` and `../Alexander/globe_v2/` (incl. `tiler.py`). No files changed. Findings summarised to the human in chat.
+  - Environment checks (read-only): `gdal2tiles`, `gdal_calc`, COG/PNG/WEBP drivers are available. GDAL's PMTiles driver in this build is vector-only. Homebrew `/opt/homebrew/bin/python3.14` has GDAL 3.13.3 + numpy 2.5.3; the `python3` first on PATH is the python.org 3.14 build, which has neither. Node/npm are not installed.
+  - Presented options (no recommendation adopted) for: app skeleton, layer architecture, hosting/tile storage, globe.gl integration, comparison, tile scheme/max zoom, bit depth/format, tone mapping, negatives/bright pixels, downsampling, repo layout. Waiting for human decisions.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Tiling task, step 1. Story/swipe constraints mapped to architecture (no code, no new files)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > @"/Users/alexander/Desktop/Screen Recording 2026-09-28 at 2.05.58 PM.mov"
+  > some more context on design constraints:
+  >
+  > This will be something of an interactive globe, in that we will render small datasets here and there as the "story" progresses. We will likely start with a prelude on the story of "light" through time, but very short, before arriving at the 2015-2025 light comparison to create a sense of urgency in the modern problem (context/intro --> urgency of current problem --> further exposition of the problem based on research and academic literature).
+  >
+  > if you look at 'earth-after-dark' where there's the sliding comparison tool (see the first 5 seconds of attached video for context), you'll see that this functionality is important for visually communicating to the audience the scale of even recent impacts and changes from artificial lighting.
+  >
+  > Before doing any visual design, let me know how these inform the engineering/architecture constraints
+- **Actions:** extracted 6 still frames (t = 0–5 s) from the recording into the session scratchpad with a throwaway Swift/AVFoundation script (not in the repo; no audio reviewed). Frames show the `globe_v2` swipe: 2012 left / 2024 right, vertical divider with handle, Colour/Brightness/Source toggle and legend. Mapped the story structure and the swipe requirement to architecture constraints and narrowed the open options; answered in chat.
+- **Human decisions recorded:** the swipe comparison is an important function (human's words above). Story order given by the human: short prelude on light through time → 2015–2025 comparison → exposition from research/literature.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Tiling task, step 2. Q&A: single-renderer swipe, three.js lift, why one brightness scale (no code, no new files)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > we aren't doing any of the madrid stuff or all of that content. We are focusing on foundational architecture which will make *rendering* efficient.
+  >
+  > Time CAN be limited to two years if we are just showing that comparison after a 'prelude' phase which has some very brief description of light through time using the globe as a story-telling object. Imagine there's a prelude button which runs through a 15 second intro, and then lands at the modern context.
+  >
+  > Two globe instances seems like the wrong decision because it's so demanding. There must be another way to efficiently communicate the drastic change and expansion of lighting without having to render two globes. Why can't the dividing tool be used to just 'retile' the globe with the different dataset for example?
+  >
+  > I'm fine with three.js decision if you're sure the lift won't be too heavy and we can do that EFFICIENTLY.
+  >
+  > Why must the two years be shown on exactly the same brightness scale when radiance/brightness may very well have expanded, and temperature will very well have changed ...
+- **Human decisions recorded:** scope is foundational rendering architecture only (no Madrid/city content). Time axis may be limited to 2015 and 2025. Prelude = a button-triggered ~15 s intro on the globe that lands on the modern comparison. **Two globe instances rejected.** three.js acceptable conditional on the lift being manageable and efficient (not yet confirmed).
+- **Answer given:** per-pixel swipe in one renderer via a shader uniform (both years in one tile, e.g. 2015 in R and 2025 in G); honest estimate of the three.js lift and a hybrid option (own tile mesh inside globe.gl's public `scene()`); explained that "same scale" means the same radiance→brightness mapping, which is what lets growth show; noted VIIRS DNB cannot see colour. No choice made for the human.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Tiling task, step 3. Human chose three.js + one-globe swipe; Q&A on continuing here vs fresh session (no code, no new files)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay understood on all accounts. Final question: we have some good decisions here. I'm willing to move forward with three.js and the 'one globe' solution.
+  >
+  > I think we will estimate color with the next agent not here. If you must use a filler color in the meanwhile, do that but make sure it's noted per rules.md.
+  >
+  > Final question: Should we start the first prototype where the goal is to render the comparison globe and develop our initial architecture? Or should I start a new agent? I think we have sufficient context window here, but let me know. If it gets to a point where there are too many design decisions, then let me know.
+- **Human decisions recorded:** **three.js** and the **one-globe swipe** (single renderer; divider selects year per pixel in the shader). Colour estimation deferred to a later agent; any filler colour must be labelled per RULES.
+- **Answer given:** context use is well under 30%; listed the decisions still needed before a prototype can start; noted greyscale needs no filler colour; offered to write a handoff so a fresh session builds. No choice made for the human.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Tiling task, step 4. Human answered prototype questions; handoff written (no code)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 1. I think the in-between is optimal right? Unless there's something I missed further up in the conversation.
+  > 2. I'm fine with a dependency - but whichever is more efficient and deployable to web - what's our answer?
+  > 3. I think real tiles, I'd rather avoid having dummy data which can bloat our file structure and confuse future agents.
+  > 4. in the repo.
+  >
+  >
+  > Go for it.
+- **Human decisions recorded:** in-between integration (globe.gl for camera/controls/layers; own three.js tile mesh + swipe shader via public `.scene()`); a new dependency is acceptable; first prototype uses real tiles, no dummy data; prototype lives in the repo.
+- **Answer given:** item 1: nothing missed, with the caveat that globe.gl and our mesh must share one three.js instance. Item 2: Node + npm + Vite (pinned versions, single three.js instance, static `dist/` output); to be confirmed by the human. Real tiles mean B2–B8 must be decided before tiling.
+- **Actions:** wrote `handoffs/2026-10-03_render-architecture.md` (facts + human decisions + open items + next task). Six still frames extracted earlier remain only in the session scratchpad (not the repo).
+- **Files changed:** `handoffs/2026-10-03_render-architecture.md` (new), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Next-session prompt for the render prototype
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay can you provide me a prompt so I can start a new agent chat please ... thanks for your service
+- **Actions:** wrote the next-session prompt in chat (points to RULES.md and `handoffs/2026-10-03_render-architecture.md`).
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Render prototype, step 1. Read rules + handoffs; options presented for open items (no code, no installs)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Before doing anything, read these in order:
+  > 1. RULES.md — these govern everything you do.
+  > 2. handoffs/2026-10-03_render-architecture.md — my decisions so far, the facts, the open items, and the task (see "The next task").
+  > 3. handoffs/2026-10-02_radiance-raw-collected.md and data/raw/radiance/MANIFEST.csv — the two raw radiance files and their read-only check results.
+  >
+  > Your task: build the first prototype of the web app in the repo. That means one globe (globe.gl for camera/controls, with our own three.js tile mesh and swipe shader added through its public .scene()), real tiles made from the two raw EOG files, and a per-pixel swipe between 2015 and 2025. Show radiance as neutral greyscale. Colour/CCT is out of scope, and any filler colour must be labelled per RULES.
+  >
+  > Before installing anything or writing code, present short options with trade-offs for the open items the prototype needs:
+  > - confirming the dependencies (Node + Vite + three + globe.gl)
+  > - max zoom
+  > - tile encoding and format
+  > - the radiance-to-brightness curve
+  > - how negative values are handled
+  > - how very bright pixels are handled
+  > - how low-zoom tiles summarise pixels
+  > - tooling and the Python environment
+  > - the repo layout
+  > Then stop and wait for my choices. Show me labelled previews before I pick the brightness curve.
+  >
+  > Never modify the raw files. No dummy data in the repo. Every transformation is a script in the repo. Log every step in AI_LOG.md with my exact prompt, and write a new handoff when the task is done or you reach ~30% context.
+- **Actions:** read RULES.md, both handoffs, MANIFEST.csv, CLAUDE.md/AGENTS.md, tail of this log. Read-only environment checks: `node`/`npm` not installed; Homebrew present; ~696 GiB free disk; `final/` is untracked inside the git repo at `ALAN/` (no `.gitignore` yet). Presented options for dependencies, tile scheme (raised as part of B3), B2–B9 in chat. Noted a conflict to resolve: curve previews need code, but code is to wait for choices, and scripts must live in the repo whose layout is not chosen yet. Asked the human how to order that.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Render prototype, step 2. Human choices recorded; repo layout, venv, pipeline scripts 01–03 created; previews being built
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > D1, S1, z8, E1 WebP, brightness curve i'm not sure yet - whatever makes sense for visual experience of communicating the actual increase in global brightness, N2 (but I wonder, are these just genuinely darker squares which weren't bright yet? Or is it really missing data from that year?), Percentile top, mean of linear radiance (we can change later if we don't like the effect), T1b, L1, previews first
+- **Human decisions recorded:** D1 (Homebrew Node; `three`, `globe.gl`, `vite` pinned via npm). S1 geographic tiles (EPSG:4326, no reprojection). B2 max zoom z8. B3 E1: 8-bit, curve applied when tiling, R=2015, G=2025, B=no-data flag; lossless WebP. B4 **not chosen** (human unsure; previews requested first). B5 N2: −1.5 = "no data", other negatives → 0. B6 percentile top (which percentile not chosen). B7 mean of linear radiance, then curve (may revisit). B8 T1b: Python (GDAL+numpy) in a venv with `--system-site-packages`. B9 L1. Previews before anything else.
+- **Actions:**
+  - Created folders `app/`, `pipeline/radiance/`, `data/derived/radiance/`, `previews/`. Created `.venv/` (Homebrew python3.14, `--system-site-packages`; GDAL 3.13.3, numpy 2.5.3). Created `.gitignore` (raw eog folder, `data/derived/`, `previews/`, `.venv/`, `app/node_modules/`, `app/dist/`, `.DS_Store`) and `pipeline/requirements.txt`.
+  - `pipeline/radiance/config.py`: paths, raw filenames + SHA-256 from MANIFEST, `NO_COVERAGE = -1.5`.
+  - `pipeline/radiance/01_decompress_to_cog.py`: checks the raw SHA-256 values, reads each raw file via `/vsigzip/` with PAM off (nothing written next to raw), and writes a lossless Float32 DEFLATE COG to `data/derived/radiance/cog/`. Re-reads the COG fully and writes value counts to `*.counts.json` so they can be compared with the MANIFEST. Re-checks the raw hash at the end. Started (background) → `data/derived/radiance/01_run.log`.
+  - `pipeline/radiance/02_check_no_coverage.py` (read-only check, answers the human's −1.5 question as far as the files allow): −1.5 counts per 5° latitude band, the other year's values at the same pixels, and the top 1° cells.
+  - `pipeline/radiance/03_preview_curves.py`: labelled preview page `previews/curves/index.html`. Curves: linear clip, log k = 0.1/1/10, histogram-equalised. Top = P99.99 of pooled positive pixels (preview value, not a decision). Global view = mean of 20×20 native blocks (B7). Two native-resolution crops picked by the agent as test areas (Nile delta; West Africa coast, −1°…4°E 5°…8°N), labelled as not a narrative choice. Magenta = display colour for −1.5 "no data", labelled on the page.
+- **Files changed:** `.gitignore`, `pipeline/requirements.txt`, `pipeline/radiance/config.py`, `pipeline/radiance/01_decompress_to_cog.py`, `pipeline/radiance/02_check_no_coverage.py`, `pipeline/radiance/03_preview_curves.py` (all new), this log. Generated (gitignored): `.venv/`, `data/derived/radiance/…`.
+- **Data values changed:** none so far. COGs are lossless copies (verification by counts pending).
+
+---
+
+## 2026-10-03: Render prototype, step 3. COGs built and checked; −1.5 location check; curve previews built (no prompt since step 2; continuation)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 2; no new human input)
+- **Actions / results:**
+  - `01_decompress_to_cog.py` ran. Raw SHA-256 matched before and after. The `ls -la` of the raw folder was identical before and after. COG value counts match MANIFEST exactly for both years (zero, >0, >200, >1000, ==−1.5, other negative, NaN 0, min, max, mean). Outputs: `data/derived/radiance/cog/vnl_{2015,2025}_average_masked.tif` (+ `.counts.json`), 308 MB / 370 MB.
+  - `02_check_no_coverage.py` ran → `data/derived/radiance/checks/no_coverage.json`. Facts:
+    - 2015: 35,728 of 35,995 −1.5 pixels lie on the raster's last row (row 33600, centre 65.0°S, over the ocean). The rest are scattered (≤79 per 5° band).
+    - At those 2015 −1.5 pixels, 2025 values are mostly positive: 0–1: 16,853; 1–10: 18,584. On the last row the median is 1.03. (Positive 2025 values on that edge row over ocean were noted, not interpreted.)
+    - 2025: 1,977 −1.5 pixels, scattered: 60–75°N (704), 45–60°S (612), near the equator (−5°…5°: 382). Largest 1° cells: 65N 24W, 2S 79W, 55S 72W. 2015 is 0 at 1,928 of them.
+    - Whether −1.5 means "no cloud-free coverage" is still unconfirmed without the `cf_cvg` companion file (the human declined companions on 2026-10-02).
+    - The last-row check was first run as an ad-hoc read-only query, then added to `02_check_no_coverage.py` and re-run.
+  - `03_preview_curves.py` ran → `previews/curves/index.html` (self-contained, images embedded, 19 MB), PNGs, `stats.json`. Pooled positive-pixel percentiles: P99 48.4, P99.9 133.8, P99.99 814.5, P99.999 5772.2 nW/cm²/sr. 49.6% of positive pixels are ≤1, and 92.4% are ≤10.
+  - The built-in browser pane could not load the 19 MB file. The page was sent to the human as a file.
+- **Files changed:** `pipeline/radiance/02_check_no_coverage.py` (last-row check added), `pipeline/radiance/03_preview_curves.py` (images embedded), this log. Generated (gitignored): COGs, counts JSON, checks JSON, previews.
+- **Data values changed:** none in data products. Previews are display-only: greyscale curve output; magenta = display choice for −1.5 "no data" (labelled on page). Audits (RULES §3) for the COGs are not yet done.
+
+---
+
+## 2026-10-03: Render prototype, step 4. Q&A on hist_eq vs log k=0.1 and on the top percentile (no code, no new files)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think I prefer hist_eq ... it has the most visual impact I think, right? log k=0.1 is also good, but maybe at a different scale? almost certainly between those two but I'm leaning former.
+  >
+  > Why not go with 99.999 so we can get more data in there? (if i'm understanding correctly)
+- **Human position recorded:** leaning towards `hist_eq`, with `log k=0.1` as the alternative. **Not yet a final decision.** Top percentile was asked about, not decided.
+- **Answer given:** The top only sets where white saturates; it does not add or remove data. Every pixel is in the tiles either way. Gave the grey levels (0–255) each curve gives at 0.5/1/5/10/50/814 nW/cm²/sr, calculated from `stats.json` and the curve formulas. With hist_eq, raising the top to P99.999 changes almost nothing visible. With log, it darkens everything. Offered a second preview round. No choice made for the human.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Render prototype, step 5. Human chose curve + top; Node installed; tile grid question answered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > newly lit, dim areas carries a lot of info about the 'spread' of lighting so I prefer that frankly.
+  >
+  > okay we can do 99.99 with hist_eq for now then.
+- **Follow-up question asked (AskUserQuestion) and answer (verbatim):** asked which tile grid to use, given that under S1 "z8" does not equal native resolution (standard geographic z7 ≈ 611 m/px, z8 ≈ 305 m/px resampled). Options: Native pyramid / Standard geo z7 / Standard geo z8. Human answer: "Native pyramid".
+- **Human decisions recorded:** B4 = **hist_eq** (CDF of positive pixels, both years pooled; zeros stay 0). B6 top = **P99.99** of pooled positive pixels. Tile grid = **native pyramid**: tiles are 256×256 cut from the files' own 15″ pixel grid. The deepest level is native with no resampling. Each coarser level is a 2×2 mean of linear radiance (B7), with −1.5 excluded.
+- **Actions:** `brew install node` (D1): Node v26.10.0, npm 11.19.1.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Render prototype, step 6. Curve, tiles and app built (continuation of step 5 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 5; no new human input)
+- **Actions / results:**
+  - `pipeline/radiance/config.py`: added the curve constants (hist_eq, P99.99, 4096 log bins) and the tile constants (256 px, version v1, blue-channel flag bits 1/2/4).
+  - `pipeline/radiance/04_build_curve.py` ran → `data/derived/radiance/curve/hist_eq_p9999.json`.
+    - Pooled positive pixels: 65,456,583 (2015) + 81,649,055 (2025). Both match the MANIFEST.
+    - Top = 814.097 nW/cm²/sr. 14,711 pixels are above the top.
+    - Reference greys: 0.5→46, 1→127, 2→184, 5→221, 10→236, 20→245, 50→253, 100→255.
+  - `pipeline/radiance/05_build_tiles.py` ran (≈10 min) → `data/derived/radiance/tiles/v1/{level}/{x}/{y}.webp` + `tiles.json`.
+    - Native pyramid, levels 0–9 (9 = native 15″, no resampling).
+    - Tiles written per level: 13,782 / 4,464 / 1,413 / 452 / 148 / 49 / 18 / 4 / 2 / 1 (levels 9→0). Total 20,333 tiles, 259 MB.
+    - Every tile was read back and matched the written array exactly (lossless).
+    - Tiles that are all zero in both years and have no no-data flag were skipped. `tiles.json` holds a per-level existence bitmask.
+  - Web app in `app/`, installed with `npm install --save-exact`: `three@0.186.1`, `globe.gl@2.46.2`, `vite@8.3.2` (dev). `npm ls three` shows one deduped `three@0.186.1`.
+    - `vite.config.js`: dev-only middleware serving `/tiles/` from `data/derived/radiance/tiles`. The tile base is configurable via `VITE_TILE_BASE` (A4 still open).
+    - `src/tileLayer.js`: our own tile meshes, added through `globe.scene()`, using globe.gl's `polar2Cartesian` convention. Swipe shader: R=2015 left of the divider, G=2025 right of it, chosen per pixel from one uniform. Nearest filtering, no colour-space conversion. Flag 4 is discarded. LOD = finest level whose texel is at least one screen pixel. Level 0 is always loaded as a backdrop.
+    - `src/main.js`: globe.gl with atmosphere off and a plain black globe material. Draggable divider. Legend shows the radiance→grey ramp, a magenta swatch labelled "No data (−1.5): display colour, not a value", the curve description and the data citation.
+    - `index.html`, `src/style.css`.
+  - `vite build` (to the scratchpad) compiles without errors. Warning: 1.94 MB JS bundle (548 kB gzip).
+  - Preview tooling: added an `alan-final-app` entry to `~/.claude/launch.json` (outside the repo; absolute node path because the app-launched process has no Homebrew PATH). Also created `final/.claude/launch.json`, which the preview tool does not read, so it is unused (suggest removing; not deleted, per RULES §1.5). The app-launched Vite process starts but never listens on port 5173. Possibly a macOS folder-access prompt for ~/Desktop. Asked the human.
+- **Files changed:** `pipeline/radiance/config.py`, `pipeline/radiance/04_build_curve.py` (new), `pipeline/radiance/05_build_tiles.py` (new), `app/package.json`, `app/package-lock.json`, `app/vite.config.js`, `app/index.html`, `app/src/main.js`, `app/src/tileLayer.js`, `app/src/style.css` (new), `.claude/launch.json` (new, unused), `~/.claude/launch.json` (entry added), this log.
+- **Data values changed:** none in data. Tiles are display products. Labels recorded in `tiles.json`: grey = display encoding of `measured` EOG radiance via the stated curve; flags = `inferred` by rule (−1.5 → no data, human N2; outside raster). Magenta = labelled display colour. RULES §3 audits for the COGs and tiles are not done yet.
+
+---
+
+## 2026-10-03: Render prototype, step 7. Dev server running; browser verification; two fixes; handoff written
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay i gave a permission it might work now
+- **Actions / results:**
+  - Dev server (`alan-final-app`) ran at http://localhost:5173 after the human granted the macOS permission. No console errors. `tiles.json` and the level 0–9 tiles were served (200).
+  - Verified in the built-in browser: the globe renders, zoom loads finer levels down to 9 (native), and the divider drags and switches the year per pixel. With a temporary cyan marker at Cairo (30.044 N, 31.236 E), added from the console and not saved in the source, the view centred on the Nile delta lights.
+  - **Fix 1 (`app/src/style.css`):** the legend covered the divider handle. The divider is now on top (z-index 3). Text selection is disabled so dragging doesn't highlight labels.
+  - **Fix 2 (`app/src/tileLayer.js`):** when zoomed in, ~2° grey squares appeared in deserts and over the sea. Cause: tiles skipped by the pipeline (measured 0 in both years) left gaps where the level-0 backdrop (2° block means, B7) showed through. Now, visible empty tiles at the current level are drawn as black meshes at that level. After the fix the squares were gone.
+  - `app/src/main.js`: dev-only `window.globe` handle for inspection (`import.meta.env.DEV` only).
+  - `vite build` still compiles. Raw folder listing unchanged since session start.
+  - Wrote `handoffs/2026-10-03_render-prototype.md`.
+- **Files changed:** `app/src/style.css`, `app/src/tileLayer.js`, `app/src/main.js`, `handoffs/2026-10-03_render-prototype.md` (new), this log.
+- **Data values changed:** none.
+- **Suggestions noted (not acted on):** remove the unused `final/.claude/launch.json`. The JS bundle is 1.94 MB (globe.gl + three); code-splitting could be considered later. At target level 9, fresh areas show the level-0 backdrop until native tiles arrive; a nearer fallback level could be requested.
+
+---
+
+## 2026-10-03: Render prototype, step 8. Q&A: audit in this chat? Sea of Japan brightness; next step (no code)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > WOW. This prototype is so much smoother and more efficient than last one. So I will want to run an audit against the original data source ... fyi there seems to be some brightness in the sea between korea and japan for some reason .. .I wonder what that's measuring? Maybe fishing fleets?
+  >
+  > Can we run the audit in this chat? LMK what rules say. Generally I want to move to the next step of color estimation. But this is a great start
+- **Human intent recorded:** wants an audit of the derived data against the original source, then to move on to colour estimation.
+- **Answer given:**
+  - RULES §3.1 requires the cross-agent check to run in a *separate* session with fresh context, ideally a different model, so not in this chat. RULES §3.2: the agent picks the spot-check sample with a recorded seed, and the human does the check. RULES §5.1: the task is done, so the next work starts fresh from the handoff.
+  - On the Sea of Japan brightness: the tiles show measured `average_masked` radiance there. Lit fishing fleets (e.g. squid jigging) are a known source of bright night lights in that sea, and EOG publishes a separate VIIRS Boat Detection (VBD) product. Not verified here. hist_eq also makes faint light highly visible.
+  - Gave a prompt for the audit session and a prompt for the colour session.
+- **Actions:** added "Addendum (human, after review)" to `handoffs/2026-10-03_render-prototype.md`.
+- **Files changed:** `handoffs/2026-10-03_render-prototype.md` (addendum), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Radiance audit (RULES §3), step 1. Fresh session; read rules + handoff; plan
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (fresh session; note: same model ID as the session that built the data, so §3.1 "ideally a different model" is not met)
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md, then handoffs/2026-10-03_render-prototype.md (including the addendum). Your task is the RULES §3 audit of the derived radiance data. That means the COGs in data/derived/radiance/cog/, the curve in curve/hist_eq_p9999.json, and the tiles in tiles/v1/ with their tiles.json, checked against the raw EOG files in data/raw/radiance/eog/ (read-only). Check invariants: dimensions, georeferencing, value counts, ranges, that the native-level tile greys follow the stated curve, the block means at coarser levels, and the no-data flags. Then pick a random spot-check sample (record the seed) and list each sample with its source location for me to verify by hand. Don't report the human check yourself. Every check is a script in the repo. Write results to audits/ and log every step in AI_LOG.md with my exact prompt. Write a handoff when done.
+- **Actions:** read `RULES.md`, `handoffs/2026-10-03_render-prototype.md` (incl. addendum), `pipeline/radiance/config.py`, `01_decompress_to_cog.py`, `04_build_curve.py`, `05_build_tiles.py`, `MANIFEST.csv`, `*.counts.json`, curve JSON and `tiles.json` (to know the stated spec). Plan: audit scripts in `audits/radiance/` that read the raw `.tif.gz` directly via `/vsigzip/` (GDAL PAM off, so nothing is written next to raw) and do **not** import pipeline code. Spec constants are restated in the audit scripts from the MANIFEST and the stated rules.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Render prototype, step 9. Fix: large grey/white squares while rotating
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > the only thing that happens sometimes when I'm rotating the globe, especially on lower zoom, is I see these white or grey squares pop up. it seems to be a rendering glitch?
+  >
+  > (attached: screenshot of India with several uniform grey/white rectangles)
+- **Cause:** while target-level tiles were still loading, the only fallback was the level-0 tile. Its pixels are 2°×2° block means (B7, ~220 km), shown through the hist_eq curve, so they appeared as large grey or white squares over lit regions. This came from the loader's implementation. Tile data is unaffected.
+- **Fix (`app/src/tileLayer.js`):** for each view, the loader first requests tiles 3 levels coarser than the target (`FALLBACK_STEPS = 3`; fallback texels are 8× the target's), then the target level. The level-0 tile is loaded first as a last resort. Verified in the browser: mid-rotation, the gaps show small coarse blocks instead of 2° squares. Once settled, the view is sharp with no squares.
+- **Files changed:** `app/src/tileLayer.js`, `handoffs/2026-10-03_render-prototype.md` (note added), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Radiance audit, step 2. Audit scripts written; raw integrity + COG vs raw run (same prompt as step 1)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 1; no new human input)
+- **Actions / results:**
+  - New folder `audits/radiance/` with scripts, results in `audits/radiance/results/`. The scripts import nothing from `pipeline/`. They use GDAL 3.13.3 + numpy 2.5.3 from `.venv` (no new dependencies). `dwebp` (libwebp CLI, already installed) is used as a second decoder.
+    - `common.py`: paths, MANIFEST reader, stated rules (−1.5 no data, flag bits, 256 px), and the curve rule.
+    - `a01_raw_integrity.py`: SHA-256 and size vs MANIFEST, folder listing (no stray `.aux.xml`). Ran with tag `start`: **PASS**.
+    - `a02_cog_vs_raw.py <year>`: COG metadata vs raw, bit-for-bit pixel comparison over the full raster, counts recomputed from raw vs the MANIFEST notes and vs `<cog>.counts.json`. **PASS for 2015 and 2025.** Dimensions 86401×33601, 1 band Float32, EPSG:4326, identical geotransform, no nodata tag on either file, COG layout + DEFLATE. 0 differing pixels. All counts equal.
+    - `a03_curve.py`, `a04_tiles.py`: written, running (see step 3).
+    - `a05_spot_sample.py <seed>` and `curve_grey.py` (a helper for the human check).
+- **Files changed:** `audits/radiance/common.py`, `a01_raw_integrity.py`, `a02_cog_vs_raw.py`, `a03_curve.py`, `a04_tiles.py`, `a05_spot_sample.py`, `curve_grey.py` (all new). Results: `audits/radiance/results/a01_raw_integrity_start.json`, `a02_cog_vs_raw_2015.json`, `a02_cog_vs_raw_2025.json` (+ `.log`). This log.
+- **Data values changed:** none (read-only audit).
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 1. Fresh session; read rules, handoffs, audit results; options presented (no code, no data collected)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md, then the latest handoff and the audit results in audits/. The next task is colour (CCT) estimation for the globe. Before collecting data or writing code, present short options with trade-offs: possible sources, methods, and how an estimated colour layer would combine with the radiance tiles. Then stop and wait for my choices. Log every step in AI_LOG.md with my exact prompt.
+- **Actions:** read `RULES.md`, `CLAUDE.md`, `DATA_INVENTORY.md`, `handoffs/2026-10-03_render-prototype.md` (latest, incl. addendum), `handoffs/2026-10-03_render-architecture.md`, `audits/radiance/results/*`, AI_LOG entries on colour (2026-10-02) and the audit entries. Read-only look at the old notes `~/alan-streetlight-cct/satellite_colour.md` (agent-compiled 2026-09-25, mostly snippet-level evidence, not verified) and the file list of `~/alan-streetlight-cct/colour/`. Presented options for sources, methods and layer combination in chat. No decisions made.
+- **Audit status observed (facts, not acted on):** a01 PASS; a02 PASS (2015, 2025); a04 PASS (written 12:11); a03 wrote `a03_curve.json` but the script then crashed when printing (`TypeError: Object of type bool is not JSON serializable`, numpy bool); no a03/a04 log entry or audit handoff yet; the cross-agent check ran with the same model ID; human spot check (`a05`, seed 187824061) not yet done. The audit session may still be open.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Radiance audit, step 3. Curve + tile checks, spot-check sample, report, handoff (same prompt as step 1)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 1; no new human input)
+- **Actions / results:**
+  - `a03_curve.py`: **PASS.** The curve was rebuilt from raw with zero difference in top, min positive, edges and cdf. Reference greys follow the rule. hist_eq is within 0.0019 of the empirical CDF. The first run crashed while printing numpy booleans (after writing the results). Fixed by casting to `bool` and reran in full.
+  - `a04_tiles.py`: **PASS.** Every pixel of all 20,333 tiles (levels 0–9) matches values recomputed from raw: 0 grey mismatches, 0 flag mismatches, 0 missing or extra tiles. `tiles.json` geometry, georeferencing and bitmask are consistent with the raw grid and the files on disk. Native flag counts are 35,995 / 1,977. `dwebp` agrees on 200/200 random tiles. Runtime ≈ 5 min.
+  - `a05_spot_sample.py 187824061`: human spot-check sample, **seed 187824061** (drawn with `secrets.randbelow(2**31)`), N = 35 in strata A20/B5/C5/D5. The agent did not read raw values for the sample. **Match rate: pending, to be recorded by a human.**
+  - `a01_raw_integrity.py end`: **PASS** (raw hashes unchanged; no `.aux.xml` anywhere under `data/`).
+  - Report: [`audits/radiance/AUDIT_2026-10-03.md`](audits/radiance/AUDIT_2026-10-03.md). Spot-check sheet: [`audits/radiance/results/a05_spot_check_sample.md`](audits/radiance/results/a05_spot_check_sample.md) and `.csv`.
+  - Facts noted in the report (no rule broken): coarse-level no-data flags only appear where the whole block is −1.5 (flag-2 pixels drop from 1,977 at level 9 to 0 at levels ≤ 7). All stratum-C samples fell on the 65°S last row. The raw pixel size 0.0041666667° gives a last-row centre of −65.000001°. The audit ran on the same model ID as the builder.
+  - Wrote `handoffs/2026-10-03_radiance-audit.md`.
+- **Files changed:** `audits/radiance/a03_curve.py` (bug fix), `audits/radiance/AUDIT_2026-10-03.md` (new), `audits/radiance/results/` (`a01_raw_integrity_end.json`, `a03_curve.json`, `a03.log`, `a04_tiles.json`, `a04.log`, `a05_spot_check_sample.md`, `a05_spot_check_sample.csv`), `handoffs/2026-10-03_radiance-audit.md` (new), this log.
+- **Data values changed:** none. No derived or raw file was written; the audit outputs are check results, not data.
+- **Suggestions (not acted on):** add a spot-check stratum for scattered (non-last-row) −1.5 pixels if the humans want them covered. Optionally rerun a02–a04 with a different model for §3.1. Audit the app's tile placement on the globe as a separate task.
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 2. Human choices recorded; Q&A on ISS global coverage and C2 (no code, no data collected)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > audit is still running but I'm feeling confident. It should finish up while we're working here.
+  >
+  > Do you think it's possible to find full global coverage in 2015 and 2025 from ISS photos? I wonder how many photos one needs to get the full global coverage ... maybe not too many actually like 50-100 per year?
+  >
+  > I think we should go with ISS astronaut photos. I don't have time for SDGSAT unfortunately.
+  >
+  > We should make note of the under-detection of blue part of white LED light too.
+  >
+  > I'm tempted to look into S1 before doing anything else. M3 I like for the most part, it should be a decent approximation. each year must have their own color because it will be about depicting this color change through time.
+  >
+  > I think I'd like to bake color into radiance tiles (C2 - but lmk if I'm missing something about this, we should still store estimated color data in a different file from our tile data)
+- **Human decisions recorded:**
+  - Source: **S1, ISS astronaut photos.** SDGSAT-1 not used (no time).
+  - Method: **M3 (lamp classes)**, "for the most part".
+  - **Each year (2015, 2025) gets its own colour.**
+  - Combination: **C2 (baked into the radiance tiles)** is the human's leaning, pending the agent's answer on trade-offs. The estimated colour data is stored in **its own file, separate from the tiles**.
+  - **Note to keep:** VIIRS DNB under-detects the blue part of white-LED light; a colour tint does not correct the DNB brightness. (Recorded here; where it appears on the page is not decided.)
+  - Human wants to look into S1 feasibility before anything else. The audit session is still running.
+- **Answer given (facts + arithmetic, not verified against the archive):**
+  - Full global coverage from ISS photos is not possible: the ISS orbit inclination is 51.6°, so nadir views stop at about ±52° latitude (the raster runs 75°N–65°S). Beyond that only oblique views exist.
+  - Footprint arithmetic (computed, ~400 km altitude, full-frame 36 mm sensor, ~6 µm pixels): 400 mm lens ≈ 36 km wide, ~6 m/px; 50 mm ≈ 290 km, ~50 m/px; 24 mm ≈ 600 km, ~100 m/px. 50–100 frames per year could only cover the populated land inside ±52° with ideal cloud-free nadir wide-angle frames; real night frames are opportunistic, often telephoto, oblique, cloudy or blurred, so the real number is larger and gaps remain. Not checked against the EOL catalogue.
+  - C2 trade-offs given; option of baking the M3 class index into the tile's B channel (2 bits per year + the 3 existing flag bits) described.
+  - Proposed scope for a read-only S1 feasibility check; waiting for the human's go and scope.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 3. Q&A (country lamp data; crude wide-angle colour); S1 feasibility check started (research only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Gosh - okay so, do you think we need to be considering using lamp data from countries? it sounds like a hassle and error rates could be higher. 
+  >
+  > From ISS photos, I don't think we would have to have detailed high-res photos. Like even a photo covering a large landmass gives us a lot of color information that we can just map onto our tiles ... right? Even if somewhat crude? 
+  >
+  > Check the archive first. Go through that feasibility check we need more data before deciding.
+  >
+  > 2015 can be slightly before (e.g. 2012-2014). 2025 should be after 2020, as late as possible.
+- **Human decisions recorded:**
+  - Year windows for ISS photos: **"2015" epoch may be 2012–2014** (and 2015); **"2025" epoch = after 2020, as late as possible.**
+  - Run the S1 feasibility check (archive first) before any further decisions.
+- **Actions:** see results below (appended when the check finishes).
+- **Answers given (step 3 Q&A):**
+  - Country/city lamp inventories (S4): not required for the ISS route; could later serve as an independent check of ISS classes for a few cities. Human's call.
+  - Crude colour from wide-angle frames: possible in principle (the UCM Iberian Peninsula mosaic used 16 ISS images, 2008–2012). Caveats: wide/oblique frames need per-pixel atmospheric extinction, vignetting correction and much harder georeferencing (Sánchez de Miguel et al. 2021: a tilted 24 mm image needs >100 control points); a coarse colour pixel mixes lamp types, so "mixed" becomes more common.
+- **S1 feasibility check, results (research only):**
+  - Archive (NASA Gateway to Astronaut Photography, eol.jsc.nasa.gov): public search works without login. The JSON API (`PhotosDatabaseAPI.pl`) needs a free key requested **by email** (not requested; that is the human's action). FAQ: RAW camera files exist for "some (not all)" images, requested per image page; JPEGs by default. Public domain; credit line required ("Image courtesy of the Earth Science and Remote Sensing Unit, NASA Johnson Space Center").
+  - Counted night photos (archive's "nighttime" filter, whole globe, all record types) for missions ISS030–046 and ISS064–075 via the public CoordinateRangeSearch + text-table pages, queried 2026-10-03. Scripts and raw HTML/CSV in the session scratchpad only (`scratchpad/eol/eol_query.sh`, `parse.py`, `summarize2.py`), **not in the repo**. 3,672,877 unique records.
+    - 2012–2015: 663,011 (2012 246,312; 2013 27,445; 2014 104,185; 2015 285,069). Human-catalogued with centre point 5,904 (≤35 mm: 605). Machine-learning catalogued 173,973. Not catalogued 482,148 (only the station's nadir is known).
+    - 2021–2026: 2,976,187 (2021 281,116; 2022 194,006; 2023 52,156; 2024 631,194; 2025 1,395,552; 2026 422,163 to date). Human-catalogued with centre point 338 (≤35 mm: 10). ML catalogued 85,223. Not catalogued 2,890,608.
+    - ≤35 mm frames are numerous in both epochs (e.g. 2025: 846,132), but almost all are uncatalogued. What they show (city vs horizon/aurora/time-lapse) is not checked.
+    - Not verified: for one ML-catalogued record (ISS071-E-717387) the listed lat/lon equals the spacecraft nadir on its photo page, so the ML "centre" may be the nadir for some records.
+  - Cameras: ISS036-E-36588 (2013) = Nikon D3S; ISS071-E-717387 (2024) = Nikon Z 9. The 2021 calibration paper characterises Nikon D1, D2Xs, D3, D3S, D4, D5 (plus Kodak DCS760, Sony a7S II) and requires RAW files. Z 9 is not in that list. LibRaw `colordata.cpp` (old folder) has matrices for D5, D6 and Z 9; a colour matrix is not a measured spectral response.
+  - Existing calibrated products: Zenodo 6638505 (Europe, pre/post-2013, CC BY 4.0; local copies of the two TIFFs in the old folder were earlier noted as broken). ESA/Cities at Night Europe mosaic from >7,000 ISS images of 2017 at ~100 m (no data download found). UCM Iberian Peninsula mosaic (16 images, 2008–2012; no licence/download stated). AIMS-Night (NASA, 363 night photos with ground-truth centres) exists for automated geolocation research.
+  - Step 4 (coverage vs lit pixels) not done: uncatalogued frames have no footprint, so a coverage map would need georeferencing first.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 4. Human chose an Iberia pilot; scripts moved into repo; Iberia photo inventory
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yeah let's pilot iberia to see how that goes. I'm okay with both  human-catalogued photos and machine-learning-catalogued set, but not doing our own cataloguing that's too much work. 
+  >
+  > I think we can do this from ISS... the goal will be to simplify here ... not to overcomplicate for pixel-by-pixel accuracy. Some broadstrokes are fine unless we find it to be quite easy to do pixel by pixel. 
+  >
+  > Let's go for that pilot. You can move script into repo yes.
+- **Human decisions recorded:**
+  - **Pilot region: Iberian Peninsula.**
+  - Photo pool: **human-catalogued (centre point) and machine-learning-catalogued** records. **No own cataloguing.**
+  - Aim: **broad strokes**, not pixel-by-pixel accuracy, unless pixel-level turns out to be easy.
+  - Query scripts move into the repo (`pipeline/colour/`, as proposed).
+- **Actions (step 4, continued):** new `pipeline/colour/config.py` (paths, Iberia box 35.5–44.0°N, 10.0°W–4.5°E, epochs, missions ISS030–046 + ISS064–075, record-type pool), `01_query_eol.py` (public CoordinateRangeSearch per mission, night only; saves responses as fetched to `data/raw/colour/eol/queries/<UTC date>/iberia/`, writes `data/derived/colour/iberia_records.csv`), `02_photo_details.py` (fetches each pooled photo's page to `data/raw/colour/eol/photos/`, extracts nadir/centre/ML centre, cloud %, sun elevation, camera, focal length, tilt, raw file offered, GeoTIFF availability; written, not yet run). The archive takes ~3 min per box query; the first run was stopped at the 30-min background limit after ISS030–039 and was restarted (resumes from saved files). The scratchpad copies of the global query scripts were rewritten as these repo scripts.
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 5. Q&A: query speed, faster alternatives (no new decisions)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > oh wow - this will go for a few hours. Even just for that small part of the globe? Maybe we should consider another sort of methodology for faster process? I'm just a little nervous for you. In the meanwhile I might consider starting other workflows ...
+- **Answer given:** the time is the archive server's response time per query (~3 min per mission with a box), not data volume (Iberia responses are 12–640 KB). ~19 missions left ≈ 1 h; runs unattended and resumes. Alternatives: (a) filter the global night-photo results already fetched today in the session scratchpad by the Iberia box (minutes; provenance = the global responses, ~0.9 GB HTML, which would need keeping); (b) API key by email (human's action) for structured queries. Step 2 (photo pages) adds ~1–2 s per pooled photo. Noted that parallel sessions writing to `final/` (esp. `AI_LOG.md`) could collide.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 6. Human chose to let the query run; prompt written for a parallel story-UX session
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Okay i'll do c. Please provide some warning text so I can start another agent workflow. Actually if you could prompt it: I want to begin the interactive story UX with my next agent. 
+  >
+  > I think the story chronology will work something as :
+  >
+  > * *black screen* "...and then there was light" (italicized), global lights fade in ...
+  > * Want to include some data on increase in x% radiance, across x% surface area (we can calculate this from our data I believe).
+  > * a few macro-level case studies (India (increase, policy), France (decrease, policy), Ukraine (decrease, war) ...
+  >
+  > Design and UI decisions are not yet made, this is just skeleton for how I'm thinking about it in terms of content...
+- **Human decisions recorded:** option (c): the Iberia query keeps running in this session. The human will start a parallel session for the **interactive story UX**. Story skeleton (human's content, not decided as design): black screen with italic "...and then there was light", global lights fade in; a statistic of x% radiance increase across x% of surface area, computed from our data; macro case studies India (increase, policy), France (decrease, policy), Ukraine (decrease, war). Design and UI not decided.
+- **Actions:** wrote a next-session prompt in chat, including coordination rules for running alongside this colour session (append-only log writes via shell `>>`; colour folders off limits).
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 1. Fresh session (parallel to the colour session); read rules, handoffs, log, app; options presented (no code, no data computed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_render-prototype.md (including the addendum), handoffs/2026-10-03_radiance-audit.md, and the recent entries in AI_LOG.md.
+  >
+  > CONCURRENCY WARNING: another Claude session is running in final/ right now on the colour (CCT) task.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append your entries only with a single shell append, e.g. cat >> AI_LOG.md <<'EOF' ... EOF, so the other session's entries are never overwritten.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only for you).
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Your task: begin the interactive story UX for the globe app in app/. This session is for options, not building. Design and UI decisions are NOT made yet. My content skeleton (mine, not for you to rewrite or embellish):
+  > 1. Black screen, italic text "...and then there was light", then the global lights fade in.
+  > 2. A statistic: radiance increased by x% across x% of surface area, between 2015 and 2025, computed from our own data (the two EOG VNL average_masked rasters).
+  > 3. A few macro-level case studies: India (increase, policy), France (decrease, policy), Ukraine (decrease, war).
+  >
+  > Before writing any code, present short options with trade-offs, then stop and wait for my choices:
+  > - Story mechanics: how the sequence is driven (button/scroll/steps), where story text lives (a separate content file vs code), how camera moves and the swipe fit in, and how this sits on the existing globe.gl + tile-layer architecture without growing it.
+  > - The statistic: list the definitional choices I must make before anything is computed, e.g. what counts as "lit", how area is computed (the raster is EPSG:4326, so pixels are not equal area), sum vs mean radiance, how -1.5 no-data and negatives are handled, the different processing versions (2015 = v2.1, 2025 = v2.2), and the fact that VIIRS DNB under-detects the blue part of white-LED light (so an LED switch can read as a decrease). Any computation must later be a script in the repo, labelled per RULES §2.3, and audited per §3.
+  > - Case studies: for each country, say what kind of documented sources would be needed (policy dates, war-related outages) and what our data can and cannot show. Don't assert causes; any causal or policy claim needs a citation, and you don't add narrative framing of your own.
+  >
+  > Log every step in AI_LOG.md (append only, as above) with my exact prompt. Write a handoff to handoffs/ when the task is done or context reaches ~30%.
+- **Actions:** read `RULES.md`, `CLAUDE.md`, `AGENTS.md`, `handoffs/2026-10-03_render-prototype.md` (incl. addendum), `handoffs/2026-10-03_radiance-audit.md`, the story-related parts of `handoffs/2026-10-03_render-architecture.md`, AI_LOG entries from "Tiling task, step 1" onward, `app/package.json`, `app/index.html`, `app/src/main.js`, uniform lines of `app/src/tileLayer.js`, `data/raw/radiance/MANIFEST.csv` notes. Presented options in chat for story mechanics, statistic definitions and case-study sources. No code, no computation, no new files besides this log entry.
+- **Facts noted:** the repo holds no country/admin boundary data (case studies by country would need a new dataset, human's call). The tile shader has a swipe uniform but no fade/opacity uniform yet.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 2. Human choices recorded; Q&A on statistic definitions (no code, no data computed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think step buttons are better. I'm okay to not have a 'prelude
+  > [Request interrupted by user]
+  > A1a I think step buttons are better. I'm okay to not have a 'prelude' but when the app opens, it should open at the starting part of the story. Arrows would be good here.
+  >
+  > A2 separate content file, for sure. I want to have easy editorial access to improve wording.
+  >
+  > A3 - I like the idea of controls staying free in case user wants to 'explore'
+  >
+  > A4c I think ... though I'll decide later after seeing. We may end up changing this.
+  >
+  > A5a - this is just an intro to the site and should provide a beautiful experience .. imagine we may end up introducing sound at some point for heightened ambience.
+  >
+  > A6 yes existing architecture is correct. The story will grow ... this is just the 'first part' of the story that we're looking at ... understanding the context of increasing illumination. There will be another step which involves 'global impacts' where map a whole bunch of global light studies, and then that will include some case studies, and even more abstract visualization that we will want to render either on top of the globe, in a pop up, or in a completely separate view (can figure this out when we get there). You might imagine three components of the story: 1) intro/context, (global illumination) 2) Light impacts, 3) Beyond us (the impacts on insects/animals too)
+  >
+  > B
+  >
+  > 1. a (i meant a, it's understandable)
+  > 2. the denominator should be the lit area in 2015, as 2025 will have more pixels lit / it's a relative measure right?
+  > 3. I'm not sure what should count i need more context
+  > 4. i'm open to suggestion. But i think anywhere where the satellite started to pick up light data that it wasn't picking up earlier.
+  > 5. No idea
+  > 6. okay maybe we can re approach this metric discussion. I want to keep it somewhat simple to convey impact. If we should remove surface area i'm open to doing that.
+  > 7. I still don't know what -1.5 pixels are
+  > 8. run a sensitivity check
+  > 9. Let's keep that caveat noted I think it's important. the sourcing is helpful too. we must record our sources for these claims.
+  > 10. we shouldn't need to discuss these extreme values for the purpose of our story at this point.
+  > 11. i think pipeline/story
+  >
+  >
+  > C
+  > C0 - I think it's cool that we don't have boundaries because the artificial lights are creating the boundaries naturally for us .. that's a nice artifact of this process.
+  >
+  > * we can imply causes using external sources on India, France, and Ukraine I think it's just kind of obvious...
+  > * yes we need sources but it can be simple ; France started their policy in 2019 I think.
+  > * we don't need to be over elaborate with our sources here I think the effect is clearly understood as a result of policy.
+  > * Again, we don't need to overthink sourcing on Ukraine, the story is pretty understood...
+  >
+  >
+  > The case studies are meant to be 3-5 second overviews of the countries which show the 2015-2025 difference, with a simple explanation for what's going on .. it will fit into a broader narrative of how this radiance is a response of a human action (policy, war ...) it's meant to be thought provoking ...
+- **Human decisions recorded:**
+  - **A1a:** step buttons + arrow keys. No separate prelude button; the app opens at the start of the story.
+  - **A2:** story text in a separate content file (for easy editing of wording). Format not yet chosen.
+  - **A3:** globe controls stay free during the story.
+  - **A4c (tentative):** swipe always available; may change after viewing.
+  - **A5a:** CSS black overlay fade for the intro. Sound may be added later (not now).
+  - **A6:** existing architecture kept. The story will grow: three parts named by the human: 1) intro/context (global illumination), 2) Light impacts (map of global light studies, case studies, abstract visualizations on the globe, in a pop-up or a separate view; to be decided later), 3) Beyond us (impacts on insects/animals). The current task covers part 1 only.
+  - **B1 = a:** total radiance change (%) and lit-area change (%). **B2:** relative to lit area in 2015. **B4:** "newly lit" = where the satellite picks up light in 2025 that it did not in 2015 (definition open to agent suggestion). **B8:** run a sensitivity check. **B9:** keep the LED under-detection caveat; record sources for claims. **B10:** extreme values not discussed in the story at this point. **B11:** scripts go in `pipeline/story/`.
+  - **C0:** no country boundaries (human: the lights form the boundaries). **Case studies:** 3–5 s overviews per country showing the 2015–2025 difference with a simple explanation; sources kept simple; causes may be implied using external sources (human's narrative). Human recalls France's policy starting in 2019 (not verified).
+  - Still open: B3, B5, B6, B7 (human asked for more context), content-file format.
+- **Answer given:** context on B3/B5/B6/B7 and proposed defaults (see chat); flagged that per RULES §2.3 each factual claim in the case-study text still needs one citation, and that the explanation wording is the human's; noted that without boundaries the case studies carry no per-country numbers; noted that B10 extremes still enter a total-radiance sum. Documented MANIFEST counts quoted (positive pixels and pixels < 1 nW/cm²/sr per year). No new computation.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 3. Human choices recorded; skeleton build started
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > L1, sphere, M1, pairwise; build the skeleton first.
+  >
+  > I think one file for everything ... tell me if that's a bad idea.
+  >
+  > That's fine if my france timing guess was incorrect. Please generate simple causal claims with simple citations for this prototype and I can change manually afterwards... we can have text on cards as we fly through for example?
+- **Follow-up question (agent, via question dialog):** content file format: plain text with own reader / JSON / JS content module.
+- **Human answer (verbatim):**
+  > I'm okay with JS if that gives us more power to edit and manipulate ... otherwise just do plain text if we can build a separate JS layer later for bells and whistles
+- **Human decisions recorded:**
+  - **B3 = L1** (lit = > 0 in average_masked). **B5 = sphere** (pixel area on a sphere). **B6 = M1** (total area-weighted radiance change % + lit-area change % vs 2015). **B7 = pairwise** exclusion of −1.5 pixels. B8 sensitivity check still requested (thresholds not chosen).
+  - **Build the story skeleton first**; the statistic script comes later.
+  - **One content file for everything** (agent's answer: fine for part 1; can be split per part if it grows).
+  - **Content format: JS content module** (agent picked JS under the human's conditional answer, because it holds text, camera, swipe and timing in one editable place).
+  - Agent asked by the human to **draft simple causal claims with simple citations** for the three case studies, as prototype placeholders the human will edit. Text shown on cards during camera flights.
+- **Files changed:** this log (build actions in the next entry)
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 4. Story skeleton built and verified in the browser; placeholder claims drafted with sources (continuation of step 3 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 3; no new human input)
+- **Actions:**
+  - New `app/content/story.js`: the single content module (human decisions A2 and JS format). It has 5 steps: intro, statistic, India, France, Ukraine. Each step holds text, an optional note, sources (label, url, `supports` = what the source states, not displayed), camera `{lat, lng, altitude}`, flight time and intro timing. `swipe` is supported but not set (A4 open). Parts 2 and 3 are only placeholder comments. The statistic text is the human's skeleton wording with `x` left uncomputed.
+  - New `app/src/story.js` (~75 lines): Back/Next buttons and ArrowLeft/ArrowRight; the app opens on step 1; camera via globe.gl `pointOfView(camera, fly)`; the intro is a CSS black overlay with the italic text fading in, then the overlay fading out (A5a); cards show text, note and source links; globe controls stay free (A3).
+  - `app/index.html`: added `#card`, `#nav`, `#intro`. `app/src/main.js`: imports the story, removed the fixed initial `pointOfView` (the story now sets it), adds `startStory(...)` with a `setSwipe` hook. `app/src/style.css`: styles for the intro, card and nav. `tileLayer.js` unchanged. No new dependencies.
+  - Placeholder claims drafted by the agent at the human's request (marked in the file header as AI-drafted, to be edited by humans). Sources checked by the agent on 2026-10-03:
+    - India: Saubhagya launched 2017; 2.86 crore (28.6 million) households electrified. Source: Akashvani News, 1 Aug 2024, reporting a Ministry of Power written reply in the Lok Sabha. Label: `documented`.
+    - France: Arrêté du 27 décembre 2018 (JORF 28 Dec 2018), Art. 2: heritage lighting and shop windows off by 1 a.m. Source: Légifrance JORFTEXT000037864346. Label: `documented`. The human's "2019" recollection was not used as a date; a search summary (not the text) said it entered into force on 1 Jan 2019.
+    - Ukraine: NASA Earth Observatory, "Tracking Night Lights in Ukraine", 30 Jun 2022 (Carlowicz/Stevens): infrastructure damaged in the early weeks of the war, cutting electricity to millions; some outdoor lighting may have been dimmed or shut off. Label: `documented`.
+    - LED caveat note: Kyba et al. 2023, Science 379(6629):265–268, doi:10.1126/science.abq7781 (metadata confirmed via Crossref). The < 500 nm statement comes from search-result summaries; the paper text was not read. Label: `documented` (pending a read of the paper).
+    - The causal links (scheme → more light, rule → dimmer, war → darker) are the humans' framing, as requested. Neither the sources nor our data show these causes.
+  - Verified in the browser (the dev server on :5173 was already running from the other session and serves the same folder, so this session did not start its own): the intro fades as designed; arrows and the Back button work; flights to India, France and Ukraine load tiles sharply on arrival; Back to step 1 replays the intro; no console errors.
+- **Facts noted (not acted on):**
+  - During the intro the overlay covers the nav buttons, so only the arrow keys work until the fade ends.
+  - The S-NPP night overpass is around 01:30 local time (agent knowledge, not sourced here), i.e. after France's 1 a.m. switch-off time. The humans may want this checked.
+  - `git status` inside `final/` reports branch `main` tracking `origin/main`. Nothing was staged or committed.
+- **Files changed:** `app/content/story.js` (new), `app/src/story.js` (new), `app/index.html`, `app/src/main.js`, `app/src/style.css`, this log
+- **Data values changed:** none (only display text; the statistic is not computed)
+
+---
+
+## 2026-10-03: Story UX task, step 5. Arrival sequence, left-side fact, automatic country sweep; India source question answered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think the real thing in India was like the 'rural lighting initiative' right? 
+  >
+  > I think part of the story mechanics should involve an automatic swiping off the central divider, starting on far right side of the country (2015 view), to the 2025 view (far left side of country).
+  >
+  > Let's cut the intro frame down by 1.5 seconds or so. Could it open on the globe dark and then the lights slowly fade in to proper luminance, and other UI/UX elements join after that? A sequence of arriving into the app? More dramatic this way.
+  >
+  > And then the first fact - the radiance increase, should appear on the left side of the globe as a more pronounced fact .. not just a case study card.
+- **Human decisions recorded:**
+  - **Case-study sweep:** the divider moves automatically from the country's far right (2015 view) to its far left (2025 view).
+  - **Intro shortened by ~1.5 s**; an arrival sequence: black, the lights slowly fade in to full brightness, then the other UI elements join.
+  - **The statistic appears as a prominent fact on the left of the globe**, not as a card.
+- **India question (answer given, card not changed):** the village-level rural electrification scheme is DDUGJY (Deen Dayal Upadhyaya Gram Jyoti Yojana, "village light"). Source read by the agent: PIB factsheet "Deen Dayal Upadhyaya Gram Jyoti Yojana (DDUGJY)", Ministry of Power, 27 May 2022 (https://static.pib.gov.in/WriteReadData/specificdocs/documents/2022/may/doc202253060201.pdf): launched December 2014; all inhabited un-electrified census villages electrified by 28 April 2018 (as reported by states); 18,374 villages electrified 2014-15 to 28.04.2018; 1,27,68,620 households covered. Label: `documented`. Saubhagya (2017, households) is a separate, later scheme. The human decides which goes on the card.
+- **Actions:**
+  - `app/content/story.js`: intro timing changed to `textIn 1000, hold 1000, textOut 500, lightsIn 6000, uiIn 1500`. The text phase is 2.5 s, previously 4 s. The text now fades out before the lights fade in. The statistic step is `kind: 'fact'`. Each case study has `sweep: { east, west, hold: 800, duration: 3500 }` with approximate mainland longitudes set by hand for display only (India 97.4/68.1, France 8.2/−4.8, Ukraine 40.2/22.1).
+  - `app/src/story.js` rewritten (~120 lines): arrival sequence (body class `arriving` hides the divider, year labels, legend, nav, card and fact until the lights have faded in, then they fade in); fact rendered large on the left (`#fact`); sweep = divider glides to the right edge during the flight, waits, glides to the country's east edge (screen position via `globe.getScreenCoords`), then sweeps to the west edge with ease-in-out; grabbing the divider or changing step stops it.
+  - `app/index.html`: `body.arriving`, `#fact`. `app/src/main.js`: passes `swipe.get/set` to the story. `app/src/style.css`: arrival transitions, `#fact` styles, a portrait layout (fact across the top).
+  - Verified in the browser at 1280×800, 800×1512 and 375×812: arrival sequence plays in order; fact shows on the left (top in portrait); India arrives in 2015 and sweeps east→west to 2025; no console errors.
+- **Facts noted:** in portrait the fact's source line runs under the divider; the legend takes much of the screen on phones (layout not decided).
+- **Files changed:** `app/content/story.js`, `app/src/story.js`, `app/index.html`, `app/src/main.js`, `app/src/style.css`, `handoffs/2026-10-03_story-ux-skeleton.md` (addendum), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 6. India card switched to DDUGJY; statistic wording changed; Q&A on the statistic (not computed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > use DDUGJY on the India card; 
+  >
+  > Did we figure out an estimate for radiance increase? It should also be Radiance from Artificial Light at Night (ALAN) has increased by X% ...
+- **Human decisions recorded:** India card uses DDUGJY. The statistic's wording begins "Radiance from Artificial Light at Night (ALAN) has increased by X% ...".
+- **Actions:** `app/content/story.js`: India text and source replaced with DDUGJY (PIB factsheet, 27 May 2022, `documented`; agent-drafted wording, marked as a placeholder). Statistic text set to "Radiance from Artificial Light at Night (ALAN) has increased by x% across x% of surface area, between 2015 and 2025." The ending after "X% ..." keeps the human's earlier skeleton wording; the human may change it. Checked in the browser: the card shows DDUGJY; no console errors.
+- **Answer given:** the statistic has **not** been computed; both x are placeholders. Definitions are chosen (L1, sphere, M1, pairwise; denominator 2015 lit area); still open: sensitivity-check thresholds. Per RULES §2.4/§3 it needs a script in `pipeline/story/`, an `inferred` label and an audit; per §5 it was suggested as a fresh-session task from the handoff. Noted that calling all VIIRS average_masked radiance "artificial" relies on EOG's masking (fires, background, aurora); the agent has not checked what the mask removes.
+- **Files changed:** `app/content/story.js`, `handoffs/2026-10-03_story-ux-skeleton.md` (addendum line), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 7. Statistic script written and run (first, unaudited numbers)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Do we have to use 0.5 and 1 for the sensitivity thresholds? Fine, do that. I just want to see how some initial numbers look. You can do this task.
+- **Human decisions recorded:** sensitivity thresholds **0.5 and 1 nW/cm²/sr** (in addition to the main L1 > 0). The human asked this session to run the statistic (instead of a fresh session per RULES §5; the human's call, context use was low).
+- **Actions:** new `pipeline/story/01_radiance_change.py`. It reads the two Float32 COGs (read-only; audited bit-identical to raw) in 512-row blocks. Definitions as in its docstring: M1, L1 + thresholds 0.5/1, newly lit, sphere pixel area with authalic radius 6371007.1809 m, pairwise −1.5 exclusion, other negatives → 0, all 86401 columns used (the first and last columns are both centred on 180°; their share is reported). Ran it once (103 s). Output: `data/derived/story/radiance_change_2015_2025.json` (gitignored folder), label **`inferred`** (rule + inputs + raw hashes in the file).
+- **Results (inferred; unaudited):**
+
+  | lit = | radiance change | lit-area change | newly lit (% of 2015 lit area) | lit → unlit (% of 2015 lit area) | lit area 2015 → 2025 (M km²) |
+  |---|---|---|---|---|---|
+  | > 0 (main) | +40.99% | +25.28% | 38.57% | 13.29% | 11.222 → 14.060 |
+  | > 0.5 | +44.17% | +76.40% | 83.38% | 6.98% | 7.462 → 13.163 |
+  | > 1 | +41.92% | +74.33% | 81.24% | 6.90% | 4.599 → 8.017 |
+
+- **Checks (automatic, in the output):** positive pixels without exclusion 65,456,583 / 81,649,055 = the MANIFEST counts exactly; pixels excluded pairwise 35,993 (2015 only) + 1,975 (2025 only) + 2 (both) = 35,995 and 1,977 = the MANIFEST −1.5 counts; other negatives set to 0: 27,073 / 315 = the MANIFEST counts; valid area 477,489,299 km² (whole-sphere area × (sin 75° + sin 65°)/2 ≈ 477.5 M km², consistent); edge columns < 0.0003% of radiance.
+- **Facts noted (not interpreted):** the radiance change is similar at all three thresholds (41–44%); the lit-area change is not (25% at > 0 vs 74–76% at > 0.5 and > 1). In 2015, 3.76 M km² of lit area lies in 0–0.5 nW/cm²/sr; in 2025, 0.90 M km². 2015 is v2.1, 2025 is v2.2.
+- **Not done:** RULES §3 audit (cross-agent check in a separate session + human spot check). The numbers were **not** put into the app; the fact still shows x.
+- **Files changed:** `pipeline/story/01_radiance_change.py` (new), `data/derived/story/radiance_change_2015_2025.json` (new), `handoffs/2026-10-03_story-ux-skeleton.md` (addendum), this log
+- **Data values changed:** new derived values only (label `inferred`); no raw or existing derived file touched.
+
+---
+
+## 2026-10-03: Story UX task, step 8. Literature check: peer-reviewed studies of global ALAN change (research only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Wow. These numbers are quite substantial ... that should convey high impact. Is there any peer-reviewed/academic method which has looked into this question as well? Or made these claims?
+- **Actions:** web search; abstracts and metadata read via the Crossref API (publisher pages blocked automated access). Found (label `documented`; abstract-level only, full texts not read):
+  - Kyba, Kuester, Sánchez de Miguel, Baugh, Jechow, Hölker 2017, *Science Advances*, doi:10.1126/sciadv.1701528. Abstract: lit area expanding 2.2%/yr, existing lit areas brightening 2.2%/yr (VIIRS, 2012–2016). Press coverage also gives total radiance +1.8%/yr (not in the abstract).
+  - Li, Wang, Kyba, Román, Seto, Yang et al. 2026, *Nature*, doi:10.1038/s41586-026-10260-w. Abstract: daily imagery, 2014–2022; brightening = radiance increase equal to 34% of the 2014 global baseline, dimming offset 18%; frequent coexisting brightening and dimming.
+  - Güneş, Kurt, Bayazıt, Aksaker, Yerli 2026, *Annals of the NY Academy of Sciences*, doi:10.1111/nyas.70297. Abstract: harmonized VIIRS, 2012–2024, 165 countries; global ALAN +3.2%/yr; "a few countries, including France and Venezuela, show declines".
+  - Kyba et al. 2023, *Science*, doi:10.1126/science.abq7781 (already cited): citizen-science sky brightness rising 7–10%/yr in the visible band (per summaries).
+  - Arithmetic given for comparison (agent, `inferred`, compounding only): our +40.99% over 10 years ≈ 3.5%/yr; +25.28% lit area ≈ 2.3%/yr. Noted that the methods, periods, products and thresholds differ, so the numbers are not directly comparable.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 9. Q&A: literature figures vs our own number for the headline (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Wow. Let's use the academic citations then because it's more reliable but our numbers are almost exactly aligned. What do you think?
+- **Answer given (asked for the agent's view):**
+  - The figures are in the same range, not exactly aligned. Radiance: ours ≈ 3.5%/yr vs Güneş 3.2%/yr (2012–2024). Lit area: ours ≈ 2.3%/yr at > 0 vs Kyba 2.2%/yr (2012–2016). The lit-area match holds only at > 0; at > 0.5 ours is ≈ 5.8%/yr. The threshold should not be chosen because it matches the literature.
+  - Options: (1) the literature figure only (peer-reviewed; but other years and methods than the map shows, so the sentence changes to a per-year rate over other years; full text must be read first); (2) our number as the headline, with the literature cited as consistent published estimates (keeps the number tied to the map; needs our §3 audit); (3) the literature figure as the headline, with ours as a footnote.
+  - The agent's view, as asked: option 2, because the number and the map then come from the same data. Decision is the human's.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 10. Option 2: our numbers as the headline, literature as corroboration (provisional)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Go with option 2
+- **Human decision recorded:** **option 2**: our own number is the headline; the published estimates are cited as consistent with it.
+- **Actions:** `app/content/story.js` statistic step:
+  - Text: "Radiance from Artificial Light at Night (ALAN) has increased by 41% between 2015 and 2025, and the lit area by 25%." Values come from `data/derived/story/radiance_change_2015_2025.json` (`inferred`; 40.99% and 25.28%, rounded to whole percent; lit = > 0). **Agent wording edit:** the human's "across x% of surface area" was replaced, because under M1 the second number is the change in lit area, not a share of surface area. Flagged for the human to check.
+  - Note: marks the numbers as provisional, audit pending; cites Güneş et al. 2026 (3.2%/yr, 2012–2024) and Kyba et al. 2017 (lit area +2.2%/yr, 2012–2016) as consistent published estimates (abstract-level, `documented`); keeps the LED caveat (Kyba et al. 2023).
+  - Sources: EOG/Elvidge et al. 2021 (input data), Güneş 2026, Kyba 2017, Kyba 2023.
+  - Checked in the browser at 1280×800: the fact renders on the left; no console errors.
+- **Open:** RULES §3 audit of the statistic (separate session + human spot check); reading the full texts of Güneş 2026 and Kyba 2017 before publication; the human's check of the reworded sentence.
+- **Files changed:** `app/content/story.js`, `handoffs/2026-10-03_story-ux-skeleton.md` (addendum), this log
+- **Data values changed:** none (display text uses existing inferred values)
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 7. Query stopped on HTTP 502; retry added; resumed (no human prompt; continuation of step 4)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **What happened:** `01_query_eol.py` stopped at ISS072 with `HTTP Error 502: Bad Gateway` from the archive. 25 of 29 mission responses were saved; each was checked to contain the archive's result table ("Displayed: N").
+- **Change:** `01_query_eol.py` now retries up to 3 times, 60 s apart, on HTTP errors, and refuses to save a response with no result table (`config.py`: `RETRIES, RETRY_WAIT_S = 3, 60`). Resumed for ISS072–075.
+- **Files changed:** `pipeline/colour/01_query_eol.py`, `pipeline/colour/config.py`, this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 11. Statistic step gets an India/China sweep; "ALAN" wording; legend moved behind an (i) pop-up
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > (attached: screenshot of the statistic step)
+  > maybe that first step - where we lead in with increase in global radiance, should be accompanied by a slider swipe from the india/china perspective because at least it also visually relays the impact. 
+  >
+  > And maybe we should jsut say "ALAN" has increased ... and then move radiance to bottom footnote. 
+  >
+  > The other thing, the whole radiance/greyscale box in the corner should be an optional popup stored behind a little i in a circle
+- **Human decisions recorded:** the statistic step flies to an India/China view with an automatic sweep; the headline says "ALAN has increased ..." with radiance explained in the footnote; the legend becomes an optional pop-up behind an (i) button.
+- **Actions:**
+  - `app/content/story.js` statistic step: text "ALAN has increased by 41% between 2015 and 2025, and the lit area by 25%."; note now starts "ALAN: artificial light at night. 41% is the change in total radiance measured by the VIIRS satellite sensor (summed over area); lit area = area with radiance above 0." (agent-drafted explanation of the existing definitions; the rest of the note unchanged); camera `{lat 25, lng 72, altitude 1.6}` so India/China sit right of the text; `sweep: { east: 122, west: 68.1, hold: 800, duration: 4000 }` (China east coast → India west coast; hand-set display values).
+  - `app/index.html`: `#info` button; `#legend` hidden by default. `app/src/main.js`: (i) toggles the legend; Escape closes it. `app/src/style.css`: (i) button styles, legend above the button and above the fact text (z-index), both join in the arrival fade.
+  - Verified at 1440×820: the sweep runs from right to left across China and India, ending just right of the text; (i) opens and Escape closes the legend; no console errors. The first check showed the open legend under the fact's source links; fixed with z-index.
+- **Files changed:** `app/content/story.js`, `app/index.html`, `app/src/main.js`, `app/src/style.css`, this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 8. Iberia query finished; photo-details fetch started (continuation of step 4)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Results (`data/derived/colour/iberia_records.csv`, archive queried 2026-10-03):** 20,133 night records with listed lat/lon in the Iberia box (ISS030–046, ISS064–075; ISS075 returned 0).
+  - "2015" epoch (2012–2015): 7,278 records; human-catalogued with centre 226, ML-catalogued 762, not catalogued 6,290. **Pool: 988** (2012: 681, 2013: 87, 2014: 144, 2015: 76). Lens: ≤35 mm 642, 36–100 mm 181, 101–400 mm 111, >400 mm 54.
+  - "2025" epoch (2021 onward): 12,482 records; human-catalogued 20, ML-catalogued 947, not catalogued 11,515. **Pool: 967** (2021: 401, 2022: 524, 2023: 4, 2024: 23, 2025: 15). Lens: ≤35 mm 658, 36–100 mm 5, 101–400 mm 301, >400 mm 3.
+  - Fact for the human: the "as late as possible" side of the pool is mostly 2021–2022; 2024–2025 has 38 pooled records.
+- **Started:** `02_photo_details.py` over the 1,955 pooled records (one page per photo, 1 s pause).
+- **Files changed:** `data/raw/colour/eol/queries/2026-10-03/iberia/ISS072–075.html` (new), `data/derived/colour/iberia_records.csv` (new), this log
+- **Data values changed:** none (archive metadata copied as listed)
+
+---
+
+## 2026-10-03: Story UX task, step 12. Q&A: per-country metrics need boundaries (options, no download); story restructured into "Light" and "Impacts"; next-session prompt written
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay - before moving to next task... what if we did the same radiance calculation for India France and Ukraine so we also had a metric that could accompany this beyond the visualization ... (at this point do we need the geo boundaries of globe.gl?)
+  >
+  > For the next prompt:
+  >
+  > my next task will involve generating the next layer of the story... this will be borrowed from Linda's last prototype version (the one which incorporates earth-after-dark). The hard work will be the academic studies dataset which I think claude generated entirely. The task will be to identify this dataset, and then find next steps to refine or improve this for better narrative power ... But, we will also need to create a simple interface on the left side of the screen which moves us through the two modes of interaction in the app:
+  >
+  > The first one is 
+  >
+  > "Light", and the second one, right below that is "Impacts"
+  >
+  > (I had been considering three earlier) but I think now let's just separate it into two simple super-categories... the second category (impacts) is where we move beyond the 'divider scale', and instead just focus on the 2025 lit tiles, with the studies scattered throughout the globe ... (this will become obvious later)
+- **Human decisions recorded:**
+  - The story has **two super-categories: "Light" (first) and "Impacts" (second)**, replacing the three parts named in step 2. A simple interface on the left side of the screen moves between them. "Impacts" leaves the divider comparison and shows only the 2025 tiles, with studies placed around the globe.
+  - Next task (fresh session): the "Impacts" layer, borrowed from Linda's last prototype (the one incorporating earth-after-dark); identify its academic-studies dataset (the human believes Claude generated it entirely) and find next steps to refine or improve it; build the Light/Impacts switcher.
+  - Per-country metrics for India, France, Ukraine: proposed by the human; options given; **not started** (needs boundaries).
+- **Answer given:** yes, a per-country number needs boundary polygons. globe.gl ships none; it only draws polygons you supply. The boundaries can be used for computing only, without drawing them. Choices for the human: dataset (Natural Earth admin-0, public domain, has "point of view" variants for disputed areas; geoBoundaries, CC BY 4.0; GADM, non-commercial licence); disputed/occupied areas (Crimea and areas of eastern Ukraine since 2014, Kashmir); France metropolitan only or incl. overseas departments inside the raster; the pixel rule (pixel centre inside the polygon vs fractional overlap). Download = new raw data (MANIFEST, permission first). Then the same script logic per country, §3 audit.
+- **Files changed:** this log, `handoffs/2026-10-03_story-ux-skeleton.md` (addendum)
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 13. Human chose boundary options; download permission requested; audit prompt written
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Natural Earth, mainland France, exclude Crimea, pixel centre.
+  >
+  > yes please generate the audit prompt too so I can run that
+- **Human decisions recorded:** per-country metrics for India, France, Ukraine using **Natural Earth** boundaries, **mainland France**, **Crimea excluded** from Ukraine, **pixel-centre** rule.
+- **Actions:** HEAD requests only (nothing downloaded) to naciscdn.org: `10m/cultural/ne_10m_admin_0_countries.zip` 4,930,492 B, `ne_10m_admin_0_map_units.zip` 5,003,719 B (both last-modified 2022-05-13), `ne_10m_admin_0_disputed_areas.zip` 215,221 B. Asked the human for permission to download. Wrote a RULES §3 audit prompt in chat for `pipeline/story/01_radiance_change.py` and its output.
+- **Open (asked):** Corsica in or out of "mainland France"; the areas of eastern Ukraine outside government control since 2014 (not excluded unless the human says so); Kashmir follows Natural Earth's default line unless the human says otherwise.
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 9. Slow fetches traced to IPv6; IPv4 forced; retries + 3 parallel requests (continuation of step 4)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **What happened:** `02_photo_details.py` took ~90 s per photo page (~48 h for 1,955 pages). Test: `curl -6` to eol.jsc.nasa.gov timed out at 20 s; `curl -4` answered in 0.4 s. Python tried IPv6 first. The ~3 min per box query in `01_query_eol.py` was probably the same stall (the earlier curl queries were fast); not re-tested.
+- **Changes:** `config.py` now makes name lookups in this pipeline return IPv4 only (commented with the test result); `PARALLEL_REQUESTS = 3`. `02_photo_details.py`: up to 3 retries on network errors, 120 s timeout, refuses to save a page without "Spacecraft nadir point", fetches 3 pages at once (each worker still pauses 1 s). Single page now ~4 s. The 3 pages already saved were checked. Restarted.
+- **Files changed:** `pipeline/colour/config.py`, `pipeline/colour/02_photo_details.py`, this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 14. Natural Earth boundaries downloaded; per-country statistic computed (unaudited)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes okay to download. include those other areas which are outside of ukrainian control because theyre still recognized as ukraine politically. Use default line for india
+- **Human decisions recorded:** download approved. Ukraine **includes** the areas outside government control since 2014 (Donetsk/Luhansk); Crimea excluded (step 13). India uses Natural Earth's **default line**. Corsica: not answered, so France is reported both with and without Corsica.
+- **Actions:**
+  - Downloaded with curl at 2026-10-03T19:17:53Z to `data/raw/boundaries/naturalearth/` (raw, read-only; not unzipped; read via GDAL `/vsizip/`): `ne_10m_admin_0_countries.zip` (4,930,492 B, sha256 ce1ac703…a7f6), `ne_10m_admin_0_map_units.zip` (5,003,719 B, 45bebe2a…3eb5), `ne_10m_admin_0_disputed_areas.zip` (215,221 B, a250c1cf…8438). Natural Earth 1:10m v5.1.1, public domain. New `data/raw/boundaries/MANIFEST.csv` (same columns as the radiance MANIFEST, plus `version_file`).
+  - Read-only checks (exact point-in-polygon): in admin_0_countries, Simferopol (Crimea) falls in Russia; Donetsk and Luhansk fall in Ukraine; Srinagar and Leh in India; Gilgit in Pakistan. map_units GEOUNIT 'France' (FXX) = metropolitan France incl. Corsica. (A first check with `ogrinfo -spat` only tested bounding boxes and was replaced.)
+  - New `pipeline/story/02_country_change.py`: the same definitions as `01`, applied inside each country with the pixel-centre rule (GDAL rasterize, ALL_TOUCHED = FALSE) on the raster's own grid. India = countries 'India'; Ukraine = countries 'Ukraine' (Crimea overlap checked = 0.0 sq deg); France = map_units 'France', with a second variant dropping the parts inside 8.4–9.7°E, 41.3–43.1°N (2 polygons, Corsica). Output `data/derived/story/country_change_2015_2025.json`, label **`inferred`**. Run twice (the second time after replacing GDAL's deprecated 'Memory' driver with 'MEM'); identical results.
+- **Results (inferred; unaudited); main = lit > 0:**
+
+  | Area | km² inside | radiance change | lit-area change | at > 0.5: radiance / lit area | at > 1: radiance / lit area |
+  |---|---|---|---|---|---|
+  | India | 3,158,334 | +92.56% | +26.53% | +109.42% / +85.33% | +128.08% / +164.37% |
+  | France incl. Corsica | 546,431 | −41.06% | −30.26% | −39.78% / −3.86% | −43.64% / −22.09% |
+  | France excl. Corsica | 537,780 | −41.20% | −30.52% | −39.92% / −4.30% | −43.74% / −22.33% |
+  | Ukraine excl. Crimea | 570,174 | −32.10% | −38.60% | −26.82% / +22.42% | −36.96% / −17.16% |
+
+  Pixels excluded pairwise (−1.5): India 8; others 0.
+- **Facts noted (not interpreted):** the sign of the radiance change is the same at all three thresholds for each country; the lit-area change is not stable (France −30% / −4% / −22%; Ukraine −39% / +22% / −17%). The France decrease is subject to the LED under-detection caveat.
+- **Not done:** RULES §3 audit; the numbers are not in the app. An audit-prompt addition for `02` was given in chat.
+- **Files changed:** `data/raw/boundaries/naturalearth/*.zip` (3 new raw files), `data/raw/boundaries/MANIFEST.csv` (new), `pipeline/story/02_country_change.py` (new), `data/derived/story/country_change_2015_2025.json` (new), `handoffs/2026-10-03_story-ux-skeleton.md` (addendum), this log
+- **Data values changed:** new derived values only (`inferred`). New raw files; no existing raw or derived file touched. Not covered by `.gitignore` (git handling is the human's call).
+
+---
+
+## 2026-10-03: Story UX task, step 15. Corsica kept; LED caveat added to the France card
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Fine to keep corsica. That blue light fact is important ... and should be noted.
+- **Human decisions recorded:** France = mainland **incl. Corsica** (the "France (mainland incl. Corsica)" result in `country_change_2015_2025.json` is the one to use). The LED / blue-light under-detection caveat is important and should be noted.
+- **Actions:** `app/content/story.js` France card: added the note "Part of a measured decrease can come from switching to white LEDs: VIIRS cannot see blue light below about 500 nm, where white LEDs emit strongly (Kyba et al. 2023)." (agent-drafted wording) and the Kyba et al. 2023 source. The caveat stays in the statistic footnote and in both output JSONs. Checked in the browser: the note shows on the France card; no console errors. The country numbers are still not on the cards.
+- **Files changed:** `app/content/story.js`, `handoffs/2026-10-03_story-ux-skeleton.md` (addendum), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 10. Human asked for faster answers; full fetch stopped; seeded sample of 60 photo pages
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yooo no ways we can't do another hour task ... we need answers faster on whether this method makes sense. And it's another hour even just for that small scale of the globe? We need a faster way to estimate color...
+- **Actions:** stopped the full `02_photo_details.py` run (24 pages saved). Added `--sample N --seed S` (N random pooled records per epoch, numpy `default_rng`) to `02_photo_details.py`. Ran `--sample 30 --seed 20261003` (~2 min) → `data/derived/colour/iberia_photo_details_sample30_seed20261003.csv`. HEAD requests to `GetGeotiff.pl` for 3 photos returned HTTP 502 (size unknown; no GeoTIFF downloaded).
+- **Sample results (60 photos; facts as listed on the pages):**
+  - Cameras: 2012–2015 = Nikon D3S (26) and D4 (4); 2021+ = Nikon D5 (30). All are models characterised in Sánchez de Miguel et al. 2021. (Z 9 appears in 2024 elsewhere; not in this sample.)
+  - Raw camera file offered on all 60 pages.
+  - GeoTIFF offered for 9 of 60 (2015: 4 of 30, all human-catalogued; 2025: 5 of 30, ML-catalogued). All 9 are 85–400 mm (city-scale frames). None of the ≤35 mm frames in the sample has a GeoTIFF.
+  - ML-catalogued pages: an ML centre point is shown for 0 of 22 (2015) and 5 of 30 (2025); otherwise only the spacecraft nadir is given. Tilt and cloud % are empty on all ML-catalogued pages. (The parser fills an empty field with the next label, e.g. "Format:"; to fix if the script is kept.)
+- **Files changed:** `pipeline/colour/02_photo_details.py`, `data/raw/colour/eol/photos/` (pages for the sample), `data/derived/colour/iberia_photo_details_sample30_seed20261003.csv` (new), this log
+- **Data values changed:** none
+
+## 2026-10-03: Story statistic audit (RULES §3), step 1. Fresh session; read rules, handoffs, log; plan
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (fresh session; same model ID as the session that wrote `pipeline/story/01` and `02`, so §3.1 "ideally a different model" is not met)
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_story-ux-skeleton.md (incl. all addenda), handoffs/2026-10-03_radiance-audit.md (the earlier audit, for its approach), and AI_LOG.md entries "Story UX task, step 2", "step 3", "step 7", "step 13" and "step 14".
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Everything outside audits/story/ is read-only for you: raw files (incl. data/raw/boundaries/), COGs, tiles, pipeline/, data/derived/, app/.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Task: the RULES §3 audit of the two story statistics.
+  > A) pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json (global)
+  > B) pipeline/story/02_country_change.py -> data/derived/story/country_change_2015_2025.json (India, France with and without Corsica, Ukraine)
+  > Both are labelled inferred. Human-chosen definitions (see the log entries above): M1 = % change in total area-weighted radiance and % change in lit area, both vs 2015; lit = radiance > 0 in average_masked, plus sensitivity thresholds > 0.5 and > 1 nW/cm²/sr; newly lit = not lit in 2015 and lit in 2025; pixel area on a sphere (authalic radius); pairwise exclusion of -1.5 pixels; other negatives set to 0. For B: Natural Earth 1:10m v5.1.1 (data/raw/boundaries/MANIFEST.csv); India = admin_0_countries 'India' (default line); Ukraine = admin_0_countries 'Ukraine' with Crimea excluded and Donetsk/Luhansk included; France = admin_0_map_units 'France' (metropolitan), with and without Corsica; a pixel belongs to a country if its centre is inside the polygon.
+  >
+  > 1. §3.1 cross-agent check. Write your own independent scripts in audits/story/ that import nothing from pipeline/, recompute every number in both outputs from the COGs (or the raw .tif.gz files) and the raw boundary zips, and compare. Also check:
+  >    - each script implements the definitions above, and nothing else;
+  >    - raw file hashes vs both MANIFESTs, before and after;
+  >    - the pixel-area formula and geotransform handling (incl. the duplicated 180° column and the -65.000001° last-row edge);
+  >    - for B: the country masks (pixel-centre rule, the window/offset maths, Crimea really excluded, Donetsk/Luhansk included, Corsica handling, no overseas France), e.g. by comparing mask areas with an independent method;
+  >    - invariants: counts vs data/raw/radiance/MANIFEST.csv, total valid area vs the analytic area of the 75°N–65°S band, totals and percentages consistent with each other;
+  >    - anything else concerning.
+  >    Write the report to audits/story/AUDIT_<date>.md, with results in audits/story/results/.
+  > 2. §3.2 human spot check. Draw a random sample (record the seed) of individual pixels, incl. some lit in both years, some newly lit, some lit to unlit, a few -1.5, and some just inside/outside a country border. For each, list lon/lat, row/col, the raw values, the pixel area your rule gives, and the country assignment, so that I can check them by hand (e.g. in QGIS). Do not do the human check yourself and do not report a match rate.
+  > 3. Note which model ran the audit (RULES asks for a different model, ideally).
+  >
+  > Log every step in AI_LOG.md (append only) with my exact prompt, and write a handoff to handoffs/ at the end.
+- **Actions:** read `RULES.md`, `CLAUDE.md`, `handoffs/2026-10-03_story-ux-skeleton.md` (all addenda), `handoffs/2026-10-03_radiance-audit.md`, AI_LOG story steps 2, 3, 7, 13, 14 (and 15, which records France = incl. Corsica), both MANIFESTs, both output JSONs, the COG `.counts.json`, `audits/radiance/common.py` + `a01` (approach only). Plan: write the recomputation in `audits/story/` from the stated definitions **before** reading `pipeline/story/*.py`, then read those scripts for the definition check. Country masks by an own scanline point-in-polygon (numpy, even-odd rule on the NE vertices), compared with an independent GDAL rasterize and with spherical polygon areas. No new dependencies (shapely/pyproj not installed; not needed).
+- **Files changed:** this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Story UX task, step 16. Country numbers shown large on the case-study cards (provisional)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > the numbers need to be in the cards, and large like "increased by x%" - visibly
+- **Human decision recorded:** the per-country numbers go on the case-study cards, large, in the form "increased by x%".
+- **Actions:**
+  - `app/content/story.js`: new fields `figure` and `figureNote` on the case studies. India "ALAN increased by 93%" (+92.56%); France "ALAN decreased by 41%" (−41.06%, mainland incl. Corsica); Ukraine "ALAN decreased by 32%" (−32.10%, excl. Crimea). These are the radiance changes at lit > 0, rounded to whole percent, from `data/derived/story/country_change_2015_2025.json` (`inferred`, unaudited). "ALAN ..." wording follows the human's headline form (step 11). figureNote: "2015–2025, total radiance measured by VIIRS; our calculation (provisional, audit pending)."
+  - `app/src/story.js`: renders `figure` and `figureNote` on the card. `app/src/style.css`: large figure style.
+  - Checked in the browser at 1440×820 (India, Ukraine): the figure shows large under the title; no console errors.
+- **Files changed:** `app/content/story.js`, `app/src/story.js`, `app/src/style.css`, `handoffs/2026-10-03_story-ux-skeleton.md` (addendum), this log
+- **Data values changed:** none (display of existing inferred values)
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 11. Human chose option 3 (broad strokes from GeoTIFF colours); plan + open points presented (no downloads yet)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > do 3. broad strokes just document clearly how the estimate is being generated is all
+- **Human decisions recorded:** **Option 3:** classify lamp colour in broad strokes directly from the archive's GeoTIFF colours (processed images, not calibrated raw). Every estimate must be documented clearly with how it was generated.
+- **Not yet confirmed (asked in chat):** permission to download GeoTIFFs (the two test files or all GeoTIFF photos in the pool); how class boundaries are set. Option 3 departs from the cited calibration method (Sánchez de Miguel et al. 2021 requires raw files); this will be stated in the method note.
+- **Files changed:** this log
+- **Data values changed:** none
+
+## 2026-10-03: Story statistic audit, step 2. Audit scripts written and run; all automated checks PASS (same prompt as step 1)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 1; no new human input)
+- **Actions / results:** new folder `audits/story/` (scripts import nothing from `pipeline/`; written from the human definitions before `pipeline/story/*.py` was read; GDAL 3.13.3 + numpy 2.5.3 from `.venv`, no new dependencies). Results in `audits/story/results/`.
+  - `s01_raw_integrity.py start` / `end`: **PASS** both times (2 radiance + 3 boundary files vs both MANIFESTs; no stray files under `data/raw/`). Outputs, pipeline scripts and COGs fingerprinted: unchanged between start and end.
+  - `s02_global.py`: global numbers recomputed from the **raw .tif.gz** (via /vsigzip/): 71/71 items match `radiance_change_2015_2025.json` (worst rel. diff 3.2e-13; all integer counts exact). Raw value counts = MANIFEST notes. Runtime 221 s.
+  - `s03_masks.py`: own scanline point-in-polygon masks = a separate GDAL rasterize = the pipeline's pixel counts (0 differing pixels for all 4 areas); mask areas within 0.001% of the exact spherical polygon areas; pipeline windows contain the masks. Crimea polygon (B89): 0 of 179,076 pixels in the Ukraine mask; Donetsk/Luhansk polygons (C02/C03): 100% inside. Corsica = 2 parts of map_units FXX (main island + an islet); Îles d'Hyères kept. No overseas France in FXX. India mask: India-administered disputed polygons 100% in; Pakistan/China-administered and Siachen 0% (Natural Earth default line).
+  - `s04_country.py`: 152/152 items match `country_change_2015_2025.json` (worst rel. diff 3.7e-13).
+  - `s06_invariants.py`: **PASS** (counts vs MANIFEST, pairwise sums, area breakdown, internal identities of both outputs, Corsica area).
+  - `s05_spot_sample.py 2136234698`: human spot-check sample, **seed 2136234698** (`secrets.randbelow(2**31)`), N = 44. First run crashed after drawing (raw dataset handle garbage-collected); fixed and rerun with the same seed. Values read from raw and checked equal to the COGs. **Match rate: pending (human).**
+- **Files changed:** `audits/story/common.py`, `s01_raw_integrity.py`, `s02_global.py`, `s03_masks.py`, `s04_country.py`, `s05_spot_sample.py`, `s06_invariants.py` (all new); `audits/story/results/*` (new); this log.
+- **Data values changed:** none (read-only audit; outputs are check results).
+
+## 2026-10-03: Story statistic audit, step 3. Report and handoff written (same prompt as step 1)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 1; no new human input)
+- **Actions:** wrote the report [`audits/story/AUDIT_2026-10-03.md`](audits/story/AUDIT_2026-10-03.md) and `handoffs/2026-10-03_story-statistic-audit.md`.
+- **Facts recorded in the report (not acted on, nothing outside `audits/story/` changed):**
+  - (D1) at the 0.5 and 1 thresholds, the pipeline's total radiance sums only pixels lit at that threshold. This is an agent choice, documented in the docstring; the threshold-free total gives +40.99%.
+  - (D2) the duplicated 180° column is included (effect at most 0.0002 percentage points).
+  - The grid area exceeds the 75°N–65°S band by 11,851 km² (+0.0025%): 6,321 km² from the half-pixel overhang, 5,526 km² from the duplicate column, about 4 km² from the stored pixel size.
+  - The `02` rule text still says Corsica is "not chosen" (step 15 chose incl. Corsica).
+  - `02` does not record the boundary hashes in its output.
+  - Both outputs still say "Not yet audited".
+  - The audit ran on the same model ID as the builder.
+- **Human spot check:** seed 2136234698, N = 44, sheet `audits/story/results/s05_spot_check_sample.md` / `.csv`. **Match rate: pending (human).**
+- **Files changed:** `audits/story/AUDIT_2026-10-03.md` (new), `handoffs/2026-10-03_story-statistic-audit.md` (new), this log.
+- **Data values changed:** none.
+- **Suggestions (not acted on):** pin the boundary hashes in `02`'s output; update the stale Corsica wording; rerun §3.1 with a different model.
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 12. Human: download the two test GeoTIFFs; class boundaries set by the human after seeing the data
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 1. do a
+  > 2. do (i)
+  >
+  >
+  > start pls
+- **Human decisions recorded:** (a) download two test GeoTIFFs only: `ISS030-E-188190` (2012, Lisbon area) and `ISS065-E-203760` (2021, Madrid area), stop if either is unexpectedly large. (i) class boundaries are chosen by the human from plotted colour ratios of lit pixels.
+- **Actions:** new `pipeline/colour/03_fetch_geotiffs.py` (downloads the archive's GeoTIFF per photo ID to `data/raw/colour/eol/geotiff/`, size cap 100 MB, TIFF signature check, SHA-256 manifest, file set read-only). Run for the two IDs: **failed, nothing saved.** `GetGeotiff.pl` returned HTTP 502 (1,477-byte error page) on 6 attempts for both photos; one attempt with the photo page's cookie and referer returned HTTP 200 with `Content-Type: image/tiff`, `Content-Disposition: ISS030-E-188190.tif` and **0 bytes**. Server-side failure; not a size issue. The empty `geotiff/` folder was removed. A NASA conference paper (NTRS 20240004906) describes a newer map portal/API for georeferenced ISS imagery; its URL was not found in this step.
+- **Files changed:** `pipeline/colour/03_fetch_geotiffs.py` (new), this log
+- **Data values changed:** none
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 13. Human chose option (1): city-level classes from full-size JPEGs; two test JPEGs downloaded; ratio plots
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > go with 1 please
+- **Human decisions recorded:** option (1): broad-strokes, city-level classes from the archive's full-size JPEGs (uncalibrated, located at city level only). Download approved for `ISS030-E-188190.JPG` and `ISS065-E-203760.JPG`.
+
+---
+
+## 2026-10-03: Impacts task, step 1. Fresh session; studies dataset identified (read-only); options presented for dataset refinement and the Light/Impacts switcher (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_story-ux-skeleton.md (including both addenda), the earlier handoffs it points to, and the recent entries in AI_LOG.md.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task).
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Context: the story now has two super-categories, "Light" (first) and "Impacts" (second, right below it), chosen from a simple interface on the left side of the screen. "Light" is the existing story (intro, statistic, case studies, with the 2015/2025 divider). "Impacts" leaves the divider behind and shows only the 2025 lit tiles, with academic studies placed around the globe.
+  >
+  > Your task, in this order:
+  > 1. Find the academic-studies dataset used in Linda's last prototype (the version that incorporates earth-after-dark). Places to look: ~/Desktop/ALAN/Linda/, ~/Desktop/ALAN/Alexander/, ~/Desktop/ALAN-linda/, ~/alan-streetlight-cct/, and DATA_INVENTORY.md. I believe Claude generated this dataset entirely. Report what it is, where it came from, how it was made, how many studies it holds, which fields it has, and how many entries have a checkable source (DOI/URL). Do not change it.
+  > 2. Present short options, with trade-offs, for next steps to refine or improve this dataset for narrative power under RULES §2 (sourcing, labels, no guessing). Then stop and wait for my choices.
+  > 3. Present short options for the Light/Impacts switcher on the left of the screen, and for how "Impacts" fits the existing app/ architecture (globe.gl + our tile layer + app/content/story.js) without growing it. Then stop and wait.
+  >
+  > Do not build anything before I choose. Log every step in AI_LOG.md (append only) with my exact prompt. Write a handoff to handoffs/ when the task is done or context reaches ~30%.
+- **Actions (read-only):** read RULES, the story-UX handoff (+ addenda), render-prototype and radiance-audit handoffs, recent log entries, DATA_INVENTORY. Listed the four candidate folders. Parsed the source workbook with Python stdlib (zip/XML; no installs) via a scratchpad script. Read `Linda/processed/c1_effects/*` summaries and the C1 prep/geocode scripts' headers. One web search to identify the source record.
+- **Facts found:**
+  - Linda's last prototype = git commit `db976a972` "Integrate multiscale ALAN visualization" (author Linda, 2026-09-30), checked out in the `~/Desktop/ALAN-linda` worktree; same content merged to `main` in `~/Desktop/ALAN` (the two `Alexander/globe_v2/` copies are identical apart from tiles, not compared). Its studies layer is **C1**: `Alexander/globe_v2/data/c1_effects.json` + `layers/c1-effects.js`.
+  - **C1 is not AI-generated at the record level.** It is built from `Data_S1_Czarnecka_et_al..xlsx`, the supplementary data of the published meta-analysis "Colours of the night: spectrum-specific impacts of light pollution on biota" (Czarnecka et al.), Dryad doi:10.5061/dryad.xwdbrv1q0. Local copy: `~/Downloads/data/spectrum-specific impacts of light pollution on biota/` (SHA-256 8fae8a02…154d6; not inside the repo). The README.md in that folder is a misplaced Movebank whip-poor-will README, not the workbook's. Journal article DOI and licence not confirmed in this step.
+  - Workbook: 1 sheet, 4,905 rows (one effect size, Hedges g, per row), 49 columns; **314 studies** (Study ID), publication years 1982–2024; 245 studies have a Location string; study types Laboratory 191 / Field 128 (some studies both).
+  - Checkable source: **309 of 314 studies** have a well-formed DOI; 1 malformed (space inside: `10.1016/ j.isci.2023.106203`); 4 blank/NA; 6 studies carry >1 DOI value across rows; 307 distinct DOIs. No URL column.
+  - AI/script-made parts (Linda's scripts `Linda/analysis/c1_effects/prepare_c1_effects.py`, `resolve_c1_locations.py`; no matching Claude Code transcript on this machine, author of the code not established): the **geography layer** (142 location strings → OSM Nominatim candidates + hand QUERY_OVERRIDES / MANUAL_RESOLUTIONS; review statuses: 36 point-eligible, 40 "needs manual review"), anchor groups (248 groups / 245 studies; 55 point, 2 multi_point, 82 region, 109 country_region; 47 point-eligible), display cap 10 on |g|, category colours. `viirs_2024_meanlit` is empty in the JSON.
+- **Options presented** (in chat): dataset refinement D1–D5, switcher S1–S3, architecture A1–A3. Waiting for the human.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+- **Actions:**
+  - `03_fetch_geotiffs.py` generalised and renamed to `pipeline/colour/03_fetch_images.py` (`--kind jpeg|geotiff`). Downloaded `ISS030-E-188190.JPG` (717,259 bytes, 4256×2832) and `ISS065-E-203760.JPG` (4,191,486 bytes, 5568×3712) to `data/raw/colour/eol/jpeg/` (read-only; SHA-256 in `MANIFEST.csv`).
+  - Looked at both: ISS030-E-188190 (2012, D3S, 85 mm, Lisbon/Tagus) appears almost uniformly orange; ISS065-E-203760 (2021, D5, 400 mm, ML centre 40.39 N 3.66 W, Madrid) shows orange areas next to white/blue-white areas (visual description only).
+  - New `pipeline/colour/04_colour_ratios.py`: linearise sRGB, keep pixels with brightest channel 40–249 (8-bit; 40 is the agent's provisional cut), G/R and B/G per pixel; writes `data/derived/colour/iberia_ratios_ISS030-E-188190_ISS065-E-203760.json` and `previews/colour/ratios.html` (inline SVG; no new dependency, matplotlib is not installed).
+  - Results: Lisbon 2012, 497,881 px, G/R median 0.169 (5–95%: 0.038–0.394), one peak ~0.19. Madrid 2021, 4,245,417 px, G/R median 0.438 (5–95%: 0.206–1.075), main peak ~0.45 and a second peak ~1.0. B/G: many pixels have blue = 0 in the JPEG (25th percentile 0 in Lisbon); B/G is noisier than G/R.
+  - Fact for the human: the orange-looking parts of Madrid peak at G/R ~0.45, Lisbon's at ~0.19, so camera, lens, exposure and JPEG processing shift the ratio scale between photos. A single fixed threshold across photos is affected by this.
+- **Files changed:** `pipeline/colour/03_fetch_images.py` (renamed from `03_fetch_geotiffs.py`), `pipeline/colour/04_colour_ratios.py` (new), `data/raw/colour/eol/jpeg/` (2 JPEGs + MANIFEST.csv), `data/derived/colour/iberia_ratios_*.json`, `previews/colour/ratios.html`, this log
+- **Data values changed:** none (no class assigned yet; no labels used)
+
+## 2026-10-03: Impacts task, step 2. Q&A on what the meta-analysis covers; human goals for the rebuilt dataset recorded (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > OK - this is a lot to interpret so I'll speak in natural language for a second. The paper is a meta analysis which has a number of studies that it refers to correct? I would like to have the doi for each study where possible, so that a user can click on the link to the original publication. The problem with the version from linda's example is that it wasn't easy to interpret the context/concepts of each study (what it was about). So in rebuilding this dataset, the goal is to make it more interpretable...
+  >
+  > I'd like to include all the studies, because there's at least some volume there. Is the intent that this is indeed every study related to artificial light and its impact on the biosphere (apart from humans?)
+- **Human decisions recorded:** rebuild the studies dataset; **include all 314 studies**; a **clickable DOI link per study where available**; main goal: make each study **interpretable** (what it was about), which Linda's version did not do well.
+- **Actions:** read-only counts from the workbook (phylum, class, habitat, category, light-type codes; 0 rows with Homo sapiens). Fetched the Dryad record page (doi:10.5061/dryad.xwdbrv1q0) for the methods.
+- **Facts given (from the Dryad record page, not the article):** authors Czarnecka, Grubisic, Pilotto, Jechow, Hölker; published 2025-10-24. Search: Web of Science + Scopus, up to 30 Aug 2023, English peer-reviewed only. Inclusion: biological effects excluding humans; dark control vs treatment up to 180 lux; ≥2 replicates with light type and level reported; means, sample sizes and variation reported. 1,758 publications screened → 314 included, 4,905 effect sizes. So it is **not** every ALAN–biosphere study: it is the subset that passed these criteria (e.g. purely observational studies without a dark control, or without reported light levels, are out). The journal article citation/DOI is not on the page; the licence wording is "Dryad terms" (to confirm).
+- **Options presented** (in chat): I1–I4 for per-study interpretability. Waiting for the human.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 14. Human chose (C): 3–4 more cities with a photo in each epoch; downloads approved
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > do C with 3-4 cities, download them
+- **Human decisions recorded:** (C) before choosing between a fixed and a per-photo boundary, look at 3–4 cities with one photo per epoch each. Downloads of those JPEGs approved.
+
+## 2026-10-03: Impacts task, step 3. Human choices recorded (I1+I2, approximate locations, DOI links, S2, A2, raw copy, groups drafted by agent); article citation found
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > do I1 and I2, and show approximate locations too... link to doi instead of abstracts. Let's start with this step, and let's use the design language from Linda's prototype (dots spread around the globe), and we will want to copy her cool visualization where studies are categorized but let's do that only after we lay the barebones here. Next we will want to start thinking about effects ... how do we display the measured effects from all these studies. 
+  >
+  > of course before mapping these studies, it will be necessary to create the "Light" and "Impacts" interface so we can toggle between the two different types of globe interfaces
+  >
+  > Here's another source for the core paper btw https://pubmed.ncbi.nlm.nih.gov/41123002/
+- **Answers to the agent's questions (AskUserQuestion, verbatim choices):** Switcher = "S2 labels + step list"; Impacts = "A2 free exploration"; raw copy = "Yes, copy it"; groups = "Agent drafts, I edit".
+- **Human decisions recorded:** I1 (plain per-study card from source fields only) + I2 (plain-language topic groups; agent drafts a mapping, human edits before use); approximate (region/country) locations shown as well as exact points; DOI links, no abstracts; Linda's design language (dots spread on the globe); her categorised visualization later, after the barebones; display of measured effects is a later step. Order: Light/Impacts switcher first, then the studies.
+- **Fact found:** article = Czarnecka M, Grubisic M, Pilotto F, Jechow A, Hölker F. "Colours of the Night: Spectrum-Specific Impacts of Light Pollution on Biota." *Global Change Biology* 2025 Oct, 31(10): e70569. doi:10.1111/gcb.70569, PMID 41123002 (via NCBI E-utilities esummary; the PubMed page itself returned only a cookie notice).
+- **Files changed:** this log only.
+- **Data values changed:** none.
+- **Actions:**
+  - `config.py`: `TEST_CITIES` (Madrid, Lisbon, Barcelona, Valencia; approximate centre points typed by the agent, used only for selection), `SELECT_RADIUS_DEG = 0.25`, `SELECT_FOCAL_MM = (50, 400)`.
+  - New `pipeline/colour/05_select_city_photos.py` (rule in its docstring: focal 50–400 mm, listed centre within 0.25°, human-catalogued first, then nearest; centre confirmed on the photo page; retries on HTTP errors) → `data/derived/colour/iberia_city_photos.csv`. All 8 chosen photos are human-catalogued: Madrid ISS030-E-209270 (2012, 200 mm) / ISS065-E-203751 (2021, 400 mm); Lisbon ISS030-E-237258 (2012, 400 mm) / ISS065-E-30361 (2021, 400 mm; the only 2021+ candidate); Barcelona ISS030-E-83433 (2012, 85 mm) / ISS065-E-430751 (2021, 400 mm); Valencia ISS030-E-244816 (2012, 400 mm) / ISS066-E-122694 (2022, 400 mm). Cameras: D3S (2012), D5 (2021–22).
+  - Downloaded the 8 JPEGs with `03_fetch_images.py --kind jpeg` (0.77–8.6 MB each; SHA-256 in `data/raw/colour/eol/jpeg/MANIFEST.csv`).
+  - `04_colour_ratios.py`: added `--name`, city/epoch labels from `iberia_city_photos.csv`, 520 px thumbnails (`previews/colour/thumbs/`), per-run preview `previews/colour/ratios_<name>.html`. Ran `--name=cities4` → `data/derived/colour/iberia_ratios_cities4.json`, `previews/colour/ratios_cities4.html`. Removed the earlier `previews/colour/ratios.html` (preview only; superseded).
+- **Results (G/R median; share of used pixels with G/R ≥ 0.8):** Madrid 2012 0.356, 1.7% → 2021 0.430, 15.6%. Lisbon 2012 0.401, 3.9% → 2021 0.484, 15.6%. Barcelona 2012 0.430, 6.0% → 2021 0.477, 12.7%. Valencia 2012 0.316, 3.3% → 2022 1.000, 74.2%. Valencia 2022 has a sharp peak at exactly G/R = 1.0 and B/G = 1.0 (equal channels).
+- **Observations (visual, agent's description):** Valencia 2022 looks mostly white, 2012 orange. Madrid 2021 and Barcelona 2021 show orange and white areas. Lisbon 2021 is partly under cloud/haze, which may whiten or blur colours. Barcelona 2012 (85 mm) has a bluish background cast.
+- **Fact for the human:** two 2012 Lisbon photos with the same camera model differ in G/R median (0.169 at 85 mm vs 0.401 at 400 mm), so the "orange" position shifts between photos even within one camera/epoch. The white peak sits near G/R ≈ 1.0 in the 2021–22 photos where it appears.
+- **Files changed:** `pipeline/colour/config.py`, `pipeline/colour/04_colour_ratios.py`, `pipeline/colour/05_select_city_photos.py` (new), `data/raw/colour/eol/jpeg/` (+8 JPEGs, MANIFEST), `data/raw/colour/eol/photos/` (pages fetched for selection), `data/derived/colour/iberia_city_photos.csv`, `data/derived/colour/iberia_ratios_cities4.json`, `previews/colour/ratios_cities4.html` + thumbs, this log
+- **Data values changed:** none (no classes assigned; no labels used yet)
+
+## 2026-10-03: Impacts task, step 4. Light/Impacts switcher built (S2) and checked in the browser (continuation of step 3 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 3; no new human input)
+- **Actions:**
+  - `app/index.html`: `<nav id="modes">` with a "Light" button, an ordered step list, and an "Impacts" button.
+  - `app/src/story.js`: `startStory` takes `onStep(i)` and returns `{ go, pause, resume }`. `pause` clears timers/animations and ends the intro overlay; arrow keys are ignored while paused; `resume` re-shows the current step's text without moving the camera.
+  - `app/src/main.js`: builds the step list from `content/story.js` (label = `label` ?? `title` ?? id, capitalised; no new content wording), highlights the current step, `setMode('light'|'impacts')`. Impacts: story paused, divider set to 0 (= all 2025), the Light divider position is saved and restored on return. Clicking a step switches to Light and goes to that step.
+  - `app/src/style.css`: panel at top-left under the "2015" label; Impacts hides the divider, the "2015" label, nav, card and fact (the "2025" label stays); step list hidden in Impacts; panel joins the arrival fade; dark text shadow for legibility; portrait `#fact` moved down to clear the panel.
+  - Checked at 1440×820 on the dev server already running on :5173 (started by another session; same `app/` folder): arrival hides the panel until the intro ends; Light → Impacts → Light restores the divider (720 px) and the step; a step click flies to India with its sweep; no console errors. Portrait layout not checked.
+- **Agent choices (open to change):** the "2025" label stays visible in Impacts; returning to Light does not replay the step's camera flight; panel position and styling are prototype-only.
+- **Files changed:** `app/index.html`, `app/src/main.js`, `app/src/story.js`, `app/src/style.css`, this log.
+- **Data values changed:** none.
+
+## 2026-10-03: Impacts task, step 5. Human choices: re-geocode locations in our pipeline; unlocated studies left off the globe for now
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (answers to the agent's AskUserQuestion) Locations = "Re-geocode in our pipeline"; No location = "Leave them out for now".
+- **Human decisions recorded:** study locations are geocoded by our own script (OSM Nominatim, cached); hand fixes only from the source paper or by the human. The studies without a Location (69 of 314) stay in the dataset but are not shown on the globe yet.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-03: Impacts task, step 6. Workbook registered as raw; per-study table built (unaudited); draft lookups for human editing (continuation of steps 3 and 5)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (no new human input; continues the step 3 prompt and the step 5 answers)
+- **Actions:**
+  - Dryad API (read-only): licence **CC0-1.0**; primary article doi:10.1111/gcb.70569; version 6. The local workbook's SHA-256 equals Dryad's published digest. Dryad also has a README.md (5,006 bytes) that is not local; not downloaded.
+  - Copied (human approved, step 3) `~/Downloads/data/…/Data_S1_Czarnecka_et_al..xlsx` → `data/raw/impacts/czarnecka2025/` (`cp -p`, then made read-only); new `data/raw/impacts/MANIFEST.csv`. The original in Downloads is untouched.
+  - New `pipeline/impacts/xlsx.py` (stdlib-only xlsx reader; no new dependency) and `pipeline/impacts/01_studies.py` → `data/derived/impacts/studies.json` + `studies.csv`. One row per Study id; every field keeps its distinct source values as a list (nothing chosen between conflicts); rules in the docstring. The first run flagged `doi.org/10.3390/birds2040028` (study 264) as not a DOI; the stated prefix rule was widened to "doi.org/ with or without http(s)://" and rerun.
+  - Result: 314 studies, 4,905 rows (sum checked); **304 with one DOI** (2 of them cleaned by rule: 241 had a space, 264 had a "doi.org/" prefix). **10 empty, reported:** no DOI in the workbook (014, 205, 244, 250); several different DOIs, not chosen (011: 3; 029: 2; 040: 5; 100: 2; 157: 6; 296: 6). These multi-DOI sets look like consecutive numbers under one title (e.g. 10.1007/s00114-020-01715-9 … -14); not resolved. 245 studies have a Location; 3 have two (112, 136, 187). Study 215 has two title spellings ("L1ight"), both kept; study 100 has two years (2015, 2016), both kept; study 309 Night_Lux "<5" is listed as unparsed.
+  - Drafts for the human to edit (not used by any script yet): `pipeline/impacts/maps/light_types_DRAFT.csv` (6 codes → plain words; the BS/NS readings are the agent's, partly backed by the Dryad abstract; the article has not been read), `activity_DRAFT.csv` (noct/diu/cath), `topic_groups_DRAFT.csv` (26 source category+subcategory pairs, after whitespace merge → 7 draft groups: Daily rhythms & sleep; Activity & behaviour; Feeding; Body chemistry & brain; Breeding & growth; Plants & pollination; Populations & communities), `README.txt`.
+- **Labels:** copied fields `documented` (Dryad dataset); doi/doi_url/doi_note, effect_count, lux min/max `inferred` (rules in the script and in the output's `fields`). Empty cells: the 10 DOIs above.
+- **Files changed:** `data/raw/impacts/czarnecka2025/Data_S1_Czarnecka_et_al..xlsx` (new raw copy), `data/raw/impacts/MANIFEST.csv`, `pipeline/impacts/xlsx.py`, `pipeline/impacts/01_studies.py`, `pipeline/impacts/maps/*` (new), `data/derived/impacts/studies.json`, `studies.csv` (new), this log, `handoffs/2026-10-03_impacts-studies.md` (new).
+- **Suggestions (not acted on):** check each DOI against Crossref (title match) to settle the 6 multi-DOI studies and confirm the other 304; this needs ~310 Crossref API requests, so the human should approve it first. Download Dryad's README.md (5 KB) for code definitions. The `.gitignore` rule for `data/raw/impacts/` has not been decided.
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 15. Human set G/R ≥ 0.8 = "white"; accepted the share rule; wants to see it rendered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I like the G/R cut off for white let's do 0.8
+  >
+  > I think go for it. I want to see this applied to see how it renders
+- **Human decisions recorded:** pixel counts as "white" when linear G/R ≥ **0.8**. "Go for it" taken as accepting the proposed class rule: white share < 10% = mostly sodium, 10–50% = mixed, > 50% = mostly LED (agent's interpretation; stated back to the human). Wants to see it applied on the globe.
+- **Open before rendering (asked in chat):** area each city class covers, tint colours per class, bake into tiles now vs preview overlay, aggregation at coarser zoom levels.
+- **Files changed:** this log
+- **Data values changed:** none
+
+## 2026-10-03: Impacts task, step 7. Next-session prompt written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > please write a prompt for next agent chat, thanks for your service
+- **Actions:** wrote a prompt for the next session in chat. It points to `handoffs/2026-10-03_impacts-studies.md` and lists the next steps from that handoff (geocode, then dots + card). The three DRAFT maps, the Crossref check and the Dryad README download stay open for the human.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+- **Human answers (in-app question form):** city area = **lit pixels (radiance > 0) within 25 km** of the city's reference point; tints = **nominal CCT colours** (sodium ≈ 2000 K, mixed ≈ 3000 K, LED ≈ 4000 K; no estimate stays grey; a display choice); build = **bake into a new tile version v2** (class raster in its own file; 2 class bits per year in the blue channel; v1 untouched); coarser levels = **class contributing the most radiance in the block wins**.
+- **Actions (step 15, continued):**
+  - `config.py`: `WHITE_GR = 0.8`, `SHARE_CUTS = (0.10, 0.50)`, `CLASSES`, `CITY_RADIUS_KM = 25`, `EARTH_RADIUS_KM = 6371.0088`, `CLASS_RASTER`, `TINT_CCT_K = {1: 2000, 2: 3000, 3: 4000}`.
+  - New `06_classify_cities.py` → `data/derived/colour/iberia_city_classes.csv` (label `estimated`). White share / class: Madrid 2012 0.016 sodium → 2021 0.153 mixed; Lisbon 2012 0.038 sodium → 2021 0.151 mixed; Barcelona 2012 0.058 sodium → 2021 0.123 mixed; Valencia 2012 0.032 sodium → 2022 0.738 mostly LED.
+  - New `07_class_raster.py` → `data/derived/colour/classes/iberia_classes_v1.tif` (COG, same grid as the radiance COGs, 2 bands, Byte) + `.json` sidecar. Lit pixels classed per city/epoch: Madrid 11,457 / 11,394; Lisbon 9,806 / 9,906; Barcelona 8,642 / 9,033; Valencia 8,727 / 9,294 (of ~11.7k–12.2k pixels in each 25 km circle). No overlaps.
+  - `pipeline/radiance/05_build_tiles.py`: optional `--version vN --classes PATH` (class bits 3–4 = 2015, 5–6 = 2025; coarser levels: class with the largest valid-radiance sum, 0 included, ties → lower code; `tiles.json` gets a `classes` entry). Without the options it refuses `--classes` and writes v1 exactly as before (v1 was not rebuilt). Test: levels 0 and 5 of v2 carry the expected class bits. Full v2 build started (`data/derived/radiance/05_v2_run.log`).
+  - New `08_display_tints.py` → `data/derived/colour/display_tints.json`: blackbody sRGB at 2000/3000/4000 K (Wyman, Sloan & Shirley 2013 CMF fit; IEC 61966-2-1) = (1.0, 0.553, 0.084), (1.0, 0.725, 0.430), (1.0, 0.832, 0.649).
+  - `app/src/tileLayer.js`: shader decodes the class bits for the year on each side of the swipe and draws grey × tint; class 0 stays grey; v1 tiles unaffected. `main.js` (legend) not changed, because other sessions are editing it; the tints are not yet labelled in the legend.
+  - New `pipeline/colour/METHOD.md`: how the estimate is made, plus its limits.
+  - `.claude/launch.json`: added `app-colour-v2` (port 5174, `VITE_TILE_BASE=/tiles/v2/`) so this session can preview v2 without touching the other session's server on 5173.
+- **Labels used:** `estimated` (city classes, class raster). Cells left empty: every pixel outside the four 25 km circles = 0 "no estimate".
+
+## 2026-10-03: Impacts task, step 8. Fresh session; human answers on the open items (maps approved, Crossref check approved, Dryad README download approved)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_impacts-studies.md, the handoff it points to (2026-10-03_story-ux-skeleton.md, incl. addenda), and the "Impacts task" entries (steps 1–7) at the end of AI_LOG.md.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task).
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only (incl. data/raw/impacts/).
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Context: the app has a Light/Impacts switcher (built). Impacts shows the 2025 tiles only. The studies come from the Czarnecka et al. 2025 meta-analysis (Dryad doi:10.5061/dryad.xwdbrv1q0, CC0; article doi:10.1111/gcb.70569). pipeline/impacts/01_studies.py has already produced data/derived/impacts/studies.json (314 studies, 304 with a DOI; unaudited).
+  >
+  > Your task, in this order:
+  > 1. Before anything else, ask me about the open items listed in the handoff: my edits/approval of the three DRAFT maps in pipeline/impacts/maps/, whether to run the Crossref DOI check, and whether to download Dryad's README.md. Do not use the DRAFT maps until I approve them.
+  > 2. Write pipeline/impacts/02_geocode.py: geocode the distinct Location strings with OSM Nominatim (respect its usage policy: 1 request/s, an identifying User-Agent, results cached in the repo so the app never queries live). Label coordinates `inferred`, give each a precision type (point / region / country) by a stated rule from the geocoder's result type, and flag results that conflict with the source string (e.g. country mismatch) for my review. No hand fixes unless they come from the source paper or from me. Unresolved strings stay empty and are reported. Studies with no Location stay in the data but are not drawn.
+  > 3. Then present short options for drawing the studies in Impacts (app/src/impacts.js, globe.gl points or HTML elements, Linda's dot style from ~/Desktop/ALAN/Alexander/globe_v2/layers/c1-effects.js as reference, and how approximate locations look different from exact ones). Then stop and wait for my choice before building.
+  >
+  > Keep it simple: no new dependencies, frameworks or build steps without asking. Log every step in AI_LOG.md (append only) with my exact prompt. Write a handoff to handoffs/ when the task is done or context reaches ~30%.
+- **Actions:** read RULES.md, `handoffs/2026-10-03_impacts-studies.md`, `handoffs/2026-10-03_story-ux-skeleton.md` (+ addenda), the Impacts log entries (steps 1–7) and the three DRAFT maps. Asked the open items (AskUserQuestion).
+- **Human answers (verbatim choices):** DRAFT maps = "Approve as written"; Crossref = "Yes, run it"; Dryad README = "Yes, download".
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-03: Impacts task, step 9. Maps approved (copies); Dryad README download failed; 02_geocode.py written and run (continuation of step 8 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 8, plus the answers recorded there)
+- **Actions:**
+  - Maps: wrote approved copies `pipeline/impacts/maps/light_types.csv`, `activity.csv`, `topic_groups.csv` (same rows as the drafts; only the status column / `topic_group` header changed). `*_DRAFT.csv` left unchanged. Note added to `maps/README.txt`. BS_UV / NS readings are still not confirmed against the article.
+  - Dryad README.md: the Dryad API file listing works (README.md 5,006 bytes, sha256 f4f4e700…411b), but the download failed. `/api/v2/files/4426059/download` returned `{"error":"Unauthorized, must have current bearer token"}` (HTTP 401), and `/downloads/file_stream/4426059` returned HTTP 403. Bot protection was not bypassed. **Problem caused by the agent:** the first attempt wrote that 56-byte error body to `data/raw/impacts/czarnecka2025/README.md` (made read-only by the same command) before the agent checked it. It is **not** the Dryad README. It is not deleted (RULES §1.5) and has no MANIFEST entry; the human decides whether to delete it. The human can download the real README in a browser. The first Dryad API request (file listing only) sent a User-Agent containing the human's email address. Later requests use no email.
+  - Dryad API dataset record (`methods` field) checked for definitions of BS/NS/BS_UV: none found.
+  - New `pipeline/impacts/02_geocode.py` (stdlib only). Rules in its docstring: query = source string minus "( … )", whitespace collapsed, no spelling fixes; Nominatim `/search` jsonv2, limit 5, top result used; 1.1 s between requests; User-Agent "ALAN-final-impacts-geocode/0.1 (…)"; responses cached in `data/derived/impacts/nominatim_cache.json` (`--offline` reruns from the cache). Precision: `country` if addresstype = country; `region` if addresstype is an admin area larger than a city (state, province, region, state_district, county, district, territory, archipelago, continent) or the result's bounding box is > 50 km on its longer side; otherwise `point`. Review flags (nothing changed because of a flag): `country_mismatch`, `ambiguous_country`, `name_not_in_result`, `feature_category` (OSM category not in place/boundary/natural/waterway/leisure/amenity), `source_has_coordinates`, `unresolved`. The name and category flags were added after a first run showed false matches the country flag missed. The second run was offline, from the cache (142 requests in total, made once).
+  - Outputs: `data/derived/impacts/geocodes.json` + `.csv` (one row per distinct string), `data/derived/impacts/study_locations.json` (per study, its located points with precision and flags).
+- **Results:** 142 distinct strings; **103 resolved** (point 42, region 33, country 28), **86 resolved with no flag**; **39 unresolved** (empty, listed in `geocodes.csv`; many are misspellings in the source, e.g. "Eliat", "Mebourne", "Wagenigen", "Esturay", or compound/descriptive strings). Flags: country_mismatch 3, ambiguous_country 2, name_not_in_result 12, feature_category 9, source_has_coordinates 2 (Seewiesen with four site coordinates; Westhavelland with a malformed coordinate). Clearly wrong top results, all flagged: "eastern France" → a cemetery in Boulogne; "southern England" (2 strings) → a shop named "Southern"; "southern Sweden" → a trail end in Hemavan; "north-central Chile" → a street in Brazil; "Phillipines" → a building in Washington DC; "Kinki University" → an expressway. Flagged but plausibly right: UK, USA, Brasil, French Polynesia/Moorea (OSM codes them `fr`), IGB Berlin, Kentucky University, University of Antwerp, Lake Washington, Wageningen.
+- **Studies:** 314 total; 203 with at least one located point (205 points, 100 distinct coordinates; 107 country-level, 45 region, 53 point; 31 points carry a flag; 172 studies have at least one unflagged point); 69 without a Location (not drawn, per human); 42 with a Location that did not resolve. Up to 14 studies share one coordinate ("Netherlands").
+- **Labels:** location string `documented` (Dryad); lat/lon/precision/country_code `inferred` (rule in the script, inputs = string + cached Nominatim response). Geocoding data © OpenStreetMap contributors, ODbL 1.0 (in the output meta). Empty: the 39 unresolved strings.
+- **Files changed:** `pipeline/impacts/maps/{light_types,activity,topic_groups}.csv` (new), `pipeline/impacts/maps/README.txt`, `pipeline/impacts/02_geocode.py` (new), `data/derived/impacts/{nominatim_cache.json,geocodes.json,geocodes.csv,study_locations.json}` (new), `data/raw/impacts/czarnecka2025/README.md` (unintended error file, see above), this log.
+- **Note:** `data/derived/` is in `.gitignore`, so the Nominatim cache is in the folder but not in git. Git handling is still open.
+- **Suggestions (not acted on):** a human-edited override file (string → query or lat/lon, with source "paper" or "human") would let the human fix the 39 unresolved strings and the flagged ones without editing code.
+
+## 2026-10-03: Impacts task, step 10. Crossref check run (report only); drawing options presented; human chose R3/P1/S2/F1; bad README deleted, real README registered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > readme is in my downloads folder now. 
+  >
+  > I think R3 is best because we can visualize that nicely as in Linda's prototype. P1 is fine. S2 iis fine. F1 I should review if you can present them to me and I can make decisions for each one if you could provide me that prompt. delete the bad README.
+- **Options presented before this prompt (in chat):** rendering R1 globe.gl htmlElements / R2 globe.gl points / R3 2D canvas overlay (Linda's method); approximate locations P1 Linda's halos (solid dot = point, dashed ring = region, wider dotted ring = country) / P2 hollow vs filled / P3 ring sized by bbox; shared coordinates S1 one dot per location / S2 one dot per study with a small deterministic display offset (Linda); flagged points F1 not drawn until reviewed / F2 drawn as unreviewed.
+- **Human decisions recorded:** **R3** (2D canvas overlay, as in Linda's prototype), **P1**, **S2**, **F1** (the human reviews each flagged geocode; the agent presents them one by one). Delete the bad README.
+- **Crossref check (step 8 approval):** new `pipeline/impacts/03_crossref_check.py` (stdlib; rules in docstring; report only, `studies.json` not changed; cache `data/derived/impacts/crossref_cache.json`; output `crossref_check.json` + `.csv`). 328 DOI candidates over 310 studies: title_match 297, title_partial 6, title_mismatch 10, not_in_crossref 15; year differs for 26.
+  - The 6 multi-DOI studies: each has **exactly one** candidate whose Crossref title matches the workbook title (ratio 1.0): 011 → 10.1111/1365-2664.12927; 029 → 10.1016/j.applanim.2015.11.020; 040 → 10.1098/rsbl.2019.0272; 100 → 10.1098/rstb.2014.0130; 157 → 10.1007/s00114-020-01715-9; 296 → 10.1016/j.rbe.2016.11.004. The other candidates are other papers or do not exist (consecutive numbers). Not written back; the human decides.
+  - Single-DOI studies not matching (for human review): title_mismatch 102, 143, 188, 302 (the DOI resolves to a different ALAN paper); title_partial 124, 128, 180, 269, 270, 299 (small wording/typography differences, ratio 0.62–0.90); not_in_crossref 085 (figshare DOI, DataCite), 101 (`10.1016/j,envpol…`: comma in the source DOI), 192 (`…519667v1`: bioRxiv version suffix).
+- **README:** the human downloaded Dryad's README.md to ~/Downloads (5,006 bytes, SHA-256 f4f4e700…411b = Dryad's digest). The agent deleted the 56-byte error file `data/raw/impacts/czarnecka2025/README.md` (human request), copied the real one there (`cp -p`, read-only) and appended a row to `data/raw/impacts/MANIFEST.csv`.
+- **Facts from the README (for the approved maps; nothing changed):** BS = broad spectrum, NS = narrow spectrum. BS cool = CCT > 3000 K, blue > 15%; BS warm = CCT < 3000 K, blue < 15%; **BS_UV = cool white (CCT > 3000 K, blue > 15%) that also contains UV**; NS yellow-red = "yellow-orange spectrum". Activity: nocturnal **includes crepuscular**; cathemeral = active by day or night at irregular intervals. Night_Lx_coded: low > 0.01–5 lx, moderate 5.1–20 lx, high 20.1–180 lx. The approved `light_types.csv` / `activity.csv` wording differs slightly on BS_UV, NS yellow-red and noct; the human decides whether to update them.
+- **Files changed:** `pipeline/impacts/03_crossref_check.py` (new), `data/derived/impacts/{crossref_cache.json,crossref_check.json,crossref_check.csv}` (new), `data/raw/impacts/czarnecka2025/README.md` (error file deleted; real README copied), `data/raw/impacts/MANIFEST.csv` (+1 row), this log.
+- **Labels:** crossref_title/year `documented` (Crossref); status/ratio/only_match `inferred`. No study values changed.
+- **v2 build + check:** `data/derived/radiance/tiles/v2/` built in ~20 min (`data/derived/radiance/05_v2_run.log`); the tile count per level and the existence bitmasks equal v1's. Spot check of 600 random tiles (seed 7): R, G and flag bits 0–2 identical to v1; class bits set only where classes exist. Not a RULES §3 audit.
+- **Preview:** `~/.claude/launch.json` gets `alan-final-app-colour-v2` (port 5174, `VITE_TILE_BASE=/tiles/v2/`; the line added to `final/.claude/launch.json` earlier was removed again, since the preview tool reads the user-level file). Browser check: renders, no console errors. The other session's story UI (intro text, Light/Impacts panel) shows on top, as expected.
+- **What it looks like (agent's description of screenshots):** at Iberia scale the four cities show as tinted discs: 2015 amber; 2025 Madrid/Lisbon/Barcelona a warm peach (3000 K), Valencia a paler peach (4000 K). The disc edges are sharp (25 km circle). City cores are flat-looking because hist_eq greys are near 255 there. Unclassified lit pixels are drawn neutral grey/white, so they look **whiter/cooler than the "mostly LED" tint**; the visual contrast reads as "classed cities are warmer than everywhere else". Not changed; raised with the human.
+- **Files changed:** `pipeline/radiance/05_build_tiles.py`, `app/src/tileLayer.js`, `pipeline/colour/` (06, 07, 08, METHOD.md, config), `data/derived/colour/…`, `data/derived/radiance/tiles/v2/`, `~/.claude/launch.json` (outside repo), this log
+
+## 2026-10-03: Impacts task, step 11. Human reviewed every flagged geocode (F1); decisions stored in maps/geocode_review.csv and applied by 02_geocode.py
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (step 10 prompt; then answers to three AskUserQuestion rounds, verbatim choices below)
+  - Accept as-is: "UK, USA, Brasil", "French Polynesia, Moorea", "Wageningen → NL", "Univ. of Antwerp"; IGB Berlin = "Top result (Dahlem bldg)"; Kentucky University = "Univ. of Kentucky"; Kinki University = "Accept (Nara)".
+  - Lake Washington = "Accept"; Phillipines = "i need to see the study for this one - i can review the doi"; Seewiesen = "Mean of the 4 sites"; Westhavelland = "Brandenburg (region)" (for all 3 Westhavelland strings, as the option stated).
+  - eastern France = "France (country)"; north-central Chile = "Chile (country)"; southern England (both strings) = "England (region)"; southern Sweden = "Sweden (country)".
+- **Actions:**
+  - New `pipeline/impacts/maps/geocode_review.csv` (human decisions only: accept / use_location / source_coords_mean / pending; 21 rows, each with decided_by = human, date, log reference).
+  - `02_geocode.py`: applies the review file after the rules (described in the docstring); new fields `review` and `draw` (= resolved AND (no flag OR reviewed as accept/use_location/source_coords_mean)); `study_locations.json` now holds only `draw` points. Rerun `--offline` (no new requests).
+  - Agent gave the human the DOI for "Phillipines": study 262, https://doi.org/10.3390/microorganisms8101566. It stays `pending`, not drawn (its geocodes row keeps the wrong DC coordinate with draw = false).
+- **Results:** 106 strings drawable (86 unflagged + 20 reviewed); **206 studies drawn, 208 points: 111 country, 50 region, 47 point**; 69 studies without a Location; 39 studies whose Location is unresolved or pending (not drawn). Seewiesen = 47.971357 N, 11.23575 E (mean of the four source coordinates).
+- **Labels:** lat/lon/precision `inferred` (rule + human review decision as stated input); Seewiesen inputs `documented` (source string), mean `inferred`.
+- **Files changed:** `pipeline/impacts/maps/geocode_review.csv` (new), `pipeline/impacts/02_geocode.py`, `data/derived/impacts/{geocodes.json,geocodes.csv,study_locations.json}`, this log.
+
+## 2026-10-03: Impacts task, step 12. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 10/11; task steps 1–3 done, RULES §5)
+- **Files changed:** `handoffs/2026-10-03_impacts-geocode.md` (new), this log.
+
+---
+
+## 2026-10-03: Colour (CCT) task, step 16. Human verdict on the pilot render; handoff + next-session prompt
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > do me a favor - create a markdown handoff and generate a prompt so I can start a new chat with the learnings from this one. The new chat needs to help me get to an answer fast which can make our radiance tiles have a much more 'realistic' view of the colors. These colored circles look terrible for our purposes. Totally unrealistic. You've done well don't take it personally. NO LEGEND needed. It will just be a visual representation of light temperature ...
+- **Human decisions recorded:** the city-disc render is "totally unrealistic" and not fit for purpose. Next goal: a fast answer on a much more realistic colour view on the radiance tiles. **No legend**; colour is a visual representation of light temperature. Noted in the handoff as possibly in tension with the 2026-10-03 render-architecture handoff (decision 7: any filler colour must be labelled as a display choice); left for the human.
+- **Actions:** wrote `handoffs/2026-10-03_colour-pilot.md` (facts and human decisions). Wrote the next-session prompt in chat. v2 tiles, the class raster and the shader change were left in place (keep/delete is the human's call).
+- **Files changed:** `handoffs/2026-10-03_colour-pilot.md` (new), this log
+- **Data values changed:** none
+
+## 2026-10-03: Impacts task, step 13. Read study 262's paper to check the "Phillipines" location (no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > read this paper - https://www.mdpi.com/2076-2607/8/10/1566
+  >
+  > I think it's in the phillipines where they got the coral, is that correct?
+- **Actions:** mdpi.com returned HTTP 403 to WebFetch. Read the same article's open-access full text from Europe PMC (PMC7601249, REST fullTextXML). Baquiran JIP et al. 2020, "The Prokaryotic Microbiome of Acropora digitifera is Stable under Short-Term Artificial Light Pollution", Microorganisms 8(10):1566.
+- **Facts found (Methods 2.1):** yes, the Philippines. 45 colonies of *A. digitifera* were collected from the nonlit Caniogan Reef, **16°17.633′ N, 120°00.873′ E** (= 16.293883, 120.01455 decimal), Anda, Pangasinan, at 4–5 m depth. They were moved to the outdoor hatchery of the Bolinao Marine Laboratory, University of the Philippines, where the light experiment ran in tanks. Bolinao-Anda Reef Complex, northwestern Philippines.
+- **Files changed:** this log only. `geocode_review.csv` not changed; waiting for the human's decision.
+
+## 2026-10-03: Colour (CCT) task, step 17. Options for a realistic light-colour view on the radiance tiles (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md and follow it all session. Then read handoffs/2026-10-03_colour-pilot.md and pipeline/colour/METHOD.md. Skim recent AI_LOG.md entries only if you need detail.
+  >
+  > Goal: get me to an answer FAST on how our radiance tiles can show a much more realistic view of light colour (light temperature). The pilot drew estimated lamp classes as tinted 25 km city discs; it looks terrible and unrealistic, so don't iterate on that. No legend is needed: colour is just a visual representation of light temperature.
+  >
+  > What we already know (details in the handoff): ISS astronaut photos are my chosen source; within a photo, colour varies at street/neighbourhood scale (orange vs white districts); the photos' colour scale shifts between photos; most photos aren't located on the ground, I don't want to do our own cataloguing/georeferencing, and the archive's GeoTIFF download was failing on 2026-10-03; calibrated Europe products exist only for 2012–13 / 2014–20; VIIRS DNB under-detects white-LED blue (keep that caveat in the docs).
+  >
+  > First step, before collecting data or writing code: give me 3–5 short options with trade-offs (realism, speed to a first look, honesty/what's estimated, effort, fit with our tile architecture: per-pixel swipe shader, tiles v1/v2 in data/derived/radiance/tiles/). Include a rough time-to-first-render for each. Then stop and wait for my choice. Prefer options that give a first visual within about an hour.
+  >
+  > Rules to keep: raw data read-only; every transformation is a script in the repo; every estimate documented; ask before any download (name, source, size), new dependency or new file layout; never commit/push/delete without my request.
+  >
+  > Concurrency: other sessions may be editing app/src/main.js, story.js, style.css and AI_LOG.md. Append to AI_LOG.md only with a single shell append (cat >> AI_LOG.md <<'EOF' … EOF); never rewrite it. Don't edit main.js/story.js/style.css without asking. Log every step in AI_LOG.md with my exact prompt. Write a handoff when done or at ~30% context.
+- **Actions:** read RULES.md, the colour-pilot handoff, METHOD.md, tiles v1 `tiles.json` and the shader in `app/src/tileLayer.js`. Presented five options (A shader-only brightness→colour ramp; B A plus a per-epoch regional white share from the existing photo numbers; C GeoTIFF retry for per-pixel photo colour in covered cities; D calibrated Europe product as a colour layer, 2015 side only; E radiance-change pixels tinted). Waiting for the human's choice.
+- **Files changed:** this log only
+- **Data values changed:** none
+
+## 2026-10-03: Impacts task, step 14. Human chose the paper's reef coordinates for "Phillipines" (study 262)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 1
+- **Human decision recorded:** option 1 = use the coordinates stated in the paper (Caniogan Reef, 16°17.633′ N, 120°00.873′ E) as a point.
+- **Actions:** `02_geocode.py`: new review decision `paper_coords` (value "lat lon" converted from the paper; precision point). For `paper_coords` and `source_coords_mean`, the row's Nominatim fields (country_code, osm_*, bbox_km) are now cleared. Before, the "Phillipines" row still carried the wrong DC result's `us`. `geocode_review.csv`: "Phillipines" changed from `pending` to `paper_coords` 16.293883 120.01455 (16 + 17.633/60; 120 + 0.873/60), with the citation in `note`. Rerun `--offline`.
+- **Results:** 107 strings drawable; **207 studies drawn**; 38 with a Location not drawn (unresolved); 69 without a Location.
+- **Labels:** inputs `documented` (Baquiran et al. 2020, PMC7601249, Methods 2.1); decimal conversion `inferred`.
+- **Files changed:** `pipeline/impacts/02_geocode.py`, `pipeline/impacts/maps/geocode_review.csv`, `data/derived/impacts/{geocodes.json,geocodes.csv,study_locations.json}`, this log, `handoffs/2026-10-03_impacts-geocode.md` (Phillipines no longer open; counts updated).
+
+## 2026-10-03: Colour (CCT) task, step 18. Option B built: per-year display ramp (sodium → white by brightness) in the tile shader
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Go with B. In the future may try C but I want to see a better rendering than the pure white for now
+- **Human decisions:** option B. Option C (GeoTIFF per-pixel photo colour) may be tried later.
+- **Agent defaults (for the human to confirm or change):** median of the four city white shares per year (so Valencia 2025 doesn't dominate); white share applied to the count of lit Iberia pixels; brightest pixels turn white first; ±8 grey-level blend; tints 2000 K / 4000 K from `display_tints.json`; the same thresholds worldwide.
+- **Actions:**
+  - New `pipeline/colour/09_display_ramp.py` → `data/derived/colour/display_ramp.json`.
+  - `app/src/tileLayer.js`: the class-tint shader was replaced by the ramp (uniforms `uTints[2]`, `uThresh`, `uBlend`). It ignores the v2 class bits, and v1 tiles are now coloured too. main.js, story.js and style.css were not touched.
+  - METHOD.md: new section "Display ramp (option B)", with the VIIRS caveat kept.
+  - Checked in the browser on the already-running `alan-final-app` (port 5173, tiles v1, another chat's server, reloaded through Vite): no console errors. Iberia and Madrid views: 2015 is orange with small pale cores; 2025 has larger cream-white cores and orange edges.
+- **Values:** white share 2015 = 0.0349, 2025 = 0.1518 (`estimated`, requested by human, method in METHOD.md). Grey thresholds 248 / 219 (`inferred`, rule in the script). Tints are a display choice. No cells left empty.
+- **Files changed:** `pipeline/colour/09_display_ramp.py` (new), `data/derived/colour/display_ramp.json` (new), `app/src/tileLayer.js`, `pipeline/colour/METHOD.md`, this log.
+- **Not audited** (RULES §3).
+
+## 2026-10-03: Colour (CCT) task, step 19. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 18; task done, RULES §5)
+- **Files changed:** `handoffs/2026-10-03_colour-ramp.md` (new), this log.
+
+## 2026-10-03: Impacts task, step 15. Fresh session; human answers on the open build questions for app/src/impacts.js (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_impacts-geocode.md, the handoff it points to, and the "Impacts task" entries (steps 8–12) at the end of AI_LOG.md.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task).
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Task: build app/src/impacts.js as I chose: R3 (2D canvas overlay projected from the globe, like Linda's ~/Desktop/ALAN/Alexander/globe_v2/layers/c1-effects.js), P1 (solid dot = point, dashed ring = region, wider dotted ring = country), S2 (one dot per study, small deterministic offset for shared coordinates). Data: data/derived/impacts/study_locations.json; clicking a dot opens a plain card from studies.json source fields with a DOI link (I1). Shown only in Impacts mode; include the OSM/ODbL attribution. No new dependencies. Verify in the browser. Before building, ask me anything the handoff leaves open that the build needs (e.g. card fields, dot colour). Log every step with my exact prompt; write a handoff when done or at ~30% context.
+- **Actions:** read RULES.md, both Impacts handoffs, log steps 8–14, Linda's `c1-effects.js` and her `projectC1ToGlobe`, the app sources, and the shapes of `study_locations.json` / `studies.json`. Asked two rounds of questions (AskUserQuestion).
+- **Human answers (verbatim):**
+  - Card fields: "We need a DOI for sure. All of that meta data is ... fine but really secondary. The information hierarchy needs to be considered here - the purpose is to try and quickly display that light impacts on biota are being measured under different conditions ... consider that"
+  - Dot colour: "One accent colour"; then "Cyan #5fd4e6".
+  - Data serving: "Extend vite middleware" (serve data/derived/impacts at /impacts/ in dev, same pattern as /tiles/).
+  - Attribution: "Inside the (i) pop-up".
+  - Card layout (after the agent showed two mock-ups): "C2 with approved plain words". Order: taxon class + species; MEASURED (measured effects + topic group from the approved topic_groups.csv); LIGHT (light source, plain words from the approved light_types.csv with the code in brackets, night lux and control lux, study type, habitat); then, secondary and small, title, authors, year, journal, location + dot precision, DOI link. Lists cut to 3 with "+N more"; empty fields left out.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-03: Impacts task, step 16. app/src/impacts.js built (R3/P1/S2, card C2, cyan, OSM attribution in (i)); checked in the browser (continuation of step 15 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (same as step 15, plus the answers recorded there)
+- **Actions:**
+  - `app/vite.config.js`: the tile handler became a shared `sendFrom(root, …)`. Dev only: `/impacts/` serves `data/derived/impacts/`; `/impacts/maps/` serves only `light_types.csv` and `topic_groups.csv` from `pipeline/impacts/maps/` (allow-list; any other name is 404). The maps are served because card C2 uses their approved plain words. `activity.csv` is not served, because the chosen C2 layout does not show activity.
+  - New `app/src/impacts.js` (no dependencies). A 2D canvas (`#impacts-canvas`, pointer-events none) sits over the globe and is redrawn every animation frame while Impacts is shown. Positions come from `globe.getScreenCoords`; a dot is hidden when its point is on the far side of the globe (dot product of the surface point and the camera position ≤ R²). P1 and sizes follow Linda's `c1-effects.js`: solid core 3.5 px (5.7 px with a white outline when selected); region = dashed ring 8 px [4,3]; country = dotted ring 12 px [2,4], with a faint fill. S2 = Linda's FNV hash offset keyed on study_id|location: point 0–5 px, region/country 2–9 px (screen pixels, display only). Rings are drawn first, points on top. Click = nearest drawn dot within 9 px; a drag (> 5 px) is not a click; clicking empty globe, ×, or Escape closes the card; the cursor becomes a pointer over a dot. Colour #5fd4e6 (human).
+  - Card C2 (`#study`): class (taxon), species (italic); MEASURED = measured effects + topic groups; LIGHT = light source, plain words from `light_types.csv` with the code in brackets, night lux min–max and control lux, study type · habitat; then small: title, authors · year · journal, Location string(s) + dot precision, DOI link (or "No single DOI in the source data" for the 10 empty DOIs). Lists are cut to 3 (+N more); class to 2; empty fields left out; when there is no numeric lux, the source band is shown instead.
+  - Topic groups: `studies.json` keeps category and subcategory as separate lists, so the pairs are lost. Checked: in all 113 multi-category studies, no subcategory maps to different groups under different categories. So the rule is study groups = the groups of its subcategories (comment in the code).
+  - (i) pop-up, Impacts mode only: a key (dot = point, dashed = region, dotted = country; "spread slightly for display"), study source with the Dryad DOI (CC0), and "Geocoding data © OpenStreetMap contributors, ODbL" with a link to openstreetmap.org/copyright.
+  - `main.js`: imports `createImpacts`; `setMode` calls `impacts.show()` / `impacts.hide()`. Data loads on the first switch to Impacts. `index.html`: `<div id="study" hidden>`. `style.css`: canvas, card and key styles appended; portrait puts the card at the bottom.
+  - Preview: new entry `alan-final-app-impacts` (port 5175) in `~/.claude/launch.json` (outside the repo), because other sessions' servers run on 5173/5174.
+- **Browser check (1024×768, plus 375×812 portrait):** dots on the 2025 tiles, far side hidden; zoomed into Europe; clicked Toruń → study 001 card correct (Malacostraca; NS blue / BS warm plain words; 2 lx, control 0 lx; DOI link). A region dot (Westhavelland) and the USA country cluster opened correct cards; studies 244 and 250 show "No single DOI in the source data". Light mode hides the canvas, card and key; returning to Impacts shows them again; a drag does not open a card. Console: no errors except a deliberate 404 test of a non-allow-listed map. Portrait: at first the card covered the Light/Impacts panel, so the CSS was changed and the card now sits between the panel and (i).
+- **Observed, not changed (for the human):** the Westhavelland source strings contain garbled characters (e.g. "52ĺÁ69? N"), which the card shows as in the source. The rings are faint over bright city areas. With up to 14 studies at one coordinate (Netherlands), the rings overlap into one blob. Linda's prototype had the same.
+- **Agent choices (open to change):** ring/dot sizes and alphas copied from Linda; card position (top right on landscape); the key wording in (i); "+N more" cut-off at 3; the "no DOI" wording.
+- **Files changed:** `app/src/impacts.js` (new), `app/src/main.js`, `app/index.html`, `app/src/style.css`, `app/vite.config.js`, `~/.claude/launch.json` (outside the repo), this log.
+- **Data values changed:** none (display only; studies.json / study_locations.json / maps read-only).
+
+## 2026-10-03: Impacts task, step 17. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 15; task done, RULES §5)
+- **Files changed:** `handoffs/2026-10-03_impacts-dots.md` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 20. Human feedback on option B; speed check; options for a spatial distribution (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > tthis is cool and it looks better. Two notes:
+  >
+  > We can't really have a simple linear color transformation for entire globe as it's a bit too crude .... certainly some areas are sodium, some are LEDs, this must look somewhat different from space? There must be some sort of distribution?
+  >
+  > second, it feels a bit slower. Did you change something that would make it feel slower than from when the tiles were that pale white?
+- **Human feedback:** B looks better. One ramp for the whole globe is too crude; the human wants a spatial distribution (some areas sodium, some LED).
+- **Actions:** measured the frame time on port 5173 (Madrid view, DPR 2, 120 frames): median 8.4 ms, p95 25 ms. Presented options for a spatial distribution. Waiting for the human's choice.
+- **Files changed:** this log only
+
+## 2026-10-03: Impacts task, step 18. Human feedback on the dots/card; category facts gathered and explained (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > OK - here's what needs to change ... a lot, but good work so far. 
+  >
+  > The largest text should be the study title, for example: "Impact of artificial light at night on the foraging behaviour of the European Hamster: consequences for the introduction of this species in suburban areas"
+  >
+  > We don't need 'scientific name of species', or the 'measured' data. Whether it's a field or lab experiment is useful and can stay.
+  >
+  > We need some way to click through each study that's intuitive ... right now clicking them physically on the map feels a little unpleasant, especially when they're clustered - can we break them up from their clusters please? the "Region/country/point" information isn't important for the user ... we don't have to share the category of location type, just location is fine ... (e.g. France, or Wageningen, NL). No need to overshare.
+  >
+  > Finally, walk me through what the overarching categories currently are -- we certainly will want to color each dot according to this category, but need to understand that first
+- **Actions:** counted categories and approved topic groups in `studies.json` and `pipeline/impacts/maps/topic_groups.csv` (read-only), for all 314 studies and for the 207 drawn ones. Explained them in chat. Asked about the open build choices (cluster spreading, click-through, remaining card fields, rings).
+- **Facts (drawn studies, n = 207):** source `Category` (5): Behaviour 96, Physiology 91, Community 41, LHT 40, Population 25; 139 studies have 1 category, 68 have 2–4. Approved topic groups (7, from 26 category/subcategory pairs): Body chemistry & brain 61, Daily rhythms & sleep 60, Breeding & growth 60, Populations & communities 58, Activity & behaviour 56, Feeding 34, Plants & pollination 9; 121 studies have 1 group, 86 have 2–5. `studies.json` has no per-category effect counts (Linda coloured by a "dominant category").
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 21. Option 3 (GeoTIFF per-pixel colour): endpoint check, still failing (nothing downloaded)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > go with 3 first
+- **Human decision:** option 3 (option C GeoTIFFs where available, option 1 elsewhere) is tried first.
+- **Actions (headers only, no files saved):**
+  - `curl -4 -I` on `GetGeotiff.pl` for ISS030-E-82054 and ISS067-E-359518: both **HTTP 502** (1,477-byte error page), the same as earlier on 2026-10-03.
+  - The cached photo page `ISS067-E-359518.html` offers "Download Packaged File" (`PhotoInfoZip.pl`). It redirects to `/temp/ISS067-E-359518.zip`: HTTP 200, `application/x-zip-compressed`, **1,100 bytes**, so probably metadata only. The same page says no KML and no footprint calculation are available.
+  - Listed the 9 GeoTIFF-offered frames from the 60-photo sample: 4 from 2012–13 (Lisbon ×2, Madrid, Algiers area), 5 from 2021–22 (Madrid ×3, Algiers area, Toulouse area).
+- **Files changed:** this log only. Waiting for the human.
+
+## 2026-10-03: Colour (CCT) task, step 22. Faster route checked: thumbnails + record coordinates we already have (nothing downloaded)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > is there really no faster way to do this broad strokes estimate? everything takes multiple hours to half a day?
+- **Actions:** read `iberia_records.csv`: 20,133 records with lat/lon. The pool (human centre point + ML) has 988 photos for 2015 and 967 for 2025. HEAD only: the archive's `DatabaseImages/ESC/small/` thumbnail for ISS067-E-359518 is 73,701 bytes; there is no `medium/` (404). Proposed a ~1 h Iberia route using thumbnails (described in chat). Waiting for approval to download.
+- **Files changed:** this log only
+
+## 2026-10-03: Impacts task, step 19. Card, clusters and click-through reworked per human feedback; checked in the browser (continuation of step 18 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (step 18 prompt; then answers to one AskUserQuestion round, verbatim choices:)
+  - Clusters: "Expand on click"; Click-through: "Prev/next on the card"; Card fields kept: "Topic group,Light type + lux,Habitat" (taxon class not chosen, so removed); Rings: "Drop rings".
+- **Actions:**
+  - `app/src/impacts.js` rewritten. Dots are grouped by distinct coordinate; each frame, visible places within 14 px of each other on screen are merged greedily (largest first) into one cyan dot with a count. Clicking a cluster spreads its studies out around the spot: a ring for ≤ 12, a sunflower spiral for more, with thin lines back to the spot and a dark backdrop. Everything else fades to 25% while a cluster is open. Clicking empty globe or pressing Escape collapses it. Single studies are plain 4 px dots. P1 rings and the S2 hash offsets are removed (replaced by the human's choices above).
+  - Card: **title largest** (18 px); then location string(s) · Lab/Field · habitat; topic group(s); light type plain words (approved `light_types.csv`, codes no longer shown), light source, night/control lux; small authors · year · journal and DOI. Removed: taxon class, species, measured effects, dot-precision words. Prev/next ‹ › on the card and the ← → keys step through all 207 drawn studies in a fixed order (west → east by first point, then study id; wraps around). The globe turns to the study (800 ms, same altitude), its cluster spreads out, and the dot is highlighted. "n of 207" is shown.
+  - (i) key in Impacts: "one study · [3] studies close together (click to spread them out). Some dots mark only a country or region (e.g. "France"), not an exact site." The agent offered this sentence as part of the "Drop rings" option; the human chose that option. Source and OSM/ODbL lines unchanged.
+  - `app/src/style.css`: Impacts card/key block replaced (card title, meta, group, light, step buttons; ring key styles removed).
+- **Browser check (1024×768; 375×812):** Europe shows count dots (Netherlands area 16, etc.). Clicking "16" spreads 16 dots with others dimmed; clicking one opens its card (study by Dominoni et al. 2022, 114 of 207); › twice moved to 116 of 207 (Wageningen), and the globe turned there with the cluster spread. 207 presses of → reached all 207 distinct studies; ← works; switching to Light hides the canvas and card. No new console errors in the reloaded page. Portrait: the card sits at the bottom with ‹ ›.
+- **Observed, not changed (for the human):** in portrait, the camera centres the selected study, so the bottom card can partly cover it. The fan order within a cluster (by study id) is not the same as the prev/next order (west → east), so › can jump between fan positions. Study 001's three Toruń studies, the USA studies, etc. now open from clusters.
+- **Files changed:** `app/src/impacts.js`, `app/src/style.css`, this log.
+- **Data values changed:** none.
+
+## 2026-10-03: Impacts task, step 20. Dots coloured by the source Category (Linda's colours), split dots, pie clusters; topic groups removed from the app and their files deleted (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > let's use the author's topic groups which are broad but not inferred/estimated, they're raw. Let's only use those and replace our own topic groups (remove that inferred data). 
+  >
+  > let's do split dots for multi categories.
+- **Follow-up answers (AskUserQuestion, verbatim):** Palette: "we can use the colors Linda had and add a 5th"; Cluster dot: "Pie of its studies"; Topic group files: "Delete them"; Light words: "Keep plain words".
+- **Facts:** Linda's `globe_v2/data/c1_effects.json` already holds 5 category colours, so no 5th was needed: Behaviour #ffb55a, Physiology #8bb8ff, "Life history" (= source LHT) #d99cff, Population #7ce6cf, Community #f2e48b. Palette check (dataviz skill validator, dark, surface #000, all pairs): lightness band FAIL (all lighter than the band), CVD FAIL (#d99cff↔#8bb8ff ΔE 1.6 deutan), normal-vision FAIL (#f2e48b↔#ffb55a ΔE 11.0), contrast PASS. Reported to the human; the colours were used as decided. Before that, the agent offered a validated set (blue/yellow/magenta/green/cyan, worst all-pairs CVD ΔE 6.9), which was not chosen. The Dryad README (raw) defines Category as "physiology, behaviour, life history traits "LHT," populations and communities".
+- **Actions:**
+  - `app/src/impacts.js`: the cyan accent and the topic-group code were removed. The card shows the study's source categories (raw words, e.g. "LHT") with colour swatches; text stays in text colours. Dots are pies: a single study gets equal slices per category (fixed order Behaviour, Physiology, LHT, Population, Community), with 1 px black gaps and a black rim (white ring when selected); radius 5 px. A cluster dot is a pie of study–category memberships (a multi-category study counts once in each of its categories) with the count on a small dark disc. Spread-out clusters use the same split dots. The (i) key lists the 5 colours and explains split and numbered dots; LHT is expanded "per the dataset README".
+  - `app/vite.config.js`: `topic_groups.csv` removed from the allow-list (only `light_types.csv` is served).
+  - `app/src/style.css`: `.group` replaced by `.cats` (swatch + name); the DOI link is now in text colour.
+  - **Deleted (human request):** `pipeline/impacts/maps/topic_groups.csv`, `pipeline/impacts/maps/topic_groups_DRAFT.csv` (not in git; no script reads them). Note appended to `pipeline/impacts/maps/README.txt`.
+- **Concurrency incident (not caused by a deliberate change to others' code; not fixed by this agent):** at 17:32, `app/vite.config.js` gained a `/colour` route from another session (colour/CCT) that uses `APPROVED_COLOUR` and `COLOUR_ROOT`, which are not defined in the file. As a result, `/colour/iberia_white_share_grid.json` (requested by `tileLayer.js`) throws, and Vite shows an error overlay. Likely cause: this session's edit to the `APPROVED_MAPS` line (step 20) changed the anchor the other session's edit expected, so their constants block may not have been inserted. Left for the other session or the human.
+- **Browser check (1024×768):** pie clusters and split dots render over Europe. A spread-out Netherlands cluster shows split dots; study 105 of 207 (Welbers et al. 2017) shows Behaviour/Physiology/Community swatches and a 3-slice selected dot. The Moorea study card shows LHT. The page was reloaded by other sessions' edits during the check.
+- **Files changed:** `app/src/impacts.js`, `app/src/style.css`, `app/vite.config.js`, `pipeline/impacts/maps/README.txt`, deleted the two topic_groups files, this log, the handoff addendum.
+- **Data values changed:** none (display only; deleted files were lookup tables, not source data).
+
+## 2026-10-03: Colour (CCT) task, step 23. Regional white-share grid from archive thumbnails (Iberia): download, script, shader (in progress)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i thought we already downloaded this data before ... sure thing go for it. That's fine if values are estimated. All of that is fine let's just do it. If it takes 1 hr for iberia, how long will it take for globe?
+- **Human approvals:** download of all pool thumbnails (~1,955 × ~74 KB, eol.jsc.nasa.gov `DatabaseImages/ESC/small/`); values `estimated`; new script, new raw folder `data/raw/colour/eol/small/`, a grid file in `data/derived/colour/`, and a texture loaded in `tileLayer.js`.
+- **Actions:**
+  - `03_fetch_images.py`: new `--kind small`, a `--pool` option (all pool records in `<pilot>_records.csv`), and parallel fetching (`PARALLEL_REQUESTS` = 3). Failures are listed at the end. Download running.
+  - New `10_white_share_grid.py` → `iberia_thumb_shares.csv` (per photo) and `iberia_white_share_grid.json` (0.25° grid: white share, coverage, grey threshold per year).
+  - Check: thumbnail shares match the full-size JPEG shares of the four 2015 city photos (0.0132 vs 0.0159, 0.0312 vs 0.0378, 0.0569 vs 0.0576, 0.024 vs 0.032).
+  - The first run gave a 2015 median of 0.105. The agent looked at a few high-share thumbnails: wide-angle frames show green airglow, the lit station structure and blue sun glow, and their record point is the station nadir. Two filters added (agent default): only lamp-like pixels (linear G/R ≤ 1.3 and B/G ≤ 1.2) and only lenses ≥ 50 mm. The 2015 median is now 0.0114.
+  - `tileLayer.js`: per-vertex `lonlat` attribute; the shader samples the grid texture (R/G = threshold per year, B/A = coverage) and blends with the year's Iberia-wide threshold by coverage.
+  - `app/vite.config.js`: `/colour/` route with an allow-list (`iberia_white_share_grid.json`), same pattern as `/impacts/maps`. **Concurrency incident:** another session changed `APPROVED_MAPS` in the same file at the same time, and the agent's two constant lines were lost. The dev server returned 500 for a short time; the agent re-added only its own two lines and left the other session's change as it was. `/colour/` and `/impacts/maps/light_types.csv` both return 200.
+- **Labels:** photo white share `estimated`; grid share `estimated`; coverage and grey threshold `inferred` (rules in the script docstring). Photos with < 200 bright lamp-like pixels: share left empty, note "skipped".
+- **Files changed:** `pipeline/colour/03_fetch_images.py`, `pipeline/colour/10_white_share_grid.py` (new), `data/raw/colour/eol/small/` (new, read-only thumbnails + MANIFEST.csv), `data/derived/colour/iberia_thumb_shares.csv` (new), `data/derived/colour/iberia_white_share_grid.json` (new), `app/src/tileLayer.js`, `app/vite.config.js`, this log.
+
+## 2026-10-03: Impacts task, step 21. Two higher-contrast replacements for Behaviour (orange) and Community (yellow) proposed (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i think they discovered the issue and are working to change it. Need a replacement for orange and yellow I think ... provide two higher contrast options pls.
+- **Method:** scripts in the session scratchpad (not repo; display choice, no data): the dataviz validator's OKLab ΔE (×100), normal and protan/deutan simulation. Linda's Physiology #8bb8ff, LHT #d99cff and Population #7ce6cf kept fixed. Orange/amber/yellow hues excluded, and candidates kept away from amber city-light tones. A grid search kept to Linda's lightness found almost nothing (only two greens), so a hand-picked set was scored on every pair that involves a new colour.
+- **Options presented (visual mock-up in chat):** (1) Behaviour red #ff5a5a + Community white #ffffff: worst CVD ΔE 11.1 (white vs teal), worst normal 17.9; white has the most contrast on black but matches the white cores of bright cities. (2) Behaviour green #2fb84a + Community strong blue #3d7bff: worst CVD ΔE 14.4 (LHT vs blue), worst normal 18.8 (two blues: Physiology vs Community); furthest from amber (ΔE 25/40). Red + green together was rejected (deutan ΔE 1.4).
+- **Fact reported:** Linda's Physiology vs LHT pair stays the weakest in either option (deutan ΔE 1.6, normal 12.1); it is not fixed by replacing orange/yellow.
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 24. Grid finished and rendered; white rule tightened (B/R) and weighted median
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 23; no new human prompt)
+- **Actions:**
+  - Download complete: 1,955 saved, 0 failed, 132 MB.
+  - First full grid: Seville 2015 = 0.32 and Málaga 2015 = 0.26 (outliers). Agent looked at the thumbnails: ISS034-E-5863/5864 render sodium yellow. Measured B/R of "white" pixels: yellow sodium about 0.41, real white 0.56–0.77 (9 photos). Added white = G/R ≥ 0.8 AND B/R ≥ 0.5, and changed the cell share from a weighted mean to a weighted median (agent defaults).
+  - Final: photos used 2015 = 346 (median share 0.0164), 2025 = 294 (median 0.1199). Cells with coverage > 0.5: 1,387 / 583 of 2,065.
+  - Sample cells (2015 → 2025): Madrid 0.006 → 0.126, Barcelona 0.025 → 0.013, Valencia 0.009 → 0.066, Lisbon 0.003 → 0.025, Porto 0.009 → 0.368, Seville 0.064 → 0.106, Algiers 0.005 → 0.375.
+  - Rendered on port 5173: no shader errors; regional differences are visible but subtle (city-core thresholds 246–255 because the display grey saturates).
+  - METHOD.md: new section "Regional white-share grid".
+- **Labels:** as in step 23. Skipped photos: share left empty with a note.
+- **Files changed:** `pipeline/colour/10_white_share_grid.py`, `data/derived/colour/iberia_thumb_shares.csv`, `data/derived/colour/iberia_white_share_grid.json`, `pipeline/colour/METHOD.md`, this log.
+
+## 2026-10-03: Colour (CCT) task, step 25. Handoff written; global time estimate given in chat (no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 23's prompt: "If it takes 1 hr for iberia, how long will it take for globe?")
+- **Actions:** estimate given in chat (agent estimate, not measured): worldwide record query about 1–2 h; thumbnails capped per cell, about 20–30k files (~2 GB), about 4–6 h of unattended download at 3 parallel requests; about 1 h of agent work, including speeding up the per-cell threshold step. The ISS sees only to about ±52° latitude, so higher latitudes would fall back to the single ramp.
+- **Files changed:** `handoffs/2026-10-03_colour-regional-grid.md` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 26. Handoff + next-session prompt for the global run (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Can you do a fresh handoff markdown and prompt to do the global run please...
+- **Human decision:** next task = global run of the regional white-share grid.
+- **Actions:** wrote `handoffs/2026-10-03_colour-global-run.md` (facts, human decisions, unconfirmed agent defaults, questions for the human). Wrote the next-session prompt in chat.
+- **Files changed:** `handoffs/2026-10-03_colour-global-run.md` (new), this log.
+
+## 2026-10-03: Impacts task, step 22. Option 2 colours; solid dots by dominant category (Linda's rule, 01_studies.py extended); Linda-style halo clusters
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > let's do option 2. I don't love the pie chart visuals too ... let's go back to the dots being free from the pie charts ... closer to How Linda's looked. 
+  >
+  > Last edit then I want to start a new chat which moves into the next part of the "Impacts" story, where all of the dots are categorized and visualized just as Linda did it with her categories ...
+- **Follow-up answers (AskUserQuestion, verbatim):** multi-category colour = "Dominant category (Linda)"; clusters = "Linda-style halo"; ties = "First in the workbook". (The agent's question said "86 of 207" multi-category; that was the topic-group count. The correct figure for source categories is 68 of 207 drawn, 113 of 314.)
+- **Actions:**
+  - `pipeline/impacts/01_studies.py`: new fields `category_effect_counts` (workbook rows per `Category ` value per study, first-seen order; `inferred`) and `dominant_category` (most rows; tie → the tied category whose first row comes first in the workbook; `inferred`); meta `dominant_category_ties`. Rule in the docstring and `fields`. Rerun: 314 studies; compared with the previous output, **no existing field changed** (only the two fields and the meta key were added). 20 ties (013, 027, 037, 038, 041, 044, 070, 080, 081, 090, 099, 137, 147, 148, 149, 152, 167, 255, 277, 293; 10 of them drawn). Dominant category of the 207 drawn: Physiology 75, Behaviour 69, Community 31, LHT 17, Population 15.
+  - `app/src/impacts.js`: colours Behaviour #2fb84a, Community #3d7bff (option 2, step 21); Physiology #8bb8ff, LHT #d99cff, Population #7ce6cf (Linda). Pies removed: each study is one solid dot in its `dominant_category` colour (thin dark rim; white ring when selected). Clusters: Linda-style halo (faint fill + dotted ring, 12 px), with the studies' 3 px dots offset 2–9 px inside it (Linda's FNV hash), no count. A click still spreads them out. Card: categories with swatches, dominant first. (i) key text updated (main category = most effect records; ties = first in the source table; halo explained).
+- **Browser check (1024×768):** halos and solid dots over Europe; the Netherlands halo spreads into coloured dots; study 105 of 207 (Welbers et al. 2017) = green (Behaviour dominant), and the card lists Behaviour, Physiology, Community. The other session's `/colour` route error first left the tiles black; on the second check the tiles rendered again.
+- **Labels:** `category_effect_counts`, `dominant_category` = `inferred` (rule above; inputs = documented workbook rows). Nothing left empty (every study has a category).
+- **Files changed:** `pipeline/impacts/01_studies.py`, `data/derived/impacts/studies.json` + `studies.csv` (rerun), `app/src/impacts.js`, this log, `handoffs/2026-10-03_impacts-next.md` (new).
+
+## 2026-10-03: Impacts task, step 23. Handoff for the next session written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 22; the human asked to start a new chat after this edit)
+- **Files changed:** `handoffs/2026-10-03_impacts-next.md` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 27. Global run: proposals for the handoff's six questions (no query, no download, no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md and follow it all session. Then read handoffs/2026-10-03_colour-global-run.md and pipeline/colour/METHOD.md (sections "Display ramp (option B)" and "Regional white-share grid"). Skim AI_LOG.md colour steps 17–26 only if you need detail.
+  >
+  > Goal: run the regional white-share grid (built and rendered for Iberia) for the whole globe, so the radiance tiles show regional differences in light colour (sodium vs white LED) everywhere the ISS photos reach. No legend; colour is just a visual representation of light temperature. Values may be `estimated`. Get me to a first global render as fast as possible.
+  >
+  > First step, before querying or downloading anything: answer the "Questions for the human" in the handoff with short proposals and trade-offs, including rough time and download size for each choice and a total time-to-first-render. Then stop and wait for my choices.
+  >
+  > What we already know (details in the handoff): about 3 min per mission per archive query; ~180k (2012–15) and ~85k (2021+) catalogued night photos worldwide, ≥50 mm share unknown; thumbnails ~74 KB; ISS nadir coverage ends at about ±52°; the grid script reads one COG window per cell and must be made faster for a global grid; GetGeotiff.pl was down (HTTP 502) on 2026-10-03; keep the VIIRS caveat (DNB under-detects white-LED blue) in the docs.
+  >
+  > Rules to keep: raw data read-only; every transformation is a script in the repo; every estimate documented; ask before any download (name, source, size), new dependency or new file layout; never commit/push/delete without my request.
+  >
+  > Concurrency: other sessions may be editing app/src/main.js, story.js, style.css, impacts.js, app/vite.config.js and AI_LOG.md. Re-read a file right before editing it and keep edits small and targeted. Append to AI_LOG.md only with a single shell append (cat >> AI_LOG.md <<'EOF' … EOF); never rewrite it. Don't edit main.js/story.js/style.css without asking. Log every step in AI_LOG.md with my exact prompt. Write a handoff when done or at ~30% context.
+- **Actions:** read RULES.md, the handoff, METHOD.md, `config.py`, `01_query_eol.py`, `09_display_ramp.py`, `10_white_share_grid.py`, the grid part of `app/src/tileLayer.js`. Local checks only: in `iberia_records.csv` pool, ≥ 50 mm = 346/988 (2015) and 309/967 (2025), i.e. about one third (used only to size the download estimate); COG = 86,401 × 33,601 px at 1/240°; `scipy` is not in `.venv` (numpy and GDAL are). Wrote proposals for questions 1–6 in chat with time/size estimates; waiting for the human's choices.
+- **Files changed:** this log.
+
+## 2026-10-03: Impacts task, step 24. Fresh session; Linda's categorised view summarised; options presented (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_impacts-next.md and the "Impacts task" entries (steps 15–23) at the end of AI_LOG.md. Read app/src/impacts.js, and Linda's ~/Desktop/ALAN/Alexander/globe_v2/layers/c1-effects.js (+ globe_v2/data/c1_effects.json) as the reference.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task), and they also edit app/vite.config.js, app/src/tileLayer.js, main.js and style.css.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Task: the next part of the Impacts story — all dots categorised and visualised the way Linda did it with her categories (category lanes, her transition between the chart and the globe, the category filter). First, before any code or data work: summarise in a few lines how Linda's categorised view works and what data it needs that we don't have yet (her view is per effect record with Hedges g; ours is per study). Then give me short options with trade-offs and stop for my choice. Keep the current categories (source Category, dominant-category rule) and colours. No new dependencies. Verify in the browser (preview "alan-final-app-impacts", port 5175). Log every step with my exact prompt; write a handoff when done or at ~30% context.
+- **Actions:** read RULES.md, the handoff, log steps 15–23, `app/src/impacts.js`, Linda's `c1-effects.js` and the shape of `c1_effects.json`. Read-only checks of the raw workbook (via `pipeline/impacts/xlsx.py`, nothing written): columns `Effect size (ES)`, `SE`, `Effects size_absolute`, `Effect size_sign`, `Included (directional ES)` exist; the Dryad README defines ES as "calculated effect sizes (Hedges g)". 4,905 rows, none missing ES. Rows of the 207 drawn studies: 3,254 (Physiology 1,531, Behaviour 864, Community 384, Population 247, LHT 228); 40 of them have |ES| > 10. Summary and options given in chat; waiting for the human's choice.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 25. What an "effect" and Hedges g are, checked against the raw workbook; human direction on the chart recorded (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > the animated morph is super cool and the effects chart is critical, we will do it but we need to fix it. Her effects chart was hard to understand, and I'd like us to interrogate this question more deeply. 
+  >
+  > What are the effects, what do they mean, what is g? This needs to be understood by the viewer intuitively ...
+- **Follow-up prompt (verbatim, sent while the agent was working):**
+  > and then the effects chart should be a sub category of impacts... 
+  >
+  > the arrow will end up taking us from the beginnign all the way through
+- **Human direction:** the morph and an effects chart will be built, but the chart must be made understandable. The effects chart is a sub-part of Impacts; "the arrow" will step the viewer from the beginning all the way through (exact sequence not yet defined by the human).
+- **Actions (read-only, raw workbook + Dryad README, nothing written):** recomputed g for every row with means, SDs and Ns: (Experimental_Mean − Control_Mean) / pooled SD × small-sample correction J = 1 − 3/(4(n₁+n₂) − 9) matches `Effect size (ES)` for 4,899 rows (5 others differ, 0 opposite sign). So positive g = the lit group's mean is higher than the dark control's. |g| quantiles over 4,905 rows: p25 0.22, median 0.60, p75 1.34, p90 2.63, p95 4.37. ES > 0: 2,411, < 0: 2,369. `Included (directional ES)` = "yes" on 1,975 rows; `Effect size_sign` filled on those, = ES on 1,838 and = −ES on 139; what the reversed sign means is not defined in the README (the article, doi:10.1111/gcb.70569, has not been read). Effect records per study: median 9, max 120. Explained in chat with examples; options to make the chart understandable given; waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 26. Human choices: chart options A + B, read the article; story sequence after the Ukraine study given (in progress)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > A + B, and yes read the article
+  >
+  > I think after the ukraine study, we need to move into a question of "But how does light impact our ecosystems" ...
+  >
+  > then this reveals the 200+ studies across the globe, and we should start on one or two of them ... we can pick any two that you think have highest impact to a viewer (can always refine later)... and then the next arrow should take us to the effects chart so the viewer has more context as to what the dots actually *are*
+- **Human decisions:** chart = A (worked example: one record's dark vs lit bars become one dot at its g, then all records arrive) + B (plain-word axis with Cohen's 0.2/0.5/0.8 conventions, cited). The agent reads the article (doi:10.1111/gcb.70569). Story sequence after the Ukraine study: the question "But how does light impact our ecosystems" → the 200+ studies on the globe → one or two featured studies (agent proposes two, refinable) → next arrow → the effects chart.
+- **Actions (step 26, continued):**
+  - Article: Wiley full text (onlinelibrary.wiley.com) showed a bot check in the built-in browser, which the agent did not try to get around; OpenAlex lists the article as closed access with no repository copy; Europe PMC has no full text. Only the PubMed abstract (PMID 41123002, via E-utilities) was read. The abstract does not define the direction of `Effect size_sign`. Observation (workbook, read-only): the reversed sign is not "negative = fewer": study 005 (swans, night-time rest lower under light, g −1.82) has sign +1.82, while study 165 (glow-worms, fewer males under light, g −6.20) keeps −6.20. So the direction rule cannot be inferred without the full text.
+  - Featured-study candidates: listed all located Field studies with median |g| per study, then read the rows of 165, 094 and 005. Proposal in chat (refinable): 165 glow-worms, Sussex UK (Stewart et al. 2020, doi:10.1242/jeb.229146) and 005 black swans, Serendip Sanctuary, Australia (Aulsebrook et al. 2020, doi:10.3389/fevo.2020.00131). Worked-example candidate for the chart: 005 "nighttime rest (h)", dark 3.43 h vs lit 3.02 h (warm white LED, 0.3 lx), n 11 + 11, g −1.82.
+  - Read `app/content/story.js`, `app/src/story.js`, `app/src/main.js`: Part 2 ("light impacts") is an empty placeholder after the Ukraine step; Impacts is currently a separate mode with its own ‹ › and ← → for studies. Asked the human how the story arrow and Impacts mode should join.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 27. Human answers: Part 2 as story steps, globe → chart morph, DRAFT placeholders, effects file approved; article PDF supplied (in progress)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > @"/Users/alexander/Downloads/Global Change Biology - 2025 - Czarnecka - Colours of the Night  Spectrum‐Specific Impacts of Light Pollution on Biota.pdf"
+  > 1 story steps, 2 yes, 3 draft placeholders, 4 go ahead.
+  >
+  > See full paper attached. We should maybe move the paper from downloads into raw data of ALAN
+- **Human decisions:** (1) Part 2 steps are ordinary story steps in `app/content/story.js` that switch the globe into the Impacts view (one arrow from intro to end). (2) Morph direction: globe → chart, with a way back. (3) Agent drafts placeholder step text marked DRAFT. (4) `pipeline/impacts/04_effects.py` → `data/derived/impacts/effects.json` approved. The human suggested putting the article PDF into the raw data.
+
+## 2026-10-03: Impacts task, step 28. Article read; PDF copied into raw; 04_effects.py written and run (continuation of step 27 prompt)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (step 27 prompt)
+- **Article (read in full, 15 pp.):** sec. 2.5: "Effect sizes were computed as standardised mean difference (Hedges g) between control and effect treatments", significant when the 95% CI does not overlap zero. Magnitude analyses use |g| "since ALAN could either inhibit or stimulate some response variables within a category, opposing significant effects might cancel each other out". Direction (adjusted values, `Effect size_sign`): positive = intensification (e.g. oxidative stress, activity, growth, predation success) or acceleration (e.g. maturation, egg laying, emergence) under ALAN; negative = reduced intensity or delayed timing. Signs were reversed for total antioxidant capacity, LPS-stimulated pro-inflammatory factors and viral load (→ positive), and for rest and avoidance behaviours (→ negative when they increase). This explains step 26's observation (swans: less rest → +1.82). Inclusion criteria and the low/moderate/high lux bands (≤ 5, 5–20, > 20 lx) as in the README. The article's own figures plot "Hedges g (absolute values)"; it does not use Cohen's small/medium/large words (those come from option B, Cohen 1988, human decision).
+- **Raw file added (human request "move the paper … into raw data"):** copied (not moved; the Downloads original is kept) to `data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf` (cp -p, made read-only), 988,757 bytes, SHA-256 aa05e921…8634fa; row appended to `data/raw/impacts/MANIFEST.csv`. Licence: © 2025 John Wiley & Sons Ltd, not open access. **For the human:** `data/raw/impacts/` is not in `.gitignore`, so this PDF would be committed with the repo; the agent did not change `.gitignore`.
+- **New `pipeline/impacts/04_effects.py` → `data/derived/impacts/effects.json`** (rule in the docstring): 207 studies, 3,254 effect records (Physiology 1,531, Behaviour 864, Community 384, Population 247, LHT 228); missing g 0; |g| > 10: 40; unparsed numbers 0. Fields: effect_id, study_id, workbook row, category/subcategory, measured effect, study type, class, species, light type/source, night/control lux (source text), included_directional, g, g_se, g_abs, g_directional, control and lit mean/SD/n. Display cap (10) is kept in the app as a display constant, not in the data. Spot check: 005-1 = swans "nighttime rest (h)", 3.43 vs 3.02 h, n 11/11, g −1.82, directional +1.82.
+- **Labels:** all fields `documented` (copied); `effect_id` `inferred` (rule above). Nothing left empty by the script (source empties stay null). Unaudited (RULES §3).
+- **Files changed:** `pipeline/impacts/04_effects.py` (new), `data/derived/impacts/effects.json` (new), `data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf` (new raw, human request), `data/raw/impacts/MANIFEST.csv` (row appended), this log.
+
+## 2026-10-03: Impacts task, step 29. Story Part 2 built (question → studies → glow-worms → swans → worked example → all effects, with morph and filter); checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (step 27 prompt; then, sent while the agent was working:)
+  > Noting some thoughtful questions which can help lead our viewers through the stories:
+  >
+  > Does light intensity effect biota? Yes ... *display effects chart with all the studies*
+  >
+  > Does light temperature effect biota? Not as much as thought ... (see magnitude of impact of ALAN) ... and then can use the effects chart again but have the dots categorized by their light type (maybe we will see that the effects are pretty widely distributed regardless of light type ...) 
+  >
+  > You see, this way we are guiding the viewers through a thought process ... they can see and understand the story more ...
+- **Human direction (second message):** guide viewers with questions: "Does light intensity affect biota? Yes" → effects chart with all studies; "Does light temperature affect biota? Not as much as thought" (the article's magnitude results) → the effects chart again with the dots grouped by light type. Not built in this step (recorded for the next session).
+- **Featured-study check (abstracts):** glow-worms 165 (Crossref abstract): traps mimicking females attracted fewer males near a white light, fewer the closer to it. Swans 005 (publisher page abstract): night-time rest decreased under *amber* lights vs dark; white vs amber similar; no effect on 24 h rest or melatonin; resting birds were almost always asleep. So the worked example was changed from 005-1 (white) to **005-2 (amber LED 0.36 lx: dark 3.43 h vs lit 2.76 h, n 11/11, g −2.78)**, the comparison the abstract reports. Observed, not changed: the workbook codes the swans' white LED as "white warm LED / BS warm", while the abstract calls it blue-rich white; and the workbook g for daily rest (≈ −1) is not the authors' own test (they report no effect).
+- **Actions:**
+  - `app/src/impacts.js`: loads `effects.json`; new `setStage()` for story steps (globe: dots hidden / revealed over 1.6 s / one study highlighted; chart: worked example and/or all records, optional filter). Chart: 5 lanes (source Category, colours unchanged; "Life history (LHT)" label), x = |g| on Linda's log1p scale capped at 10+, ticks 0.2/0.5/0.8 with "small/medium/large" (Cohen 1988), axis title and two explanatory lines, record counts per lane, black backdrop over the globe. Worked example: dark vs lit bars (mean, ± 1 SD whisker, n, unit from the measured-effect text), "Difference … ÷ normal spread … → g = …", held 4.5 s, then the lit bar collapses into one dot at |g| with a label. Morph: each record lifts from its study's first point on the globe and arcs into its lane (Linda's arc and per-record delay, 1.8 s); back reverses it. Filter: HTML buttons above the chart (All + 5 categories); other records drop to 6%; on the globe a study stays lit if any record is in the category (Linda's rule; agent default, the human's choice was not asked); filter resets on any step without the bar. In story steps the globe is not clickable and ← → belong to the story; Impacts mode browsing is unchanged. The chart's left edge keeps clear of the step panel.
+  - `app/src/main.js`: `createImpacts` moved before `startStory`; `applyStage()` shows the Impacts layer for story steps with an `impacts` field (body class `story-impacts`); the Impacts button switches to free browsing (`setStage(null)`); back to Light re-applies the current step.
+  - `app/src/style.css` (appended): `story-impacts` hides the divider and 2015 label; `#impacts-filter` buttons.
+  - `app/content/story.js`: Part 2 steps `question` (human wording), `studies`, `glow-worms`, `swans`, `one-effect`, `effects`, with DRAFT notice; sources cited per step (article sec. 2.1/2.5, Dryad, study DOIs, Cohen 1988 doi:10.4324/9780203771587 checked on Crossref).
+- **Browser check (port 5175, the server already running from another chat; 800×600 and 1280×800):** steps list shows the 6 new steps; question = text only, no dots; studies = dots fade in; glow-worms and swans fly to the highlighted dot with their cards; one effect = bars → dot at 2.78 "large"; all effects = records fly from the globe into lanes; filter Population dims the others; back from all effects reverses the morph and clears the filter (bug found and fixed: the filter used to survive into step 10); Impacts button → browsing with ← → (1 of 207), Light button → back to step 10 with the chart. Network: all app requests 200 (incl. `/impacts/effects.json`); the one console 403 is from the earlier Wiley page in the same tab.
+- **Agent choices (open to change):** all Part 2 wording (DRAFT); chart layout, backdrop, timings (hold 4.5 s, morph 1.8 s, reveal 1.6 s); the "Life history (LHT)" lane label; camera views; filter rule on the globe; story steps not clickable on the globe.
+- **Files changed:** `app/src/impacts.js`, `app/src/main.js`, `app/src/style.css`, `app/content/story.js`, this log.
+- **Data values changed:** none in this step (display only).
+
+## 2026-10-03: Impacts task, step 30. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of steps 27/29; context past ~30%, RULES §5)
+- **Files changed:** `handoffs/2026-10-03_impacts-story-part2.md` (new), this log.
+
+## 2026-10-03: Impacts task, step 31. Article PDF added to .gitignore; next-session prompt written
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > add the PDF to .gitignore
+  >
+  > okay generate new prompt so I can handle those two questions please, thanks for all your hard work
+- **Actions:** `.gitignore`: added `data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf` with a comment (checked with `git check-ignore`). Next-session prompt written in chat and appended to `handoffs/2026-10-03_impacts-story-part2.md`.
+- **Files changed:** `.gitignore`, `handoffs/2026-10-03_impacts-story-part2.md`, this log.
+
+## 2026-10-03: Impacts task, step 32. Part 2 steps listed under "Impacts" in the left panel; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > before I move forward. Every sub category from ecosystems onwards is meant to be a sub category of impacts, not Light
+- **Actions:** `app/index.html`: a second step list (`.steps[data-part="2"]`) under the Impacts heading; the first is `data-part="1"`. `app/src/main.js`: steps go into the list of their `part` (Part 1 under Light, Part 2 under Impacts); new `markHeaders()`: the Impacts heading is highlighted while browsing or on a Part 2 story step, Light otherwise. `app/src/style.css`: in Impacts browse mode only the Light list is hidden (the Impacts list stays visible). Clicking the Impacts heading still opens free browsing (unchanged; question for the human).
+- **Browser check (port 5175):** Light: Intro, Statistic, India, France, Ukraine; Impacts: Ecosystems, Studies, Glow-worms, Black swans, One effect, All effects. On Ecosystems the Impacts heading is highlighted; back to Ukraine → Light; Impacts heading → browse mode with the Impacts list visible; clicking Studies there returns to the story at step 7/11 under Impacts.
+- **Files changed:** `app/index.html`, `app/src/main.js`, `app/src/style.css`, `handoffs/2026-10-03_impacts-story-part2.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 33. Headings jump to their section; collapsible step lists; fact card details behind a "Details & sources" pop-up; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes, make it jump to Ecosystems please. And then when one general category is entered, the other should collapse (collapsible list) and click to expand. that can be figured out by the user in exploring. 
+  >
+  > There's an issue with the first info card with the large statistic. It overlaps with the sidebar menu. Can the small text below be in some expandable form, maybe an i button or a 'more details' button which opens that up in a popup or something? Something tasteful
+- **Actions:**
+  - `app/src/main.js`: a heading click jumps to the first story step of its section: Impacts → "Ecosystems" (human request); **Light → "Intro"** (agent's matching choice; it replays the intro). Only the current section's step list is open, the other collapses (`.collapsed`); headings carry `aria-expanded`. As a result, **free browsing (Impacts mode: all 207 dots clickable, card with ‹ ›) has no entry point any more**; its code is left in place (not deleted). Human to decide whether to keep or remove it.
+  - `app/src/story.js`: on `fact` steps the note and sources sit behind a small "Details & sources" pill button; it opens a pop-up panel under the big text (closes on a second click, Escape, or a click elsewhere). Steps without a note or sources (e.g. the question) show no button.
+  - `app/src/style.css` (appended): collapsed lists hidden; small ▸/▾ after each heading; pill button and pop-up panel styles.
+- **Browser check (port 5175; 1280×800 and 800×600):** Statistic: the panel ends at y 223 and the big text starts at y 299 (1280×800) / 227 (800×600), so they no longer overlap; the pop-up opens with the note and the 4 sources. The Impacts heading → 6/11 "Ecosystems", Light list collapsed; the Light heading → 1/11 with the intro playing, Impacts list collapsed. Console: no new errors (the 403 is the earlier Wiley page). Note: at 800×600 the gap between the panel and the big text is only 4 px.
+- **Files changed:** `app/src/main.js`, `app/src/story.js`, `app/src/style.css`, `handoffs/2026-10-03_impacts-story-part2.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 34. Light heading → Statistic; "Explore all studies" step added; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Light to Statistic, and add an Explore all studies step
+- **Actions:**
+  - `app/src/main.js`: a heading jumps to the first non-intro step of its section (Light → "Statistic", Impacts → "Ecosystems").
+  - `app/content/story.js`: new last Part 2 step `explore` ("Explore all studies"; DRAFT instruction text; whole-globe camera; `impacts: { view: 'globe', explore: true }`). The story now has 12 steps.
+  - `app/src/impacts.js`: a stage with `explore: true` makes the dots clickable inside the story (halos spread out, study card with ‹ ›). In story steps ← → stay with the story; Escape still closes the card. Leaving the step closes the card. The separate Impacts browse mode (`setStage(null)`) still exists in code but has no button.
+- **Browser check (port 5175, 1280×800):** Light heading → 2/12 (Statistic, no intro). "Explore all studies" → 12/12, › disabled; clicking a dot opened study 176 of 207 (Prabhat et al. 2021, Uttar Pradesh); the card's › → 177 of 207; ← → story step 11/12 and the card closed.
+- **Files changed:** `app/src/main.js`, `app/src/impacts.js`, `app/content/story.js`, `handoffs/2026-10-03_impacts-story-part2.md` (addendum), this log.
+
+## 2026-10-03: Impacts/Story, step 35. Question: replace France with Iceland, effort estimate (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > by the way, I think i want to replace france with iceland ... how hard would that be? Iceland is more compelling because it's such a natural paradise
+- **Facts checked (read-only):** `data/derived/story/country_change_2015_2025.json` has India, France (±Corsica), Ukraine; no Iceland. `pipeline/story/02_country_change.py` reads Natural Earth 1:10m boundaries in place and ran in 2.4 s, so adding a country is a small script change. Iceland (63–67° N) lies inside the COG extent; its VIIRS coverage/no-data share has not been checked yet.
+- **Answer given in chat:** steps and effort; Iceland's change (direction and size) is unknown until computed, and the card needs a sourced fact for whatever the number shows. Waiting for the human's go-ahead.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 35. Fresh session; light level and light type checked against the data and the article; chart options presented (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_impacts-story-part2.md and the "Impacts task" entries (steps 24–31) at the end of AI_LOG.md. Read app/content/story.js (Part 2), app/src/impacts.js (setStage, drawChart, drawRecords) and pages 4–5 and 8 of data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf (sec. 2.2, 2.5, 3.1, Fig. 1, Discussion on light types).
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task), and they also edit app/vite.config.js, app/src/tileLayer.js, main.js and style.css.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Task: the next two beats of story Part 2, after the "effects" step. They guide the viewer through a thought process with questions:
+  > 1. "Does light intensity affect biota? Yes ..." → the effects chart with all the studies, now about light level (each record has night_lux_band low/moderate/high in effects.json; the article's bands: ≤5, 5–20, >20 lx).
+  > 2. "Does light temperature affect biota? Not as much as thought ..." (the article's magnitude results) → the effects chart again with the dots grouped by light type (light_type_code: BS warm, BS cool, BS_UV, NS yellow-red, NS blue, NS green; plain words in pipeline/impacts/maps/light_types.csv).
+  > First, before any code: check what the data and the article actually show for both questions (e.g. |g| distributions per band and per light type for our 3,254 records, compared with the article's Fig. 1), and tell me plainly whether each answer holds, with caveats. Then give me short options with trade-offs for how the chart shows each grouping (e.g. re-sorted lanes, colour by band/type, how the dots morph between groupings, what stays from the category view) and stop for my choice. Keep the existing chart scale, worked example and category colours unless I say otherwise. No new dependencies. Verify in the browser (preview "alan-final-app-impacts", port 5175; if another chat's server already runs there, use it). Step text stays DRAFT placeholders unless I write it. Log every step with my exact prompt; write a handoff when done or at ~30% context.
+- **Actions (read-only):** read RULES.md, the handoff (incl. addenda 31–34), log steps 24–34, article pp. 4–8 (sec. 2.5, 2.6, 3.1–3.5, Fig. 1–4, Discussion), `impacts.js` chart/setStage code, story.js step ids. Summary statistics of `effects.json` computed in a scratch script outside the repo (nothing written to the repo; display/analysis only, values `inferred` from `documented` g, g_se, n):
+  - By band (records / studies / median |g| / p25–p75 / share with 95% CI excluding 0): low 1,682 / 110 / 0.60 / 0.22–1.33 / 33%; moderate 893 / 81 / 0.48 / 0.16–1.21 / 31%; high 679 / 82 / 0.75 / 0.25–1.74 / 43%. Median of per-study medians: 0.62 / 0.45 / 0.86. Of 49 studies with ≥ 2 bands, the highest band has the larger median |g| in 32.
+  - By light type (same columns): BS warm 1,159 / 97 / 0.49 / 0.16–1.14 / 29%; BS cool 919 / 83 / 0.48 / 0.18–1.11 / 32%; BS_UV 744 / 46 / 0.82 / 0.27–1.64 / 42%; NS yellow-red 214 / 21 / 0.76 / 0.26–1.78 / 34%; NS blue 163 / 18 / 1.27 / 0.56–2.62 / 52%; NS green 55 / 11 / 0.87 / 0.41–1.95 / 42%. NS blue: 45 of its 59 records with |g| ≥ 2 come from studies 311 and 283; 13 of its records are > 10.
+  - |g| expected from noise alone (no true effect) at each record's sample sizes, sqrt(2/π)·sqrt(1/n₁+1/n₂): median 0.36–0.50 per group.
+  - Mix: low band is 65% Physiology; moderate/high hold most Community and Population records. BS_UV is 79% Physiology and 86% Laboratory.
+  - Article Fig. 1a (model estimates, study as random effect): BS warm ≈ 0.95 / 0.98 / 1.07 and BS cool ≈ 0.90 / 0.98 / 1.00 (low / moderate / high), BS_UV 1.22 / 1.35 / 1.47; Fig. 1b NS types ≈ 0.9–1.15 with wide intervals. Text: BS warm and BS cool "did not differ significantly"; no differences between NS types; NS comparable to BS warm/cool; effects "mostly not dose dependent"; low light comparable to moderate and high.
+  - Observed (not changed): the worked example 005-2 (amber LED, 0.36 lx) is coded `low` / `BS warm` in the workbook. The article (sec. 4) describes BS_UV as metal halide, mercury vapour and CFL lamps; `light_types.csv` notes still say "article not read".
+- Findings and chart options given in chat; waiting for the human's choice.
+- **Files changed:** this log only.
+
+## 2026-10-03: Story, step 36. Iceland computed and swapped in for France (France kept as `retired`); checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > avoid checking satellite coverage. I think our data is masked and in theory accounts for that. 
+  >
+  > this can be done faster than an hour go for it, thanks
+- **Human decisions:** no separate coverage check; replace France with Iceland now.
+- **Actions:**
+  - `pipeline/story/02_country_change.py`: Iceland added (Natural Earth admin_0_countries ADMIN = 'Iceland'); rerun (2.9 s). Earlier areas (India, France ±Corsica, Ukraine) unchanged (all results compared with the previous output: identical).
+  - **Iceland (lit > 0, main result):** radiance +105.54% (radiance × area 15,516 → 31,891); lit area +756% (1,342 → 11,492 km²; newly lit 10,492 km², lit→unlit 343 km²); same at the > 0.5 and > 1.0 thresholds (+105.5% / +104.8%). Pairwise-excluded pixels 262 (all no-data in 2025, 0 in 2015). Label `inferred` (script rule). Unaudited.
+  - **Observed, not investigated (human asked not to check coverage):** the 2025 view shows faint light speckled over Iceland's uninhabited interior, and the lit area grows 8.6×. The data file's own caveat says 2015 (v2.1) and 2025 (v2.2) were processed with different EOG versions; part of the increase may come from that. Not shown on the card.
+  - `app/content/story.js`: the `france` step is replaced by `iceland` (figure "ALAN increased by 106%"; DRAFT text: foreign visitors via Keflavík ≈ 1.3 m in 2015 → ≈ 2.3 m in 2025, side by side, no cause claimed; camera 64.9° N, 18.6° W, altitude 0.22; sweep −13.5 → −24.5°). The France step (its sourced text and LED caveat) is kept in `export const retired` at the end of the file, not deleted.
+  - Sources (web, read 2026-10-03): Icelandic Tourist Board news 10 Jan 2017: "approximately 1.77m in 2016, or 40% more than in 2015" → 2015 ≈ 1.26 m (`inferred`: 1.77 / 1.4); Icelandic Tourist Board "Numbers of foreign visitors": 2025 "Around 2.27 million came on flights through Keflavík International Airport" (`documented`).
+- **Browser check (port 5175):** step list Light: Intro, Statistic, India, Iceland, Ukraine; step 4/12 flies to Iceland, sweeps, card shows the figure, text and both sources.
+- **Files changed:** `pipeline/story/02_country_change.py`, `data/derived/story/country_change_2015_2025.json` (rerun), `app/content/story.js`, this log.
+
+## 2026-10-03: Story, step 37. Why Iceland "lit up": read-only pixel check + web search (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > is there anything about Iceland's rural lighting that might help understand this? it looks like the whole country was lit up with streetlamps as opposed to before
+- **Actions (read-only; throw-away script in the session scratchpad, not repo, no file written):** read the Iceland window of both COGs.
+  - Smallest positive value: 2015 = 0.653 nW/cm²/sr, 2025 = 0.01 (the two product versions treat faint light differently).
+  - Newly lit pixels (0 in 2015, > 0 in 2025): 136,775; their 2025 radiance p10/p50/p90 = 1.29 / 1.80 / 2.45.
+  - Vatnajökull ice-cap core (box 64.25–64.6° N, 17.6–16.0° W, uninhabited): lit share 0% in 2015 → 18% in 2025 (median 1.89).
+  - 62% of Iceland's 2025 radiance × area sits in newly lit pixels; on pixels already lit in 2015, radiance changed −21.0%.
+  - Web search (Vegagerðin road-lighting guidance, Reykjavík LED projects) found no programme of rural or highland street lighting that would explain the pattern.
+- **Reported in chat:** the "+106%" is driven by faint values over empty land (incl. the ice cap), consistent with the different EOG versions (2015 v2.1, 2025 v2.2), not by new streetlamps; already-lit places dimmed by 21%. The same version difference may affect the other story figures (global +41% / lit area +25%, India, Ukraine): suggested as a separate check, not done.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 36. Two new story steps "Light level" and "Light type" (option A, median marks); checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > A, ii, keep the example dot, keep filter for now.
+  >
+  > The worked example is really cool because it explains what's going on.
+- **Human decisions:** A = re-sorted lanes (dots keep their category colour and slide to the new lane, x unchanged); ii = median |g| of our records per lane; the worked-example dot (005-2) stays; the category filter stays on these steps. Lane order for light types was not answered: the agent used the source order given in the step 35 prompt (BS warm, BS cool, BS_UV, NS yellow-red, NS blue, NS green), with broad- and narrow-spectrum headers as in Fig. 1.
+- **Read:** article p. 3, sec. 2.2: bands low ≤ 5 lx (rural roads, service lanes, low-traffic residential), moderate 5–20, high > 20; BS cool = CCT > 3000 K and > 15% blue; BS warm = CCT < 3000 K and < 15% blue; BS_UV = cool white with UV; NS blue / green / yellow-orange; lights reported as blue/green/red but broad-spectrum were assigned to BS cool (blue, green) and BS warm (red).
+- **Actions:**
+  - `app/src/impacts.js`: `GROUPS` (category / band / type: lane key, lane order, lane names). Lane names (agent wording, DRAFT): bands "Low light ≤ 5 lux", "Moderate light 5–20 lux", "High light > 20 lux"; types shortened from the approved plain words: "Warm white", "Cool white", "With ultraviolet", "Yellow to red", "Blue", "Green", with headers BROAD-SPECTRUM / NARROW-SPECTRUM. New stage field `group` ('category' default | 'band' | 'type'). Switching grouping while the chart shows slides each record vertically from its old lane to the new one (1.4 s, per-record delay; lane labels cross-fade); arriving from the globe sets the grouping at once (records fly straight into the new lanes). Band/type lanes show records, studies and a white median line with "median x" (computed in the app from `g_abs`, `inferred`; follows the category filter). Category view drawn as before. Worked-example dot follows its lane (005-2 = low / BS warm).
+  - `app/content/story.js`: steps `intensity` ("Light level") and `light-type` ("Light type") after `effects`, before `explore`. Titles = the human's questions; first words ("Yes." / "Not as much as thought.") are the human's; the rest is agent DRAFT text with sources (article sec. 2.2, 3.1, Fig. 1, sec. 4; Dryad Data S1).
+- **Browser check (port 5175, server of another chat; 1280×800 and 800×600):** the story now has 14 steps (another session added Iceland). All effects → Light level: dots slide into 3 lanes, medians 0.6 / 0.48 / 0.75 (= step 35). → Light type: 6 lanes, medians 0.49 / 0.48 / 0.82 / 0.76 / 1.27 / 0.87, counts as in step 35. Filter Physiology: counts and medians update (e.g. warm white 528 records). Back to All effects: category lanes return. Direct jump from Explore (globe) to Light type: records fly from the globe into the type lanes. Console: no errors. Seen at 800×600 (not changed, the same as the existing All effects step): the step card covers the right part of the chart, the filter bar wraps over the BROAD-SPECTRUM header, and the small / medium / large tick words collide.
+- **Files changed:** `app/src/impacts.js`, `app/content/story.js`, `handoffs/2026-10-03_impacts-light-questions.md` (new), this log.
+- **Data values changed:** none (display only; medians computed at runtime).
+
+## 2026-10-03: Impacts task, step 37. Question answered: is the higher NS blue median significant in the article? (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > it's pretty cool and the median thing is helpful in understanding what's going on...
+  >
+  > So it does seem like blue light has a higher median but is that not considered significant according to the paper?
+- **Actions (read-only, scratch script, nothing written):** NS blue has 163 records from 18 studies. Study 311 (zebra finch, *Taeniopygia guttata*, melatonin, lab) has 57 records, median |g| 2.17. Study 283 (mouse, *Mus musculus*, stress response, lab) has 16 records, median 2.34. The other 90 records have median 0.77. The median of per-study medians is 0.96 (step 35). Answer from the article: sec. 3.1, Fig. 1b and sec. 4 (p. 8), given in chat.
+- **Files changed:** this log only.
+
+## 2026-10-03: Story, step 38. How much the 2015 v2.1 / 2025 v2.2 version difference affects the story figures (diagnostic script; story text and published data unchanged)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (plus one `general-purpose` sub-agent, same model, for the EOG documentation search; web only, no files written)
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session, then the latest handoff in handoffs/ and AI_LOG.md "Story, step 36" and "step 37".
+  >
+  > Finding from step 37 (read-only check): in the radiance COGs used by pipeline/story/01_radiance_change.py and 02_country_change.py, the smallest positive value is 0.653 nW/cm2/sr in 2015 (EOG VNL v2.1, average_masked) but 0.01 in 2025 (v2.2). Over Iceland, 62% of the 2025 radiance x area sits in pixels that were 0 in 2015, 18% of the uninhabited Vatnajokull ice-cap core is "lit" in 2025 (median 1.89) vs 0% in 2015, and pixels already lit in 2015 changed -21%. So the two product versions' masking differs and can inflate increases.
+  >
+  > Task (report only, no changes to story text or data without the human's go-ahead): check how much this version difference affects the story figures: global radiance +41% / lit area +25% (data/derived/story/radiance_change_2015_2025.json), India +93%, Ukraine -32%, Iceland +106% (country_change_2015_2025.json). For example, compare (a) current results, (b) the change on pixels lit in both years, (c) results with both years thresholded at the same floor (e.g. > 0.653). Check the EOG v2.1 vs v2.2 documentation for how the masking/background threshold changed. Then give the human short options with trade-offs and stop. Read-only on data/raw and the COGs; any new numbers must come from a script in pipeline/ (RULES 2.4). Do not touch pipeline/colour/ or data/*/colour/. Other sessions edit AI_LOG.md: append only with a single shell cat >> AI_LOG.md <<'EOF' ... EOF. Log every step with the human's exact prompt.
+- **Actions:**
+  - Throw-away exploration in the session scratchpad (per-1° smallest positive value, both years) to design the variants; its numbers are not reported. All reported numbers come from the new script.
+  - New `pipeline/story/03_version_sensitivity.py` → new `data/derived/story/version_sensitivity_2015_2025.json` (label `inferred`, marked diagnostic; 172 s). Same inputs/rules as 01/02 (imports 02's `layer_geom`). Variants: (a) current > 0; (b) only pixels > 0 in both years; (c) same fixed floor in both years, > 0.653 / 1 / 2 / 3; (d) local floor: per 1° cell, both years count only pixels ≥ max(smallest positive 2015, smallest positive 2025) in that cell. Variant (a) reproduces the published figures exactly.
+  - Results (radiance change / lit-area change):
+    | | (a) > 0 | (b) lit both | (c) > 0.653 | > 1 | > 2 | > 3 | (d) local floor |
+    |---|---|---|---|---|---|---|---|
+    | Global | +41.0 / +25.3 | +30.3 / n.a. | +44.1 / +82.5 | +41.9 / +74.3 | +37.2 / +52.3 | +35.1 / +42.7 | +43.6 / +65.3 |
+    | India | +92.6 / +26.5 | +72.2 / n.a. | +120.2 / +123.5 | +128.1 / +164.4 | +113.1 / +150.2 | +102.4 / +127.5 | +104.1 / +64.6 |
+    | Ukraine | −32.1 / −38.6 | −22.0 / n.a. | −30.7 / +8.5 | −37.0 / −17.2 | −42.4 / −37.9 | −44.2 / −44.7 | −27.1 / +11.0 |
+    | Iceland | +105.5 / +756 | −17.2 / n.a. | +105.4 / +754 | +104.8 / +747 | +33.8 / +306 | −14.4 / +16.7 | +104.0 / +739 |
+  - Per-1° cell floor (smallest positive value), median over cells: 2015 0.103, 2025 0.379; higher in 2025 in every 10° latitude band. Median over country pixels: India 0.149 → 0.391, Ukraine 0.088 → 0.394, Iceland 1.070 → 0.510 (Iceland is the exception). Cells with any positive pixel: 13,223 → 15,189.
+  - EOG documentation (sub-agent; sources: EOG readme https://eogdata.mines.edu/products/vnl/VNL_v22_readme_20230707.pptx, Elvidge et al. 2021 doi:10.3390/rs13050922, GEE catalog V21/V22; not re-read by the main agent): background is removed per 15″ pixel with a multiyear DR threshold tied to % cloud-free; v2.1: north aurora zone threshold raised to 1.0, hand-drawn aurora polygons zeroed; v2.2 changes: more satellites (NOAA-20 for some months), months with fewer cloud-free observations kept in the median, DR computed without no-data cells. No new/lower threshold formula documented; no EOG statement on comparing v2.1 and v2.2 years; no v2.2 reprocessing of 2012–2021 found (v2.1 covers to 2021, v2.2 from 2022).
+  - Options with trade-offs given in chat; human to decide.
+- **Labels / empty cells:** all new values `inferred` (script rule). None empty. Unaudited (RULES §3).
+- **Files created:** `pipeline/story/03_version_sensitivity.py`, `data/derived/story/version_sensitivity_2015_2025.json`, `handoffs/2026-10-03_version-sensitivity.md`. **Changed:** this log. Story text and existing data files untouched.
+
+## 2026-10-03: Impacts task, step 38. Worked-example bars play only on "One effect"; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > [screenshot of the Light type chart] There's a bit of a mechanical issue - even if I click straight to "light type" it goes through the worked example animation and only then selects that black swan dot
+- **Actions:** `app/src/impacts.js` `setStage()`: on a step with all records (All effects, Light level, Light type), the worked example starts as its dot (fade in, no bars). The dark-vs-lit bars now play only on "One effect", and also replay when coming back to it from a later step (agent addition; before, the dot just stayed).
+- **Browser check (port 5175, 1280×800):** Ecosystems → Light type: no bars; swans dot already in its lane after 1.2 s. Light type → One effect: bars shown at 1.5 s. Console: no errors.
+- **Files changed:** `app/src/impacts.js`, this log.
+
+## 2026-10-03: Story, step 39. Option 3: France back in place of Iceland; lit-area figure removed from "Statistic"; France added to the version check; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > go with option 3, swap Iceland back to France and also remove 25% from the 'statistic' section please
+- **Prompt received mid-step (verbatim):**
+  > i'm also open to choosing another country that has a light-related policy, and a notable visualization ...
+- **Human decisions:** option 3 from step 38 (keep the > 0 rule for global/India/Ukraine radiance; drop Iceland and the lit-area figure). France back in the story.
+- **Actions:**
+  - `pipeline/story/03_version_sensitivity.py`: France (mainland incl. Corsica, `admin_0_map_units` GEOUNIT 'France', the geometry of the story figure) added; rerun (all earlier areas identical). France radiance change: (a) −41.1, (b) lit both −37.9, (c) > 0.653 −40.8, > 1 −43.6, > 2 −47.0, > 3 −48.3, (d) −40.0 %. Share of 2025 radiance in pixels not lit in 2015: 2.0%. Cell-floor median 0.113 → 0.390. Label `inferred`, unaudited.
+  - `app/content/story.js`: the `france` step moved from `retired` back into the story at Iceland's slot (unchanged text, figure −41%, sources, LED note; comment added); the `iceland` step moved to `retired` (text and sources kept; comment gives the reason). `statistic`: text now "ALAN has increased by 41% between 2015 and 2025." (lit-area clause removed); in the note, the clause "lit area = area with radiance above 0." removed (it defined the removed figure); the comment records why. The Kyba 2017 lit-area context sentence in the note was left as is (human to decide).
+  - Browser check (port 5175, another session's server): step list Intro, Statistic, India, France, Ukraine; 14 steps; France card shows "ALAN decreased by 41%" with its sources; Statistic shows the new sentence.
+  - The mid-step message (another country with a light policy) is noted as open; nothing searched yet.
+- **Labels / empty cells:** new values `inferred`. None empty.
+- **Files changed:** `pipeline/story/03_version_sensitivity.py`, `data/derived/story/version_sensitivity_2015_2025.json` (rerun), `app/content/story.js`, `handoffs/2026-10-03_version-sensitivity.md` (addendum), this log.
+
+## 2026-10-03: Story, step 40. Candidate countries: screening script for all countries + policy search (no story change)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (plus one `general-purpose` sub-agent, same model, web search only, no files written)
+- **Prompt (verbatim):**
+  > can be a light pollution law or rather a more recent light expansion initiative so we can show examples of how countries are expanding light into natural areas pretty much
+- **Actions:**
+  - New `pipeline/story/04_country_screen.py` → `data/derived/story/country_screen_2015_2025.csv` + `.json` (258 Natural Earth admin_0 countries; 82 s; label `inferred`, screening aid only, unaudited). Variants a/b/c2/c3/d as in 03 (imports 03's helpers); `same_sign_all_variants` flag; lit-area change and share of 2025 radiance in pixels not lit in 2015 for a and c3. Check: India, Ukraine, Iceland identical to 02/03; France differs (−40.47 vs −41.06) because admin_0 France includes the overseas departments (story uses mainland map unit).
+  - Selected results (radiance change, a / b / c3 / d %; new-share c3): Tanzania +411/+228/+411/+438, 59%; Cambodia +395/+217/+391/+404, 51%; Côte d'Ivoire +227/+116/+186/+247, 40%; Rwanda +333/+188/+287/+343, 45%; Senegal +378/+200/+275/+402, 44%; Kenya +192/+100/+128/+207, 37%; Ethiopia +188/+158/+215/+200, 31%; Bangladesh +100/+77/+149/+110, 37%; Mongolia +215/+152/+218/+237, 37%; Egypt +9/+4/+7/+10, 13%; Saudi Arabia +28/+22/+27/+29, 11%; Myanmar +61/+32/+31/+69, 25%; Nigeria +11/−3/+9/+12 (sign not robust). Law countries: Chile +70/+56/+58/+72; South Korea +45/+43/+49/+46; Mexico +81/+72/+84/+84; Germany +19/+16/+13/+23; Croatia +10/+4/−7/+13 (sign not robust); Czechia, Spain also not robust; Netherlands −30/−31/−35/−30; UK −9/−10/−15/−8.
+  - Policy search (sub-agent; sources and quotes in chat, not re-read by the main agent): type A laws — Croatia (NN 14/2019), South Korea (Act No. 11261, in force 2013), Chile (DS 1/2022 MMA, published 18 Oct 2023), Germany (BNatSchG §23(4), 2021), Mexico (LGEEPA Art. 110 BIS, DOF 18 Jan 2021). Type B expansion — Kenya Last Mile Connectivity (2015–2022), Tanzania REA, Côte d'Ivoire PRONER (3,887 → 8,035 localities 2017–2024), Rwanda (REG), Ethiopia NEP (2017), Senegal solar street lights (ANER), Bangladesh (BREB), Cambodia (EDC grid, > 14,000 of 14,153 villages by 2024), Egypt (New Administrative Capital, National Roads Project), Saudi Arabia (NEOM). Weak: Myanmar, Indonesia, Brazil, Nigeria.
+  - Options given in chat; human to choose. No story text or story data changed.
+- **Labels / empty cells:** screening values `inferred`; none empty.
+- **Files created:** `pipeline/story/04_country_screen.py`, `data/derived/story/country_screen_2015_2025.csv`, `data/derived/story/country_screen_2015_2025.json`. **Changed:** this log, `handoffs/2026-10-03_version-sensitivity.md` (addendum).
+
+## 2026-10-03: Impacts task, step 39. Median line per study instead of per record; options for g on the study card (in progress)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > make the median line per study instead of per record - we need to be academically consistent in my opinion. No studies toggle. 
+  >
+  > Should we consider having the g value in the explore studies card? I think so.
+- **Human decisions:** median line per study; no studies toggle.
+- **Actions:**
+  - `app/src/impacts.js`: lane median = median of the study medians. For each study, take the median |g| of its records in the lane (and in the category filter, if one is set); the lane median is the median of those values. The line is labelled "study median x" (agent wording). New `median()` helper.
+  - `app/content/story.js` (re-read first; another session had changed it): Light level DRAFT text now explains the line ("White line = the median study: each study’s middle effect, then the middle of those."). The Dryad source notes on both steps now say "median of study medians".
+  - Values (all records, `inferred` from `g_abs`): low 0.62, moderate 0.45, high 0.86; BS warm 0.65, BS cool 0.45, BS_UV 1.09, NS yellow-red 0.64, NS blue 0.96, NS green 0.70. These match a separate Python check.
+  - **For the human:** per study, warm white (0.65) is now higher than cool white (0.45), while per record they were equal (0.49 / 0.48). The article finds no significant difference. The Light type DRAFT text ("similar") was not changed.
+  - Study card: read `openCard()`. Records per study: min 1, median 9, max 120 (9 studies have one record). Options for g on the card given in chat; waiting for the human.
+- **Browser check (port 5175, 1280×800):** Light level and Light type show the new study medians as above. Console: no errors.
+- **Files changed:** `app/src/impacts.js`, `app/content/story.js`, this log.
+
+## 2026-10-03: Impacts task, step 40. Study card shows the study's median effect (option a); checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > go with a, fewer words and if people are exploring they can read each study for further depth
+- **Actions:** `app/src/impacts.js`: per study, the median |g| of all its records and the record count (`studyEffect`, computed at load, `inferred` from `g_abs`). The study card shows one line under the light details: "Median effect: |g| x (small/medium/large), across N measured effects" (agent wording; same Cohen words as the chart; "below small" under 0.2). No CSS change; reuses the card's `.light` style.
+- **Browser check (port 5175, 1280×800):** Explore all studies → study 291 (Viljoen & Oosthuizen 2023, pygmy mice, South Africa): "Median effect: |g| 4.83 (large), across 6 measured effects". This matches a separate Python check (291, 6 records, 4.83).
+- **Files changed:** `app/src/impacts.js`, this log.
+
+## 2026-10-03: Impacts task, step 41. Question answered: does the article compute median g? (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > well does the study have the same metrics for those medians? does it even calculate a median g?
+- **Answer (from the article pp. 3–5, already read):** No. The article computes no medians. Magnitude: Bayesian generalised linear mixed models (R `MCMCglmm`) on |g|, with study ID as a random effect and light level and light type as moderators. A folded normal is applied to the posterior means ("analyse and transform"). Results are reported as mean effect sizes with 95% highest posterior density intervals (Fig. 1). Only categories/subcategories tested at different light levels or types with data from at least four independent studies were included. The source of Fig. 1's numbers in the supplementary tables was not checked: the supplement is not in `data/raw/`. The chart's "study median" and the card's "median effect" are our own descriptive summaries (`inferred`), not the article's metric. Options given in chat; waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 42. Human chose option 2 (the paper's own estimates on the chart); blocked on the supplementary tables (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > 2
+- **Human decision:** the lane line shows the article's own magnitude estimates instead of our median of study medians.
+- **Actions (read-only):** checked `data/raw/impacts/czarnecka2025/`: it holds the article PDF, Data S1 (one sheet, `Arkusz1`) and the Dryad README. None of them contain the model estimates. The article's Supporting Information (Tables S1–S8) is not in the repo. Wiley showed a bot check to the agent earlier (step 26), which the agent does not try to get around. The human was asked to download the Supporting Information. The current median line is left unchanged until then.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 43. Wiley Supporting Information read and copied into raw; it has no table of the Fig. 1 magnitude estimates (no code, no derived data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > check out the supplemental data files i downloaded from wiley in my downloads
+- **Actions:**
+  - Read `~/Downloads/gcb70569-sup-0001-datas1.docx`, `-0002-datas2.xlsx` and `-0003-supinfo.docx` (text extracted to the session scratchpad; xlsx via `pipeline/impacts/xlsx.py`).
+    - Data S1 doc = column descriptions, the same as the Dryad README.
+    - Data S2 = reference list of the 314 included studies (Authors, Year, Title, Journal, DOI).
+    - Supporting Information: Fig. S1–S4; Table S1 (moderators: light levels low > 0.01–5 lx, moderate 5.1–20, high 20.1–180; light types with lamp lists, e.g. BS warm includes PC amber LED and high-pressure sodium, BS_UV = CFL, metal halide, mercury vapour; NS blue 450–495 nm, green 495–570, yellow-red 570–740); S2 (response categories); **S3–S7 = directional (signed) mean effect sizes** with 95% CI, Z, n studies and m effect sizes per subcategory, mostly with light levels pooled (they back Fig. 2–4); S8 (publication bias).
+  - **Finding:** none of the files holds the Fig. 1 magnitude (|g|) model estimates. `pdfimages`: Fig. 1 is a raster JPEG (2079 × 2328 px, 300 ppi) on p. 5, so exact values cannot be read from the PDF either.
+  - Copied the three files (cp -p, made read-only) to `data/raw/impacts/czarnecka2025/` (Downloads originals kept) and appended 3 rows to `data/raw/impacts/MANIFEST.csv` (sizes, SHA-256: datas1 7f954900…, datas2 31c275e0…, supinfo f91425d7…). Licence of the SI is not stated on the files; recorded as © Wiley, reading copy. `.gitignore` not changed (the human git-ignored the article PDF in step 31; the same may be wanted here).
+  - Observed (not changed): `MANIFEST.csv` already had the Dryad README row twice before this step.
+  - Option 2 cannot use exact published values; options given in chat. The current lane line ("study median") is unchanged.
+- **Files changed:** `data/raw/impacts/czarnecka2025/gcb70569-sup-0001-datas1.docx`, `…-0002-datas2.xlsx`, `…-0003-supinfo.docx` (new raw, human-supplied), `data/raw/impacts/MANIFEST.csv` (3 rows appended), this log.
+
+## 2026-10-03: Impacts task, step 44. Question answered: where the g values come from (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > wait so where did we get the hedged g values? did we infer them from the dryad data or is it from raw data based on paper's method?
+- **Answer (from `pipeline/impacts/04_effects.py` lines 13–54 and log step 25):** `g`, `g_se` and `g_abs` are copied unchanged from the Dryad workbook columns `Effect size (ES)`, `SE` and `Effects size_absolute` (label `documented`); the authors computed them (article sec. 2.5). We did not compute g. Step 25 recomputed g from the workbook's means, SDs and Ns (pooled SD, small-sample factor J) as a read-only check: it matched for 4,899 rows; 5 others differed; none had the opposite sign. Nothing from that check was written to data. What we computed ourselves: only the display summaries (lane study medians, card median), labelled `inferred`.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 45. Question answered: why label the median line? (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay then we don't need to go crazy ... everything's in order. Why do we need to label 'our estimate' for anythign?
+- **Answer:** no extra on-screen label is required. The median is `inferred` (deterministic, from documented g), not `estimated`. The RULES §2.3 label is already in the code comments and this log, and both steps' source notes already say "median of study medians computed by us from |g|". The one remaining point is content, not labelling: the line shows warm white 0.65 vs cool white 0.45, while the article finds no significant difference and the Light type DRAFT text says "similar". Waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 46. Median line added to the "All effects" (category) chart; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > final thing: can you consider adding a median line to the "all effects" chart too?
+- **Actions:**
+  - `app/src/impacts.js` `drawMedians()`: category lanes now get the same study-median line (median of study medians, follows the category filter; `inferred` from `g_abs`). Lane labels in the category view are unchanged (no study count added). Not shown on "One effect" (no records there).
+  - `app/content/story.js` (re-read first): All effects DRAFT text ends with "White line = the median study: each study’s middle effect, then the middle of those." Dryad source added ("median of study medians computed by us from |g|").
+- **Values:** Behaviour 0.77 (96 studies), Physiology 0.69 (91), LHT 0.40 (40), Population 0.61 (25), Community 0.80 (41); match a separate Python check.
+- **Browser check (port 5175, 1280×800):** All effects shows the five lines with "study median" labels; text and sources as above. Console: no errors.
+- **Files changed:** `app/src/impacts.js`, `app/content/story.js`, `handoffs/2026-10-03_impacts-light-questions.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 47. Supplement files git-ignored; Linda's layers surveyed and options for the next story part given (no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (survey by an Explore subagent, read-only)
+- **Prompt (verbatim):**
+  > add the supplement files to .gitignore too please and thank you. I think I need to move onto next part of the story ... I think I'll plan to use some of the data from Linda's codebase but perhaps you can help to identify which would be a natural place to follow in the story line. Some options would be helpful. I'm a bit tired will go grab dinner
+- **Actions:**
+  - `.gitignore`: added `data/raw/impacts/czarnecka2025/gcb70569-sup-*` with a comment (checked with `git check-ignore`: all 3 files ignored).
+  - Read-only survey of `~/Desktop/ALAN/Alexander/globe_v2` (layers, data, index.html, body.html) and `~/Desktop/ALAN/Linda/analysis`.
+    - Linda's scene order: Natural night → Artificial night → Global evidence → Effect detail (c1) → Migration exposure (c3a) → Migration response (c3b) → Body clocks → VIIRS comparison.
+    - Layers and provenance:
+      - insect-night: 123 sites from 99 studies; no source citation anywhere.
+      - c3a: 106 birds, 2016–2020, North America; Movebank doi:10.5441/001/1.k6s7916g for whip-poor-will; the robin study has no DOI; brightness = 2024 display-tile red channel.
+      - c3b: McLaren et al. 2018, Ecol. Lett. doi:10.1111/ele.12902, Dryad doi:10.5061/dryad.18v5d; radar stopover density, US East, autumn 2008–2014.
+      - body clocks: Hui, Zhang & Ouyang 2025, Proc. R. Soc. B doi:10.1098/rspb.2025.0724; zebra finch lab data, partly interpolated.
+    - No licences stated. None of the raw source files is on disk (only Linda's processed JSON/CSV).
+  - Options given in chat; the human decides. Handoff addendum written.
+- **Files changed:** `.gitignore`, `handoffs/2026-10-03_impacts-light-questions.md` (addendum), this log.
+
+## 2026-10-03: Story, step 41. Côte d'Ivoire replaces France, Ukraine removed (two countries); "Statistic" no longer pans; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Let's replace France with Cote d'ivoire and then remove Ukraine. Just two countries ... Also India feels like it's double viewed because of the way statistic pans over india and asia, so let's make sure 'statistic' doesn't pan anymore ... let's just let the statistic sit there and then can figure out what to do next
+- **Human decisions:** case-study countries = India and Côte d'Ivoire only; France and Ukraine out; the Statistic step does not pan.
+- **Actions:**
+  - Source checked by the main agent (WebFetch, 2026-10-03): https://economie-ivoirienne.ci/activites-sectorielles/electricite.html (Ministère des Mines, du Pétrole et de l'Energie / annuaire CI-ENERGIES, page dated 26/11/2025): PRONER "a permis l'électrification de 4 803 localités rurales de 2017 à 2024"; localities 3,887 (2017) → 8,035 (2024, RGPH 2014 base; 8,690 incl. 655 outside it); coverage 45.63% → 94.3%. Label `documented`.
+  - `pipeline/story/02_country_change.py`: Côte d'Ivoire added (Natural Earth admin_0_countries ADMIN = 'Ivory Coast'); rerun (2.9 s); all earlier areas identical to the previous output. Côte d'Ivoire: radiance +226.56% (> 0), +246.37% (> 0.5), +217.70% (> 1); lit area +170.54%; no pairwise-excluded pixels. Label `inferred`, unaudited. Version check (step 40 screen): +116 to +247% under every variant.
+  - `app/content/story.js`:
+    - `statistic`: camera set to the intro view (lat 20, lng 10, alt 2.2), `fly` and `sweep` removed (old values kept in a comment), so nothing moves on this step. (Agent's reading of "let the statistic sit there": stay where the intro left the globe.)
+    - New step `cote-divoire` in France's slot: figure "ALAN increased by 227%"; DRAFT text (agent, same pattern as the India card): "Lights spread as villages were connected to the grid: under the national rural electrification programme (PRONER), 4,803 rural localities were electrified between 2017 and 2024."; source above; camera 7.6° N, 5.5° W, alt 0.2; sweep −2.4 → −8.7°.
+    - `france` and `ukraine` moved to `retired` (text and sources kept; comment quotes the human).
+  - Browser check (port 5175; the other session's server had stopped, so `alan-final-app-impacts` was started from this session): step list Light = Intro, Statistic, India, Côte d'Ivoire; 13 steps; Statistic shows the globe at the intro view and the divider does not move (measured 0 px over 5 s); Côte d'Ivoire flies, sweeps and shows the card and source; no console errors. Observed: the card covers part of the south-east (Abidjan coast) in an 800×600 pane; camera not tuned.
+- **Labels / empty cells:** Côte d'Ivoire figure `inferred`; PRONER facts `documented`. None empty.
+- **Files changed:** `pipeline/story/02_country_change.py`, `data/derived/story/country_change_2015_2025.json` (rerun), `app/content/story.js`, `handoffs/2026-10-03_version-sensitivity.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 48. Linda's spectrum model surveyed; options to link it with the effects data given (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (survey by an Explore subagent, read-only)
+- **Prompt (verbatim):**
+  > Hmmm.. we also have Linda's whole light spectrum visualization model which is powerful and interesting ... any thoughts on how we may be able to link that with our current academic studies dataset which has the light temperature and intensity data?
+- **Survey findings (read-only):**
+  - Linda's 3D "Spectral Space" is specified in `Linda/A2_spectral_3d_spec_and_prompt.md`: wavelength 280–840 nm × time of night × log irradiance; Philadelphia vs Cherry Springs; false colour per animal. Its build code is at `/Users/lindaxiangyideng/...` and is **not on this machine**.
+  - Local data: `Linda/data/philadelphia and cherry springs data/` (DRL/CSSP night-sky spectral irradiance, W·m⁻²·nm⁻¹, 280–840 nm at 1 nm, 30 Jun–19 Jul 2014; cited as Spitschan et al. 2016, Scientific Data 3:160032; no DOI or licence written down).
+  - Animal sensitivity curves: Govardovskii template; specific sources not yet recorded.
+  - No lamp spectra in Linda's work. The old `Alexander/scripts` lamp-class table (LICA-UCM, LSPDD; 14 classes with melanopic ratio and blue fraction 400–500 nm) maps loosely onto BS warm / cool / UV. It has no UV < 380 nm metric and no narrow-spectrum classes; its raw spectra are in `~/alan-streetlight-cct/spectra/` (LICA asks to be contacted before use).
+- Options given in chat; the human decides. Not touched: `pipeline/colour/`, `data/*/colour/` (other session).
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 28. Global run: human choices; worldwide query; thumbnail pick (awaiting download approval)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > go with all your proposals, PNG grid, cap 5.
+- **Human decisions (the agent's step-27 proposals):**
+  - Query: one box per mission, −56..+60 lat, all longitudes, 3 missions at a time.
+  - Layout: `--pilot global`.
+  - Downloads: thumbnails only at ≥ 50 mm, cap 5 per 1° cell per epoch (centre-point records first, then random, seed 20261003); `PARALLEL_REQUESTS` 3 → 5.
+  - Grid: 0.25°, threshold window 5×5 cells (±0.625°, was ±0.5°), output as PNG + JSON sidecar; app switches to the global grid.
+  - Fallback: global median photo share, with the global grey quantile.
+  - Stronger-contrast variant deferred.
+- **Actions:**
+  - `config.py`: `PILOTS` dict (`iberia`, `global`), `--pilot` argument read by every script (default iberia), `PARALLEL_REQUESTS = 5`, `PARALLEL_QUERIES = 3`.
+  - `01_query_eol.py`: missions queried in parallel; timeouts (1800 s); URL errors retried.
+  - New `11_pick_thumbs.py` (the cap rule).
+  - `03_fetch_images.py`: `--pick` mode.
+  - `10_white_share_grid.py`: grid rewritten to a one-pass per-cell grey histogram (numpy + GDAL only, no new dependency), with the histogram padded by the window width at region edges. Output = PNG + JSON. Global fallback added. Docstring updated. Old `iberia_white_share_grid.json` kept, not rerun.
+  - `app/vite.config.js`: allow-list + `.png` type.
+  - `app/src/tileLayer.js`: loads `global_white_share_grid.json` + PNG; the year thresholds become the sidecar's fallback.
+- **Check, new grid code vs old Iberia grid** (scratchpad test, no files written; cells with coverage > 0.01):
+  - White share identical (max diff 0.0).
+  - Coverage max diff 0.001.
+  - Threshold |diff| median 1 (2015) / 3 (2025), p95 11 / 15 grey levels. The largest differences are sparse-light cells where the wider ±0.625° window takes in a nearby town; checked against an exact `np.quantile` over the ±0.625° window (equal).
+  - A first version left out lights beyond the grid edge (fixed by padding).
+- **Query run** (`01_query_eol.py --pilot global`, about 40 min):
+  - Raw responses: `data/raw/colour/eol/queries/2026-10-04/global/ISS*.html`, 29 files, 997 MB (UTC date had rolled over to 2026-10-04).
+  - `data/derived/colour/global_records.csv`: 3,672,847 records, 265,408 in pool. ≥ 50 mm: 72,880 in 8,887 cell-epochs.
+- **Pick** (`11_pick_thumbs.py --pilot global`) → `global_thumb_pick.csv`: 26,356 picked, of which 655 are already here (Iberia) and **25,701 are new, about 1.9 GB**. That is above the step-27 estimate of 5–12k. For comparison: cap 3 = about 19.1k (1.42 GB), cap 2 = about 14.7k (1.09 GB). 3,088 of the cell-epochs have a single photo.
+- **No download started; asked the human for approval.**
+- **Files changed:** `pipeline/colour/config.py`, `01_query_eol.py`, `03_fetch_images.py`, `10_white_share_grid.py`, `11_pick_thumbs.py` (new), `app/vite.config.js`, `app/src/tileLayer.js`, `data/derived/colour/global_records.csv` (new), `global_thumb_pick.csv` (new), raw query files (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 29. Cap 2 vs cap 5 tested on Iberia; delete-after-use question (no download, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > is there any significant impact of a smaller cap? Once we run this exercise I'd like us to delete that data and just store a textual record of what was used because it's a lot of space. I'd prefer 2 caps for example
+- **Actions:** scratchpad test (no files written). For Iberia, where every usable photo is already here, the grid's share and coverage were built from (a) all usable photos and (b) cap 2 or cap 5 picks under the `11_pick_thumbs.py` rule, averaged over 5 random seeds. Compared on cells with coverage > 0.5 under (a).
+
+  | Epoch | Cap | Photos used | Share diff, median | Share diff, p90 | Cells off by > 0.05 | Cells with coverage > 0.5 | Median coverage |
+  |---|---|---|---|---|---|---|---|
+  | 2015 | all | 346 | — | — | — | 1,512 | 0.90 |
+  | 2015 | 5 | 175 | 0.001 | 0.025 | 4% | 1,352 | 0.79 |
+  | 2015 | 2 | 97 | 0.003 | 0.071 | 12% | 935 | 0.57 |
+  | 2025 | all | 294 | — | — | — | 603 | 0.91 |
+  | 2025 | 5 | 56 | 0.010 | 0.145 | 14% | 404 | 0.62 |
+  | 2025 | 2 | 33 | 0.024 | 0.249 | 37% | 243 | 0.43 |
+- **Deletion after the run:** the human's request was noted. The agent listed what would be kept and what conflicts with RULES §2.4 / §3, and is waiting for the human's decision. Nothing deleted.
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 30. Thumbnail download started (cap 5, human approved)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > go with cap 5
+- **Human decision:**
+  - Download approved: 25,701 archive thumbnails (about 1.9 GB) from `https://eol.jsc.nasa.gov/DatabaseImages/ESC/small/`, 5 parallel.
+  - Delete-after-use: open, decided after the render (see step 29).
+- **Actions:** `03_fetch_images.py --kind small --pick --pilot global` → `data/raw/colour/eol/small/` (read-only, SHA-256 in `MANIFEST.csv`). Running.
+- **Files changed:** thumbnails (new), `data/raw/colour/eol/small/MANIFEST.csv` (appended), this log.
+
+## 2026-10-03: Impacts task, step 49. Human picks spectrum option 2 with Linda's 3D model; species-group options proposed (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I like 2 with the 3D model ... need to find that 3D model maybe Linda can send it.. I like the idea of the model being attached to certain studies. 
+  >
+  > This also reminds me - it would be nice to categorize the study species by animal type or plant type (plant, mammal, bird, amphibian etc.) - could you propose a suggested category type?
+- **Human direction:** spectrum link = option 2 (lamp spectra per light type seen through animal sensitivities), built on Linda's 3D model and attached to particular studies. Blocked until Linda sends the 3D code (not on this machine). Not started.
+- **Actions (read-only):** counted the workbook `Phylum` / `Class` for the 3,254 records of the 207 drawn studies (via `pipeline/impacts/xlsx.py`; nothing written).
+  - Draft grouping (records / studies): Birds 853 / 39; Mammals 775 / 43; Insects 553 / 49; Fish (Actinopterygii) 323 / 29; Other invertebrates 285 / 30; Plants (Tracheophyta) 248 / 15; Algae, fungi & microbes 133 / 10; Amphibians 62 / 8; Reptiles 22 / 4.
+  - 18 studies span more than one group. 126 records have a Phylum but no Class.
+  - Source oddity (not changed): 2 records coded Phylum "Arthropoda", Class "Gastropoda" (gastropods are molluscs). "Arthropoda" with no class (26 records) cannot be split into insects vs others.
+  - Options given in chat; waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 50. Species groups: map file, 04_effects.py extended and rerun (data: new inferred field)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Go with 9 groups please. Change other invertebrates to arthropods and other invertebrates.
+- **Human decision:** 9 groups. Names: Mammals, Birds, Fish, Amphibians, Reptiles, Insects, **Arthropods and other invertebrates**, Plants, Algae, fungi & microbes.
+- **Actions:**
+  - New `pipeline/impacts/maps/species_groups.csv`: 59 rows, one per distinct (Phylum, Class) pair in the whole workbook, with group, basis and status. The status says the human approved the grouping and names; the agent made the row assignments, which are for human check.
+    - Assignments to check: tunicates (Chordata/Ascidiacea) → Arthropods and other invertebrates; springtails (Collembola) → Arthropods and other invertebrates, not Insects; Arthropoda with no class → Arthropods and other invertebrates; the source's "Arthropoda / Gastropoda" → Arthropods and other invertebrates; Eukaryota (Opisthokonta, Ciliophora) and dinoflagellates → Algae, fungi & microbes.
+    - Chordata with no class (1 workbook row, not among the drawn studies) → no group (empty).
+    - `maps/README.txt`: note appended.
+  - `pipeline/impacts/04_effects.py`: reads the map. New field `phylum` (`documented`, column Phylum) and `species_group` (`inferred`, rule: map lookup by stripped Phylum + Class). The script stops if any workbook pair is missing from the map. New meta field `effects_by_species_group`. Docstring updated.
+  - Reran → `data/derived/impacts/effects.json`. Records (studies from step 49): Birds 853, Mammals 775, Insects 553, Fish 323, Arthropods and other invertebrates 285, Plants 248, Algae, fungi & microbes 133, Amphibians 62, Reptiles 22; null 0.
+  - Check against the previous file (copied to the session scratchpad before the run): 3,254 records, 0 changed apart from the two new fields; meta identical apart from `built` and the new count.
+- **Labels:** `phylum` documented; `species_group` inferred (rule above). No cells left empty among the 3,254 records.
+- **Not done:** the groups are not shown in the app yet (human to decide where). `studies.json` unchanged; per-study groups (18 studies span several) need a rule. Unaudited (RULES §3).
+- **Files changed:** `pipeline/impacts/maps/species_groups.csv` (new), `pipeline/impacts/maps/README.txt`, `pipeline/impacts/04_effects.py`, `data/derived/impacts/effects.json` (regenerated), this log.
+
+## 2026-10-03: Impacts task, step 51. Next-session prompt written (species groups) (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > could you give me a prompt for the next step please.  i'll focus on the species categories with the backdrop that we are waiting on linda's 3D model file
+- **Actions:** next-session prompt written in chat and appended to `handoffs/2026-10-03_impacts-light-questions.md`.
+- **Files changed:** `handoffs/2026-10-03_impacts-light-questions.md`, this log.
+
+## 2026-10-03: Impacts task, step 52. Linda's 3D spectral model found in ~/Downloads (read-only check; nothing copied, no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > have you checked Linda - visual tests - spatial?
+- **Answer:** the step-48 survey (subagent) had only named the one file there; the agent had not checked the folder itself. It holds just `Philadelphia_Spectral_3D_Conversation_Reference.md` (Linda's build spec in English: two separate scenes, Philadelphia and Cherry Springs; physical-spectrum mode → species-perception mode, Q = ∫S(λ)R(λ)dλ; cameras for human, bird, ground insect, flying insect; documented curves, otherwise "Demonstration only").
+- **Found (search, read-only):** built single-file versions in `~/Downloads`: `philadelphia-cherry-springs-spectral-space.html` (Sep 22; the same SHA-256 as `… 2.html` and the file inside the `.zip`) and `… 3.html` (Sep 27, 2,113,355 bytes, newest).
+  - Inside v3, read as text: receptor curves (human L/M/S cones, rod / CIE V′(λ)) with sources doi:10.1016/0042-6989(77)90147-X, doi:10.1016/j.visres.2007.10.006, PMC6579779, PMC4870758.
+  - Behaviour notes cite Downs et al. 2021, Firebaugh & Haynes 2016, Korpach et al. 2022, Miller 2006 and Parlin et al. 2022.
+  - It calls the iNaturalist API at runtime; it contains 11 "placeholder" strings.
+  - Firebaugh & Haynes 2016 is study **229** in our 207 located studies (fireflies). The other four are not in the 314 studies of Data S2 (Miller 2017 = study 063 is a different paper).
+  - The browser pane could not open the local file (access refused), so it was not run.
+- Nothing copied into `final/`. Handoff and the next-session prompt updated: the 3D model is no longer "waiting on Linda".
+- **Files changed:** `handoffs/2026-10-03_impacts-light-questions.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 53. Fresh session (species groups); row assignments listed for human check; display options given (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_impacts-light-questions.md (including all addenda) and the "Impacts task" entries (steps 35–52) at the end of AI_LOG.md. Read pipeline/impacts/maps/species_groups.csv, pipeline/impacts/04_effects.py, app/src/impacts.js (GROUPS, drawLanes, drawMedians, setStage, openCard) and app/content/story.js (Part 2).
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task), and they also edit app/vite.config.js, app/src/tileLayer.js, main.js, style.css and content/story.js.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Background: Linda's 3D Spectral Space build is in ~/Downloads (philadelphia-cherry-springs-spectral-space 3.html, see AI_LOG step 52). Do not start the spectrum work in this session; species groups first.
+  >
+  > Task: the 9 species groups (Mammals, Birds, Fish, Amphibians, Reptiles, Insects, Arthropods and other invertebrates, Plants, Algae, fungi & microbes), now in effects.json as species_group.
+  > First, before any code: (1) list the agent's row assignments in species_groups.csv that need my check, so I can approve or change them; (2) give me short options with trade-offs for where the groups appear in the app (e.g. on the study card, as a filter, as a third chart grouping with re-sorted lanes like Light level / Light type, as a story step with a question, as dot colour). For each option, say how it fits the existing chart (category colours, study-median line, worked example, category filter) and what rule is needed for the 18 studies that span several groups. Then stop for my choice. Keep the existing chart scale, colours, worked example and median rule unless I say otherwise. No new dependencies. Verify in the browser (preview "alan-final-app-impacts", port 5175; if another chat's server already runs there, use it). Step text stays DRAFT placeholders unless I write it. Log every step with my exact prompt; write a handoff when done or at ~30% context.
+- **Actions (read-only):** read RULES.md, the handoff with addenda 37–52, log steps 35–52, `species_groups.csv`, `04_effects.py`, `impacts.js`, `story.js` step list. Counted `effects.json` (scratch, nothing written):
+  - Pairs used by the 3,254 drawn records, with records / studies, listed in chat for the non-obvious rows: Arthropoda/no class 26 / 5 (studies 089, 136, 241, 242, 254; species empty); Arthropoda/Gastropoda 2 / 1 (136); Arthropoda/Collembola 2 / 1 (136); Chordata/Ascidiacea 4 / 1 (030: Botrylloides leachii, Molgula sp); Eukaryota/Opisthokonta and /SAR Ciliophora 1 + 1 (100); Invertebrates (different phyla) 6 / 2 (092, 168); Cnidaria 60 / 3; Mollusca 44 / 8; Fungi 42 / 2; Cyanobacteria 27 / 2; Archaea 1 (100); Tracheophyta/no class 8 / 2.
+  - 18 multi-group studies with records per group (e.g. 298 Insects 36 / Mammals 24; 293 Mammals 5 / Insects 5 = a tie; 254 three groups). 17 involve Insects or "Arthropods and other invertebrates"; 255 = Amphibians 5 / Algae, fungi & microbes 1.
+  - Per group, median of study medians |g| (`inferred`, step-39 rule): Birds 0.70 (39 studies), Mammals 0.67 (43), Insects 0.54 (49), Fish 1.03 (29), Arthropods and other invertebrates 0.49 (30), Plants 0.32 (15), Algae, fungi & microbes 0.69 (10), Amphibians 0.48 (8), Reptiles 0.70 (4).
+- Options given in chat; waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 54. Human: rows approved, options A + D, dot colour by species group everywhere; palette proposed, toggle question (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Approve all rows; go with A and D
+  >
+  > I'm considering dot color by species group ... I think it's a better categorization than by effect category ... indeed it is. Okay deploy
+- **Clarifying questions (agent) and answers (human, verbatim):**
+  - Colour scope: "I think everywhere. The old categories had some interpretative power in the last go around because it showed that certain effects were studied under certain conditions (e.g. community impacts were studied under moderate or higher lighting, which is interesting). So i say everywhere with a grain of salt. Is there a way to toggle between the categories?"
+  - Filter: "Keep category filter"
+  - Palette: "Agent proposes, I approve"
+  - "Deploy": "Build + verify locally" (no commit, no push)
+- **Human decisions:** all 59 rows of `species_groups.csv` approved (the file's status text still says "for human check"; to be updated); A = species groups on the study card; D = a story step with the species grouping (re-sorted lanes, question/text from the human, DRAFT until then); E = dots coloured by species group everywhere (globe and all chart steps), with a possible toggle back to category colours; category filter kept.
+- **Palette check (dataviz skill validator, `--mode dark --surface #0a0a0a --pairs all`):** no 9-colour set passes the colour-blind check for all pairs (the current 5 category colours also fail it: Physiology ↔ LHT ΔE 1.6 deutan, normal 12.1). Agent search (scratch script, OKLCH grid, maximise the smallest normal-vision difference) → proposal: Mammals #a76c12, Birds #3375e3, Fish #51bfee, Amphibians #a276c2, Reptiles #f0a7e9, Insects #c8b222, Arthropods and other invertebrates #f3669a, Plants #36a558, Algae, fungi & microbes #5ce483. Smallest normal-vision difference 15.0 (Amphibians ↔ Birds, at the floor); worst colour-blind pair Reptiles ↔ Fish ΔE 1.1 (protan). Shown to the human as a swatch; waiting for approval and the toggle answer.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 55. Species colours (default everywhere) + colour toggle, species step (D), groups on the study card (A); map rows approved; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Go ahead with the 9 colours, toggle and lane order
+- **Human decisions:** the 9 colours from step 54; a toggle "Colour: Species group | Effect category" (species default, kept across steps); lane order Mammals, Birds, Fish, Amphibians, Reptiles, Insects, Arthropods and other invertebrates, Plants, Algae, fungi & microbes. From step 54: rows approved, category filter kept, build and verify locally only.
+- **Actions:**
+  - `pipeline/impacts/maps/species_groups.csv`: status column of all 59 rows now says the row assignments were approved by the human (step 54); no group changed. `maps/README.txt`: one line appended. `effects.json` not rerun (status text is not read by `04_effects.py`).
+  - `app/src/impacts.js`:
+    - `SPECIES_COLORS` (the 9 approved colours, in lane order).
+    - New grouping `species` in `GROUPS`; the long names are split over two lines.
+    - `colourBy` state, default 'species'. Record dots, globe dots and the worked-example dot/bar follow it.
+    - Globe dot = the study's main species group: most records, ties go to the first group in the source table (study 293 → Mammals). Kept in `studyGroups`, computed at load from `effects.json` (`inferred`, display only).
+    - Category lane labels turn neutral (#eee) in species mode. Species lanes get a colour dot beside the name in species mode.
+    - Filter bar: the colour toggle comes first, then the category filter on filter steps. Filter swatches show only in category mode.
+    - On the globe while exploring (Explore all studies, free Impacts mode) the toggle is shown alone, top left beside the step panel.
+    - Legend colour key follows the toggle (agent wording for the species key).
+    - Study card (A): a new row of species-group chips, most records first, above the category chips.
+    - Inline styles only; `style.css` not touched.
+  - `app/content/story.js` (re-read first): new step `species` ("Species groups") after `light-type`, before `explore`. Title "[DRAFT] Species groups"; text a DRAFT placeholder (agent) plus the median-line sentence used on other steps; source Data S1 (Phylum/Class, our grouping map, our medians). `group: 'species'`, worked example 005-2, filter on.
+- **Browser check (port 5175, another chat's server; 1280×800, 1024×768 and 800×600):**
+  - Species step: 9 lanes; study medians 0.67 / 0.7 / 1.03 / 0.48 / 0.7 / 0.54 / 0.49 / 0.32 / 0.69, matching step 53. Swans example dot in the Birds lane.
+  - Toggle → Effect category: dots, filter swatches and legend switch to category colours. Back to species: Physiology filter updates counts and medians.
+  - All effects: category lanes with species-coloured dots.
+  - Explore: globe dots in species colours, toggle shown.
+  - Card: Kivelä et al. 2023 shows "Insects" / "Behaviour". Multi-group cards are in the right order, e.g. "Arthropods and other invertebrates | Fish | Insects" (089 counts 4/3/2) and "Arthropods and other invertebrates | Insects | Plants" (254: 10/7/4).
+  - Console: one 404 for `/colour/global_white_share_grid.json` (the colour task's file, not this change).
+  - **Seen at 800×600 (not fixed):** with 9 lanes each lane is ~40 px. The lane labels (name + records + studies) overlap the next lane, and the two-line "Arthropods and / other invertebrates" collides with Insects. The filter bar wraps over the top lane and the step card covers the right side, as on the other chart steps.
+- **Data values changed:** none (`species_groups.csv` status text only; per-study groups computed at runtime, `inferred`).
+- **Files changed:** `pipeline/impacts/maps/species_groups.csv`, `pipeline/impacts/maps/README.txt`, `app/src/impacts.js`, `app/content/story.js`, `handoffs/2026-10-03_impacts-species-groups.md` (new), this log.
+
+## 2026-10-03: Impacts task, step 56. The filter follows the colour toggle (species groups or categories); checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > when we toggle between species group and effect category, the filter options need to change.
+  >
+  > This is becoming quite powerful.
+  (with a screenshot of the species step: toggle on "Species group", filter buttons still showing the categories)
+- **Human decision:** the filter buttons follow the toggle (replaces "keep category filter" from step 54).
+- **Actions:** `app/src/impacts.js`:
+  - In species mode the filter buttons are All + the 9 groups; in category mode, All + the 5 categories. Each button has the swatch of the current dot colours.
+  - Switching the toggle clears the filter.
+  - Lane statistics (records, studies, median of study medians) are precomputed for every filter value: category or species group. The names do not overlap.
+  - Records: dimmed unless they match the filter.
+  - Globe: a study lights up if any of its records is in the chosen category or group (the existing rule, extended).
+  - Category lane labels are not dimmed by a species filter.
+- **Browser check (port 5175, another chat's server; 1280×800):**
+  - Species step: buttons = All + 9 groups. Insects: only the Insects lane is lit, 553 records / 49 studies / median 0.54; the other lanes show 0.
+  - Toggle → Effect category: filter reset to All, the 5 category buttons shown. Back to species, Birds, then All effects: the category lanes show Birds medians Behaviour 1.16, Physiology 0.69, LHT 0.62, Population 2.73, Community 1.2. These match a separate Python check (26 / 23 / 11 / 1 / 2 studies).
+  - Console: only the colour task's 404 (`/colour/global_white_share_grid.json`).
+- **Seen, not changed (for the human):**
+  - Category lane labels show total record counts (e.g. "247 records") and no study count, even when a species filter is on. Birds → Population 2.73 rests on 1 study and Community 1.2 on 2, and the chart does not show this.
+  - With 9 group buttons the bar wraps to two rows at 1280×800, and the second row touches the top lane.
+- **Data values changed:** none (display only; medians computed at runtime, `inferred`).
+- **Files changed:** `app/src/impacts.js`, `handoffs/2026-10-03_impacts-species-groups.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 57. Preview in chat: one dot per study vs one dot per effect (no app code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > it's interesting because this is showing us that researchers may have a bias in studying certain effexts for certain species types .... the studies really cluster around certain impacts ....
+  >
+  > So what happens if we go with studies instead of all effects ... how will this visually change? I imagine quite a bit because we only have 200 or so studies to use. Maybe good idea to render a preview of that?
+- **Actions:**
+  - Scratch script (session scratchpad, not in the repo) reads `effects.json` + `studies.json`. For each grouping it makes one dot per study per lane, at x = that study's median |g| within the lane. This is the same value the study-median line already takes the median of, so the line becomes the median of the visible dots.
+  - Dot counts: category 293, light level 273, light type 276, species 227. 68 of the 207 studies sit in 2 or more category lanes (51 in 2, 16 in 3, 1 in 4).
+  - Dot colour: in a species lane, the lane's group; elsewhere, the study's main group (or its main category in category mode).
+  - Rendered as an inline chat widget with selects (one per study / one per effect; lanes; colour). Positions are quantised for the preview (studies 1/4096, effects 1/64 of the axis). The median labels there are rounded in Python and can differ by 0.01 from the app (e.g. Insects 0.55 vs 0.54).
+  - Nothing in `app/` changed.
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 31. Download done; global grid built; first global render; per-mission colour bias found
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > what's download progress now
+  (continuation of step 30; no new instruction)
+- **Actions:**
+  - Download finished: 25,701 saved, 0 failed. `data/raw/colour/eol/small/` = 1.3 GB.
+  - Ran `10_white_share_grid.py --pilot global` (1 min 45 s).
+    - `global_thumb_shares.csv`: 26,356 rows, 20,707 usable.
+    - `global_white_share_grid.png` (1440 × 464, 381 KB) + `global_white_share_grid.json`.
+    - Fallback: 2015 share 0.2207 → grey 192; 2025 share 0.7277 → grey 94.
+    - Cells with coverage > 0.5: 47,439 (2015) / 24,526 (2025) of 668,160.
+  - Browser check (preview `alan-final-app`, port 5173, 800 × 600):
+    - Both grid files load (200); no console errors.
+    - Globe renders, 2015 left mostly sodium-orange, 2025 right with white and orange mixed over Europe / Middle East. Screenshot shown to the human.
+  - Appended "Global run of the white-share grid" to `pipeline/colour/METHOD.md` (steps, numbers, limits incl. VIIRS caveat).
+- **Finding: per-mission colour bias** (analysis of `global_thumb_shares.csv`, median share by mission inside fixed regions):
+  - Europe 2015: ISS030–040 0.02–0.10, ISS041 0.98 (n 96), ISS033 0.74 (n 23), ISS064 1.00 (n 24).
+  - US/Canada: ISS030 0.05 vs ISS041 0.97, ISS070 0.98.
+  - Africa: ISS030 0.02 vs ISS036 0.90, ISS041 0.88, ISS064 0.96.
+  - Points to camera / processing settings per mission. Not corrected; options given to the human.
+- **Labels:** photo white share, cell white share, fallback share = `estimated`; coverage, grey thresholds = `inferred`. Cells without photos within 5σ or with < 50 lit pixels in the window: threshold 0, coverage 0 (fallback used).
+- **Files changed:**
+  - thumbnails (new, raw);
+  - `data/derived/colour/global_thumb_shares.csv`, `global_white_share_grid.png`, `global_white_share_grid.json` (new);
+  - `pipeline/colour/METHOD.md` (appended);
+  - this log; `handoffs/2026-10-03_colour-global-first-render.md` (new).
+
+## 2026-10-03: Impacts task, step 58. Question answered: is a study dot a study's "final value"? Clickable study dots: options (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i'm tempted to move into the studies dots category instead... at least it's better because I suppose each study reached a final determinate value of total effects... is that a good way to look at it? DO you have an opinion here in terms of analytical prowess? Also what if I wanted to make each dot clickable in there? I think I would
+- **Checked (effects.json, read-only):** 207 studies. 9 have 1 record, 38 have ≤ 3. 171 measured more than one distinct thing (`measured_effect`). 151 have records with both positive and negative g.
+- **Answer given in chat:** a study dot is not a value the study itself reached. It is our summary: the median |g| of that study's records in the lane, which often mixes different measures and directions. Counting studies once matches the article's treatment of study as the unit (study as a random effect in its models). Trade-offs listed: no weighting by sample size or precision; |g| has a noise floor (step 35); few-record studies are noisy; within-study spread and direction are hidden. Options for clickable study dots and the open decisions were also given.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 59. Question answered: is a per-study g a new inference, or the paper's method? (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Okay but the thing about doing it by study is ... we are then selecting a g value - is that a new inference/estimate relative to what the paper suggested? or does the paper use this same methodology?
+- **Answer (from steps 41–43, article pp. 3–5 already read):**
+  - It is our own value; the paper does not use it. The paper keeps every record and fits Bayesian mixed models (MCMCglmm) on |g|, with study ID as a random effect; it reports mean |g| with 95% HPD intervals per light level/type (Fig. 1, a raster image; no table in the SI, step 43). It never collapses a study to one number and computes no medians.
+  - Under RULES §2.3 a per-study median is `inferred` (a deterministic rule on the authors' documented g), not `estimated` (no statistical model).
+  - It is not new in the app: the study-median line (step 39) and the card's "Median effect" (step 40) already use exactly these values. Study dots would display them directly instead of only through the line.
+  - Getting the paper's own kind of number would mean refitting its model (R + MCMCglmm, a new dependency; a human-requested `estimated` value), or the authors' Fig. 1 values (not available as numbers).
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 32. Cause of the white 2025 view: camera white balance (analysis); correction approved
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompts (verbatim):**
+  > I think that the 2025 global view is probably way too white ... i'd be surprised if that's at all realistic, is it? we need to adjust based on the camera settings or do whatever helps us get the most realistic color temperature change. Thoughts?
+
+  > yes go ahead with the correction and the web search
+- **Analysis (local files only, nothing written):**
+  - Thumbnail EXIF/XMP was read: camera model, `exif:WhiteBalance` (0 auto / 1 manual), Adobe Camera Raw `crs:Temperature` / `crs:Tint` / `crs:WhiteBalance`.
+  - Random 4,000 usable photos (seed 1): within one mission and camera, auto-WB photos have far higher white share than fixed-WB photos (ISS067 0.62 vs 0.04; ISS072 0.77 vs 0.00; ISS030 0.14 vs 0.01).
+  - `crs:Temperature` is present in 20,271 of 20,707 usable photos: 2015 p10/50/90 = 3250/4550/5450 K; 2025 = 3200/4000/5700 K.
+- **Human decision:**
+  - Correct each photo to a common white balance (von Kries scaling with Planckian white points, from `crs:Temperature`).
+  - Estimate pixel CCT (McCamy 1992); classify sodium / white by CCT.
+  - Test (per-mission and auto-vs-fixed differences, Europe 2015 sodium CCT) before rebuilding the grid.
+  - Web search for published LED-share figures as a sanity check.
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 33. White-balance correction tried: test FAILED (grid not rebuilt); web search results
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 32: "yes go ahead with the correction and the web search")
+- **Actions:**
+  - New `pipeline/colour/12_thumb_cct.py`: per photo, XMP `crs:Temperature` → Bradford adaptation from D65 to the Planckian white at that temperature (Kim et al. 2002) → McCamy CCT per pixel, lamp pixels |Duv| ≤ 0.02. Shares: sodium = CCT < 2500 K, white = ≥ 2700 K.
+  - Round-trip self-test: a blackbody at 2000–5000 K rendered at WB 3200–7500 K is recovered within 21 K.
+  - Ran on all 26,356 picked photos (2 min) → `data/derived/colour/global_thumb_cct.csv` (20,951 with values; label `estimated`).
+- **Test result (FAIL):**
+  - Missions still disagree in the same region and epoch. Europe 2015 median pixel CCT: ISS030 2146 K, ISS034 2031 K, ISS035 2018 K, but ISS041 7215 K and ISS042 5655 K.
+  - Auto / As Shot / Custom groups still differ inside a mission (e.g. ISS030 0.40 / 0.72 / 0.58).
+  - The corrected shares are whiter overall (median 0.90 in 2015, 0.99 in 2025), not more realistic.
+  - Likely cause (agent hypothesis, not tested): the JPEG rendering (camera profile, saturation and tone edits) desaturates lamp colours, so an absolute colour temperature cannot be recovered from the JPEG.
+- **Web search** (subagent, sources in chat): Sánchez de Miguel et al. 2021 (RSE, doi:10.1016/j.rse.2021.112611) do not recommend JPG or plainly decoded RAW for colour work and calibrate from NEF files decoded with no colour balance. Documented LED shares (installed base):
+  - USA street/roadway: 12.7% (2014), 48.6% (2018), DOE.
+  - Spain street lighting: 56% (2017, Anfalum, via Sánchez de Miguel et al. 2022).
+  - UK public street lighting: 51% (early 2019).
+  - Europe 2005: 56% sodium / 43% white (mercury, metal halide, fluorescent) (EU Ecodesign Lot 9).
+  - South Africa: 5% (2015).
+  - India SLNP: 12.7 M LED installed by May 2022 of a 35 M replacement goal (no total stock).
+  - No global or EU-wide installed-base figure found.
+- **Grid / app not changed:** the app still shows the step-31 render.
+- **Files changed:** `pipeline/colour/12_thumb_cct.py` (new), `data/derived/colour/global_thumb_cct.csv` (new), this log.
+
+## 2026-10-03: Impacts task, step 60. "Dots: Effects | Studies" toggle on the chart steps; study dots clickable; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > HMMMM. I'm tempted to stick with effects dots because there are more of them, and that's visually powerful. What if we had a toggle for effects and studies?
+- **Clarifying questions (agent) and answers (human):**
+  - Transition: "Merge into studies (Recommended)".
+  - Multi-lane studies: "One per lane (Recommended)".
+  - Clicking: "Study dots only (Recommended)".
+  - Worked example: "Becomes the swans study (Recommended)".
+- **Default:** Effects (from the prompt: "stick with effects dots").
+- **Actions:** `app/src/impacts.js`:
+  - Toggle "Dots: Effects | Studies" in the filter bar on chart steps with filter: true, after the colour toggle. The choice is kept across steps.
+  - Study dots per grouping: one per (study, lane), built at load. x = the median |g| of the study's records in that lane that pass the filter, i.e. the same values the study-median line uses (`inferred` from `g_abs`, runtime only). A dot with no passing record stays at its unfiltered median and is dimmed.
+  - Dot colour = the lane's own group/category when the lanes are that grouping; otherwise the study's main group (species mode) or main category (category mode). Dots are 3.6 px with a dark rim.
+  - Effects → Studies: each record slides to its study's dot (1.4 s) and fades as the study dot appears; the reverse splits them again. Changing grouping in Studies mode cross-fades the old and new lanes' study dots.
+  - Category lane labels show "N studies" (filtered) in Studies mode.
+  - Worked example: in Studies mode the swans dot moves to study 005's dot, labelled "Black swans study: median |g| = 1.64 (large)" (agent wording; the name is cut at the comma of the step's example label).
+  - Clicks: study dots on the chart open the study card, inside the story too (the step's other click rules are unchanged; a click elsewhere closes the card). The clicked study's dots in every lane get a white ring and are drawn on top. Effect dots are not clickable.
+- **Browser check (port 5175, another chat's server; 1280×800):**
+  - Species step → Studies: dots merge.
+  - Swans label 1.64 matches a Python check (study 005, 6 records, median 1.64).
+  - Clicking the swans dot opens "Streetlights Disrupt Night-Time Sleep in Urban Black Swans".
+  - All effects (Studies): lanes show 96 / 91 / 40 / 25 / 41 studies (= step 46). Clicking a dot opened the redheaded bunting study (Kumar et al. 2021), and its dots ringed in Behaviour, Physiology and LHT.
+  - Light level in Studies mode: cross-fade. Back to Effects: dots split.
+  - Console: only resource 404s (the colour task's `global_white_share_grid.json`, as before).
+- **Seen, not changed (for the human):**
+  - The swans example label in the top lane sits under the two-row filter bar.
+  - The study card (top right) overlaps the right end of the filter bar and sits above the step card.
+  - The card's ‹ › still steps west → east and turns the hidden globe.
+- **Data values changed:** none (display only).
+- **Files changed:** `app/src/impacts.js`, `handoffs/2026-10-03_impacts-species-groups.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 61. Filter bar lifted clear of the chart and the study card; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yeah maybe lift the filters up a bit so there's not the overlap, thank you. I think this is all very good
+- **Actions:** `app/src/impacts.js` (chart branch of the bar position only):
+  - The bar's bottom edge now sits 10 px above the top lane, whatever its number of rows (top = chart top − 10 − bar height, at least 8 px).
+  - Its width is limited so it ends left of the study card (window width − chart left − 392 px). If that leaves under 500 px, it uses the full width to the window edge instead.
+  - Globe-step position unchanged.
+- **Browser check (port 5175, another chat's server):**
+  - 1280×800, species step: bar at y 32–110, x 267–888 (chart top 120, card from x ≈ 904). Three rows, no overlap with the lanes, the swans label or the card.
+  - 800×600: three rows, y ≈ 32–110, above the chart; the "All" button sits just below the "2025" year label.
+- **Files changed:** `app/src/impacts.js`, this log.
+
+## 2026-10-03: Colour (CCT) task, step 34. Are the raw (NEF) files available? Checked; no download
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I like how the 2015 colors come out, it looks quite realistic ... but you say They calibrate from the original raw camera files (NEF). Are these available?
+- **Actions:**
+  - Read archive photo pages (`photo.pl`) for 3 + 18 photos. Each page has a "Raw file from camera" option, `RequestOriginalImage.pl?...&file=<id>.NEF`.
+  - NEF found for ISS030, 034, 038, 041, 042, 045, 064, 066, 068, 070, 071. For ISS072-E-1067536 the original offered is a JPG.
+  - **Side effect (agent error):** a GET of `RequestOriginalImage.pl` for ISS030-E-119206 to read the page **submitted a staging request**. The archive copies the file to `/OriginalImagery/iss030e119206.NEF` in about 5 min. Nothing was downloaded.
+  - A HEAD request on that file: 200, 10,473,198 bytes (D3S NEF).
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 35. NEF pilot: dependency, pick, raw downloads started
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes go ahead with the pilot
+- **Human approval:** dependency `rawpy` (LibRaw) and about 16 NEF raw files (0.2–0.6 GB) from the archive.
+- **Actions:**
+  - `pip install rawpy` into `.venv`: rawpy 0.27.1, LibRaw 0.22.1. Recorded in `pipeline/requirements.txt`.
+  - `03_fetch_images.py`: new `--kind nef`. It calls `RequestOriginalImage.pl`, then polls `OriginalImagery/<id>.NEF` every 60 s (up to 1 h). Output: `data/raw/colour/eol/nef/`, read-only, SHA-256 in the manifest. Also `--nef-pilot`.
+  - New `pipeline/colour/13_nef_pilot.py` (`pick` / `analyse`).
+  - `pick` → `data/derived/colour/global_nef_pilot.csv`, 16 photos:
+    - 2015, the same 0.5° cells in both groups: A (ISS030) and B (ISS041), 6 photos each. Cells: Strait of Gibraltar (36.0,−5.5) 3+3, Cádiz (36.5,−6.0) 1+1, Warsaw (52.0,21.0) 1+1, Montpellier coast (43.5,3.5) 1+1.
+    - 2025: 4 photos, ISS066 Warsaw.
+    - Old JPEG white share: A 0.002–0.25, B 0.32–0.998.
+  - Raw download started (5 parallel).
+- **Files changed:** `pipeline/requirements.txt`, `pipeline/colour/03_fetch_images.py`, `pipeline/colour/13_nef_pilot.py` (new), `data/derived/colour/global_nef_pilot.csv` (new), `data/raw/colour/eol/nef/` (new), this log.
+
+## 2026-10-03: Impacts task, step 62. Next part (3D spectral) noted; Linda's "spatial" source folder located (read-only); handoff + next-session prompt written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > this has been great. I think our dots mapping has been very successful.... and the next part of the story should move into 3D spectral stuff. Linda sent me a download file called "Spatial" that we can use as the basis for that ... lmk what you think
+  >
+  > but i want a handoff prompt for a new chat
+- **Actions (read-only):** listed `~/Downloads/spatial/`; read the head of `philadelphia-spectral-space/README.md`, the `DATA_AUDIT.md` headings, `package.json` and `git log`. Facts are in the handoff addendum (source repo, React/R3F stack, raw spectra CSVs not included). Nothing copied into `final/`; no install or run.
+- **Files changed:** `handoffs/2026-10-03_impacts-species-groups.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 63. Fresh session (3D spectral); Linda's "spatial" source surveyed read-only; integration options given (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_impacts-species-groups.md (including all addenda) and the earlier handoffs/2026-10-03_impacts-light-questions.md (addenda 48–52 on the spectrum link). Read AI_LOG.md "Impacts task" steps 48–49, 52 and 62, and app/content/story.js (end of Part 2 and the "Part 3: beyond us (not started)" placeholder).
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task), and they also edit app/vite.config.js, app/src/tileLayer.js, main.js, style.css and content/story.js.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only. ~/Downloads/spatial is Linda's: read-only, do not run pnpm install or modify it.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Task: the next story part moves into Linda's 3D spectral work. Her source is in ~/Downloads/spatial/ (philadelphia-spectral-space/: README.md, DATA_AUDIT.md, src/, scripts/, tests/, public/data, public/receptors; plus Philadelphia_Spectral_3D_Conversation_Reference.md).
+  > First, before any code: (1) survey it and tell me plainly what it shows, what data it uses and where each dataset and curve comes from (cited / placeholder / missing), and what would be needed under RULES §2 to bring it into final/ (raw sources, scripts, labels). Note the raw spectra CSVs appear not to be in the download. (2) Give me short options with trade-offs for how it could join our story and app (e.g. link out to Linda's build, embed her built page, port selected scenes into our plain-JS/three app, or rebuild a narrow piece), including how it could attach to particular studies in our effects data (e.g. study 229, fireflies) and to the light types we already show. Her stack is React/R3F/zustand, so say what each option means for dependencies. Then stop for my choice. Step text stays DRAFT placeholders unless I write it. Verify anything you build in the browser (preview "alan-final-app-impacts", port 5175; if another chat's server already runs there, use it). Log every step with my exact prompt; write a handoff when done or at ~30% context.
+- **Actions (read-only):** read README.md, DATA_AUDIT.md, package.json, scripts/preprocess.ts (head), src/behavior/{registry,science,types}.ts, src/science/receptors.ts, src/data/load.ts (grep), public/receptors/development-placeholders.json (all species/receptor metadata), public/data/manifest.json (top level). One web search for the spectra paper. Counted species in effects.json (read-only). No git command that writes, no install, no run.
+- **Findings (facts):**
+  - **Correction to step 62:** the four raw CSVs the preprocess reads ARE on this machine at `~/Desktop/ALAN/Linda/data/philadelphia and cherry springs data/` (DRL_spectra.csv 26,969,354 B and CSSP_spectra.csv 25,481,368 B, byte sizes equal to Linda's DATA_AUDIT; plus the two _dataquality.csv). Not in the download, not in final/.
+  - The spectra have **no citation anywhere in the source repo**. Linda's spec `Linda/A2_spectral_3d_spec_and_prompt.md` cites "Spitschan, Aguirre, Brainard & Sweeney, Scientific Data 3:160032 (2016)". The agent's web search did not confirm this citation (journal/number unverified); no licence found.
+  - `share/philadelphia-cherry-springs-spectral-space.html` has the same SHA-256 as `~/Downloads/philadelphia-cherry-springs-spectral-space 3.html`. The iNaturalist URLs (step 52 said "runtime calls") are occurrence source links in the receptor JSON; src/ contains no fetch to iNaturalist (correction to step 52).
+  - Receptor curves: human CIE 2019 V(λ), V′(λ) (1 nm) and CIE 2006 LMS 2° (5 nm) = tabulated, cited with DOIs. Animal rows: rock pigeon (Bowmaker 1977), Carolina sphinx (Bennett & Brown 1985 via PMC6579779), Big Dipper firefly Photinus pyralis (Lall & Worthy 2000, behavioural action spectrum), bronze ground beetle (Hasselmann 1962 via Lord et al. 2016), bobolink (Beason & Loew 2008) are "measured-peaks-modeled-shape": published peak wavelengths, curve shapes made by Linda's model; no script in the repo generates those shapes. Saw-whet owl = "development-placeholder" (no source). Waved sphinx = "taxonomic-proxy" (Manduca curves).
+  - Behaviour scenes (5 species, one paper each): positions/paths illustrative; site strength 1 vs 0.08 labelled "illustrative ... not a measured biological-effect ratio" in src/behavior/science.ts.
+  - effects.json links: Photinus pyralis = study 229 (BS cool, white cool LED, 167.21 lx, 7 records) and study 028 (BS warm, 5 records); Myotis spp. in studies 125, 162, 164, 166 (not M. lucifugus); Turdus migratorius 1 record in study 309; no Danaus, Antrostomus, Columba, Manduca, Dolichonyx, Carabus.
+  - final/ has no lamp spectra (data/raw/colour has eol, DNB response CSVs and s026_toolbox.xlsx; colour session's, read-only).
+- Options given in chat; waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 64. Human: narrow rebuild; firefly effects listed from effects.json; what a spectrum view can and cannot add (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > It will be a narrow rebuild for sure. The original spatial views had way too much data and descriptive content on screen. We will need to make a lot of decisions for how to .... render this, and how it fits into the story ... like what are the effects on those insects that are being measured, and how will rendering the light spectrum help to describe those effects? What analytical power do we get from this visualization and representation?
+- **Human decision:** option D, narrow rebuild (not a port of Linda's views; less data and text on screen). Rendering and story fit still to decide.
+- **Actions (read-only):** listed all effects.json records for the 4 firefly studies (028, 224, 229, 299) and their studies.json authors/titles/DOIs.
+- **Facts given in chat:** 229 Firebaugh & Haynes (doi:10.1007/s00442-016-3723-1), P. pyralis, white cool LED 167.21 lx, 7 mating/dispersal records; 028 Firebaugh & Haynes (doi:10.1016/j.baae.2018.07.005), white warm LED 57.4 lx, 6 abundance records (|g| up to 20.45); 224 Owens & Lewis (doi:10.1016/j.jinsphys.2021.104200), warm white LED 50 lx, 11 life-history records; 299 Owens & Lewis (doi:10.1111/icad.12487), P. obscurellus, blue LED 31 lx and red LED 70 lx, flash rate and female response.
+  - Flag (unverified): Linda's registry labels Firebaugh & Haynes 2016 as "Insect Conservation and Diversity"; our studies.json gives an Oecologia DOI for study 229.
+  - Linda's only firefly curve is P. pyralis (Lall & Worthy 2000, peak only); studies 224 and 299 are other species.
+- Analysis of what a spectrum view can and cannot show given in chat; questions to the human. Waiting.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 65. Human asked to download the firefly studies; all 4 are closed access, so nothing downloaded; abstracts read via APIs (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I like the 3D representation and I'd like for us to bring in some sort of visualization ... but indeed we must do this with a clearer sense of narrative. I think I need more contextual guidance for what's possible here ... perhaps download the studies and let's see if that brings us closer to a compelling story
+- **Human direction:** keep a 3D representation; narrative to be made clearer before building.
+- **Actions:** open-access check via Unpaywall, Europe PMC, Semantic Scholar and OpenAlex APIs (metadata and abstracts only) for studies 229, 028, 224, 299. All four: closed access, no repository copy (Unpaywall is_oa false; OpenAlex oa_status closed). **Nothing downloaded.** PDFs need the human's institutional (Harvard) access, as for the Czarnecka article.
+- **Facts from the abstracts (documented, publisher abstracts):**
+  - 229 (Oecologia 2016, PMID 27646716): field experiments; light reduced flashing in Photuris versicolor by 69.69 % and reduced courtship and mating success in Photinus pyralis; no effect on male dispersal. Journal is Oecologia (Linda's registry says Insect Conservation and Diversity: mismatch confirmed).
+  - 028 (Basic and Applied Ecology, 2018 DOI, year 2019 in Semantic Scholar): both species lured to LED light; fewer courtship dialogues in lit plots; lower P. pyralis mating success; no effect on Photuris–Photinus predation; "demographic traps".
+  - 224 (J Insect Physiol 2021, PMID 33607160): lab; dim light (skyglow-like) did not change survival or stage durations; faster early weight gain in Photuris larvae; late-instar Photuris under point sources burrowed rather than dispersed.
+  - 299 (Insect Conserv Divers 2021): P. obscurellus pairs under five colours at two intensities; all suppressed courtship; bright amber had the greatest impact; authors suggest light that overlaps the firefly bioluminescence spectrum disrupts courtship most. Our Data S1 holds only blue (31 lx) and red (70 lx) records for this study (4 records).
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 63. Default dot colour back to effect category (species group via the toggle); checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > fyi - while I'm researching somethign in another chat, could you reverse the default on the color dots ... it should be effect category as the default, not species type. Species type can be selected if a researcher wants to look into that (in my opinion)
+- **Human decision:** default colour = effect category (replaces "species everywhere" from step 54); species colours stay available through the Colour toggle.
+- **Actions:** `app/src/impacts.js`: `colourBy` default 'category'; comments updated. Nothing else changed (the toggle, filter-follows-toggle and Effects | Studies stay as they were).
+- **Browser check (port 5175, another chat's server):** after a reload, All effects shows category colours. The toggle shows "Effect category" pressed, the filter shows the 5 categories with swatches, and the legend key lists the categories.
+- **Files changed:** `app/src/impacts.js`, `handoffs/2026-10-03_impacts-species-groups.md` (addendum), this log.
+
+## 2026-10-03: Impacts task, step 66. Four firefly papers copied into raw (human downloaded) and read; lamp and spectrum facts reported (no code, no derived data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > all 4 papers are downloaded. Please see in my downloaded
+- **Actions:** copied (cp -p, then chmod a-w) the 4 PDFs from ~/Downloads into `data/raw/impacts/fireflies/` under new names (study id in the name; originals kept in Downloads); 4 rows appended to `data/raw/impacts/MANIFEST.csv` (size, SHA-256, licence, lamp notes; the agent's csv writer first wrote CRLF endings on those 4 rows, then converted them to LF; 11 rows × 12 columns checked); `.gitignore` gets `data/raw/impacts/fireflies/*.pdf` (publisher copyright). Text extracted with pdftotext to the session scratchpad only (not in final/).
+- **Facts (documented, from the papers):**
+  - 229: Ultra-Tow LED floodlights, 167.21 ± 1.61 lx (mating/dispersal); 301.24 lx abundance plots (RAB Bullet 12A). Text does not say "cool", gives no CCT or spectrum; Data S1's "white cool LED" is the meta-analysis coding.
+  - 028: white Ultra-Tow LED floodlights, 57.4 lx field, 174.53 lx mesocosm; no spectrum. Lit areas attract fireflies and suppress courtship ("demographic traps").
+  - 224: warm white LED bulb, 50 lx; no spectrum.
+  - 299: the only paper with measured lamp spectra (Jaz spectrometer; peaks cool white 453.2, warm white 616.43, blue 455.31, amber 613.41, deep red 658.06 nm), intensities equalised in photons (not lux); spectra only as Fig. 1 image, with the P. scintillans ERG sensitivity (Lall et al. 1988); P. obscurellus flash peak 567.47 nm (Hall et al. 2016). Results: female response 98.7 % in dark → 15.2 % under any light; dim blue 36.1 %, dim red 48.6 %, bright amber 0 %; males flashed least under amber. Authors: amber, often recommended as wildlife-friendly, was the most disruptive.
+  - Not found in 299's text: the 31 lx (blue) and 70 lx (red) that Data S1 gives for this study. Source of those lux values unknown (open).
+- **Files changed:** `data/raw/impacts/fireflies/` (4 new PDFs), `data/raw/impacts/MANIFEST.csv` (4 rows appended), `.gitignore` (2 lines appended), this log.
+
+## 2026-10-03: Impacts task, step 67. Human: study 299 becomes the next Impacts chapter (amber); search for a blue/white counterpart study (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > OKAY so 299 is great and needs to become a 'next chapter' in the impacts story. It will be about how amber light interrupts nature. 
+  >
+  > Would be cool if there's another study which shows how blue light/white light negatively impacts nature and we could somehow tell a similar story with one of Linda's 3d visualization ideas
+- **Human decision:** study 299 (Owens & Lewis 2021) = a new Impacts chapter, theme "how amber light interrupts nature". Not built yet; text not written.
+- **Actions (read-only):** listed the 50 studies in effects.json with ≥ 2 light types (per type: records, median |g|); read records of 243, 278, 117, 004, 009, 154; OpenAlex metadata + abstracts (no downloads).
+- **Candidates reported (documented abstracts; medians inferred by us):**
+  - 243 Kivelä et al. 2022, Sci Total Environ, doi:10.1016/j.scitotenv.2022.159451, CC BY: glow-worm (Lampyris noctiluca) dummy females under blue 452, white 449, yellow 575, red 625 nm LEDs; blue and white reduced mate attraction more than yellow and red. Data S1 has 4 records (cool white g −0.55; warm white +0.01, 5–8 lx); Data S1's "warm white" vs the paper's yellow/red: not yet checked.
+  - 278 Wang et al. 2022, Neurobiol Dis, doi:10.1016/j.nbd.2022.105944, CC BY-NC-ND: mice, dim light 10 lx, short- vs long-wavelength enriched LED at equal lux; short-wavelength gave strong masking, phase shifts, SCN cFos; melanopsin-lacking mice resistant. 19 + 19 records (median |g| cool 1.12, warm 0.19).
+  - Also: 009 Bedrosian 2013 (hamsters, blue/white vs red, ipRGC), 117 Nagai 2019 (mice, blue-cut light), 004 Alaasam 2018 (zebra finch, 5000 K vs 3000 K), 154 Dimovski & Robert 2018 (wallaby, amber vs cool white).
+  - Counter-cases in the same table (warm median > cool): 300, 187, 114, 100.
+- Waiting for the human's choice and download permission.
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 68. Human: two deep-dive chapters (299 fireflies/amber, 278 mice/body clock) and the conclusion line; source check of that line (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > let's do the mice and the body clock ...
+  >
+  > Those are two good chapters. THe point is to go a bit deeper into a couple of studies, and by the conclusion it will be "white or amber lights won't solve this problem, only less light will"
+- **Human decisions:** two deep-dive chapters: study 299 (fireflies, amber) and study 278 (mice, body clock, blue-rich white). Conclusion (human's words): "white or amber lights won't solve this problem, only less light will". Study 243 not used.
+- **Source check given in chat (no change):** Czarnecka et al. 2025 (already in the Light level step) find effects mostly not dose-dependent, low light comparable to moderate and high; 299 found brighter light silenced females more, but intensity had no effect on male flash rate; 278 effects at 10 lx. Reported as a tension for the human to weigh; wording not changed.
+- Download of study 278's PDF: permission asked again (not given explicitly yet).
+- **Files changed:** this log only.
+
+## 2026-10-03: Impacts task, step 69. Study 278 full text downloaded (PMC XML, author manuscript) into raw; light measurements read (no code, no derived data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes download 278
+- **Actions:** Europe PMC PDF render → HTTP 403 (not retried, no workaround); Europe PMC fullTextXML → 500; NCBI E-utilities efetch (db=pmc, id 10594349) → 200, JATS XML, 199,544 B. Saved as `data/raw/impacts/mice/Wang_2022_NeurobiolDis_study278_PMC10594349.xml` (read-only); 1 MANIFEST row (12 rows × 12 cols, LF). Supplement (S. Fig. 1 = LED spectra) not obtained: Europe PMC supplementaryFiles zip held one empty jpg; PMC bin link blocked. Text conversion only in the scratchpad. Not git-ignored (CC BY-NC-ND; human to decide).
+- **Facts (documented, Wang et al. 2023 methods/results):** both night lights 10 lx (measured 10.4 lx long-λ, 10.0 lx short-λ; UPRtek MK350S at cage floor); CIE S 026 α-opic toolbox: melanopic irradiance 0.001 vs 0.020 W/m², melanopic EDI 1 vs 15 mel lx, M/P ratio 0.11 vs 1.49. Short-λ: activity suppressed 51 ± 5 % (white 51 ± 5 %), phase delay −117 ± 6 min (white −128 ± 12), SCN cFos 94 ± 6 cells (white 85 ± 6); long-λ: 14 ± 7 % suppression, −26 ± 4 min, fewer cFos cells; mice lacking ipRGCs (Opn4DTA) largely resistant (S. Fig. 2). Melanopsin peak ≈ 480 nm (Hattar 2002; Panda 2005). The paper is the PMC author manuscript, published version dated 2023 (vol 176).
+- **Files changed:** `data/raw/impacts/mice/` (1 new XML), `data/raw/impacts/MANIFEST.csv` (1 row), this log.
+
+## 2026-10-03: Impacts task, step 70. Study 278 publisher PDF + supplement copied into raw; S. Fig. 1 (LED spectra) read (no code, no derived data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > downloaded the paper and the supplementary data as well.
+- **Actions:** copied (cp -p, chmod a-w) `1-s2.0-S0969996122003369-main.pdf` → `data/raw/impacts/mice/Wang_2023_NeurobiolDis_study278.pdf` (12,080,205 B) and `…-mmc1.pdf` → `…_supplement_mmc1.pdf` (1,495,947 B); 2 MANIFEST rows (14 rows × 12 cols). Rendered supplement page 1 to PNG in the scratchpad to view it. Not git-ignored (CC BY-NC-ND per the PDF; human to decide). Study 299's supplement was not in Downloads.
+- **Facts (documented, S. Fig. 1):** spectral irradiance (mW/m²) of the two LED settings, ~380–780 nm; short-λ peak 478 nm, long-λ peak 608 nm, both 10 lx. Curves are vector paths (pdfimages lists no raster on the page), so values could be extracted deterministically from the PDF drawing; no table supplied. Inconsistency in the source: legend M/P 1.45, caption/text 1.49.
+- **Files changed:** `data/raw/impacts/mice/` (2 PDFs), `data/raw/impacts/MANIFEST.csv` (2 rows), this log.
+
+## 2026-10-03: Impacts task, step 71. Handoff + next-session prompt written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 70) "downloaded the paper and the supplementary data as well."
+- **Actions:** wrote `handoffs/2026-10-03_spectral-chapters.md` (human decisions steps 63–68, sources in raw, facts, open items, next-session prompt). RULES §5: scoped stage (sources gathered) done before staging/build.
+- **Files changed:** `handoffs/2026-10-03_spectral-chapters.md` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 36. NEF download bug found and fixed; download restarted
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > how are we doing
+- **Findings:**
+  - After about 40 min only 3 of 16 NEFs had arrived (ISS030-E-280639, -286611, -286615; 9–19 MB).
+  - **Agent bug:** `03_fetch_images.py` built raw file names itself. The archive's names zero-pad the frame (`iss041e090094.NEF`), and one has a lowercase extension (`iss030e074286.nef`). 7 of 16 requests therefore asked for files that don't exist.
+- **Fixes in `03_fetch_images.py`:**
+  - `nef_name()` reads the file name from the photo page.
+  - Manifest rows are flushed after each file. Stopping the first run (pkill) had lost the 3 rows, because the rows were buffered until the end of the run.
+  - At start, files present but missing from the manifest get a row with `fetched_utc` = file mtime, marked "(file mtime)". This added the 3 rows.
+- **Other change:** `13_nef_pilot.py` `analyse` now subtracts each photo's per-channel median (sky background / airglow, about 1% of range in a D3S night NEF) and uses `MIN_SIGNAL` 0.03.
+- **Restarted the download:** 13 files to fetch.
+- **Files changed:** `pipeline/colour/03_fetch_images.py`, `pipeline/colour/13_nef_pilot.py`, `data/raw/colour/eol/nef/MANIFEST.csv` (3 rows), this log.
+
+## 2026-10-03: Colour (CCT) task, step 37. Main cause of the 2015 mission bias found: daytime frames in the "night" pool
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 36, no new instruction)
+- **NEF results so far** (`13_nef_pilot.py analyse`, 8 of 16 files; `global_nef_pilot_ratios.csv`, label `measured (camera raw, uncalibrated)`):
+  - Raw camera-space G/R, Strait of Gibraltar 2015: ISS030 (D3S) 0.78–0.82, ISS041 (D4) 1.69–1.81. B/G: 0.17–0.25 vs 0.59–0.64.
+  - With each camera's own daylight multipliers (LibRaw): ISS030 G/R ≈ 0.39 (sodium-like), ISS041 ≈ 0.70.
+  - The agent then looked at the thumbnails: **ISS041-E-90094 is a daytime photo** (Gibraltar / Algeciras in sunlight). The archive's `nighttime` query filter returned it.
+- **Day-like frames** (local analysis, nothing written): thumbnail median brightness (brightest channel) ≥ 40 = "day-like" (agent heuristic, not validated). 3,575 of 20,707 usable photos.
+  - Europe + US, share of day-like frames: ISS041 92%, ISS042 58%, other missions 0–28%.
+  - Night-only median white share: ISS041 0.97 → 0.14, ISS042 0.48 → 0.23.
+  - 2015 night-only: Europe 0.04, US/Canada 0.10, all 0.16.
+  - 2025 night-only: Europe 0.16, US/Canada 0.41, China/E Asia 0.85, India 0.96, LatAm 0.77, all 0.70.
+  - **2025 missions still disagree** (Europe + US, night-only): ISS065 0.13, ISS067 0.03 vs ISS064 0.86, ISS069 0.66, ISS070 0.99, ISS072 0.75. Unresolved: lamp change vs camera / processing vs region mix.
+- **Sun elevation:** per photo, "Sun Elevation Angle" is on each photo page only (`02_photo_details.py` already parses it). It is not in the query table.
+- **NEF download:** 8 of 16 saved; 8 still queued at the archive.
+- **Files changed:** `data/derived/colour/global_nef_pilot_ratios.csv` (new, partial), this log.
+
+## 2026-10-03: Impacts task, step 72. Study 299 Supporting Information copied into raw and read; handoff addendum + next-session prompt (no code, no derived data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > downloaded the 299 supplement too but it's just a word doc. Check it out. Otherwise please generate next prompt
+- **Actions:** copied (cp -p, chmod a-w) `icad12487-sup-0001-supinfo.docx` → `data/raw/impacts/fireflies/Owens_Lewis_2021_ICD_study299_supinfo.docx` (25,469 B); 1 MANIFEST row (15 rows × 12 cols); `.gitignore` + `data/raw/impacts/fireflies/*.docx`. Read via textutil (scratchpad only). Handoff addendum + replacement next-session prompt.
+- **Facts:** the docx holds no images and no tables (zip has no word/media); Fig. S1–S5 are captions only, so 299's LED spectra remain only as the article's Fig. 1 image. SI "Color justification" facts are in the handoff addendum.
+- **Files changed:** `data/raw/impacts/fireflies/` (1 docx), `data/raw/impacts/MANIFEST.csv` (1 row), `.gitignore` (2 lines), `handoffs/2026-10-03_spectral-chapters.md` (addendum), this log.
+
+## 2026-10-03: Colour (CCT) task, step 38. Next-session prompt written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > let's start fresh please generate prompt
+- **Actions:**
+  - Wrote the next-session prompt in chat. It points to `handoffs/2026-10-03_colour-global-first-render.md` (updates 1–2) and AI_LOG colour steps 27–37.
+  - The NEF pilot download (`03_fetch_images.py --kind nef --nef-pilot --pilot global`) may still be running in the background. Its progress shows in `data/raw/colour/eol/nef/` and `MANIFEST.csv`.
+- **Files changed:** this log.
+
+## 2026-10-03: Impacts task, step 73. Fresh session (spectral chapters); sources skimmed; staging / placement / data options given (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_spectral-chapters.md (including the addendum) and AI_LOG.md "Impacts task" steps 63–72. Skim app/content/story.js (end of Part 2, Part 3 placeholder) and the sources in data/raw/impacts/fireflies/ (study 299 PDF + SI docx) and data/raw/impacts/mice/ (study 278 PDF + supplement).
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour/CCT task), and they also edit app/vite.config.js, app/src/tileLayer.js, main.js, style.css and content/story.js.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF).
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - Do NOT touch pipeline/colour/, data/raw/colour/, data/derived/colour/, or the radiance tiles/COGs (read-only).
+  > - data/raw/ is read-only. ~/Downloads/spatial and ~/Desktop/ALAN/Linda are Linda's: read-only.
+  > - Do not commit, push, delete or install anything without my explicit go-ahead.
+  >
+  > Task: two deep-dive chapters in a narrow 3D spectral view (plain JS + three, no new framework): study 299 (fireflies, "how amber light interrupts nature") and study 278 (mice, body clock under blue-rich light); conclusion (mine): "white or amber lights won't solve this problem, only less light will".
+  > First, before any code: give me short options with trade-offs for (1) how each chapter is staged in 3D with very little on screen (axes, what moves, which numbers from the papers appear), (2) where the chapters sit in the story, and (3) the data each option needs and its RULES §2 label (lamp spectra: 278 S. Fig. 1 vectors; 299 only as the Fig. 1 image, so ask the authors or digitise on my request; sensitivity curves: mouse melanopsin, firefly P. scintillans / P. pyralis / Photuris; flash spectrum). Then stop for my choice. Step text stays DRAFT unless I write it. Verify anything you build in the browser (preview "alan-final-app-impacts", port 5175; if another chat's server already runs there, use it). Log every step with my exact prompt; write a handoff when done or at ~30% context.
+- **Actions (read-only):** read RULES.md, the handoff (+ addendum), AI_LOG steps 63–72, story.js (Part 2 end, Part 3 placeholder), package.json (three 0.186.1 + globe.gl already present). pdftotext / textutil of 299, 299 SI, 278, 278 supplement into the session scratchpad only. Port 5175: a server is already listening (another chat's).
+- **Facts found (documented, 299 text):** dim = 2.079 × 10^19, bright = 2.079 × 10^20 photons cm⁻² s⁻¹ at 60.8 cm (bright = 10 × dim; 2019 trials 1.049 × 10^19). Male baseline 9.2 ± 0.2 flash patterns/min. Female response is given in the text for only 5 of the 10 colour × intensity cells (dim blue 36.1, dim red 48.6, bright cool white 10.3, dim warm white 11.6, bright amber 0 %); the other 5 exist only as bars in Fig. 2b (image). Flash peak 567.47 nm (Hall et al. 2016, cited in 299).
+- **Facts found (documented, 278):** masking test = 1 h light at ZT 14; phase shift and cFos = 15 min pulse at CT 16; DLaN = nightly ZT 12–24 for 2 weeks; all at 10 lx (no lower or higher level tested). Opn4DTA (no ipRGC) mice: 9 ± 9 % vs WT 42 ± 7 % suppression (S. Fig. 2C).
+- **Gap:** the CIE S 026 toolbox (handoff: `data/raw/colour/`) was not found anywhere in final/ by filename search.
+- Options given in chat; waiting for the human.
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 39. Fresh session; NEF download checked; day-frame exclusion options tested locally (no repo code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the human's session prompt (handoff `2026-10-03_colour-global-first-render.md`; "Proposed next steps … confirm each with me before starting"; step 1: "Give me trade-offs and size, then wait"). Full text in the session transcript; it begins:
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md and follow it all session. Then read handoffs/2026-10-03_colour-global-first-render.md (including "Update" and "Update 2" at the end) and pipeline/colour/METHOD.md section "Global run of the white-share grid".
+- **NEF download:** `03_fetch_images.py --kind nef --nef-pilot --pilot global` still running (PID 59470, started 22:35). 8 of 16 NEFs on disk (113 MB), 8 rows in MANIFEST. Left running.
+- **Local tests (scratchpad scripts only, nothing written to the repo; no downloads):**
+  - Thumbnails carry the EXIF `DateTimeOriginal`. Sun elevation from that time + the page's nadir point (NOAA solar-position formula) matches the archive's "Sun Elevation Angle" on all 89 saved photo pages (Iberia, ISS030): median |diff| 0.3°, max 0.7°. So the archive's value appears to be computed from the same camera time.
+  - All 20,707 usable photos, EXIF time + record lat/lon: 20,188 sun < −12°, 409 between −12° and 0°, 110 ≥ 0°. 114 EXIF dates differ from the record date.
+  - **ISS041 camera clock looks wrong:** ISS041-E-90094 (Gibraltar, visibly daytime) has EXIF 2014-10-21 01:25:48, giving a sun elevation of −58.7°. All 376 usable ISS041 frames come out "night" by sun elevation.
+  - Brightness rule (median of per-pixel max channel ≥ 40) vs EXIF sun: bright & sun < −12° 3,540; bright & sun ≥ −12° 35; dark & sun ≥ −12° 484; dark & sun < −12° 16,648.
+  - Agent viewed 5 random "bright & sun < −12°" thumbnails (seed 20261003): ISS030-E-36159, ISS042-E-311002, ISS043-E-153883 are aurora; ISS071-E-399575 and ISS070-E-129072 are moonlit cloud with lightning. These are night frames, not city frames; their white shares are 0.22–0.99.
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 39. NEF pilot download finished (no analysis run)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (none; background download from step 36 completed after the step-38 prompt)
+- **Result:** the restarted run saved 13 files, 0 failed. All 16 pilot NEFs are in `data/raw/colour/eol/nef/` with 16 manifest rows.
+- **Not done:** `13_nef_pilot.py analyse` has not been rerun on the full set; `global_nef_pilot_ratios.csv` still has 8 rows. Left for the next session.
+- **Files changed:** NEF files (raw, new), `data/raw/colour/eol/nef/MANIFEST.csv`, this log.
+
+## 2026-10-03: Impacts task, step 74. Human picks staging F-A + F-C, M-B, placement P1; 278 S. Fig. 1 curves extracted (data: new inferred file); independent audit started
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > F-A + F-C, M-B, P1; inferred is fine
+- **Human decisions:** fireflies chapter = F-A (5 lamp curves in depth rows, firefly sensitivity as a translucent wall, flash line 567 nm, female response % per lamp) + F-C (dim → bright, 10 × photons). Mice chapter = M-B (two 278 spectra + melanopsin curve; 10 lx = 10 lx → 15 vs 1 mel lx → 51 vs 14 % suppression; clock ring −117 vs −26 min). Placement P1: both chapters right after the "Light type" step in Part 2. Label for the 278 S. Fig. 1 extraction: `inferred`.
+- **Actions:** new script `pipeline/impacts/05_spectra_278.py` (poppler pdftocairo -svg + pdftotext -bbox; stdlib only; nothing installed). Rules in its docstring: path vertices mapped to axis values by a least-squares fit of tick marks to their printed labels; legend swatch nearest the word "Short"/"Long" names each curve; no resampling. Output `data/derived/impacts/spectra_278.json`.
+- **Data (label `inferred`; rule + inputs in the file):** short-λ 373 samples, long-λ 375, 380.03–779.98 nm; calibration residuals ≤ 0.055 nm (x), ≤ 8.1e-5 (y). No empty cells.
+- **Checks:** short-λ peak 478.06 nm (caption 478). Long-λ: local max 607.96 nm (caption 608) but the curve's global max is 641.0 nm (0.381 vs 0.345): a source inconsistency, reported, not changed. Area under each curve (value × nm): short 33.94, long 51.19, vs documented total irradiance 0.03 and 0.05 W/m² → y values behave as mW m⁻² nm⁻¹ (axis prints "mW/m2"; unit text kept as printed).
+- **Audit (RULES §3.1):** separate background agent, model Sonnet (different from builder), fresh context, independent extraction first; writes to `audits/impacts_spectra/` and logs itself. §3.2 spot-check list (seeded) to be drawn there for the human.
+- **Files changed:** `pipeline/impacts/05_spectra_278.py` (new), `data/derived/impacts/spectra_278.json` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 40. Frame flags (option D) scripted and run; aurora limit noted in METHOD.md
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > D, flag file ok, and note aurora in METHOD.md
+- **Actions:**
+  - New script `pipeline/colour/14_frame_flags.py` (sun elevation from EXIF time + record lat/lon, NOAA equations; thumbnail median of the brightest channel). Rules: twilight_or_day = sun ≥ −12°; bright_frame = median ≥ 40; exclude = either.
+  - Ran `--pilot global` (46 s): 26,356 photos; 1,591 twilight_or_day; 3,605 bright_frame; 5,160 exclude; 0 without EXIF time. Of the 20,707 usable photos, 4,061 are excluded (step 39 counted 4,059; the difference is rounding sun elevation to 0.1° before the −12° test).
+  - Cross-check: per-photo sun elevation and median are identical to the step-39 scratch run.
+  - METHOD.md: new section "Frame flags", including the aurora / moonlit-cloud / lightning limit and the wrong-camera-clock note.
+- **Labels:** `sun_elev_deg`, `thumb_median` and the flags are all `inferred` (agent rules, not validated). No empty cells (every photo had an EXIF time).
+- **Not changed:** the grid, the app. The flags are not yet used (step 3 pending).
+- **Files created/changed:** `pipeline/colour/14_frame_flags.py` (new), `data/derived/colour/global_frame_flags.csv` (new), `pipeline/colour/METHOD.md` (appended section), this log.
+
+## 2026-10-03: Colour (CCT) task, step 41. NEF pilot download finished (no code changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 40, no new instruction)
+- **Observed:** `03_fetch_images.py --kind nef --nef-pilot --pilot global` has exited. All 16 pilot NEFs are in `data/raw/colour/eol/nef/`, with 16 manifest rows. The 8 new files have not been analysed yet (`13_nef_pilot.py analyse` not rerun).
+- **Preview only (nothing written):** median usable white share without flagged frames: 2015 0.154 (10,852 photos; was 0.221 with 14,185), 2025 0.679 (5,794; was 0.728 with 6,522).
+- **Files changed:** this log.
+
+## 2026-10-03: Impacts spectra audit, step 1. Independent audit of spectra_278.json (RULES 3.1)
+- **Tool / model:** Claude Code (desktop) · `claude-sonnet-5-5` (auditor; builder was `claude-opus-5-5`, so the model differs)
+- **Prompt:** audit prompt from the Impacts task session, step 74 (fresh independent auditor for `data/derived/impacts/spectra_278.json`; own extraction first from the raw PDF with poppler + stdlib, then read the pipeline script; checks on hashes, counts, per-sample differences, curve identity, calibration, peaks, integrals, JSON invariants; 3.2 sample of N = 20 with recorded seed for a human; results under `audits/impacts_spectra/`).
+- **Actions:** extracted both curves from the raw PDF via `pdftocairo -svg` with own tick calibration; compared with the pipeline JSON; checked raw hash vs MANIFEST at start and end; drew the human spot-check sample (seed 20261003, N = 20; match rate pending, human). Results: all checks PASS except the minor invariant "no negative values" (5 long-curve samples of -8e-05, calibration noise); details in the audit file. No data values were produced or changed, so no labels apply.
+- **Files created:** `audits/impacts_spectra/AUDIT_2026-10-03.md`, `a01_extract_svg.py`, `a02_compare.py`, `a03_raw_integrity.py`, `a04_spotcheck_sample.py`, `a05_extra_checks.py`, `results/*`. Temp files only in the session scratchpad. Nothing else changed.
+
+## 2026-10-03: Colour (CCT) task, step 42. Global grid rebuilt without flagged frames; render checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > step 3, rebuild the grid
+- **Code:** `10_white_share_grid.py`: reads `<pilot>_frame_flags.csv` when present and drops `exclude` = 1 photos from the grid and the fallback. The sidecar gets `frame_flags` and per-epoch `photos_flagged_out`. Docstring updated.
+- **Run** (`--pilot global`, 1 min 48 s):
+  - 2015: 10,852 photos (3,333 flagged out), fallback share 0.1543, grey 212 (was 0.2207 / 192), 40,735 cells with coverage > 0.5 (was 47,439).
+  - 2025: 5,794 (728 out), 0.6786, grey 104 (was 0.7277 / 94), 22,184 cells (was 24,526).
+  - `global_thumb_shares.csv` was rewritten byte-identical.
+- **Labels:** unchanged (share `estimated`, thresholds / coverage `inferred`).
+- **App:** no code change. It reads the new PNG + JSON. Opened http://localhost:5173 (another session's dev server, not restarted). Both files return 200, no console errors, the globe draws: 2015 mostly orange, 2025 mixed. The previous PNG/JSON were copied to the session scratchpad before the run (not kept in the repo).
+- **METHOD.md:** appended "Grid rebuilt without flagged frames" with the new table.
+- **Files changed:** `pipeline/colour/10_white_share_grid.py`, `data/derived/colour/global_white_share_grid.png`, `data/derived/colour/global_white_share_grid.json`, `data/derived/colour/global_thumb_shares.csv` (same bytes), `pipeline/colour/METHOD.md`, this log.
+
+## 2026-10-03: Colour (CCT) task, step 43. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 42; the session prompt asked for a handoff when done)
+- **Files created:** `handoffs/2026-10-03_colour-night-only-grid.md`; this log.
+
+## 2026-10-03: Impacts task, step 75. 299 Fig. 1 found to be vector; five LED spectra + P. scintillans curve extracted (data: new file, label inferred pending human confirmation); Lucas 2014 toolbox blocked; audit 2 started
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > c, P. scintillans, single line, yes download, layout ok
+- **Human decisions:** 299 spectra = option c (build now from Fig. 1, which the human approved digitising; swap in the authors' data if they send it; email to Owens & Lewis drafted by the agent, sent by the human). Firefly sensitivity = *P. scintillans*. Flash = a single line at the documented peak 567.47 nm. Download of the Lucas et al. 2014 rodent toolbox approved. Code layout approved: one new file `app/src/spectral.js`, two DRAFT steps after `light-type` in story.js with a `spectral: {...}` key passed on by main.js.
+- **Lucas 2014 toolbox:** Europe PMC → PMC4699304 (author manuscript); JATS XML lists `NIHMS699742-supplement-Suppl__workbook.xls`. The lab site (lucasgroup.lab.manchester.ac.uk) did not resolve (DNS). The PMC bin URL returned a "Preparing to download …" bot-check page (1,817 B HTML, kept only in the scratchpad), so it was not bypassed; Europe PMC supplementaryFiles returned 296 B XML (no file). **Nothing saved to final/.** Human asked to download it in a browser.
+- **299 Fig. 1 is vector** (no raster on page 3; pdfimages lists images only on pages 1, 5–7). Each LED line is stored as the closed outline of its stroke; the white *P. scintillans* area is one whole polygon under the LED fills (cut only at the baseline). Legend swatches = line colour blended 50/50 with the legend background (fitted alpha 0.500–0.512), which names each line.
+- **Actions:** new script `pipeline/impacts/06_spectra_299.py` (poppler pdftocairo -svg; stdlib only; rules in its docstring: tick fit to printed labels; LED value = midpoint of highest/lowest outline crossing at each whole nm; P. scintillans = top crossing of the white polygon; names from legend). Output `data/derived/impacts/spectra_299.json`. `pipeline/impacts/05_spectra_278.py`: docstring only (output rounding, 5 values of −8e-5 kept unclipped, 641 vs 608 nm peak note, after audit 1); rerun, output byte-identical.
+- **Data (label `inferred`, pending the human's confirmation: the human approved `estimated` digitising, but the values come from vector paths by a deterministic rule as for 278):** red 400–775 nm (376 samples), amber/blue 400–774, warm/cool white 400–775, *P. scintillans* 350–675 (326). Extracted peaks vs documented: red 658 (658.06), amber 613 (613.41), blue 454 (455.31), warm white 618 (616.43), cool white 453 (453.2); peak values 0.998, 0.901, 0.925, 0.148, 0.160; *P. scintillans* peak 575 nm, 0.998. Calibration residuals 0.0045 nm (x), 1.1e-5 (y). Line thickness 0.005 y units (midline uncertainty ≈ ±0.0025). Y axis is "relative intensity"; photon vs energy basis not stated (written in the file). No empty cells.
+- **Audit 1 (278) done** by a separate agent (`claude-sonnet-5-5`): see `audits/impacts_spectra/AUDIT_2026-10-03.md` and its own log entry; all checks PASS except a minor invariant (5 long-λ values −8e-5, noise). §3.2 spot-check list: seed 20261003, N = 20, match rate pending (human).
+- **Audit 2 (299) started:** separate background agent (Sonnet), independent extraction first; writes to `audits/impacts_spectra_299/` and logs itself.
+- **Files changed:** `pipeline/impacts/06_spectra_299.py` (new), `data/derived/impacts/spectra_299.json` (new), `pipeline/impacts/05_spectra_278.py` (docstring), this log.
+
+## 2026-10-03: Impacts spectra audit, step 2. Independent audit of spectra_299.json (RULES 3.1)
+- **Tool / model:** Claude Code (desktop) · `claude-sonnet-5-5` (auditor; builder was `claude-opus-5-5`, so the model differs)
+- **Prompt:** audit prompt from the Impacts task session, step 75 (fresh independent auditor for `data/derived/impacts/spectra_299.json`; own extraction first from the raw PDF page 3 Fig. 1 via `pdftocairo -ps` and poppler + stdlib, before reading the pipeline script; checks on hashes, counts, per-sample differences, colour-to-LED assignment, white polygon completeness, calibration, peaks, JSON invariants, raster cross-check and overlay; 3.2 sample of N = 24 with recorded seed for a human; results under `audits/impacts_spectra_299/`).
+- **Actions:** extracted the five LED curves and the P. scintillans top edge from the PostScript drawing operators with own tick calibration; compared with the pipeline JSON (max abs diff 5e-5 to 1.4e-4 per curve, same sample counts and wavelengths); checked raw hash vs MANIFEST at start and end (identical, data/raw tree metadata unchanged); legend/colour identity, raster cross-check at 600 dpi, overlay render in the scratchpad; read the pipeline script after extracting (implements its docstring, nothing extra); drew the human spot-check sample (seed 20261003, N = 24; match rate pending, human). Result: PASS with notes N1 to N7 (sharp-apex under-read up to 0.007, warm white and blue peaks 1.6 and 1.3 nm from documented, amber/blue end at 774 nm, four `-0.0` values). No data values were produced or changed, so no labels apply.
+- **Files created:** `audits/impacts_spectra_299/AUDIT_2026-10-03.md`, `b00_psparse.py` to `b08_spotcheck_sample.py`, `results/*`. Temp renders only in the session scratchpad. Nothing else changed.
+
+## 2026-10-03: Impacts task, step 76. First build of the spectral chapters (app/src/spectral.js + 7 DRAFT steps); checked in the browser; audit 2 done
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 75) "c, P. scintillans, single line, yes download, layout ok"
+- **Actions:** new `app/src/spectral.js` (plain three.js + OrbitControls from the three package; no new dependency): own canvas over the globe; filled ribbons per lamp (papers' figure colours), P. scintillans curve extruded as a translucent wall, flash sheet at 567.47 nm, melanopsin sheet at ≈480 nm (documented in 278), 24 h clock ring with arcs for the phase delays, HTML labels, one big number. `app/src/main.js`: import, instance, `spectral.set(...)` in applyStage and setMode (4 small edits). `app/src/style.css`: block appended at the end. `app/content/story.js`: 7 DRAFT steps after `light-type` (fireflies-eye, fireflies-lamps, fireflies-bright, mice-lux, mice-melanopic, mice-activity, mice-clock), every number documented with a source line. `pipeline/impacts/06_spectra_299.py`: docstring only (audit 2 notes; output unchanged).
+- **Browser check (port 5175, another chat's server, reached via the pane):** no console errors; left list shows the 7 DRAFT steps; fireflies-eye shows wall + flash + 98.7 %; fireflies-lamps cycles the five lamps (0 % on bright amber seen); fireflies-bright grows the lamps ×10 then 0 % bright amber. Camera framing adjusted twice; the ×10 step still sits low/right under the card. Mice steps not yet screenshotted.
+- **Audit 2 (299) done** by a separate agent (`claude-sonnet-5-5`): `audits/impacts_spectra_299/AUDIT_2026-10-03.md` (own log entry). PASS on all checks; notes: midline reads sharp peak tips slightly low; four −0.0 values in P. scintillans; amber/blue end 774 nm. §3.2 list: seed 20261003, N = 24, match rate pending (human).
+- **Files changed:** `app/src/spectral.js` (new), `app/src/main.js`, `app/src/style.css`, `app/content/story.js`, `pipeline/impacts/06_spectra_299.py` (docstring), this log.
+
+## 2026-10-03: Impacts task, step 77. Human: use Linda's visual approach; only two chapters. Linda's scene code read (read-only); options given (no code changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > OK OK so - I think we should pretty much use what Linda did because these visualizations are 3D abstractions of the data/charts from the paper, but Linda's were much more engaging and interesting and attractive
+  >
+  > also we only need two chapters here not as many as you have.
+- **Human direction:** Linda's look and engagement over the first build; two chapters (one per study), not 7 steps.
+- **Actions (read-only):** the pane could not open Linda's built file (`~/Downloads/philadelphia-cherry-springs-spectral-space 3.html`, file:// refused). Read `~/Downloads/spatial/philadelphia-spectral-space/src/scene/FireflyCommunication.tsx`, `SceneCanvas.tsx`, `behavior/events.ts` (fireflyCommunicationState), greps of `SpectralPoints.tsx`, `behavior/science.ts`.
+- **Facts:** her scenes are additive glowing point clouds (custom GLSL: soft core + halo), background #030508 with fog, faint floor grid, small uppercase axis labels, eased camera presets plus a "flying insect" camera. Firefly scene: male and female particle clusters pulse, a signal travels between them, and replies weaken with `degradation` = progress × `ILLUSTRATIVE_BEHAVIOR_STRENGTH` ("not a measured biological-effect ratio", science.ts). Spectra: point cloud with a "physical" layer and a receptor-weighted ("perception") layer. Stack React/R3F/drei/zustand.
+- **Conflict to resolve (RULES §1):** step 63 decision (narrow rebuild, plain JS + three, no React/R3F) vs "pretty much use what Linda did". Options given in chat; waiting.
+- **Files changed:** this log only.
+
+## 2026-10-03: Colour (CCT) task, step 44. 2025 disagreement diagnosed: non-city frames + white balance; WB correction validated against NEFs (analysis only)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay we need to fix 2025 color now using NEF or whichever method helps us to get it right. Feel free to analyze those other 8 pilot NEFs too.
+- **NEF pilot:** `13_nef_pilot.py analyse --pilot global` rerun on all 16 NEFs → `global_nef_pilot_ratios.csv` (16 rows, label `measured (camera raw, uncalibrated)`). The 6 ISS041 pilot frames are all daytime (flagged), so the pilot's 2015 A/B comparison is void.
+- **Findings (scratchpad analysis, seeds recorded):**
+  - Camera per mission (thumbnail EXIF): 2015 D3S/D4, 2025 D5 (ISS064–070) and Z 9 (ISS070–072).
+  - ISS070's "0.99" (Z 9, n 30) is one 50 mm horizon sequence of lightning in moonlit cloud over south Texas (e.g. ISS070-E-128933), not city lights.
+  - Contact sheet of 30 random 2025 night frames with share ≥ 0.7 (seed 1): ~9 photos of the Moon, ~8 lightning / moonlit cloud, ~10 city frames, 3 unclear. 29 of 30 are ML records.
+  - **Point-like rule (agent, tuned on those 30):** lamp-like pixel (same rule as the grid) whose brightest channel ≥ 2 × its 15×15 box mean. City frame = ≥ 800 point-like lamp pixels AND ≥ 10 % of lamp pixels point-like. On the 30: all 8 clear cities kept; all Moon and lightning frames dropped; 2 horizon city + moonlit-cloud frames dropped.
+  - Checked on fresh samples (seed 7): 30 kept 2025 (~22 clear cities, a few horizon frames with lightning); 30 dropped 2025 with share ≥ 0.3 (Moon, lightning, cloud, station, horizon); 30 dropped 2015 (Moon, aurora / airglow horizons, station interior, a few wide horizon frames with distant cities).
+  - Kept (of night-flag survivors): 2015 2,702 of 10,852; 2025 2,009 of 5,794. Human-catalogued records kept 68–84 %, ML records 14–33 %.
+  - City frames only, uncorrected G/R share: 2015 consistent (EU/US 0.00–0.14, except ISS042 US 0.42, n 16). 2025 still split within one camera (D5 US: ISS067 0.02 n 162 vs ISS066 0.64 n 61). ISS067 conversions mostly crs:Temperature ~5,300 K vs ~3,400–3,500 K.
+  - **City frames only, WB-corrected CCT white share (`global_thumb_cct.csv`, step 32):** 2025 US: ISS065 0.83, ISS066 0.82, ISS067 0.79, ISS069 0.83, ISS072 0.97. 2025 EU: ISS065 0.18, ISS066 0.33, ISS067 0.22, ISS071 0.77 (n 29, 2024), ISS064 0.89 (n 11). 2015: EU 0.04–0.33, US 0.13–0.35; median CCT 1,980–2,520 K. Step 32's "failed" test was contaminated by daytime frames.
+  - **NEF check of the WB correction** (camera matrix via LibRaw, daylight multipliers, XYZ, McCamy CCT, same lamp/Duv rule as 12_thumb_cct; scratch script): on 8 night frames, median CCT NEF vs JPEG-corrected 2064/2037, 2234/3650, 2212/2678, 1949/1987, 2040/2004, 1999/1974, 2510/2543, 2617/2747, 2489/2483, 2520/2643 (ISS030 ×6, ISS066 ×4). White share agrees within ~0.1 except ISS030-E-286611 / -286615 (crs:Temperature 2,850 K): JPEG 0.68 / 0.49 vs NEF 0.21 / 0.19.
+- **Files changed:** `data/derived/colour/global_nef_pilot_ratios.csv` (rerun, 16 rows), this log.
+- **Correction to step 44 (same session):** the NEF check covers 10 night frames, not 8. Median CCT agrees within ~130 K on 8 of 10. ISS030-E-286611 / -286615 (crs:Temperature 2,850 K) are off: JPEG-corrected 3,650 / 2,678 K vs NEF 2,234 / 2,212 K.
+
+## 2026-10-03: Colour (CCT) task, step 45. City-frame flag + WB-corrected share in the grid; rebuilt and rendered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 44, same instruction: "okay we need to fix 2025 color now using NEF or whichever method helps us to get it right. …")
+- **Code:**
+  - `14_frame_flags.py`: new columns `lamp_pixels`, `point_pixels`, `point_frac`, `city_frame`. `exclude` now = twilight_or_day OR bright_frame OR NOT city_frame. Rule constants: POINT_BOX 15, POINT_RATIO 2.0, MIN_POINT_PIXELS 800, MIN_POINT_FRAC 0.10.
+  - `10_white_share_grid.py`: `SHARE_SOURCE` ("cct" for global, "gr" otherwise); the sidecar records `share_source`.
+- **Runs:**
+  - `14_frame_flags.py --pilot global` (3 min 34 s): 4,705 city_frame of 26,356; 21,663 exclude. Point counts identical to the step-44 scratch run (16,646 photos).
+  - `10_white_share_grid.py --pilot global` (2 min 3 s):
+    - 2015: 2,683 photos, fallback share 0.1844, grey 203, 17,683 cells > 0.5.
+    - 2025: 1,999 photos, fallback 0.8480, grey 68, 10,278 cells > 0.5.
+    - `global_thumb_shares.csv` rewritten byte-identical.
+- **Labels:** flags `inferred`; share `estimated` (now the CCT white share, `12_thumb_cct.py`); thresholds / coverage `inferred`.
+- **Render:** localhost:5173 (other session's server), no console errors. 2015 Europe orange; 2025 Europe / Middle East mostly white. Mean coverage 2025: Europe 0.15, US 0.11, India 0.03, E China 0.20. Most cells show the global fallback.
+- **Files changed:** `pipeline/colour/14_frame_flags.py`, `pipeline/colour/10_white_share_grid.py`, `data/derived/colour/global_frame_flags.csv`, `global_white_share_grid.png`, `global_white_share_grid.json`, `global_thumb_shares.csv` (same bytes), `pipeline/colour/METHOD.md`, this log.
+- **Suggestions (not done):** regional instead of global fallback; more thumbnails per cell to restore coverage; NEF checks for D4 / Z 9 / ~5,300 K conversions.
+
+## 2026-10-03: Colour (CCT) task, step 46. Handoff updated (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 45)
+- **Files changed:** `handoffs/2026-10-03_colour-night-only-grid.md` (appended "Update … 2025 fix"), this log.
+
+## 2026-10-03: Impacts task, step 78. Human: option A (Linda's look, plain JS), beats loop, perception layer; perception data (new inferred file); Lucas 2014 toolbox into raw; spectral view rebuilt as two chapters; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > A, a, yes to perception layer
+  >
+  > Do not port all of the labels over from Linda's - I remember it being too label heavy. Try to keep this as simple as the rest of our data renderings. We need to focus on clarity of story as we move through this ....
+  >
+  > For open items:
+  >
+  > I need to download that? send me link pls.
+  > that's good - i'm happy about that vector reading.
+  > We won't email Owens and Lewis. Don't have time. Need to accept what we have and work with it.
+  - follow-up (verbatim): "supplementary data downloaded"
+- **Human decisions:** option A (Linda's visual approach rebuilt in plain JS/three, no React/R3F); each chapter's beats loop automatically; perception layer = lamp × sensitivity, label `inferred`; few labels, simple as the other renderings, clarity of story first; 299 Fig. 1 vector reading confirmed as `inferred`; no email to the authors (work with what we have).
+- **Perception data:** new `pipeline/impacts/07_perception_299.py` → `data/derived/impacts/perception_299.json`, label `inferred` (rule: LED value × P. scintillans sensitivity at each whole nm). **Empty cells:** 99–100 per lamp (676–775 nm), null because Fig. 1 plots the sensitivity only from 350 to 675 nm (unknown, not zero). Weighted peaks: amber 0.339 (610 nm), blue 0.122 (452), cool white 0.117 (575), warm white 0.115 (581), red 0.040 (653). Not yet audited (§3.1).
+- **Lucas et al. 2014 supplement (human downloaded from PMC):** copied (cp -p, chmod a-w) to `data/raw/impacts/mice/Lucas_2014_TrendsNeurosci_toolbox_workbook.xls` (268,800 B) and `…_toolbox_suppl_text.pdf` (947,571 B); 2 MANIFEST rows (16 rows × 12 cols). Licence: PMC "text mining / fair use", no CC licence. Not git-ignored (human to decide). **Not read yet:** binary .xls (BIFF), and no reader is installed (no xlrd, no LibreOffice).
+- **App:** `app/src/spectral.js` rewritten: glowing additive points (shader adapted from Linda's FireflyCommunication.tsx, credited in the header), dark fog, faint floor lines, slow camera sway, labels = 4 wavelength ticks, the lit lamp's name, ♂/♀, one number. Fireflies: five lamp rows, eye canopy (P. scintillans), flash column 567.47 nm, firefly-weighted layer (green) per lamp, male/female dialogue where the female answers on the documented share of cycles (frac(c × 0.618) < rate), amber grows ×10 last. Mice: two 278 rows, melanopsin column ≈480 nm, 24 h ring with arcs −117 / −26 min. `app/content/story.js`: the 7 steps from step 76 replaced by 2 DRAFT steps (`fireflies`, `mice`) with looping beats and sources. `app/src/style.css`: spectral label rules trimmed (.wall/.flash/.dim removed, .sym added).
+- **Browser check (port 5175, another chat's server):** no console errors; left list shows "[DRAFT] Fireflies", "[DRAFT] Mice" after "Light type" (16 steps); fireflies beats seen: 98.7 % dark, 10.3 % cool white, 11.6 % warm white, 36.1 % blue, 0 % bright amber with the ×10 growth; mice beats seen: 15 vs 1, 51 % vs 14 %, −117 vs −26 min with the ring. Notes: the pane throttles animation while hidden; the scene reads faint overall (brightness not tuned further).
+- **Files changed:** `pipeline/impacts/07_perception_299.py` (new), `data/derived/impacts/perception_299.json` (new), `data/raw/impacts/mice/` (2 files), `data/raw/impacts/MANIFEST.csv` (2 rows), `app/src/spectral.js`, `app/content/story.js`, `app/src/style.css`, this log.
+
+## 2026-10-03: Impacts task, step 79. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 78) "supplementary data downloaded"
+- **Actions:** wrote `handoffs/2026-10-03_spectral-chapters-build.md` (RULES §5: build stage done; long session).
+- **Files changed:** `handoffs/2026-10-03_spectral-chapters-build.md` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 47. Regional fallback added to the grid; rebuilt and rendered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > regional fallback, then render again. 2025 too white globally
+- **Code:** `10_white_share_grid.py`:
+  - `photo_grid` takes step / sigma / cut as arguments.
+  - New `REGIONAL` (global only), `REGION_STEP_DEG` 1.0, `REGION_SIGMA_DEG` 5.0, `REGION_CUT_SIGMA` 3 (agent choice). Local and regional shares are blended by coverage (formula in METHOD.md); the written coverage is the combined value.
+  - Docstring and sidecar params updated.
+- **Run** (`--pilot global`, 1 min 53 s): fallbacks unchanged (2015 0.1844 / 203, 2025 0.8480 / 68). Cells > 0.5 coverage: 2015 143,406, 2025 128,834. Mean coverage 2025: Europe 0.88, US 0.78, India 0.67, E China 0.97, Africa 0.28.
+- **Render:** localhost:5173, no console errors. 2025 Europe now a mix of orange and white (was near-uniform white). Middle East / Nile mostly white.
+- **Labels:** share `estimated`; coverage / thresholds `inferred`.
+- **Files changed:** `pipeline/colour/10_white_share_grid.py`, `data/derived/colour/global_white_share_grid.png`, `.json`, `global_thumb_shares.csv` (rewritten by the run), `pipeline/colour/METHOD.md`, this log. Step-45 grid copied to the session scratchpad only.
+
+## 2026-10-03: Impacts task, step 80. xlrd installed (human approved); Lucas 2014 workbook read: human curves only, no mouse curve (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > a, install xlrd
+- **Human decision:** install xlrd to read the Lucas .xls.
+- **Actions:** `final/.venv/bin/python -m pip install "xlrd==2.0.1"` (installed; final/ has no requirements file, so recorded here). Read `data/raw/impacts/mice/Lucas_2014_TrendsNeurosci_toolbox_workbook.xls` (read-only): sheets Toolbox (413 × 35), Conversions (102 × 25), Reference (93 × 34).
+- **Facts (documented, workbook):** Reference sheet title "Reference functions - human"; columns erythropic Nlc, chloropic Nmc, rhodopic Nr, melanopic Nz, cyanopic Nsc, photopic V(λ), 380–780 nm at 5 nm; pre-receptoral (lens) filtering included, "lens data from Pokorny and Smith (1997)", age 32, pupil undilated; Toolbox sheet: "Human retinal photopigment complement". **No mouse/rodent curve in this file.** The separate Lucas "rodent toolbox" was not found (lab site DNS failure, step 75). Study 278's melanopic values (15 vs 1 mel lx) were computed with the CIE S 026 toolbox (human), per its Methods.
+- Options given in chat; waiting.
+- **Files changed:** `final/.venv` (xlrd 2.0.1), this log.
+
+## 2026-10-03: Colour (CCT) task, step 48. Facts on the 2025 global fallback; handoff update 3; next-session prompt (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > generate next session prompt, where I want to propose a different 2025 global fallback value which isn't as white as it currently is - do we have any good reason to presume the globe is this white? it seems ABSURD
+- **Actions:**
+  - Counted kept photos and median white share by region and epoch (read-only, agent's lat/lon boxes). Table in the handoff, update 3.
+  - Wrote the next-session prompt in chat.
+- **Files changed:** `handoffs/2026-10-03_colour-night-only-grid.md` (update 3), this log.
+
+## 2026-10-03: Impacts task, step 81. Session closed; handoff addendum; git state checked read-only; push prompt written for a fresh session (no code, no data changed, nothing committed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think we need to start a new session. I think I'm wrapped up for the evening, so while I wait for the colour night grid 2025 agent to help fix the mess that's been created with 2025 light temperature/color, let's generate a prompt to push everything to github so Linda can work in the morning.
+- **Actions (read-only git):** repo root is `~/Desktop/ALAN` (branch main, origin github.com/alexbohlin2010/ALAN); all of `final/` is untracked. Not ignored and present: `final/data/raw/colour/` (27,832 files, incl. EOL query HTML files of 52–230 MB, above GitHub's 100 MB limit), 278 PDFs/XML and Lucas files (licences in MANIFEST). Ignored: `data/derived/` (tiles, JSON the app needs), `data/raw/radiance/eog/`, publisher PDFs. Handoff addendum (step 80 options). Push prompt given in chat; nothing committed or pushed.
+- **Files changed:** `handoffs/2026-10-03_spectral-chapters-build.md` (addendum), this log.
+
+## 2026-10-03: Colour (CCT) task, step 49. 2025 fallback: facts (photos by country, where the fallback paints), quick source lookups, options (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md and follow it all session. Then read handoffs/2026-10-03_colour-night-only-grid.md, including Updates 1–3 at the end, and pipeline/colour/METHOD.md sections "2025 fix: city frames only + white-balance-corrected share" and "Regional fallback". Skim AI_LOG.md colour steps 44–48 only if you need detail.
+  >
+  > Goal: replace the 2025 global fallback white share (currently 0.848, grey 68) with a less white, defensible value, then rebuild the grid and re-render. Values may be `estimated`. No legend. Keep the VIIRS caveat in the docs.
+  >
+  > My view: a globe that is 85% white light in 2025 seems absurd. The current value is a plain median over the 1,999 kept 2025 photos, not weighted by region, area or population, and the photos are dominated by East Asia (0.98) and the Middle East. The fallback only applies where neither local nor regional photos reach (much of Africa, Central Asia).
+  >
+  > What I want from you first (do not change code or data yet):
+  > 1. Facts:
+  >    - What do the 2025 "Africa / Middle East" photos actually show (Gulf cities vs sub-Saharan Africa)?
+  >    - Which regions does the global fallback actually paint? Give lit-pixel share by region where the combined coverage is < 0.5.
+  > 2. Sources: look for documented national/regional LED (or white-light) streetlight shares around 2020–2025, especially for regions that get the fallback (sub-Saharan Africa, Central Asia, South America). Ask me before any web search beyond quick lookups. Cite everything; leave gaps empty and say what was searched.
+  > 3. Options for the 2025 fallback, each with method, the resulting share and grey threshold, and trade-offs. Examples to consider, not a preference: a region-balanced median (median of regional medians); a lit-pixel-weighted share; a documented-anchor value; scaling the 2015 fallback by a documented change. Keep it short, then wait for my choice.
+  >
+  > Also flag, without acting: whether the 2015 fallback (0.184) has the same problem.
+  >
+  > Rules to keep: raw data read-only; every transformation is a script in the repo; every estimate documented with label and citation; ask before any download (name, source, size), new dependency or new file layout; never commit/push/delete without my request.
+  >
+  > Concurrency: other sessions may be editing app/src/main.js, story.js, style.css, impacts.js, app/vite.config.js and AI_LOG.md. Re-read a file right before editing it and keep edits small and targeted. Append to AI_LOG.md only with a single shell append (cat >> AI_LOG.md <<'EOF' … EOF); never rewrite it. Don't edit main.js/story.js/style.css without asking. The dev server on port 5173 may belong to another session; open the URL rather than restarting it. Log every step in AI_LOG.md with my exact prompt. Write a handoff when done or at ~30% context.
+- **Actions (read-only; scratch scripts in the session scratchpad, not in the repo; nothing in final/ changed except this log):**
+  - Country of each kept photo (record lat/lon) from Natural Earth admin-0 (raw, read in place), UN subregion; sub-Saharan = Africa minus Northern Africa.
+  - VIIRS lights near each photo's record point: pixels > 5 nW within ±0.25° in the epoch's COG.
+  - Lit pixels (radiance > 0) per country, in 0.25° cells with combined coverage < 0.5 (PNG B/A), including pixels outside the grid box (lat > 60°; coverage 0 in the shader).
+  - Candidate fallback shares and grey thresholds with the same rule as `10_white_share_grid.py` step 4 (current value reproduced: 0.848 / 68).
+- **Facts (2025, kept photos):**
+  - 541 of 1,999 have their record point over sea (median 0.97), 529 of them ML records.
+  - 682 of 1,999 have < 20 VIIRS pixels > 5 nW within ±0.25° of the record point (median 0.96, vs 0.75 for the rest). ML points may be the nadir, so this does not prove the frame shows no city.
+  - Sub-Saharan Africa: 67 photos; 47 with no city lights at the record point. Mostly two ML runs: ISS065-E-4370xx (DRC/Zambia, 0.73–0.97) and ISS071-E-1687xx–1688xx (Botswana/Zimbabwe/Limpopo, 0.98–1.00). Only 6 are over Johannesburg/Pretoria (0.72–0.95).
+  - Western Asia 232 (median 0.76): Saudi Arabia 92 (0.88), Turkey 41 (0.53), Syria 32 (1.00), UAE 18 (0.45), Oman 11 (0.50), Israel 11 (0.96), Iraq 10 (0.98), Qatar 4 (0.49), Kuwait 1 (0.11). Northern Africa 62 (0.94): Egypt 28, Sudan 18, Algeria 14.
+- **Facts (where the fallback paints, lit pixels in cells with coverage < 0.5):** 2025: 16.4 % of all lit pixels. Of these: South America 46.9 % (Brazil 25.1, Argentina 6.4, Venezuela 2.8, Chile 2.7, Peru 2.5, Colombia 2.2, Paraguay 1.8), Eastern Europe 14.8 % (Russia), sub-Saharan Africa 9.5 %, Northern Europe 5.9 % (Finland etc., > 60° N), Australia 3.0 %. Central Asia < 0.5 %. 2015: 7.8 %; South America 38.5 %, sub-Saharan Africa 20.3 %, Northern Europe 10.3 %, Russia 10.2 %.
+- **Quick source lookups** (3 web searches, 3 page fetches):
+  - Grupo Distriluz (Peru, 4 utilities, ~810k public luminaires): 37 % LED, energiminas.com, 2025-03-19 (`documented`, one utility group, not national).
+  - Signify / Sparks Electrical News 2018-09-14: "transformation" in Africa at 60–70 %, North Africa ~90 %. Basis not stated (sales vs installed base); not usable as an installed share.
+  - A search snippet "South America LED penetration below 5 %" could not be traced to a source; not used.
+  - No national or regional installed-base share found for Brazil, Russia, Argentina, sub-Saharan Africa or Central Asia (gap).
+- **Options (2025 share / grey):** current 0.848 / 68; region-balanced median 0.870 / 63; lit-pixel-weighted subregion medians 0.774 / 84; city-lights-at-record-point photos only 0.753 / 88; both 0.814 / 75; documented-anchor examples 0.37 / 167, 0.50 / 140. 2015 for comparison: 0.184 / 203; 0.192 / 201; 0.216 / 193; 0.147 / 214.
+- **Labels:** none written (analysis only). Gaps: as above.
+- **Files changed:** this log.
+
+## 2026-10-03: Push task, step 1. Read-only checks started; another agent found active; stopped on "wait" (nothing changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root is ~/Desktop/ALAN, branch main, remote origin = github.com/alexbohlin2010/ALAN; earlier work was merged via pull requests from branches). Read RULES.md first and follow it for the whole session. Then read the latest handoffs (handoffs/2026-10-03_spectral-chapters-build.md incl. addendum, and the newest colour handoff) and the last entries of AI_LOG.md.
+  >
+  > Task: get final/ onto GitHub so Linda can work in the morning. I'm giving you the go-ahead to create a branch, commit, push and open a PR, but only after I approve the plan in step 2. Do not merge.
+  >
+  > 1. Check first (read-only):
+  >    - Is another agent (the colour / night-grid 2025 session) still writing in final/? Check for running processes and recently modified files (pipeline/colour/, data/raw/colour/, data/derived/colour/, app/). If it is, tell me and wait. Don't commit half-written work.
+  >    - Everything in final/ is currently untracked. List what a commit would include under the current .gitignore: file count and size per top-level folder, and every file over 50 MB. GitHub rejects files over 100 MB; data/raw/colour/eol/queries/ has HTML files of 52–230 MB and data/raw/colour/ has ~27,800 files.
+  >    - Licences: check data/raw/impacts/MANIFEST.csv and the colour MANIFEST for files that are not open-licensed but not yet ignored (e.g. study 278 PDFs/XML = CC BY-NC-ND; Lucas 2014 toolbox files = PMC fair use).
+  >    - data/derived/ is git-ignored, so Linda would get no tiles or derived JSON and the app won't run from the repo alone. Say what she would need and how big it is.
+  > 2. Give me a short plan with options and trade-offs, then stop for my choice. Cover: what goes in vs .gitignore (raw colour downloads, large query HTML, the licensed files), whether derived data/tiles are shared another way (e.g. a zip handed over separately, a GitHub release, Git LFS; ask before any new tool), the branch name, and a one-paragraph PR description that points Linda to RULES.md, the handoffs and AI_LOG.md. Also note that xlrd 2.0.1 was installed in final/.venv but isn't in pipeline/requirements.txt.
+  > 3. After my OK: make only the .gitignore changes I approve, create the branch, commit (message ends with the attribution line), push, open the PR and give me the link. Never force-push. Never rewrite history. Don't commit anything from .venv/, node_modules/ or data/derived/ unless I say so.
+  >
+  > Do NOT modify data/raw/ (read-only). Do NOT read-modify-write AI_LOG.md: append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt. Do not delete or install anything without my go-ahead.
+  - follow-up (verbatim): "wait"
+- **Actions (read-only):** read RULES.md, `handoffs/2026-10-03_spectral-chapters-build.md` (incl. addendum), `handoffs/2026-10-03_colour-night-only-grid.md`, AI_LOG tail; git state (main, 5 commits, `final/` untracked). At 23:28: a Python process `fallback_facts.py cov cov.json` had just started (likely the colour session); files modified in the last 30 min include `pipeline/colour/METHOD.md`, `10_white_share_grid.py`, `14_frame_flags.py`, `data/derived/colour/global_white_share_grid.*`, `app/src/*`. Vite servers on 5173 and 5175. Reported to the human; size / licence / derived checks not done yet. Stopped on "wait".
+- **Files changed:** this log.
+
+## 2026-10-03: Push task, step 2. Glow-worms step removed; Impacts colour/filter bar no longer stays on Light steps
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > before we start, I want to wrap a few final things - small edits.
+  >
+  > We can remove the "Glow worms" chapter in my opinion, it doesn't add much.
+  >
+  > Another matter - after going to the effects chapters, and rendering the filter toggles, the filter toggles stay engaged even if I go back to the light chapters ... we need some way to unrender those filter toggles if not in those views ...
+- **Human decision:** remove the Glow-worms story step.
+- **Cause of the toggle bug:** `impacts.hide()` hides the bar and resets `browse = true`, but a draw frame already queued by `requestAnimationFrame` then ran `draw()`, which shows the bar whenever `browse` is true and the chart is off.
+- **Code:**
+  - `app/content/story.js`: step `glow-worms` (study 165, Stewart et al. 2020) removed. No other references to it in `src/` or `content/`. Data unchanged.
+  - `app/src/impacts.js` `loop()`: returns without drawing when the layer is hidden (`if (!shown) { frame = 0; return; }`).
+- **Browser check (localhost:5173, the existing server):** step list now 15 steps (no Glow-worms). Bar visible on Species groups and Explore all studies; hidden after going to India, Statistic, and [DRAFT] Fireflies. No console errors.
+- **Files changed:** `app/content/story.js`, `app/src/impacts.js`, this log.
+
+## 2026-10-03: Colour (CCT) task, step 50. Larger source search started (subagent); raw 2025 "white" thumbnails shown to the human (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > yes, do the larger source search first, also please show me some of these photos which apparently show 'white' I 'd like to see the raw data
+- **Actions:**
+  - Source search: background subagent (web search + page reading only, no downloads); results to be logged in the next step.
+  - Contact sheet: 48 kept 2025 photos, random picks per group (seed 20261003): sub-Saharan ISS065-E-4370xx run, ISS071-E-1687xx–1688xx run, sea record points with share ≥ 0.9, land without nearby VIIRS lights with share ≥ 0.9, Syria, and two comparison groups (city lights nearby, share ≥ 0.9 / ≤ 0.3). HTML in the session scratchpad only; images are the raw thumbnails in `data/raw/colour/eol/small/` (read only). 7 raw thumbnails sent to the human.
+- **Agent observations (by eye, 8 frames; not a validated check):**
+  - ISS065-E-437041 (record point DRC/Zambia): wide horizon frame with stars, green airglow, small orange towns, one lightning flash. G/R share 0.15, CCT share 0.88 (11,054 lamp pixels, median 3,170 K). Hypothesis, not tested: the CCT lamp-pixel mask counts stars / airglow / horizon glow, and stars pass the point-like city-frame rule.
+  - ISS071-E-168735 (record point Zimbabwe): oblique frame, a large white-lit city towards the horizon plus blue lightning.
+  - ISS071-E-611238 (record point Syria): Nile delta and Cairo seen obliquely, with station structure in frame. The 32 "Syria" photos (ISS071-E-6112xx) look like this run.
+  - ISS071-E-663867: wide oblique, visibly mixed orange and blue-white lights, station in frame; CCT share 0.94, G/R share 0.75.
+  - ISS064-E-23814 (Tokyo Bay, record point at sea): G/R share 0.17, CCT share 0.97.
+  - ISS067-E-177501 (Barcelona): orange; CCT share 0.15, G/R share 0.01.
+- **Files changed:** this log.
+
+## 2026-10-03: Push task, step 3. Draft chapters reviewed in the browser; options for the mice chapter given in chat (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > OKay before we do final checks, what do you think of the two draft chapters? How can we make them more narratively powerful? I think the fireflies bit visually is clear by the time we get to the end of it, and I like that. The mouse one is not clear to me as a viewer
+- **Actions:** read the `fireflies` / `mice` steps in `app/content/story.js`; watched the 4 mice beats at localhost:5173 (screenshots). Observed: the scene does not change between beats 1–3 (only the headline number); the melanopsin line at 480 nm is barely visible; no animal or behaviour is shown; the clock arcs are small and unlabelled; the headline "15 vs 1" etc. does not say which lamp is which, except by word order. Structural options (no wording) given in chat; the human decides.
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 51. Test: are stars, airglow and other non-lamp light counted as lamp pixels? (analysis only, no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > test whether stars and airglow are counted as lamp pixels
+- **Method (scratch scripts in the session scratchpad, read-only):** per-pixel re-run of the `12_thumb_cct.py` lamp mask (brightness, CCT 1,500–10,000 K, |Duv| ≤ 0.02, white ≥ 2,700 K) and the `14_frame_flags.py` point-like rule; overlays (lamp pixels coloured white / 2,500–2,700 K / sodium). Per-photo shares reproduce `global_thumb_cct.csv` exactly (5 photos). Then 24 random kept 2025 photos (seed 20261003), classified by eye (agent).
+- **Results:**
+  - **Yes, airglow and the bright Earth limb pass the lamp mask and are counted as white** (≥ 2,700 K, near the Planckian locus). Seen in 6 of 24 random frames (ISS072-E-144994, ISS072-E-144841, ISS065-E-436628, ISS071-E-667571, ISS067-E-299099, ISS072-E-480868) and in ISS065-E-437041, ISS071-E-611238.
+  - **Stars pass too** where the frame shows a star field: ISS065-E-437041, 78 % of its lamp pixels lie above the horizon (white 0.99); 1,193 of its 1,949 point-like pixels are stars. Without them it has 756 point-like pixels and would fail the city-frame rule (≥ 800). In the 24 random frames stars were a minor part.
+  - **Also counted:** lit station hardware / solar panels (ISS064-E-36035, ISS071-E-659593, ISS065-E-436628); lightning and cloud-diffused light (ISS072-E-144994, ISS066-E-70819, ISS071-E-170331).
+  - **The size and direction of the effect vary.** Share with all lamp pixels → only pixels below a horizon row set by eye: ISS065-E-437041 0.88 → 0.51; ISS065-E-436628 0.63 → 0.52; ISS072-E-144994 0.93 → 0.91; ISS072-E-144841 0.89 → 0.98 (its sky band was less white than its lights).
+  - About 9–10 of the 24 random frames had visible non-lamp light in the mask. The rest were city frames.
+  - Not tested: whether the white CCT of city lights is right. Several frames with visibly orange-ish or mixed lights are mostly ≥ 2,700 K in the overlay (e.g. ISS064-E-21869, ISS071-E-663867).
+- **Files changed:** this log.
+
+## 2026-10-03: Push task, step 4. Linda's body-clock example located (read-only; no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think Linda also had a body clock example in her visualization right?
+- **Actions (read-only):** found Linda's body-clock work: `Linda/analysis/body_clocks/` (METHOD.md, `prepare_body_clocks.py`, `build_body_scene_asset.py`), outputs in `Linda/processed/body_clocks/`, rendered as "Step 09 · body clocks" in `Alexander/globe_v2/body.html` (in git since commit db976a972, "Integrate multiscale ALAN visualization"). Source: Hui, Zhang & Ouyang 2025, Proc. R. Soc. B, doi 10.1098/rspb.2025.0724, zebra finches, Social Control (SLD) vs Social ALAN (SA); cage-level perch activity per minute, clock genes (bmal1, cry1, per2, per3) in hypothalamus and liver at ZT1/7/13/19, melatonin (units not stated, 0–1 scaled). Summary values in `body_summary.json` (e.g. night activity 0.011 vs 0.445 hops/min; day-9 onset +7 vs −43.5 min from lights on). Not checked: whether this study is among the 314 Czarnecka studies (no match for "Hui" / rspb.2025.0724 in `data/raw/impacts/*.csv`); ALAN lamp spectrum / lux not found in Linda's METHOD or DATA_QUALITY files.
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 52. Larger source search: results (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (subagent, general-purpose, web search + page reading; no downloads, no files written)
+- **Prompt (verbatim):** (from step 50) "yes, do the larger source search first, also please show me some of these photos which apparently show 'white' I 'd like to see the raw data"
+- **Documented installed-base LED shares found (street lighting; `documented` if used; not yet used anywhere):**
+  - World < 15 %, South America < 5 % (about 2019–20); UNEP-DTU C2E2, "Argentinian cities shift to efficient street lighting", Jan 2021: https://c2e2.unepccc.org/wp-content/uploads/sites/3/2021/01/argentinian-cities-shift-to-efficient-street-lighting-an-innovative-business-model-and-international-assistance-to-replicate-success.pdf
+  - Brazil national 19.6 % LED, 59 % sodium (2024; ABCIP census, via Poder360 2024-09-11). NOT verified on the page (403; census PDF too large to fetch): https://www.poder360.com.br/poder-energia/80-da-iluminacao-publica-precisa-de-modernizacao-diz-entidade/
+  - São Paulo 90 % (Dec 2021, Prefeitura SP); Buenos Aires 100 % (2019, GCBA); Neuquén ~88 % (end 2024); Bogotá ~56 % LED + > 106k ceramic metal halide of ~361k (May 2022, Alcaldía); Moscow ~50 % (Mar 2023, mos.ru).
+  - Australia ~57 % (IPWEA estimate cited by AEMC, ~2022–23). NOT verified (403).
+  - Finland: Varsinais-Suomi state roads ~60 %, Satakunta > 45 % (2024, ELY Centre); Espoo 56 % (end 2024). Norway: Vestland county roads 15 % (2022).
+  - South Africa 5 % (2015, industry estimate). Peru: Grupo Distriluz 37 % (2025, step 49).
+- **Not found (queries in the subagent report, summarised):** national figures for Russia, Argentina, Chile, Colombia, Venezuela, Peru, Paraguay, Sweden, Norway, Finland, Kazakhstan, Uzbekistan; any sub-Saharan Africa figure after 2015 (Nigeria, Kenya, Ghana, Ethiopia, Tanzania, Ivory Coast); any IEA / World Bank / C40 global installed share. Targets only: Russia domestic-LED procurement rule (2016), Almaty "quality lighting" 85 % (2024). Unverified snippets: Distrito Federal (BR) 46 % (Jan 2025).
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 53. Fast-fix options given; size of the Brazil census PDF checked (HEAD request only) (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > now what do we do? I'm glad that LED search is back and the data looks helpful. Can we use to fix this mess fast?
+- **Actions:** HEAD request: https://static.poder360.com.br/2024/09/Censo-Iluminacao-Publica-Brasil.pdf → 200, application/pdf, 12,239,086 bytes (not downloaded). Options given in chat; waiting for the human's choice.
+- **Files changed:** this log.
+
+## 2026-10-03: Push task, step 5. Mice chapter rebuilt with 24-hour activity dials (visual idea after Linda's body-clock scene, 278 numbers)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > option 1, use her visual idea with the mice numbers
+- **Human decision:** option 1, Linda's body-clock visual idea (activity as moving particles over a day/night cycle) with study 278's numbers. Mice stays the lamp-colour chapter.
+- **Facts read (raw, read-only):** `data/raw/impacts/mice/Wang_2022_NeurobiolDis_study278_PMC10594349.xml` Methods: 12:12 light:dark, 300 lx day / 0 lx night, ZT 0 = lights on, ZT 12 = lights off; masking: 1 h of light at ZT 14, compared with ZT 14–15 the day before; phase shift: constant darkness, 15 min of 10 lx at CT 16 (onset = CT 12).
+- **Correction:** the old ring drew the −117 / −26 min shifts anticlockwise ("earlier"). The paper's values are phase **delays** (activity starts later). The new dials move the active band later (clockwise).
+- **Code:**
+  - `app/src/spectral.js`: `clockRing` replaced by `mouseDial`: one dial per lamp (outer blue-rich r 1.35, inner long-wavelength r 0.95), ZT 0 at top, clockwise; day half warm dots, night half cool; 900 particles move through the 12 night hours (even density = display choice, not data); inside a lit window a `supp` share of particles is removed; the band start moves later by `shift` minutes. Beats: lux (both lamps, no light) → blue-rich lamp, window ZT 14–15, supp 0.51 → long-wavelength, supp 0.14 → clock: pulse window 16–16.25 on both dials (CT, drawn on the same dial), shifts 117 / 26 min. Headline numbers coloured by lamp (`colours` key). "day" / "night" tags. Credit to Linda's scene in the file header. Agent choices (not data): dial radii, particle count, speed, colours, positions, camera view.
+  - `app/content/story.js` mice step: DRAFT text describes the dials; source `supports` adds the 12:12 schedule; beats now `−51 %` (1 h blue-rich, 15 melanopic lux), `−14 %` (1 h long-wavelength, 1 melanopic lux), `117 vs 26 min` (later start after a 15 min pulse); the separate "15 vs 1" beat folded into the lamp beats. All DRAFT.
+- **Labels:** values shown are `documented` (278 text); positions on the dial `inferred` (rule: hour → angle, minutes → angle); particle density is a display choice.
+- **Browser check (localhost:5173):** all 4 beats seen in screenshots; no new console errors (one stale error from a hot-reload between edits). Weak points seen: the −51 % gap in the 1 h window is small at this size; the day half is faint.
+- **Files changed:** `app/src/spectral.js`, `app/content/story.js`, this log.
+
+## 2026-10-03: Colour (CCT) task, step 54. Brazil census downloaded (human approved); 2025 fallback set to 0.410 (documented Brazil not-sodium share); grid rebuilt and rendered
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > option 1, download the PDF, pixel fix next session
+- **Human decisions:**
+  - 2025 fallback = option 1 (Brazil, 1 − sodium share).
+  - Download the census PDF.
+  - Pixel-mask fix in the next session.
+- **Download:** `data/raw/colour/Censo-Iluminacao-Publica-Brasil.pdf`.
+  - From https://static.poder360.com.br/2024/09/Censo-Iluminacao-Publica-Brasil.pdf by curl, 12,239,086 bytes, sha256 f30c1110…99088, 2026-10-04T03:41:31Z.
+  - New `data/raw/colour/MANIFEST.csv` (one row, same columns as `data/raw/boundaries/MANIFEST.csv`).
+- **Verified in the PDF** (pdftotext, read-only): Table 9 "Pontos de iluminação pública por tipo de lâmpada", base ANEEL 2023, published September 2024.
+  - 19,362,437 points: LED 19.6 %, mercury vapour 9.2 %, sodium vapour 59.0 %, others 12.2 % (metal halide 7.2, fluorescent induction 1.1, CFL 0.5, mixed 0.6, incandescent 0.5, other 2.3).
+  - Ornamental lighting is excluded.
+- **Code:** `pipeline/colour/10_white_share_grid.py`:
+  - New `FALLBACK_SHARE` {global: {2025: 0.410}} and `FALLBACK_SOURCE`.
+  - The fallback uses it where set, otherwise the photo median.
+  - Sidecar gains `fallback_source` and `photo_share_median`; docstring step 4 updated; print line relabelled.
+- **Run** (`--pilot global`, 1 min 55 s):
+  - 2015 unchanged (0.1844 / 203).
+  - 2025 fallback 0.410 / grey 159 (photo median 0.848, was the fallback, grey 68).
+  - The PNG is byte-identical to before (checked with cmp); the sidecar JSON differs only in the 2025 fallback fields and the two new fields. `global_thumb_shares.csv` was rewritten by the run as before.
+  - The step-47 sidecar and PNG were copied to the session scratchpad only.
+- **Render** (localhost:5173, another session's server, not restarted):
+  - The app serves the new sidecar (fallback 0.41 / 159). No console errors.
+  - 2025 South America: mostly orange, with white in the brightest lights.
+- **Labels:** Brazil shares `documented` (ABCIP/ANEEL); 2025 fallback white share `estimated` (one country's value applied to all fallback regions, human request); grey threshold `inferred`.
+- **Empty / gaps:** no national installed-base share for Russia, sub-Saharan Africa (after 2015) or Central Asia (step 52).
+- **Docs:** METHOD.md, new section "Documented 2025 fallback" (VIIRS caveat kept).
+- **Files changed:**
+  - `pipeline/colour/10_white_share_grid.py`
+  - `pipeline/colour/METHOD.md`
+  - `data/derived/colour/global_white_share_grid.json`, `global_thumb_shares.csv` (rewritten, unchanged content expected)
+  - `data/raw/colour/Censo-Iluminacao-Publica-Brasil.pdf` (new, raw)
+  - `data/raw/colour/MANIFEST.csv` (new)
+  - this log
+- **Not done:** audits (RULES §3); nothing committed or deleted.
+
+## 2026-10-03: Colour (CCT) task, step 55. Handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 54: "option 1, download the PDF, pixel fix next session")
+- **Files changed:** `handoffs/2026-10-03_colour-fallback-documented.md` (new), this log.
+
+## 2026-10-03: Colour (CCT) task, step 56. Human: "looks pretty white still no?" Drawn-white share per region measured (analysis only, no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > looks pretty white still no?
+  (with two screenshots: Europe / Middle East, 2015 and 2025 sides of the swipe)
+- **Method (scratch script `drawn_white.py`, session scratchpad, read-only):**
+  - Per 0.25° cell, the threshold as in the shader: mix(fallback, cell threshold, coverage).
+  - Share of lit pixels with grey above it, from the per-cell grey histograms (`10_white_share_grid.grey_hist`), ignoring the ±8 blend.
+  - Summed by Natural Earth country / UN subregion (cell centre, all-touched).
+- **Results (share of lit pixels drawn white, 2015 → 2025):**
+  - Europe: UK 0.05 → 0.62, Italy 0.10 → 0.62, Germany 0.10 → 0.51, Poland 0.07 → 0.55, Spain 0.06 → 0.22, France 0.10 → 0.22, Sweden 0.07 → 0.56.
+  - Middle East / Africa: Turkey 0.19 → 0.66, Egypt 0.17 → 0.91, Saudi Arabia 0.20 → 0.76, South Africa 0.09 → 0.98.
+  - Elsewhere: US 0.20 → 0.80, India 0.32 → 0.98, China 0.24 → 0.81, Russia 0.33 → 0.64, Brazil 0.14 → 0.35, Japan 0.81 → 0.99.
+  - These regions are covered by local/regional photo shares, not the fallback (except where coverage is partial, e.g. Brazil, Russia).
+- **Compared with documented installed LED shares** (different years and quantity; step 33/52): Spain 56 % (2017) vs 0.22 drawn; UK 51 % (2019) vs 0.62; US 48.6 % (2018) vs 0.80; South Africa 5 % (2015) vs 0.98; Brazil not-sodium 41 % (2023) vs 0.35.
+- **Files changed:** this log.
+
+## 2026-10-03: Colour (CCT) task, step 57. Human chose option 1 (no interim change; pixel fix next session); handoff updated (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > option 1, write the handoff
+- **Files changed:** `handoffs/2026-10-03_colour-fallback-documented.md` (update 1), this log.
+
+## 2026-10-03: Push task, step 6. Handoff written; next-session prompt given in chat (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > hmmmm let's start a new session (give me prompt pls) whose role will be to look at this mice story and see its interpretability, first, and then to push everything to github. Thanks
+- **Actions:** wrote `handoffs/2026-10-03_mice-dials-and-push.md` (RULES §5); next-session prompt given in chat. Nothing committed or pushed.
+- **Files changed:** `handoffs/2026-10-03_mice-dials-and-push.md` (new), this log.
+
+## 2026-10-03: Push task, step 7. Mice chapter interpretability check (read-only; browser + study 278 numbers checked; no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root is ~/Desktop/ALAN, branch main, remote origin = github.com/alexbohlin2010/ALAN; earlier work was merged via pull requests from branches). Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-03_mice-dials-and-push.md (and the handoffs it points to) and AI_LOG.md "Push task" steps 1–6.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/ (e.g. the colour / night-grid 2025 task). They also edit app/vite.config.js, app/src/tileLayer.js, main.js, style.css and content/story.js.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - Re-read any shared file right before editing it; never touch lines another session owns.
+  > - data/raw/ is read-only. ~/Downloads/spatial, ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only.
+  > - Do not delete or install anything without my go-ahead.
+  >
+  > PART A: mice chapter interpretability (do this first).
+  > 1. Open the app (preview on port 5173; if another chat's server already runs there, use it) and watch the "[DRAFT] Mice" step through all 4 beats as a first-time viewer, with screenshots (the pane throttles animation while hidden). Also read app/src/spectral.js (mouseDial) and the mice step in app/content/story.js.
+  > 2. Tell me, in a short list: what a viewer can and cannot read from each beat without the side text, and where the picture could mislead (e.g. the CT 16 pulse drawn on a ZT dial, even particle density, the small −51 % gap). Check every number and its wording against study 278 (raw files in data/raw/impacts/mice/), with page or section.
+  > 3. Give me 2–3 short options with trade-offs, then stop and wait for my choice. Step text stays DRAFT unless I write it. Build only what I pick, verify it in the browser and log it.
+  >
+  > PART B: push to GitHub (only after I say Part A is done).
+  > I'm giving you the go-ahead to create a branch, commit, push and open a PR, but only after I approve the plan in step 2. Do not merge.
+  > 1. Check first (read-only):
+  >    - Is another agent (the colour / night-grid 2025 session) still writing in final/? Check for running processes and recently modified files (pipeline/colour/, data/raw/colour/, data/derived/colour/, app/). If it is, tell me and wait. Don't commit half-written work.
+  >    - Everything in final/ is currently untracked. List what a commit would include under the current .gitignore: file count and size per top-level folder, and every file over 50 MB. GitHub rejects files over 100 MB; data/raw/colour/eol/queries/ has HTML files of 52–230 MB and data/raw/colour/ has ~27,800 files.
+  >    - Licences: check data/raw/impacts/MANIFEST.csv and the colour MANIFEST for files that are not open-licensed but not yet ignored (e.g. study 278 PDFs/XML = CC BY-NC-ND; Lucas 2014 toolbox files = PMC fair use).
+  >    - data/derived/ is git-ignored, so Linda would get no tiles or derived JSON and the app won't run from the repo alone. Say what she would need and how big it is.
+  > 2. Give me a short plan with options and trade-offs, then stop for my choice. Cover: what goes in vs .gitignore (raw colour downloads, large query HTML, the licensed files), whether derived data/tiles are shared another way (e.g. a zip handed over separately, a GitHub release, Git LFS; ask before any new tool), the branch name, and a one-paragraph PR description that points Linda to RULES.md, the handoffs and AI_LOG.md. Also note that xlrd 2.0.1 was installed in final/.venv but isn't in pipeline/requirements.txt, and that the mice chapter now uses a visual idea from Linda's body-clock scene (credited in spectral.js).
+  > 3. After my OK: make only the .gitignore changes I approve, create the branch, commit (message ends with the attribution line), push, open the PR and give me the link. Never force-push. Never rewrite history. Don't commit anything from .venv/, node_modules/ or data/derived/ unless I say so.
+  >
+  > Write a handoff when done or at ~30% context.
+- **Actions (read-only):** read RULES.md, `handoffs/2026-10-03_mice-dials-and-push.md`, `2026-10-03_spectral-chapters-build.md`, AI_LOG Push steps 1–6, `app/src/spectral.js` (mouseDial, beats), mice step in `app/content/story.js`. pdftotext of `Wang_2023_NeurobiolDis_study278.pdf` and `_supplement_mmc1.pdf` into the session scratchpad. Watched the mice step at localhost:5173 (existing server), viewport 1440×900, screenshots of all 4 beats.
+- **Numbers checked against 278 (PDF page numbers of the main PDF):**
+  - 10.0 lx short-λ, 10.4 lx long-λ; melanopic EDI "estimated at" 15 / 1 mel lx with the CIE S 026 toolbox (human observer) (p. 2, §2.2; S. Fig. 1 caption). Matches.
+  - Masking 51 ± 5 % vs 14 ± 7 % (p. 4, §3.1); Table 1 (p. 8): −51.0 ± 4.9 (n = 11) vs −13.6 ± 7.7 (n = 11), untreated −3.0 ± 6.9, mean ± SEM. Long-λ "not significantly different from the untreated controls" (§3.1). Window 1 h at ZT 14 vs ZT 14–15 the day before (§2.3, p. 3). Matches; the non-significance is not shown.
+  - Phase shift −117 ± 6 vs −26 ± 4 min (§3.1); Table 1 −117.2 ± 5.9 (n = 12) vs −26.4 ± 3.9 (n = 12), untreated −3.7 ± 4.0; long-λ "not significantly different as compared to untreated controls". DD, CT 12 = activity onset, pulse at CT 16, onsets fitted over 10 days before / after (§2.4, p. 3). Source inconsistency: §2.4 says "(10 lx, 60 min) at CT 16 for 15 min"; §3.1 and Table 1 say 15 min.
+  - Masking and phase-shift tests used separate cohorts of WT mice (§2.3, §2.4).
+  - Melanopsin peak ≈480 nm (p. 2 and p. 10, citing Hattar 2002, Panda 2005). Matches.
+- **Seen in the browser:** the 1 h window draws as a bright lamp-coloured arc on top of the night band, so the suppressed hour reads brighter, not emptier; no hour marks, so position ZT 14 / 16 is not readable; the clock beat has no "before" marker, so the 117 min move is only visible as motion and 26 min barely; dials are small and tilted by the camera; beat 1 headline is not coloured by lamp.
+- **Files changed:** this log.
+
+## 2026-10-04: Push task, step 8. Mice chapter option 2 built: night-quarter zoom on the lamp beats; separate constant-darkness dial for the clock test
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > option 2, no untreated baseline
+- **Human decision:** option 2 from step 7 (zoom to the night quarter on the lamp beats; clock beat on its own all-dark CT dial labelled "constant darkness", with before / after onset ticks; 5 beats). No untreated baseline.
+- **Code:**
+  - `app/src/spectral.js` `mouseDial`: the lamp window is now a tick just outside the ring (r + 0.2), so the band itself shows the thinning; `setDark()` gives the day half the night colour; two radial ticks: `before` (onset CT 12, dim) and `after` (onset + shift, lamp colour, follows the shift).
+  - `build()`: `day` / `night` tags grouped as `M.ld`; new tag `constant darkness` (`M.dd`); beat views `M.views.night` (ZT 12–18 close up) and `M.views.dial` (whole dial, closer).
+  - `enterBeat()`: new beat `show: 'dark'` (pulse at CT 16, before tick); `dark` and `clock` beats use the DD dial; tags toggled with class `off`.
+  - `frame()`: the camera eases (time-based) to the beat's `view`; tags with class `off` hidden. `set()`: camera snaps on step entry.
+  - `app/content/story.js` mice beats: `view: 'night'` on the two lamp beats; new beat `{ show: 'dark', view: 'dial', value: '15 min', label: '[DRAFT] 10 lx pulse at CT 16, 4 h after activity onset, in constant darkness' }` before the 117 vs 26 min beat. Step text unchanged (still DRAFT; it still says "one day for each lamp").
+- **Labels:** values unchanged, `documented` (278 §2.3, §2.4, §3.1, Table 1); onset tick positions `inferred` (onset CT 12 + minutes → angle). Camera views, tick sizes and offsets are agent display choices.
+- **Browser check (localhost:5173, the other chat's server, 1440×900):** 5 beats seen in screenshots. Lux: unchanged wide view. −51 %: zoomed; the band is visibly thinner beside the lamp tick. −14 %: zoomed; the thinning is not visible (as the number implies). 15 min: all-dark dials, "constant darkness" tag, pulse ticks at CT 16, before tick at CT 12. 117 vs 26 min: blue band start moves ~2 h later, magenta slightly. No console errors. Note: the pane renders a blank canvas on the first screenshot after a long wait (throttling), not a code issue. In the zoomed view the top of the dial runs behind the headline.
+- **Files changed:** `app/src/spectral.js`, `app/content/story.js`, this log.
+
+## 2026-10-04: Push task, step 9. Part B read-only checks (concurrency, commit inventory, licences, derived data); plan given in chat (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Part A is done, start Part B
+- **Concurrency:** another session (scratchpad 2c9dc24e…, started ~23:53) is running `count_all.py` (started 23:58) in its own scratchpad: read-only limb / glow mask counts over `data/raw/colour/eol/small/*.JPG`, output to its scratchpad. No file in `final/` changed after 23:52 other than this session's (`story.js`, `spectral.js`, AI_LOG). Its handoff names the pixel-mask fix (`pipeline/colour/`) as next. Vite servers on 5173 and 5175.
+- **Commit inventory under the current `.gitignore`** (`git ls-files --others --exclude-standard`): 28,011 files, 2.72 GB. `data/raw/colour` 27,834 files / 2,688 MB (eol/small 27,657 files ≈1.3 GB; eol/queries 58 HTML ≈1.0 GB; eol/nef 254 MB; eol/jpeg 32 MB; eol/photos 89 HTML 2 MB); `data/raw/impacts` 8 / 16.1 MB; `data/raw/boundaries` 4 / 10.2 MB; audits 77 / 0.6 MB; pipeline 42; app 11 (+ `app/content/story.js`); handoffs 26; root docs; `.claude/launch.json`. Files > 50 MB: 6, all `data/raw/colour/eol/queries/2026-10-04/global/` (ISS073 229.6, ISS072 220.6, ISS074 122.9 MB > 100 MB; ISS071 90.2, ISS065 65.3, ISS030 52.0 MB).
+- **Licences not yet ignored:** 278 XML / PDF / supplement (CC BY-NC-ND 4.0); Lucas 2014 `.xls` / suppl. PDF (PMC fair use, no CC); Brazil census PDF (licence not stated); EOL images public domain with credit (METHOD.md); radiance EOG already ignored; Wiley / firefly PDFs and SI already ignored.
+- **Derived data the app needs** (vite.config.js, src): `radiance/tiles/v1/` 259 MB, 20,334 files; impacts `effects`, `studies`, `study_locations`, `spectra_278`, `spectra_299`, `perception_299` JSON 3.5 MB; `colour/global_white_share_grid.json` + `.png` 0.35 MB. All of `data/derived/` = 1.6 GB (radiance cog 672 MB, tiles v1 + v2 518 MB, colour 443 MB).
+- **Tools:** `gh` CLI not installed; Git LFS not installed. Push auth: osxkeychain helper, origin https.
+- **requirements:** `pipeline/requirements.txt` lists numpy, rawpy; xlrd 2.0.1 (installed in `.venv`, AI_LOG Impacts step 80) missing.
+- **Files changed:** this log.
+
+## 2026-10-04: Push task, step 10. Human: no ISS photos in the commit; clarification asked (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > No ways do we need to include all of those ISS photos / like none of them
+- **Human decision:** no ISS photos (EOL `small` / `nef` / `jpeg` images) in the commit.
+- **Asked:** whether the three EOL `MANIFEST.csv` files (list of photo IDs, URLs, SHA-256; 5.3 MB + 2.9 KB + 2.0 KB) and the EOL query / photo-page HTML also stay out (i.e. ignore all of `data/raw/colour/eol/`); B and C choices; whether to wait for the colour session.
+- **Files changed:** this log.
+
+## 2026-10-04: Push task, step 11. Plan approved; .gitignore rules added; waiting for the colour session before committing
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > keep manifests, A1, B1 zip, C2, wait for colour
+- **Human decisions:** keep the three EOL `MANIFEST.csv` files; A1 (ignore EOL photos and query / photo-page HTML, the Brazil census PDF, all of `data/raw/impacts/mice/` = study 278 + Lucas 2014); B1 (derived data the app needs handed to Linda as a separate zip); C2 (agent pushes, human opens the PR from the link); wait for the colour session to finish before committing.
+- **Code:** `final/.gitignore`: new block appended (eol/queries/, eol/photos/, eol/small/*.JPG, eol/nef/*.NEF, eol/jpeg/*.JPG, the Brazil PDF, data/raw/impacts/mice/). No earlier lines changed.
+- **Check:** `git ls-files --others --exclude-standard final` → 176 files, 18.2 MB; no JPG / NEF / query HTML, no mice files, no Brazil PDF; EOL manifests included.
+- **Not done yet:** branch, commit, push, zip (derived colour files may still change in the colour session).
+- **Files changed:** `.gitignore`, this log.
+
+## 2026-10-04: Colour (CCT) task, step 58. Lamp-pixel mask fix: options tested on the 24-frame sample (seed 20261003) and all kept frames (analysis only, no repo code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final. Read RULES.md and follow it all session. Then read handoffs/2026-10-03_colour-fallback-documented.md, including Update 1, and pipeline/colour/METHOD.md section "Documented 2025 fallback". Task: fix the lamp-pixel mask so that sky, airglow, limb, stars, station hardware and lightning/cloud glow are not counted as lamp light, then rebuild the grid and re-render. First show me the options (method, trade-offs, test on the 24-frame random sample, seed 20261003) and wait for my choice. Same rules as before: raw data read-only, every transformation a script, labels and citations, ask before downloads/dependencies/new layout, never commit/push/delete, append-only AI_LOG with my exact prompt, handoff when done or at ~30% context.
+- **Read:** RULES.md, the handoff (incl. Update 1), METHOD.md "Documented 2025 fallback", `12_thumb_cct.py`, `14_frame_flags.py`, `10_white_share_grid.py` (header), the previous session's scratch scripts.
+- **Sample:** `random.Random(20261003).sample(sorted kept 2025 photo_ids with a CCT value, 24)`. There are 1,999 such frames. The draw is identical to the previous session's `sample24.json` (checked). The per-pixel re-run reproduces the stored `lamp_pixels` and `white_share` for all 24 (assert).
+- **Scratch scripts (session scratchpad only, read-only, not repo):** `mask_options.py`, `count_all.py`. Only numpy/GDAL; no new dependency (scipy/OpenCV not installed, not requested).
+- **Options tested:**
+  - **P, point-like pixels only** (the existing 14_frame_flags rule applied per pixel). It removes most dense city cores, which are mostly orange, so white shares rise in clean city frames (e.g. ISS066-E-168172 0.54 → 0.85, ISS067-E-341196 0.23 → 0.37). Not offered.
+  - **Limb cut.** A connected bright component spanning ≥ 35 % of the frame width (or height) with mean thickness ≤ 20 px counts as the limb. The arc and everything on its sky side are dropped. Sky side = the side the arc bulges to (sag ≥ 3 px), else the darker side.
+    - Sample: limb cut in 4 of 24 (ISS072-E-144994, ISS072-E-144841, ISS065-E-436628 incl. its solar array, ISS072-E-480868); no clean city frame cut. Agent's by-eye reading.
+    - Missed: the dim limb in ISS071-E-170331 and the limb behind hardware in ISS071-E-659593.
+  - **Glow blobs.** A component of ≥ 400 px with point-like share < 0.05 and fine texture (mean |brightest − 5×5 mean| / mean) < 0.12 is dropped.
+    - The texture values overlap: city cores 0.136–0.139 (ISS064-E-25932, ISS067-E-359511); glow 0.098–0.174.
+    - Partial on the lightning frames ISS066-E-70819 and ISS072-E-144994. It misses ISS069-E-89207.
+  - **Station hardware:** not detected by any rule (ISS064-E-36035 solar array, ISS071-E-659593 modules), except where it lies above a detected limb.
+  - **Frame-level variant:** drop the whole frame if a limb is found or glow ≥ 20 % of its lamp pixels.
+- **All kept frames with a CCT value (2015: 2,683; 2025: 1,999):**
+  - Limb found: 149 / 350.
+  - Any glow: 481 / 476. Glow ≥ 20 %: 246 / 289.
+  - Frame-level drop: 382 / 519.
+  - Photo-share median, 2015: base 0.184, limb cut 0.185, limb + glow 0.171.
+  - Photo-share median, 2025: base 0.848, limb cut 0.841, limb + glow 0.850.
+  - Frames falling below 200 lamp px after the limb cut: 18 / 26.
+  - Limb precision on the full set is not checked (only the 24 by eye).
+- **Labels:** none assigned; no data values written.
+- **Files changed:** this log.
+
+## 2026-10-04: Colour (CCT) task, step 59. Human: mask fix not pursued; fallback value confirmed; handoff written (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Ok I think we are just done because that change is so small it's not worth it. I suppose this means the global fallback stays as high as 0.85? is that appropriate?
+  - Follow-up (verbatim):
+    > okay good
+- **Human decision:** the lamp-pixel mask fix (step 58 options A–D) is not pursued. Grid and render unchanged.
+- **Fact given in answer** (read from `data/derived/colour/global_white_share_grid.json`):
+  - The 2025 fallback in use is 0.41, grey 159 (Brazil census, step 54).
+  - 0.848 is `photo_share_median`, recorded and not used. 2015 fallback 0.1844, grey 203.
+  - Step 58 measured the change in the photo median only. Per-cell and per-country effects were not measured. City CCT accuracy is still untested.
+- **Files changed:** `handoffs/2026-10-04_colour-mask-not-pursued.md` (new), this log.
+
+## 2026-10-04: Push task, step 12. Branch, commit and push (human go-ahead after the colour session finished)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > colour session is done, go ahead
+- **Checks:** no colour process running; last change in `final/` by the colour session: `handoffs/2026-10-04_colour-mask-not-pursued.md` + AI_LOG at 00:12:57; the AI_LOG tail ends with a complete entry.
+- **Git (repo root `~/Desktop/ALAN`):** new branch `alexander-final-rebuild` from `main` (6e1d06d40); `git add final`; 177 files, 18.2 MB (the 176 from step 11 + the new colour handoff). No `.venv/`, `node_modules/`, `data/derived/`, EOL photos / HTML, mice files or Brazil PDF staged (checked on the staged list). One commit, then `git push -u origin alexander-final-rebuild`. No force-push, no history rewrite, no merge. PR to be opened by the human from the link (C2).
+- **Files changed:** this log (included in the commit).
+
+## 2026-10-04: Push task, step 13. Push failed (no stored credentials); human will push via GitHub Desktop; zip built; handoff written; second commit
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** (continuation of step 12: "colour session is done, go ahead"); follow-up (verbatim): "i'll just do it through github desktop"
+- **Push:** `git push -u origin alexander-final-rebuild` from the agent shell failed ("could not read Username for 'https://github.com': Device not configured"). Re-run in the human's Terminal panel (tab "git push"); it prompted for username / password; the human switched to GitHub Desktop. The agent could not stop that tab (the human had typed in it). Nothing pushed by the agent; no PR opened.
+- **Commit:** b63e2836f on `alexander-final-rebuild` (177 files). Second commit: this log entry + `handoffs/2026-10-04_mice-option2-and-push.md`.
+- **Zip (B1):** `~/Desktop/ALAN_derived_for_Linda.zip` (outside the repo), 220,117,658 bytes, sha256 83616116a85c44b783068a98ea8763b08681274bcd9f05f5f22206f881a0b1e6, 21,033 entries: `data/derived/radiance/tiles/v1/`, six impacts JSON (effects, studies, study_locations, spectra_278, spectra_299, perception_299), `colour/global_white_share_grid.json` + `.png`. Paths relative to `final/`.
+- **Files changed:** `handoffs/2026-10-04_mice-option2-and-push.md` (new), this log; `~/Desktop/ALAN_derived_for_Linda.zip` (new, outside the repo).

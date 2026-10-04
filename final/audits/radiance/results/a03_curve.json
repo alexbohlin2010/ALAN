@@ -1,0 +1,179 @@
+{
+ "positive_pixels_raw": {
+  "2015": 65456583,
+  "2025": 81649055
+ },
+ "top_json": 814.0968627929688,
+ "top_recomputed_float32": 814.0968627929688,
+ "top_recomputed_float64": 814.096872588696,
+ "min_positive_raw": 9.934107758624577e-09,
+ "min_positive_json": 9.934107758624577e-09,
+ "pixels_above_top_raw": 14711,
+ "pixels_above_top_json": 14711,
+ "fraction_above_top": 0.00010000296521605786,
+ "edges_max_rel_diff": 0.0,
+ "cdf_max_abs_diff": 0.0,
+ "hist_total": 147105638,
+ "reference_grey_check": [
+  {
+   "radiance": 0.1,
+   "json": 1,
+   "rule": 1
+  },
+  {
+   "radiance": 0.5,
+   "json": 46,
+   "rule": 46
+  },
+  {
+   "radiance": 1.0,
+   "json": 127,
+   "rule": 127
+  },
+  {
+   "radiance": 2.0,
+   "json": 184,
+   "rule": 184
+  },
+  {
+   "radiance": 5.0,
+   "json": 221,
+   "rule": 221
+  },
+  {
+   "radiance": 10.0,
+   "json": 236,
+   "rule": 236
+  },
+  {
+   "radiance": 20.0,
+   "json": 245,
+   "rule": 245
+  },
+  {
+   "radiance": 50.0,
+   "json": 253,
+   "rule": 253
+  },
+  {
+   "radiance": 100.0,
+   "json": 255,
+   "rule": 255
+  },
+  {
+   "radiance": 814.0968627929688,
+   "json": 255,
+   "rule": 255
+  }
+ ],
+ "hist_eq_meaning": [
+  {
+   "radiance": 0.01,
+   "empirical_fraction_le": 0.00011045123912925758,
+   "grey": 0,
+   "grey_over_255": 0.0,
+   "abs_diff": 0.0001
+  },
+  {
+   "radiance": 0.1,
+   "empirical_fraction_le": 0.0042021978790507,
+   "grey": 1,
+   "grey_over_255": 0.0039,
+   "abs_diff": 0.0003
+  },
+  {
+   "radiance": 0.5,
+   "empirical_fraction_le": 0.17926690206122486,
+   "grey": 46,
+   "grey_over_255": 0.1804,
+   "abs_diff": 0.0011
+  },
+  {
+   "radiance": 1,
+   "empirical_fraction_le": 0.49653854191502844,
+   "grey": 127,
+   "grey_over_255": 0.498,
+   "abs_diff": 0.0015
+  },
+  {
+   "radiance": 2,
+   "empirical_fraction_le": 0.7231892566891284,
+   "grey": 184,
+   "grey_over_255": 0.7216,
+   "abs_diff": 0.0016
+  },
+  {
+   "radiance": 5,
+   "empirical_fraction_le": 0.8673117613615869,
+   "grey": 221,
+   "grey_over_255": 0.8667,
+   "abs_diff": 0.0006
+  },
+  {
+   "radiance": 10,
+   "empirical_fraction_le": 0.9244457442208979,
+   "grey": 236,
+   "grey_over_255": 0.9255,
+   "abs_diff": 0.001
+  },
+  {
+   "radiance": 20,
+   "empirical_fraction_le": 0.9620081046791694,
+   "grey": 245,
+   "grey_over_255": 0.9608,
+   "abs_diff": 0.0012
+  },
+  {
+   "radiance": 50,
+   "empirical_fraction_le": 0.9906163215851727,
+   "grey": 253,
+   "grey_over_255": 0.9922,
+   "abs_diff": 0.0015
+  },
+  {
+   "radiance": 100,
+   "empirical_fraction_le": 0.9980910452935869,
+   "grey": 255,
+   "grey_over_255": 1.0,
+   "abs_diff": 0.0019
+  },
+  {
+   "radiance": 200,
+   "empirical_fraction_le": 0.9995358573544272,
+   "grey": 255,
+   "grey_over_255": 1.0,
+   "abs_diff": 0.0005
+  },
+  {
+   "radiance": 500,
+   "empirical_fraction_le": 0.999841005414082,
+   "grey": 255,
+   "grey_over_255": 1.0,
+   "abs_diff": 0.0002
+  }
+ ],
+ "hist_eq_max_abs_diff": 0.0019,
+ "checks": {
+  "positive_counts_match": true,
+  "top_matches": true,
+  "top_percentile_field": true,
+  "min_positive_matches": true,
+  "pixels_above_top_matches": true,
+  "edges_len": true,
+  "cdf_len": true,
+  "edges_strictly_increasing": true,
+  "cdf_non_decreasing": true,
+  "cdf_starts_0_ends_1": true,
+  "edges_span_min_to_top": true,
+  "edges_log_spaced": true,
+  "edges_rebuilt_match": true,
+  "cdf_rebuilt_match": true,
+  "hist_counts_every_positive": true,
+  "reference_greys_follow_rule": true,
+  "hist_eq_within_1_grey_step": true,
+  "grey_0_for_nonpositive": true,
+  "grey_255_at_and_above_top": true
+ },
+ "pass": true,
+ "seconds": 111
+}
