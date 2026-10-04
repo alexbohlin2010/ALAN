@@ -12,7 +12,8 @@ const sourceList = sources => {
   return items ? `<ul class="sources">${items}</ul>` : '';
 };
 
-export function startStory({ steps, globe, swipe, onStep }) {
+// `intro` (optional): the ?intro=sunrise prototype scene (introScene.js); without it, the CSS overlay intro runs.
+export function startStory({ steps, globe, swipe, onStep, intro }) {
   const overlay = document.getElementById('intro');
   const introText = overlay.querySelector('.text');
   const card = document.getElementById('card');
@@ -27,7 +28,7 @@ export function startStory({ steps, globe, swipe, onStep }) {
 
   const later = (fn, ms) => timers.push(setTimeout(fn, ms));
   const stopAnim = () => { if (anim) cancelAnimationFrame(anim); anim = null; };
-  const clearAll = () => { timers.forEach(clearTimeout); timers = []; stopAnim(); };
+  const clearAll = () => { timers.forEach(clearTimeout); timers = []; stopAnim(); intro?.stop(); };
 
   // Glide the divider from its current position to `to` (0..1) over `ms`.
   function glide(to, ms, done) {
@@ -57,6 +58,13 @@ export function startStory({ steps, globe, swipe, onStep }) {
     const t = step.timing;
     document.body.classList.add('arriving');
     document.body.style.setProperty('--ui-in', `${t.uiIn}ms`);
+    if (intro) {
+      overlay.hidden = false;
+      introText.innerHTML = format(step.text);
+      intro.play(step, { overlay, text: introText,
+        done: () => { overlay.hidden = true; document.body.classList.remove('arriving'); } });
+      return;
+    }
     overlay.style.transition = 'none';
     overlay.style.opacity = 1;
     overlay.hidden = false;
@@ -90,8 +98,18 @@ export function startStory({ steps, globe, swipe, onStep }) {
       fact.innerHTML = `<p class="big">${format(step.text)}</p>` + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '');
-      fact.querySelector('.more')?.addEventListener('click', () => toggleMore());
+      fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.hidden = false;
+      return;
+    }
+    if (step.tagline) {
+      // Narrative line on the card; text and sources behind "Details & sources" (human, Light story refinement 2026-10-04).
+      card.innerHTML = `${step.title ? `<h2>${escape(step.title)}</h2>` : ''}
+        <p class="tagline">${format(step.tagline)}</p>
+        <button class="more" aria-expanded="false">Details &amp; sources</button>
+        <div class="more-body" hidden><p>${format(step.text)}</p>${note}${sourceList(step.sources)}</div>`;
+      card.querySelector('.more').addEventListener('click', () => toggleMore(card));
+      card.hidden = false;
       return;
     }
     card.innerHTML = `${step.title ? `<h2>${escape(step.title)}</h2>` : ''}
@@ -101,14 +119,17 @@ export function startStory({ steps, globe, swipe, onStep }) {
     card.hidden = false;
   }
 
-  function toggleMore(open) {
-    const btn = fact.querySelector('.more'), body = fact.querySelector('.more-body');
+  function toggleMore(box = fact, open) {
+    const btn = box.querySelector('.more'), body = box.querySelector('.more-body');
     if (!btn) return;
     body.hidden = !(open ?? body.hidden);
     btn.setAttribute('aria-expanded', String(!body.hidden));
   }
-  window.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMore(false); });
-  document.addEventListener('click', e => { if (!fact.contains(e.target)) toggleMore(false); });
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') { toggleMore(fact, false); toggleMore(card, false); } });
+  document.addEventListener('click', e => {
+    if (!fact.contains(e.target)) toggleMore(fact, false);
+    if (!card.contains(e.target)) toggleMore(card, false);
+  });
 
   function go(i) {
     if (i < 0 || i >= steps.length || i === index) return;
@@ -117,10 +138,11 @@ export function startStory({ steps, globe, swipe, onStep }) {
     clearAll();
     overlay.hidden = true;
     document.body.classList.remove('arriving');
+    const keepCamera = intro?.spin(i, steps);   // prototype: globe keeps turning until India
     if (step.kind === 'intro') {
-      globe.pointOfView(step.camera, 0);
+      if (!keepCamera) globe.pointOfView(step.camera, 0);
       playIntro(step);
-    } else {
+    } else if (!keepCamera) {
       globe.pointOfView(step.camera, step.fly ?? 0);
     }
     if (step.swipe != null) swipe.set(step.swipe);
@@ -139,7 +161,8 @@ export function startStory({ steps, globe, swipe, onStep }) {
     if (e.key === 'ArrowRight') go(index + 1);
     else if (e.key === 'ArrowLeft') go(index - 1);
   });
-  go(0);
+  // Prototype (?intro=sunrise): a Begin button comes first; keys wait for it.
+  if (intro) { active = false; intro.begin(() => { active = true; go(0); }); } else go(0);
 
   // Mode switching (Light / Impacts): pause stops timers and animations and ends the intro;
   // resume shows the current step's text again without moving the camera.

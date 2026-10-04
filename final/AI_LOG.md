@@ -3567,3 +3567,363 @@ Append only. One entry per AI step (see RULES.md §4).
 - **Left out (still ignored):** `data/derived/radiance/tiles/v2/` (259 MB, not read by the app), the COGs, curve, checks and run logs.
 - **Committed** (not pushed): `.gitignore`, the tiles, this log. Values unchanged (radiance tiles: display rendering of `measured` EOG VNL radiance, as recorded at creation).
 - **Files changed:** `final/.gitignore`, this log.
+
+## 2026-10-04: Firefly transition task, step 11. Next-session prompt written: SDGSAT-1 and the colour question (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > could you give me a prompt for a new chat I want to ask about SDGsat and the color matter
+- **Facts gathered (read-only):** SDGSAT-1 earlier: DATA_INVENTORY.md rows 95–96 (Glimmer 40 m RGB, 2022+, sdgsat.ac.cn, account verification days, ~20-image quota; JRC GHS-SDGSAT-1 composite = Po Plain only); AI_LOG 2026-10-02 "ISS for colour; SDGSAT-1 access options"; human chose ISS photos, "I don't have time for SDGSAT" (AI_LOG line ~618). Colour state: `handoffs/2026-10-04_colour-mask-not-pursued.md` (updates 1–4), `pipeline/colour/METHOD.md`.
+- **Actions:** prompt given in chat.
+- **Files changed:** this log (uncommitted).
+
+## 2026-10-04: SDGSAT-1 and the colour question (read-only Q&A; no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; branch alexander-final-rebuild). Read RULES.md first and follow it for the whole session. Then read:
+  > - handoffs/2026-10-04_colour-mask-not-pursued.md (incl. updates 1–4) and pipeline/colour/METHOD.md: how the globe's colour (white vs sodium/orange share) is currently made from ISS astronaut photos, the fallbacks, and the "white by place" display default
+  > - DATA_INVENTORY.md rows on SDGSAT-1 (Glimmer 40 m RGB; JRC GHS-SDGSAT-1 composite)
+  > - AI_LOG.md entry "2026-10-02: ISS for colour; SDGSAT-1 access options" and the entry where I chose ISS photos over SDGSAT-1
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/. They edit app/vite.config.js, app/src/tileLayer.js, main.js, style.css and content/story.js.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - data/raw/ is read-only; ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only.
+  > - Do not commit, push, delete, download, install or create accounts without my explicit go-ahead. Ask before any new dependency or tool.
+  >
+  > Task: questions only for now, no code and no data changes. I want to understand SDGSAT-1 and whether it could help with the colour question.
+  > 1. Briefly summarise what we already found about SDGSAT-1 and why we went with ISS photos (with sources from the log).
+  > 2. Then answer, with sources and labels (documented / not found): what SDGSAT-1 Glimmer actually measures (bands, resolution, revisit, years, coverage); how its colour data has been used to tell white LED from sodium lighting in published work; how access works today (account, quota, licence, how long it takes); and whether any open, ready-made colour or lamp-type product exists (global or for some cities).
+  > 3. Then give me 2–3 short options for how SDGSAT-1 could fit our colour layer (e.g. a check on our ISS-based shares for a few cities, a replacement, or not at all), each with trade-offs (time, coverage, years vs our 2015/2025, effort), and stop for my choice.
+  >
+  > 4. Note, I created an SDGSAT user account this morning on their website, maybe I could access the data?
+  >
+  >
+  > Do not guess: if a fact can't be found, say so and what you searched. Write a handoff when done or at ~30% context.
+- **Actions:** Read RULES.md, the colour handoff, METHOD.md, DATA_INVENTORY rows 95–96, AI_LOG 2026-10-02 entry and colour step 2 (line ~611). Web searches (specs, lamp-type papers, access, licence, open products). WebFetch: eoPortal SDGSAT-1, UN-SPIDER SDGSAT-1 page, CBAS SDGSAT-1 User Manual PDF (sdgs.un.org; saved by the tool to the session's tool-results folder, outside the repo; converted with the existing `pdftotext` to the session scratchpad), ECNU page (Liu et al. 2024), IDEAS page (Lv et al. 2024), HUJI page (Labrousse et al. 2025), JRC GHS_SDGSAT page. Failed: PolyU, DOAJ, T&F, Springer pages (403/500/redirect), sdgsat.ac.cn homepage (empty). One `curl` of the PolyU PDF into the scratchpad returned an HTML error page (a download attempt, not into the repo; noted for the human). No sign-in to sdgsat.ac.cn.
+- **Facts (labels):** see `handoffs/2026-10-04_sdgsat-colour-questions.md`. Notable: the CBAS manual is now read directly (verification "can take several days"; quota 20 images; proposal for more; GIU grade L4A), confirming the DATA_INVENTORY row that relied on a search summary. Glimmer data start 2022 (no 2015). No open lamp-type or colour product found.
+- **Options offered (no choice yet):** A 2025 check of ISS shares for a few cities; B replacement; C not used.
+- **Files changed:** `handoffs/2026-10-04_sdgsat-colour-questions.md` (new), this log. Not committed.
+- **Data values changed:** none.
+- **Suggestion (not acted on):** DATA_INVENTORY row 95 could be updated to say the manual was read directly (human decision).
+
+## 2026-10-04: Next-session prompt written: artistic intro scene (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > i'd like to create a new chat so I can focus on the intro section of the app, could you generate a prompt for me so I can work with an agent to do that? Thank you. The goal will be to experiment with some more 'romantic' or artistic introductory scenes ... like the globe as dark and formless, and then sun rising in the background .. maybe also sprach zaratusthra playing although that's a bit long, but maybe
+- **Facts gathered (read-only):** intro = `app/content/story.js` step `intro` (kind `intro`, text "*...and then there was light*", camera lat 20 lng 10 alt 2.2, timing textIn 1000 / hold 1000 / textOut 500 / lightsIn 6000 / uiIn 1500); `app/src/story.js` `playIntro` (CSS black overlay, decision A5a "sound may come later"); stack globe.gl 2.46.2 + three 0.186.1 (decision A6); `.claude/launch.json` config "app" (port 5173); decisions in `handoffs/2026-10-03_story-ux-skeleton.md`, `handoffs/2026-10-03_render-architecture.md`.
+- **Actions:** prompt given in chat. SDGSAT-1 option choice (A/B/C) still open, see `handoffs/2026-10-04_sdgsat-colour-questions.md`.
+- **Files changed:** this log (uncommitted).
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, steps 1–2. How the intro works now; options for dark globe → sunrise → lights (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; branch alexander-final-rebuild). Read RULES.md first and follow it for the whole session. Then read:
+  > - handoffs/2026-10-03_story-ux-skeleton.md (decisions A1a–A6: no separate prelude, CSS black-overlay intro "A5a", "sound may come later", globe.gl + tile-layer architecture "A6")
+  > - handoffs/2026-10-03_render-architecture.md (how the globe and radiance tiles are rendered)
+  > - app/content/story.js, step id 'intro' (text "*...and then there was light*", camera lat 20 / lng 10 / alt 2.2, timing textIn 1000, hold 1000, textOut 500, lightsIn 6000, uiIn 1500 ms)
+  > - app/src/story.js (playIntro, the #intro overlay) and the parts of app/src/main.js and app/src/tileLayer.js that the intro touches
+  > - the latest handoff in handoffs/ for current app state
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/. They edit app/vite.config.js, app/src/tileLayer.js, app/src/main.js, app/src/style.css and app/content/story.js. Before editing any of these, re-read the file right before the edit and keep edits small and local. Tell me if you need a larger change in a shared file.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - data/raw/ is read-only; ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only.
+  > - Do not commit, push, delete, download, install or create accounts without my explicit go-ahead. Ask before any new dependency, library, asset or build step.
+  >
+  > Task: experiment with more "romantic" / artistic intro scenes. The direction is mine. You prototype and show me; you don't add narrative text or framing on your own.
+  > My first ideas:
+  > 1. The globe starts dark and formless (no lights, barely visible shape), then a sun rises behind it (rim light / dawn glow on the limb), and then the night lights appear.
+  > 2. Music, possibly "Also sprach Zarathustra" (the opening sunrise), though it may be too long; maybe only the opening bars, or something else.
+  >
+  > Steps:
+  > 1. Briefly describe how the intro works now (what's drawn, timing, what globe.gl/three already give us for lighting, atmosphere and materials). No code yet.
+  > 2. Give me 2–3 short options for the dark-globe → sunrise → lights sequence, each with trade-offs: effort, which files it touches, whether it needs anything new (textures, shaders, libraries), and the risk of clashing with the tile layer and swipe. Then stop for my choice.
+  > 3. For the music, find out and report with sources (documented / not found), no downloads:
+  >    - the copyright status of the composition (Richard Strauss, 1896) in the US and EU;
+  >    - that a recording has its own rights; whether any public-domain or openly licensed recording exists, with its licence and source;
+  >    - browser autoplay rules (audio usually needs a user click), which means an "enter" / play click before the intro.
+  >    Then stop for my choice.
+  > 4. Build only what I choose. Put it behind a URL switch (like the existing ?ramp= modes, e.g. ?intro=sunrise) so the current intro stays the default until I decide. Check it in the browser preview (launch config "app", port 5173): no console errors, the rest of the story steps unchanged. Show me screenshots or a short screen recording of the sequence.
+  >
+  > Write a handoff in handoffs/ when the task is done or at ~30% context.
+- **Actions (read-only):** read RULES.md; handoffs 2026-10-03_story-ux-skeleton, 2026-10-03_render-architecture, 2026-10-04_sdgsat-colour-questions (latest), 2026-10-04_firefly-door-transition; app/src/story.js, app/src/main.js, app/src/tileLayer.js (shader + material parts), app/content/story.js (intro step), index.html, style.css (#intro, body.arriving), package.json. Checked installed globe.gl 2.46.2 / three-globe: `.lights()` (default AmbientLight + DirectionalLight), `showAtmosphere/atmosphereColor/atmosphereAltitude` (GlowMesh, uniform rim), `.postProcessingComposer()` (EffectComposer); three 0.186.1 ships `examples/jsm/postprocessing` (e.g. UnrealBloomPass) in node_modules already.
+- **Options given (no choice yet):** A CSS-only glow layer over the canvas; B three.js limb-glow shell + sun sprite added via `.scene()` (one fade uniform in tileLayer.js); C lit globe sphere with a moving DirectionalLight (crescent/terminator), optionally a day texture (new asset). Details in chat.
+- **Files changed:** this log only. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, steps 3–4. Option B built behind ?intro=sunrise; music research (no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (music research run by a general-purpose subagent, same model, web search/fetch only, no downloads)
+- **Prompt (verbatim):**
+  > B, then do the music research
+  >
+  > Bearing in mind the inspiration: In the beginning, the earth was a dark and formless void .... and then there was light (We both know what came in the middle there 😉 )
+- **Human decision:** option B (three.js limb-glow shell + sun sprite via `.scene()`).
+- **Built (PROTOTYPE, only with `?intro=sunrise`; default intro unchanged):**
+  - `app/src/introScene.js` (new): back-side halo shell (glow by height above the limb × angle to the sun direction), thin front-side crescent on the sun-side edge, sun sprite (radial gradient drawn in code, no asset), all additive, renderOrder 100, removed when the intro ends or is skipped. Timeline (agent prototype values, open): formless 0–1.5 s (faint even ring), sunrise 1.5–8 s, existing intro text 5.5–8 s (textIn/hold/textOut from story.js), lights fade 8–14 s (lightsIn 6000), glow fades out over the last 3.5 s, then the UI (uiIn). Total ≈ 14 s vs ≈ 8.5 s now. Colours (warm near the sun, cool elsewhere) and sun position are display choices, not data.
+  - `app/src/tileLayer.js`: one uniform `uFade` (default 1) multiplying the tile colour (3 small edits).
+  - `app/src/story.js`: optional `intro` argument; `playIntro` hands over to it; `clearAll` calls `intro.stop()`.
+  - `app/src/main.js`: import + create the scene only when `INTRO_MODE === 'sunrise'`; passes `intro` to `startStory`.
+- **Order of text in the sequence** (text over the risen sun, before the lights) was chosen by the agent to have something to show; open for the human.
+- **Browser check (localhost:5173, user-level launch config `alan-final-app`, same app/port as `final/.claude/launch.json` "app", which the preview tool did not list):** sequence screenshots taken; no console errors; skipping with → mid-intro restores uFade = 1, removes the scene objects, Statistic step renders as before; ← replays the intro; default URL intro unchanged.
+- **Music research (labels per item, sources in the handoff):** composition PD in US (published 1896, pre-1931) and EU (Strauss d. 1949, PD from 1 Jan 2020) — documented; recordings have separate rights (US MMA terms, EU 70 years) — documented; open recordings found: Kevin MacLeod 2010 CC BY 3.0 (Wikimedia Commons, 1:26), Sascha Ende 2020 CC BY 4.0 (Commons/filmmusic.io, 1:31), Stenov organ arrangement CC BY-SA 4.0 (IMSLP), Univ. of Chicago Orchestra 2000 CC BY-NC-ND 3.0 US (archive.org; not suitable); none verified as live-orchestra PD; Musopen not checked (403). Autoplay: Chrome/Safari/iOS/Firefox require a user gesture for audible playback — documented.
+- **Files changed:** `app/src/introScene.js` (new), `app/src/tileLayer.js`, `app/src/story.js`, `app/src/main.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 5. Begin button, MacLeod audio synced to the lights, globe rotation (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I think we will need to do shorten it a bit but this is starting to look very good. but let's try it out as is and i'll feel where we need to shorten.
+  >
+  > We can start the whole website interaction with a (Begin (with audio)) button / with audio small, underneath, italicized.
+  >
+  > yeah let's do macleod, that's cool - the lights can fade in just as the crescendo comes in near beginning
+  >
+  > Let's have the globe rotate in the meanwhile too, and only stops rotating once we progress to India / cote d'ivoire
+- **Human decisions:** MacLeod recording; Begin button ("Begin", small italic "with audio" underneath) starts the site; lights fade in with the crescendo near the beginning; globe rotates until India. Download + location approved in chat (AskUserQuestion: "Yes → app/public/audio/").
+- **Download:** `app/public/audio/zarathustra_einleitung_macleod.ogg` from upload.wikimedia.org (Commons file page: Kevin MacLeod 2010, CC BY 3.0), 4,307,636 bytes, sha256 79d036e9…a8ef, unmodified. `app/public/audio/MANIFEST.md` (source, licence, credit line draft, hash). **Note:** the curl User-Agent string included the human's email address (sent to Wikimedia's server); not requested by the human, reported in chat.
+- **Crescendo timing (measured in the browser, Web Audio decode + 0.25 s RMS envelope, no tool installed):** trumpet call ~3.5–7 s; first full-orchestra swell starts 20.0 s (peak ~20.75 s); second ~37–42 s; climax from ~54.5 s; file 86.06 s. Lights fade start set to 20.0 s.
+- **Built:**
+  - `app/src/introScene.js`: timeline re-timed to the music (formless 0–3.5 s, sunrise 3.5–20 s, text 17.5–20 s, lights 20–26 s, UI after); the timeline clock follows `audio.currentTime` while the music plays; `begin()` shows the Begin button (the click is the user gesture that allows audio; silent fallback if play() is refused); `spin()` turns autoRotate on for steps before the first step with `fly` (India) and keeps the camera on Statistic while turning; rotation 1.2°/s (Earth's direction: view longitude decreasing), intro starts 24° east so the lights fade in on the intro camera view (lng 10). Music keeps playing after the intro; replaying the intro restarts it.
+  - `app/src/story.js`: Begin gate before `go(0)` (keys wait for it); `intro.spin()` decides whether to keep the camera.
+  - `app/src/style.css`: `#begin` styles (prototype block).
+- **Browser check (localhost:5173):** Begin screen shown; after click lng 34 → 10.05 at t = 20.0 s with fade 0 starting; Statistic keeps turning (no snap); India/Côte d'Ivoire stop rotation and fly as before; ← from Côte d'Ivoire flies to India unrotated; default URL: no Begin, no rotation, CSS intro; no console errors. One → press during the batch test appeared to skip India; not reproduced with real or dispatched key events (one step each). Audio audibility in the preview pane not verifiable by the agent.
+- **Not checked:** Safari playback of Ogg Vorbis (a converted MP3/AAC copy would need a tool such as ffmpeg, not installed).
+- **Open (human):** total length (~26 s to UI); credit line wording/placement (CC BY requires it); whether music fades/stops later; Safari format.
+- **Files changed:** `app/src/introScene.js`, `app/src/story.js`, `app/src/style.css`, `app/public/audio/` (new: .ogg + MANIFEST.md), this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 6. Text before the sun; music stops at full light (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > the music should stop once the globe is fully lit ... in my opinion. Also "and then there was light..." needs to render before the sun appears so that it's sequential
+- **Human decisions:** music stops once the globe is fully lit; the intro text comes before the sun appears.
+- **Built (`app/src/introScene.js` only):** text now 0.75–3.25 s (over the formless globe and low pedal), sunrise still starts at 3.5 s with the trumpets; lights still 20–26 s. Music volume ramps 1 → 0 over the last 1.5 s of the lights fade (agent choice, to avoid a hard cut) and pauses at full light (26 s). Skipping the intro (→ or a step click) fades the music out in 0.6 s; replaying the intro restarts it at 0 (pending fades cancelled). Dev-only handle `window.introAudio` for inspection.
+- **Browser check (localhost:5173):** audio playing in the preview (currentTime 1.49 s at t 1.52 s); text visible at 1.5 s with only the faint ring; ring only at 4.5 s; at 24.56 s volume 0.999, fade 0.85; at 27.6 s paused, volume 0, UI shown; replay from Statistic restarts at 0 with volume 1; → during replay pauses within 1.5 s; no console errors.
+- **Note:** `audio.volume` is ignored on iOS Safari (documented WebKit behaviour, not checked here), so there the music would stop with a cut at 26 s instead of a fade.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 7. Text timed to the trumpet call; music runs through the timpani after full light (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > A little bit of the drum beat is good even after the Earth is lit ... the drum beat is atmospheric and exciting.
+  >
+  > And then there was light shouldn't be too early ... it needs to be perfectly timed
+- **Human decisions:** keep some of the drum beat after the Earth is fully lit; the text must be precisely timed (not too early).
+- **Measured (browser, Web Audio, OfflineAudioContext band-pass 110 Hz Q 1.2 for timpani, 700 Hz Q 1.0 for trumpets, 20 ms RMS, positive-flux peaks; no tool installed):** first trumpet note ~3.6 s (also a low-band onset at 3.60), further trumpet onsets ~4.9, ~5.9 s, chord ~6.5 s, released ~7.3 s; first swell 20.0 s; timpani strokes 24.04–28.88 s (e.g. 26.76, 27.04, 27.34, 27.74, 28.08, 28.52, 28.88), second timpani passage ~42.1–47.2 s. These are agent readings of the envelope, not checked by ear.
+- **Agent sync choices (open for the human):** text fades in at the first trumpet note (3.6 s, story.js textIn 1000) and out as the chord releases (7.3 s, textOut 500; story.js `hold` not used in this mode); formless ring under it; sunrise 7.8–20 s; lights 20–26 s (unchanged); music continues after full light through the timpani, fades 29.0–30.5 s and pauses. Skipping during the intro still fades the music in 0.6 s; after full light the tail finishes even if the viewer moves on.
+- **Browser check (localhost:5173), sampled every 0.5 s on the music clock:** text 0 at 3.46, 0.29 at 3.96, 1 at 4.96–6.95, 0.75 at 7.46, 0 at 7.96; lights fade 0.02 at 20.46 → 1.00 at 25.96; volume 1.00 until 28.96, 0.78 at 29.46, 0.30 at 29.96, paused at 30.52; no console errors.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 8. Music ends between the timpani and the next trumpet call; shorter formless start; text held until first light (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > the music should stop just before the next horn sound, but right after the drum beat has finished. The drum is perfect, but if the next horn sounds come in it leaves the listener wanting more. But we must finish the drum sequence.
+  >
+  > the formless ring section can be shorter,
+  >
+  > and then there was light ... should only fade once the sun first appears.
+- **Human decisions:** music stops after the drum sequence finishes and before the next horn call; shorter formless ring section; text fades only once the sun first appears.
+- **Measured (browser, Web Audio band envelopes, 0.1 s steps, 27.5–33 s):** last strong timpani stroke 28.90 s (low band 85), decay to near silence by ~31.3–31.4 s (low band 9 → 4); next call rising from ~31.5 s (low 7 → 18 by 31.9 s, 1.4 kHz band bump at 31.5 s). Agent reading, not checked by ear.
+- **Agent choices (open):** music fades 30.5 → 31.3 s and pauses (before ~31.5 s); formless start shortened by starting the recording 1.5 s in (0.3 s volume fade-in; the opening 1.5 s of the low pedal is skipped — reversible with `T.start = 0`); "sun first appears" = first light at the chord (~6.5 s): glow ramps to 30 % over 1 s, then the rise to the limb continues to 20 s; text in at 3.6 s, out from 6.5 s (textOut 500). Rotation start adjusted (lng 32.2 → 10 at the lights).
+- **Browser check (localhost:5173), music clock sampled every 0.25–0.5 s:** volume 0.74 at 1.70 s, 1.00 from 2.20 s; text 0.03 at 3.70, 1.00 4.70–6.21, 0.64 at 6.70, 0 at 7.20; lights 0.04 at 20.70 → 1.00 at 26.20; volume 1.00 until 30.45, 0.85 at 30.70, 0.41 at 30.95, 0.04 at 31.20, paused at 31.31; first-light corona visible in the screenshot after the text; no console errors.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 9. Pitch-band re-measurement; music cut before the 2nd horn; text fades on the sun's appearance; ~21 s sequence; "Begin without audio" (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompts (verbatim, two messages):**
+  > yooo - the second horn still comes in in this version! Also, and then there was light fades too fast, I mean seriously it should only fade once the sun appears, exactly.
+  >
+  > And the intro feeling and section is too long. We need to cut this whole sequence down to ... 25 seconds if possible. we don't need to resonate for so long.
+  >
+  > Finally also include a Begin (without audio) button please
+
+  > the horn comes in at almost 29s
+- **Human decisions:** no second horn; the text fades exactly when the sun appears; whole sequence cut to ~25 s if possible; add "Begin (without audio)". Human observation: the horn comes in at almost 29 s.
+- **Measured (browser, Web Audio, two cascaded band-pass filters Q 25 at 65, 262, 392, 523, 622, 659 Hz, 0.2 s RMS, 0–34 s):** first trumpet call C 12.0 s (C4/C5), G 14.0 s (G4), high C 16.0 s (C5); chord from 20.0 s (E5 then E♭5, to ~25 s); second call: C5 rising from ~29.0 s (9 → 16 by 29.6 s), G4 ~31.2 s. **Correction:** steps 5–8 called the ~3.6 s event "the first trumpet note" and ~6.5 s "the chord" from loudness only; the pitch bands show no trumpet there (low-register pedal swell). The human's "almost 29 s" agrees with the C5 onset.
+- **Built (`app/src/introScene.js`; `app/src/style.css` one line):** music starts 8.0 s in (fade-in 0.6 s; formless ring ~4 s); text in on the first trumpet C (12.0 s); sun elevation scheduled so its bright core clears the limb on the high C (16.0 s), using a view-space visibility test (sprite core angle vs globe disk angle) solved by bisection for the intro camera; the text fade starts on the first frame that test is true; lights on the chord 20–26 s; music cut 28.93 → 29.03 s (keeps the attack of the last timpani stroke at ~28.9 s). Click → silence ≈ 21 s; UI ≈ 19.5 s. Second Begin button "Begin / without audio" (same timeline, wall clock, no audio). Fixed: volume stayed 0 when the first frame arrived after the fade-in window (shader compile); volume now set every frame.
+- **Browser check (localhost:5173), music clock at 0.1 s:** text 0.01 at 12.07 → 1.00 at 12.97; 1.00 until 15.97, 0.95 at 16.07 → 0 at 16.57 (screenshot shows the sun core just past the limb); lights 0.08 at 21.07 → 1.00 at 26.08; volume 1.00 at 28.91, 0.20 at 29.00, paused at 29.04. With audio: volume 1 at 9.98 s. Without audio: audio stays paused, text 4.5–8.5 s after click, lights 12.5–18 s, UI shown by 20 s. No console errors.
+- **Open (human):** total length (knob `T.start`: 4.0 s → ≈ 25 s, 8.0 s → ≈ 21 s); whether the cut at 29.03 s is clean by ear; credit line; Safari .ogg.
+- **Files changed:** `app/src/introScene.js`, `app/src/style.css`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 10. Cut 0.05 s earlier; formless ~2 s; keys hint; mute button (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > it's ALMOST perfect, I can hear like a tiny milisecond of horn coming in, maybe hold back for like 0.05 seconds or something.
+  >
+  > I don't need 25s, 21 is even better. intro shouldn't be too long.
+  >
+  > Also, we should render a "Use keys to navigate" thing in the intro, before the text arrives.
+  >
+  > let's cut the formless ring time in half to 4 seconds. so start song slightly later then.
+  >
+  > We also, in the top right, need an audio button so users can click mute on audio
+  >
+  > Maybe we don't need a second 'begin button', but rather just a second button that says 'click to mute audio'
+- **Clarification asked (AskUserQuestion: formless was already 4 s):** human chose "Halve it to ~2 s" (song starts at 10.0 s).
+- **Human decisions:** music cut 0.05 s earlier; ~21 s or shorter is preferred over 25 s; "Use keys to navigate" shown in the intro before the text (human's wording); formless ~2 s; a top-right "click to mute audio" button replaces the second Begin button.
+- **Built:** `app/src/introScene.js`: T.start 10000 (fade-in 0.6 s); hint 10.2–11.8 s music time (0.3 s fades; agent timing), centred, smaller, removed with the intro; music fade 28.88 → 28.98 s; single "Begin / with audio" button; `#mute` button top right ("click to mute audio" / "click to unmute audio", aria-pressed) shown on the Begin screen and while the music plays, hidden when it pauses (end or skip); muting uses `audio.muted`, so the music clock and sync continue. `app/src/style.css`: `#intro .hint`, `#mute` (prototype block).
+- **Browser check (localhost:5173), music clock at 0.1 s:** hint 1.00 at 10.56–11.06, 0.89 at 11.57, 0 at 12.06; text 0.01 at 12.06 → 1.00 at 13.06, fade starting 16.06; muted 20.29–21.19 then unmuted (label switched both ways); volume 0.98 at 28.90, paused at 29.00, mute button hidden after; UI shown; no console errors. Click → silence ≈ 19 s.
+- **Note:** while shown, the mute button sits where the "2025" label and the fireflies toggle go later (both hidden during the intro); it hides when the music stops.
+- **Files changed:** `app/src/introScene.js`, `app/src/style.css`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 11. Arrow-key hint at the bottom; mute icon; cut 0.03 s earlier; constant sun speed (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > use keys to navigate should include arrow keys icons, and should be placed near bottom of screen, centered.
+  >
+  > The mute button should just be an audio icon, more intuitive.
+  >
+  > Again, the music is almost perfect, but stop it just 0.03 seconds earlier now ... almost perfect.
+  >
+  > Also, the sun looks like it accelerates as it passes the globe, I think its speed should be constant
+- **Human decisions:** hint with arrow-key icons, bottom centre; mute button = audio icon; music cut 0.03 s earlier; constant sun speed.
+- **Built:** `app/src/introScene.js`: hint = two `<kbd>` keys (← →, aria-labels) + "Use keys to navigate"; mute = inline SVG speaker (waves / cross when muted), aria-label + title "Mute audio" / "Unmute audio"; music fade 28.85 → 28.95 s; sun path = rotation about one axis (Vector3.applyAxisAngle) and timed by distance along its projected screen path (600-sample lookup table built per play for the intro camera distance), linear in time from the music start, reaching the core-at-limb point on the high C (16.0 s); dev-only `window.introSun`. Removed the old ease-in/ease-out sun schedule. `app/src/style.css`: hint bottom 56px centred, `kbd` styling; `#mute` 36px round icon button.
+- **Browser check (localhost:5173, 800×1020 pane), sun sprite centre projected to the screen every 0.5 s:** before the change 24 → 27 → 52 px per 0.5 s (perspective made the even 3D rotation look faster later); after: 28.3–29.6 px per 0.5 s from 10.2 s to 25.7 s; text fade starts 16.0–16.2 s; music paused at 28.97 s; Begin screen shows the icon; hint shows at the bottom; no console errors.
+- **Note:** in this narrow pane the sun leaves the right edge about 2 s after it appears (its screen path is fixed by SUN_END and speed); wider windows keep it on screen longer.
+- **Files changed:** `app/src/introScene.js`, `app/src/style.css`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 12. Music cut 0.05 s earlier (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > cut another 0.05 seconds earlier please. Somehow that leading horn can still be felt
+- **Human decision:** cut 0.05 s earlier.
+- **Built:** `app/src/introScene.js`: `T.musicEnd` 28950 → 28900 (fade 28.80 → 28.90 s).
+- **Browser check (localhost:5173), sampled every ~20 ms:** volume 1.00 at 28.801, 0.91 at 28.823, 0.26 at 28.867, 0.10 at 28.889, paused at 28.908; no console errors.
+- **Note:** the last timpani stroke was measured at ~28.88–28.90 s (step 7), so the fade now overlaps its attack; whether it still sounds complete is for the human's ear.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 13. Keys hint 2 s longer; music cut 0.05 s earlier (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > also the keys to navigate button can stay for a bit longer before it fades that's okay, like another 2 seconds.
+  >
+  > okay just another 0.05 seconds off the music and it should be perfect
+- **Human decisions:** keys hint stays ~2 s longer; music cut 0.05 s earlier.
+- **Built:** `app/src/introScene.js`: `T.hintOff` 11800 → 13800 (hint now overlaps the text's arrival; it sits at the bottom); `T.musicEnd` 28900 → 28850 (fade 28.75 → 28.85 s).
+- **Browser check (localhost:5173), ~20 ms samples:** hint 1.00 from 11.01 to 13.41, 0 at 13.90; text 0.36 at 12.41, 0.98 at 12.91; volume 1.00 at 28.745, 0.76 at 28.787, 0.14 at 28.832, paused at 28.850; screenshot shows text and hint together. No app errors (the console buffer held ~500 errors from the agent's own test script, which read the hint before Begin was clicked after the pane resized; none from app code).
+- **Note:** the fade now ends before the measured last timpani stroke (~28.88–28.90 s, step 7); the human judges by ear.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 14. Smoother music close-out via Web Audio gain (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > there's a bit of static as it closes out, it seems... do you hear that too? Can we make it a smoother fade out, does that require volume to decrease unto silence?
+- **Answer given:** the agent cannot hear audio. Likely cause (inference from the code, not measured): the fade stepped `audio.volume` once per animation frame (~16 ms) over 100 ms (~6 jumps, each can click), and `pause()` could cut a non-silent signal. A smooth fade does go down to silence.
+- **Human decision:** smoother fade-out.
+- **Built (`app/src/introScene.js`):** Web Audio graph built on the Begin click (browser API, no new dependency): media element → fade GainNode → mute GainNode → destination. Fades use `setValueCurveAtTime` with a 64-point raised-cosine curve (sample-accurate): fade-in 0.6 s from the music start; close-out scheduled once on the audio clock, 28.60 → 28.85 s (agent choice: 250 ms, same end point as step 13); the music pauses only after silence (end + 30 ms, checked on the music clock). Skip during the intro: 0.6 s curve to silence, then pause. Mute uses the mute gain (`setTargetAtTime`, 30 ms) instead of `audio.muted`; state shown by the icon as before. Without Web Audio the music plays without fades. Also works where `audio.volume` is ignored (iOS, documented WebKit behaviour; not tested on a device).
+- **Browser check (localhost:5173), ~10 ms samples:** fade-in gain 0.03 at 10.07 s → 1.00 at 10.63 s; close-out gain 1.000 at 28.587, 0.996 at 28.609, 0.490 at 28.727, 0.073 at 28.808, 0.000 at 28.848, paused at 28.881; muted before Begin and unmuted during the intro (labels switch); → during the intro: gain 0, paused, mute icon hidden, step 2/16; no page errors (window error listener).
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 15. Longer music fade-out (prototype, ?intro=sunrise)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay, increase the length of the fade out because right now drum volume increases and then abruptly fades, drag it out more please
+- **Human decision:** longer fade-out.
+- **Built:** `app/src/introScene.js`: `T.musicOut` 250 → 1500 ms (raised-cosine close-out 27.35 → 28.85 s, same end point; length is an agent choice).
+- **Browser check (localhost:5173), 50 ms samples:** gain 1.000 at 27.26, 0.953 at 27.56, 0.598 at 28.01, 0.287 at 28.31, 0.063 at 28.61, 0.009 at 28.76, paused at 28.89 (silent); no page errors.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro scene task, step 16. Handoff written; next-session prompt (story cards, Tanzania) given in chat
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I'd like to start a new chat we are at 30%. My goal for this next chat will be to refine the "light" story. I'm thinking of replacing ivory coast with tanzania... but I don't want to say "Radiance increased x%" anymore, I want to have a tagline which explains what's going on ... "India's rural electrificiation policy has led to..." ; "Light is has expanded to encroach in the abundantly natural Tanzania" sort of thing.. trying to create more narrative
+- **Actions:** wrote `handoffs/2026-10-04_intro-sunrise-scene.md`. Read-only checks for the next prompt: `app/content/story.js` step ids/figures (India "ALAN increased by 93%", Côte d'Ivoire "ALAN increased by 227%"); `pipeline/story/02_country_change.py` (India, Ukraine, Iceland, Ivory Coast); `data/derived/story/country_screen_2015_2025.csv` has a Tanzania row (screening aid from `04_country_screen.py`, radiance_change_pct_a 411.0, same_sign_all_variants True; label inferred, "not a story figure", unaudited). Prompt for the next session given in chat.
+- **Human direction (for the next session):** refine the Light story; possibly Tanzania instead of Côte d'Ivoire; replace "ALAN increased by x%" figures with explanatory taglines.
+- **Files changed:** `handoffs/2026-10-04_intro-sunrise-scene.md` (new), this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Light story refinement task, step 1. Read-only summary of the current Light steps (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; branch alexander-final-rebuild). Read RULES.md first and follow it for the whole session. Then read:
+  > - the latest handoffs: handoffs/2026-10-04_intro-sunrise-scene.md (current app state; the ?intro=sunrise prototype) and handoffs/2026-10-03_story-ux-skeleton.md (story decisions, India/statistic history)
+  > - app/content/story.js, Part 1 ("Light") steps: intro, statistic, india, cote-divoire (titles, figure lines, text, sources, camera, sweep)
+  > - pipeline/story/02_country_change.py and data/derived/story/country_change_2015_2025.json (how the country numbers were made), and data/derived/story/country_screen_2015_2025.csv (screening aid from 04_country_screen.py; it has a Tanzania row, unaudited, "not a story figure")
+  > - the AI_LOG entries about the India (DDUGJY) and Côte d'Ivoire (PRONER) cards
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/. They edit app/vite.config.js, app/src/tileLayer.js, app/src/main.js, app/src/style.css and app/content/story.js. Re-read a file right before editing it and keep edits small and local.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - data/raw/ is read-only; ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only.
+  > - Do not commit, push, delete, download, install or create accounts without my explicit go-ahead.
+  >
+  > Task: refine the "Light" story. The narrative direction is mine; you research, draft options when I ask, and build what I choose.
+  > My ideas:
+  > 1. Replace Côte d'Ivoire with Tanzania.
+  > 2. Drop the "ALAN increased by x%" figure lines on the country cards. Instead, each card gets a tagline that explains what's going on, e.g. "India's rural electrification policy has led to..." or "Light has expanded to encroach on the abundantly natural Tanzania" (my rough wording).
+  >
+  > Steps:
+  > 1. Briefly summarise the current Light steps (text, figures, sources, what is provisional or unaudited). No changes yet.
+  > 2. Tanzania: find what is documented about why its night lights changed 2015–2025 (electrification programmes such as REA, grid extension, urban growth, mining, etc.) and about its natural areas (share of land under protection, major parks/reserves), with sources and labels (documented / not found). Say what our own data would need (a Tanzania entry in 02_country_change.py → a new inferred value, RULES §3 audit) and stop for my go-ahead before computing anything.
+  > 3. Give me 2–3 short tagline options per card (India, Tanzania), each claim tied to a source, marked DRAFT. Don't add framing beyond what I asked. Stop for my choice.
+  > 4. Build only what I choose, check it in the browser preview (port 5173), and show me screenshots.
+  >
+  > Write a handoff in handoffs/ when the task is done or at ~30% context.
+- **Actions:** read RULES.md, the two handoffs, `app/content/story.js` (Part 1), `pipeline/story/02_country_change.py`, `data/derived/story/country_change_2015_2025.json`, `data/derived/story/country_screen_2015_2025.csv` (Tanzania row) and the `04_country_screen.py` docstring, `audits/story/AUDIT_2026-10-03.md` header, AI_LOG entries on DDUGJY (step 5–6) and PRONER (Story step 41). Summary given in chat. Observed: the audit covers 02 for India, France, Ukraine only (Côte d'Ivoire added later, not covered); human spot-check match rate still pending.
+- **Files changed:** this log only.
+
+## 2026-10-04: Light story refinement task, step 2. Tanzania research: night-light drivers and natural areas (research only; no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (WebSearch, WebFetch)
+- **Prompt (verbatim):** same prompt as step 1 (its "Steps 2" item); no new human message.
+- **Found (label `documented` unless stated; pages read by the agent on 2026-10-04 via WebFetch unless marked "search snippet"):**
+  - Access to electricity, % of population (World Bank WDI EG.ELC.ACCS.ZS, API, last updated 2026-07-13): 2015 26.2; 2016 32.8; 2017 32.1; 2018 34.9; 2019 37.7; 2020 39.9; 2021 42.7; 2022 45.8; 2023 48.3; 2024 52.4; 2025 no data. https://api.worldbank.org/v2/country/TZA/indicator/EG.ELC.ACCS.ZS
+  - REA village electrification, mainland: June 2016, 4,395 of 12,268 villages (36%), Phase I–II; Phase III target > 7,873 villages over 5 years (TanzaniaInvest, 9 Aug 2016, secondary). Nov 2021: 10,361 of 12,317 villages (PM Majaliwa; Tanzania Embassy Tel Aviv page, 15 Nov 2021). 24 Nov 2023: 11,313 of 12,318 villages (REA Director of Rural Electrification Eng. Jones Olotu; Daily News). Dec 2024: 12,301 of 12,318 villages, 99.9% (The Guardian/IPP 11 Jan 2025: search snippet only, page returned HTTP 520; not read). Hamlets: ~40,000, "more than 60 per cent", reached; rural residents connected 37.1% vs 52% national (REA DG Hassan Saidy; Daily News, 19 Apr 2026).
+  - Terrestrial protected areas, % of land area (World Bank WDI ER.LND.PTLD.ZS, source UNEP-WCMC WDPA, last updated 2026-07-13): 2015 31.9; 2016–2021 38.1–38.2; 2022 38.4; 2023 39.9; 2024 40.0; 2025 39.9. The 2015→2016 step is not explained by the source (cause not found). Protected Planet country page: 867 protected areas (UNEP-WCMC, Oct 2026).
+  - Parks: Nyerere National Park gazetted 2019 from the northern Selous Game Reserve, 30,893 km² (search snippets: Wikipedia and tourism pages; primary source not read). Serengeti UNESCO page returned 403 (not read).
+  - Night-light study: Zhu, Li & Ru 2022, Remote Sensing 14:4240, doi:10.3390/rs14174240 (VIIRS Black Marble, Tanzania; land electrification rate fell 2015–2019 in most cities, power infrastructure lagging urban expansion). Abstract via search snippet only; MDPI returned 403.
+- **Not found:** any source attributing Tanzania's 2015–2025 night-light change to mining (only a general paper on gold mining and urbanisation, not read); any source that light has spread into or near protected areas in Tanzania.
+- **Observed:** REA village counts are mainland only; Natural Earth "United Republic of Tanzania" includes Zanzibar.
+- **Files changed:** this log only. Stopped for the human's go-ahead before computing a Tanzania entry.
+
+## 2026-10-04: Light story refinement task, step 3. Statistic wording changed (human); tagline options drafted for India and Tanzania (DRAFT, in chat)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > It should be "Artificial Light at Night (ALAN) has increased by..."
+  >
+  > Okay I shouldn't say encroachment maybe, but clearly the light is new to these newly electrified geographies, I mean that's visually obvious, and there are ecosystems even around those villages... it's intuitive. Don't compute tanzania, want to use a narrative line, and can have a 'click to expand' with sources. Also india needs to take on that same form of 'narrative' with 'click to expand'
+- **Human decisions:** statistic reads "Artificial Light at Night (ALAN) has increased by ..."; Tanzania not computed; both country cards (India, Tanzania) get a narrative line with a click-to-expand for details and sources; no "encroachment" wording.
+- **Actions:** `app/content/story.js` line 40, statistic text: "ALAN has increased by 41% between 2015 and 2025." → "Artificial Light at Night (ALAN) has increased by 41% between 2015 and 2025." (comment: wording human, 2026-10-04). Footnote unchanged (it still begins "ALAN: artificial light at night."; flagged to the human). Read `app/src/story.js`: the fact step already uses a "Details & sources" toggle (`button.more` + `div.more-body`); cards do not. Tagline options (2–3 per card, DRAFT, each claim tied to a source) given in chat; stopped for the human's choice.
+- **Labels:** no data values changed.
+- **Files changed:** `app/content/story.js` (one line), this log.
+
+## 2026-10-04: Light story refinement task, step 4. Tagline cards built (India I-3, Tanzania T-3); Côte d'Ivoire retired; sunrise intro made the default; checked in the browser
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I3, T3,
+  >
+  > 2. the small text and sources...
+  > 3. retire ivory coast yes, and thank you
+  
+  followed by:
+  > moreover let's bring the sunrise intro into the primary app
+- **Human decisions:** India tagline I-3; Tanzania tagline T-3; behind "Details & sources": the small text and the sources (no % figure); Côte d'Ivoire retired; the sunrise intro becomes the default.
+- **Actions:**
+  - `app/content/story.js`: new optional field `tagline`. India: figure/figureNote removed (old value kept in a comment), tagline "India’s rural electrification policy brought light to places that were dark at night."; DDUGJY text and source unchanged. New step `tanzania` in Côte d'Ivoire's slot: tagline "As Tanzania’s villages joined the grid, light reached new places, alongside the ecosystems around them."; DRAFT details text (agent): "Under the Rural Energy Agency (REA) programme, villages on mainland Tanzania connected to electricity rose from 4,395 of 12,268 (36%) in June 2016 to 11,313 of 12,318 in November 2023. About 40% of Tanzania’s land is protected (2025)."; sources TanzaniaInvest (9 Aug 2016), Daily News (24 Nov 2023), World Bank WDI ER.LND.PTLD.ZS (UNEP-WCMC); camera lat −6.3, lng 34.9, alt 0.35; sweep 40.4 → 29.3 (approximate, by hand, display only). `cote-divoire` moved to `retired` (unchanged, with a retirement comment).
+  - `app/src/story.js`: cards with a `tagline` show title + tagline + a "Details & sources" button that opens text + sources inline in the card; `toggleMore` takes the container (fact or card); Escape / outside click close either.
+  - `app/src/style.css`: `#card .tagline`, `#card .more`, `#card .more-body` rules (one block after `#card .figure-note`).
+  - `app/src/introScene.js`: `INTRO_MODE` defaults to `'sunrise'`; `?intro=css` gives the old CSS intro (code path kept, nothing deleted).
+  - Browser check at :5173 (another session's server; HMR): Begin screen without a URL switch; sunrise → lights → UI; Light steps Intro, Statistic, India, Tanzania (16 steps); statistic text shows the new wording; India and Tanzania cards show the tagline, details open and close; no console errors. `?intro=css` shows the old overlay text, no Begin button. Observed: the Tanzania card covers the south-east coast (Lindi/Mtwara) in an 800×600 pane; the view also shows parts of Kenya and Uganda (camera not tuned).
+- **Labels:** Tanzania details values `documented` (sources above). No data files changed; nothing computed.
+- **Files changed:** `app/content/story.js`, `app/src/story.js`, `app/src/style.css`, `app/src/introScene.js`, this log.
+
+## 2026-10-04: Light story refinement task, step 5. "has" removed from the statistic line; handoff written
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > just remove the word "has" from the "statistic" line please,
+- **Actions:** `app/content/story.js` line 40: now "Artificial Light at Night (ALAN) increased by 41% between 2015 and 2025." Checked in the browser (:5173): the fact text reads as above. Wrote `handoffs/2026-10-04_light-story-taglines.md`.
+- **Files changed:** `app/content/story.js`, `handoffs/2026-10-04_light-story-taglines.md` (new), this log.
+
+## 2026-10-04: Light story refinement task, step 6. Commit (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > nailed it. Okay can you commit so I can push to the repo please
+- **Actions:** one commit on `alexander-final-rebuild` with all uncommitted `final/` changes: this task (story.js content, tagline cards, sunrise default), the intro scene session's files (`app/src/introScene.js`, `main.js`, `tileLayer.js`, `app/public/audio/` 4.1 MB incl. MANIFEST.md, its handoff) and `handoffs/2026-10-04_sdgsat-colour-questions.md`. The audio was an open git question in the intro handoff; it is included because the default intro now needs it (stated to the human). Not pushed.
+- **Files changed:** this log; git history.

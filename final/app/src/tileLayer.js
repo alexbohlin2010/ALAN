@@ -62,6 +62,7 @@ const fragmentShader = /* glsl */`
   uniform vec2 uFbShare;      // PROTOTYPE: fallback white share 2015/2025
   uniform float uMode;        // PROTOTYPE: 0 brightest, 1 place, 2 blend
   uniform float uBlocks;      // PROTOTYPE: place-mode blocks per degree
+  uniform float uFade;        // 1 = normal; < 1 only during the ?intro=sunrise prototype (introScene.js)
   varying vec2 vUv;
   varying vec2 vLonLat;
   void main() {
@@ -85,7 +86,7 @@ const fragmentShader = /* glsl */`
       w = uMode < 1.5 ? step(h, share) : share;
     }
     vec3 c = g * mix(uTints[0], uTints[1], w);
-    gl_FragColor = vec4(noData ? uNoDataColor : c, 1.0);
+    gl_FragColor = vec4((noData ? uNoDataColor : c) * uFade, 1.0);
   }`;
 
 export class TileLayer {
@@ -106,6 +107,7 @@ export class TileLayer {
       uFbShare: { value: new THREE.Vector2(0, 0) },
       uMode: { value: RAMP_MODE },
       uBlocks: { value: RAMP_BLOCKS },
+      uFade: { value: 1 },
     };
     this.tiles = new Map();         // key -> { mesh, level, used }
     this.loading = new Set();
