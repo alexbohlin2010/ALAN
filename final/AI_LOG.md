@@ -3550,3 +3550,20 @@ Append only. One entry per AI step (see RULES.md §4).
   - Still ignored: everything else in `data/derived/`, incl. the radiance tiles (`data/derived/radiance/tiles/v1/`, ≈220 MB, 21k files), which the app needs to draw the globe; they still travel by zip.
 - **Committed** (one commit, not pushed): `.gitignore`, the 9 files above (values unchanged, labels as recorded at their creation: impacts `documented` / `inferred`, colour shares `estimated`), this log.
 - **Files changed:** `final/.gitignore`, this log.
+
+## 2026-10-04: Firefly transition task, step 9. Radiance tiles: size and web-rendering facts; options given (no change)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay then maybe we should include the radiance tiles data? That's a large file will websites be able to render that easily?
+- **Facts (read-only):** `data/derived/radiance/tiles/v1/`: 259 MB on disk, 20,334 WebP files in levels 0–9 (13,782 at level 9), mean 10.6 KB, largest 108 KB. `app/src/tileLayer.js` loads only the tiles in view at the level that matches screen resolution (plus one coarser fallback level). Current `.git` size 243 MB.
+- **Options given in chat:** commit the tiles to git; keep the zip; attach the zip to a GitHub release; Git LFS (new tool, would need approval). Waiting for the human.
+- **Files changed:** this log (uncommitted).
+
+## 2026-10-04: Firefly transition task, step 10. Radiance tiles v1 committed (human decision: option 1)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > option 1, commit the tiles
+- **Done:** `final/.gitignore` exception for `data/derived/radiance/tiles/v1/` (20,334 files: 20,333 WebP + `tiles.json`, 259 MB). The app reads `/tiles/v1/` (main.js `TILE_BASE` default).
+- **Left out (still ignored):** `data/derived/radiance/tiles/v2/` (259 MB, not read by the app), the COGs, curve, checks and run logs.
+- **Committed** (not pushed): `.gitignore`, the tiles, this log. Values unchanged (radiance tiles: display rendering of `measured` EOG VNL radiance, as recorded at creation).
+- **Files changed:** `final/.gitignore`, this log.

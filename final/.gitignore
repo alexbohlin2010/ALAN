@@ -5,7 +5,7 @@ data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf
 # Article Supporting Information from Wiley (licence not stated; human request, AI_LOG Impacts step 47)
 data/raw/impacts/czarnecka2025/gcb70569-sup-*
 # Generated outputs: rebuilt by scripts in pipeline/. Ignored, except the small files the app reads
-# (human request, Firefly transition task step 8). Radiance tiles and large outputs stay out.
+# (human request, Firefly transition task step 8; radiance tiles v1 added in step 10). Large outputs stay out.
 data/derived/*
 !data/derived/colour/
 data/derived/colour/*
@@ -20,6 +20,11 @@ data/derived/impacts/*
 !data/derived/impacts/spectra_278.json
 !data/derived/impacts/spectra_299.json
 !data/derived/impacts/perception_299.json
+!data/derived/radiance/
+data/derived/radiance/*
+!data/derived/radiance/tiles/
+data/derived/radiance/tiles/*
+!data/derived/radiance/tiles/v1/
 previews/
 # Environments / installs
 .venv/
