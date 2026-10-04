@@ -20,7 +20,7 @@ export const INTRO_MODE = new URLSearchParams(location.search).get('intro') ?? '
 // audible); a "Use keys to navigate" hint before the text; a mute button (top right) instead of a second Begin.
 // Agent sync choices: text in on the first trumpet C; the sun's core clears the limb on the high C (text fade starts
 // on that frame); hint 10.2-11.8 s. Click -> silence ~19 s.
-const T = { start: 10000, fadeIn: 600, ring: 600, hint: 10200, hintOff: 13800, hintFade: 300, text: 12000,
+const T = { start: 10000, fadeIn: 600, ring: 600, hint: 10200, hintOff: 13800, hintFade: 300, text: 16000,
   sunAppear: 16000, lights: 20000, glowOut: 3500, musicEnd: 28850, musicOut: 1500 };   // human (steps 12-13): 0.05 s earlier twice more
 // Human (step 14): smoother close-out (static heard). The fades now run in Web Audio (a GainNode with a raised-cosine
 // curve, sample-accurate) instead of stepping audio.volume once per frame; the music pauses only after silence.
@@ -32,6 +32,19 @@ const HINT = 'Use keys to navigate';   // human's wording
 // Human (2026-10-04): MacLeod recording (app/public/audio/MANIFEST.md, CC BY 3.0, credit required);
 // the site opens with a "Begin / with audio" button; the globe turns from the intro until India.
 const AUDIO_URL = '/audio/zarathustra_einleitung_macleod.ogg';
+// Human (intro soundscape task 2026-10-04): after Begin, ~4 s of night crickets on the black screen before the
+// music; the crickets play on at full level under the music and fade to nothing as the lights fade in (option A,
+// "drowned out gradually"). Recording: KikeVilaplana, freesound 436528, CC0 (app/public/audio/MANIFEST.md).
+// The music element already plays (silent) from T.start - PRE, so the music clock drives the whole pre-roll and
+// the music is started inside the Begin click (autoplay rules). Cricket fade-in 0.5 s: agent choice.
+const CRICKETS_URL = '/audio/436528__kikevilaplana__night-ambience-with-crickets.wav';
+const PRE = 2000, CRICKETS_IN = 500;   // human (soundscape step 7): dark cricket screen 4 s -> 2 s
+// Human (soundscape step 6): crickets fade out faster (agent value 3 s, was 6 s with the lights), from the moment the
+// lights start (chord, T.lights); text in later (agent choice: the high C, 16.0 s; was the first trumpet C, 12.0 s)
+// and out exactly when the lights come in; the sun sprite removed ("looks too fake"), the halo kept.
+// Human (step 8): crickets gone by the time the lights hit, fading from halfway through the text (16.0-20.0 s):
+// 18.0 -> 20.0 s, ending exactly at T.lights.
+const CRICKETS_OUT = 2000, SHOW_SUN = false;
 const ROTATE_SPEED = 0.2;   // OrbitControls autoRotateSpeed: 6 x speed deg/s (frame-rate independent) = 1.2 deg/s
 const SUN_END = new THREE.Vector3(0.62, 0.36, -0.7).normalize();  // view space: right, up, behind
 // Sun direction at path fraction e (0 = straight behind the globe, 1 = SUN_END; e > 1 continues on the same arc):
@@ -129,12 +142,16 @@ export function createIntroScene({ globe, layer }) {
   sun.scale.setScalar(R * 1.6);
   halo.renderOrder = rim.renderOrder = sun.renderOrder = 100;   // after the tiles (renderOrder = level)
   const group = new THREE.Group();
-  group.add(halo, rim, sun);
+  group.add(halo, rim);
+  if (SHOW_SUN) group.add(sun);
 
   let raf = null, overlay = null, begun = false, fadeId = 0;
-  let eAppear = 0.3, textOffAt = null;   // sun elevation at which its core clears the limb; frame the text fades
+  let eAppear = 0.3;   // sun elevation at which its core clears the limb (still paces the glow)
   const audio = new Audio(AUDIO_URL);
   audio.preload = 'auto';
+  const crickets = new Audio(CRICKETS_URL);
+  crickets.preload = 'auto';
+  let cricketGain = null, cricketsOff = false, cricketsId = 0;
   // Web Audio graph (built on the Begin click, a user gesture): element -> fade gain -> mute gain -> speakers.
   let ctx = null, fade = null, muteGain = null, muted = false, pauseAt = Infinity;
   function ensureGraph() {
@@ -145,13 +162,17 @@ export function createIntroScene({ globe, layer }) {
       muteGain = ctx.createGain();
       muteGain.gain.value = muted ? 0 : 1;
       ctx.createMediaElementSource(audio).connect(fade).connect(muteGain).connect(ctx.destination);
+      cricketGain = ctx.createGain();
+      ctx.createMediaElementSource(crickets).connect(cricketGain).connect(muteGain);   // one mute for both
     } catch { ctx = null; }   // no Web Audio: plays without fades
     ctx?.resume();
   }
   // Raised-cosine ramp of the fade gain from its current value to `to` over `ms`, starting `delayMs` from now.
-  function ramp(to, ms, delayMs = 0, from = fade?.gain.value) {
+  // `g` defaults to the music's fade gain (cricketGain.gain for the crickets).
+  function ramp(to, ms, delayMs = 0, from, g = fade?.gain) {
     if (!ctx) return;
-    const g = fade.gain, t = ctx.currentTime + Math.max(0, delayMs) / 1000;
+    from ??= g.value;
+    const t = ctx.currentTime + Math.max(0, delayMs) / 1000;
     const curve = Float32Array.from({ length: 64 }, (_, i) => to + (from - to) * (0.5 + 0.5 * Math.cos(Math.PI * i / 63)));
     g.cancelScheduledValues(ctx.currentTime);
     g.setValueAtTime(from, ctx.currentTime);
@@ -164,10 +185,11 @@ export function createIntroScene({ globe, layer }) {
   };
   if (import.meta.env.DEV) window.introAudio = audio;   // dev-only handle for inspection
   if (import.meta.env.DEV) window.introGain = () => fade?.gain.value;   // dev-only
+  if (import.meta.env.DEV) window.introCrickets = () => [crickets.paused, crickets.currentTime, cricketGain?.gain.value];   // dev-only
   if (import.meta.env.DEV) window.introSun = sun;       // dev-only handle for inspection
   // Clock: the music's own time while it plays (keeps the lights on the swell), else wall time.
   const clock = t0 => (begun && !audio.paused && audio.currentTime > 0 ? audio.currentTime * 1000
-    : T.start + performance.now() - t0);
+    : T.start - PRE + performance.now() - t0);
   const cam = globe.camera(), q = new THREE.Quaternion(), tmp = new THREE.Vector3();
   const hint = Object.assign(document.createElement('div'), { className: 'hint',
     innerHTML: `<kbd aria-label="Left arrow">←</kbd><kbd aria-label="Right arrow">→</kbd><span>${HINT}</span>` });
@@ -187,7 +209,7 @@ export function createIntroScene({ globe, layer }) {
   mute.addEventListener('click', () => {
     muted = !muted;
     if (ctx) muteGain.gain.setTargetAtTime(muted ? 0 : 1, ctx.currentTime, 0.03);   // short smooth mute, no click
-    else audio.muted = muted;
+    else audio.muted = crickets.muted = muted;   // no Web Audio (frame() also keeps the music muted in the pre-roll)
     label();
   });
   audio.addEventListener('play', () => { mute.hidden = false; });
@@ -210,11 +232,20 @@ export function createIntroScene({ globe, layer }) {
     cam.getWorldQuaternion(q);
     sun.position.copy(tmp.copy(s).applyQuaternion(q)).multiplyScalar(R * 4);
     sun.material.opacity = smooth(0.6 * eAppear, eAppear, e) * out;
-    if (textOffAt === null && sunVisible(s, cam.position.length())) textOffAt = t;   // the sun appears: text goes
     hint.style.opacity = Math.min(smooth(T.hint, T.hint + T.hintFade, t), 1 - smooth(T.hintOff - T.hintFade, T.hintOff, t));
-    text.style.opacity = textOffAt === null ? smooth(T.text, T.text + tm.textIn, t)
-      : Math.min(+text.style.opacity, 1 - smooth(textOffAt, textOffAt + tm.textOut, t));
-    layer.uniforms.uFade.value = smooth(T.lights, T.lights + tm.lightsIn, t);
+    text.style.opacity = Math.min(smooth(T.text, T.text + tm.textIn, t), 1 - smooth(T.lights, T.lights + tm.textOut, t));
+    // Human (soundscape step 7): lights rise at once from the chord (front-loaded ease-out, agent choice: cubic;
+    // ~42% after 1 s) instead of the slow S-curve (~8% after 1 s); start and length unchanged.
+    const lit = Math.min(1, Math.max(0, (t - T.lights) / tm.lightsIn));
+    layer.uniforms.uFade.value = 1 - (1 - lit) ** 3;
+    if (ctx && !cricketsOff && t >= T.lights - CRICKETS_OUT) {   // the lights drown the crickets out
+      cricketsOff = true;
+      ramp(0, Math.max(50, T.lights - t), 0, undefined, cricketGain.gain);
+    }
+    if (!ctx) {   // no Web Audio: music silent during the pre-roll; crickets drowned out by volume steps
+      audio.muted = muted || t < T.start;
+      crickets.volume = 1 - smooth(T.lights - CRICKETS_OUT, T.lights, t);
+    }
     if (t >= T.lights + tm.lightsIn) { cancelAnimationFrame(raf); raf = null; stop(); tail(); done(); }
   }
 
@@ -230,16 +261,20 @@ export function createIntroScene({ globe, layer }) {
     text.style.opacity = 0;
     layer.uniforms.uFade.value = 0;
     // Start east of the step's camera by the turn made before the lights, so the lights fade in on that view.
-    globe.pointOfView({ ...step.camera, lng: step.camera.lng + 6 * ROTATE_SPEED * (T.lights - T.start) / 1000 }, 0);
+    globe.pointOfView({ ...step.camera, lng: step.camera.lng + 6 * ROTATE_SPEED * (T.lights - T.start + PRE) / 1000 }, 0);
     globe.scene().add(group);
-    textOffAt = null;
     eAppear = appearElevation(R * (1 + step.camera.altitude));
     buildPath(R * (1 + step.camera.altitude));
     if (begun) {   // silent fallback if play() is refused
-      fadeId++; pauseAt = Infinity;
-      ramp(1, T.fadeIn, 0, 0);
-      audio.currentTime = T.start / 1000;
-      audio.play().catch(() => {});
+      fadeId++; pauseAt = Infinity; cricketsOff = false; cricketsId++;
+      if (ctx) { fade.gain.cancelScheduledValues(ctx.currentTime); fade.gain.setValueAtTime(0, ctx.currentTime); }
+      audio.currentTime = (T.start - PRE) / 1000;   // silent pre-roll on the music clock
+      // Music fade-in scheduled from where the music actually is once it plays.
+      const id = fadeId;   // skipped before play() resolved: no fade-in
+      audio.play().then(() => { if (id === fadeId) ramp(1, T.fadeIn, T.start - audio.currentTime * 1000, 0); }).catch(() => {});
+      crickets.currentTime = 0;
+      if (ctx) ramp(1, CRICKETS_IN, 0, 0, cricketGain.gain); else crickets.volume = 1;
+      crickets.play().catch(() => {});
     }
     const t0 = performance.now();
     const tick = () => { raf = requestAnimationFrame(tick); frame(clock(t0), step, text, done); };
@@ -307,6 +342,11 @@ export function createIntroScene({ globe, layer }) {
     if (raf) cancelAnimationFrame(raf);
     raf = null;
     if (running) fadeOutAudio(600);
+    if (!crickets.paused) {   // crickets: short fade, then pause (the id guards against a newer play())
+      const id = cricketsId;
+      if (ctx) ramp(0, 600, 0, undefined, cricketGain.gain); else crickets.volume = 0;
+      setTimeout(() => { if (id === cricketsId) crickets.pause(); }, 650);
+    }
     globe.scene().remove(group);
     layer.uniforms.uFade.value = 1;
     hint.remove();
