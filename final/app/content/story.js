@@ -37,7 +37,7 @@ export const story = [
     // Lit area (+25.28%) removed by the human (AI_LOG step 39): it ranges +25..+83% depending on the
     // threshold (EOG version difference, 03_version_sensitivity.py). PROVISIONAL: not yet audited (RULES section 3).
     // Wording: human's (AI_LOG step 11: say "ALAN", radiance moved to the footnote).
-    text: 'ALAN has increased by 41% between 2015 and 2025.',
+    text: 'Artificial Light at Night (ALAN) increased by 41% between 2015 and 2025.',  // wording: human, 2026-10-04
     note: 'ALAN: artificial light at night. 41% is the change in total radiance measured by the VIIRS ' +
       'satellite sensor (summed over area). ' +
       'Our calculation from EOG VIIRS annual data (provisional, audit pending). Consistent with ' +
@@ -68,8 +68,11 @@ export const story = [
     id: 'india',
     part: 1,
     title: 'India',
-    figure: 'ALAN increased by 93%',   // radiance change 2015–2025: +92.56%, India
-    figureNote: '2015–2025, total radiance measured by VIIRS; our calculation (provisional, audit pending).',
+    // Tagline (human choice I-3, Light story refinement step 4; agent draft). The policy is sourced
+    // (PIB); "brought light to places that were dark" is the humans' framing, shown by the sweep.
+    // Figure line removed (human): was 'ALAN increased by 93%' (+92.56%, 02_country_change.py, inferred).
+    tagline: 'India’s rural electrification policy brought light to places that were dark at night.',
+    // text + sources sit behind "Details & sources" when a tagline is set.
     text: 'Lights spread as villages were connected to the grid: under the national DDUGJY scheme, ' +
       'launched in December 2014, the last 18,374 unelectrified villages were reported electrified by April 2018.',
     sources: [
@@ -83,26 +86,33 @@ export const story = [
     sweep: { east: 97.4, west: 68.1, hold: 800, duration: 3500 },
   },
   {
-    id: 'cote-divoire',
+    id: 'tanzania',
     part: 1,
-    title: 'Côte d’Ivoire',
-    // Human request (AI_LOG Story step 41): Côte d'Ivoire replaces France; Ukraine removed (both in `retired`).
-    // Version check: +116..+247% under every variant (03/04 scripts, country_screen_2015_2025.csv).
-    figure: 'ALAN increased by 227%',   // radiance change 2015–2025: +226.56%, Côte d'Ivoire (02_country_change.py)
-    figureNote: '2015–2025, total radiance measured by VIIRS; our calculation (provisional, audit pending).',
-    // DRAFT (agent, 2026-10-03): same pattern as the India card; the fact is sourced, the link to the
-    // change in lights is the humans' framing.
-    text: 'Lights spread as villages were connected to the grid: under the national rural electrification ' +
-      'programme (PRONER), 4,803 rural localities were electrified between 2017 and 2024.',
+    title: 'Tanzania',
+    // Human request (Light story refinement, 2026-10-04): Tanzania replaces Côte d'Ivoire (now in `retired`).
+    // Not computed in 02_country_change.py (human: "Don't compute tanzania").
+    // Tagline (human choice T-3; agent draft). Village electrification is sourced; "light reached new
+    // places, alongside the ecosystems around them" is the humans' framing.
+    tagline: 'As Tanzania’s villages joined the grid, light reached new places, alongside the ecosystems around them.',
+    // DRAFT (agent, 2026-10-04): details sentence; numbers documented, sources below.
+    text: 'Under the Rural Energy Agency (REA) programme, villages on mainland Tanzania connected to electricity ' +
+      'rose from 4,395 of 12,268 (36%) in June 2016 to 11,313 of 12,318 in November 2023. ' +
+      'About 40% of Tanzania’s land is protected (2025).',
     sources: [
-      { label: 'Ministère des Mines, du Pétrole et de l’Energie, “Electricité” (economie-ivoirienne.ci, 26 Nov 2025)',
-        url: 'https://economie-ivoirienne.ci/activites-sectorielles/electricite.html',
-        supports: '"la poursuite du PRONER a permis l\'électrification de 4 803 localités rurales de 2017 à 2024"; ' +
-          'electrified localities 3,887 (2017) -> 8,035 (2024, RGPH 2014 base); coverage 45.63% -> 94.3% (page read 2026-10-03)' },
+      { label: 'TanzaniaInvest, “Rural Electrification Program to Reach 7,873 Villages in 5 Years” (9 Aug 2016)',
+        url: 'https://www.tanzaniainvest.com/energy/rural-electrification-phase-3',
+        supports: '"As of June 2016, 4,395 villages ... connected ... 36% of the 12,268 villages in mainland Tanzania" (news report; page read 2026-10-04)' },
+      { label: 'Daily News, “REA to install electricity infrastructure in remaining villages” (24 Nov 2023)',
+        url: 'https://dailynews.co.tz/rea-to-install-electricity-infrastructure-in-remaining-villages/',
+        supports: 'REA Director of Rural Electrification Eng. Jones Olotu: "out of 12,318 villages, a total of 11,313 villages have been connected" (page read 2026-10-04)' },
+      { label: 'World Bank WDI, Terrestrial protected areas (% of land area), from UNEP-WCMC WDPA',
+        url: 'https://data.worldbank.org/indicator/ER.LND.PTLD.ZS?locations=TZ',
+        supports: 'Tanzania 2025: 39.9% (API, last updated 2026-07-13; read 2026-10-04)' },
     ],
-    camera: { lat: 7.6, lng: -5.5, altitude: 0.2 },
+    // Camera and sweep set by hand for display (approximate mainland coast ~40.4 E, Lake Tanganyika ~29.3 E).
+    camera: { lat: -6.3, lng: 34.9, altitude: 0.35 },
     fly: 3000,
-    sweep: { east: -2.4, west: -8.7, hold: 800, duration: 3500 },
+    sweep: { east: 40.4, west: 29.3, hold: 800, duration: 3500 },
   },
   // ── Part 2: light impacts ─────────────────────────────────────────────────
   // Sequence: human (AI_LOG Impacts steps 26–27). The question is the human's wording.
@@ -349,6 +359,29 @@ export const story = [
 // France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
 // remove Ukraine. Just two countries").
 export const retired = [
+  {
+    id: 'cote-divoire',
+    part: 1,
+    title: 'Côte d’Ivoire',
+    // Retired (human, Light story refinement 2026-10-04: "retire ivory coast yes"); replaced by Tanzania.
+    // Human request (AI_LOG Story step 41): Côte d'Ivoire replaces France; Ukraine removed (both in `retired`).
+    // Version check: +116..+247% under every variant (03/04 scripts, country_screen_2015_2025.csv).
+    figure: 'ALAN increased by 227%',   // radiance change 2015–2025: +226.56%, Côte d'Ivoire (02_country_change.py)
+    figureNote: '2015–2025, total radiance measured by VIIRS; our calculation (provisional, audit pending).',
+    // DRAFT (agent, 2026-10-03): same pattern as the India card; the fact is sourced, the link to the
+    // change in lights is the humans' framing.
+    text: 'Lights spread as villages were connected to the grid: under the national rural electrification ' +
+      'programme (PRONER), 4,803 rural localities were electrified between 2017 and 2024.',
+    sources: [
+      { label: 'Ministère des Mines, du Pétrole et de l’Energie, “Electricité” (economie-ivoirienne.ci, 26 Nov 2025)',
+        url: 'https://economie-ivoirienne.ci/activites-sectorielles/electricite.html',
+        supports: '"la poursuite du PRONER a permis l\'électrification de 4 803 localités rurales de 2017 à 2024"; ' +
+          'electrified localities 3,887 (2017) -> 8,035 (2024, RGPH 2014 base); coverage 45.63% -> 94.3% (page read 2026-10-03)' },
+    ],
+    camera: { lat: 7.6, lng: -5.5, altitude: 0.2 },
+    fly: 3000,
+    sweep: { east: -2.4, west: -8.7, hold: 800, duration: 3500 },
+  },
   // Species groups: retired (human, Firefly transition task step 4: "it's not telling any story").
   // Species groups (human: option D, AI_LOG Impacts steps 54–55). Title and text are DRAFT placeholders
   // until the human writes the question.
