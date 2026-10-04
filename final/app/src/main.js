@@ -141,6 +141,20 @@ function applyStage(i) {
     spectral.set(sp, { from: at, onDone: () => impacts.hide() });
     return;
   }
+  // Site (human: "point becomes the scene", AI_LOG Firefly tabs review round 6b): between a globe step with
+  // `impacts.site` and the spectral step with the same `spectral.site`, the point glows and grows while the globe
+  // zooms in (story.js camera + fly), then the scene opens out of the glow; going back, it closes into the glow,
+  // which shrinks back to the point as the globe zooms out.
+  if (sp?.site && prev.impacts?.site === sp.site) {
+    impacts.setStage({ ...prev.impacts, glow: true });
+    spectral.set(sp, { glow: () => impacts.siteAt(sp.site), onDone: () => impacts.hide() });
+    return;
+  }
+  if (st?.site && prev.spectral?.site === st.site) {
+    impacts.show(); impacts.setStage({ ...st, glow: true }, { snap: true });
+    spectral.set(null, { glow: () => impacts.siteAt(st.site), onDone: () => impacts.setStage(st) });
+    return;
+  }
   const back = st?.door && prev.spectral?.door === st.door;
   const beat = sp?.manual && story.indexOf(prev) === i + 1 ? 'last' : 0;   // arriving backwards: last beat
   if (back) {   // backward: the chart is ready (filter bar held back) under the closing view

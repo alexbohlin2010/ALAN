@@ -26,6 +26,9 @@
 // nm → RGB at the documented 565 nm bioluminescence peak; bright (10×) is shown by a denser column, not to scale.
 // 2D strip (bottom left): Table 1 means ± SD per wavelength, dim (filled) and bright (ring), dashed line = dark
 // base value; the current beat is highlighted. Displayed numbers are Table 1's printed text.
+// Human changes, AI_LOG Firefly tabs review round 6j: bright (10×) beats only, no dark beat, no big number; strip at
+// the top right above the card, as wide as the card; flashes shown 2.5× faster than Table 1 (SIGNAL_SPEED, both males,
+// so their ratio is kept; display only, the strip and labels keep the printed values).
 //
 // Mate-finding (Kivelä et al. 2023, Lampyris noctiluca; human decisions AI_LOG Firefly tabs rounds 5a-5b). Data:
 // kivela2023.json. One row per treatment (control, blue, white, yellow, red); each of the 299 traps is a green point
@@ -37,6 +40,10 @@
 // One continuous scene (human, round 5b): signal (Owens 2018), fireflies (Owens & Lewis 2021) and glow (Kivelä) sit
 // in depth bands along the shared nm axis (BANDS, z offsets); moving between these steps keeps the camera (it
 // glides) and leaves the other bands faint.
+// Signal production ↔ Female response (human: "the flash travels", AI_LOG Firefly tabs review round 6g): one
+// yellow-green flash leaves the right-hand Signal male, travels back through depth to the Female response female and
+// she answers; the camera rides with it. Back plays it in reverse. The travelling flash is a display device, not data
+// (the two studies use different species).
 import * as THREE from 'three';
 
 const NM0 = 380, NM1 = 780, WIDTH = 10;
@@ -61,9 +68,11 @@ function nmRGB(w) {
   return new THREE.Color(...[r, g, b].map(c => (c * f) ** 0.8));
 }
 const css = c => `rgb(${[c.r, c.g, c.b].map(v => Math.round(v * 255)).join(',')})`;
+export const nmCss = nm => css(nmRGB(nm));   // same colours for 2D overlays (impacts.js site glow)
 const BANDS = { signal: 0, fireflies: -7, glow: -14 };   // depth offsets of the continuous firefly scene
 const FAINT = 0.05;                                       // opacity of the other bands' points
 const BIO_NM = 565;   // A. ficta bioluminescence peak (Owens 2018 p. 3, documented)
+const SIGNAL_SPEED = 2.5;   // display speed-up of the Signal flashes (human, round 6j); not data
 const SVG = 'http://www.w3.org/2000/svg';
 
 const vertexShader = `
@@ -124,6 +133,15 @@ export function createSpectral({ parent }) {
   let trans = null;
   let manualBeat = 0;   // the shown beat when the chapter is manual
   const OPEN_MS = 1300, CLOSE_MS = 900, DOOR_R = 6;
+  // Glow transition (human: "point becomes the scene", AI_LOG Firefly tabs review round 6b): from a site's glow on the
+  // globe (impacts.js) the scene opens through a soft circle around it, and the two Signal males start gathered,
+  // bright, under the glow, then move apart to their places; the reverse on the way back. { style: 'glow', dir, at
+  // (→ {x, y} or null), t, ms, done, m }. Delay and durations: agent choices, timed to the globe zoom (story.js fly 2200).
+  const GLOW_DELAY = 1100, GLOW_OPEN_MS = 2000, GLOW_CLOSE_MS = 1500;
+  // Flash travel between the Signal and Female response bands: { dir (1 = signal → fireflies), t, ms } or null.
+  // flashes = the head + fading trail (built in build()). Duration, arc, trail and camera path: agent choices.
+  let travel = null, flashes = [];
+  const TRAVEL_MS = 2600, TRAIL = 6;
 
   const loaded = Promise.all(['spectra_299', 'perception_299', 'spectra_278', 'owens2018_results', 'kivela2023'].map(f =>
     fetch(`/impacts/${f}.json`).then(r => r.json()))).then(([f, p, m, o, k]) => { data = { f, p, m, o, k }; build(); });
@@ -267,7 +285,15 @@ export function createSpectral({ parent }) {
     tag('♂', new THREE.Vector3(-1.4, H + 2.95, -1.8), 'fireflies', 'sym');
     tag('♀', new THREE.Vector3(1.4, H + 2.95, -1.8), 'fireflies', 'sym');
     F.view = { pos: new THREE.Vector3(-1, 5.6, 19), target: new THREE.Vector3(0.9, 2.1, -1.8) };
+    F.femaleC = new THREE.Vector3(1.4, H + 2.2, -1.8);   // female cluster centre (dialogue), flash travel end
     chapters.fireflies = F;
+    // Travelling flash: a small bright ball (head) and TRAIL fainter copies behind it.
+    flashes = Array.from({ length: TRAIL }, (_, j) => points(Array.from({ length: 60 - j * 8 }, (_, i) => {
+      const r = 0.22 * Math.cbrt(hash(i, 51 + j)), u = 2 * hash(i, 52 + j) - 1, a = 2 * Math.PI * hash(i, 53 + j);
+      const q = Math.sqrt(1 - u * u);
+      return [r * q * Math.cos(a), r * u, r * q * Math.sin(a), FLASH, 4 - j * 0.45];
+    })));
+    scene.add(...flashes);
 
     // Mice (278): two rows; melanopsin column; one 24-hour dial per lamp (outer blue-rich, inner long-wavelength).
     const M = { group: new THREE.Group(), lamps: {}, tags: {}, dials: {} };
@@ -308,10 +334,13 @@ export function createSpectral({ parent }) {
       const q = Math.sqrt(1 - u * u);
       return [dx + r * q * Math.cos(a), H + 2 + r * u, -0.3 + r * q * Math.sin(a), BIO, 2 + hash(i, 34 + k) * 2.2];
     })));
+    S.maleC = [-1.6, 1.6].map(dx => new THREE.Vector3(dx, H + 2, -0.3));   // ball centres (glow transition)
     S.group.add(...S.males, floor(0.5, -0.9));
     tag('dark', new THREE.Vector3(-1.6, H + 2.8, -0.3), 'signal', 'sym');
     S.lit = tag('dark', new THREE.Vector3(1.6, H + 2.8, -0.3), 'signal', 'sym');
-    S.view = { pos: new THREE.Vector3(-0.6, 4.4, 15), target: new THREE.Vector3(0.3, 2.6, -0.3), sway: 0.8 };
+    // View shifted to +x and pulled back so the males and columns sit left of the strip + card (human, AI_LOG Firefly
+    // tabs review round 6k; was pos (-0.6, 4.4, 15), target (0.3, 2.6, -0.3)). Amounts: agent choices.
+    S.view = { pos: new THREE.Vector3(0.7, 4.5, 17.5), target: new THREE.Vector3(1.6, 2.6, -0.3), sway: 0.8 };
     chapters.signal = S;
 
     // Mate-finding (Kivelä 2023): treatment rows of trap pillars; light column at each lit treatment's peak.
@@ -387,7 +416,7 @@ export function createSpectral({ parent }) {
       }
     } else if (current.chapter === 'signal') {
       // Beat = { nm, exposure } from story.js, or {} for dark. Numbers: Table 1 (rows' printed text) and its footnote.
-      const S = chapters.signal, r = b.nm ? S.row(b.nm, b.exposure) : null, tok = r?.printed.split(' ');
+      const S = chapters.signal, r = b.nm ? S.row(b.nm, b.exposure) : null;
       S.nms.forEach(nm => {
         const on = b.nm === nm;
         fadeTo(S.cols[nm], on ? 0.95 : b.nm ? 0.1 : 0.22);
@@ -397,10 +426,7 @@ export function createSpectral({ parent }) {
       S.rate[1] = r ? r.flash_frequency.mean : S.base.flash_frequency.value;
       S.amp[1] = r ? r.flash_intensity.ratio_to_dark : 1;
       S.lit.el.textContent = r ? `${b.nm} nm · ${b.exposure}` : 'dark';
-      showNumber(r
-        ? { value: `×${tok[3]} · ×${tok[7]}`,
-          label: `flash intensity · flash frequency, relative to dark · ${b.nm} nm ${b.exposure === 'dim' ? 'dim (1×)' : 'bright (10×)'} · Table 1` }
-        : { value: 'dark', label: `base values ${S.base.flash_intensity.value} counts · ${S.base.flash_frequency.value} peaks/min · Table 1` });
+      showNumber(null);   // no big number on this tab (human, round 6j)
     } else if (current.chapter === 'glow') {
       // Beat = { treatment }: its row and column lit, the others faint. Number: Table 3 (printed text).
       const G = chapters.glow, r3 = G.t3.find(r => r.treatment === b.treatment), tok = r3.printed.split(' ');
@@ -455,12 +481,21 @@ export function createSpectral({ parent }) {
     const S = chapters.signal, dt = S.last ? Math.min(0.1, (now - S.last) / 1000) : 0;
     S.last = now;
     S.males.forEach((m, k) => {
-      S.phase[k] = (S.phase[k] + dt * S.rate[k] / 60) % 1;
-      const since = S.phase[k] * 60 / S.rate[k];   // seconds since this male's last flash
+      const rate = S.rate[k] * SIGNAL_SPEED;   // flashes per minute as shown
+      S.phase[k] = (S.phase[k] + dt * rate / 60) % 1;
+      const since = S.phase[k] * 60 / rate;   // seconds since this male's last flash
       op(m).value = 0.14 + 0.4 * S.amp[k] * Math.exp(-(((since - 0.1) / 0.06) ** 2));
     });
   }
 
+  // Strip position (human, round 6j): right-aligned with the story card, just above it, and as wide as it.
+  function placeStrip() {
+    const card = document.getElementById('card');
+    if (strip.hidden || !card || card.hidden) return;
+    const r = card.getBoundingClientRect();
+    strip.style.width = `${r.width}px`;
+    strip.style.bottom = `${window.innerHeight - r.top + 8}px`;
+  }
   // Signal production strip: Table 1 means ± SD (counts; peaks/min) per wavelength, dim filled, bright ring;
   // dashed line = dark base value. Click a mark to go to its beat.
   function renderStrip() {
@@ -468,21 +503,22 @@ export function createSpectral({ parent }) {
     if (strip.hidden) return;
     const S = chapters.signal, cur = current.beats[manualBeat] || {};
     const beatOf = (nm, e) => current.beats.findIndex(b => b.nm === nm && b.exposure === e);
+    const rows = S.rows.filter(r => beatOf(r.wavelength_nm, r.exposure) >= 0);   // bright only (round 6j)
     const W = 330, L = 58, PH = 58, slot = (W - L - 6) / S.nms.length;
     let s = '';
     [['flash_intensity', 'flash intensity (counts)', 1], ['flash_frequency', 'flash frequency (peaks/min)', 5]]
       .forEach(([key, title, sdTok], pi) => {
         const top = 16 + pi * (PH + 30), dark = S.base[key].value;
-        const max = Math.max(...S.rows.map(r => r[key].mean + r[key].sd));
+        const max = Math.max(...rows.map(r => r[key].mean + r[key].sd));
         const y = v => top + PH - Math.max(0, v) / max * PH;
         s += `<text class="title" x="0" y="${top - 5}">${title}</text>` +
           `<line class="axis" x1="${L - 4}" x2="${W}" y1="${y(0)}" y2="${y(0)}"/>` +
           `<line class="dark" x1="${L - 4}" x2="${W}" y1="${y(dark)}" y2="${y(dark)}"/>` +
           `<text class="tick" x="${L - 8}" y="${y(dark) + 3}">dark ${dark}</text>` +
           `<text class="tick" x="${L - 8}" y="${y(0) + 3}">0</text>`;
-        S.rows.forEach(r => {
+        rows.forEach(r => {
           const t = r.printed.split(' '), v = r[key], on = cur.nm === r.wavelength_nm && cur.exposure === r.exposure;
-          const cx = L + slot * (S.nms.indexOf(r.wavelength_nm) + 0.5) + (r.exposure === 'dim' ? -5 : 5);
+          const cx = L + slot * (S.nms.indexOf(r.wavelength_nm) + 0.5);
           const c = css(nmRGB(r.wavelength_nm)), unit = pi ? 'peaks/min' : 'counts';
           s += `<g class="m${on ? ' on' : ''}" data-beat="${beatOf(r.wavelength_nm, r.exposure)}">` +
             `<title>${r.wavelength_nm} nm · ${r.exposure}: ${t[sdTok]} ${t[sdTok + 1]} ${unit} (× ${t[sdTok + 2]} of dark), ` +
@@ -490,22 +526,26 @@ export function createSpectral({ parent }) {
             `<rect x="${cx - 5}" y="${top - 2}" width="10" height="${PH + 4}" fill="transparent"/>` +
             `<line x1="${cx}" x2="${cx}" y1="${y(v.mean - v.sd)}" y2="${y(v.mean + v.sd)}" stroke="${c}"/>` +
             `<circle cx="${cx}" cy="${y(v.mean)}" r="${on ? 4.5 : 3}" stroke="${c}" ` +
-            `fill="${r.exposure === 'dim' ? c : '#030508'}"/></g>`;
+            `fill="${c}"/></g>`;
         });
       });
     const yb = 16 + 2 * (PH + 30) - 22;
     S.nms.forEach((nm, i) => { s += `<text class="nm" x="${L + slot * (i + 0.5)}" y="${yb}">${nm}</text>`; });
     s += `<text class="tick" x="${L - 8}" y="${yb}">nm</text>`;
-    s += `<text class="legend" x="0" y="${yb + 16}">● dim 1× · ○ bright 10× · bars ± SD · Owens et al. 2018, Table 1</text>`;
-    strip.innerHTML = `<svg viewBox="0 0 ${W} ${yb + 20}" width="${W}" height="${yb + 20}">${s}</svg>`;
+    s += `<text class="legend" x="0" y="${yb + 16}">bright 10× · bars ± SD · Owens et al. 2018, Table 1</text>`;
+    strip.innerHTML = `<svg viewBox="0 0 ${W} ${yb + 20}">${s}</svg>`;
+    placeStrip();
   }
 
   function plain() {
     canvas.style.transform = canvas.style.transformOrigin = canvas.style.clipPath = '';
-    labels.style.visibility = number.style.visibility = toggle.style.visibility = '';
+    canvas.style.maskImage = canvas.style.webkitMaskImage = canvas.style.opacity = '';
+    labels.style.visibility = number.style.visibility = toggle.style.visibility = strip.style.visibility = '';
+    chapters.signal?.males.forEach(p => { p.position.set(0, 0, 0); });
   }
   function door(now) {
     if (!trans) return;
+    if (trans.style === 'glow') { glowDoor(now); return; }
     const { x: dx, y: dy } = trans, w = window.innerWidth, h = window.innerHeight;
     const k0 = Math.min(1, Math.max(0, (now - trans.t) / trans.ms)), k = ease(trans.dir > 0 ? k0 : 1 - k0);
     const R = Math.hypot(Math.max(dx, w - dx), Math.max(dy, h - dy)), rs = DOOR_R + (R - DOOR_R) * k, sc = 0.3 + 0.7 * k;
@@ -515,20 +555,82 @@ export function createSpectral({ parent }) {
     labels.style.visibility = number.style.visibility = toggle.style.visibility = 'hidden';
     if (k0 >= 1) { const t = trans; trans = null; plain(); t.done?.(); }
   }
+  function glowDoor(now) {
+    const w = window.innerWidth, h = window.innerHeight, at = trans.at?.() ?? { x: w / 2, y: h / 2 };
+    const k0 = Math.min(1, Math.max(0, (now - trans.t) / trans.ms)), k = trans.dir > 0 ? k0 : 1 - k0;
+    const r = Math.hypot(Math.max(at.x, w - at.x), Math.max(at.y, h - at.y)) * ease(k), soft = 80 + 0.3 * r;
+    canvas.style.maskImage = canvas.style.webkitMaskImage =
+      `radial-gradient(circle at ${at.x}px ${at.y}px, #000 ${r}px, transparent ${r + soft}px)`;
+    canvas.style.opacity = String(Math.min(1, 2.5 * k));
+    labels.style.visibility = number.style.visibility = toggle.style.visibility = strip.style.visibility = 'hidden';
+    Object.assign(trans, { x: at.x, y: at.y, m: ease(Math.min(1, Math.max(0, (k - 0.3) / 0.7))) });
+    if (k0 >= 1) { const t = trans; trans = null; plain(); t.done?.(); }
+  }
+  // Signal males during a glow transition: m = 0 both gathered at the point under the glow (on their own depth
+  // plane) and bright, standing in for the glow; m = 1 at their places, flashing as usual. Runs after the camera
+  // update (so the point is projected correctly) and after animateSignal (whose opacity it raises while gathered).
+  const ray = new THREE.Vector3(), under = new THREE.Vector3();
+  function gatherMales() {
+    const S = chapters.signal;
+    if (trans?.style !== 'glow' || current?.chapter !== 'signal' || trans.m == null) return;
+    camera.updateMatrixWorld();
+    ray.set(trans.x / canvas.clientWidth * 2 - 1, 1 - trans.y / canvas.clientHeight * 2, 0.5).unproject(camera)
+      .sub(camera.position).normalize();
+    const zc = S.group.position.z + S.maleC[0].z;
+    under.copy(camera.position).addScaledVector(ray, (zc - camera.position.z) / ray.z);
+    S.group.worldToLocal(under);
+    S.males.forEach((p, k) => {
+      p.position.copy(under).lerp(S.maleC[k], trans.m).sub(S.maleC[k]);
+      op(p).value = Math.max(op(p).value, 0.9 * (1 - trans.m));
+    });
+  }
+  // Flash travel: path from the right Signal male to the Female response female (world coordinates, slight arc), the
+  // camera between the two chapter views, pulled in behind the flash mid-way. Forward: the female answers on arrival
+  // (the dialogue clock is set so her reply falls just after landing). Returns true while travelling.
+  const pA = new THREE.Vector3(), pB = new THREE.Vector3(), pT = new THREE.Vector3(), chase = new THREE.Vector3();
+  const BEHIND = new THREE.Vector3(-0.4, 0.7, 4.2);   // camera offset from the flash at mid-path
+  const flashAt = (k, out) => out.copy(pA).lerp(pB, k).setY(out.y + 0.9 * Math.sin(Math.PI * k));
+  function startTravel(dir, now) {
+    const S = chapters.signal, F = chapters.fireflies;
+    pA.copy(S.maleC[1]).add(S.group.position);
+    pB.copy(F.femaleC).add(F.group.position);
+    travel = { dir, t: now, ms: TRAVEL_MS };
+    labels.style.visibility = number.style.visibility = toggle.style.visibility = strip.style.visibility = 'hidden';
+  }
+  function endTravel() {
+    travel = null;
+    flashes.forEach(f => { op(f).value = 0; });
+    labels.style.visibility = number.style.visibility = toggle.style.visibility = strip.style.visibility = '';
+  }
+  function moveTravel(now) {
+    const k0 = Math.min(1, (now - travel.t) / travel.ms), k = ease(travel.dir > 0 ? k0 : 1 - k0);
+    flashes.forEach((f, j) => {
+      const kj = Math.min(1, Math.max(0, k - travel.dir * j * 0.04));
+      flashAt(kj, f.position);
+      op(f).value = (1 - j / TRAIL) * Math.min(1, k0 / 0.08, (1 - k0) / 0.12);
+    });
+    const S = chapters.signal.view, F = chapters.fireflies.view, mid = Math.sin(Math.PI * k);
+    flashAt(k, pT);
+    chase.copy(pT).add(BEHIND);
+    cam.pos.copy(S.pos).lerp(F.pos, k).lerp(chase, 0.6 * mid);
+    cam.target.copy(S.target).lerp(F.target, k).lerp(pT, 0.75 * mid);
+    cam.t = now;
+    if (k0 < 1) return true;
+    if (travel.dir > 0) t0 = now - 0.55 * 1200;   // the female's reply (cycle phase 0.6) comes ~60 ms after landing
+    endTravel();
+    return false;
+  }
   function hideNow() {
+    if (travel) endTravel();
     trans = null; plain();
     canvas.hidden = labels.hidden = number.hidden = toggle.hidden = strip.hidden = true; running = false; current = null;
   }
   function renderToggle() {
     toggle.hidden = !current?.manual;
     if (toggle.hidden) return;
-    if (current.chapter === 'signal') {   // dark · one button per wavelength · dim / bright
-      const S = chapters.signal, cur = current.beats[manualBeat] || {};
-      const at = (nm, e) => current.beats.findIndex(b => b.nm === nm && b.exposure === e);
-      const btn = (i, text, on) => `<button data-beat="${i}" aria-pressed="${on}">${text}</button>`;
-      toggle.innerHTML = btn(current.beats.findIndex(b => !b.nm), 'dark', !cur.nm) +
-        S.nms.map(nm => btn(at(nm, cur.exposure ?? 'dim'), nm, cur.nm === nm)).join('') +
-        ['dim', 'bright'].map(e => btn(at(cur.nm ?? S.nms[0], e), e === 'dim' ? 'dim 1×' : 'bright 10×', cur.exposure === e)).join('');
+    if (current.chapter === 'signal') {   // one button per beat (wavelength; bright 10× only, round 6j)
+      toggle.innerHTML = current.beats.map((b, i) =>
+        `<button data-beat="${i}" aria-pressed="${i === manualBeat}">${b.nm ?? 'dark'}</button>`).join('');
       return;
     }
     toggle.innerHTML = current.beats.map((b, i) =>
@@ -556,16 +658,22 @@ export function createSpectral({ parent }) {
       if (f.tick) f.tick(ease(k)); else op(f.p).value = f.from + (f.to - f.from) * ease(k);
       return k < 1;
     });
-    if (current.chapter === 'fireflies') animateDialogue(now);
+    if (current.chapter === 'fireflies' && travel?.dir > 0) {   // waiting for the flash: dialogue at rest
+      const F = chapters.fireflies;
+      op(F.talk.male).value = 0.14; op(F.talk.female).value = 0.12; op(F.talk.signal).value = 0;
+    } else if (current.chapter === 'fireflies') animateDialogue(now);
     else if (current.chapter === 'signal') animateSignal(now);
     else if (current.chapter === 'mice') Object.values(chapters.mice.dials).forEach(d => d.tick(now));
     // A beat may name a closer view (`view` key → chapter.views); the camera eases towards it.
     const ch = chapters[current.chapter], vw = ch.views?.[current.beats[beatIndex]?.view] || ch.view;
     if (!cam) cam = { pos: vw.pos.clone(), target: vw.target.clone(), t: now };
-    const k = 1 - Math.exp(-(now - cam.t) / 450);  // time-based, so throttled frames still arrive
-    cam.t = now; cam.pos.lerp(vw.pos, k); cam.target.lerp(vw.target, k);
+    if (!(travel && moveTravel(now))) {
+      const k = 1 - Math.exp(-(now - cam.t) / 450);  // time-based, so throttled frames still arrive
+      cam.t = now; cam.pos.lerp(vw.pos, k); cam.target.lerp(vw.target, k);
+    }
     camera.position.set(cam.pos.x + Math.sin(now / 9000) * (vw.sway ?? 1.2), cam.pos.y, cam.pos.z);
     camera.lookAt(cam.target);
+    gatherMales();
     renderer.render(scene, camera);
     const w = canvas.clientWidth, h = canvas.clientHeight;
     tags.forEach(t => {
@@ -585,20 +693,26 @@ export function createSpectral({ parent }) {
     camera.updateProjectionMatrix();
   }
   window.addEventListener('resize', resize);
+  window.addEventListener('resize', placeStrip);
   resize();
 
   return {
     // st = a story step's `spectral` key ({ chapter, beats, every }), or null to hide the view.
     // from = {x, y}: grow out of that screen point; to = {x, y}: shrink into it, then hide. onDone: when finished.
+    // glow = () => {x, y} (a site's glow on the globe): open out of it after GLOW_DELAY, or (st = null) close into it.
     // beat: 'last' starts a manual chapter on its last beat (arriving backwards).
-    async set(st, { from = null, to = null, onDone = null, beat = 0 } = {}) {
+    async set(st, { from = null, to = null, glow = null, onDone = null, beat = 0 } = {}) {
       if (!st) {
-        if (to && running && current) trans = { dir: -1, x: to.x, y: to.y, t: performance.now(), ms: CLOSE_MS, done: () => { hideNow(); onDone?.(); } };
-        else hideNow();
+        const done = () => { hideNow(); onDone?.(); };
+        if (glow && running && current) { trans = { style: 'glow', dir: -1, at: glow, t: performance.now(), ms: GLOW_CLOSE_MS, done }; door(trans.t); }
+        else if (to && running && current) trans = { dir: -1, x: to.x, y: to.y, t: performance.now(), ms: CLOSE_MS, done };
+        else { hideNow(); if (glow) onDone?.(); }   // nothing open: the globe side still needs its end state
         return;
       }
       // Between two steps of the continuous firefly scene (BANDS) the view glides instead of restarting.
       const cont = running && current && current !== st && BANDS[current.chapter] != null && BANDS[st.chapter] != null;
+      const pair = cont && `${current.chapter}>${st.chapter}`;
+      if (travel) endTravel();
       current = st;
       trans = null; plain();
       await loaded;
@@ -618,11 +732,13 @@ export function createSpectral({ parent }) {
       renderStrip();
       if (!cont) cam = null;  // snap to the first view on entering a step (glide within the continuous scene)
       t0 = performance.now();
+      if (pair === 'signal>fireflies' || pair === 'fireflies>signal') startTravel(pair === 'signal>fireflies' ? 1 : -1, t0);
       if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone }; door(t0); }
+      else if (glow) { trans = { style: 'glow', dir: 1, at: glow, t: t0 + GLOW_DELAY, ms: GLOW_OPEN_MS, done: onDone }; door(t0); }
       canvas.hidden = labels.hidden = false;
       if (!running) { running = true; requestAnimationFrame(frame); }
     },
     // Manual chapters: move one beat; false at either end (or when not manual), so the caller can change step.
-    step(delta) { return !trans && goBeat(manualBeat + delta); },
+    step(delta) { return !trans && !travel && goBeat(manualBeat + delta); },
   };
 }

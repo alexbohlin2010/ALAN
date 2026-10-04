@@ -173,10 +173,12 @@ body.story-spectral #swipe, body.story-spectral .year { display: none; }
 #spectral-toggle button:hover { color: #fff; }
 #spectral-toggle button[aria-pressed="true"] { color: #fff; border-color: #aaa; }
 /* Signal production strip (spectral.js; Owens 2018 Table 1; AI_LOG Firefly narrative round 4g). */
-#spectral-strip { position: absolute; left: 16px; bottom: 60px; z-index: 4; padding: 8px 10px 6px;
+/* Top right, above the story card and as wide as it (human, AI_LOG Firefly tabs review round 6j); bottom and width
+   are set from the card's box in spectral.js placeStrip(). */
+#spectral-strip { position: absolute; right: 16px; bottom: 60px; z-index: 4; padding: 8px 10px 6px; box-sizing: border-box;
   background: rgba(3,5,8,0.8); border: 1px solid #222; border-radius: 4px; max-width: calc(100vw - 32px); }
 #spectral-strip[hidden] { display: none; }
-#spectral-strip svg { display: block; max-width: 100%; height: auto; font: 10px system-ui, sans-serif; overflow: visible; }
+#spectral-strip svg { display: block; width: 100%; height: auto; font: 10px system-ui, sans-serif; overflow: visible; }
 #spectral-strip .title { fill: #ccc; font-size: 11px; }
 #spectral-strip .tick { fill: #888; text-anchor: end; }
 #spectral-strip .nm { fill: #999; text-anchor: middle; }

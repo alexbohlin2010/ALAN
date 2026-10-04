@@ -7,6 +7,7 @@
 // (solid dots in the study's dominant category, studies.json `dominant_category`; option 2 colours;
 // halo clusters).
 // Data: /impacts/ = data/derived/impacts, /impacts/maps/ = approved pipeline/impacts/maps (vite.config.js).
+import { nmCss } from './spectral.js';
 
 // Source Category (Data S1 "Category " column, documented) → colour. Physiology, LHT, Population: Linda's
 // (globe_v2/data/c1_effects.json). Behaviour, Community: replacements chosen by the human (step 22, option 2).
@@ -55,6 +56,11 @@ const GROUPS = {
 const REGROUP_MS = 1400;
 const TICKS = [[0, '0'], [0.2, '0.2', 'small'], [0.5, '0.5', 'medium'], [0.8, '0.8', 'large'], [2, '2'], [5, '5'], [10, '10+']];
 const MORPH_MS = 1800, FADE_MS = 700, REVEAL_MS = 1600, EXAMPLE_MS = 1300;
+// Study sites outside Data S1 (story key `impacts.site`; human, AI_LOG Firefly tabs review round 6b): the point is read
+// from the study's own derived file. Glow = the point turning into the courtship-flash colour while the globe zooms in
+// towards Signal production (timings and sizes: agent choices).
+const SITE_FILES = { owens2018: 'owens2018_results.json' };
+const GLOW_IN_MS = 2200, GLOW_OUT_MS = 1800;
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const easeInOut = t => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 const median = xs => {
@@ -131,7 +137,9 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const anim = (v = 0) => ({ from: v, to: v, t0: 0, ms: 1 });
   const val = a => a.from + (a.to - a.from) * easeInOut(clamp01((performance.now() - a.t0) / a.ms));
   const go = (a, to, ms) => { if (a.to === to) return; a.from = val(a); a.to = to; a.t0 = performance.now(); a.ms = ms; };
-  const dotsA = anim(1), chartA = anim(0), morphA = anim(0), exampleA = anim(0), groupA = anim(1);
+  const dotsA = anim(1), chartA = anim(0), morphA = anim(0), exampleA = anim(0), groupA = anim(1), glowA = anim(0);
+  // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()).
+  const sites = {};
   // Chart dots: 'effects' (default, one per record) | 'studies' (one per study per lane, at the study's median |g|
   // there; human choices, AI_LOG Impacts step 60). studyA: 0 = effects, 1 = merged into study dots.
   let dotsBy = 'effects';
@@ -190,9 +198,15 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   }
 
   async function load() {
-    const [locs, st, lt, ef] = await Promise.all([
+    const [locs, st, lt, ef, ...siteData] = await Promise.all([
       getJson('/impacts/study_locations.json'), getJson('/impacts/studies.json'),
-      getText('/impacts/maps/light_types.csv'), getJson('/impacts/effects.json')]);
+      getText('/impacts/maps/light_types.csv'), getJson('/impacts/effects.json'),
+      ...Object.values(SITE_FILES).map(f => getJson(`/impacts/${f}`))]);
+    // Owens 2018: collection site and courtship-flash peak as printed (statements, documented).
+    Object.keys(SITE_FILES).forEach((k, i) => {
+      const c = siteData[i].statements.collection_site, nm = siteData[i].statements.courtship_flash.peak_wavelength.value;
+      sites[k] = { lat: c.latitude.value, lon: c.longitude.value, colour: nmCss(nm), label: 'Owens et al. 2018 · collection site' };
+    });
     effects = ef.effects;
     effectsById = new Map(effects.map(e => [e.effect_id, e]));
     const gs = new Map();
@@ -320,6 +334,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       filterBar.style.left = `${panel + 24}px`; filterBar.style.top = '76px';
     }
     if (ga > 0.005) drawGlobeDots(ga);
+    if (stage?.site) drawSite(Math.max(ga, val(glowA)), w, h);
     drawChart(w, h);
     ctx.globalAlpha = 1;
   }
@@ -371,6 +386,33 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
         if (browse) hits.push({ x, y, r: 9, id, fanned: true });
       });
     }
+  }
+
+  // Screen position of a site point; null when not loaded or on the far side of the globe.
+  function siteXY(key) {
+    const p = sites[key];
+    if (!p) return null;
+    const cam = globe.camera().position, c = globe.getCoords(p.lat, p.lon, 0);
+    if (c.x * cam.x + c.y * cam.y + c.z * cam.z <= globe.getGlobeRadius() ** 2) return null;
+    return globe.getScreenCoords(p.lat, p.lon, 0);
+  }
+
+  // A site outside Data S1, in its own style: a dot in the courtship-flash colour (565 nm, nm → RGB as in
+  // spectral.js) with a white ring and a short label. glowA 0 → 1 turns it into a growing glow and drops the label.
+  function drawSite(a, w, h) {
+    const p = sites[stage.site], s = siteXY(stage.site);
+    if (!p || !s || a < 0.005) return;
+    const g = val(glowA);
+    if (g > 0.001) {
+      const r = DOT_SELECTED + 0.1 * Math.min(w, h) * g, grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r);
+      grad.addColorStop(0, '#fffbe6'); grad.addColorStop(0.18, p.colour); grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.globalAlpha = g; ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    dot(s.x, s.y, DOT_SELECTED, p.colour, true, a * (1 - g));
+    ctx.globalAlpha = a * (1 - g); ctx.fillStyle = '#fff'; ctx.font = '12px system-ui, sans-serif';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillText(p.label, s.x + 13, s.y);
   }
 
   // A frame already queued when hide() runs must not draw: hide() resets browse = true, so draw() would show
@@ -672,7 +714,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     browse = !s || Boolean(s.explore);
     if (s) { expanded = null; closeCard(); selected = s.study ?? null; }
     const chart = s?.view === 'chart';
-    go(dotsA, !s ? 1 : chart || s.dots === false ? 0 : 1, s?.reveal ? REVEAL_MS : FADE_MS);
+    go(dotsA, !s ? 1 : chart || s.dots === false || s.glow ? 0 : 1, s?.reveal ? REVEAL_MS : FADE_MS);
+    go(glowA, s?.glow ? 1 : 0, s?.glow ? GLOW_IN_MS : GLOW_OUT_MS);
     go(chartA, chart ? 1 : 0, FADE_MS);
     go(morphA, chart && s.records ? 1 : 0, MORPH_MS);
     // Grouping of the records (s.group: 'category' default | 'band' | 'type' | 'species'). A change while the chart is
@@ -693,7 +736,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       } else if (s.records && collapseT0 === Infinity) collapseT0 = performance.now();   // moving on: collapse now
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
-    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA]) { a.from = a.to; a.t0 = 0; }
+    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA]) { a.from = a.to; a.t0 = 0; }
     renderFilter();
   }
 
@@ -796,9 +839,11 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       closeCard();
       globeEl.style.cursor = '';
       stage = null; browse = true; filter = null;
-      for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0]]) Object.assign(a, anim(v));
+      for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0], [glowA, 0]]) Object.assign(a, anim(v));
     },
     setStage,
+    // Screen position of a site point (story key `impacts.site`), or null.
+    siteAt: siteXY,
     // Screen position of the door record in the chart as currently laid out (null if not in the chart).
     doorAt(id) {
       const e = effectsById.get(id);

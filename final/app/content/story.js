@@ -251,6 +251,31 @@ export const story = [
   // proposal accepted by the human "for now". Each tab is a [PLACEHOLDER] until it is built; text says only what will go there.
   // Order (human): signal production (Owens 2018) → female response (Owens & Lewis 2021) → mate-finding (Kivelä 2023)
   // → synthesis → local firefly (Photinus pyralis) → Philadelphia vs Cherry Springs measured spectra.
+  // Fireflies (human, AI_LOG Firefly tabs review round 6b): shown like Black swans, the globe turns to the study.
+  // Owens et al. 2018 is not in Data S1, so its point is drawn on its own: the collection site printed in the paper
+  // (owens2018_results.json statements.collection_site, documented; camera below = the same printed coordinates).
+  // Moving on to Signal production the globe zooms in and the point becomes a yellow-green glow that turns into
+  // the scene's two males (human: "point becomes the scene"; main.js, impacts.js `site`, spectral.js).
+  // Card text: agent draft on the human's request (round 6b), from owens2018_results.json statements.
+  {
+    id: 'fireflies',
+    part: 2,
+    label: 'Fireflies-step 1',   // renamed from 'Fireflies' (human, AI_LOG Firefly tabs review round 6e)
+    title: 'Fireflies · Yongjian Eco Park, Taipei, Taiwan',
+    text: '[DRAFT] Male *Aquatica ficta* fireflies were collected here, at Yongjian Eco Park, on 4, 7 and 11 May 2016. ' +
+      'Their courtship signal is a single yellow-green flash, peaking at 565 nm. Eight males were recorded on the ' +
+      'evenings of 5–9 and 12–14 May.',
+    note: 'The point marks where the males were collected (coordinates as printed in the paper). The paper gives no ' +
+      'coordinates for where they were tested.',
+    sources: [
+      { label: 'Owens et al. 2018, PLoS ONE, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
+        supports: 'p. 3: collected from Yongjian Eco Park (24.990195, 121.555824; May 4, May 7, and May 11, 2016); periodic single yellow-green courtship flashes, peak wavelength 565 nm. p. 4: eight males, evenings of May 5–9 and May 12–14, 2016' },
+    ],
+    camera: { lat: 24.990195, lng: 121.555824, altitude: 0.35 },
+    fly: 3500,
+    swipe: 0,
+    impacts: { view: 'globe', site: 'owens2018' },
+  },
   {
     id: 'signal-production',
     part: 2,
@@ -267,12 +292,17 @@ export const story = [
       { label: 'Owens et al. 2018, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
         supports: 'A. ficta bioluminescence peak 565 nm; alarm flashes approx. 200 ms; dim 0.107, bright 1.075 μmol m⁻² s⁻¹' },
     ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    // Zoom-in from the Fireflies point (round 6b): the globe flies closer over the collection site while the glow
+    // grows; the 3D scene then opens over it. Altitude and timing: agent choices.
+    camera: { lat: 24.990195, lng: 121.555824, altitude: 0.04 },
+    fly: 2200,
     swipe: 0,
     // Scene "A + B" (human, AI_LOG Firefly narrative round 4f): 3D beats + Table 1 strip (spectral.js, chapter 'signal').
-    // Beats: dark, then each wavelength dim, then each bright; numbers are read from owens2018_results.json.
-    spectral: { chapter: 'signal', manual: true, beats: [{},
-      ...['dim', 'bright'].flatMap(exposure => [444, 463, 488, 515, 533, 597, 628, 663].map(nm => ({ nm, exposure })))] },
+    // Beats: each wavelength at bright (10×) only; no dim beats and no dark beat (human, AI_LOG Firefly tabs review
+    // round 6j: the dark base values stay as the left male). Numbers are read from owens2018_results.json.
+    // site: arriving from the step with the same impacts.site, the scene grows out of that point's glow.
+    spectral: { chapter: 'signal', manual: true, site: 'owens2018',
+      beats: [444, 463, 488, 515, 533, 597, 628, 663].map(nm => ({ nm, exposure: 'bright' })) },
   },
   {
     id: 'female-response',

@@ -4368,3 +4368,137 @@ Append only. One entry per AI step (see RULES.md §4).
   - Handoff `handoffs/2026-10-04_firefly-tabs-built.md`.
   - Commit (human request) on `claude/interesting-gagarin-73979e`, not pushed: all this session's `final/` changes (`.gitignore`, `AI_LOG.md`, `app/content/story.js`, `app/src/spectral.js`, `app/src/style.css`, `pipeline/impacts/08_owens2018.py`, `09_kivela2023.py`, `data/derived/impacts/owens2018_results.json`, `kivela2023.json`, `audits/owens2018/`, `audits/kivela2023/`, the handoff). Not included: `.claude/launch.json` in the worktree root; the gitignored PDF text files.
 - **Files changed:** `app/content/story.js`, `audits/kivela2023/results/s01_spotcheck.md`, `handoffs/2026-10-04_firefly-tabs-built.md` (new), this log; git history.
+
+## 2026-10-04: Firefly tabs, round 5h. New session started (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > start the new session
+- **Done:** offered a fresh-session task chip (app session tool `spawn_task`) whose prompt tells the new session to start from branch `claude/interesting-gagarin-73979e` (commit e497ae80f), read `RULES.md` and `handoffs/2026-10-04_firefly-tabs-built.md`, summarise and confirm before building, and wait for the human's review of the three tabs and decisions on Kivelä F1–F7. This entry is not in commit e497ae80f (uncommitted).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6a. Session start: branch set-up, RULES and handoff read (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > Work in the ALAN repo, folder `final/`. The previous session's work is committed on local branch `claude/interesting-gagarin-73979e` (commit e497ae80f, not pushed; it contains 71b2d3ada "Two measured nights" + the three firefly tabs). One later AI_LOG entry (round 5h) is uncommitted in that worktree (`.claude/worktrees/interesting-gagarin-73979e`); it only records that this session was started. If your worktree is not on e497ae80f, check out or merge `claude/interesting-gagarin-73979e` first (the human asked for this session to start from it).
+  >
+  > Before doing anything else:
+  > 1. Read `final/RULES.md` and follow it for the whole session (log every step verbatim in `final/AI_LOG.md`, no guessing, scripts for every transformation, ask before new dependencies or file layouts, never commit/push unless asked).
+  > 2. Read the latest handoff `final/handoffs/2026-10-04_firefly-tabs-built.md` (decisions, data facts, audits, Kivelä findings F1–F7, open items).
+  > 3. Summarise back to the human, in a few lines, the decisions and open items you read, and confirm before building.
+  >
+  > Task (the human decides): the human is reviewing the three firefly tabs together in the app (Impacts → Signal production → Female response → Mate-finding; one continuous 3D scene in `final/app/src/spectral.js`, steps in `final/app/content/story.js`) and will give change requests. Also open: whether to act on the Kivelä 2023 audit findings F1–F7 (`final/audits/kivela2023/AUDIT_2026-10-04.md`); the three `[DRAFT]` card texts. Wait for the human's list; do one narrowly scoped change at a time.
+  >
+  > Environment notes: Node/npm in /usr/local/bin; run `npm install` in `final/app` of a new worktree before `npm run dev`. Dev servers may already use ports 5173 (main checkout), 5174 and 5175 (earlier worktrees); pick a free port. No `.venv`; system `python3` works for stdlib scripts. PDF text: PDFKit via `osascript -l JavaScript` (no poppler/pypdf); render pages to PNG with PDFKit to read glyphs the text layer drops. When driving the app in the browser, do NOT play the music: click the top-right "Mute audio" button on the Begin screen before clicking Begin (mute is not remembered across reloads; human request).
+- **Done:**
+  - This worktree (`claude/priceless-wilson-0bbb66`) was on 6ea64b8f4, an ancestor of e497ae80f; fast-forwarded (`git merge --ff-only e497ae80f`), as asked.
+  - Copied the uncommitted round 5h entry from `.claude/worktrees/interesting-gagarin-73979e/final/AI_LOG.md` into this log (`git diff | git apply`, text unchanged) so the log stays continuous. The other worktree was not modified.
+  - Read `RULES.md` and `handoffs/2026-10-04_firefly-tabs-built.md`; summarised decisions and open items to the human and asked for the change list. Nothing built.
+- **Files changed:** this log (round 5h entry copied + this entry).
+
+## 2026-10-04: Firefly tabs review, round 6b. New "Fireflies" globe tab before Signal production: reading and proposal (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > between the "light type" and "signal production" tab, I want to add one more tab of "fireflies". the way to present the content in the tab is exactly the same as the current "black swan" tab: rotating the globe to the location of the firefly study. And then, from that point location of the firefly study on globe, zoom in and in and create a smooth transition (method of transition you can propose) to the "signal production" tab's content.
+- **Done (read only):**
+  - `content/story.js` step `swans`: `camera: { lat: -38.0, lng: 144.41, altitude: 0.35 }`, `fly: 3500`, `impacts: { view: 'globe', study: '005' }` (all Data S1 dots shown, study 005 selected).
+  - The Owens et al. 2018 study is not in the meta-analysis data (`studies.json`: firefly studies there are 144, 224, 299; none is Owens 2018 / *A. ficta*), so it has no globe dot.
+  - Location: `data/derived/impacts/owens2018_results.json` → `collection_site` = Yongjian Eco Park, 24.990195, 121.555824, label `documented`, paper p. 3 quote "Yongjian Eco Park (24.990195, 121.555824; May 4, May 7, and May 11, 2016)". This is where the males were collected; the trials ran in an open-air courtyard by the National Taiwan University Insectarium, for which the paper gives no coordinates.
+  - Existing transition code: `spectral.js` door (`set(st, { from: {x, y} })`): circle clip widening from a screen point while the canvas scales 0.3 → 1 (OPEN_MS 1300), and the reverse (`to`, CLOSE_MS 900); `main.js` `applyStage` currently uses it only between chart steps with `impacts.door` and spectral steps with `spectral.door` (none active).
+  - Proposed transition options and asked the human (below).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6c. "Fireflies" globe tab + "point becomes the scene" transition into Signal production (app code; no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the round 6b prompt, then the human's answers to the agent's four questions:
+  > How should the globe hand over to the Signal production scene? = "Point becomes the scene"
+  > What should the globe show on the Fireflies tab? = "All dots + new point"
+  > What should the point be called? = "Collection site"
+  > Who writes the card on the Fireflies tab? = "Agent [DRAFT]"
+- **Done:**
+  - `app/content/story.js`: new step `fireflies` (label "Fireflies", Part 2) between `light-type` and `signal-production`, shown like `swans`: `camera` = the printed collection-site coordinates (24.990195, 121.555824), altitude 0.35, `fly` 3500, `impacts: { view: 'globe', site: 'owens2018' }`. Card: title "Fireflies · Yongjian Eco Park, Taipei, Taiwan"; `[DRAFT]` text written by the agent on the human's request, using only `owens2018_results.json` statements (`species`, `collection_site`, `courtship_flash`, `sample`); note that the point is the collection site and that the paper gives no test-site coordinates; source Owens et al. 2018 Methods pp. 3–4. `signal-production`: `camera` changed from the global view to the same coordinates at altitude 0.04 with `fly` 2200 (the zoom-in; hidden under the 3D view once it is open), and `spectral.site: 'owens2018'`.
+  - `app/src/impacts.js`: stage key `site`. Site point read from `/impacts/owens2018_results.json` → `statements.collection_site` (latitude/longitude values, documented) and its colour from `statements.courtship_flash.peak_wavelength` (565 nm) via the existing nm → RGB (Bruton 1996, display choice). Drawn in its own style (565 nm colour dot, white ring, label "Owens et al. 2018 · collection site"); the 207 Data S1 dots stay. `glow: true` turns the point into a growing radial glow (2200 ms in, 1800 ms out) and fades the other dots; `siteAt(key)` returns its screen position.
+  - `app/src/spectral.js`: exported `nmCss`; new transition style `glow` in `set(st, { glow })`: after 1100 ms the scene opens through a soft circle around the glow (2000 ms; close 1500 ms) and the two Signal males start gathered (both clusters at the point under the glow, on their own depth plane, bright) and move apart to their places; the reverse when closing. Labels, number, toggle and strip wait until it is open. The existing `door` transition is unchanged.
+  - `app/src/main.js` `applyStage`: between a step with `impacts.site` and the spectral step with the same `spectral.site`: forward = glow + zoom, scene opens from the glow, impacts layer hidden when done; backward = scene closes into the glow, then the glow shrinks to the point while the globe zooms out.
+  - Timings, sizes and the zoom altitude are agent choices. A first version (males shrunk to 0.3 × size, glow radius 0.16 × screen, altitude 0.02) was tuned after viewing it: males kept full size and bright while gathered, glow 0.1 × screen, altitude 0.04 (fewer blocky tiles mid-zoom).
+  - `.claude/launch.json` (worktree root, not under `final/`, not for commit): dev server on port 5176.
+  - Checked in the in-app browser at 800 × 600 (audio muted before Begin): Fireflies tab (globe turns to Taipei, point + label + card); forward and backward transitions; Light type ↔ Fireflies; Signal ↔ Female response still glides as one scene, Signal entered backwards starts on its last beat; no console errors. Not checked: other window sizes, phone width.
+- **Data:** no data values produced or changed. Values displayed: collection-site coordinates and 565 nm (documented, read from `owens2018_results.json`); the `camera` numbers in `story.js` repeat the same printed coordinates.
+- **Files changed:** `app/content/story.js`, `app/src/impacts.js`, `app/src/spectral.js`, `app/src/main.js`, this log; `.claude/launch.json` (new, worktree root).
+
+## 2026-10-04: Firefly tabs review, round 6d. Opened the app for the human (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > open the latest web
+- **Done:** reloaded http://localhost:5176/ (this worktree's dev server, round 6c code) in the in-app browser pane and brought it to the front. Left on the Begin screen for the human (audio not muted by the agent, since the human drives it).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6e. Server stopped; rename to "Fireflies-step 1"; location of the Female response study looked up (not found locally)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > ok, stop the current browser pane session now. Between the "signal production" tab and "female response" tab, I want another tab, using again, the exact same method and transition animation you just did for the "fireflies", document the location of study for female response, which I believe is the study of Owens & Lewis 2021. The new added type should be called "fireflies-step 2". and finally, change the "fireflies" tab to "fireflies-step 1".
+- **Done:**
+  - Stopped the dev server on port 5176 (browser pane).
+  - `app/content/story.js`: step `fireflies` label 'Fireflies' → 'Fireflies-step 1' (first letter capitalised like the other step labels; agent choice, the human wrote "fireflies-step 1"). Step id and card title unchanged.
+  - Female response = study 299, Owens & Lewis 2021, *Insect Conservation and Diversity* 14: 199–210, doi:10.1111/icad.12487 (story.js sources; MANIFEST row `fireflies/Owens_Lewis_2021_ICD_study299.pdf`).
+  - Location search: `data/raw/impacts/fireflies/` does not exist in this worktree, the main checkout or any other worktree; `mdfind` for the file name found nothing (as already noted in AI_LOG round on firefly narrative sources: "`data/raw/impacts/fireflies/` and `mice/` PDFs listed in MANIFEST are not on this machine"). A PDFKit text extraction to the scratchpad produced an empty file (no input). In the repo the only location is Data S1 `location` = "USA" (`studies.json`), geocoded to 39.7837304, −100.445882, precision "country", flag `name_not_in_result`, accepted by the human on 2026-10-03 (`study_locations.json`). No site-level location found; nothing placed. Asked the human (below).
+- **Files changed:** `app/content/story.js`, this log.
+
+## 2026-10-04: Firefly tabs review, round 6f. Fireflies-step 2 dropped (human decision; no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the human's answers to the agent's two questions (location source; how to leave the Signal scene):
+  > now i see, then don't do this step anymore
+  > not do this step
+- **Done:** no "Fireflies-step 2" tab built; nothing placed for study 299. The round 6e rename ('Fireflies' → 'Fireflies-step 1') is still in `story.js`; asked the human whether to keep it.
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6g. Signal production → Female response transition: reading and proposal (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > now focus on the signal production and female response transition. Propose a better and smoother transition between the two steps that clearly emphasized the relationship between the two steps.
+- **Done (read only):** current transition (`spectral.js` `set`, `cont`): the camera eases (time constant 450 ms) from the Signal view (z band 0) to the Female response view (z band −7) and the other bands fade to 0.05. Layout: Signal = two male clusters at x −1.6 / +1.6, y 4.4 (left dark base values, right the beat's light); Female response = dialogue male cluster at x −1.4 and female cluster at x +1.4, y 4.6, z −8.8, with a moving signal between them, lamp sheets, eye sensitivity and the 567.47 nm flash column. The two studies use different species (*A. ficta*, Taiwan; *P. obscurellus*, USA). Human framing (memory of 2026-10-04 decisions): signal production → female response → mate-finding success. Proposed three options to the human (below).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6h. Signal production ↔ Female response: "the flash travels" transition (app code; no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the round 6g prompt, then the human's answer to the agent's question "Which transition from Signal production to Female response?":
+  > The flash travels (Recommended)
+- **Done:**
+  - `app/src/spectral.js` only. Between the `signal` and `fireflies` chapters (both directions, any way of moving between the two steps: arrows or the step list) the old camera glide is replaced by a flash travel (`startTravel` / `moveTravel` / `endTravel`): a small yellow-green ball (60 points, FLASH colour) with 5 fainter trailing copies goes from the right-hand Signal male (world 1.6, 4.4, −0.3) to the Female response female cluster (1.4, 4.6, −8.8) on a slight upward arc, in 2600 ms; the camera moves from the Signal view to the Female response view while being pulled in behind the flash and turned towards it mid-way. Forward: the dialogue stays at rest until the flash lands, then its clock is set so the female's reply (cycle phase 0.6) falls ~60 ms after landing (the first cycle always replies; first beat = dark, 98.7 %). Back: the same path in reverse (the flash returns to the right-hand Signal male; Signal starts on its last beat as before). Labels, number, beat toggle and Table 1 strip are hidden during the travel. Beat stepping (← →) is blocked while travelling (as during the door/glow transitions). Comment in the file header: the travelling flash is a display device, not data; the two studies use different species.
+  - Duration, arc, trail, sizes and camera path are agent choices. First version tuned after viewing (flash 40 → 60 points, radius 0.16 → 0.22, longer trail; labels and strip also hidden during travel).
+  - Checked in the in-app browser at 800 × 600, audio muted before Begin: Signal → Female response and back via the step list; no console errors. Not checked: other window sizes, phone width.
+- **Files changed:** `app/src/spectral.js`, this log.
+
+## 2026-10-04: Firefly tabs review, round 6i. Opened the app for the human (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > open the lastest web
+- **Done:** reloaded http://localhost:5176/ (round 6h code) in the in-app browser pane and brought it to the front; left on the Begin screen for the human (audio not muted by the agent).
+- **Files changed:** this log.
+
+## 2026-10-04: Firefly tabs review, round 6j. Signal production: strip moved, bright 10× only, no dark beat, no big number, flashes 2.5× faster (app code; no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim)** (with a screenshot of the Signal production page, dark beat):
+  > for the signal production page, I want to do the following change for layout: 1. move the legend in the bottom left corner in the image to the up-right corner, above the text card, and adjust the size to align with the text card in width. 2. ONLY keep the brigh 10x dataset in the visualization and animation, remove the dim 1x part. 3. all signal frequency need to be 2.5x faster, so it's clear for user to see the difference. 4. also remove the dark small tab, bc all other spectrums' data are compared with dark already, no need to create a separate comparison between dark and dark. 5. remove the big title text part for dataset with all spectrums in this tab. now it shows "DARK base values..." in the image I upload.
+- **Done:**
+  1. Table 1 strip (`#spectral-strip`): CSS `left: 16px` → `right: 16px`, `box-sizing: border-box`, SVG `width: 100%` (scales with the box); new `placeStrip()` in `spectral.js` sets its width to the story card's width and its bottom 8 px above the card's top (on render and on window resize).
+  2. `story.js` Signal beats: the 8 wavelengths at `exposure: 'bright'` only (dim beats removed). Strip: only the rows of the step's beats (bright), marks centred in each slot and filled; y scale from those rows; legend text "bright 10× · bars ± SD · Owens et al. 2018, Table 1". The 3D bright (dense) column per beat unchanged.
+  3. `spectral.js` `SIGNAL_SPEED = 2.5`: both males (left dark base value, right the beat) flash at 2.5 × their Table 1 peaks/min, so their ratio is unchanged; display only, the strip keeps the printed values. Fastest shown = 56.44 × 2.5 ≈ 141/min (597 nm bright), slowest 8.222 × 2.5 ≈ 21/min (488 nm bright).
+  4. Dark beat removed (story.js) and the toggle now has one button per beat (444 … 663; no "dark", no "dim 1×" / "bright 10×"). The left male still flashes at the dark base values, labelled "dark".
+  5. Big number (`#spectral-number`) not shown on this tab (`showNumber(null)`); the Signal value text code removed.
+  - Comments added in `story.js`, `spectral.js` header and `style.css`. Removed an unused variable (`tok`) in the Signal branch of `enterBeat`.
+  - Checked in the in-app browser (audio muted before Begin) at 800 × 600 and 1000 × 575: all five changes visible; no console errors. Found: at both sizes the strip + card cover the right-hand male and the 597–663 nm columns; at 1000 × 575 the strip's top reaches the beat buttons. Not changed (reported to the human). The Signal card text still describes the study's dim and bright exposures (unchanged).
+- **Files changed:** `app/content/story.js`, `app/src/spectral.js`, `app/src/style.css`, this log.
+
+## 2026-10-04: Firefly tabs review, round 6k. Signal production: scene shifted left of the strip + card (app code; no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > shift the scene left
+- **Done:** `app/src/spectral.js` Signal chapter view: pos (−0.6, 4.4, 15) → (0.7, 4.5, 17.5), target (0.3, 2.6, −0.3) → (1.6, 2.6, −0.3) (camera moved to +x and back, so the males and the 8 columns sit left of the strip and card). The glow and flash-travel transitions use this view, so they follow. First try (pos (1.0, 4.4, 16.5), target (1.9, 2.6, −0.3)) put the 444 nm column next to the step list at 1000 × 575; eased to the values above. Amounts are agent choices. Checked in the in-app browser (audio muted before Begin): at 1000 × 575 (the human's screenshot size, approx.) both males and all columns (444 and 663 beats) are clear of the step list, strip and card; at 800 × 600 (first try) the 444 nm column sat under the step list (the window is too narrow for list + scene + panels; not re-checked with the final values). The strip's top still touches the beat buttons at 1000 × 575 (not changed). No console errors.
+- **Files changed:** `app/src/spectral.js`, this log.
+
+## 2026-10-04: Firefly tabs review, round 6l. Commit (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > commit
+- **Done:** committed on branch `claude/priceless-wilson-0bbb66` (on top of e497ae80f), not pushed: `final/AI_LOG.md` (rounds 5h copy, 6a–6l), `final/app/content/story.js`, `final/app/src/impacts.js`, `final/app/src/main.js`, `final/app/src/spectral.js`, `final/app/src/style.css`. Not included: `.claude/launch.json` in the worktree root (dev server config, port 5176), as in earlier sessions.
+- **Files changed:** this log; git history.
