@@ -124,7 +124,9 @@ export function createSpectral({ parent }) {
   toggle.setAttribute('aria-label', 'Light states');
   // Signal production: Table 1 strip (SVG), shown only in that chapter.
   const strip = Object.assign(document.createElement('div'), { id: 'spectral-strip', hidden: true });
-  parent.append(canvas, labels, number, toggle, strip);
+  // Beat `caption`: large text bottom centre, fades in on that beat, out on any other (human, AI_LOG Fireflies step 6).
+  const caption = Object.assign(document.createElement('p'), { id: 'spectral-caption' });
+  parent.append(canvas, labels, number, toggle, strip, caption);
   toggle.addEventListener('click', e => { const b = e.target.closest('button'); if (b) goBeat(Number(b.dataset.beat)); });
   strip.addEventListener('click', e => { const m = e.target.closest('[data-beat]'); if (m) goBeat(Number(m.dataset.beat)); });
 
@@ -461,6 +463,8 @@ export function createSpectral({ parent }) {
 
   function enterBeat(b) {
     showNumber(b);
+    if (b?.caption) caption.textContent = b.caption;
+    caption.classList.toggle('on', Boolean(b?.caption));
     if (current.chapter === 'fireflies') {
       const F = chapters.fireflies;
       fadeTo(F.eye, 0.45);
@@ -747,6 +751,7 @@ export function createSpectral({ parent }) {
     if (travel) endTravel();
     trans = null; plain();
     canvas.hidden = labels.hidden = number.hidden = toggle.hidden = strip.hidden = true; running = false; current = null;
+    caption.classList.remove('on');
   }
   function renderToggle() {
     toggle.hidden = !current?.manual;

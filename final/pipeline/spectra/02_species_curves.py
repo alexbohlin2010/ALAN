@@ -10,6 +10,8 @@ Human decisions (AI_LOG "Firefly tabs review" round 7j):
 - Species: human night (CIE 2019 V'(lambda) only; no human day curve) and the five animals with their own published
   peaks in Linda's file: rock pigeon, Carolina sphinx, Big Dipper firefly (Photinus pyralis), bronze ground beetle,
   bobolink. Left out: human day, saw-whet owl (development placeholder), waved sphinx (Manduca proxy).
+- Human day (CIE 2019 photopic V(lambda)) was added in AI_LOG "Species perceptions" step 4 and removed again in step 11
+  (human: "remove photopic"); the Firefly | Human step uses human night, and the Explore draft cycles the six species.
 - CIE curve copied from Linda's file (not downloaded from CIE).
 - Animal curves: provisional. Linda's file marks them 'measured-peaks-modeled-shape' (published peaks, modeled shape;
   no method given). The human states the full curves are available online and will be identified later; they are
@@ -20,7 +22,7 @@ by wavelength; on each grid wavelength w: 0 outside the receptor's wavelengthRan
 sample's response below / above the sampled span; otherwise linear interpolation between the two neighbouring
 samples. Responses are written unrounded (Python float repr). Every other field is copied as written in the source.
 
-Labels (RULES 2.3): human night response `inferred` (rule above, from the CIE 2019 V'(lambda) samples as copied in
+Labels (RULES 2.3): human night responses `inferred` (rule above, from the CIE 2019 V'(lambda) samples as copied in
 Linda's file, `documented` there with DOI 10.25039/CIE.DS.gr6w4b5g; not yet compared against the CIE table).
 Animal responses: no label (human decision, round 7j); `status` = provisional note. Names, ids, sources and
 display channels are copied text, not values.
@@ -85,7 +87,7 @@ def main():
     species = []
     for sid in KEEP:
         s = by_id[sid]
-        human = sid == 'human-scotopic'
+        human = sid in ('human-scotopic', 'human-photopic')
         species.append({
             'id': s['id'], 'name': s['name'], 'scientific_name': s['scientificName'],
             'site_ids_in_source': s['siteIds'], 'evidence_level_in_source': s['evidenceLevel'],

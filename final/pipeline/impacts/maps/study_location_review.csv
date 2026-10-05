@@ -1,0 +1,2 @@
+study_id,location,lat,lon,decided_by,date,source,note
+299,"Arnold Arboretum, Boston, MA",42.30469,-71.12099,human,2026-10-05,"Owens & Lewis 2021, Insect Conserv. Divers. 14: 199–210, Methods (https://doi.org/10.1111/icad.12487): ""the Arnold Arboretum in Boston, MA (42.30469, −71.12099"")","AI_LOG Fireflies step 2: replaces the Data S1 location 'USA' (country centroid) for this study only; Boston only (human, AI_LOG Impacts reorder step 4), the other 2018 site Muster Field, Lincoln, MA (42.42732, −71.31574) is not used"

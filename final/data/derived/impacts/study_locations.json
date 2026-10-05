@@ -7,9 +7,10 @@
   "coordinates": "WGS84 lat/lon in decimal degrees, as returned by Nominatim (top result)",
   "labels": {
    "location": "documented",
-   "lat/lon/precision/country_code": "inferred"
+   "lat/lon/precision/country_code": "inferred",
+   "points with label = documented": "location/lat/lon as printed in `source` (per-study review)"
   },
-  "generated_utc": "2026-10-03T20:53:58+00:00",
+  "generated_utc": "2026-10-05T19:43:30+00:00",
   "strings": 142,
   "resolved": 107,
   "precision_counts": {
@@ -32,6 +33,7 @@
   "studies_located": 207,
   "studies_without_location": 69,
   "studies_with_location_not_drawn": 38,
+  "study_reviews": 1,
   "note": "Only points with draw = true (see geocodes.json). Studies without such a point are not listed here; they stay in studies.json."
  },
  "studies": [
@@ -2684,14 +2686,17 @@
    "study_id": "299",
    "points": [
     {
-     "location": "USA",
-     "lat": 39.7837304,
-     "lon": -100.445882,
-     "precision": "country",
-     "flags": [
-      "name_not_in_result"
-     ],
-     "review": "accept (human, 2026-10-03)"
+     "location": "Arnold Arboretum, Boston, MA",
+     "lat": 42.30469,
+     "lon": -71.12099,
+     "precision": "point",
+     "flags": [],
+     "review": "study_paper_coords (human, 2026-10-05)",
+     "label": "documented",
+     "source": "Owens & Lewis 2021, Insect Conserv. Divers. 14: 199–210, Methods (https://doi.org/10.1111/icad.12487): \"the Arnold Arboretum in Boston, MA (42.30469, −71.12099\")",
+     "replaces": [
+      "USA"
+     ]
     }
    ]
   },

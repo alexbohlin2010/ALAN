@@ -109,6 +109,7 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
 
   function show(step) {
     card.hidden = fact.hidden = true;
+    card.classList.remove('revealed');   // `reveal` lines wait for their cue (Two measured nights)
     if (step.kind === 'intro') return;
     const note = step.note ? `<p class="note">${format(step.note)}</p>` : '';
     if (step.kind === 'fact') {
@@ -119,6 +120,7 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
+      fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
       fact.hidden = false;
       placeFact();
       return;
@@ -126,7 +128,8 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
     if (step.tagline) {
       // Narrative line on the card; text and sources behind "Details & sources" (human, Light story refinement 2026-10-04).
       card.innerHTML = `${step.title ? `<h2>${escape(step.title)}</h2>` : ''}
-        <p class="tagline">${format(step.tagline)}</p>
+        <p class="tagline${step.reveal ? ' lead' : ''}">${format(step.tagline)}</p>
+        ${(step.reveal || []).map(r => `<p class="tagline reveal">${format(r)}</p>`).join('')}
         <button class="more" aria-expanded="false">Details &amp; sources</button>
         <div class="more-body" hidden><p>${format(step.text)}</p>${note}${sourceList(step.sources)}</div>`;
       card.querySelector('.more').addEventListener('click', () => toggleMore(card));

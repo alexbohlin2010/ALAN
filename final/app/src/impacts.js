@@ -74,7 +74,11 @@ const SITE_FILES = { owens2018: 'owens2018_results.json' };
 // spitschan2016_rural: same paper, Rural = Cherry Springs State Park, 41.6646° N, 77.8125° W (printed "−77.8125° W"),
 // the Cherry Springs spectra in Two measured nights; shown only in the Local firefly ↔ Two measured nights transition
 // (human, round 7f). Colour white: agent choice (no firefly colour for a site without a firefly source).
+// owenslewis2021_boston: Owens & Lewis 2021, Insect Conserv. Divers. 14: 199–210, Methods: 2018 fireflies collected at
+// Muster Field, Lincoln, MA and the Arnold Arboretum, Boston, MA (42.30469, −71.12099, as printed); Boston only (human,
+// AI_LOG Impacts reorder step 4). Colour: P. obscurellus flash peak 567.47 nm (Hall et al. 2016, as cited in the paper).
 const SITE_POINTS = {
+  owenslewis2021_boston: { lat: 42.30469, lon: -71.12099, colour: nmCss(567.47), label: 'Owens & Lewis 2021 · collection site' },
   spitschan2016_city: { lat: 39.952237, lon: -75.188734, colour: nmCss(562), label: 'Spitschan et al. 2016 · city measurement site' },
   spitschan2016_rural: { lat: 41.6646, lon: -77.8125, colour: '#ffffff', label: 'Spitschan et al. 2016 · rural measurement site' },
 };
@@ -373,6 +377,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       filterBar.style.left = `${panel + 24}px`; filterBar.style.top = '76px';
     }
     if (ga > 0.005) drawGlobeDots(ga);
+    if (ga > 0.005 && stage?.studyLabel) drawStudyLabel(stage.studyLabel, ga);
     const sa = Math.max(ga, val(glowA));
     for (const k in siteA) { const v = val(siteA[k]); if (v > 0.005) drawSite(k, v * sa, w, h); }
     drawChart(w, h);
@@ -427,6 +432,25 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
         if (browse) hits.push({ x, y, r: 9, id, fanned: true });
       });
     }
+  }
+
+  // Story key `studyLabel: { id, authors }` (human, AI_LOG Fireflies step 4): two centred lines under the study's dot,
+  // its title, then authors (as given in the story) and year (studies.json). Font as the site label; spacing: agent choice.
+  function drawStudyLabel({ id, authors }, a) {
+    const s = studies.get(id), p = points.get(id)?.[0];
+    if (!s || !p) return;
+    const cam = globe.camera().position, c = globe.getCoords(p.lat, p.lon, 0);
+    if (c.x * cam.x + c.y * cam.y + c.z * cam.z <= globe.getGlobeRadius() ** 2) return;
+    const xy = globe.getScreenCoords(p.lat, p.lon, 0);
+    const lines = [`“${s.title.join(' / ')}”`, `${authors} ${s.publication_year.join(', ')}`];
+    ctx.font = '12px system-ui, sans-serif';
+    // Card background as #card in style.css (black 0.8, 1 px #444 border; human, AI_LOG Fireflies step 5);
+    // padding 6 / 10 px: agent choice.
+    const w = Math.max(...lines.map(t => ctx.measureText(t).width)) + 20, h = 2 * 16 + 12, x = xy.x - w / 2, y = xy.y + 10;
+    ctx.globalAlpha = a; ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = '#444'; ctx.lineWidth = 1; ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    lines.forEach((t, i) => ctx.fillText(t, xy.x, y + 7 + i * 16));
   }
 
   // Screen position of a site point; null when not loaded or on the far side of the globe.

@@ -50,6 +50,10 @@ Rules (all deterministic):
   (for both coordinate decisions the Nominatim fields of that row are cleared)
     pending             not drawn until the human decides
   `draw` = resolved AND (no flags OR review in accept/use_location/source_coords_mean/paper_coords).
+- Per-study review (pipeline/impacts/maps/study_location_review.csv; decisions by the human only, AI_LOG
+  Fireflies step 2): for a listed study_id, study_locations.json gets ONE point with the location, lat, lon
+  printed in the source paper (precision point, label `documented`, `source` = citation, `replaces` = the
+  Data S1 location strings it replaces). Applied last; geocodes.json (per string) is not changed.
 - Label: lat/lon/precision are `inferred` (rule above; inputs = the source string and the cached
   Nominatim response). The location string itself is `documented` (Dryad dataset).
 """
@@ -71,6 +75,7 @@ SRC = FINAL / "data/derived/impacts/studies.json"
 OUT = FINAL / "data/derived/impacts"
 CACHE = OUT / "nominatim_cache.json"
 REVIEW = Path(__file__).resolve().parent / "maps/geocode_review.csv"
+STUDY_REVIEW = Path(__file__).resolve().parent / "maps/study_location_review.csv"
 
 ENDPOINT = "https://nominatim.openstreetmap.org/search"
 USER_AGENT = "ALAN-final-impacts-geocode/0.1 (Harvard GSD MDE student project, one-off cached run)"
@@ -269,11 +274,26 @@ def main():
                for loc in st["location"] if by_string[loc]["draw"]]
         if pts:
             located.append({"study_id": st["study_id"], "points": pts})
+    with open(STUDY_REVIEW, newline="") as f:
+        study_reviews = list(csv.DictReader(f))
+    ids = {st["study_id"]: st for st in studies}
+    for rv in study_reviews:
+        st = ids[rv["study_id"]]  # KeyError = review row for an unknown study
+        pt = {"location": rv["location"], "lat": float(rv["lat"]), "lon": float(rv["lon"]), "precision": "point",
+              "flags": [], "review": f"study_paper_coords ({rv['decided_by']}, {rv['date']})",
+              "label": "documented", "source": rv["source"], "replaces": st["location"]}
+        row = next((s for s in located if s["study_id"] == st["study_id"]), None)
+        if row:
+            row["points"] = [pt]
+        else:
+            located.append({"study_id": st["study_id"], "points": [pt]})
     no_loc = sum(1 for st in studies if not st["location"])
     unresolved_only = sum(1 for st in studies if st["location"] and not any(
         by_string[l]["draw"] for l in st["location"]))
     smeta = {**meta, "studies": len(studies), "studies_located": len(located),
              "studies_without_location": no_loc, "studies_with_location_not_drawn": unresolved_only,
+             "study_reviews": len(study_reviews),
+             "labels": {**meta["labels"], "points with label = documented": "location/lat/lon as printed in `source` (per-study review)"},
              "note": "Only points with draw = true (see geocodes.json). Studies without such a point are not listed here; they stay in studies.json."}
     (OUT / "study_locations.json").write_text(json.dumps({"meta": smeta, "studies": located}, ensure_ascii=False, indent=1))
 

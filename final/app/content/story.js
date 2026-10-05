@@ -64,6 +64,442 @@ export const story = [
     // Was: camera { lat: 25, lng: 72, altitude: 1.6 }, fly 2500, sweep east 122 -> west 68.1.
     camera: { lat: 20, lng: 10, altitude: 2.2 },
   },
+  // ── Part 2: light impacts ─────────────────────────────────────────────────
+  // Sequence: human (AI_LOG Impacts steps 26–27). The question is the human's wording.
+  // DRAFT NOTICE: all other Part 2 text (cards, chart labels in app/src/impacts.js) was drafted by an
+  // AI agent (claude-opus-5-5, 2026-10-03) at the human's request as placeholders. Featured studies
+  // (165, 005) and the worked example (005-2) were proposed by the agent, refinable.
+  // impacts: stage of the Impacts layer (see setStage in app/src/impacts.js).
+  {
+    id: 'question',
+    // Moved from Part 2 (Impacts) to Part 1 (Light), right after Statistic; wording and West Africa camera: human
+    // (AI_LOG Copy editing and drafting step 2). Was: 'But how does light impact our ecosystems?', camera lat 20, lng 10, alt 2.2.
+    // Camera point and altitude over West Africa: agent choice, display only.
+    part: 1,
+    kind: 'fact',
+    label: 'Ecosystems',
+    text: 'As light is expanding into new territory, what are the impacts on global ecosystems?',
+    camera: { lat: 10, lng: -13, altitude: 0.9 },   // lng -3 -> -13: sweep end clear of the text (step 3)
+    fly: 3000,
+    // Divider sweeps over West Africa while the question shows (human, AI_LOG Copy editing and drafting step 3).
+    // east/west: approximate West Africa extent (Cameroon border ~15 E, Dakar ~17.5 W), agent choice, display only.
+    // Was: swipe: 0, impacts: { view: 'globe', dots: false } (an impacts stage hides the divider, style.css).
+    sweep: { east: 15, west: -17.5, hold: 800, duration: 3500 },
+  },
+  {
+    id: 'studies',
+    part: 2,
+    // Big text on the left like Statistic (human, AI_LOG Copy editing and drafting step 5); the former card text is the
+    // note behind "Details & sources". Text: human's wording (step 4).
+    kind: 'fact',
+    label: 'Studies',
+    text: 'These 207 published studies measure the impacts of artificial light on biota.',
+    note: 'Each dot is one study that compared living things under artificial light at night with the same ' +
+      'under natural darkness. These are 207 of the 314 studies gathered in a 2025 meta-analysis: ' +
+      'the ones we could place on the map. Colour = the study’s main category.',
+    sources: [
+      { label: 'Czarnecka et al. 2025, Global Change Biology', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'sec. 2.1: 314 studies, 4,905 effect sizes; control group under dark night conditions vs light up to 180 lx' },
+      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
+        supports: 'study records; locations geocoded by us (02_geocode.py)' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    fly: 3000,   // fly out from West Africa instead of a jump (human, step 5; duration: agent choice, as Ecosystems)
+    swipe: 0,
+    impacts: { view: 'globe', reveal: true },
+  },
+  // Female response study on the globe (human, AI_LOG Impacts reorder steps 2–4): replaces Black swans; shown like the
+  // retired Fireflies (Taipei) step. Point = the Arnold Arboretum collection site printed in Owens & Lewis 2021
+  // (impacts.js SITE_POINTS, documented; Boston only, human). Moving on to Female response the point glows and the
+  // scene grows out of it (main.js `site`). Card text: agent draft on the human's request ("Reuse Taipei card shape"),
+  // from the paper's Methods (data/raw/impacts/fireflies/Owens_Lewis_2021_ICD_study299.pdf).
+  // AI_LOG Fireflies step 2 (human): big text like Statistic (kind 'fact'), the human's sentence; note + source behind
+  // "Details & sources"; no site point: study 299's own dot is at the Arboretum (02_geocode.py per-study review);
+  // Fireflies <-> Female response is a plain cut. Was: title 'Fireflies · Arnold Arboretum, Boston, Massachusetts',
+  // text '[DRAFT] Adult *Photinus obscurellus* fireflies were collected here, at the Arnold Arboretum, and at Muster
+  // Field in Lincoln, Massachusetts, in June 2018: 22 males and 22 females, in low wet fields next to forest. Males
+  // flash patterns of one to three flashes; females answer with single and double flashes.', impacts.site
+  // 'owenslewis2021_boston'.
+  {
+    id: 'female-site',
+    part: 2,
+    kind: 'fact',
+    label: 'Fireflies',
+    text: 'Fireflies generate natural light to communicate in an increasingly lit environment',   // wording: human
+    side: 'right',   // big text on the right, over the dark ocean (human, AI_LOG Fireflies step 4)
+    note: 'The point marks the Boston collection site (coordinates as printed in the paper). The other 2018 site, ' +
+      'Muster Field, Lincoln (42.42732, −71.31574), is not shown.',
+    sources: [
+      { label: 'Owens & Lewis 2021, Insect Conserv. Divers., Methods', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'June 2018: 22 male and 22 female adult P. obscurellus collected from Muster Field, Lincoln, MA (42.42732, −71.31574) and the Arnold Arboretum, Boston, MA (42.30469, −71.12099), in low wet fields abutted by forest; males emit patterns of one to three flashes, females respond with single and double flashes' },
+    ],
+    camera: { lat: 42.30469, lng: -71.12099, altitude: 0.35 },
+    fly: 3500,
+    swipe: 0,
+    // studyLabel: a label under the study's dot: its title and year from studies.json (Data S1), authors as given here
+    // (human: short form "Owens & Lewis 2021", AI_LOG Fireflies step 4).
+    impacts: { view: 'globe', studyLabel: { id: '299', authors: 'Owens & Lewis' } },
+  },
+  {
+    id: 'female-response',
+    part: 2,
+    kind: 'fact',   // big narrative text, no card (human, AI_LOG Fireflies step 5); was a card titled 'Female response'
+    side: 'right',   // human, AI_LOG Fireflies step 5
+    label: 'Female response',
+    // The former '[DRAFT] Fireflies' chapter (study 299), moved here from Explore (human, AI_LOG Firefly tabs round 5a);
+    // its door from Light type removed (round 5b). Card text: agent draft on the human's request (round 5g), values as in
+    // the sources below.
+    // Text: the human's sentence (AI_LOG Fireflies step 4, "Replace card text"). Was: '[DRAFT] Courting *Photinus
+    // obscurellus* fireflies: a male flashes, a female answers. In the dark 98.7 % of females answered; under bright cool
+    // white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and bright amber 0 %. Each lamp in turn, with
+    // the part of its light a firefly eye takes in (green).'
+    text: 'ALAN interrupts female responses to mating calls',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    sources: [
+      { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
+      { label: 'Owens & Lewis 2021, Results', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'female response: dark 98.7 %, bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. The other five colour × intensity values are only in Fig. 2b (not shown)' },
+    ],
+    // Grows out of the Fireflies (Boston) point (human, AI_LOG Impacts reorder steps 2–4). Was camera lat 20, lng 10,
+    // alt 2.2, no fly, no site. Altitude 0.04 and fly 2200: as Signal production (agent choices).
+    camera: { lat: 42.30469, lng: -71.12099, altitude: 0.04 },
+    fly: 2200,
+    swipe: 0,
+    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
+    spectral: { chapter: 'fireflies', manual: true, site: 'owenslewis2021_boston', beats: [
+      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
+      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
+      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
+      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
+      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
+      { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0,
+        caption: 'Bright amber lights reduced female response to 0%' },   // wording: human (AI_LOG Fireflies steps 6–7)
+    ] },
+  },
+  // Dark screen between Female response and Two measured nights, shown like Conclusion (human, AI_LOG Fireflies
+  // step 10: new step, look "Like Conclusion", label "Perception"). Camera: Conclusion's whole-globe view.
+  {
+    id: 'perception',
+    part: 2,
+    kind: 'fact',
+    label: 'Perception',
+    text: 'Humans perceive ALAN differently to other parts of the biota.',   // wording: human (AI_LOG Fireflies step 10)
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    dark: true,
+  },
+  // 'One communication problem' (placeholder, round 1) removed (human, AI_LOG Firefly tabs review round 7c).
+  {
+    id: 'two-nights',
+    part: 2,
+    label: 'Two measured nights',
+    title: 'Two measured nights',
+    // Card (human, AI_LOG "Amber highlight" steps 3-4): large text; first line while the divider shows Cherry Springs,
+    // `reveal` lines once it has swept across to Philadelphia (twoNights.js onSweep). Wording: human (first line
+    // from "this is the light spectrum measured at a dark sky park, Cherry Springs"). 150x:
+    // data/derived/spectra/amber_band_ratio.json (pipeline/spectra/03_amber_band_ratio.py, inferred, audit pending).
+    // Details text: agent draft (method only).
+    tagline: 'This is the light spectrum measured at a dark sky park, Cherry Springs.',
+    reveal: [
+      'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs, a dark sky park.',
+      'Bright amber light silenced female fireflies most (Owens & Lewis 2021).',
+    ],
+    text: 'Night spectra measured in July 2014, 240 per site. 150× = median irradiance in 570–615 nm, Philadelphia ÷ ' +
+      'Cherry Springs (the band the authors link to artificial light in the city spectra; shaded on the Philadelphia half).',
+    sources: [
+      { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
+        supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014; 570–615 nm band' },
+      { label: 'PA DCNR, Cherry Springs State Park',
+        url: 'https://www.pa.gov/agencies/dcnr/recreation/where-to-go/state-parks/find-a-park/cherry-springs-state-park',
+        supports: 'declared a Dark Sky Park by DCNR in 2000' },
+      { label: 'Cherry Springs IDSP annual report (DarkSky International)',
+        url: 'https://darksky.org/app/uploads/2015/04/CherrySprings-IDSP-2017-Annual-Report.pdf',
+        supports: 'International Dark Sky Park since 2008, Gold Level' },
+      { label: 'Owens & Lewis 2021, Insect Conserv. Divers.', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'bright amber light had the greatest impact on female responses' },
+    ],
+    // Globe camera between the two Spitschan sites (midpoint of the printed coordinates; display only), so both glows
+    // are in view during the transition from Local firefly (round 7f). Altitude and timing: agent choices.
+    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
+    fly: 1600,
+    swipe: 0,
+    // 3D night spectra, Philadelphia | Cherry Springs (app/src/twoNights.js; data/derived/spectra/, Spitschan et al.
+    // 2016; human decisions: handoff 2026-10-04_two-nights-spectra.md, AI_LOG Firefly narrative round 3c).
+    nights: true,
+    // Sites (impacts.js SITE_POINTS) whose glows open the left / right half, arriving from the step whose impacts.site
+    // is the first one (human: "two points, two halves", AI_LOG Firefly tabs review round 7f).
+    nightsSites: ['spitschan2016_city', 'spitschan2016_rural'],
+  },
+  // Species perceptions as Firefly | Human (human, AI_LOG "Species perceptions" steps 1–4): Philadelphia's measured night
+  // light as the cloud, weighted by the firefly curve (left) and human night, CIE scotopic V′(λ) (right; human, step 7); fixed divider, no
+  // cycling (twoNights.js, nights: 'pair'; data/derived/spectra/species_curves.json). Was round 7j's cycling view, kept
+  // as [DRAFT] Species perceptions in Explore. Animal curves provisional (human: sources to be identified; nothing
+  // shown on screen). Card text: placeholder.
+  {
+    id: 'species-perceptions',
+    part: 2,
+    kind: 'fact',   // big narrative text on the right, no card (human, AI_LOG Fireflies step 12)
+    side: 'right',
+    label: 'Species perceptions',
+    // Was a card titled 'Species perceptions': '[PLACEHOLDER] The measured night light of Philadelphia, weighted by
+    // each species' spectral sensitivity.'
+    text: 'Fireflies perceive ALAN with their own eyes, not ours.',   // wording: human (AI_LOG Fireflies step 12)
+    sources: [
+      { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
+        supports: 'night spectra, Philadelphia (City), July 2014' },
+      { label: 'CIE 2019, scotopic V′(λ)', url: 'https://doi.org/10.25039/CIE.DS.gr6w4b5g', supports: 'human night curve' },
+      { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
+    ],
+    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
+    swipe: 0,
+    nights: 'pair',
+  },
+  {
+    id: 'effects',
+    part: 2,
+    kind: 'fact',   // big text on the right, card text behind Details (human, AI_LOG Fireflies step 17)
+    side: 'right',
+    label: 'All effects',
+    // Was title '3,254 effects'. Sentence: agent draft chosen by the human (their "…generally significant" with
+    // 'significant' → 'substantial'), AI_LOG Fireflies step 17.
+    text: 'The impacts of artificial light on biota are generally substantial.',
+    note: 'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
+      'Further right = a bigger change under light. Only the size of the change is shown, not its direction: ' +
+      'for some measures more is harmful, for others less. White line = the median study: each study’s middle ' +
+      'effect, then the middle of those.',
+    sources: [
+      { label: 'Czarnecka et al. 2025, sec. 2.5', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'absolute values |g| used for magnitude because opposite effects within a category could cancel out' },
+      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
+        supports: 'category and |g| of each effect record; median of study medians computed by us from |g|' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    // Arriving from a step without the Impacts layer (Species perceptions): the globe flies out with the study dots,
+    // holds `globeHold`, then the records fly into the chart (main.js; human, AI_LOG Fireflies step 14: 2.5 s + 1 s; hold 0.5 s, step 15).
+    fly: 2500,
+    globeHold: 500,
+    swipe: 0,
+    impacts: { view: 'chart', records: true, filter: true, example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+  },
+  // The next two questions and their one-word answers ("Yes", "Not as much as thought") are the human's
+  // (AI_LOG Impacts steps 29, 35–36); the rest of each text is a DRAFT placeholder by the agent.
+  {
+    id: 'intensity',
+    part: 2,
+    kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light intensity affect biota?', note began 'Yes.')
+    side: 'right',
+    label: 'Light level',
+    text: 'Impacts occur at every light level, even in low light.',   // agent draft chosen by the human (step 17)
+    note: '[DRAFT] The same effects, now sorted by how bright the light was. Effects appear at every level, ' +
+      'even below 5 lux. The meta-analysis found them mostly not dose-dependent: low light had an impact ' +
+      'comparable to moderate and high light. White line = the median study: each study’s middle effect, then the middle of those.',
+    sources: [
+      { label: 'Czarnecka et al. 2025, sec. 2.2', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'light levels: low ≤ 5 lx, moderate 5–20 lx, high > 20 lx (from street lighting standards)' },
+      { label: 'Czarnecka et al. 2025, sec. 3.1, Fig. 1, sec. 4', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'effects mostly not dose dependent; strong influence of low light levels, comparable to moderate and high' },
+      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
+        supports: 'light level of each effect record (Night_Lx_coded); median of study medians computed by us from |g|' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    impacts: { view: 'chart', records: true, filter: true, group: 'band', example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+  },
+  {
+    id: 'light-type',
+    part: 2,
+    kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light temperature affect biota?', note began 'Not as much as thought.')
+    side: 'right',
+    label: 'Light type',
+    text: 'Impacts occur regardless of light type.',   // wording: human (AI_LOG Fireflies step 17)
+    note: '[DRAFT] The same effects, sorted by type of light. Warm white light ' +
+      '(below 3000 K) had an impact similar to cool white light, contrary to the common view that warm light is ' +
+      'gentler. White light that also emits ultraviolet had the strongest impact. The narrow-spectrum lanes rest ' +
+      'on few studies, so read them with caution.',
+    sources: [
+      { label: 'Czarnecka et al. 2025, sec. 2.2', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'light types: BS warm < 3000 K, BS cool > 3000 K, BS_UV cool white with UV; NS blue, green, yellow-orange' },
+      { label: 'Czarnecka et al. 2025, sec. 3.1, Fig. 1, sec. 4', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'BS warm and BS cool did not differ significantly; BS_UV greatest overall impact; NS comparable to BS warm/cool, few studies, wide intervals' },
+      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
+        supports: 'light type of each effect record (Light_Type_coded); median of study medians computed by us from |g|' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    // Door (299-3) removed when the fireflies chapter moved into "Female response" (human, AI_LOG Firefly tabs round 5b).
+    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+  },
+  // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
+  // charts, data and sources on ecosystem-level impacts may follow here (not started).
+  {
+    id: 'broader',
+    part: 2,
+    kind: 'fact',
+    label: 'Broader Impacts',
+    text: 'All classes of biota are simultaneously responding to a new global environment.',   // wording: human (AI_LOG Fireflies step 17); was 'So how does this translate to ecosystem level impacts?'
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    fly: 2500,
+    swipe: 0,
+    // circle: all records gather into one circle of species-group sectors (human, AI_LOG Broader Impacts circle concept
+    // steps 3 and 7; impacts.js drawCircle). On the main URL since step 7 (was behind ?broader=circle).
+    impacts: { view: 'globe', dots: false, circle: true },
+  },
+  // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
+  // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).
+  {
+    id: 'conclusion',
+    part: 2,
+    kind: 'fact',
+    label: 'Conclusion',
+    text: 'We need ALAN, but do we need it all the time, everywhere?',   // 'light at night' → 'ALAN' (human, AI_LOG Fireflies step 9)
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    swipe: 0,
+    dark: true,
+    humOff: true,   // the background hum fades out here (human, AI_LOG Copy editing step 11)
+  },
+  // ── Part 3: Explore (human request, step 4: its own top-level heading, after the conclusion) ──
+  {
+    id: 'explore',
+    part: 3,
+    label: 'Explore all studies',
+    title: 'Explore all studies',
+    // Human request (AI_LOG Impacts step 34): free browsing as the last Part 2 step.
+    text: 'Click a dot to open its study. Rings hold several studies close together: click to spread them out. ' +
+      'On a study card, ‹ › steps through all 207 studies from west to east.',
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    fly: 2500,
+    swipe: 0,
+    impacts: { view: 'globe', explore: true },
+    muteAudio: true,   // the background hum is muted on arrival; the mute button turns it back on (human, AI_LOG Copy editing step 9)
+  },
+  {
+    id: 'signal-production',
+    part: 3,   // moved to Explore as a draft (human, AI_LOG Impacts reorder step 2)
+    label: '[DRAFT] Signal production',
+    title: 'Signal production',
+    // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from owens2018_results.json.
+    text: '[DRAFT] Male *Aquatica ficta* fireflies in Taiwan, tested one at a time under eight colours of light, each ' +
+      'dim and ten times brighter (six males analysed). The authors report brighter, less frequent flashes at 533 nm ' +
+      'and below, and no significant change at 597 nm and above. Left: flashing at the dark base values; right: under ' +
+      'the chosen light, at the mean rate and relative brightness in Table 1.',
+    sources: [
+      { label: 'Owens et al. 2018, PLoS ONE, Table 1', url: 'https://doi.org/10.1371/journal.pone.0191576',
+        supports: 'mean ± SD flash intensity (counts) and flash frequency (peaks/min), ratio to dark and p, for 8 LED wavelengths (444–663 nm) at dim (1×) and bright (10×); dark base values 5420 counts, 43.167 peaks/min' },
+      { label: 'Owens et al. 2018, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
+        supports: 'A. ficta bioluminescence peak 565 nm; alarm flashes approx. 200 ms; dim 0.107, bright 1.075 μmol m⁻² s⁻¹' },
+    ],
+    // Zoom-in from the Fireflies point (round 6b): the globe flies closer over the collection site while the glow
+    // grows; the 3D scene then opens over it. Altitude and timing: agent choices.
+    camera: { lat: 24.990195, lng: 121.555824, altitude: 0.04 },
+    fly: 2200,
+    swipe: 0,
+    // Scene "A + B" (human, AI_LOG Firefly narrative round 4f): 3D beats + Table 1 strip (spectral.js, chapter 'signal').
+    // Beats: each wavelength at bright (10×) only; no dim beats and no dark beat (human, AI_LOG Firefly tabs review
+    // round 6j: the dark base values stay as the left male). Numbers are read from owens2018_results.json.
+    // site: arriving from the step with the same impacts.site, the scene grows out of that point's glow.
+    spectral: { chapter: 'signal', manual: true, site: 'owens2018',
+      beats: [444, 463, 488, 515, 533, 597, 628, 663].map(nm => ({ nm, exposure: 'bright' })) },
+  },
+  {
+    id: 'mate-finding',
+    part: 3,   // moved to Explore as a draft (human, AI_LOG Impacts reorder step 2)
+    label: '[DRAFT] Mate-finding',
+    title: 'Mate-finding',
+    // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from kivela2023.json.
+    text: '[DRAFT] Female *Lampyris noctiluca* glow-worms glow to attract flying males. Over 20 nights in southern ' +
+      'Finland (2020), 299 dummy females (green LEDs) were set under blue, white, yellow or red light, or none, and ' +
+      'the males each one trapped were counted. Left: no light; right: the chosen light. Each green point is one dummy ' +
+      'female, each pale point one trapped male. Under blue and ' +
+      'white light 35.0 % and 36.7 % caught at least one male; under yellow, red and no light 71.2 %, 73.3 % and 68.3 %.',
+    sources: [
+      { label: 'Kivelä et al. 2023, Sci. Total Environ., Tables 1 and 3', url: 'https://doi.org/10.1016/j.scitotenv.2022.159451',
+        supports: 'treatments: blue 452 nm, white 449 nm, yellow 575 nm, red 625 nm (peak wavelengths), control off; dummy female LED 562 nm; share of dummy females with ≥ 1 male per treatment (Table 3)' },
+      { label: 'Kivelä et al., Dataverse (CC0)', url: 'https://doi.org/10.7910/DVN/QWQPLJ',
+        supports: 'males trapped per dummy female, 299 traps over 20 nights (2020), one pillar per trap' },
+    ],
+    // Globe camera (hidden behind the 3D scene) over the Philadelphia city measurement site, close in, so moving on to
+    // Local firefly the scene closes into a glow over that site while the globe zooms out (human: "scene closes into
+    // the point", AI_LOG Firefly tabs review round 7d). Altitude and timing: as Signal production (agent choices).
+    camera: { lat: 39.952237, lng: -75.188734, altitude: 0.04 },
+    fly: 2200,
+    swipe: 0,
+    // Continuous scene, third band (human, AI_LOG Firefly tabs round 5b). "Dark vs lit pair" (human, review round 6o):
+    // control always on the left, the beat's treatment on the right, so no control beat (kivela2023.json).
+    // site: between this step and the step with the same impacts.site, the scene closes into / opens out of its glow.
+    spectral: { chapter: 'glow', manual: true, site: 'spitschan2016_city',
+      beats: ['blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
+  },
+  // Local firefly (human, AI_LOG Firefly tabs review round 7d): shown like Fireflies, the point moved from Taipei to
+  // Philadelphia. The point = the city measurement site printed by Spitschan et al. 2016 (documented; impacts.js
+  // SITE_POINTS), the same site as the Philadelphia spectra in Two measured nights; it is not a firefly record.
+  // Arriving from Mate-finding the 3D scene closes into the point's glow while the globe zooms out (main.js, spectral.js).
+  // Card text: agent draft on the human's request (round 7d), from the sources below. No source in the repo places
+  // P. pyralis in Philadelphia, so the card does not say it.
+  {
+    id: 'local-firefly',
+    part: 3,   // moved to Explore as a draft (human, AI_LOG Fireflies step 8)
+    label: '[DRAFT] Local firefly',
+    title: 'Local firefly · Philadelphia, Pennsylvania',
+    text: '[DRAFT] *Photinus pyralis* courts with flashes too. In the global dataset it appears in two field studies, ' +
+      'both in Virginia, on courtship, flashing, dispersal and abundance under LED light. The point marks the roof in ' +
+      'Philadelphia where night light was measured in July 2014.',
+    note: 'The point is the measurement site (David Rittenhouse Laboratories, University of Pennsylvania; coordinates ' +
+      'as printed in the paper), not a firefly record.',
+    sources: [
+      { label: 'Spitschan et al. 2016, Sci. Rep., Methods', url: 'https://doi.org/10.1038/srep26756',
+        supports: 'Locations: City = five-story roof of David Rittenhouse Laboratories, University of Pennsylvania (39.952237° N, −75.188734° W; elevation 12 m); spectra collected in July 2014' },
+      { label: 'Firebaugh & Haynes 2016, Oecologia', url: 'https://doi.org/10.1007/s00442-016-3723-1',
+        supports: 'Data S1 study 229: P. pyralis, field, Virginia, USA, white cool LED; courtship (males within 1 m of the female, female flashes, proportion of males flashing) and dispersal' },
+      { label: 'Firebaugh & Haynes 2019, Basic Appl. Ecol.', url: 'https://doi.org/10.1016/j.baae.2018.07.005',
+        supports: 'Data S1 study 028: P. pyralis and Photuris versicolor, field, University of Virginia, white warm LED; abundance' },
+      { label: 'Seliger et al. 1964, J. Gen. Physiol., Table I', url: 'https://doi.org/10.1085/jgp.48.1.95',
+        supports: 'point colour: P. pyralis in vivo flash, peak 5620 Å (562 nm), photoelectric spectrometer ("Present work, 1963")' },
+    ],
+    camera: { lat: 39.952237, lng: -75.188734, altitude: 0.35 },
+    fly: 2200,
+    swipe: 0,
+    impacts: { view: 'globe', site: 'spitschan2016_city' },
+  },
+  // [DRAFT] Species perceptions: copy of the original step as it was, moved to Explore (human, AI_LOG "Species
+  // perceptions" steps 1–4). Its cycle now also includes Human day (photopic V(λ)), added to species_curves.json.
+  // Species perceptions (human, AI_LOG Firefly tabs review round 7j): the same two sites' measured night light as a
+  // rotating cloud, weighted by each species' response curve, one species every 1.5 s (twoNights.js, nights: 'species';
+  // data/derived/spectra/species_curves.json). Animal curves provisional (human: sources to be identified; nothing
+  // shown on screen). Card text: placeholder.
+  {
+    id: 'species-perceptions-draft',
+    part: 3,
+    label: '[DRAFT] Species perceptions',
+    title: 'Species perceptions',
+    text: '[PLACEHOLDER] The measured night light of Philadelphia and Cherry Springs, weighted by each species\' ' +
+      'spectral sensitivity.',
+    sources: [
+      { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
+        supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
+      { label: 'CIE 2019, scotopic V′(λ)', url: 'https://doi.org/10.25039/CIE.DS.gr6w4b5g', supports: 'human night curve' },
+      { label: 'Bowmaker 1977', supports: 'rock pigeon pigment peaks 460, 515, 567 nm' },
+      { label: 'Bennett & Brown 1985', supports: 'Carolina sphinx receptor peaks 357, 450, 520 nm' },
+      { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
+      { label: 'Hasselmann 1962, in Lord et al. 2016', supports: 'bronze ground beetle ERG peaks 348, 430, 500, 620 nm' },
+      { label: 'Beason & Loew 2008', supports: 'bobolink pigment peaks 372, 403, 505, 564 nm; rod 502 nm' },
+    ],
+    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
+    swipe: 0,
+    nights: 'species',
+  },
+];
+
+// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
+// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
+// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
+// (data/derived/story/version_sensitivity_2015_2025.json).
+// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
+// remove Ukraine. Just two countries").
+// Mice (study 278, spectral chapter 'mice'): retired (human, AI_LOG Broader Impacts circle concept step 10: "get rid of
+// the DRAFT Mice section under explore, it's a gonner"). Its chapter code in app/src/spectral.js is unused now.
+export const retired = [
+  // India and Tanzania: retired (human, AI_LOG Copy editing and drafting step 2: "We won't do India and Tanzania
+  // to start as examples. Let's toss them."). Kept here so their sourced text is not lost.
   {
     id: 'india',
     part: 1,
@@ -114,383 +550,6 @@ export const story = [
     fly: 3000,
     sweep: { east: 40.4, west: 29.3, hold: 800, duration: 3500 },
   },
-  // ── Part 2: light impacts ─────────────────────────────────────────────────
-  // Sequence: human (AI_LOG Impacts steps 26–27). The question is the human's wording.
-  // DRAFT NOTICE: all other Part 2 text (cards, chart labels in app/src/impacts.js) was drafted by an
-  // AI agent (claude-opus-5-5, 2026-10-03) at the human's request as placeholders. Featured studies
-  // (165, 005) and the worked example (005-2) were proposed by the agent, refinable.
-  // impacts: stage of the Impacts layer (see setStage in app/src/impacts.js).
-  {
-    id: 'question',
-    part: 2,
-    kind: 'fact',
-    label: 'Ecosystems',
-    text: 'But how does light impact our ecosystems?',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    fly: 3000,
-    swipe: 0,
-    impacts: { view: 'globe', dots: false },
-  },
-  {
-    id: 'studies',
-    part: 2,
-    label: 'Studies',
-    text: 'Each dot is one study that compared living things under artificial light at night with the same ' +
-      'under natural darkness. These are 207 of the 314 studies gathered in a 2025 meta-analysis: ' +
-      'the ones we could place on the map. Colour = the study’s main category.',
-    sources: [
-      { label: 'Czarnecka et al. 2025, Global Change Biology', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'sec. 2.1: 314 studies, 4,905 effect sizes; control group under dark night conditions vs light up to 180 lx' },
-      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
-        supports: 'study records; locations geocoded by us (02_geocode.py)' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    impacts: { view: 'globe', reveal: true },
-  },
-  {
-    id: 'swans',
-    part: 2,
-    label: 'Black swans',
-    title: 'Black swans · Serendip Sanctuary, Australia',
-    // Workbook study 005, "nighttime rest (h)": dark 3.43 h, amber LED (0.36 lx) 2.76 h.
-    text: 'Swans kept outdoors were lit at night by dim amber streetlights, a colour chosen to reduce blue light. ' +
-      'Their night-time rest fell from 3.4 to 2.8 hours, and brain recordings showed that resting swans were almost always asleep.',
-    sources: [
-      { label: 'Aulsebrook et al. 2020, Front. Ecol. Evol.', url: 'https://doi.org/10.3389/fevo.2020.00131',
-        supports: 'abstract (publisher page): rest decreased under amber lights vs dark; resting birds almost always asleep. Numbers: Data S1 row 005-2' },
-    ],
-    camera: { lat: -38.0, lng: 144.41, altitude: 0.35 },
-    fly: 3500,
-    swipe: 0,
-    impacts: { view: 'globe', study: '005' },
-  },
-  {
-    id: 'one-effect',
-    part: 2,
-    label: 'One effect',
-    title: 'What is an effect?',
-    text: 'Each study compared two groups: one kept dark, one lit at night. One such comparison is one *effect*. ' +
-      'To compare hours of sleep with hormone levels or insect counts, the difference is divided by the normal ' +
-      'spread between individuals. That number is Hedges *g*: about 0.2 is a small effect, 0.5 medium, 0.8 large.',
-    sources: [
-      { label: 'Czarnecka et al. 2025, sec. 2.5', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'effect sizes computed as standardised mean difference (Hedges g) between control and treatment' },
-      { label: 'Cohen 1988, Statistical Power Analysis for the Behavioral Sciences', url: 'https://doi.org/10.4324/9780203771587',
-        supports: '0.2 / 0.5 / 0.8 = small / medium / large conventions (human decision B)' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    fly: 2500,
-    swipe: 0,
-    impacts: { view: 'chart', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
-  },
-  {
-    id: 'effects',
-    part: 2,
-    label: 'All effects',
-    title: '3,254 effects',
-    text: 'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
-      'Further right = a bigger change under light. Only the size of the change is shown, not its direction: ' +
-      'for some measures more is harmful, for others less. White line = the median study: each study’s middle ' +
-      'effect, then the middle of those.',
-    sources: [
-      { label: 'Czarnecka et al. 2025, sec. 2.5', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'absolute values |g| used for magnitude because opposite effects within a category could cancel out' },
-      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
-        supports: 'category and |g| of each effect record; median of study medians computed by us from |g|' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    impacts: { view: 'chart', records: true, filter: true, example: '005-2', exampleLabel: 'Black swans, night-time rest' },
-  },
-  // The next two questions and their one-word answers ("Yes", "Not as much as thought") are the human's
-  // (AI_LOG Impacts steps 29, 35–36); the rest of each text is a DRAFT placeholder by the agent.
-  {
-    id: 'intensity',
-    part: 2,
-    label: 'Light level',
-    title: 'Does light intensity affect biota?',
-    text: 'Yes. [DRAFT] The same effects, now sorted by how bright the light was. Effects appear at every level, ' +
-      'even below 5 lux. The meta-analysis found them mostly not dose-dependent: low light had an impact ' +
-      'comparable to moderate and high light. White line = the median study: each study’s middle effect, then the middle of those.',
-    sources: [
-      { label: 'Czarnecka et al. 2025, sec. 2.2', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'light levels: low ≤ 5 lx, moderate 5–20 lx, high > 20 lx (from street lighting standards)' },
-      { label: 'Czarnecka et al. 2025, sec. 3.1, Fig. 1, sec. 4', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'effects mostly not dose dependent; strong influence of low light levels, comparable to moderate and high' },
-      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
-        supports: 'light level of each effect record (Night_Lx_coded); median of study medians computed by us from |g|' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    impacts: { view: 'chart', records: true, filter: true, group: 'band', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
-  },
-  {
-    id: 'light-type',
-    part: 2,
-    label: 'Light type',
-    title: 'Does light temperature affect biota?',
-    text: 'Not as much as thought. [DRAFT] The same effects, sorted by type of light. Warm white light ' +
-      '(below 3000 K) had an impact similar to cool white light, contrary to the common view that warm light is ' +
-      'gentler. White light that also emits ultraviolet had the strongest impact. The narrow-spectrum lanes rest ' +
-      'on few studies, so read them with caution.',
-    sources: [
-      { label: 'Czarnecka et al. 2025, sec. 2.2', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'light types: BS warm < 3000 K, BS cool > 3000 K, BS_UV cool white with UV; NS blue, green, yellow-orange' },
-      { label: 'Czarnecka et al. 2025, sec. 3.1, Fig. 1, sec. 4', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'BS warm and BS cool did not differ significantly; BS_UV greatest overall impact; NS comparable to BS warm/cool, few studies, wide intervals' },
-      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
-        supports: 'light type of each effect record (Light_Type_coded); median of study medians computed by us from |g|' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    // Door (299-3) removed when the fireflies chapter moved into "Female response" (human, AI_LOG Firefly tabs round 5b).
-    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
-  },
-  // ── Firefly section skeleton (human, 2026-10-04, AI_LOG "Firefly narrative" round 1): tab names are the agent's
-  // proposal accepted by the human "for now". Each tab is a [PLACEHOLDER] until it is built; text says only what will go there.
-  // Order (human): signal production (Owens 2018) → female response (Owens & Lewis 2021) → mate-finding (Kivelä 2023)
-  // → synthesis → local firefly (Photinus pyralis) → Philadelphia vs Cherry Springs measured spectra.
-  // Fireflies (human, AI_LOG Firefly tabs review round 6b): shown like Black swans, the globe turns to the study.
-  // Owens et al. 2018 is not in Data S1, so its point is drawn on its own: the collection site printed in the paper
-  // (owens2018_results.json statements.collection_site, documented; camera below = the same printed coordinates).
-  // Moving on to Signal production the globe zooms in and the point becomes a yellow-green glow that turns into
-  // the scene's two males (human: "point becomes the scene"; main.js, impacts.js `site`, spectral.js).
-  // Card text: agent draft on the human's request (round 6b), from owens2018_results.json statements.
-  {
-    id: 'fireflies',
-    part: 2,
-    label: 'Fireflies',   // 'Fireflies' → 'Fireflies-step 1' (round 6e) → 'Fireflies' again (human, AI_LOG round 7b)
-    title: 'Fireflies · Yongjian Eco Park, Taipei, Taiwan',
-    text: '[DRAFT] Male *Aquatica ficta* fireflies were collected here, at Yongjian Eco Park, on 4, 7 and 11 May 2016. ' +
-      'Their courtship signal is a single yellow-green flash, peaking at 565 nm. Eight males were recorded on the ' +
-      'evenings of 5–9 and 12–14 May.',
-    note: 'The point marks where the males were collected (coordinates as printed in the paper). The paper gives no ' +
-      'coordinates for where they were tested.',
-    sources: [
-      { label: 'Owens et al. 2018, PLoS ONE, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
-        supports: 'p. 3: collected from Yongjian Eco Park (24.990195, 121.555824; May 4, May 7, and May 11, 2016); periodic single yellow-green courtship flashes, peak wavelength 565 nm. p. 4: eight males, evenings of May 5–9 and May 12–14, 2016' },
-    ],
-    camera: { lat: 24.990195, lng: 121.555824, altitude: 0.35 },
-    fly: 3500,
-    swipe: 0,
-    impacts: { view: 'globe', site: 'owens2018' },
-  },
-  {
-    id: 'signal-production',
-    part: 2,
-    label: 'Signal production',
-    title: 'Signal production',
-    // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from owens2018_results.json.
-    text: '[DRAFT] Male *Aquatica ficta* fireflies in Taiwan, tested one at a time under eight colours of light, each ' +
-      'dim and ten times brighter (six males analysed). The authors report brighter, less frequent flashes at 533 nm ' +
-      'and below, and no significant change at 597 nm and above. Left: flashing at the dark base values; right: under ' +
-      'the chosen light, at the mean rate and relative brightness in Table 1.',
-    sources: [
-      { label: 'Owens et al. 2018, PLoS ONE, Table 1', url: 'https://doi.org/10.1371/journal.pone.0191576',
-        supports: 'mean ± SD flash intensity (counts) and flash frequency (peaks/min), ratio to dark and p, for 8 LED wavelengths (444–663 nm) at dim (1×) and bright (10×); dark base values 5420 counts, 43.167 peaks/min' },
-      { label: 'Owens et al. 2018, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
-        supports: 'A. ficta bioluminescence peak 565 nm; alarm flashes approx. 200 ms; dim 0.107, bright 1.075 μmol m⁻² s⁻¹' },
-    ],
-    // Zoom-in from the Fireflies point (round 6b): the globe flies closer over the collection site while the glow
-    // grows; the 3D scene then opens over it. Altitude and timing: agent choices.
-    camera: { lat: 24.990195, lng: 121.555824, altitude: 0.04 },
-    fly: 2200,
-    swipe: 0,
-    // Scene "A + B" (human, AI_LOG Firefly narrative round 4f): 3D beats + Table 1 strip (spectral.js, chapter 'signal').
-    // Beats: each wavelength at bright (10×) only; no dim beats and no dark beat (human, AI_LOG Firefly tabs review
-    // round 6j: the dark base values stay as the left male). Numbers are read from owens2018_results.json.
-    // site: arriving from the step with the same impacts.site, the scene grows out of that point's glow.
-    spectral: { chapter: 'signal', manual: true, site: 'owens2018',
-      beats: [444, 463, 488, 515, 533, 597, 628, 663].map(nm => ({ nm, exposure: 'bright' })) },
-  },
-  {
-    id: 'female-response',
-    part: 2,
-    label: 'Female response',
-    title: 'Female response',
-    // The former '[DRAFT] Fireflies' chapter (study 299), moved here from Explore (human, AI_LOG Firefly tabs round 5a);
-    // its door from Light type removed (round 5b). Card text: agent draft on the human's request (round 5g), values as in
-    // the sources below.
-    text: '[DRAFT] Courting *Photinus obscurellus* fireflies: a male flashes, a female answers. In the dark 98.7 % of ' +
-      'females answered; under bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and ' +
-      'bright amber 0 %. Each lamp in turn, with the part of its light a firefly eye takes in (green).',
-    sources: [
-      { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
-        supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
-      { label: 'Owens & Lewis 2021, Results', url: 'https://doi.org/10.1111/icad.12487',
-        supports: 'female response: dark 98.7 %, bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. The other five colour × intensity values are only in Fig. 2b (not shown)' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
-    spectral: { chapter: 'fireflies', manual: true, beats: [
-      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
-      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
-      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
-      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
-      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
-      { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0 },
-    ] },
-  },
-  {
-    id: 'mate-finding',
-    part: 2,
-    label: 'Mate-finding',
-    title: 'Mate-finding',
-    // Card text: agent draft on the human's request (AI_LOG Firefly tabs round 5g), from kivela2023.json.
-    text: '[DRAFT] Female *Lampyris noctiluca* glow-worms glow to attract flying males. Over 20 nights in southern ' +
-      'Finland (2020), 299 dummy females (green LEDs) were set under blue, white, yellow or red light, or none, and ' +
-      'the males each one trapped were counted. Left: no light; right: the chosen light. Each green point is one dummy ' +
-      'female, each pale point one trapped male. Under blue and ' +
-      'white light 35.0 % and 36.7 % caught at least one male; under yellow, red and no light 71.2 %, 73.3 % and 68.3 %.',
-    sources: [
-      { label: 'Kivelä et al. 2023, Sci. Total Environ., Tables 1 and 3', url: 'https://doi.org/10.1016/j.scitotenv.2022.159451',
-        supports: 'treatments: blue 452 nm, white 449 nm, yellow 575 nm, red 625 nm (peak wavelengths), control off; dummy female LED 562 nm; share of dummy females with ≥ 1 male per treatment (Table 3)' },
-      { label: 'Kivelä et al., Dataverse (CC0)', url: 'https://doi.org/10.7910/DVN/QWQPLJ',
-        supports: 'males trapped per dummy female, 299 traps over 20 nights (2020), one pillar per trap' },
-    ],
-    // Globe camera (hidden behind the 3D scene) over the Philadelphia city measurement site, close in, so moving on to
-    // Local firefly the scene closes into a glow over that site while the globe zooms out (human: "scene closes into
-    // the point", AI_LOG Firefly tabs review round 7d). Altitude and timing: as Signal production (agent choices).
-    camera: { lat: 39.952237, lng: -75.188734, altitude: 0.04 },
-    fly: 2200,
-    swipe: 0,
-    // Continuous scene, third band (human, AI_LOG Firefly tabs round 5b). "Dark vs lit pair" (human, review round 6o):
-    // control always on the left, the beat's treatment on the right, so no control beat (kivela2023.json).
-    // site: between this step and the step with the same impacts.site, the scene closes into / opens out of its glow.
-    spectral: { chapter: 'glow', manual: true, site: 'spitschan2016_city',
-      beats: ['blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
-  },
-  // 'One communication problem' (placeholder, round 1) removed (human, AI_LOG Firefly tabs review round 7c).
-  // Local firefly (human, AI_LOG Firefly tabs review round 7d): shown like Fireflies, the point moved from Taipei to
-  // Philadelphia. The point = the city measurement site printed by Spitschan et al. 2016 (documented; impacts.js
-  // SITE_POINTS), the same site as the Philadelphia spectra in Two measured nights; it is not a firefly record.
-  // Arriving from Mate-finding the 3D scene closes into the point's glow while the globe zooms out (main.js, spectral.js).
-  // Card text: agent draft on the human's request (round 7d), from the sources below. No source in the repo places
-  // P. pyralis in Philadelphia, so the card does not say it.
-  {
-    id: 'local-firefly',
-    part: 2,
-    label: 'Local firefly',
-    title: 'Local firefly · Philadelphia, Pennsylvania',
-    text: '[DRAFT] *Photinus pyralis* courts with flashes too. In the global dataset it appears in two field studies, ' +
-      'both in Virginia, on courtship, flashing, dispersal and abundance under LED light. The point marks the roof in ' +
-      'Philadelphia where night light was measured in July 2014.',
-    note: 'The point is the measurement site (David Rittenhouse Laboratories, University of Pennsylvania; coordinates ' +
-      'as printed in the paper), not a firefly record.',
-    sources: [
-      { label: 'Spitschan et al. 2016, Sci. Rep., Methods', url: 'https://doi.org/10.1038/srep26756',
-        supports: 'Locations: City = five-story roof of David Rittenhouse Laboratories, University of Pennsylvania (39.952237° N, −75.188734° W; elevation 12 m); spectra collected in July 2014' },
-      { label: 'Firebaugh & Haynes 2016, Oecologia', url: 'https://doi.org/10.1007/s00442-016-3723-1',
-        supports: 'Data S1 study 229: P. pyralis, field, Virginia, USA, white cool LED; courtship (males within 1 m of the female, female flashes, proportion of males flashing) and dispersal' },
-      { label: 'Firebaugh & Haynes 2019, Basic Appl. Ecol.', url: 'https://doi.org/10.1016/j.baae.2018.07.005',
-        supports: 'Data S1 study 028: P. pyralis and Photuris versicolor, field, University of Virginia, white warm LED; abundance' },
-      { label: 'Seliger et al. 1964, J. Gen. Physiol., Table I', url: 'https://doi.org/10.1085/jgp.48.1.95',
-        supports: 'point colour: P. pyralis in vivo flash, peak 5620 Å (562 nm), photoelectric spectrometer ("Present work, 1963")' },
-    ],
-    camera: { lat: 39.952237, lng: -75.188734, altitude: 0.35 },
-    fly: 2200,
-    swipe: 0,
-    impacts: { view: 'globe', site: 'spitschan2016_city' },
-  },
-  {
-    id: 'two-nights',
-    part: 2,
-    label: 'Two measured nights',
-    title: 'Two measured nights',
-    text: '[PLACEHOLDER] Measured night spectra, Philadelphia and Cherry Springs.',
-    // Globe camera between the two Spitschan sites (midpoint of the printed coordinates; display only), so both glows
-    // are in view during the transition from Local firefly (round 7f). Altitude and timing: agent choices.
-    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
-    fly: 1600,
-    swipe: 0,
-    // 3D night spectra, Philadelphia | Cherry Springs (app/src/twoNights.js; data/derived/spectra/, Spitschan et al.
-    // 2016; human decisions: handoff 2026-10-04_two-nights-spectra.md, AI_LOG Firefly narrative round 3c).
-    nights: true,
-    // Sites (impacts.js SITE_POINTS) whose glows open the left / right half, arriving from the step whose impacts.site
-    // is the first one (human: "two points, two halves", AI_LOG Firefly tabs review round 7f).
-    nightsSites: ['spitschan2016_city', 'spitschan2016_rural'],
-  },
-  // Species perceptions (human, AI_LOG Firefly tabs review round 7j): the same two sites' measured night light as a
-  // rotating cloud, weighted by each species' response curve, one species every 1.5 s (twoNights.js, nights: 'species';
-  // data/derived/spectra/species_curves.json). Animal curves provisional (human: sources to be identified; nothing
-  // shown on screen). Card text: placeholder.
-  {
-    id: 'species-perceptions',
-    part: 2,
-    label: 'Species perceptions',
-    title: 'Species perceptions',
-    text: '[PLACEHOLDER] The measured night light of Philadelphia and Cherry Springs, weighted by each species\' ' +
-      'spectral sensitivity.',
-    sources: [
-      { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
-        supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
-      { label: 'CIE 2019, scotopic V′(λ)', url: 'https://doi.org/10.25039/CIE.DS.gr6w4b5g', supports: 'human night curve' },
-      { label: 'Bowmaker 1977', supports: 'rock pigeon pigment peaks 460, 515, 567 nm' },
-      { label: 'Bennett & Brown 1985', supports: 'Carolina sphinx receptor peaks 357, 450, 520 nm' },
-      { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
-      { label: 'Hasselmann 1962, in Lord et al. 2016', supports: 'bronze ground beetle ERG peaks 348, 430, 500, 620 nm' },
-      { label: 'Beason & Loew 2008', supports: 'bobolink pigment peaks 372, 403, 505, 564 nm; rod 502 nm' },
-    ],
-    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
-    swipe: 0,
-    nights: 'species',
-  },
-  // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
-  // charts, data and sources on ecosystem-level impacts may follow here (not started).
-  {
-    id: 'broader',
-    part: 2,
-    kind: 'fact',
-    label: 'Broader Impacts',
-    text: 'So how does this translate to ecosystem level impacts?',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    fly: 2500,
-    swipe: 0,
-    // circle: all records gather into one circle of species-group sectors (human, AI_LOG Broader Impacts circle concept
-    // steps 3 and 7; impacts.js drawCircle). On the main URL since step 7 (was behind ?broader=circle).
-    impacts: { view: 'globe', dots: false, circle: true },
-  },
-  // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
-  // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).
-  {
-    id: 'conclusion',
-    part: 2,
-    kind: 'fact',
-    label: 'Conclusion',
-    text: 'We need light at night, but do we need it all the time, everywhere?',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-    dark: true,
-    humOff: true,   // the background hum fades out here (human, AI_LOG Copy editing step 11)
-  },
-  // ── Part 3: Explore (human request, step 4: its own top-level heading, after the conclusion) ──
-  {
-    id: 'explore',
-    part: 3,
-    label: 'Explore all studies',
-    title: 'Explore all studies',
-    // Human request (AI_LOG Impacts step 34): free browsing as the last Part 2 step.
-    text: 'Click a dot to open its study. Rings hold several studies close together: click to spread them out. ' +
-      'On a study card, ‹ › steps through all 207 studies from west to east.',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    fly: 2500,
-    swipe: 0,
-    impacts: { view: 'globe', explore: true },
-    muteAudio: true,   // the background hum is muted on arrival; the mute button turns it back on (human, AI_LOG Copy editing step 9)
-  },
-];
-
-// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
-// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
-// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
-// (data/derived/story/version_sensitivity_2015_2025.json).
-// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
-// remove Ukraine. Just two countries").
-// Mice (study 278, spectral chapter 'mice'): retired (human, AI_LOG Broader Impacts circle concept step 10: "get rid of
-// the DRAFT Mice section under explore, it's a gonner"). Its chapter code in app/src/spectral.js is unused now.
-export const retired = [
   // ── Parked at the end (human, 2026-10-04, Firefly narrative round 1: "firefly and Mice part both move to the end of
   // all tabs, that may be removed later until everything's built up"). Listed under Explore (part 3) so the step list
   // order matches the story order. The fireflies chapter moved into "Female response" (AI_LOG Firefly tabs round 5a).
@@ -635,5 +694,72 @@ export const retired = [
     camera: { lat: 64.9, lng: -18.6, altitude: 0.22 },
     fly: 3000,
     sweep: { east: -13.5, west: -24.5, hold: 800, duration: 3500 },
+  },
+  // Black swans, One effect (worked example 005-2) and Fireflies (Taipei, Owens et al. 2018): retired (human, AI_LOG
+  // Impacts reorder step 2: "retire the one effect", "retire black swans", "We aren't doing the taipei step anymore").
+  {
+    id: 'swans',
+    part: 2,
+    label: 'Black swans',
+    title: 'Black swans · Serendip Sanctuary, Australia',
+    // Workbook study 005, "nighttime rest (h)": dark 3.43 h, amber LED (0.36 lx) 2.76 h.
+    text: 'Swans kept outdoors were lit at night by dim amber streetlights, a colour chosen to reduce blue light. ' +
+      'Their night-time rest fell from 3.4 to 2.8 hours, and brain recordings showed that resting swans were almost always asleep.',
+    sources: [
+      { label: 'Aulsebrook et al. 2020, Front. Ecol. Evol.', url: 'https://doi.org/10.3389/fevo.2020.00131',
+        supports: 'abstract (publisher page): rest decreased under amber lights vs dark; resting birds almost always asleep. Numbers: Data S1 row 005-2' },
+    ],
+    camera: { lat: -38.0, lng: 144.41, altitude: 0.35 },
+    fly: 3500,
+    swipe: 0,
+    impacts: { view: 'globe', study: '005' },
+  },
+  {
+    id: 'one-effect',
+    part: 2,
+    label: 'One effect',
+    title: 'What is an effect?',
+    text: 'Each study compared two groups: one kept dark, one lit at night. One such comparison is one *effect*. ' +
+      'To compare hours of sleep with hormone levels or insect counts, the difference is divided by the normal ' +
+      'spread between individuals. That number is Hedges *g*: about 0.2 is a small effect, 0.5 medium, 0.8 large.',
+    sources: [
+      { label: 'Czarnecka et al. 2025, sec. 2.5', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'effect sizes computed as standardised mean difference (Hedges g) between control and treatment' },
+      { label: 'Cohen 1988, Statistical Power Analysis for the Behavioral Sciences', url: 'https://doi.org/10.4324/9780203771587',
+        supports: '0.2 / 0.5 / 0.8 = small / medium / large conventions (human decision B)' },
+    ],
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    fly: 2500,
+    swipe: 0,
+    impacts: { view: 'chart', example: '005-2', exampleLabel: 'Black swans, night-time rest' },
+  },
+  // ── Firefly section skeleton (human, 2026-10-04, AI_LOG "Firefly narrative" round 1): tab names are the agent's
+  // proposal accepted by the human "for now". Each tab is a [PLACEHOLDER] until it is built; text says only what will go there.
+  // Order (human): signal production (Owens 2018) → female response (Owens & Lewis 2021) → mate-finding (Kivelä 2023)
+  // → synthesis → local firefly (Photinus pyralis) → Philadelphia vs Cherry Springs measured spectra.
+  // Fireflies (human, AI_LOG Firefly tabs review round 6b): shown like Black swans, the globe turns to the study.
+  // Owens et al. 2018 is not in Data S1, so its point is drawn on its own: the collection site printed in the paper
+  // (owens2018_results.json statements.collection_site, documented; camera below = the same printed coordinates).
+  // Moving on to Signal production the globe zooms in and the point becomes a yellow-green glow that turns into
+  // the scene's two males (human: "point becomes the scene"; main.js, impacts.js `site`, spectral.js).
+  // Card text: agent draft on the human's request (round 6b), from owens2018_results.json statements.
+  {
+    id: 'fireflies',
+    part: 2,
+    label: 'Fireflies',   // 'Fireflies' → 'Fireflies-step 1' (round 6e) → 'Fireflies' again (human, AI_LOG round 7b)
+    title: 'Fireflies · Yongjian Eco Park, Taipei, Taiwan',
+    text: '[DRAFT] Male *Aquatica ficta* fireflies were collected here, at Yongjian Eco Park, on 4, 7 and 11 May 2016. ' +
+      'Their courtship signal is a single yellow-green flash, peaking at 565 nm. Eight males were recorded on the ' +
+      'evenings of 5–9 and 12–14 May.',
+    note: 'The point marks where the males were collected (coordinates as printed in the paper). The paper gives no ' +
+      'coordinates for where they were tested.',
+    sources: [
+      { label: 'Owens et al. 2018, PLoS ONE, Methods', url: 'https://doi.org/10.1371/journal.pone.0191576',
+        supports: 'p. 3: collected from Yongjian Eco Park (24.990195, 121.555824; May 4, May 7, and May 11, 2016); periodic single yellow-green courtship flashes, peak wavelength 565 nm. p. 4: eight males, evenings of May 5–9 and May 12–14, 2016' },
+    ],
+    camera: { lat: 24.990195, lng: 121.555824, altitude: 0.35 },
+    fly: 3500,
+    swipe: 0,
+    impacts: { view: 'globe', site: 'owens2018' },
   },
 ];

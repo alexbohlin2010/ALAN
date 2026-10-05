@@ -38,10 +38,20 @@ const T_WAIT = 1800, T_SLIDE = 800, T_OPEN = 1400, T_CLOSE = 900;
 // the middle to the left edge, across to the right edge and back, looping; dragging the handle stops it until the step
 // is entered again. Period and range (edges at 2 % / 98 % so the handle stays on screen): agent choices.
 const SWEEP_MS = 16000, SWEEP_HALF = 0.48;
+// Two measured nights: the divider sweeps once instead of looping (human, AI_LOG "Amber highlight" step 4: "go from
+// left to right once (cherry springs to philly)"): from where it is to the left edge (Cherry Springs fills the view),
+// hold, then across to the right edge (Philadelphia fills it) and stop; onSweep(true) then reveals the card's second
+// part (main.js). Species perceptions keeps the loop. Durations: agent choices.
+// The divider rests EDGE_PX from the screen edge during the hold and at the end, visible and draggable (human, AI_LOG
+// "Amber highlight" step 5: "keep draggable divider please, not hidden"): the menu and the card sit 16 px in from the
+// edges (style.css), so line and handle stay clear of them; the handle shows as a half-circle tab. 2 px: agent choice.
+const ONCE = { toLeft: 1500, hold: 4000, across: 7000 }, EDGE_PX = 2;
 // While the divider sweeps, the view also turns slowly about its vertical axis (human, round 7h): OrbitControls
 // autoRotate, one turn per 60 s / ROTATE_SPEED = 240 s, i.e. 1.5° per second (agent choice; 0.5 = 3°/s looked too fast at
 // 1000 × 575); it stops with the sweep.
 const ROTATE_SPEED = 0.25;
+// The amber band slab (570–615 nm, "Amber highlight" step 2) is replaced by the two sensitivity blocks (BLOCKS below;
+// human, AI_LOG "Species perceptions" step 11: "2 b").
 const ease = t => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 
 // Draft particles.ts wavelengthToRgb.
@@ -158,6 +168,21 @@ const receptorVertexShader = `
 const CHANNEL_RGB = { r: [0.95, 0.39, 0.58], g: [0.20, 0.82, 0.74], b: [0.54, 0.48, 0.98], halo: [0.76, 0.46, 0.98],
   luma: [0.82, 0.87, 0.94], yellow: [0.95, 0.72, 0.21] };
 const CLOUD_SEED = 37, SPECIES_MS = 1500;   // draft INTERPRETIVE_CLOUD_SEED; species cycle 1.5 s (human, round 7j)
+// Species perceptions as Firefly | Human (human, AI_LOG "Species perceptions" steps 1–4; story key `nights: 'pair'`):
+// Philadelphia only, fixed divider in the middle (no sweep, no rotation, no cycling); left = Photinus pyralis female
+// response, right = human night, CIE scotopic V′(λ) (human, step 7: "we need the night curve not the day curve"; was
+// photopic); the Philadelphia layer is drawn on the right half. Same cloud as 'species'.
+const PAIR = ['big-dipper-firefly', 'human-scotopic'], PAIR_NAMES = ['Firefly', 'Human'];
+// Sensitivity blocks (human, AI_LOG "Species perceptions" steps 10–11): translucent slabs on the Philadelphia half of
+// Two measured nights over each curve's half-max band, first / last 2 nm grid sample with response ≥ 0.5
+// (data/derived/spectra/sensitivity_bands.json, pipeline/spectra/04_sensitivity_bands.py): human night (CIE scotopic
+// V′(λ), `inferred`) 454–548 nm; firefly (P. pyralis female, Lall & Worthy 2000; provisional curve, no label) 530–600 nm.
+// Edges half a grid step outside (pad). Moving on to Species perceptions ('pair'), each block shrinks and slides into
+// the cloud on its side (firefly left, human right) while fading (human: option C). k = PAIR index. Colours = each
+// layer's channel colour (identifiers, not wavelength colours), opacity 0.12, label size 14 px and heights: agent choices.
+const BLOCKS = [{ k: 0, name: 'Firefly sensitivity', lo: 530, hi: 600, ch: 'yellow', labelY: 9.4 },
+  { k: 1, name: 'Human sensitivity', lo: 454, hi: 548, ch: 'luma', labelY: 10.15 }];
+const BLOCK_PAD = 1, BLOCK_ALPHA = 0.12;
 // Draft particles.ts hash01 and deterministicCloudPosition (stable place from the cell's identity and one seed).
 function hash01(index, seed) {
   let v = (index + seed * 374761393) >>> 0;
@@ -173,7 +198,7 @@ function cloudPosition(id, seed) {
   return [Math.cos(angle) * h, 4.25 + vertical * radius * 0.42, Math.sin(angle) * h * 0.72];
 }
 
-export function createTwoNights({ parent }) {
+export function createTwoNights({ parent, onSweep = null }) {
   const canvas = Object.assign(document.createElement('canvas'), { id: 'nights-canvas', hidden: true });
   const css = new CSS3DRenderer();
   css.domElement.id = 'nights-labels';
@@ -211,11 +236,32 @@ export function createTwoNights({ parent }) {
   // trans = { dir (1 open, −1 close), t, at: [() => glow | null] per site (left, right), from: [{x, y}], r, colours,
   // took (forward: the glows were taken over from the globe), onTakeover, onDone } or null.
   let trans = null;
-  let sweep = null;   // { t0 } while the divider sweeps on its own, else null
+  let sweep = null;   // { t0, once, from } while the divider moves on its own, else null
+  function startSweep(now) {
+    if (mode === 'pair') { sweep = null; divider.classList.remove('parked'); return; }   // static divider
+    const once = mode !== 'species';
+    // The loop starts at the divider's current place (phase from split = 0.5 − SWEEP_HALF · sin).
+    const phase = Math.asin(Math.min(1, Math.max(-1, (0.5 - split) / SWEEP_HALF)));
+    sweep = { t0: once ? now : now - (phase / (2 * Math.PI)) * SWEEP_MS, once, from: split };
+    if (once) onSweep?.(false);
+  }
+  function sweepSplit(now) {
+    const e = now - sweep.t0;
+    if (!sweep.once) return 0.5 - SWEEP_HALF * Math.sin(2 * Math.PI * e / SWEEP_MS);
+    const left = EDGE_PX / canvas.clientWidth, right = 1 - left;
+    if (e < ONCE.toLeft) return sweep.from + (left - sweep.from) * ease(e / ONCE.toLeft);
+    if (e < ONCE.toLeft + ONCE.hold) return left;
+    const k = (e - ONCE.toLeft - ONCE.hold) / ONCE.across;
+    if (k < 1) return left + (right - left) * ease(k);
+    sweep = null;
+    onSweep?.(true);
+    return right;
+  }
   const materials = [];
   // Species perceptions: mode 'spectra' | 'species'; mix = eased 0 → 1 towards the species cloud.
   let mode = 'spectra', mix = 0, species = [], speciesIndex = -1, speciesT0 = 0;
   const physicalMats = [], frameGroup = new THREE.Group();
+  const blocks = [];   // sensitivity blocks: { mesh, label, home (centre), b }
   scene.add(frameGroup);
 
   // ── axis frame (draft SceneCanvas.tsx ScientificFrame, log scale) ─────────
@@ -254,6 +300,24 @@ export function createTwoNights({ parent }) {
     label('UV', [-9.85, 0.2, -8]);
     label('VISIBLE', [1.15, 0.2, -8]);
     label('NIR', [9.1, 0.2, -8]);
+    // Sensitivity block slabs (Philadelphia side only on Two measured nights: same divider clip as the points).
+    for (const b of BLOCKS) {
+      const x0 = xOf(b.lo - BLOCK_PAD), x1 = xOf(b.hi + BLOCK_PAD);
+      const mat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide,
+        vertexShader: 'void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+        fragmentShader: `precision highp float; uniform float uSplit; uniform float uSide; uniform float uOpacity; uniform vec3 uColor;
+          void main() { if ((gl_FragCoord.x - uSplit) * uSide > 0.0) discard; gl_FragColor = vec4(uColor, ${BLOCK_ALPHA.toFixed(2)} * uOpacity); }`,
+        uniforms: { uSplit: { value: 0 }, uSide: { value: SITES[0].side }, uOpacity: { value: 1 },
+          uColor: { value: new THREE.Color(...CHANNEL_RGB[b.ch]) } } });
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, 9, 16), mat);
+      const home = new THREE.Vector3((x0 + x1) / 2, 4.5, 0);
+      mesh.position.copy(home);
+      scene.add(mesh);
+      const lb = label(b.name, [home.x, b.labelY, -8]);
+      lb.element.style.fontSize = '14px';
+      lb.element.style.color = `rgb(${CHANNEL_RGB[b.ch].map(v => Math.round(v * 255)).join(',')})`;
+      blocks.push({ mesh, label: lb, home, b });
+    }
   }
 
   // ── points (draft SpectralPoints.tsx geometry) ──────────────────────────
@@ -317,6 +381,7 @@ export function createTwoNights({ parent }) {
       const rp = new THREE.Points(rg, rm);
       rp.frustumCulled = false;
       rp.visible = false;
+      rp.userData.site = site;
       scene.add(rp);
       materials.push(rm);
       sp.layers.push(rp);
@@ -339,9 +404,61 @@ export function createTwoNights({ parent }) {
   function placeDivider() {
     divider.style.left = `${split * canvas.clientWidth}px`;
     materials.forEach(m => { m.uniforms.uSplit.value = split * canvas.clientWidth * pixelRatio; });
+    blocks.forEach(({ mesh }) => { mesh.material.uniforms.uSplit.value = split * canvas.clientWidth * pixelRatio; });
+    placeNames();
+  }
+  // Names straddle the top of the divider, 14 px either side (human, AI_LOG "Species perceptions" step 12: "should
+  // straddle the divider line"); 'species' (Explore draft) keeps the CSS top-centre place. Agent choices: a name is
+  // hidden while its half is too narrow for it (16 px screen margin), and stays clear of the mute button (right edge
+  // at most W − 60 px), so at the end of the sweep "Philadelphia" sits just left of the button.
+  const GAP = 14, MARGIN = 16, MUTE_CLEAR = 60;
+  function placeNames() {
+    const W = canvas.clientWidth, x = split * W;
+    names.forEach((n, k) => {
+      if (mode === 'species') { n.style.left = n.style.right = n.style.visibility = ''; return; }
+      const w = n.offsetWidth;
+      if (k === 0) {   // left of the divider
+        n.style.right = `${Math.max(W - x + GAP, MUTE_CLEAR)}px`; n.style.left = 'auto';
+        n.style.visibility = x - GAP - w < MARGIN ? 'hidden' : '';
+      } else {
+        n.style.left = `${x + GAP}px`; n.style.right = 'auto';
+        n.style.visibility = x + GAP + w > W - MUTE_CLEAR ? 'hidden' : '';
+      }
+    });
+  }
+  // Block labels belong to the Philadelphia half: hidden while their screen position is right of the divider
+  // (Two measured nights only; in Species perceptions they travel with their block and fade with the frame).
+  const labelPos = new THREE.Vector3();
+  function placeBlockLabels() {
+    blocks.forEach(({ label: lb }) => {
+      labelPos.copy(lb.position).project(camera);
+      lb.element.style.visibility = mode === 'pair' || (labelPos.x + 1) / 2 < split ? '' : 'hidden';
+    });
+  }
+  // Collapse (option C): c = 0 at the block's wavelength place, 1 in the cloud on its side. Target = the cloud centre
+  // (draft cloud, y 4.25) moved along the screen to the middle of the block's half (NDC x ∓0.5); size 1 → 0.15;
+  // opacity falls as the cloud forms (uCloud). Display device only. Only to / from 'pair' (fly: back to Two measured
+  // nights they fly out again until mix reaches 0); 'species' fades them in place.
+  const cloudCentre = new THREE.Vector3(0, 4.25, 0), target = new THREE.Vector3();
+  let fly = false;
+  function placeBlocks() {
+    fly = mode === 'pair' || (fly && mode === 'spectra' && mix > 0);
+    const c = fly ? ease(mix) : 0, fade = 1 - Math.max(0, mix * 2 - 1);
+    blocks.forEach(({ mesh, label: lb, home, b }) => {
+      target.copy(cloudCentre).project(camera);
+      target.x = b.k ? 0.5 : -0.5;
+      target.unproject(camera);
+      mesh.position.lerpVectors(home, target, c);
+      mesh.scale.setScalar(1 - 0.85 * c);
+      mesh.material.uniforms.uOpacity.value = fly ? fade : 1 - mix;
+      mesh.material.uniforms.uSide.value = mode === 'pair' ? 0 : SITES[0].side;   // pair: no clip, it flies to its half
+      mesh.visible = mesh.material.uniforms.uOpacity.value > 0.002;
+      lb.position.set(mesh.position.x, mesh.position.y + (b.labelY - 4.5) * mesh.scale.y, mesh.position.z - 8 * mesh.scale.z);
+    });
   }
   divider.querySelector('.handle').addEventListener('pointerdown', e => {
-    sweep = null;   // the viewer takes over
+    if (sweep?.once) onSweep?.(true);   // the viewer takes over: show the whole card
+    sweep = null;
     e.target.setPointerCapture(e.pointerId);
     const move = ev => { split = Math.min(1, Math.max(0, ev.clientX / window.innerWidth)); placeDivider(); };
     const up = () => { e.target.removeEventListener('pointermove', move); e.target.removeEventListener('pointerup', up); };
@@ -372,7 +489,7 @@ export function createTwoNights({ parent }) {
     Object.assign(g.style, { left: `${p.x - r}px`, top: `${p.y - r}px`, width: `${2 * r}px`, height: `${2 * r}px`, opacity: String(o),
       background: `radial-gradient(circle closest-side, #fffbe6 0%, ${trans.colours[k]} 18%, rgba(0,0,0,0) 100%)` });
   }
-  const chrome = on => { divider.hidden = !on; names.forEach(n => { n.hidden = !on; }); };
+  const chrome = on => { divider.hidden = !on; names.forEach(n => { n.hidden = !on; }); if (on) placeNames(); };
   function endTrans() {
     trans = null; unmask(); glows.forEach(g => { g.hidden = true; });
   }
@@ -392,7 +509,7 @@ export function createTwoNights({ parent }) {
       const ks = ease(Math.min(1, (e - T_WAIT) / T_SLIDE)), ko = ease(Math.min(1, Math.max(0, (e - T_WAIT - T_SLIDE) / T_OPEN)));
       trans.from.forEach((p, k) => glowAt(k, lerp(p, centre(k), ks), trans.r, 1 - ko));
       mask([0, 1].map(() => ko > 0 ? trans.r * 0.6 + (full - trans.r * 0.6) * ko : 0));
-      if (ko >= 1) { const t = trans; endTrans(); chrome(true); sweep = { t0: now }; t.onDone?.(); }
+      if (ko >= 1) { const t = trans; endTrans(); chrome(true); startSweep(now); t.onDone?.(); }
       return true;
     }
     const kc = ease(Math.min(1, e / T_CLOSE)), ks = ease(Math.min(1, Math.max(0, (e - T_CLOSE) / T_SLIDE)));
@@ -417,8 +534,9 @@ export function createTwoNights({ parent }) {
   // their contribution height, second half = into the cloud; the measured points, axes and labels fade with it.
   // Species: one every SPECIES_MS from speciesT0, crossfading over ~0.15 s. Timings: agent choices.
   function speciesFrame(now, delta) {
-    mix += ((mode === 'species' ? 1 : 0) - mix) * (1 - Math.exp(-delta / 0.6));
-    if (Math.abs(mix - (mode === 'species' ? 1 : 0)) < 1e-3) mix = mode === 'species' ? 1 : 0;
+    const goal = mode === 'spectra' ? 0 : 1;
+    mix += (goal - mix) * (1 - Math.exp(-delta / 0.6));
+    if (Math.abs(mix - goal) < 1e-3) mix = goal;
     physicalMats.forEach(m => { m.uniforms.uLayer.value = 1 - mix; });
     frameGroup.visible = mix < 0.999;
     frameGroup.children.forEach(l => { l.material.transparent = true; l.material.opacity = (l.userData.o ??= l.material.opacity) * (1 - mix); });
@@ -430,7 +548,9 @@ export function createTwoNights({ parent }) {
     speciesTag.hidden = mode !== 'species' || Boolean(trans);
     const kc = 1 - Math.exp(-delta / 0.15);
     species.forEach((sp, i) => sp.layers.forEach(p => {
-      const u = p.material.uniforms, target = i === speciesIndex ? mix : 0;
+      const u = p.material.uniforms, k = p.userData.site.id === 'philadelphia' ? PAIR.indexOf(sp.id) : -1;
+      const target = (mode === 'pair' ? k >= 0 : i === speciesIndex) ? mix : 0;
+      u.uSide.value = mode !== 'species' && k === 1 ? -1 : p.userData.site.side;   // pair: human on the right half
       u.uLayer.value += (target - u.uLayer.value) * kc;
       u.uContrib.value = Math.min(1, mix * 2);
       u.uCloud.value = Math.max(0, mix * 2 - 1);
@@ -454,10 +574,17 @@ export function createTwoNights({ parent }) {
     timeIndex = Math.floor((now - t0) / (SCAN_MS / count)) % count;
     const focus = timeIndex / Math.max(1, count - 1), speed = Math.min(1, delta * 3.8);
     materials.forEach(m => { m.uniforms.uTimeFocus.value += (focus - m.uniforms.uTimeFocus.value) * speed; });
-    if (sweep && !trans) { split = 0.5 - SWEEP_HALF * Math.sin(2 * Math.PI * (now - sweep.t0) / SWEEP_MS); placeDivider(); }
+    if (sweep && !trans) { split = sweepSplit(now); placeDivider(); }
+    else if (mode === 'pair' && !trans && split !== 0.5) {   // pair: the divider eases to the middle and stays
+      split += (0.5 - split) * Math.min(1, delta * 4);
+      if (Math.abs(split - 0.5) < 1e-4) split = 0.5;
+      placeDivider();
+    }
     speciesFrame(now, delta);
     controls.autoRotate = Boolean(sweep && !trans);
     controls.update(delta);
+    placeBlocks();
+    placeBlockLabels();
     renderer.render(scene, camera);
     css.render(scene, camera);
     requestAnimationFrame(frame);
@@ -474,7 +601,7 @@ export function createTwoNights({ parent }) {
   window.addEventListener('resize', resize);
 
   return {
-    // on = the story step's `nights` key: true (Two measured nights) or 'species' (Species perceptions). Entering
+    // on = the story step's `nights` key: true (Two measured nights), 'species' (cycling species) or 'pair' (Firefly | Human). Entering
     // resets the camera, the divider and the scan; switching between the two while shown keeps them and morphs.
     // Transition (round 7f): from = [() => glow, () => glow] (impacts.siteGlow, left then right site): open out of
     // those glows; to = the same, on leaving: close into them. onTakeover: the glows pass from the globe to this view
@@ -484,8 +611,13 @@ export function createTwoNights({ parent }) {
       const closing = trans?.dir < 0;
       if (trans) endTrans();
       shown = Boolean(on);
-      const want = on === 'species' ? 'species' : 'spectra';
-      if (shown && want !== mode) { mode = want; speciesT0 = performance.now(); speciesIndex = -1; }
+      const want = on === 'species' || on === 'pair' ? on : 'spectra';
+      const switched = shown && want !== mode;
+      if (switched) { mode = want; speciesT0 = performance.now(); speciesIndex = -1; }
+      if (shown) {   // corner names and handle: Firefly | Human with a fixed divider in 'pair', else the sites
+        names.forEach((n, k) => { n.textContent = mode === 'pair' ? PAIR_NAMES[k] : SITES[k].name; });
+        divider.querySelector('.handle').style.display = mode === 'pair' ? 'none' : '';
+      }
       if (!shown) {
         sweep = null;
         if (to && running) {
@@ -501,19 +633,20 @@ export function createTwoNights({ parent }) {
       await load();
       if (!shown) return;   // left the step while loading
       if (running) {   // already showing: back again during a closing transition, or Two measured nights ↔ Species
-        if (closing) { unmask(); chrome(true); sweep = { t0: performance.now() }; }
+        if (closing) { unmask(); chrome(true); }
+        if (closing || switched) startSweep(performance.now());   // each mode its own sweep (once / loop)
         return;
       }
-      mix = mode === 'species' ? 1 : 0;   // a fresh entry starts in its own mode, first species first
+      mix = mode === 'spectra' ? 0 : 1;   // a fresh entry starts in its own mode, first species first
       speciesT0 = performance.now(); speciesIndex = -1;
       canvas.hidden = css.domElement.hidden = false;
       chrome(!from);
+      split = 0.5;
       if (from) {
         trans = { dir: 1, t: performance.now(), at: from, r: 0.1 * Math.min(window.innerWidth, window.innerHeight) + 7,
           colours: colours(from), took: false, onTakeover, onDone };
         mask([0, 0]);
-      } else sweep = { t0: performance.now() };
-      split = 0.5;
+      } else startSweep(performance.now());
       resize();
       resetCamera();
       materials.forEach(m => { m.uniforms.uTimeFocus.value = 0; });

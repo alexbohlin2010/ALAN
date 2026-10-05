@@ -117,14 +117,17 @@ const impacts = createImpacts({ globe, globeEl: el, card: document.getElementByI
 const spectral = createSpectral({ parent: document.body });
 // Two measured nights (app/src/twoNights.js): City vs Rural night spectra behind a divider, on steps with
 // `nights: true` (human decision, AI_LOG Firefly narrative round 3c).
-const nights = createTwoNights({ parent: document.body });
+// onSweep: the Two measured nights card shows its `reveal` lines once the divider has swept to Philadelphia.
+const nights = createTwoNights({ parent: document.body,
+  onSweep: done => document.getElementById('card').classList.toggle('revealed', done) });
 
-let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0;
+let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0, chartDelay = 0;
 // Story steps with an `impacts` stage show the Impacts layer inside the story (Part 2; human
 // decision, AI_LOG Impacts step 27); the story arrow keeps driving.
 // Door (human: option B + click, Firefly transition task step 2): between a chart step with `impacts.door` and the
 // spectral step with the same `spectral.door`, the 3D view grows out of (or shrinks back into) that record's dot.
 function applyStage(i) {
+  clearTimeout(chartDelay);
   const prev = story[storyIndex];
   storyIndex = i;
   markHeaders();
@@ -134,6 +137,7 @@ function applyStage(i) {
   darkScene.set(Boolean(story[i].dark));   // lights out, blue limb ring in (introScene.js createDarkScene)
   document.body.classList.toggle('story-spectral', Boolean(sp));
   document.body.classList.toggle('story-impacts', Boolean(st));
+  document.body.classList.toggle('story-chart', st?.view === 'chart');   // big text beside the chart (style.css)
   document.body.classList.toggle('story-nights', Boolean(story[i].nights));
   // Local firefly ↔ Two measured nights (human: "two points, two halves", AI_LOG Firefly tabs review round 7f): the
   // nights step's `nightsSites` (left, right) glow on the globe; the halves open out of / close into those glows.
@@ -180,7 +184,13 @@ function applyStage(i) {
     spectral.set(null, { to: impacts.doorAt(st.door), onDone: () => impacts.setStage(st) });
     return;
   }
-  if (st) { impacts.show(); impacts.setStage(st); } else impacts.hide();
+  // Species perceptions → All effects (human, AI_LOG Fireflies step 14): a chart step with `globeHold`, entered from a
+  // step without the Impacts layer, first shows the study dots on the globe during the flight and the hold.
+  if (st?.view === 'chart' && story[i].globeHold != null && !prev.impacts) {
+    impacts.show(); impacts.setStage({ view: 'globe' });
+    chartDelay = setTimeout(() => { if (storyIndex === i && mode === 'light') impacts.setStage(st); },
+      (story[i].fly ?? 0) + story[i].globeHold);
+  } else if (st) { impacts.show(); impacts.setStage(st); } else impacts.hide();
   spectral.set(sp, { beat });
 }
 
