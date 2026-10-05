@@ -448,16 +448,18 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
     swipe: 0,
-    impacts: { view: 'globe', dots: false },
+    // circle: all records gather into one circle of species-group sectors (human, AI_LOG Broader Impacts circle concept
+    // steps 3 and 7; impacts.js drawCircle). On the main URL since step 7 (was behind ?broader=circle).
+    impacts: { view: 'globe', dots: false, circle: true },
   },
-  // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action is a
-  // DRAFT in the human's suggested wording.
+  // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
+  // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).
   {
     id: 'conclusion',
     part: 2,
     kind: 'fact',
     label: 'Conclusion',
-    text: '[DRAFT] We need light at night, but do we need it all the time, everywhere?',
+    text: 'We need light at night, but do we need it all the time, everywhere?',
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
@@ -476,6 +478,17 @@ export const story = [
     swipe: 0,
     impacts: { view: 'globe', explore: true },
   },
+];
+
+// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
+// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
+// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
+// (data/derived/story/version_sensitivity_2015_2025.json).
+// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
+// remove Ukraine. Just two countries").
+// Mice (study 278, spectral chapter 'mice'): retired (human, AI_LOG Broader Impacts circle concept step 10: "get rid of
+// the DRAFT Mice section under explore, it's a gonner"). Its chapter code in app/src/spectral.js is unused now.
+export const retired = [
   // ── Parked at the end (human, 2026-10-04, Firefly narrative round 1: "firefly and Mice part both move to the end of
   // all tabs, that may be removed later until everything's built up"). Listed under Explore (part 3) so the step list
   // order matches the story order. The fireflies chapter moved into "Female response" (AI_LOG Firefly tabs round 5a).
@@ -516,15 +529,6 @@ export const story = [
         label: 'later start of the active night after a 15 min pulse of light' },
     ] },
   },
-];
-
-// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
-// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
-// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
-// (data/derived/story/version_sensitivity_2015_2025.json).
-// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
-// remove Ukraine. Just two countries").
-export const retired = [
   {
     id: 'cote-divoire',
     part: 1,

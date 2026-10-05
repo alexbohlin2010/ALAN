@@ -156,6 +156,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const val = a => a.from + (a.to - a.from) * easeInOut(clamp01((performance.now() - a.t0) / a.ms));
   const go = (a, to, ms) => { if (a.to === to) return; a.from = val(a); a.to = to; a.t0 = performance.now(); a.ms = ms; };
   const dotsA = anim(1), chartA = anim(0), morphA = anim(0), exampleA = anim(0), groupA = anim(1), glowA = anim(0);
+  const circleA = anim(0);   // Broader Impacts circle (stage.circle), 0 = records on their studies, 1 = in the circle
   // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()). siteA: key → fade (stage.site may be
   // one key or a list, e.g. both Spitschan sites during the Two measured nights transition).
   const sites = {}, siteA = {};
@@ -180,14 +181,25 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     if (!b) return;
     // The filter follows the colour toggle (human request, AI_LOG Impacts step 56), so a switch clears it.
     if (b.dataset.colour) { if (b.dataset.colour !== colourBy) filter = null; colourBy = b.dataset.colour; renderKey(); }
+    else if (b.dataset.size !== undefined) sizeSel = b.dataset.size === sizeSel || !b.dataset.size ? null : b.dataset.size;
     else if (b.dataset.dots) { dotsBy = b.dataset.dots; go(studyA, dotsBy === 'studies' ? 1 : 0, STUDY_MS); closeCard(); }
     else filter = b.dataset.cat === filter || !b.dataset.cat ? null : b.dataset.cat;
     renderFilter();
   });
   // The bar holds the colour toggle (chart steps and the globe while exploring) and, on chart steps with
   // filter: true, a filter by whatever colours the dots: species groups or categories (step 56).
-  let barCats = false;
+  let barCats = false, barCircle = false;
+  // Broader Impacts circle: highlight one effect size class (human request, AI_LOG Broader Impacts circle concept step 7;
+  // button words = the human's). Classes = the chart's tick words, Cohen (1988): small ≥ 0.2, medium ≥ 0.5, large ≥ 0.8;
+  // records below 0.2 are in none of them. "All" (default) = agent's addition.
+  let sizeSel = null;
+  const SIZES = [['large', 'Large', '|g| ≥ 0.8'], ['medium', 'Medium', '0.5 ≤ |g| < 0.8'], ['small', 'Small', '0.2 ≤ |g| < 0.5']];
   function renderFilter() {
+    if (barCircle) {
+      filterBar.innerHTML = `<button data-size="" aria-pressed="${!sizeSel}">All</button>` + SIZES.map(([k, l, tip]) =>
+        `<button data-size="${k}" title="${tip}" aria-pressed="${sizeSel === k}">${l}</button>`).join('');
+      return;
+    }
     const toggle = `<span style="color:#888;font:12px system-ui,sans-serif;align-self:center">Colour</span>` +
       [['species', 'Species group'], ['category', 'Effect category']].map(([k, l]) =>
         `<button data-colour="${k}" aria-pressed="${colourBy === k}">${l}</button>`).join('');
@@ -347,8 +359,15 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     // Bar: colour toggle + category filter on chart steps with filter: true; colour toggle alone on the globe
     // while exploring (Explore all studies, free Impacts mode).
     const ca = val(chartA), cats = Boolean(stage?.filter) && ca > 0.5, globeBar = browse && ca < 0.5;
-    if (cats !== barCats) { barCats = cats; renderFilter(); }
-    filterBar.hidden = !(cats || globeBar);
+    const circ = Boolean(stage?.circle) && val(circleA) > 0.5;
+    if (cats !== barCats || circ !== barCircle) { barCats = cats; barCircle = circ; renderFilter(); }
+    filterBar.hidden = !(cats || globeBar || circ);
+    // Circle step: the size toggle stands as a column left of the circle, centred on it (human request, step 8).
+    filterBar.style.flexDirection = circ ? 'column' : '';
+    if (circ) {
+      const cb = circleBox(w, h);
+      filterBar.style.left = `${cb.toggleX}px`; filterBar.style.top = `${cb.y - filterBar.offsetHeight / 2}px`;
+    }
     if (globeBar) {
       const panel = document.getElementById('modes')?.getBoundingClientRect().right ?? 0;
       filterBar.style.left = `${panel + 24}px`; filterBar.style.top = '76px';
@@ -357,6 +376,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const sa = Math.max(ga, val(glowA));
     for (const k in siteA) { const v = val(siteA[k]); if (v > 0.005) drawSite(k, v * sa, w, h); }
     drawChart(w, h);
+    drawCircle(w, h);
     ctx.globalAlpha = 1;
   }
 
@@ -439,6 +459,128 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   // A frame already queued when hide() runs must not draw: hide() resets browse = true, so draw() would show
   // the colour toggle again on Light steps.
   function loop() { if (!shown) { frame = 0; return; } draw(); frame = requestAnimationFrame(loop); }
+
+  // ── Broader Impacts circle (human, AI_LOG Broader Impacts circle concept steps 3 and 7: A2, log1p; sector angle ∝
+  // the group's share of records since step 7 (was: equal sectors); on the main URL since step 7) ───────────────────
+  // Every record in one circle of species-group sectors (lane order, clockwise from the top), coloured by species
+  // group whatever the Colour toggle says. Dot area ∝ log1p(min(|g|, CAP)), the chart's x scale; smallest
+  // radius = 0.16 × the largest (sketch: 0.9 vs 5.5 px). The largest radius is set so the most densely filled sector is
+  // about 55 % covered; dots are scattered at random in their sector (seeded, so the same every load), then pushed apart.
+  // Agent choices (not yet decided by the human): records fly in from their studies on the globe (as the chart);
+  // labels = group name + record count; no clicking.
+  let circleUnit = null;   // record → { x, y, r } in units of the circle radius (computed once)
+  function circleLayout() {
+    if (circleUnit) return circleUnit;
+    const groups = [...SPECIES_COLORS.keys()], MIN = 0.16;
+    const size = e => Math.max(MIN * MIN, Math.log1p(Math.min(CAP, e.g_abs)) / Math.log(CAP + 1));
+    const fill = new Map(groups.map(g => [g, 0])), count = new Map(groups.map(g => [g, 0]));
+    for (const e of effects) if (fill.has(e.species_group)) {
+      fill.set(e.species_group, fill.get(e.species_group) + size(e)); count.set(e.species_group, count.get(e.species_group) + 1);
+    }
+    const total = [...count.values()].reduce((s, n) => s + n, 0);
+    let start = -Math.PI / 2;
+    const sectors = groups.map(g => { const span = (2 * Math.PI * count.get(g)) / total, s = { g, a0: start, span, n: count.get(g) }; start += span; return s; });
+    // Coverage of a sector (unit circle) = 2π · rmax² · fill / span.
+    const rmax = Math.sqrt(0.55 / Math.max(...sectors.filter(s => s.n).map(s => (2 * Math.PI * fill.get(s.g)) / s.span)));
+    // Seeded random sequence in file order (mulberry32, seed 7): two hashes of the same id are correlated and drew spirals.
+    let seed = 7;
+    const rnd = () => { seed = (seed + 0x6d2b79f5) | 0; let z = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      z = (z + Math.imul(z ^ (z >>> 7), 61 | z)) ^ z; return ((z ^ (z >>> 14)) >>> 0) / 4294967296; };
+    const ds = [];
+    for (const e of effects) {
+      const gi = groups.indexOf(e.species_group);
+      if (gi < 0) continue;
+      const { a0, span } = sectors[gi], a = a0 + span * (0.02 + 0.96 * rnd());
+      const r = 0.97 * Math.sqrt(rnd());
+      ds.push({ e, a0, span, x: r * Math.cos(a), y: r * Math.sin(a), r: rmax * Math.sqrt(size(e)) });
+    }
+    const cell = 2 * rmax, gap = rmax * 0.08;
+    for (let k = 0; k < 40; k += 1) {
+      const grid = new Map();
+      ds.forEach((d, i) => { const key = `${Math.floor(d.x / cell)},${Math.floor(d.y / cell)}`; (grid.get(key) ?? grid.set(key, []).get(key)).push(i); });
+      ds.forEach((p, i) => {
+        const gx = Math.floor(p.x / cell), gy = Math.floor(p.y / cell);
+        for (let ox = -1; ox <= 1; ox += 1) for (let oy = -1; oy <= 1; oy += 1) for (const j of grid.get(`${gx + ox},${gy + oy}`) ?? []) {
+          if (j <= i) continue;
+          const q = ds[j], dx = q.x - p.x, dy = q.y - p.y, m = p.r + q.r + gap, d = Math.hypot(dx, dy) || 1e-6;
+          if (d < m) { const f = (m - d) / 2 / d; p.x -= dx * f; p.y -= dy * f; q.x += dx * f; q.y += dy * f; }
+        }
+      });
+      for (const d of ds) {   // keep each dot inside its own sector and the circle
+        let a = Math.atan2(d.y, d.x), r = Math.hypot(d.x, d.y);
+        while (a < d.a0) a += 2 * Math.PI;
+        while (a > d.a0 + 2 * Math.PI) a -= 2 * Math.PI;
+        const lo = d.a0 + 0.004, hi = d.a0 + d.span - 0.004, a2 = a > hi ? (a - hi < lo + 2 * Math.PI - a ? hi : lo) : Math.max(a, lo);
+        const r2 = Math.min(r, 1 - d.r);
+        if (a2 !== a || r2 !== r) { d.x = r2 * Math.cos(a2); d.y = r2 * Math.sin(a2); }
+      }
+    }
+    circleUnit = new Map(ds.map(d => [d.e, d]));
+    circleUnit.sectors = sectors;
+    // Per group: records in each size class (the label count follows the size toggle; human request, step 9).
+    for (const s of sectors) s.byClass = {};
+    for (const d of ds) { const c = sectors[groups.indexOf(d.e.species_group)].byClass, w = word(d.e.g_abs); c[w] = (c[w] ?? 0) + 1; }
+    return circleUnit;
+  }
+
+  // Circle centre and radius: right of the step panel and the fact text, clear of the bottom nav, room for labels.
+  // The size toggle takes a 90 px column at the region's left edge (human: "to the left of the pie chart").
+  function circleBox(w, h) {
+    const toggleX = Math.max(document.getElementById('modes')?.getBoundingClientRect().right ?? 0,
+      document.getElementById('fact')?.getBoundingClientRect().right ?? 0) + 24, left = toggleX + 90;
+    const width = Math.max(200, w - left - 24), top = 40, height = h - top - 80;
+    const R = Math.max(80, Math.min(width / 2 - 110, height / 2 - 50));
+    return { x: left + width / 2, y: top + height / 2, R, toggleX };
+  }
+
+  function drawCircle(w, h) {
+    const k = val(circleA);
+    if (k < 0.005 || !effects.length) return;
+    const L = circleLayout(), b = circleBox(w, h), from = studyScreen();
+    ctx.globalAlpha = 0.82 * k; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
+    for (const e of effects) {
+      const d = L.get(e), s = from.get(e.study_id);
+      if (!d || !s) continue;
+      // Linda's arc path and per-record delay, as drawRecords.
+      const delay = hashUnit(`${e.effect_id}-t`) * 0.25, t = clamp01((k - delay) / (1 - delay));
+      const tx = b.x + d.x * b.R, ty = b.y + d.y * b.R;
+      const dx = tx - s.x, dy = ty - s.y, len = Math.max(1, Math.hypot(dx, dy));
+      const bend = Math.sin(Math.PI * t) * (18 + hashUnit(`${e.effect_id}-a`) * 34) * (hashUnit(`${e.effect_id}-s`) > 0.5 ? 1 : -1);
+      const x = s.x + dx * t - (dy / len) * bend, y = s.y + dy * t + (dx / len) * bend;
+      const on = !sizeSel || word(e.g_abs) === sizeSel;
+      ctx.globalAlpha = (s.vis ? 1 : t) * Math.min(1, k * 4) * (on ? 0.85 : 0.08);
+      ctx.fillStyle = SPECIES_COLORS.get(e.species_group);
+      ctx.beginPath(); ctx.arc(x, y, 1.8 + (d.r * b.R - 1.8) * t, 0, Math.PI * 2); ctx.fill();
+    }
+    // Labels: group name (as the species lanes) and its number of records, outside the middle of each sector. Thin
+    // sectors (Amphibians, Reptiles) sit side by side, so labels on each side are pushed apart vertically, with a
+    // short line back to their sector when moved.
+    const la = clamp01((k - 0.85) / 0.15);
+    if (la <= 0) return;
+    const LH = 15, labels = L.sectors.filter(s => s.n).map(s => {
+      const a = s.a0 + s.span / 2, c = Math.cos(a), sn = Math.sin(a), lines = [...GROUPS.species.name[s.g]];
+      const hgt = (lines.length + 1) * LH, ly = b.y + (b.R + 14) * sn;
+      const top = ly + (sn > 0.25 ? 0 : sn < -0.25 ? -hgt : -hgt / 2);
+      return { s, c, sn, lines, hgt, top, want: top, ax: b.x + (b.R + 4) * c, ay: b.y + (b.R + 4) * sn,
+        lx: b.x + (b.R + 14) * c, side: c >= 0 ? 1 : -1 };
+    });
+    for (const side of [1, -1]) {
+      const col = labels.filter(l => l.side === side).sort((p, q) => p.top - q.top);
+      for (let i = 1; i < col.length; i += 1) col[i].top = Math.max(col[i].top, col[i - 1].top + col[i - 1].hgt + 4);
+    }
+    ctx.font = '12px system-ui, sans-serif'; ctx.textBaseline = 'top';
+    for (const l of labels) {
+      ctx.textAlign = l.c > 0.25 ? 'left' : l.c < -0.25 ? 'right' : 'center';
+      const moved = Math.abs(l.top - l.want) > 2;
+      const lx = moved ? l.lx + l.side * 14 : l.lx;
+      if (moved) {
+        ctx.globalAlpha = la * 0.5; ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(l.ax, l.ay); ctx.lineTo(lx - l.side * 3, l.top + LH / 2); ctx.stroke();
+      }
+      l.lines.forEach((t, i) => { ctx.globalAlpha = la; ctx.fillStyle = '#ddd'; ctx.fillText(t, lx, l.top + i * LH + 2); });
+      ctx.globalAlpha = la * 0.8; ctx.fillStyle = '#999'; ctx.fillText(String(sizeSel ? l.s.byClass[sizeSel] ?? 0 : l.s.n), lx, l.top + l.lines.length * LH + 2);
+    }
+  }
 
   // ── Effects chart (story Part 2) ──────────────────────────────────────────────────
   function chartBox(w, h) {
@@ -740,6 +882,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const keys = [].concat(s?.site ?? []);
     for (const k of new Set([...Object.keys(siteA), ...keys])) go(siteA[k] ??= anim(0), keys.includes(k) ? 1 : 0, FADE_MS);
     go(chartA, chart ? 1 : 0, FADE_MS);
+    go(circleA, s?.circle ? 1 : 0, MORPH_MS);
     go(morphA, chart && s.records ? 1 : 0, MORPH_MS);
     // Grouping of the records (s.group: 'category' default | 'band' | 'type' | 'species'). A change while the chart is
     // showing slides the dots to their new lanes; otherwise the new grouping is set at once.
@@ -759,7 +902,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       } else if (s.records && collapseT0 === Infinity) collapseT0 = performance.now();   // moving on: collapse now
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
-    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
+    if (!s?.circle) sizeSel = null;
+    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA, circleA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
     renderFilter();
   }
 
@@ -862,7 +1006,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       closeCard();
       globeEl.style.cursor = '';
       stage = null; browse = true; filter = null;
-      for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0], [glowA, 0]]) Object.assign(a, anim(v));
+      for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0], [glowA, 0], [circleA, 0]]) Object.assign(a, anim(v));
       for (const k in siteA) siteA[k] = anim(0);
     },
     setStage,
