@@ -8,19 +8,23 @@
 // halo clusters).
 // Data: /impacts/ = data/derived/impacts, /impacts/maps/ = approved pipeline/impacts/maps (vite.config.js).
 
-// Source Category (Data S1 "Category " column, documented) → colour. Physiology, LHT, Population: Linda's
-// (globe_v2/data/c1_effects.json). Behaviour, Community: replacements chosen by the human (step 22, option 2).
-const CATEGORY_COLORS = new Map([['Behaviour', '#2fb84a'], ['Physiology', '#8bb8ff'], ['LHT', '#d99cff'],
-  ['Population', '#7ce6cf'], ['Community', '#3d7bff']]);
+// Source Category (Data S1 "Category " column, documented) → colour. Display choice, not data.
+// Palette C "deep heraldic" (agent proposal, chosen by the human 2026-10-04, AI_LOG colour / design task
+// step 3); replaces Linda's globe_v2 colours + the step 22 picks (was Behaviour #2fb84a, Physiology #8bb8ff,
+// LHT #d99cff, Population #7ce6cf, Community #3d7bff).
+const CATEGORY_COLORS = new Map([['Behaviour', '#18b86b'], ['Physiology', '#2f5bff'], ['LHT', '#8a3dff'],
+  ['Population', '#e0306b'], ['Community', '#14a8c4']]);
 // Species group (effects.json `species_group`, inferred from Phylum + Class via the approved
-// pipeline/impacts/maps/species_groups.csv) → colour. Colours proposed by the agent (smallest normal-vision
-// difference between any two = 15, OKLab ×100; several pairs merge for colour-blind readers) and approved by
-// the human (AI_LOG Impacts steps 54–55). Toggle "Colour: Species group | Effect category"; default = effect
+// pipeline/impacts/maps/species_groups.csv) → colour. Display choice, not data. Heraldic set to match the
+// category palette (human 2026-10-04: "also change species colors"; hues = agent draft, AI_LOG colour / design
+// task step 3; smallest normal-vision difference between any two = 12.8, OKLab ×100; several pairs merge for
+// colour-blind readers). Was: AI_LOG Impacts steps 54–55 (#a76c12 #3375e3 #51bfee #a276c2 #f0a7e9 #c8b222
+// #f3669a #36a558 #5ce483). Toggle "Colour: Species group | Effect category"; default = effect
 // category since step 63 (human: species colours are there for whoever wants to look into them). Order = the
 // human's lane order.
-const SPECIES_COLORS = new Map([['Mammals', '#a76c12'], ['Birds', '#3375e3'], ['Fish', '#51bfee'],
-  ['Amphibians', '#a276c2'], ['Reptiles', '#f0a7e9'], ['Insects', '#c8b222'],
-  ['Arthropods and other invertebrates', '#f3669a'], ['Plants', '#36a558'], ['Algae, fungi & microbes', '#5ce483']]);
+const SPECIES_COLORS = new Map([['Mammals', '#d0344f'], ['Birds', '#2f5bff'], ['Fish', '#14b0d0'],
+  ['Amphibians', '#8a3dff'], ['Reptiles', '#c45ae6'], ['Insects', '#c4c41e'],
+  ['Arthropods and other invertebrates', '#ff6aa0'], ['Plants', '#18a85e'], ['Algae, fungi & microbes', '#62e6a8']]);
 const HALO = 12;                    // cluster ring radius (px), as Linda's country-level ring
 const OTHER = '#888888';             // any category not in the list above (none on 2026-10-03)
 const DOT = 5, DOT_SELECTED = 7;     // single study dot radius (px)

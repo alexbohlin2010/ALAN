@@ -40,7 +40,8 @@ const vertexShader = /* glsl */`
 // Global run (human 2026-10-03): the grid is a PNG with a JSON sidecar (extent, fallback
 // thresholds). Once loaded, the year's thresholds become the global fallback from the sidecar.
 const GRID_URL = '/colour/global_white_share_grid.json';
-const RAMP_TINTS = [[1.0, 0.5529, 0.0838], [1.0, 0.7499, 0.4789]];  // 2000 K, 3200 K (display_tints.json "ramp_white"; white was 4000 K, then 3000 K, human 2026-10-04)
+// Display choice, not data: the tints only set how lit pixels are drawn; radiance values and white shares are unchanged.
+const RAMP_TINTS = [[1.0, 0.5529, 0.0838], [1.0, 0.8317, 0.649]];  // 2000 K, 4000 K (display_tints.json "ramp_white"; 4000 K, then 3000 K, 3200 K, back to 4000 K, human 2026-10-04)
 const RAMP_THRESHOLDS = [248, 219];  // grey levels, 2015, 2025
 const RAMP_BLEND = 8;
 // Colour modes (human 2026-10-04, AI_LOG colour steps 64, 67): DEFAULT = place (B) with 1/20 deg blocks

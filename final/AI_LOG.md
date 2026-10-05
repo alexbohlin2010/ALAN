@@ -4040,3 +4040,86 @@ Append only. One entry per AI step (see RULES.md §4).
   > can you commit that to git please
 - **Actions:** updated `handoffs/2026-10-04_intro-crickets-soundscape.md` to steps 1–9 (it was written at step 4); checked `git status` (only this task's files changed; AI_LOG also carries the earlier "Light story refinement task, step 7" entry that wrote this task's prompt); committed on branch alexander-final-rebuild: `final/app/src/introScene.js`, `final/app/public/audio/MANIFEST.md`, `final/app/public/audio/436528__kikevilaplana__night-ambience-with-crickets.wav` (14.8 MB), `final/handoffs/2026-10-04_intro-crickets-soundscape.md`, `final/AI_LOG.md`. Not pushed.
 - **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 10. Next-session prompt drafted for colour / design changes (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > thank you - want to generate a new prompt to change a few color elements, and design elements.
+- **Actions:** listed the latest handoffs; checked where colours live (app/src/style.css, ~79 hex colours; tile colour ramp in app/src/tileLayer.js with the ?ramp= switch; intro glow colours COLOR_NEAR / COLOR_FAR in app/src/introScene.js). Drafted a next-session prompt in chat in the format of earlier prompts, with a placeholder list for the human to fill in (the agent does not choose which elements change).
+- **Files changed:** this log only. Not committed.
+
+## 2026-10-04: Colour / design task, step 1. Read RULES + handoffs; colour inventory (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the session prompt drafted in "Intro soundscape task, step 10" (begins "You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; branch alexander-final-rebuild). Read RULES.md first ..."), sent with the "Elements to change" list still as placeholders ("1. [element, e.g. card background / button / text colour / light ramp / intro glow] → [what I want]  2. [...]  3. [...]").
+- **Actions:** read RULES.md, the four named handoffs, the AI_LOG tail; grepped colours/fonts in app/src/style.css, tileLayer.js, introScene.js, main.js, spectral.js, impacts.js. The element list was empty, so the agent listed the colour groups and asked the human which elements to change. No files changed except this log.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 2. Locate 2025 white tint + impacts colours; palette options (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I want to increase the contrast between 2015/2025. .. let's bring 2025 temperature up to 4000k which is what it used to be ...
+  >
+  > I also want to find a palette for the 'impacts' colors, the studies and effects dots, which might complement the beautiful artistic globe more ... perhaps a more vivid palette, more royal colors?
+- **Actions:** located the white tint (tileLayer.js:43 RAMP_TINTS[1] 3200 K [1.0, 0.7499, 0.4789]; set by pipeline/colour/08_display_tints.py RAMP_WHITE_CCT_K = 3200 → data/derived/colour/display_tints.json "ramp_white"; METHOD.md:39; the 4000 K value [1.0, 0.8317, 0.649] already exists as class "3"). Located impacts colours (impacts.js:13–14 CATEGORY_COLORS, :21–23 SPECIES_COLORS, :25 OTHER, used for globe dots, effects chart, legend, study card). Took "before" screenshots at :5173 (Impacts > Ecosystems, Studies, All effects). Offered three agent-proposed category palettes (A royal jewel, B cool opposite the lights, C deep heraldic) with OKLab distances (min pair 12.3 / 11.1 / 12.8 vs now 12.1; min vs light tints 23.5 / 20.5 / 22.6 vs now 15.5). Waiting for the human's choice.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 3. Display white back to 4000 K; impacts palette C + heraldic species colours
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > C, yes also change species colors
+- **Human decisions:** display white tint 4000 K (step 2 prompt: "bring 2025 temperature up to 4000k"); impacts category palette C "deep heraldic"; species-group colours changed to match.
+- **Built:**
+  - `pipeline/colour/08_display_tints.py`: `RAMP_WHITE_CCT_K` 3200 → 4000 (docstring updated); rerun with `.venv/bin/python`. `data/derived/colour/display_tints.json`: only "ramp_white" changed (cct_k 3200 → 4000, srgb [1.0, 0.7499, 0.4789] → [1.0, 0.8317, 0.649]); classes 1–3 and note identical (diff checked).
+  - `app/src/tileLayer.js`: `RAMP_TINTS[1]` = [1.0, 0.8317, 0.649], plus a "display choice, not data" comment. The tint applies to white blocks in both years (2015 has fewer).
+  - `pipeline/colour/METHOD.md` "Display ramp": white = 4000 K with history.
+  - `app/src/impacts.js` `CATEGORY_COLORS`: Behaviour #18b86b, Physiology #2f5bff, LHT #8a3dff, Population #e0306b, Community #14a8c4 (old values kept in a comment). `SPECIES_COLORS` (agent draft hues in the heraldic style): Mammals #d0344f, Birds #2f5bff, Fish #14b0d0, Amphibians #8a3dff, Reptiles #c45ae6, Insects #c4c41e, Arthropods #ff6aa0, Plants #18a85e, Algae/fungi/microbes #62e6a8; smallest OKLab×100 pair difference 12.8 (Birds/Amphibians; old set 15); min distance to the light tints 15.6 (old set lower, Mammals brown).
+- **Browser check (localhost:5173):** Impacts > Studies (globe dots), All effects (category and species colouring), Light > India swipe with the white tint live-switched to 3200 K via `window.tileLayer` for a same-view before/after, then back to 4000 K (no file change from the live switch). No console errors. Not changed: legend default key-dot #5fd4e6 (style.css:127), OTHER #888888.
+- **Files changed:** the five above + this log. Not committed.
+- **Data values changed:** none (display tints are display choices; radiance, shares and thresholds unchanged).
+- **Handoff:** wrote `handoffs/2026-10-04_colour-design-4000k-heraldic.md` (task built; species hues pending explicit approval).
+
+## 2026-10-04: Colour / design task, step 4. Story text vs left menu overlap: measured, options (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > One thing that needs to happen is sometimes the narrative text overlaps with the storyline bar ... that can never happen so we have to resolve it.
+  >
+  > Maybe the text should be lower or the storyline needs to be right side of screen?
+- **Actions:** located the left menu (`#modes`, style.css:83, left 16 px / top 44 px) and the narrative text (`#fact`, style.css:58, left 6vw, vertically centred, max-width min(30vw, 420px)). Stepped through every story step in the browser and measured bounding-box overlaps (dev-only page script, no file change). With the Impacts list open, the menu reaches y = 388 px. Overlaps: 1280×800: Ecosystems, Broader Impacts, Conclusion; 1024×640: the same three; 1440×900: Broader Impacts, Conclusion. In a tiny pane (498×311) also the Statistic text, the country / study cards, the chart filter and the spectral number. Offered options A (text lower), B (text right of the menu), C (menu on the right). Waiting for the human's choice.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 5. Prototype A and B for the fact text vs menu overlap
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > build A and B and show me screenshots
+- **Built:** URL switch `?fact=a|b` (story.js `placeFact` + ResizeObserver; style.css rules at the end of the file). Browser at 1280×800: A pushes "But how does light impact our ecosystems?" 61 px down (text top 412 px, menu bottom 388 px); B starts the text at x = 176 px (menu right edge 130 px). Screenshots of Ecosystems and Conclusion in both.
+
+## 2026-10-04: Colour / design task, step 6. Option A ("below") made the default; B removed
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim), sent mid-turn:**
+  > also the conclusion text should be centered on the black globe, coming in as the artificial lights fade out. Perhaps bring the blue glow back for that sequence
+  >
+  > I think below works better than to the right
+- **Human decision:** option A (text below the menu).
+- **Built:** `app/src/story.js`: `placeFact` always on (no URL switch); `app/src/style.css`: `#fact` transform uses `--fact-shift` in landscape; the B rule removed. The Conclusion request is handled in the next step.
+- **Files changed:** app/src/story.js, app/src/style.css, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 7. Conclusion: lights fade out, blue limb ring in, text centred on the black globe
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** see step 6 ("also the conclusion text should be centered on the black globe, coming in as the artificial lights fade out. Perhaps bring the blue glow back for that sequence").
+- **Built:**
+  - `app/src/introScene.js`: new export `createDarkScene({ globe, layer })` + `DARK_MS = 2500`. Reuses the intro's halo shader (even ring only: uBase 0.18, COLOR_FAR blue, uRise 0) on its own mesh, and fades the tile layer's existing `uFade` 1 → 0 (smoothstep, 2.5 s); `set(false)` reverses. Comment: display choice, not data. Agent choices: 2.5 s, ring level = the intro's formless ring.
+  - `app/src/main.js`: import; `darkScene` created after the intro scene; `applyStage` calls `darkScene.set(Boolean(step.dark))` next to the `story-dark` class; `setMode('impacts')` also clears `story-dark` and the dark scene.
+  - `app/src/style.css`: removed `body.story-dark #globe { opacity: 0; }` (the globe now stays, black); `body.story-dark #fact` centred (left/top 50%, translate −50%, max-width min(40vw, 480px), centred text) with a 2.5 s fade-in.
+- **Browser check (localhost:5173, 1280×800):** uFade 1.00 / 0.89 / 0.64 / 0.35 / 0.10 / 0.00 at 0 / 0.5 / 1.0 / 1.5 / 2.0 / 2.5 s; text opacity 0 → 0.99 over the same span; back to Broader Impacts: 0.50 at 1.25 s, 1.00 at 2.75 s. Fact steps vs menu: Statistic, Ecosystems, Broader Impacts, Conclusion all overlap = false. Screenshot shows the ring outlining the black globe with the text centred. No console errors.
+- **Files changed:** app/src/introScene.js, app/src/main.js, app/src/style.css, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 8. Committed this task
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > commit this to git please
+- **Actions:** checked `git status` / diffs (only this task's changes, plus the uncommitted "Intro soundscape task, step 10" log entry from the previous session); committed on branch alexander-final-rebuild: app/src/impacts.js, introScene.js, main.js, story.js, style.css, tileLayer.js, pipeline/colour/08_display_tints.py, pipeline/colour/METHOD.md, handoffs/2026-10-04_colour-design-4000k-heraldic.md, AI_LOG.md. `data/derived/colour/display_tints.json` is gitignored (`data/derived/colour/*`) and not committed. Not pushed.
+- **Data values changed:** none.
