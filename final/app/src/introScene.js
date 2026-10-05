@@ -382,3 +382,41 @@ export function createIntroScene({ globe, layer }) {
 
   return { play, stop, begin, spin };
 }
+
+// Conclusion (human 2026-10-04, AI_LOG colour / design task step 7: "centered on the black globe, coming in as the
+// artificial lights fade out ... bring the blue glow back"): set(true) fades the night lights out (tile uFade) and
+// the intro's even blue limb ring (halo uBase, COLOR_FAR) in; set(false) reverses it. Display choices, not data:
+// the radiance values are unchanged, only drawn at zero brightness. Duration and ring level are agent choices.
+export const DARK_MS = 2500;
+export function createDarkScene({ globe, layer }) {
+  const R = globe.getGlobeRadius();
+  const u = { uCenter: { value: new THREE.Vector3() }, uR: { value: R }, uBase: { value: 0 },
+    uSun: { value: new THREE.Vector3(0, 0, -1) }, uRise: { value: 0 }, uNear: { value: COLOR_NEAR }, uFar: { value: COLOR_FAR } };
+  const halo = new THREE.Mesh(new THREE.SphereGeometry(R * 1.35, 96, 64), new THREE.ShaderMaterial({
+    uniforms: u, vertexShader: haloVert, fragmentShader: haloFrag, side: THREE.BackSide,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  halo.renderOrder = 100;   // after the tiles
+  halo.onBeforeRender = (r, s, cam) => { cam.updateMatrixWorld(); u.uCenter.value.set(0, 0, 0).applyMatrix4(cam.matrixWorldInverse); };
+  const RING = 0.18;   // same level as the intro's formless ring
+  let level = 0, target = 0, raf = null, last = 0;
+  function tick(now) {
+    const dt = last ? now - last : 16;
+    last = now;
+    level += Math.sign(target - level) * Math.min(Math.abs(target - level), dt / DARK_MS);
+    const k = smooth(0, 1, level);
+    layer.uniforms.uFade.value = 1 - k;
+    u.uBase.value = RING * k;
+    if (level > 0 && !halo.parent) globe.scene().add(halo);
+    if (level === target) {
+      raf = null;
+      if (level === 0) globe.scene().remove(halo);
+      return;
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function set(on) {
+    target = on ? 1 : 0;
+    if (!raf && level !== target) { last = 0; raf = requestAnimationFrame(tick); }
+  }
+  return { set };
+}
