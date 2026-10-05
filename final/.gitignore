@@ -28,6 +28,8 @@ data/derived/spectra/*
 !data/derived/spectra/philadelphia.json
 !data/derived/spectra/cherry_springs.json
 !data/derived/spectra/spectra_meta.json
+# Species perceptions (human, AI_LOG Firefly tabs review round 7j): small file the app reads
+!data/derived/spectra/species_curves.json
 !data/derived/radiance/
 data/derived/radiance/*
 !data/derived/radiance/tiles/

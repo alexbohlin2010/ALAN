@@ -205,7 +205,21 @@ body.story-dark #swipe, body.story-dark .year { display: none; }
 #nights-divider .handle { position: absolute; top: 50%; left: -14px; width: 28px; height: 28px; margin-top: -14px;
   border-radius: 50%; background: #fff; cursor: ew-resize; touch-action: none; }
 .nights-site { position: absolute; top: 12px; z-index: 3; font-size: 16px; font-weight: 600; pointer-events: none; }
-.nights-site.left { left: 16px; }
-.nights-site.right { right: 16px; }
+/* Top centre, either side of the middle (human, AI_LOG Firefly tabs review round 7h; was the screen corners, where
+   "Philadelphia" ran into the step list). */
+.nights-site.left { right: calc(50% + 14px); }
+.nights-site.right { left: calc(50% + 14px); }
 .nights-site[hidden] { display: none; }
+/* Site glows carried between the globe and the two halves (twoNights.js transition, AI_LOG round 7f). */
+.nights-glow { position: absolute; z-index: 3; border-radius: 50%; pointer-events: none; }
+.nights-glow[hidden] { display: none; }
+/* Species perceptions (twoNights.js, AI_LOG round 7j): current species under the site names, channels in their colours. */
+#nights-species { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); z-index: 3; text-align: center;
+  pointer-events: none; white-space: nowrap; }
+#nights-species[hidden] { display: none; }
+#nights-species .name { font-size: 15px; color: #fff; }
+#nights-species .channels { margin-top: 3px; font-size: 11px; }
+#nights-species .channels span + span::before { content: ' · '; color: #647083; }
+.nights-glow span { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; color: #fff;
+  font-size: 16px; font-weight: 600; }
 body.story-nights #swipe, body.story-nights .year { display: none; }

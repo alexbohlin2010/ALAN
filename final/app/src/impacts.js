@@ -60,6 +60,20 @@ const MORPH_MS = 1800, FADE_MS = 700, REVEAL_MS = 1600, EXAMPLE_MS = 1300;
 // from the study's own derived file. Glow = the point turning into the courtship-flash colour while the globe zooms in
 // towards Signal production (timings and sizes: agent choices).
 const SITE_FILES = { owens2018: 'owens2018_results.json' };
+// Sites typed from a paper's printed text (documented; source also in the story step's `sources`).
+// spitschan2016_city: Spitschan, Aguirre, Brainard & Sweeney 2016, Sci. Rep. 6: 26756, Methods "Locations": City =
+// roof of David Rittenhouse Laboratories, University of Pennsylvania, Philadelphia, 39.952237° N, 75.188734° W (printed
+// "−75.188734° W"). The same site as the Philadelphia spectra in Two measured nights; not a firefly record (human,
+// AI_LOG Firefly tabs review round 7d). Colour (human, round 7f): P. pyralis in vivo flash peak 562 nm (Seliger, Buck,
+// Fastie & McElroy 1964, J. Gen. Physiol. 48: 95–104, Table I, "Present work, 1963": 5620 Å; read in the Europe PMC
+// OCR full text of PMC2195396), nm → RGB as in spectral.js.
+// spitschan2016_rural: same paper, Rural = Cherry Springs State Park, 41.6646° N, 77.8125° W (printed "−77.8125° W"),
+// the Cherry Springs spectra in Two measured nights; shown only in the Local firefly ↔ Two measured nights transition
+// (human, round 7f). Colour white: agent choice (no firefly colour for a site without a firefly source).
+const SITE_POINTS = {
+  spitschan2016_city: { lat: 39.952237, lon: -75.188734, colour: nmCss(562), label: 'Spitschan et al. 2016 · city measurement site' },
+  spitschan2016_rural: { lat: 41.6646, lon: -77.8125, colour: '#ffffff', label: 'Spitschan et al. 2016 · rural measurement site' },
+};
 const GLOW_IN_MS = 2200, GLOW_OUT_MS = 1800;
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const easeInOut = t => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
@@ -138,8 +152,9 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const val = a => a.from + (a.to - a.from) * easeInOut(clamp01((performance.now() - a.t0) / a.ms));
   const go = (a, to, ms) => { if (a.to === to) return; a.from = val(a); a.to = to; a.t0 = performance.now(); a.ms = ms; };
   const dotsA = anim(1), chartA = anim(0), morphA = anim(0), exampleA = anim(0), groupA = anim(1), glowA = anim(0);
-  // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()).
-  const sites = {};
+  // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()). siteA: key → fade (stage.site may be
+  // one key or a list, e.g. both Spitschan sites during the Two measured nights transition).
+  const sites = {}, siteA = {};
   // Chart dots: 'effects' (default, one per record) | 'studies' (one per study per lane, at the study's median |g|
   // there; human choices, AI_LOG Impacts step 60). studyA: 0 = effects, 1 = merged into study dots.
   let dotsBy = 'effects';
@@ -207,6 +222,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       const c = siteData[i].statements.collection_site, nm = siteData[i].statements.courtship_flash.peak_wavelength.value;
       sites[k] = { lat: c.latitude.value, lon: c.longitude.value, colour: nmCss(nm), label: 'Owens et al. 2018 · collection site' };
     });
+    Object.assign(sites, SITE_POINTS);
     effects = ef.effects;
     effectsById = new Map(effects.map(e => [e.effect_id, e]));
     const gs = new Map();
@@ -334,7 +350,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       filterBar.style.left = `${panel + 24}px`; filterBar.style.top = '76px';
     }
     if (ga > 0.005) drawGlobeDots(ga);
-    if (stage?.site) drawSite(Math.max(ga, val(glowA)), w, h);
+    const sa = Math.max(ga, val(glowA));
+    for (const k in siteA) { const v = val(siteA[k]); if (v > 0.005) drawSite(k, v * sa, w, h); }
     drawChart(w, h);
     ctx.globalAlpha = 1;
   }
@@ -399,8 +416,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
 
   // A site outside Data S1, in its own style: a dot in the courtship-flash colour (565 nm, nm → RGB as in
   // spectral.js) with a white ring and a short label. glowA 0 → 1 turns it into a growing glow and drops the label.
-  function drawSite(a, w, h) {
-    const p = sites[stage.site], s = siteXY(stage.site);
+  function drawSite(key, a, w, h) {
+    const p = sites[key], s = siteXY(key);
     if (!p || !s || a < 0.005) return;
     const g = val(glowA);
     if (g > 0.001) {
@@ -716,6 +733,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const chart = s?.view === 'chart';
     go(dotsA, !s ? 1 : chart || s.dots === false || s.glow ? 0 : 1, s?.reveal ? REVEAL_MS : FADE_MS);
     go(glowA, s?.glow ? 1 : 0, s?.glow ? GLOW_IN_MS : GLOW_OUT_MS);
+    const keys = [].concat(s?.site ?? []);
+    for (const k of new Set([...Object.keys(siteA), ...keys])) go(siteA[k] ??= anim(0), keys.includes(k) ? 1 : 0, FADE_MS);
     go(chartA, chart ? 1 : 0, FADE_MS);
     go(morphA, chart && s.records ? 1 : 0, MORPH_MS);
     // Grouping of the records (s.group: 'category' default | 'band' | 'type' | 'species'). A change while the chart is
@@ -736,7 +755,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       } else if (s.records && collapseT0 === Infinity) collapseT0 = performance.now();   // moving on: collapse now
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
-    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA]) { a.from = a.to; a.t0 = 0; }
+    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
     renderFilter();
   }
 
@@ -840,10 +859,17 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       globeEl.style.cursor = '';
       stage = null; browse = true; filter = null;
       for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0], [glowA, 0]]) Object.assign(a, anim(v));
+      for (const k in siteA) siteA[k] = anim(0);
     },
     setStage,
     // Screen position of a site point (story key `impacts.site`), or null.
     siteAt: siteXY,
+    // A site's full glow as drawn in drawSite (glowA = 1): screen centre, radius, colour; null if not on screen.
+    // Used by twoNights.js to take the glows over (Local firefly ↔ Two measured nights, round 7f).
+    siteGlow(key) {
+      const s = siteXY(key);
+      return s && { x: s.x, y: s.y, r: DOT_SELECTED + 0.1 * Math.min(window.innerWidth, window.innerHeight), colour: sites[key].colour };
+    },
     // Screen position of the door record in the chart as currently laid out (null if not in the chart).
     doorAt(id) {
       const e = effectsById.get(id);

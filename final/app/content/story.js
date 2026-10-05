@@ -260,7 +260,7 @@ export const story = [
   {
     id: 'fireflies',
     part: 2,
-    label: 'Fireflies-step 1',   // renamed from 'Fireflies' (human, AI_LOG Firefly tabs review round 6e)
+    label: 'Fireflies',   // 'Fireflies' → 'Fireflies-step 1' (round 6e) → 'Fireflies' again (human, AI_LOG round 7b)
     title: 'Fireflies · Yongjian Eco Park, Taipei, Taiwan',
     text: '[DRAFT] Male *Aquatica ficta* fireflies were collected here, at Yongjian Eco Park, on 4, 7 and 11 May 2016. ' +
       'Their courtship signal is a single yellow-green flash, peaking at 565 nm. Eight males were recorded on the ' +
@@ -350,29 +350,49 @@ export const story = [
       { label: 'Kivelä et al., Dataverse (CC0)', url: 'https://doi.org/10.7910/DVN/QWQPLJ',
         supports: 'males trapped per dummy female, 299 traps over 20 nights (2020), one pillar per trap' },
     ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    // Globe camera (hidden behind the 3D scene) over the Philadelphia city measurement site, close in, so moving on to
+    // Local firefly the scene closes into a glow over that site while the globe zooms out (human: "scene closes into
+    // the point", AI_LOG Firefly tabs review round 7d). Altitude and timing: as Signal production (agent choices).
+    camera: { lat: 39.952237, lng: -75.188734, altitude: 0.04 },
+    fly: 2200,
     swipe: 0,
     // Continuous scene, third band (human, AI_LOG Firefly tabs round 5b). "Dark vs lit pair" (human, review round 6o):
     // control always on the left, the beat's treatment on the right, so no control beat (kivela2023.json).
-    spectral: { chapter: 'glow', manual: true, beats: ['blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
+    // site: between this step and the step with the same impacts.site, the scene closes into / opens out of its glow.
+    spectral: { chapter: 'glow', manual: true, site: 'spitschan2016_city',
+      beats: ['blue', 'white', 'yellow', 'red'].map(treatment => ({ treatment })) },
   },
-  {
-    id: 'communication',
-    part: 2,
-    label: 'One communication problem',
-    title: 'One communication problem',
-    text: '[PLACEHOLDER] Synthesis of the three studies.',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    swipe: 0,
-  },
+  // 'One communication problem' (placeholder, round 1) removed (human, AI_LOG Firefly tabs review round 7c).
+  // Local firefly (human, AI_LOG Firefly tabs review round 7d): shown like Fireflies, the point moved from Taipei to
+  // Philadelphia. The point = the city measurement site printed by Spitschan et al. 2016 (documented; impacts.js
+  // SITE_POINTS), the same site as the Philadelphia spectra in Two measured nights; it is not a firefly record.
+  // Arriving from Mate-finding the 3D scene closes into the point's glow while the globe zooms out (main.js, spectral.js).
+  // Card text: agent draft on the human's request (round 7d), from the sources below. No source in the repo places
+  // P. pyralis in Philadelphia, so the card does not say it.
   {
     id: 'local-firefly',
     part: 2,
     label: 'Local firefly',
-    title: 'Local firefly',
-    text: '[PLACEHOLDER] *Photinus pyralis*, Philadelphia and Cherry Springs.',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    title: 'Local firefly · Philadelphia, Pennsylvania',
+    text: '[DRAFT] *Photinus pyralis* courts with flashes too. In the global dataset it appears in two field studies, ' +
+      'both in Virginia, on courtship, flashing, dispersal and abundance under LED light. The point marks the roof in ' +
+      'Philadelphia where night light was measured in July 2014.',
+    note: 'The point is the measurement site (David Rittenhouse Laboratories, University of Pennsylvania; coordinates ' +
+      'as printed in the paper), not a firefly record.',
+    sources: [
+      { label: 'Spitschan et al. 2016, Sci. Rep., Methods', url: 'https://doi.org/10.1038/srep26756',
+        supports: 'Locations: City = five-story roof of David Rittenhouse Laboratories, University of Pennsylvania (39.952237° N, −75.188734° W; elevation 12 m); spectra collected in July 2014' },
+      { label: 'Firebaugh & Haynes 2016, Oecologia', url: 'https://doi.org/10.1007/s00442-016-3723-1',
+        supports: 'Data S1 study 229: P. pyralis, field, Virginia, USA, white cool LED; courtship (males within 1 m of the female, female flashes, proportion of males flashing) and dispersal' },
+      { label: 'Firebaugh & Haynes 2019, Basic Appl. Ecol.', url: 'https://doi.org/10.1016/j.baae.2018.07.005',
+        supports: 'Data S1 study 028: P. pyralis and Photuris versicolor, field, University of Virginia, white warm LED; abundance' },
+      { label: 'Seliger et al. 1964, J. Gen. Physiol., Table I', url: 'https://doi.org/10.1085/jgp.48.1.95',
+        supports: 'point colour: P. pyralis in vivo flash, peak 5620 Å (562 nm), photoelectric spectrometer ("Present work, 1963")' },
+    ],
+    camera: { lat: 39.952237, lng: -75.188734, altitude: 0.35 },
+    fly: 2200,
     swipe: 0,
+    impacts: { view: 'globe', site: 'spitschan2016_city' },
   },
   {
     id: 'two-nights',
@@ -380,11 +400,42 @@ export const story = [
     label: 'Two measured nights',
     title: 'Two measured nights',
     text: '[PLACEHOLDER] Measured night spectra, Philadelphia and Cherry Springs.',
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
+    // Globe camera between the two Spitschan sites (midpoint of the printed coordinates; display only), so both glows
+    // are in view during the transition from Local firefly (round 7f). Altitude and timing: agent choices.
+    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
+    fly: 1600,
     swipe: 0,
     // 3D night spectra, Philadelphia | Cherry Springs (app/src/twoNights.js; data/derived/spectra/, Spitschan et al.
     // 2016; human decisions: handoff 2026-10-04_two-nights-spectra.md, AI_LOG Firefly narrative round 3c).
     nights: true,
+    // Sites (impacts.js SITE_POINTS) whose glows open the left / right half, arriving from the step whose impacts.site
+    // is the first one (human: "two points, two halves", AI_LOG Firefly tabs review round 7f).
+    nightsSites: ['spitschan2016_city', 'spitschan2016_rural'],
+  },
+  // Species perceptions (human, AI_LOG Firefly tabs review round 7j): the same two sites' measured night light as a
+  // rotating cloud, weighted by each species' response curve, one species every 1.5 s (twoNights.js, nights: 'species';
+  // data/derived/spectra/species_curves.json). Animal curves provisional (human: sources to be identified; nothing
+  // shown on screen). Card text: placeholder.
+  {
+    id: 'species-perceptions',
+    part: 2,
+    label: 'Species perceptions',
+    title: 'Species perceptions',
+    text: '[PLACEHOLDER] The measured night light of Philadelphia and Cherry Springs, weighted by each species\' ' +
+      'spectral sensitivity.',
+    sources: [
+      { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
+        supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
+      { label: 'CIE 2019, scotopic V′(λ)', url: 'https://doi.org/10.25039/CIE.DS.gr6w4b5g', supports: 'human night curve' },
+      { label: 'Bowmaker 1977', supports: 'rock pigeon pigment peaks 460, 515, 567 nm' },
+      { label: 'Bennett & Brown 1985', supports: 'Carolina sphinx receptor peaks 357, 450, 520 nm' },
+      { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
+      { label: 'Hasselmann 1962, in Lord et al. 2016', supports: 'bronze ground beetle ERG peaks 348, 430, 500, 620 nm' },
+      { label: 'Beason & Loew 2008', supports: 'bobolink pigment peaks 372, 403, 505, 564 nm; rod 502 nm' },
+    ],
+    camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
+    swipe: 0,
+    nights: 'species',
   },
   // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
   // charts, data and sources on ecosystem-level impacts may follow here (not started).

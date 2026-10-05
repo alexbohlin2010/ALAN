@@ -639,6 +639,7 @@ export function createSpectral({ parent }) {
     canvas.style.maskImage = canvas.style.webkitMaskImage = canvas.style.opacity = '';
     labels.style.visibility = number.style.visibility = toggle.style.visibility = strip.style.visibility = '';
     chapters.signal?.males.forEach(p => { p.position.set(0, 0, 0); });
+    chapters.glow?.sides.forEach(sd => [sd.fem, sd.mal].forEach(p => { p.position.set(0, 0, 0); p.scale.setScalar(1); }));
   }
   function door(now) {
     if (!trans) return;
@@ -667,19 +668,35 @@ export function createSpectral({ parent }) {
   // plane) and bright, standing in for the glow; m = 1 at their places, flashing as usual. Runs after the camera
   // update (so the point is projected correctly) and after animateSignal (whose opacity it raises while gathered).
   const ray = new THREE.Vector3(), under = new THREE.Vector3();
-  function gatherMales() {
-    const S = chapters.signal;
-    if (trans?.style !== 'glow' || current?.chapter !== 'signal' || trans.m == null) return;
+  // Mate-finding ↔ Local firefly (human: "scene closes into the point", AI_LOG Firefly tabs review round 7d): the same
+  // for both sides of the pair: each side's dummy females and males shrink (scale 0.12 at m = 0) towards the point
+  // under the glow, the females bright. Display device, not data (scale and brightness: agent choices).
+  const toUnder = (group, zLocal) => {
     camera.updateMatrixWorld();
     ray.set(trans.x / canvas.clientWidth * 2 - 1, 1 - trans.y / canvas.clientHeight * 2, 0.5).unproject(camera)
       .sub(camera.position).normalize();
-    const zc = S.group.position.z + S.maleC[0].z;
+    const zc = group.position.z + zLocal;
     under.copy(camera.position).addScaledVector(ray, (zc - camera.position.z) / ray.z);
-    S.group.worldToLocal(under);
-    S.males.forEach((p, k) => {
-      p.position.copy(under).lerp(S.maleC[k], trans.m).sub(S.maleC[k]);
-      op(p).value = Math.max(op(p).value, 0.9 * (1 - trans.m));
-    });
+    return group.worldToLocal(under);
+  };
+  function gatherMales() {
+    if (trans?.style !== 'glow' || trans.m == null) return;
+    if (current?.chapter === 'signal') {
+      const S = chapters.signal;
+      toUnder(S.group, S.maleC[0].z);
+      S.males.forEach((p, k) => {
+        p.position.copy(under).lerp(S.maleC[k], trans.m).sub(S.maleC[k]);
+        op(p).value = Math.max(op(p).value, 0.9 * (1 - trans.m));
+      });
+    } else if (current?.chapter === 'glow') {
+      const G = chapters.glow, sc = 0.12 + 0.88 * trans.m;
+      toUnder(G.group, G.mid.z);
+      G.sides.forEach(sd => [sd.fem, sd.mal].forEach(p => {
+        p.scale.setScalar(sc);
+        p.position.copy(under).lerp(sd.c, trans.m).addScaledVector(sd.c, -sc);
+        if (p === sd.fem) op(p).value = Math.max(op(p).value, 0.9 * (1 - trans.m));
+      }));
+    }
   }
   // Flash travel: path from the right Signal male to the Female response female (world coordinates, slight arc), the
   // camera between the two chapter views, pulled in behind the flash mid-way. Forward: the female answers on arrival

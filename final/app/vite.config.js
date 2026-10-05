@@ -17,7 +17,8 @@ const COLOUR_ROOT = resolve(__dirname, '../data/derived/colour');
 const APPROVED_COLOUR = ['iberia_white_share_grid.json', 'global_white_share_grid.json', 'global_white_share_grid.png',
   'global_white_share_values.png'];  // prototype colour modes (human 2026-10-04)
 const SPECTRA_ROOT = resolve(__dirname, '../data/derived/spectra');
-const APPROVED_SPECTRA = ['philadelphia.json', 'cherry_springs.json', 'spectra_meta.json'];  // human 2026-10-04
+const APPROVED_SPECTRA = ['philadelphia.json', 'cherry_springs.json', 'spectra_meta.json',  // human 2026-10-04
+  'species_curves.json'];   // Species perceptions (human, AI_LOG Firefly tabs review round 7j)
 const TYPES = { '.webp': 'image/webp', '.png': 'image/png', '.json': 'application/json', '.csv': 'text/csv; charset=utf-8' };
 
 // Serves files under root at the request path; 404 for anything outside root or missing.

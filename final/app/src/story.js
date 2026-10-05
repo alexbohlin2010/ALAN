@@ -8,7 +8,8 @@ const ease = t => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 
 const sourceList = sources => {
   const items = (sources || []).map(s =>
-    `<li><a href="${escape(s.url)}" target="_blank" rel="noopener">${escape(s.label)}</a></li>`).join('');
+    // A source without a url (citation only, e.g. round 7j) is listed as plain text.
+    `<li>${s.url ? `<a href="${escape(s.url)}" target="_blank" rel="noopener">${escape(s.label)}</a>` : escape(s.label)}</li>`).join('');
   return items ? `<ul class="sources">${items}</ul>` : '';
 };
 

@@ -134,6 +134,21 @@ function applyStage(i) {
   document.body.classList.toggle('story-spectral', Boolean(sp));
   document.body.classList.toggle('story-impacts', Boolean(st));
   document.body.classList.toggle('story-nights', Boolean(story[i].nights));
+  // Local firefly ↔ Two measured nights (human: "two points, two halves", AI_LOG Firefly tabs review round 7f): the
+  // nights step's `nightsSites` (left, right) glow on the globe; the halves open out of / close into those glows.
+  const ns = story[i].nightsSites, pns = prev.nightsSites, glowOf = k => () => impacts.siteGlow(k);
+  if (ns && prev.impacts?.site === ns[0]) {
+    impacts.setStage({ ...prev.impacts, site: ns, glow: true });
+    spectral.set(null);
+    nights.set(true, { from: ns.map(glowOf), onTakeover: () => impacts.hide() });
+    return;
+  }
+  if (pns && st?.site === pns[0]) {
+    spectral.set(null);
+    nights.set(false, { to: pns.map(glowOf), onDone: () => impacts.setStage(st),
+      onTakeover: () => { impacts.show(); impacts.setStage({ ...st, site: pns, glow: true }, { snap: true }); } });
+    return;
+  }
   nights.set(story[i].nights);
   const at = sp?.door && prev.impacts?.door === sp.door ? impacts.doorAt(sp.door) : null;
   if (at) {   // forward: the chart stays (its filter bar hidden) under the opening view, then goes
@@ -145,9 +160,11 @@ function applyStage(i) {
   // `impacts.site` and the spectral step with the same `spectral.site`, the point glows and grows while the globe
   // zooms in (story.js camera + fly), then the scene opens out of the glow; going back, it closes into the glow,
   // which shrinks back to the point as the globe zooms out.
+  // Arriving backwards (Local firefly → Mate-finding, round 7d) the manual chapter starts on its last beat, as elsewhere.
   if (sp?.site && prev.impacts?.site === sp.site) {
     impacts.setStage({ ...prev.impacts, glow: true });
-    spectral.set(sp, { glow: () => impacts.siteAt(sp.site), onDone: () => impacts.hide() });
+    spectral.set(sp, { glow: () => impacts.siteAt(sp.site), onDone: () => impacts.hide(),
+      beat: sp.manual && story.indexOf(prev) === i + 1 ? 'last' : 0 });
     return;
   }
   if (st?.site && prev.spectral?.site === st.site) {
