@@ -3928,6 +3928,201 @@ Append only. One entry per AI step (see RULES.md §4).
 - **Actions:** one commit on `alexander-final-rebuild` with all uncommitted `final/` changes: this task (story.js content, tagline cards, sunrise default), the intro scene session's files (`app/src/introScene.js`, `main.js`, `tileLayer.js`, `app/public/audio/` 4.1 MB incl. MANIFEST.md, its handoff) and `handoffs/2026-10-04_sdgsat-colour-questions.md`. The audio was an open git question in the intro handoff; it is included because the default intro now needs it (stated to the human). Not pushed.
 - **Files changed:** this log; git history.
 
+## 2026-10-04: Light story refinement task, step 7. Next-session prompt written: nocturnal soundscape before the intro music (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I want to start a new chat where I'll modify the intro a little bit. I want to start the initial black screen with the sounds of nocturnal insects or biota, and then once the music starts, the flow starts as before. Might propose to remove the sun ... but let's get a prompt going so I can try this out
+- **Human direction (next session):** black screen opens with nocturnal insect / biota sounds; when the music starts, the existing flow runs as before; removing the sun is a possible later proposal (the human's).
+- **Actions:** prompt given in chat. Not committed (log entry after commit d14208240).
+- **Files changed:** this log.
+
+## 2026-10-04: Intro soundscape task, steps 1–2. How intro audio/timeline work now; candidate night-wildlife recordings (no code, no data changed, no downloads)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5` (recording research by a general-purpose subagent, same model, web search/fetch only, no downloads)
+- **Prompt (verbatim):**
+  > You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; branch alexander-final-rebuild). Read RULES.md first and follow it for the whole session. Then read:
+  > - handoffs/2026-10-04_intro-sunrise-scene.md (how the sunrise intro works: timeline in music time, Begin screen, mute button, Web Audio gain, audio file + MANIFEST)
+  > - handoffs/2026-10-04_light-story-taglines.md (latest state: the sunrise intro is now the DEFAULT; ?intro=css gives the old CSS intro)
+  > - app/src/introScene.js (constants T at the top, audio handling), the intro parts of app/src/story.js and app/src/main.js, app/public/audio/MANIFEST.md
+  > - the AI_LOG "Intro scene task" entries (steps 1–16) for how the music cut points were measured
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/. They edit app/vite.config.js, app/src/tileLayer.js, app/src/main.js, app/src/style.css and app/content/story.js. Re-read a file right before editing it and keep edits small and local.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - data/raw/ is read-only; ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only.
+  > - Do not commit, push, delete, download, install or create accounts without my explicit go-ahead. Do not send my email address or other personal data in any request (an earlier session put it in a User-Agent header).
+  >
+  > Task: modify the intro. The creative direction is mine; you research, give short options when I ask, and build what I choose.
+  > My idea: after Begin, the black screen first plays the sounds of nocturnal insects or other night-time wildlife. Then, once the music starts, the flow runs as before (formless globe → text → sun → lights → UI). I may later propose removing the sun; don't do that unless I ask.
+  >
+  > Steps:
+  > 1. Briefly summarise how the intro's audio and timeline work now: where the Begin click, the music start and the visuals are tied together, and what would have to change for a soundscape to play before the music. No changes yet.
+  > 2. Find candidate recordings of nocturnal insects or wildlife: freely licensed (e.g. Wikimedia Commons, freesound.org CC0/CC BY, xeno-canto, British Library/other sound archives). For each, give the title, recordist, licence, what species or place it is if documented, length and format, and the link. Label anything not documented as "not found". Stop for my choice before downloading anything.
+  > 3. Give 2–3 short options for how the soundscape and the music meet (e.g. how long the soundscape plays, crossfade vs cut, whether it keeps playing under the music, how the mute button and "Begin without audio" behave). Stop for my choice.
+  > 4. Build only what I choose, check it in the browser preview (port 5173, Begin → full sequence), and show me screenshots. Update app/public/audio/MANIFEST.md with any new file's source and licence.
+  >
+  > Write a handoff in handoffs/ when the task is done or at ~30% context.
+- **Actions (read-only):** read RULES.md; handoffs 2026-10-04_intro-sunrise-scene, 2026-10-04_light-story-taglines; app/src/introScene.js; intro parts of app/src/story.js, app/src/main.js, app/content/story.js; app/public/audio/MANIFEST.md; AI_LOG intro scene steps 1–2, 9, 10.
+- **Step 1 finding (summary given in chat):** the Begin click calls ensureGraph() (AudioContext) then go(0) → playIntro → intro.play(), which seeks the music to T.start (10.0 s) and plays it at once; every visual is driven by clock(): the music's currentTime while it plays, else wall time offset to T.start. A pre-music soundscape needs a pre-roll phase between the click and play()'s music start (second audio element through the same mute gain; music start and clock offset by the pre-roll). Noted: there is currently no "Begin without audio" button (removed in step 10, replaced by the mute button).
+- **Step 2 (subagent, record pages fetched, not re-verified by the main agent):** 11 candidates reported (7 CC0 on freesound.org / BigSoundBank, 4 Wikimedia Commons CC BY / BY-SA). xeno-canto blocked the agent's requests (not checked); NPS sound gallery pages showed no licence/duration (not verified); British Library: no specific item found; Macaulay Library / Internet Archive not checked. List given in chat. Stopped for the human's choice.
+- **Files changed:** this log only. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 2b. Recording #1 chosen; record page verified; download route; step 3 options (no download yet, no code)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > the first one is perfect let's use that ...
+  >
+  > It will be like creating the impression that the artificial lights, man's grandiosity, totally drowns out the beautiful nature sounds at night. Somewhat comical, somewhat serious
+- **Human decision:** recording #1, "Night ambience with crickets", KikeVilaplana, freesound.org/s/436528. Human's stated intent: the artificial lights / grandiosity drown out the night nature sounds; "somewhat comical, somewhat serious".
+- **Verified (record page, fetched with a generic browser User-Agent, no personal data):** CC0; description "Night ambience with crickets."; tags Ambience, Crickets, Night, Summer; 0:51.066; WAV 48 kHz 24-bit stereo 14.1 MB; uploaded 9 Aug 2018; no geotag (place: not found); recording date: not found. Original download requires a freesound login (agent may not create/use accounts). Public preview https://cdn.freesound.org/previews/436/436528_8938826-hq.mp3 (HEAD only: 200, audio/mpeg, 1,151,520 bytes; not downloaded).
+- **Step 3 options given in chat; asked the human (download route, how soundscape and music meet, pre-roll length, no-audio button).**
+- **Files changed:** this log only. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, steps 3–4. Crickets pre-roll built (option A), browser check, MANIFEST, handoff
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Human answers (AskUserQuestion, verbatim):** download: "I'll download the WAV myself"; meeting: "A. Drowned out gradually"; length: "~4 s"; no-audio: "Keep mute button only".
+- **Prompts (verbatim):**
+  > downloaded
+
+  > i need to run to church should we pause and pickup later
+- **File:** the human downloaded the original WAV to ~/Downloads; the agent copied it unchanged (cp, original left in place) to `app/public/audio/436528__kikevilaplana__night-ambience-with-crickets.wav` (51.07 s, 48 kHz 24-bit stereo, sha256 ab6aa4f8…ffa1b; matches the record page).
+- **Built (`app/src/introScene.js`):** after Begin, the music element plays silently from T.start − PRE (PRE = 4000 ms, i.e. 6.0 s music time), so the music clock drives the pre-roll and both sounds start inside the click (autoplay). Crickets: second audio element → cricket gain → the shared mute gain; 0.5 s fade-in (agent choice); full level under the music; raised-cosine fade to 0 over lightsIn (6 s) starting at T.lights (20.0 s), then paused. Music fade-in scheduled once play() resolves, from the music's actual position. Skip (→) fades both and pauses. Lights-in camera offset includes the pre-roll turn. No-Web-Audio fallback: music muted before T.start, cricket volume steps. Dev handle `window.introCrickets`. Visual timeline in music time unchanged.
+- **Browser check (localhost:5173, the other chat's server for final/app; 0.25 s samples, wall time from click):** crickets gain 0.49 at 0.25 s → 1.00 at 0.5 s; music 6.23 s, gain 0 until 9.98 s, 0.32 at 10.23, 1.00 at 10.73; text in from 12.2 music; crickets 1.00 at 20.23 music, 0.90 / 0.70 / 0.44 / 0.20 / 0.04 / 0.00 at 21.2–26.2, paused at 20.65 s cricket time; music fade 27.35 → paused 28.88; mute button hidden after. Click → silence ≈ 23 s. Skip test: → at 2 s after Begin: music and crickets paused within 1.5 s, stayed paused. Screenshots (pre-roll black, text, sun, lights, UI) shown in chat. No console errors. Not listened to by the human yet.
+- **Files changed:** `app/src/introScene.js`, `app/public/audio/MANIFEST.md`, new `app/public/audio/436528__kikevilaplana__night-ambience-with-crickets.wav` (14.8 MB), `handoffs/2026-10-04_intro-crickets-soundscape.md`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 5. Resumed in the same session after the pause (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > okay let's kick off process again i'm back
+- **Actions:** checked that the working tree still has this task's changes (introScene.js, MANIFEST.md, crickets WAV); reloaded the preview at localhost:5173 for the human to listen. Same narrowly scoped task (listening/tuning), context use low, so continued here (RULES §5); handoff 2026-10-04_intro-crickets-soundscape.md stands and will be updated at the end.
+- **Files changed:** this log only. Not committed.
+
+## 2026-10-04: Intro soundscape task, step 6. Crickets fade faster; text later, out on the lights; sun sprite removed (halo kept)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > fade crickets out a bit faster, and bring "and then there was light" in later, and fade it out exactly when the artificial lights come in. The message needs to be that the artificial is drowning out the natural sounds so to speak ... timing is everything here. Will consider removing the sun as well. I think I like the blue halo leading up to it with the music, but remove the sun it looks too fake.
+- **Human decisions:** crickets fade out faster; text comes in later and fades out exactly when the artificial lights come in; sun removed, blue halo kept. Human's framing: "the artificial is drowning out the natural sounds".
+- **Built (`app/src/introScene.js`):** `CRICKETS_OUT = 3000` (agent value for "a bit faster"; was 6 s) from T.lights (20.0 s, the chord); `T.text` 12000 → 16000 (agent choice: the high C, where the sun used to appear); text fade-out (textOut 0.5 s) now starts at T.lights instead of on the sun's appearance (textOffAt logic removed); `SHOW_SUN = false` leaves the sprite out of the scene (code kept, one flag to restore). The warm sun-side limb glow and crescent are unchanged (still paced by the invisible sun's path).
+- **Browser check (localhost:5173, this session's server; 0.1 s samples, music time):** text 0.02 at 16.08 → 1.00 at 16.98, 0.94 at 20.08, 0 by 20.68; crickets 1.00 at 20.08, 0.62 at 21.28, 0.17 at 22.18, 0 at 23.08; music unchanged. No sun sprite in screenshots. No console errors.
+- **Open (asked in chat):** whether the warm (orange) limb glow / crescent goes too; text-in point 16.0 s vs 14.0 s (G); 3 s fade by ear.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 7. Dark cricket screen 2 s; lights rise at once from the chord
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I like the orange glow, it's evocative.
+  >
+  > Bring the artificial lights in a bit earlier ... it hangs a bit too much between the words fading and the lights coming in. Needs to be more on the nose.
+  >
+  > The dark crickets in the beginning is maybe too long. Cut the dark screen down to 2 seconds (is it currently 4?)
+- **Clarification (AskUserQuestion):** options faster rise / start earlier / both; human chose "Faster rise, same start".
+- **Human decisions:** orange limb glow stays; lights more on the nose with the same start on the chord (20.0 s) but a faster rise; dark cricket screen 2 s (it was 4 s).
+- **Built (`app/src/introScene.js`):** `PRE` 4000 → 2000; lights fade curve smoothstep → ease-out cubic `1 − (1 − x)³` over the same 6 s (agent choice of curve: ~42% after 1 s vs ~8% before). Text out and cricket fade still start at 20.0 s.
+- **Browser check (localhost:5173, 0.1 s samples):** crickets 0.55 at 0.3 s after click; music 8.07 s at 0.1 s, gain 0 until 9.96, 0.88 at 10.47 (dark crickets alone ≈ 2.0 s); text 0.96 at 20.07 → 0 at 20.57; crickets 0.94 at 20.47, 0.67 at 21.17. Screenshots at ~20.6 / 21.2 s music time show the lights already visible as the words go. No console errors. Click → silence ≈ 21 s.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 8. Crickets gone before the lights (fade 18.0 -> 20.0 s)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > by the time the lights hit, the crickets sound mut be gone though. Right now I feel like there's some overlap. Maybe half way through "and then there was light" those noises need to fade ...
+- **Human decisions:** the crickets must be gone by the time the lights hit; they fade from about halfway through the text.
+- **Built (`app/src/introScene.js`):** cricket fade now starts at T.lights − CRICKETS_OUT and ends exactly at T.lights; `CRICKETS_OUT` 3000 → 2000, i.e. 18.0 → 20.0 s music time (18.0 = midpoint of the text's 16.0–20.0 s span; agent reading of "half way through"). No-Web-Audio fallback changed the same way.
+- **Browser check (localhost:5173, 0.1 s samples, music time):** crickets 1.00 at 17.96, 0.99 at 18.16, 0.54 at 18.96, 0.12 at 19.56, 0.00 at 19.96; text 1.00 until 19.96, 0.78 at 20.16, 0 at 20.56. No console errors.
+- **Files changed:** `app/src/introScene.js`, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 9. Handoff updated; this task committed
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > can you commit that to git please
+- **Actions:** updated `handoffs/2026-10-04_intro-crickets-soundscape.md` to steps 1–9 (it was written at step 4); checked `git status` (only this task's files changed; AI_LOG also carries the earlier "Light story refinement task, step 7" entry that wrote this task's prompt); committed on branch alexander-final-rebuild: `final/app/src/introScene.js`, `final/app/public/audio/MANIFEST.md`, `final/app/public/audio/436528__kikevilaplana__night-ambience-with-crickets.wav` (14.8 MB), `final/handoffs/2026-10-04_intro-crickets-soundscape.md`, `final/AI_LOG.md`. Not pushed.
+- **Data values changed:** none.
+
+## 2026-10-04: Intro soundscape task, step 10. Next-session prompt drafted for colour / design changes (no code, no data changed)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > thank you - want to generate a new prompt to change a few color elements, and design elements.
+- **Actions:** listed the latest handoffs; checked where colours live (app/src/style.css, ~79 hex colours; tile colour ramp in app/src/tileLayer.js with the ?ramp= switch; intro glow colours COLOR_NEAR / COLOR_FAR in app/src/introScene.js). Drafted a next-session prompt in chat in the format of earlier prompts, with a placeholder list for the human to fill in (the agent does not choose which elements change).
+- **Files changed:** this log only. Not committed.
+
+## 2026-10-04: Colour / design task, step 1. Read RULES + handoffs; colour inventory (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** the session prompt drafted in "Intro soundscape task, step 10" (begins "You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; branch alexander-final-rebuild). Read RULES.md first ..."), sent with the "Elements to change" list still as placeholders ("1. [element, e.g. card background / button / text colour / light ramp / intro glow] → [what I want]  2. [...]  3. [...]").
+- **Actions:** read RULES.md, the four named handoffs, the AI_LOG tail; grepped colours/fonts in app/src/style.css, tileLayer.js, introScene.js, main.js, spectral.js, impacts.js. The element list was empty, so the agent listed the colour groups and asked the human which elements to change. No files changed except this log.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 2. Locate 2025 white tint + impacts colours; palette options (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > I want to increase the contrast between 2015/2025. .. let's bring 2025 temperature up to 4000k which is what it used to be ...
+  >
+  > I also want to find a palette for the 'impacts' colors, the studies and effects dots, which might complement the beautiful artistic globe more ... perhaps a more vivid palette, more royal colors?
+- **Actions:** located the white tint (tileLayer.js:43 RAMP_TINTS[1] 3200 K [1.0, 0.7499, 0.4789]; set by pipeline/colour/08_display_tints.py RAMP_WHITE_CCT_K = 3200 → data/derived/colour/display_tints.json "ramp_white"; METHOD.md:39; the 4000 K value [1.0, 0.8317, 0.649] already exists as class "3"). Located impacts colours (impacts.js:13–14 CATEGORY_COLORS, :21–23 SPECIES_COLORS, :25 OTHER, used for globe dots, effects chart, legend, study card). Took "before" screenshots at :5173 (Impacts > Ecosystems, Studies, All effects). Offered three agent-proposed category palettes (A royal jewel, B cool opposite the lights, C deep heraldic) with OKLab distances (min pair 12.3 / 11.1 / 12.8 vs now 12.1; min vs light tints 23.5 / 20.5 / 22.6 vs now 15.5). Waiting for the human's choice.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 3. Display white back to 4000 K; impacts palette C + heraldic species colours
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > C, yes also change species colors
+- **Human decisions:** display white tint 4000 K (step 2 prompt: "bring 2025 temperature up to 4000k"); impacts category palette C "deep heraldic"; species-group colours changed to match.
+- **Built:**
+  - `pipeline/colour/08_display_tints.py`: `RAMP_WHITE_CCT_K` 3200 → 4000 (docstring updated); rerun with `.venv/bin/python`. `data/derived/colour/display_tints.json`: only "ramp_white" changed (cct_k 3200 → 4000, srgb [1.0, 0.7499, 0.4789] → [1.0, 0.8317, 0.649]); classes 1–3 and note identical (diff checked).
+  - `app/src/tileLayer.js`: `RAMP_TINTS[1]` = [1.0, 0.8317, 0.649], plus a "display choice, not data" comment. The tint applies to white blocks in both years (2015 has fewer).
+  - `pipeline/colour/METHOD.md` "Display ramp": white = 4000 K with history.
+  - `app/src/impacts.js` `CATEGORY_COLORS`: Behaviour #18b86b, Physiology #2f5bff, LHT #8a3dff, Population #e0306b, Community #14a8c4 (old values kept in a comment). `SPECIES_COLORS` (agent draft hues in the heraldic style): Mammals #d0344f, Birds #2f5bff, Fish #14b0d0, Amphibians #8a3dff, Reptiles #c45ae6, Insects #c4c41e, Arthropods #ff6aa0, Plants #18a85e, Algae/fungi/microbes #62e6a8; smallest OKLab×100 pair difference 12.8 (Birds/Amphibians; old set 15); min distance to the light tints 15.6 (old set lower, Mammals brown).
+- **Browser check (localhost:5173):** Impacts > Studies (globe dots), All effects (category and species colouring), Light > India swipe with the white tint live-switched to 3200 K via `window.tileLayer` for a same-view before/after, then back to 4000 K (no file change from the live switch). No console errors. Not changed: legend default key-dot #5fd4e6 (style.css:127), OTHER #888888.
+- **Files changed:** the five above + this log. Not committed.
+- **Data values changed:** none (display tints are display choices; radiance, shares and thresholds unchanged).
+- **Handoff:** wrote `handoffs/2026-10-04_colour-design-4000k-heraldic.md` (task built; species hues pending explicit approval).
+
+## 2026-10-04: Colour / design task, step 4. Story text vs left menu overlap: measured, options (no changes)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > One thing that needs to happen is sometimes the narrative text overlaps with the storyline bar ... that can never happen so we have to resolve it.
+  >
+  > Maybe the text should be lower or the storyline needs to be right side of screen?
+- **Actions:** located the left menu (`#modes`, style.css:83, left 16 px / top 44 px) and the narrative text (`#fact`, style.css:58, left 6vw, vertically centred, max-width min(30vw, 420px)). Stepped through every story step in the browser and measured bounding-box overlaps (dev-only page script, no file change). With the Impacts list open, the menu reaches y = 388 px. Overlaps: 1280×800: Ecosystems, Broader Impacts, Conclusion; 1024×640: the same three; 1440×900: Broader Impacts, Conclusion. In a tiny pane (498×311) also the Statistic text, the country / study cards, the chart filter and the spectral number. Offered options A (text lower), B (text right of the menu), C (menu on the right). Waiting for the human's choice.
+- **Files changed:** this log only.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 5. Prototype A and B for the fact text vs menu overlap
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > build A and B and show me screenshots
+- **Built:** URL switch `?fact=a|b` (story.js `placeFact` + ResizeObserver; style.css rules at the end of the file). Browser at 1280×800: A pushes "But how does light impact our ecosystems?" 61 px down (text top 412 px, menu bottom 388 px); B starts the text at x = 176 px (menu right edge 130 px). Screenshots of Ecosystems and Conclusion in both.
+
+## 2026-10-04: Colour / design task, step 6. Option A ("below") made the default; B removed
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim), sent mid-turn:**
+  > also the conclusion text should be centered on the black globe, coming in as the artificial lights fade out. Perhaps bring the blue glow back for that sequence
+  >
+  > I think below works better than to the right
+- **Human decision:** option A (text below the menu).
+- **Built:** `app/src/story.js`: `placeFact` always on (no URL switch); `app/src/style.css`: `#fact` transform uses `--fact-shift` in landscape; the B rule removed. The Conclusion request is handled in the next step.
+- **Files changed:** app/src/story.js, app/src/style.css, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 7. Conclusion: lights fade out, blue limb ring in, text centred on the black globe
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):** see step 6 ("also the conclusion text should be centered on the black globe, coming in as the artificial lights fade out. Perhaps bring the blue glow back for that sequence").
+- **Built:**
+  - `app/src/introScene.js`: new export `createDarkScene({ globe, layer })` + `DARK_MS = 2500`. Reuses the intro's halo shader (even ring only: uBase 0.18, COLOR_FAR blue, uRise 0) on its own mesh, and fades the tile layer's existing `uFade` 1 → 0 (smoothstep, 2.5 s); `set(false)` reverses. Comment: display choice, not data. Agent choices: 2.5 s, ring level = the intro's formless ring.
+  - `app/src/main.js`: import; `darkScene` created after the intro scene; `applyStage` calls `darkScene.set(Boolean(step.dark))` next to the `story-dark` class; `setMode('impacts')` also clears `story-dark` and the dark scene.
+  - `app/src/style.css`: removed `body.story-dark #globe { opacity: 0; }` (the globe now stays, black); `body.story-dark #fact` centred (left/top 50%, translate −50%, max-width min(40vw, 480px), centred text) with a 2.5 s fade-in.
+- **Browser check (localhost:5173, 1280×800):** uFade 1.00 / 0.89 / 0.64 / 0.35 / 0.10 / 0.00 at 0 / 0.5 / 1.0 / 1.5 / 2.0 / 2.5 s; text opacity 0 → 0.99 over the same span; back to Broader Impacts: 0.50 at 1.25 s, 1.00 at 2.75 s. Fact steps vs menu: Statistic, Ecosystems, Broader Impacts, Conclusion all overlap = false. Screenshot shows the ring outlining the black globe with the text centred. No console errors.
+- **Files changed:** app/src/introScene.js, app/src/main.js, app/src/style.css, this log. Not committed.
+- **Data values changed:** none.
+
+## 2026-10-04: Colour / design task, step 8. Committed this task
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > commit this to git please
+- **Actions:** checked `git status` / diffs (only this task's changes, plus the uncommitted "Intro soundscape task, step 10" log entry from the previous session); committed on branch alexander-final-rebuild: app/src/impacts.js, introScene.js, main.js, story.js, style.css, tileLayer.js, pipeline/colour/08_display_tints.py, pipeline/colour/METHOD.md, handoffs/2026-10-04_colour-design-4000k-heraldic.md, AI_LOG.md. `data/derived/colour/display_tints.json` is gitignored (`data/derived/colour/*`) and not committed. Not pushed.
+- **Data values changed:** none.
 ## 2026-10-04: Open latest app (no code, no data changed)
 - **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
 - **Prompt (verbatim):**
@@ -4706,3 +4901,11 @@ Append only. One entry per AI step (see RULES.md §4).
   > commit change, and push
 - **Done:** committed rounds 7a–7m on branch `claude/nice-solomon-c6ce9c` (on top of 05a66fa87, which it fast-forwarded to in round 7a): `final/AI_LOG.md`, `final/.gitignore`, `final/app/content/story.js`, `final/app/src/{impacts,main,spectral,story,style,twoNights}.js|css`, `final/app/vite.config.js`, `final/pipeline/spectra/02_species_curves.py` (new), `final/data/derived/spectra/species_curves.json` (new), `final/data/raw/receptors/MANIFEST.csv` and `linda_draft/development-placeholders.json` (new). Not included: `.claude/launch.json` (worktree root; dev server configs, as in earlier sessions). Pushed the branch to origin (new remote branch). Not merged to `main`; no pull request opened. Commit hash: see `git log` (this entry is part of the commit).
 - **Files changed:** this log; git history; remote branch.
+
+## 2026-10-04: Firefly tabs review, round 7n. Merge into main (human request)
+- **Tool / model:** Claude Code (desktop) · `claude-opus-5-5`
+- **Prompt (verbatim):**
+  > merge it into main
+- **Found:** `origin/main` (08a5483d3, "Merge pull request #8 from alexbohlin2010/alexander-final-rebuild") is not an ancestor of `claude/nice-solomon-c6ce9c` (c048ca53d): main gained pull requests #7 and #8 (intro night soundscape, display white 4000 K, heraldic impacts palette, fact text below the menu, Conclusion on a black globe). `gh` is not installed, so no pull request could be opened from here. The main checkout is on `linda-firefly-narrative`, so `main` is not checked out in any worktree.
+- **Done:** `git merge --no-ff origin/main` into `claude/nice-solomon-c6ce9c` (in this worktree). Conflicts, both sides kept: `app/src/main.js` setMode: one line removing `story-impacts`, `story-spectral`, `story-nights`, `story-dark`, plus main's `darkScene.set(false)`; `app/src/style.css`: this branch's nights/species block followed by main's `#fact` rule; `AI_LOG.md`: main's new entries (pull requests #7, #8) kept in place, this branch's entries since the branch point (rounds 6a–7m) after them, nothing removed or edited. Auto-merged: `app/src/impacts.js`, `app/src/story.js`, `app/content/story.js` and the rest. Checked in the in-app browser at 1000 × 575, audio muted before Begin: Fireflies, Signal production, Mate-finding, Local firefly, Two measured nights, Species perceptions, Conclusion (story-dark on) and leaving Species perceptions for the Impacts header all work; a fresh tab shows no console errors (an `Unexpected token '<<'` seen in the old tab dated from the moment the conflict markers were on disk). Then committed the merge, pushed the branch, and pushed it to `origin/main` (fast-forward of main to the merge commit); local `main` set to match.
+- **Files changed:** `AI_LOG.md`, `app/src/main.js`, `app/src/style.css` (conflict resolution); main's files via the merge; git history; remote `main` and branch.

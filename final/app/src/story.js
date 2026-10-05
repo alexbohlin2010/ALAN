@@ -29,6 +29,23 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
 
   const later = (fn, ms) => timers.push(setTimeout(fn, ms));
   const stopAnim = () => { if (anim) cancelAnimationFrame(anim); anim = null; };
+
+  // Big fact text kept clear of the left menu (human: "that can never happen"; option A "below", AI_LOG colour /
+  // design task steps 5-6): the text keeps its place but is pushed down to start FACT_GAP px below the menu's
+  // bottom edge whenever they would overlap (re-measured when the menu or the text changes size).
+  const FACT_GAP = 24;
+  const placeFact = () => {
+    fact.style.setProperty('--fact-shift', '0px');
+    if (fact.hidden) return;
+    const menu = document.getElementById('modes').getBoundingClientRect();
+    const box = fact.getBoundingClientRect();
+    const clash = box.left < menu.right && box.top < menu.bottom + FACT_GAP;
+    fact.style.setProperty('--fact-shift', `${clash ? Math.ceil(menu.bottom + FACT_GAP - box.top) : 0}px`);
+  };
+  const factObserver = new ResizeObserver(placeFact);
+  factObserver.observe(document.getElementById('modes'));
+  factObserver.observe(fact);
+  window.addEventListener('resize', placeFact);
   const clearAll = () => { timers.forEach(clearTimeout); timers = []; stopAnim(); intro?.stop(); };
 
   // Glide the divider from its current position to `to` (0..1) over `ms`.
@@ -101,6 +118,7 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
         : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.hidden = false;
+      placeFact();
       return;
     }
     if (step.tagline) {

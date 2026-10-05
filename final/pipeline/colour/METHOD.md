@@ -36,7 +36,7 @@ Status: **pilot / test**. Every class value is labelled `estimated`, and was req
 Status: **prototype / first look**. Chosen by the human (Alexander) on 2026-10-03 after the disc render was judged "totally unrealistic". No legend (human). AI_LOG colour steps 17–18.
 
 ## What is drawn
-Every lit pixel is drawn as grey × tint. The tint is **sodium (blackbody 2000 K)** below the year's grey threshold and **white (blackbody 3200 K**, `display_tints.json` "ramp_white" from `08_display_tints.py`; was 4000 K, then 3000 K on 2026-10-04 (AI_LOG colour step 62), then 3200 K, human: "move white to 3200k", step 65) above it, with a soft blend of ±8 grey levels. The brightest pixels turn white first. Shader: `app/src/tileLayer.js`. It works on tiles v1 and v2 and ignores the v2 class bits.
+Every lit pixel is drawn as grey × tint. The tint is **sodium (blackbody 2000 K)** below the year's grey threshold and **white (blackbody 4000 K**, `display_tints.json` "ramp_white" from `08_display_tints.py`; was 4000 K, then 3000 K on 2026-10-04 (AI_LOG colour step 62), then 3200 K, human: "move white to 3200k", step 65, then back to 4000 K, human: "bring 2025 temperature up to 4000k", AI_LOG colour / design task step 3) above it, with a soft blend of ±8 grey levels. The brightest pixels turn white first. Shader: `app/src/tileLayer.js`. It works on tiles v1 and v2 and ignores the v2 class bits.
 
 **Default since 2026-10-04: white by place (option B; human: "make B the default", AI_LOG colour steps 63–67).**
 - A 1/20° block (~5 km) is drawn white if a fixed hash of its position is below the cell's white share. Otherwise it is drawn sodium. Pixel brightness does not matter.

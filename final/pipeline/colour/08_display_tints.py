@@ -6,14 +6,15 @@ Approximations to the CIE XYZ Color Matching Functions") -> XYZ -> linear sRGB
 (IEC 61966-2-1 matrix, D65) -> negatives clipped to 0 -> scaled so the largest channel is 1
 -> sRGB-encoded. A display choice (human, 2026-10-03), not data.
 Also the display-ramp white tint at RAMP_WHITE_CCT_K (human 2026-10-04, "move white to 3200k", AI_LOG
-colour step 65; used by app/src/tileLayer.js RAMP_TINTS). Writes data/derived/colour/display_tints.json.
+colour step 65; back to 4000 K, human 2026-10-04, "bring 2025 temperature up to 4000k", AI_LOG colour /
+design task step 3; used by app/src/tileLayer.js RAMP_TINTS). Writes data/derived/colour/display_tints.json.
 Run from final/:  .venv/bin/python pipeline/colour/08_display_tints.py
 """
 import json
 import numpy as np
 from config import *
 
-RAMP_WHITE_CCT_K = 3200
+RAMP_WHITE_CCT_K = 4000
 
 def g(x, mu, s1, s2):
     return np.exp(-0.5 * ((x - mu) / np.where(x < mu, s1, s2)) ** 2)

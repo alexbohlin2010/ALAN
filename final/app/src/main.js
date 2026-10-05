@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import Globe from 'globe.gl';
 import { TileLayer } from './tileLayer.js';
 import { startStory } from './story.js';
-import { createIntroScene, INTRO_MODE } from './introScene.js';
+import { createIntroScene, createDarkScene, INTRO_MODE } from './introScene.js';
 import { createImpacts } from './impacts.js';
 import { createSpectral } from './spectral.js';
 import { createTwoNights } from './twoNights.js';
@@ -131,6 +131,7 @@ function applyStage(i) {
   if (mode !== 'light') return;
   const sp = story[i].spectral ?? null, st = story[i].impacts;
   document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
+  darkScene.set(Boolean(story[i].dark));   // lights out, blue limb ring in (introScene.js createDarkScene)
   document.body.classList.toggle('story-spectral', Boolean(sp));
   document.body.classList.toggle('story-impacts', Boolean(st));
   document.body.classList.toggle('story-nights', Boolean(story[i].nights));
@@ -194,6 +195,7 @@ window.addEventListener('keydown', e => {
 // Story steps (content in app/content/story.js); sets the first camera view.
 // PROTOTYPE: ?intro=sunrise swaps the CSS intro for a 3D sunrise scene (human: option B, intro scene task).
 const intro = INTRO_MODE === 'sunrise' ? createIntroScene({ globe, layer }) : null;
+const darkScene = createDarkScene({ globe, layer });
 const storyCtl = startStory({ steps: story, globe, intro, onStep: i => { markStep(i); applyStage(i); },
   swipe: { get: () => swipeFrac, set: f => { swipeFrac = f; placeSwipe(); } } });
 
@@ -206,7 +208,8 @@ function setMode(m) {
     storyCtl.pause();
     lightSwipe = swipeFrac;
     swipeFrac = 0; placeSwipe();   // 0 = all 2025
-    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights');
+    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights', 'story-dark');
+    darkScene.set(false);
     spectral.set(null);
     nights.set(false);
     impacts.hide();

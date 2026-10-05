@@ -191,7 +191,11 @@ body.story-spectral #swipe, body.story-spectral .year { display: none; }
 #spectral-strip .m circle { stroke-width: 1.4; }
 /* Dark story screen (story key `dark: true`, e.g. Conclusion; Firefly transition task step 4): the globe fades out. */
 #globe { transition: opacity 1200ms ease; }
-body.story-dark #globe { opacity: 0; }
+/* Conclusion (AI_LOG colour / design task step 7): the globe stays; its lights fade out and the blue limb ring fades in
+   (introScene.js createDarkScene, DARK_MS 2500); the text is centred on the black globe and fades in over the same time. */
+body.story-dark #fact { left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: min(40vw, 480px); text-align: center;
+  animation: fact-dark-in 2500ms ease both; }
+@keyframes fact-dark-in { from { opacity: 0; } to { opacity: 1; } }
 body.story-dark #swipe, body.story-dark .year { display: none; }
 /* Two measured nights (twoNights.js; AI_LOG Firefly narrative round 3c): 3D view, CSS3D axis labels, site divider. */
 #nights-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
@@ -223,3 +227,8 @@ body.story-dark #swipe, body.story-dark .year { display: none; }
 .nights-glow span { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; color: #fff;
   font-size: 16px; font-weight: 600; }
 body.story-nights #swipe, body.story-nights .year { display: none; }
+/* Fact text clear of the left menu (human: option A "below", AI_LOG colour / design task step 6): pushed below
+   the menu by --fact-shift (story.js). Portrait keeps its own rule above. */
+@media (min-aspect-ratio: 1001/1000) {
+  #fact { transform: translateY(calc(-50% + var(--fact-shift, 0px))); }
+}
