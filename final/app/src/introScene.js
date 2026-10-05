@@ -45,6 +45,12 @@ const PRE = 2000, CRICKETS_IN = 500;   // human (soundscape step 7): dark cricke
 // Human (step 8): crickets gone by the time the lights hit, fading from halfway through the text (16.0-20.0 s):
 // 18.0 -> 20.0 s, ending exactly at T.lights.
 const CRICKETS_OUT = 2000, SHOW_SUN = false;
+// Background hum in C (human, AI_LOG Copy editing step 8: "faded in after the intro"). Made in Web Audio, no file:
+// the root C as two sines ±4 cents, its octave and double octave, optional fifth G, low-passed, optional slow
+// breathing, plus soft brown noise. Values = the human's test-page settings (step 9: "Lower frequency will cause less
+// stress"): volume 100%, C1 (32.7 Hz), warmth 2000 Hz, fifth 0%, breathing 0%, soft noise 50%. Step 10: volume 50%, soft noise 35%.
+// Fades in over HUM_IN while the music fades out (agent choice), then plays on under the story; the mute covers it.
+const HUM = { base: 32.703, cutoff: 2000, level: 0.175, breathe: 0.09, depth: 0, fifth: 0, noise: 0.175 }, HUM_IN = 3000;
 const ROTATE_SPEED = 0.2;   // OrbitControls autoRotateSpeed: 6 x speed deg/s (frame-rate independent) = 1.2 deg/s
 const SUN_END = new THREE.Vector3(0.62, 0.36, -0.7).normalize();  // view space: right, up, behind
 // Sun direction at path fraction e (0 = straight behind the globe, 1 = SUN_END; e > 1 continues on the same arc):
@@ -167,6 +173,43 @@ export function createIntroScene({ globe, layer }) {
     } catch { ctx = null; }   // no Web Audio: plays without fades
     ctx?.resume();
   }
+  // Hum graph (built once, silent until startHum): sines -> low-pass -> breathing gain -> humGain -> mute.
+  let humGain = null;
+  // Story steps with `humOff` (Conclusion) fade the hum out; other steps bring it back (human, AI_LOG Copy editing
+  // step 11). Only acts once the hum has started; fade 2.5 s = the Conclusion's lights-out (DARK_MS; agent choice).
+  let humOff = false;
+  function humFor(step) {
+    const off = Boolean(step.humOff);
+    if (!humGain || off === humOff) return;
+    humOff = off;
+    if (off) ramp(0, DARK_MS, 0, undefined, humGain.gain); else startHum();
+  }
+  // Built on first use; later calls only fade it back in (after a replayed intro, human step 9).
+  function startHum(delayMs = 0) {
+    if (!ctx) return;
+    if (humGain) { ramp(HUM.level, HUM_IN, delayMs, undefined, humGain.gain); return; }
+    humGain = ctx.createGain();
+    humGain.gain.value = 0;
+    const filter = ctx.createBiquadFilter(), body = ctx.createGain(), lfo = ctx.createOscillator(), depth = ctx.createGain();
+    filter.type = 'lowpass'; filter.frequency.value = HUM.cutoff; filter.Q.value = 0.5;
+    lfo.frequency.value = HUM.breathe; depth.gain.value = HUM.depth;
+    lfo.connect(depth).connect(body.gain); lfo.start();
+    filter.connect(body).connect(humGain).connect(muteGain);
+    for (const [ratio, gain, detune] of [[1, 0.5, -4], [1, 0.5, 4], [2, 0.25, 0], [4, 0.06, 0], [3, 0.22 * HUM.fifth, 0]]) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = HUM.base * ratio; o.detune.value = detune; g.gain.value = gain;
+      o.connect(g).connect(filter); o.start();
+    }
+    if (HUM.noise) {   // brown noise: integrated white noise, 4 s loop, low-passed at 400 Hz (as on the test page)
+      const len = ctx.sampleRate * 4, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0, last = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
+      const src = ctx.createBufferSource(), nf = ctx.createBiquadFilter(), ng = ctx.createGain();
+      src.buffer = buf; src.loop = true; nf.type = 'lowpass'; nf.frequency.value = 400; ng.gain.value = HUM.noise;
+      src.connect(nf).connect(ng).connect(humGain); src.start();
+    }
+    ramp(HUM.level, HUM_IN, delayMs, 0, humGain.gain);
+    mute.hidden = false;   // the mute stays available while the hum plays
+  }
   // Raised-cosine ramp of the fade gain from its current value to `to` over `ms`, starting `delayMs` from now.
   // `g` defaults to the music's fade gain (cricketGain.gain for the crickets).
   function ramp(to, ms, delayMs = 0, from, g = fade?.gain) {
@@ -181,12 +224,17 @@ export function createIntroScene({ globe, layer }) {
   // Pause only after the fade has reached silence (checked on the music clock).
   const watchPause = () => {
     if (audio.paused || pauseAt === Infinity) return;
-    if (audio.currentTime * 1000 >= pauseAt) { audio.pause(); pauseAt = Infinity; } else requestAnimationFrame(watchPause);
+    if (audio.currentTime * 1000 >= pauseAt) { audio.pause(); pauseAt = Infinity; atPause?.(); atPause = null; }
+    else requestAnimationFrame(watchPause);
   };
+  // Called once when the music's tail has faded to silence (human, AI_LOG Copy editing step 8: the next step starts
+  // on its own at the end of the music). Cleared when the music is faded out early (skip).
+  let atPause = null, onEnd = null;
   if (import.meta.env.DEV) window.introAudio = audio;   // dev-only handle for inspection
   if (import.meta.env.DEV) window.introGain = () => fade?.gain.value;   // dev-only
   if (import.meta.env.DEV) window.introCrickets = () => [crickets.paused, crickets.currentTime, cricketGain?.gain.value];   // dev-only
   if (import.meta.env.DEV) window.introSun = sun;       // dev-only handle for inspection
+  if (import.meta.env.DEV) window.introHum = () => [humGain?.gain.value, muted];   // dev-only
   // Clock: the music's own time while it plays (keeps the lights on the swell), else wall time.
   const clock = t0 => (begun && !audio.paused && audio.currentTime > 0 ? audio.currentTime * 1000
     : T.start - PRE + performance.now() - t0);
@@ -206,14 +254,17 @@ export function createIntroScene({ globe, layer }) {
     mute.title = muted ? 'Unmute audio' : 'Mute audio';
     mute.setAttribute('aria-pressed', String(muted));
   };
-  mute.addEventListener('click', () => {
-    muted = !muted;
+  // Explore mutes the hum on arrival; the viewer can switch it back on (human, AI_LOG Copy editing step 9).
+  function setMuted(m) {
+    if (m === muted) return;
+    muted = m;
     if (ctx) muteGain.gain.setTargetAtTime(muted ? 0 : 1, ctx.currentTime, 0.03);   // short smooth mute, no click
     else audio.muted = crickets.muted = muted;   // no Web Audio (frame() also keeps the music muted in the pre-roll)
     label();
-  });
+  }
+  mute.addEventListener('click', () => setMuted(!muted));
   audio.addEventListener('play', () => { mute.hidden = false; });
-  audio.addEventListener('pause', () => { mute.hidden = true; });
+  audio.addEventListener('pause', () => { mute.hidden = !humGain; });
   label();
 
   function frame(t, step, text, done) {
@@ -249,8 +300,10 @@ export function createIntroScene({ globe, layer }) {
     if (t >= T.lights + tm.lightsIn) { cancelAnimationFrame(raf); raf = null; stop(); tail(); done(); }
   }
 
-  function play(step, { overlay: ov, text, done }) {
+  function play(step, { overlay: ov, text, done, end }) {
     stop();
+    onEnd = end;
+    if (humGain) ramp(0, 600, 0, undefined, humGain.gain);   // back to the intro: the hum fades out (human, step 9)
     overlay = ov;
     overlay.style.background = 'transparent';   // only the text layer; the scene shows through
     overlay.append(hint);
@@ -320,6 +373,7 @@ export function createIntroScene({ globe, layer }) {
   function fadeOutAudio(ms) {
     if (audio.paused) return;
     fadeId++;
+    atPause = null;
     if (!ctx) { audio.pause(); return; }
     ramp(0, ms);
     pauseAt = audio.currentTime * 1000 + ms + 30;
@@ -332,6 +386,8 @@ export function createIntroScene({ globe, layer }) {
     if (audio.paused) return;
     const id = ++fadeId, lead = T.musicEnd - T.musicOut - audio.currentTime * 1000;
     if (ctx) ramp(0, T.musicOut, lead);
+    startHum(lead);   // hum fades in as the music fades out
+    atPause = onEnd;
     pauseAt = T.musicEnd + 30;
     if (id === fadeId) watchPause();
   }
@@ -341,7 +397,7 @@ export function createIntroScene({ globe, layer }) {
     const running = raf !== null;
     if (raf) cancelAnimationFrame(raf);
     raf = null;
-    if (running) fadeOutAudio(600);
+    if (running) { fadeOutAudio(600); startHum(); }   // skipped mid-intro: the hum still comes in
     if (!crickets.paused) {   // crickets: short fade, then pause (the id guards against a newer play())
       const id = cricketsId;
       if (ctx) ramp(0, 600, 0, undefined, cricketGain.gain); else crickets.volume = 0;
@@ -380,7 +436,7 @@ export function createIntroScene({ globe, layer }) {
     return was && controls.autoRotate && i > 0;   // true = keep the current camera
   }
 
-  return { play, stop, begin, spin };
+  return { play, stop, begin, spin, setMuted, humFor };
 }
 
 // Conclusion (human 2026-10-04, AI_LOG colour / design task step 7: "centered on the black globe, coming in as the

@@ -5054,3 +5054,152 @@ Append only. One entry per AI step (see RULES.md §4).
 - Checked in the in-app browser (port 5173): no Mice entry under Explore; Conclusion shows the text without the tag; no console errors.
 - Remaining [DRAFT]/[PLACEHOLDER] tags in story.js: 11 in live steps, 6 in retired steps.
 - Committed on main (human request) with this session's changes: app/content/story.js, app/src/impacts.js, AI_LOG.md, handoffs/2026-10-05_broader-impacts-circle.md. AI_LOG.md also contains the colour/design session's uncommitted entries (its steps 9–12, 2026-10-04/05), included in the same commit. Not pushed. Next-session prompt for copy editing written in the handoff (Update 4).
+
+## Copy editing, step 1 (2026-10-05)
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > You're working in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN; check which branch is checked out before anything else and tell me — last seen on main). Read RULES.md first and follow it for the whole session. Then read handoffs/2026-10-05_broader-impacts-circle.md (all updates) and app/content/story.js.
+  >
+  > Task: copy editing. I write the wording; you put it in exactly as I give it.
+  > 1. First, no changes: list every user-facing text in the story, in story order, as a table: step id, label, field (label / title / text / question / figure / exampleLabel / doorLabel / beat labels / sources labels), current text, and whether it is tagged [DRAFT] or [PLACEHOLDER]. Also list user-facing strings that live outside story.js (e.g. chart axis words and captions in app/src/impacts.js, the Broader Impacts circle labels and the All / Large / Medium / Small toggle, index.html, legend text). Skip the `retired` steps. Stop for my edits.
+  > 2. Apply my edits exactly as written (no rewording, no added claims or interpretation). Remove a [DRAFT] or [PLACEHOLDER] tag only when I give the final text for that field or say so. If an edit changes a number or a factual claim, tell me which source in the step's `sources` supports it, or that none does, before applying it.
+  > 3. After each batch, check in the browser preview (port 5173: Begin → intro → story steps) that the edited steps show the new text, nothing overlaps the left menu or the bottom nav at 1280×800, and there are no console errors. Show me screenshots of the changed steps.
+  >
+  > CONCURRENCY: other Claude sessions may be running in final/. They edit app/vite.config.js, app/src/tileLayer.js, app/src/main.js, app/src/style.css, app/src/impacts.js and app/content/story.js. Re-read a file right before editing it and keep edits small and local.
+  > - Do NOT read-modify-write AI_LOG.md (no Edit/Write tool on it). Append only with a single shell append (cat >> AI_LOG.md <<'EOF' ... EOF), logging every step with my exact prompt.
+  > - data/raw/ is read-only; ~/Desktop/ALAN/Linda and ~/Desktop/ALAN/Alexander are read-only. No data or pipeline changes.
+  > - Do not commit, push, delete, download, install or create accounts without my explicit go-ahead. Ask before adding any library, font or asset. Do not send my email address or other personal data in any request.
+  >
+  > Write a handoff in handoffs/ when the task is done or at ~30% context.
+- Branch: main (clean working tree; HEAD afac47d20).
+- Read RULES.md, handoffs/2026-10-05_broader-impacts-circle.md (Updates 1–4), app/content/story.js; read (no edits) app/index.html, app/src/main.js, story.js, impacts.js, spectral.js, twoNights.js, introScene.js, pipeline/impacts/maps/light_types.csv, data/derived/spectra/species_curves.json to list user-facing strings.
+- Listed in chat: every user-facing text of the live story steps (retired skipped) and the UI strings outside story.js. No files changed except this log append. Waiting for the human's edits.
+
+## Copy editing, step 2 (2026-10-05)
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > OK - a few things: the 2015 and 2025 thing at the beginning has been confusing for people at the beginning. We need to make sure that, with the entry statistic, it's clearer what the vertical bar represents and what the 'two states' are. 
+  >
+  > Also, let's reword the statistic line to start with 
+  >
+  > "From 2015 to 2025, ..." start with the years.
+- Opened the in-app browser on the running final/app dev server (port 5173, 1280×800): Begin → intro → Statistic. Seen: small "2015" top left and "2025" top right, a white vertical divider with a round handle in the middle of the screen, nothing on screen saying what each side shows or that the divider can be dragged.
+- No files changed. Asked the human (a) to confirm the full statistic sentence, (b) to pick how to explain the divider (options listed in chat), with wording to come from the human.
+
+## Copy editing, step 3 (2026-10-05)
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > 1. Yes that's it. 
+  >
+  > A and B are both good I think
+- `app/content/story.js`, step `statistic`, text: "Artificial Light at Night (ALAN) increased by 41% between 2015 and 2025." → "From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%." (human's wording, confirmed in chat; word order only, number and claim unchanged, so no new source needed).
+- Option A (human): `app/index.html` adds two labels inside #swipe ("2015" left of the handle, "2025" right of it), so they move with the divider; `app/src/style.css` positions them beside the handle (same 16 px / 600 weight as the corner labels) and hides the corner year labels while the divider shows. The corner "2025" stays in Impacts (menu or Part 2 story steps), where the divider is hidden, as before. Placement beside the handle (vertical middle) = agent choice.
+- Option B (hint at the handle): not built yet; waiting for the human's wording.
+- Checked in the in-app browser (port 5173, 1280×800): Begin → intro → Statistic shows the new sentence and "2015 ● 2025" at the handle; India and Tanzania sweeps: labels travel with the line, clear of the left menu, the card and the bottom nav; Ecosystems (Part 2): divider and its labels hidden, corner "2025" shown. No console errors. Not checked: portrait/narrow windows; when the line is at the far edge (start of a sweep) the label on the empty side is off-screen.
+- Nothing committed.
+
+## Copy editing, step 4 (2026-10-05): background sound question (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > I think it would be nice to have some white noise or something in the background as we go through this data viz ... what would be a good transition from also sprach zarathusthra? Perhaps something associated with light too ... any thoughts?
+- Read handoffs/2026-10-04_intro-crickets-soundscape.md and the audio constants in app/src/introScene.js (Zarathustra, MacLeod recording, CC BY 3.0; crickets, freesound 436528, CC0; the music stops ~21 s after Begin).
+- Answered in chat with short options (night ambience returning, lamp/mains hum, a drone continuing the closing C chord, Haydn "Die Schöpfung" "Und es ward Licht", city vs dark-sky ambience) and licensing notes. No files changed, nothing searched or downloaded. Noted: this is outside the copy-editing task; Option B hint wording still pending.
+
+## Copy editing, step 5 (2026-10-05): lamp-hum sound search (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > Oh I like the low hum of light ... where could we find that sound? Very good idea
+- Searched freesound.org in the in-app browser ("street light hum") and read each candidate's licence on its page. Nothing downloaded. Candidates listed in chat:
+  - 434070 namikiri "Street light noise" (sodium-vapour lamp, 50 Hz), 0:08, CC BY 4.0
+  - 522951 namikiri "Mercury Vapour Lamp ballast noise" (old street lamp), 0:39, CC BY 4.0
+  - 760789 ChristmasKrumble666 "Streetlamp hum outside retirement village" (broken streetlight), 18:05, CC0; uploader notes a bonus song at the end
+  - 553075 Nox_Sound "Foley_Mechanism_Light_Buzz_Short_Loop" (exterior bulb buzz, loop), 0:19, CC0
+  - 784871 klankbeeld "early street sunday 715 AM" (two LED streetlights, high buzz, with town ambience and birds), 1:52, CC BY 4.0
+- No files changed.
+
+## Copy editing, step 6 (2026-10-05): hum-in-C test page (outside the app)
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompts (verbatim):
+  > Hmmm. None of those sound that pleasant that's the issue. Maybe another idea for a more pleasant background experience ...?
+  > Like similar sort of monotone hum, but not so abrasive... it needs to have a sense of calming in my opinion
+  > Show me a hum for example
+  > a hum in C
+- Answered with options (softened lamp hum, hum made in code, hum in C, brown noise, recorded drone). Human asked for a hum in C.
+- Wrote a standalone test page in the session scratchpad (not in the repo): hum-c.html. Web Audio only, no file, library or licence: root C (two sines detuned ±4 cents), octave and double octave, optional fifth G, low-pass filter, slow level "breathing" (0.09 Hz), optional low-passed brown noise; Play with 3 s fade-in. All sound values (C2 default = 65.4 Hz, mix levels, filter 500 Hz, breathing depth) are agent choices for the human to tune by ear.
+- Not verified by the agent: the in-app browser's page tools cannot act on local files; the human listens. No app files changed.
+
+## Copy editing, step 7 (2026-10-05): hum test page served over http
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompts (verbatim):
+  > it's not working
+  > it's working now don't overwork
+- The in-app browser could not run the page as a local file. Added a "hum-test" entry to ~/.claude/launch.json (user-level, outside the repo): python3 http.server on 127.0.0.1:5190 serving the session scratchpad; opened http://localhost:5190/hum-c.html. Human confirms it plays. No app files changed.
+
+## Copy editing, step 8 (2026-10-05): hum in the app; Statistic starts at the end of the music
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim, with a screenshot of the test page at its defaults: volume 50%, C2 65.4 Hz, warmth 500 Hz, fifth 35%, breathing 40%, soft noise 0%):
+  > let's see how it works under these settings, faded in after the intro ... also at the end of also sprach, I'd like statistic to start automatically without an arrow key required
+- `app/src/introScene.js`: `HUM` constants (the test page values) and `startHum()`: Web Audio oscillators (C2 ±4 cents ×2, C3, C4, G3 × 0.35), low-pass 500 Hz, breathing LFO 0.09 Hz depth 0.18, level 0.175, through the existing mute gain (mute covers music, crickets, hum). Fade-in 3 s starting when the music's close-out fade starts (27.35 s music time; agent choice: crossfade). If the intro is skipped mid-way, the hum starts at the skip. Plays on under the whole story (no stop point yet). Mute button now stays visible while the hum plays (it hid when the music paused). No audio file, library or asset added.
+- `app/src/introScene.js` + `app/src/story.js`: when the music's tail has faded to silence (28.85 s), the story goes to the next step (Statistic) on its own, only if the intro is still the current step and the Light mode is active; skipping early clears it.
+- Checked in the in-app browser (port 5173, 1280×800): Begin, no keys → counter 1/21 at 28.0 s music time, 2/21 (Statistic) after the music paused at 28.89 s; mute button visible; no console errors. The hum itself was not heard by the agent (no audio output check).
+- Found: in Impacts (e.g. Ecosystems) the mute button (1228–1264, 12–48 px) now sits on top of the corner "2025" label (1224–1264, 12–34 px). Asked the human where it should go. Nothing committed.
+
+## Copy editing, step 9 (2026-10-05): hum settings, replay and Explore mute, mute position
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompts (verbatim; the first with a screenshot of the test page: volume 100%, C1 32.7 Hz, warmth 2000 Hz, fifth 0%, breathing 0%, soft noise 50%):
+  > try this . Lower frequency will cause lesss stress in my opinion
+  >
+  > Also just put mute button next to the impacts.
+  > also yes don't overlap hum and intro (i.e. turn off if someone goes back). Mute hum once explore page is reached (someone can turn it back on optionally)
+  > darn sorry - not mute button next to impacts, my mistake. I meant next to 2025 (to the left of)
+- `app/src/introScene.js`: `HUM` = base 32.703 Hz (C1), cutoff 2000 Hz, level 0.35, breathing depth 0, fifth 0, brown noise 0.25 (low-passed 400 Hz, 4 s loop, as on the test page). `startHum()` builds once and later only fades back in. Going back to the intro: the hum fades out (0.6 s) in `play()`, then comes back with the music's close-out as before (or at a skip). `setMuted()` (shared with the mute button) exported; dev-only handle `window.introHum`.
+- `app/content/story.js`: step `explore` gets `muteAudio: true`; `app/src/story.js` `go()` mutes on arrival at such a step; the mute button turns it back on.
+- Mute position: first placed beside the "Impacts" heading (human's first wording), then replaced on the human's correction: `app/src/style.css` puts the mute to the left of the corner "2025" where that label shows (Impacts mode and Part 2 story steps), right 66 px, top 5 px (agent choice: 10 px gap, centred on the label's line); elsewhere it stays top right. The heading placement code was removed.
+- Checked in the in-app browser (port 5173, 1280×800): hum gain 0.35 after the intro; back to the intro → 0; skip → back to 0.35 and only one step forward; Ecosystems: mute 1178–1214 px, "2025" 1224–1264 px, no overlap; Explore heading → muted (button shows "Unmute audio"), click → unmuted. No console errors. The sound itself was not heard by the agent.
+- Nothing committed.
+
+## Copy editing, step 10 (2026-10-05): hum levels
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > bring soft noise down to 35%. Bring volume down of hum down to 50%
+- `app/src/introScene.js` `HUM`: level 0.35 → 0.175 (test-page volume 50% × 0.35), noise 0.25 → 0.175 (test-page soft noise 35% × 0.5). Other values unchanged. Same scaling as the test page, so these equal the test page at volume 50%, soft noise 35%. Not heard by the agent. Nothing committed.
+
+## Copy editing, step 11 (2026-10-05): hum fades out on Conclusion
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > fade the hum out on the conclusion screen
+- `app/content/story.js`: step `conclusion` gets `humOff: true`. `app/src/introScene.js`: `humFor(step)` fades the hum to 0 over 2.5 s (DARK_MS, the Conclusion's lights-out; agent choice) on a `humOff` step and back in (3 s) on the next other step, once the hum has started; exported. `app/src/story.js` `go()` calls it for every non-intro step. Leaving Conclusion back to Broader Impacts brings the hum back (agent choice; Explore still mutes on arrival).
+- Checked in the in-app browser (port 5173, 1280×800): hum 0.175 before, 0 on Conclusion (20/21) after 3 s, 0.175 again on Broader Impacts (19/21). No console errors. Not heard by the agent. Nothing committed.
+
+## Copy editing, step 12 (2026-10-05): intro text font
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > Can we try the "and let there be light" font as the same sans serif as our other heading fonts?
+- `app/src/style.css` `#intro .text`: italic 28px Georgia, serif → italic 300 28px system-ui, sans-serif (the family and weight of the fact headings, `#fact .big`). Size and italic unchanged (the text itself is marked italic in story.js). Not changed: the Begin button, its "with audio" line and the "Use keys to navigate" hint (still Georgia).
+- Checked in the in-app browser (port 5173, 1280×800): computed font system-ui 300 italic, text shown during the intro; no console errors. Nothing committed.
+
+## Copy editing, step 13 (2026-10-05): intro text in Cormorant Garamond italic
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompts (verbatim):
+  > Hmmm ... maybe it should be italic cormorant garamond instead. Let's see how that looks. It's narrative as opposed to informational, and it's a bit theatrical so it's fine to have serif imo
+  > i muted it
+- Asked how to add the font (not installed locally; the app had no web fonts). Human chose "Google Fonts link" (visitors' browsers fetch it from Google; needs a connection).
+- `app/index.html`: preconnect + Google Fonts stylesheet link, Cormorant Garamond italic 400 only. `app/src/style.css` `#intro .text`: italic 400 28px 'Cormorant Garamond', Georgia, serif (replaces step 12's system-ui). Weight 400 and size 28 px (unchanged) = agent choices.
+- Checked in the in-app browser (port 5173, 1280×800): font loaded (document.fonts), intro line shown in Cormorant italic; no console errors. The page showed as muted: the human had muted it (not a bug). Nothing committed.
+
+## Copy editing, step 14 (2026-10-05): key hint font; handoff
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > I think it looks good. OK. the use arrow keys should be same sans serif as rest of web app.. consistency
+  >
+  > Please generate
+- Human: Cormorant Garamond intro line kept ("looks good").
+- `app/src/style.css` `#intro .hint`: 15px Georgia, serif → 15px system-ui, sans-serif. Checked in the in-app browser (port 5173, 1280×800): computed font system-ui, hint shown during the intro; no console errors.
+- "Please generate" read as: generate the handoff and next-session prompt. Wrote handoffs/2026-10-05_copy-editing.md (decisions, state, open items, suggested prompt).
+- Session changes (uncommitted): app/content/story.js, app/index.html, app/src/introScene.js, app/src/story.js, app/src/style.css, AI_LOG.md, the handoff; outside the repo ~/.claude/launch.json ("hum-test" entry). Nothing committed or pushed.
+
+## Copy editing, step 15 (2026-10-05): commit
+- Tool: Claude Code (desktop app), model claude-opus-5-5.
+- Human prompt (verbatim):
+  > commit this please
+- Checked that every uncommitted change in final/ is from this session (Copy editing steps 1–14 only). Committed on main: app/content/story.js, app/index.html, app/src/introScene.js, app/src/story.js, app/src/style.css, AI_LOG.md, handoffs/2026-10-05_copy-editing.md. Not pushed. ~/.claude/launch.json (outside the repo) not part of the commit.

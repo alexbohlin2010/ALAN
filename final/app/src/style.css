@@ -10,6 +10,13 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color:
   pointer-events: none; }
 .year.left { left: 16px; }
 .year.right { right: 16px; }
+/* Year labels on the divider, beside the handle, replacing the corner labels while the divider shows (human: option A,
+   AI_LOG Copy editing step 3). The corner "2025" stays in Impacts, where the divider is hidden. */
+#swipe .tag { position: absolute; top: 50%; transform: translateY(-50%); font-size: 16px; font-weight: 600;
+  pointer-events: none; white-space: nowrap; }
+#swipe .tag.left { right: 24px; }
+#swipe .tag.right { left: 24px; }
+.year.left, body:not([data-mode="impacts"]):not(.story-impacts) .year.right { display: none; }
 #legend { position: absolute; left: 16px; bottom: 60px; z-index: 6; max-width: 340px;
   background: rgba(0, 0, 0, 0.75); padding: 8px 10px; border: 1px solid #444; }
 #legend .ramp { position: relative; height: 12px; margin: 6px 0 16px; }
@@ -20,7 +27,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color:
 #intro { position: absolute; inset: 0; z-index: 10; background: #000; display: flex;
   align-items: center; justify-content: center; pointer-events: none; }
 #intro[hidden] { display: none; }
-#intro .text { font: italic 28px/1.4 Georgia, serif; color: #eee; opacity: 0; }
+#intro .text { font: italic 400 28px/1.4 'Cormorant Garamond', Georgia, serif; color: #eee; opacity: 0; }   /* human (Copy editing step 13): Cormorant Garamond italic (Google Fonts); Georgia if it fails to load. Step 12 tried system-ui */
 /* PROTOTYPE (?intro=sunrise): Begin button, created by introScene.js. */
 #begin { position: absolute; inset: 0; z-index: 11; display: flex; align-items: center; justify-content: center;
   gap: 16px; flex-wrap: wrap; }
@@ -29,7 +36,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color:
 #begin button:hover { border-color: #aaa; }
 #begin small { font: italic 13px Georgia, serif; color: #999; margin-top: 4px; }
 #intro .hint { position: absolute; left: 50%; bottom: 56px; transform: translateX(-50%); display: flex;
-  align-items: center; gap: 6px; font: 15px Georgia, serif; color: #aaa; opacity: 0; white-space: nowrap; }
+  align-items: center; gap: 6px; font: 15px system-ui, sans-serif; color: #aaa; opacity: 0; white-space: nowrap; }   /* human (Copy editing step 14): sans serif like the rest of the app; was Georgia */
 #intro .hint kbd { font: 14px/1 system-ui, sans-serif; color: #ddd; border: 1px solid #666; border-bottom-width: 2px;
   border-radius: 4px; padding: 4px 7px; }
 #intro .hint span { margin-left: 6px; }
@@ -38,6 +45,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color:
   border-radius: 50%; padding: 0; cursor: pointer; }
 #mute:hover { color: #eee; border-color: #888; }
 #mute[hidden] { display: none; }
+/* Where the corner "2025" shows (Impacts), the mute sits to its left, centred on its line (human, AI_LOG Copy
+   editing step 9). Offset: 16 px margin + the label's 40 px + 10 px gap (agent choice). */
+body[data-mode="impacts"] #mute, body.story-impacts #mute { right: 66px; top: 5px; }
 #card { position: absolute; right: 16px; bottom: 64px; z-index: 4; max-width: 360px;
   background: rgba(0, 0, 0, 0.8); border: 1px solid #444; padding: 10px 14px; font-size: 14px; }
 #card h2 { margin: 0 0 6px; font-size: 18px; }

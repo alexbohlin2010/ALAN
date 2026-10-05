@@ -80,7 +80,9 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
       overlay.hidden = false;
       introText.innerHTML = format(step.text);
       intro.play(step, { overlay, text: introText,
-        done: () => { overlay.hidden = true; document.body.classList.remove('arriving'); } });
+        done: () => { overlay.hidden = true; document.body.classList.remove('arriving'); },
+        // End of the music: on to the next step without a key (human, AI_LOG Copy editing step 8), if still here.
+        end: () => { if (active && steps[index] === step) go(index + 1); } });
       return;
     }
     overlay.style.transition = 'none';
@@ -158,6 +160,8 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
     overlay.hidden = true;
     document.body.classList.remove('arriving');
     const keepCamera = intro?.spin(i, steps);   // prototype: globe keeps turning until India
+    if (step.muteAudio) intro?.setMuted(true);
+    if (step.kind !== 'intro') intro?.humFor(step);   // hum out on Conclusion, back elsewhere
     if (step.kind === 'intro') {
       if (!keepCamera) globe.pointOfView(step.camera, 0);
       playIntro(step);

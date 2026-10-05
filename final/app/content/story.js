@@ -37,7 +37,7 @@ export const story = [
     // Lit area (+25.28%) removed by the human (AI_LOG step 39): it ranges +25..+83% depending on the
     // threshold (EOG version difference, 03_version_sensitivity.py). PROVISIONAL: not yet audited (RULES section 3).
     // Wording: human's (AI_LOG step 11: say "ALAN", radiance moved to the footnote).
-    text: 'Artificial Light at Night (ALAN) increased by 41% between 2015 and 2025.',  // wording: human, 2026-10-04
+    text: 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%.',  // wording: human, 2026-10-05 (copy editing step 3)
     note: 'ALAN: artificial light at night. 41% is the change in total radiance measured by the VIIRS ' +
       'satellite sensor (summed over area). ' +
       'Our calculation from EOG VIIRS annual data (provisional, audit pending). Consistent with ' +
@@ -463,6 +463,7 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
+    humOff: true,   // the background hum fades out here (human, AI_LOG Copy editing step 11)
   },
   // ── Part 3: Explore (human request, step 4: its own top-level heading, after the conclusion) ──
   {
@@ -477,6 +478,7 @@ export const story = [
     fly: 2500,
     swipe: 0,
     impacts: { view: 'globe', explore: true },
+    muteAudio: true,   // the background hum is muted on arrival; the mute button turns it back on (human, AI_LOG Copy editing step 9)
   },
 ];
 
