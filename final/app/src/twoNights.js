@@ -55,7 +55,9 @@ const ONCE = { toLeft: 1500, hold: 4000, across: 7000 }, EDGE_PX = 2;
 // ONCE.hold no longer used. Timings as before (agent choices).
 // Fourth beat (human, AI_LOG Firefly flow step 10, W1): 2 = the window narrows and the firefly-eye line shows; 3 = the
 // window stays and the study line shows.
-const BEATS = 4;
+// OPEN = beats before the sweep, all with the divider at the left edge; line k = beat k. 1 in AI_LOG Impacts firefly-first
+// step 6 (the Perception question as an opening beat), 0 again since step 7 (Perception reinstated).
+const OPEN = 0, BEATS = 4 + OPEN;
 // While the divider sweeps, the view also turns slowly about its vertical axis (human, round 7h): OrbitControls
 // autoRotate, one turn per 60 s / ROTATE_SPEED = 240 s, i.e. 1.5° per second (agent choice; 0.5 = 3°/s looked too fast at
 // 1000 × 575); it stops with the sweep.
@@ -348,19 +350,19 @@ export function createTwoNights({ parent, onBeat = null }) {
   function goBeat(k) {
     clearTimeout(beatTimer);
     beat = k;
-    if (k === 0) { if (sel) selectBand(null); moveTo(edge(-1), ONCE.toLeft); onBeat?.(0); return; }
-    if (k === 1) {
+    if (k <= OPEN) { if (sel) selectBand(null); moveTo(edge(-1), ONCE.toLeft); onBeat?.(k); return; }
+    if (k === OPEN + 1) {
       if (sel) selectBand(null);
-      if (split >= edge(1) - 1e-3) { sweep = null; onBeat?.(1); return; }   // already there (back from beat 2)
-      moveTo(edge(1), ONCE.across, () => onBeat?.(1));
+      if (split >= edge(1) - 1e-3) { sweep = null; onBeat?.(k); return; }   // already there (back from the next beat)
+      moveTo(edge(1), ONCE.across, () => onBeat?.(k));
       return;
     }
     // beats 2–3: the divider first finishes at the right edge (the rest of a running sweep, or from the middle when
     // arriving back from Species perceptions, in ONCE.toLeft), then the window narrows (unless it already has), then
     // the beat's line.
     const narrow = () => {
-      if (beat < 2) return;
-      const done = () => { if (beat >= 2 && shown && mode === 'spectra') onBeat?.(beat); };
+      if (beat < OPEN + 2) return;
+      const done = () => { if (beat >= OPEN + 2 && shown && mode === 'spectra') onBeat?.(beat); };
       if (sel?.id === 'firefly' && !win) { done(); return; }
       selectBand(WINDOW.bands.find(b => b.id === 'firefly'));
       beatTimer = setTimeout(done, WINDOW.move);
@@ -767,7 +769,7 @@ export function createTwoNights({ parent, onBeat = null }) {
         // (the Philadelphia line while the divider and window move; after story.js has drawn the step's text)
         if (switched && mode === 'spectra' && !closing) {
           sweep = null; goBeat(BEATS - 1);
-          setTimeout(() => { if (beat === BEATS - 1) onBeat?.(1); }, 0);
+          setTimeout(() => { if (beat === BEATS - 1) onBeat?.(OPEN + 1); }, 0);
           return;
         }
         if (closing || switched) { stopWindow(); startSweep(performance.now()); }

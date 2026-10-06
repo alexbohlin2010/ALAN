@@ -19,6 +19,8 @@
 // Each cites one source for its factual part. The link between the fact and the change in
 // lights is the humans' framing; neither the source nor our data shows that cause.
 
+// Not shown: the ladder was removed (human, AI_LOG Impacts firefly-first step 2; main.js no longer passes it); the
+// array and the steps' `rung` keys are kept unused.
 // Ladder marker (AI_LOG "Story review" steps 7–8): the kind of data a step shows, from the
 // satellite view down to an animal's eye. Labels: [PLACEHOLDER] working words, to be written by the humans.
 export const ladder = [
@@ -42,6 +44,7 @@ export const story = [
   {
     id: 'statistic',
     part: 1,
+    label: 'Dawn',   // human (AI_LOG Impacts firefly-first step 6); was the id ('Statistic')
     rung: 'space',
     kind: 'fact',              // large text on the left of the globe instead of a card
     // Values from pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json
@@ -49,7 +52,41 @@ export const story = [
     // Lit area (+25.28%) removed by the human (AI_LOG step 39): it ranges +25..+83% depending on the
     // threshold (EOG version difference, 03_version_sensitivity.py). PROVISIONAL: not yet audited (RULES section 3).
     // Wording: human's (AI_LOG step 11: say "ALAN", radiance moved to the footnote).
-    text: 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%.',  // wording: human, 2026-10-05 (copy editing step 3)
+    // Wording: human (AI_LOG Impacts firefly-first step 5); the 41 % line moved to Ecosystems. Was 'From 2015 to 2025,
+    // Artificial Light at Night (ALAN) increased by 41%.' (human, 2026-10-05, copy editing step 3).
+    text: 'The dawn of human nighttime activity is changing the globe, and its inhabitants.',
+    // Note and sources moved to Ecosystems with the 41 % line (human, AI_LOG Impacts firefly-first step 5).
+    // No camera move and no sweep (human, AI_LOG Story step 41: the India/China pan made India feel
+    // shown twice). Camera = the intro view, so the globe stays where the intro left it.
+    // Was: camera { lat: 25, lng: 72, altitude: 1.6 }, fly 2500, sweep east 122 -> west 68.1.
+    camera: { lat: 20, lng: 10, altitude: 2.2 },
+  },
+  // ── Part 2: light impacts ─────────────────────────────────────────────────
+  // Sequence: human (AI_LOG Impacts steps 26–27). The question is the human's wording.
+  // DRAFT NOTICE: all other Part 2 text (cards, chart labels in app/src/impacts.js) was drafted by an
+  // AI agent (claude-opus-5-5, 2026-10-03) at the human's request as placeholders. Featured studies
+  // (165, 005) and the worked example (005-2) were proposed by the agent, refinable.
+  // impacts: stage of the Impacts layer (see setStage in app/src/impacts.js).
+  {
+    id: 'question',
+    // Moved from Part 2 (Impacts) to Part 1 (Light), right after Statistic; wording and West Africa camera: human
+    // (AI_LOG Copy editing and drafting step 2). Was: 'But how does light impact our ecosystems?', camera lat 20, lng 10, alt 2.2.
+    // Camera point and altitude over West Africa: agent choice, display only.
+    part: 1,
+    rung: 'space',
+    kind: 'fact',
+    label: 'ALAN',   // human (AI_LOG Impacts firefly-first step 6); was 'Ecosystems'
+    // Wording: human (AI_LOG Story flow step 5; "deeper into the night" accepted as framing, no source). Was 'As light
+    // is expanding into new territory, what are the impacts on global ecosystems?'
+    // Wording: human (AI_LOG Impacts firefly-first step 5): the 41 % line (from Statistic, comma after 2015 dropped as
+    // asked) first; the question replaces it when the sweep ends (`reveal`, story.js sweep; as Two measured nights'
+    // lines). Was 'As human nighttime activity expands in intensity and coverage, how is the biosphere responding?'
+    // (step 2), before that 'As human activity extends deeper into the night, how is the biosphere responding?'
+    text: 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%.',
+    reveal: ['How is the biosphere responding?'],
+    // Note and sources from Statistic (moved with the 41 % line, step 5). Values from
+    // pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json (inferred; PROVISIONAL,
+    // not yet audited, RULES section 3).
     note: 'ALAN: artificial light at night. 41% is the change in total radiance measured by the VIIRS ' +
       'satellite sensor (summed over area). ' +
       'Our calculation from EOG VIIRS annual data (provisional, audit pending). Consistent with ' +
@@ -71,62 +108,20 @@ export const story = [
         supports: 'note: satellites recording global radiance are insensitive to wavelengths < 500 nm ' +
           'emitted by white LEDs (as reported in summaries of the paper; paper text not yet read by the agent)' },
     ],
-    // No camera move and no sweep (human, AI_LOG Story step 41: the India/China pan made India feel
-    // shown twice). Camera = the intro view, so the globe stays where the intro left it.
-    // Was: camera { lat: 25, lng: 72, altitude: 1.6 }, fly 2500, sweep east 122 -> west 68.1.
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-  },
-  // ── Part 2: light impacts ─────────────────────────────────────────────────
-  // Sequence: human (AI_LOG Impacts steps 26–27). The question is the human's wording.
-  // DRAFT NOTICE: all other Part 2 text (cards, chart labels in app/src/impacts.js) was drafted by an
-  // AI agent (claude-opus-5-5, 2026-10-03) at the human's request as placeholders. Featured studies
-  // (165, 005) and the worked example (005-2) were proposed by the agent, refinable.
-  // impacts: stage of the Impacts layer (see setStage in app/src/impacts.js).
-  {
-    id: 'question',
-    // Moved from Part 2 (Impacts) to Part 1 (Light), right after Statistic; wording and West Africa camera: human
-    // (AI_LOG Copy editing and drafting step 2). Was: 'But how does light impact our ecosystems?', camera lat 20, lng 10, alt 2.2.
-    // Camera point and altitude over West Africa: agent choice, display only.
-    part: 1,
-    rung: 'space',
-    kind: 'fact',
-    label: 'Ecosystems',
-    // Wording: human (AI_LOG Story flow step 5; "deeper into the night" accepted as framing, no source). Was 'As light
-    // is expanding into new territory, what are the impacts on global ecosystems?'
-    text: 'As human activity extends deeper into the night, how is the biosphere responding?',
-    camera: { lat: 10, lng: -13, altitude: 0.9 },   // lng -3 -> -13: sweep end clear of the text (step 3)
+    // Closer, over the Gulf of Guinea coast (Côte d'Ivoire, Ghana, Togo, Benin), less Sahara in view (human, AI_LOG Impacts
+    // firefly-first step 3, option W1). Point, altitude and sweep ends: agent choices, display only (tuned in the preview).
+    // Was camera lat 10, lng -13, alt 0.9; sweep east 15, west -17.5 (whole West Africa).
+    camera: { lat: 8, lng: -5.5, altitude: 0.45 },   // lng -4 -> -5.5: the divider's 2015 label clear of the text (preview check)
     fly: 3000,
     // Divider sweeps over West Africa while the question shows (human, AI_LOG Copy editing and drafting step 3).
     // east/west: approximate West Africa extent (Cameroon border ~15 E, Dakar ~17.5 W), agent choice, display only.
     // Was: swipe: 0, impacts: { view: 'globe', dots: false } (an impacts stage hides the divider, style.css).
-    sweep: { east: 15, west: -17.5, hold: 800, duration: 3500 },
+    sweep: { east: 3, west: -8.5, hold: 800, duration: 3500 },   // Benin's east border ~3 E to Côte d'Ivoire's west ~8.5 W
   },
-  {
-    id: 'studies',
-    part: 2,
-    rung: 'studies',
-    // Big text on the left like Statistic (human, AI_LOG Copy editing and drafting step 5); the former card text is the
-    // note behind "Details & sources". Text: human's wording (step 4).
-    kind: 'fact',
-    label: 'Studies',
-    text: 'These 207 published studies measure the impacts of artificial light on biota.',
-    note: 'Each dot is one study that compared living things under artificial light at night with the same ' +
-      'under natural darkness. These are 207 of the 314 studies gathered in a 2025 meta-analysis: ' +
-      'the ones we could place on the map. Colour = the study’s main category.',
-    sources: [
-      { label: 'Czarnecka et al. 2025, Global Change Biology', url: 'https://doi.org/10.1111/gcb.70569',
-        supports: 'sec. 2.1: 314 studies, 4,905 effect sizes; control group under dark night conditions vs light up to 180 lx' },
-      { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
-        supports: 'study records; locations geocoded by us (02_geocode.py)' },
-    ],
-    camera: { lat: 20, lng: 10, altitude: 2.2 },
-    fly: 3000,   // fly out from West Africa instead of a jump (human, step 5; duration: agent choice, as Ecosystems)
-    swipe: 0,
-    // Highlight beats (ladder plan phase 2; AI_LOG "Story review" steps 7–8): behaviour studies, then firefly studies
-    // (data/derived/impacts/study_highlights.json). Labels: [PLACEHOLDER] working words.
-    impacts: { view: 'globe', reveal: true, highlight: [{ set: 'behaviour', label: 'Behaviour' },
-      { set: 'fireflies', label: 'Fireflies and glow-worms' }] },
-  },
+  // Studies step removed, merged into All effects (human, AI_LOG Impacts firefly-first step 2, option A2): Impacts opens
+  // on the firefly; its note and sources moved to All effects' Details. Was: label 'Studies', text 'These 207 published
+  // studies measure the impacts of artificial light on biota.', camera lat 20, lng 10, alt 2.2, fly 3000, impacts
+  // { view: 'globe', reveal: true, highlight: Behaviour, then Fireflies and glow-worms }.
   // Female response study on the globe (human, AI_LOG Impacts reorder steps 2–4): replaces Black swans; shown like the
   // retired Fireflies (Taipei) step. Point = the Arnold Arboretum collection site printed in Owens & Lewis 2021
   // (impacts.js SITE_POINTS, documented; Boston only, human). Moving on to Female response the point glows and the
@@ -158,8 +153,13 @@ export const story = [
     swipe: 0,
     // studyLabel: a label under the study's dot: its title and year from studies.json (Data S1), authors as given here
     // (human: short form "Owens & Lewis 2021", AI_LOG Fireflies step 4).
-    impacts: { view: 'globe', studyLabel: { id: '299', authors: 'Owens & Lewis' },
-      highlight: [{ set: 'fireflies', label: 'Fireflies and glow-worms' }] },   // carried over from Studies (AI_LOG "Story review" step 7)
+    // only: study 299's dot alone, the others hidden (human, AI_LOG Impacts firefly-first step 2, option B1); flown to
+    // straight from Ecosystems over the Atlantic (C1, 3.5 s). Was highlight: Fireflies and glow-worms (from Studies).
+    // studyLabel delay: the label fades in after the 3.5 s flight, so it does not cross the menu in flight (human, AI_LOG
+    // Impacts firefly-first step 3; delay = fly: agent choice).
+    // site 'study:299': moving on, study 299's dot glows and grows and Female response opens out of it (human, AI_LOG
+    // Impacts firefly-first step 8, option T2; was a plain cut since AI_LOG Fireflies step 2).
+    impacts: { view: 'globe', only: ['299'], site: 'study:299', studyLabel: { id: '299', authors: 'Owens & Lewis', delay: 3500 } },
   },
   {
     id: 'female-response',
@@ -189,8 +189,9 @@ export const story = [
     ],
     // Grows out of the Fireflies (Boston) point (human, AI_LOG Impacts reorder steps 2–4). Was camera lat 20, lng 10,
     // alt 2.2, no fly, no site. Altitude 0.04 and fly 2200: as Signal production (agent choices).
+    // Slower dive (human, AI_LOG Impacts firefly-first step 8): fly 2200 → 3500 (value: agent choice).
     camera: { lat: 42.30469, lng: -71.12099, altitude: 0.04 },
-    fly: 2200,
+    fly: 3500,
     swipe: 0,
     // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
     // Two beats (human, AI_LOG Firefly flow step 12: options A, i, 48.6): the four other lamps together with the range of
@@ -198,7 +199,7 @@ export const story = [
     // four, i.e. "at most"); then bright amber. Was six beats: dark 98.7 %, bright cool white 10.3 %, dim warm white
     // 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. Button word 'other lights' and the label wording:
     // [PLACEHOLDER] agent choices.
-    spectral: { chapter: 'fireflies', manual: true, site: 'owenslewis2021_boston', beats: [
+    spectral: { chapter: 'fireflies', manual: true, site: 'study:299', beats: [   // was site 'owenslewis2021_boston' (step 8, T2)
       { lamps: ['cool_white', 'warm_white', 'blue', 'red'], button: 'other lights', value: '10.3–48.6 %',
         label: 'females answer · bright cool white, dim warm white, dim blue, dim red (dark: 98.7 %)', reply: 0.486 },
       { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0,
@@ -209,15 +210,20 @@ export const story = [
   },
   // Dark screen between Female response and Two measured nights, shown like Conclusion (human, AI_LOG Fireflies
   // step 10: new step, look "Like Conclusion", label "Perception"). Camera: Conclusion's whole-globe view.
+  // Folded into Spectra as its opening beat in AI_LOG Impacts firefly-first step 6, reinstated in step 7 (human: "an
+  // important link from the study --> to spectra"). Label: as before; the step after Spectra is also 'Perception' now
+  // (step 6), to be named by the humans.
   {
     id: 'perception',
     part: 2,
     rung: 'animal',
     kind: 'fact',
-    label: 'Perception',
+    label: 'Impact',   // human (AI_LOG Impacts firefly-first step 8); was 'Perception'
     // Question replaces the sentence (human, AI_LOG Firefly flow step 2, option A). Was 'Humans perceive ALAN differently
     // to other parts of the biota.' (human, AI_LOG Fireflies step 10).
-    text: 'Does our actual lighting environment impact fireflies in the wild?',   // wording: human
+    // Wording: human (AI_LOG Impacts firefly-first step 8). Was 'Does our actual lighting environment impact fireflies
+    // in the wild?' (Firefly flow step 2).
+    text: 'Does ALAN impact fireflies in the wild?',
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
@@ -228,7 +234,7 @@ export const story = [
     id: 'two-nights',
     part: 2,
     rung: 'light',
-    label: 'Two measured nights',
+    label: 'Spectra',   // human (AI_LOG Impacts firefly-first step 6); was 'Two measured nights'
     // Big text on the right instead of the card (human, AI_LOG Firefly flow step 2, option T1; was a card titled
     // 'Two measured nights', AI_LOG "Amber highlight" steps 3-4): first line while the divider shows Cherry Springs,
     // `reveal` lines in its place once it has swept across to Philadelphia (twoNights.js onSweep). Wording: human (first
@@ -240,6 +246,7 @@ export const story = [
     // the firefly-eye line, once it has narrowed) → `reveal[2]`, the study line (window stays). One line at a time (twoNights.js beat, main.js onBeat).
     kind: 'fact',
     side: 'right',
+    // The question was this step's opening beat in AI_LOG Impacts firefly-first step 6; back on Perception (step 7).
     text: 'This is the light spectrum measured at a dark sky park, Cherry Springs.',
     reveal: [
       // ", a dark sky park" removed (human, AI_LOG Firefly flow step 5: redundant with the first line).
@@ -297,7 +304,7 @@ export const story = [
     rung: 'eye',
     kind: 'fact',   // big narrative text on the right, no card (human, AI_LOG Fireflies step 12)
     side: 'right',
-    label: 'Species perceptions',
+    label: 'Perception',   // human (AI_LOG Impacts firefly-first step 6); was 'Species perceptions'
     // Was a card titled 'Species perceptions': '[PLACEHOLDER] The measured night light of Philadelphia, weighted by
     // each species' spectral sensitivity.'
     // Was 'Fireflies perceive ALAN with their own eyes, not ours.' (human, AI_LOG Fireflies step 12).
@@ -323,7 +330,7 @@ export const story = [
     rung: 'studies',
     kind: 'fact',
     side: 'right',
-    label: '[PLACEHOLDER] McNeil et al. 2024',
+    label: 'Firefly Populations',   // human (AI_LOG Impacts firefly-first step 2); was '[PLACEHOLDER] McNeil et al. 2024'
     text: 'Across the eastern US, fewer fireflies are counted where nights are brighter: one pressure among climate, soil and land cover.',
     note: '24,683 Firefly Watch citizen-science surveys, eastern US (east of the 100th meridian), 2008–2016. In random-forest ' +
       'models of 79 predictors, night-time lights ranked 9th overall and 3rd in areas of high climate quality; counts were ' +
@@ -352,22 +359,37 @@ export const story = [
     // Was title '3,254 effects'. Sentence: agent draft chosen by the human (their "…generally significant" with
     // 'significant' → 'substantial'), AI_LOG Fireflies step 17. Now agent draft A3 with 'widespread' (human, AI_LOG
     // Story flow step 3): effects recorded in all 9 species groups (our grouping of Data S1). Was '…generally substantial.'
-    text: 'From one firefly to all of life studied: the impacts of artificial light are widespread.',
-    note: 'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
+    // Wording: human (AI_LOG Impacts firefly-first step 3; "207" moved here from the removed Studies step). Was 'From one
+    // firefly to all of life studied: the impacts of artificial light are widespread.'
+    text: 'Across 207 published studies, the impacts of artificial light on biota are widespread.',
+    // First three sentences: the removed Studies step's note, verbatim, placed first (human, AI_LOG Impacts firefly-first
+    // step 2, A2; order: agent choice).
+    note: 'Each dot is one study that compared living things under artificial light at night with the same ' +
+      'under natural darkness. These are 207 of the 314 studies gathered in a 2025 meta-analysis: ' +
+      'the ones we could place on the map. Colour = the study’s main category. ' +
+      'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
       'Further right = a bigger change under light. Only the size of the change is shown, not its direction: ' +
       'for some measures more is harmful, for others less. White line = the median study: each study’s middle ' +
       'effect, then the middle of those.',
     sources: [
+      // From the removed Studies step (A2).
+      { label: 'Czarnecka et al. 2025, Global Change Biology', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'sec. 2.1: 314 studies, 4,905 effect sizes; control group under dark night conditions vs light up to 180 lx' },
       { label: 'Czarnecka et al. 2025, sec. 2.5', url: 'https://doi.org/10.1111/gcb.70569',
         supports: 'absolute values |g| used for magnitude because opposite effects within a category could cancel out' },
       { label: 'Data S1, Dryad (CC0)', url: 'https://doi.org/10.5061/dryad.xwdbrv1q0',
-        supports: 'category and |g| of each effect record; median of study medians computed by us from |g|' },
+        supports: 'study records; locations geocoded by us (02_geocode.py); category and |g| of each effect record; ' +
+          'median of study medians computed by us from |g|' },
     ],
+    // Hold 2 s (human, AI_LOG Impacts firefly-first step 3, D2; was 500). `globeSpin`: after the fly-out the globe turns
+    // slowly and steadily, at the intro's speed, until the step is left (human, step 6: "rotating as it normally would";
+    // replaces step 3's 40° turn during the hold, camera lng 50 → `globeTurn` lng 10).
     camera: { lat: 20, lng: 10, altitude: 2.2 },
+    globeSpin: true,
     // Arriving from a step without the Impacts layer (Species perceptions): the globe flies out with the study dots,
     // holds `globeHold`, then the records fly into the chart (main.js; human, AI_LOG Fireflies step 14: 2.5 s + 1 s; hold 0.5 s, step 15).
     fly: 2500,
-    globeHold: 500,
+    globeHold: 2000,
     swipe: 0,
     impacts: { view: 'chart', records: true, filter: true, example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
   },

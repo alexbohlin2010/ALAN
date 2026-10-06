@@ -167,6 +167,10 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const HL_FIRST = 2500, HL_STEP = 3500, HL_MS = 900, HL_DIM = 0.12;
   let hlSets = {}, hlLocated = 0, hlFrom = null, hlTo = null, hlTimers = [];
   const hlA = anim(1);
+  // Study label fade (story `studyLabel.delay`, AI_LOG Impacts firefly-first step 3): in after `delay` ms, kept on while
+  // the next stage shows the same study's label.
+  const labelA = anim(0);
+  let labelTimer = 0;
   const inSet = (h, id) => (!h ? 1 : hlSets[h.set]?.has(id) ? 1 : HL_DIM);
   const hlOf = id => { const t = val(hlA); return inSet(hlFrom, id) * (1 - t) + inSet(hlTo, id) * t; };
   function hlGo(h) {
@@ -329,11 +333,16 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   // Visible places → screen clusters (greedy: biggest place first absorbs neighbours within CLUSTER_PX).
   function clusters() {
     const cam = globe.camera().position, R2 = globe.getGlobeRadius() ** 2, vis = [];
+    // Story key `only: [id, ...]`: just these studies are drawn, the others hidden and left out of clusters (human,
+    // AI_LOG Impacts firefly-first step 2, B1: study 299 alone on Fireflies).
+    const only = stage?.only;
     for (const p of places) {
+      const ids = only ? p.ids.filter(id => only.includes(id)) : p.ids;
+      if (!ids.length) continue;
       const c = globe.getCoords(p.lat, p.lng, 0);
       if (c.x * cam.x + c.y * cam.y + c.z * cam.z <= R2) continue;   // far side of the globe
       const s = globe.getScreenCoords(p.lat, p.lng, 0);
-      vis.push({ x: s.x, y: s.y, ids: p.ids });
+      vis.push({ x: s.x, y: s.y, ids });
     }
     vis.sort((a, b) => b.ids.length - a.ids.length);
     const out = [];
@@ -397,7 +406,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       filterBar.style.left = `${panel + 24}px`; filterBar.style.top = '76px';
     }
     if (ga > 0.005) drawGlobeDots(ga);
-    if (ga > 0.005 && stage?.studyLabel) drawStudyLabel(stage.studyLabel, ga);
+    if (ga > 0.005 && stage?.studyLabel) drawStudyLabel(stage.studyLabel, ga * val(labelA));
     if (ga > 0.005) drawHighlightLabel(ga, w);
     const sa = Math.max(ga, val(glowA));
     for (const k in siteA) { const v = val(siteA[k]); if (v > 0.005) drawSite(k, v * sa, w, h); }
@@ -485,9 +494,13 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     lines.forEach((t, i) => ctx.fillText(t, xy.x, y + 7 + i * 16));
   }
 
+  // Site keys 'study:<id>' (human, AI_LOG Impacts firefly-first step 8, option T2): the study's own dot is the site, so
+  // its glow grows from the dot (same place, the dot's colour) and no second marker or label is drawn.
+  const siteOf = key => sites[key] ?? (key.startsWith('study:') && points.get(key.slice(6))?.[0]
+    ? { ...points.get(key.slice(6))[0], colour: colorOf(key.slice(6)), study: true } : null);
   // Screen position of a site point; null when not loaded or on the far side of the globe.
   function siteXY(key) {
-    const p = sites[key];
+    const p = siteOf(key);
     if (!p) return null;
     const cam = globe.camera().position, c = globe.getCoords(p.lat, p.lon, 0);
     if (c.x * cam.x + c.y * cam.y + c.z * cam.z <= globe.getGlobeRadius() ** 2) return null;
@@ -497,7 +510,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   // A site outside Data S1, in its own style: a dot in the courtship-flash colour (565 nm, nm → RGB as in
   // spectral.js) with a white ring and a short label. glowA 0 → 1 turns it into a growing glow and drops the label.
   function drawSite(key, a, w, h) {
-    const p = sites[key], s = siteXY(key);
+    const p = siteOf(key), s = siteXY(key);
     if (!p || !s || a < 0.005) return;
     const g = val(glowA);
     if (g > 0.001) {
@@ -506,6 +519,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       ctx.globalAlpha = g; ctx.fillStyle = grad;
       ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, Math.PI * 2); ctx.fill();
     }
+    if (p.study) return;   // the study's own dot (drawGlobeDots) fades as the glow grows
     dot(s.x, s.y, DOT_SELECTED, p.colour, true, a * (1 - g));
     ctx.globalAlpha = a * (1 - g); ctx.fillStyle = '#fff'; ctx.font = '12px system-ui, sans-serif';
     ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
@@ -972,6 +986,14 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     for (const k of new Set([...Object.keys(siteA), ...keys])) go(siteA[k] ??= anim(0), keys.includes(k) ? 1 : 0, FADE_MS);
     go(chartA, chart ? 1 : 0, FADE_MS);
     go(circleA, s?.circle ? 1 : 0, MORPH_MS);
+    clearTimeout(labelTimer);
+    const lab = s?.studyLabel;
+    if (!lab) go(labelA, 0, FADE_MS);
+    else if (snap) { labelA.from = labelA.to = 1; }
+    else if (lab.id !== prev?.studyLabel?.id || labelA.to === 0) {
+      labelA.from = labelA.to = 0;
+      labelTimer = setTimeout(() => go(labelA, 1, FADE_MS), lab.delay ?? 0);
+    }
     hlTimers.forEach(clearTimeout); hlTimers = [];
     const seq = s?.highlight ?? [];
     if (!seq.length || seq[0].set !== hlTo?.set) hlGo(null);
@@ -1110,7 +1132,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     // Used by twoNights.js to take the glows over (Local firefly ↔ Two measured nights, round 7f).
     siteGlow(key) {
       const s = siteXY(key);
-      return s && { x: s.x, y: s.y, r: DOT_SELECTED + 0.1 * Math.min(window.innerWidth, window.innerHeight), colour: sites[key].colour };
+      return s && { x: s.x, y: s.y, r: DOT_SELECTED + 0.1 * Math.min(window.innerWidth, window.innerHeight), colour: siteOf(key).colour };
     },
     // Screen position of the door record in the chart as currently laid out (null if not in the chart).
     doorAt(id) {

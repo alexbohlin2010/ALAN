@@ -85,6 +85,10 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
     glide(1, step.fly ?? 0);  // arrive in the 2015 view
     later(() => glide(lngToFrac(lat, s.east), 400,
       () => glide(lngToFrac(lat, s.west), s.duration)), (step.fly ?? 0) + s.hold);
+    // A `reveal` line replaces the big text when the sweep ends (Ecosystems; human, AI_LOG Impacts firefly-first step 5).
+    // On a timer, so it still comes if the viewer grabs the divider.
+    if (step.reveal) later(() => fact.querySelectorAll('.line').forEach((p, n) => p.classList.toggle('on', n === 1)),
+      (step.fly ?? 0) + s.hold + 400 + s.duration);
   }
 
   function playIntro(step) {
@@ -166,6 +170,14 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
     if (!btn) return;
     body.hidden = !(open ?? body.hidden);
     btn.setAttribute('aria-expanded', String(!body.hidden));
+    // Details stops 8 px above the nav; a longer note scrolls inside (human, AI_LOG Impacts firefly-first step 3, option a).
+    body.style.maxHeight = ''; body.style.overflowY = '';
+    if (!body.hidden) {
+      const nav = document.getElementById('nav').getBoundingClientRect(), r = body.getBoundingClientRect();
+      if (r.right > nav.left && r.top < nav.top && r.bottom > nav.top - 8) {
+        body.style.boxSizing = 'border-box'; body.style.maxHeight = `${nav.top - 8 - r.top}px`; body.style.overflowY = 'auto';
+      }
+    }
   }
   window.addEventListener('keydown', e => { if (e.key === 'Escape') { toggleMore(fact, false); toggleMore(card, false); } });
   document.addEventListener('click', e => {

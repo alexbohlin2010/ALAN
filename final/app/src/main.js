@@ -6,7 +6,7 @@ import { createIntroScene, createDarkScene, INTRO_MODE } from './introScene.js';
 import { createImpacts } from './impacts.js';
 import { createSpectral } from './spectral.js';
 import { createTwoNights } from './twoNights.js';
-import { story, ladder } from '../content/story.js';
+import { story } from '../content/story.js';   // `ladder` no longer passed: ladder removed (human, AI_LOG Impacts firefly-first step 2)
 
 const TILE_BASE = import.meta.env.VITE_TILE_BASE || '/tiles/v1/';
 // Display choice for "no data" (-1.5 pixels, human decision N2). Not a measured value.
@@ -162,13 +162,17 @@ function guideStep(prev, cur) {
   } else if (guideNow.o > 0.001) guideTween({ o1: 0, ms: GUIDE_FADE });
 }
 
-let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0, chartDelay = 0;
+let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0, chartDelay = 0, turnDelay = 0, spinning = false;
+// `globeSpin` (AI_LOG Impacts firefly-first step 6): after the step's fly the globe turns slowly, as in the intro
+// (OrbitControls autoRotate, introScene.js speed 0.2 = 1.2°/s), until the step is left.
+const SPIN_SPEED = 0.2;
 // Story steps with an `impacts` stage show the Impacts layer inside the story (Part 2; human
 // decision, AI_LOG Impacts step 27); the story arrow keeps driving.
 // Door (human: option B + click, Firefly transition task step 2): between a chart step with `impacts.door` and the
 // spectral step with the same `spectral.door`, the 3D view grows out of (or shrinks back into) that record's dot.
 function applyStage(i) {
-  clearTimeout(chartDelay);
+  clearTimeout(chartDelay); clearTimeout(turnDelay);
+  if (spinning) { globe.controls().autoRotate = false; spinning = false; }   // `globeSpin` ends with its step
   const prev = story[storyIndex];
   storyIndex = i;
   markHeaders();
@@ -211,10 +215,25 @@ function applyStage(i) {
   // zooms in (story.js camera + fly), then the scene opens out of the glow; going back, it closes into the glow,
   // which shrinks back to the point as the globe zooms out.
   // Arriving backwards (Local firefly → Mate-finding, round 7d) the manual chapter starts on its last beat, as elsewhere.
+  // Study sites ('study:<id>', AI_LOG Impacts firefly-first step 8): no glow (human: "a geometric opening into the view
+  // (like the circle expansion) without the glow"): the scene opens as a circle out of the study's dot (spectral.js door,
+  // delayed and stretched to the camera's dive), and closes back into it.
+  const studySite = k => typeof k === 'string' && k.startsWith('study:');
+  if (studySite(sp?.site) && prev.impacts?.site === sp.site) {
+    impacts.setStage({ ...prev.impacts, studyLabel: null });   // the label fades as the circle opens over it
+    spectral.set(sp, { from: impacts.siteAt(sp.site), dive: story[i].fly ?? 2200, onDone: () => impacts.hide(),
+      beat: sp.manual && story.indexOf(prev) === i + 1 ? 'last' : 0 });
+    return;
+  }
+  if (studySite(st?.site) && prev.spectral?.site === st.site) {
+    impacts.show(); impacts.setStage(st, { snap: true });
+    spectral.set(null, { to: impacts.siteAt(st.site) });
+    return;
+  }
   if (sp?.site && prev.impacts?.site === sp.site) {
     impacts.setStage({ ...prev.impacts, glow: true });
     spectral.set(sp, { glow: () => impacts.siteAt(sp.site), onDone: () => impacts.hide(),
-      beat: sp.manual && story.indexOf(prev) === i + 1 ? 'last' : 0 });
+      beat: sp.manual && story.indexOf(prev) === i + 1 ? 'last' : 0, fly: story[i].fly ?? 2200 });
     return;
   }
   if (st?.site && prev.spectral?.site === st.site) {
@@ -236,6 +255,10 @@ function applyStage(i) {
     chartDelay = setTimeout(() => { if (storyIndex === i && mode === 'light') impacts.setStage(st); },
       (story[i].fly ?? 0) + story[i].globeHold);
   } else if (st) { impacts.show(); impacts.setStage(st); } else impacts.hide();
+  if (story[i].globeSpin) turnDelay = setTimeout(() => {
+    if (storyIndex !== i || mode !== 'light') return;
+    const c = globe.controls(); c.autoRotateSpeed = SPIN_SPEED; c.autoRotate = true; spinning = true;
+  }, story[i].fly ?? 0);
   spectral.set(sp, { beat });
 }
 
@@ -262,7 +285,7 @@ window.addEventListener('keydown', e => {
 // PROTOTYPE: ?intro=sunrise swaps the CSS intro for a 3D sunrise scene (human: option B, intro scene task).
 const intro = INTRO_MODE === 'sunrise' ? createIntroScene({ globe, layer }) : null;
 const darkScene = createDarkScene({ globe, layer });
-const storyCtl = startStory({ steps: story, globe, intro, ladder, onStep: i => { markStep(i); applyStage(i); },
+const storyCtl = startStory({ steps: story, globe, intro, onStep: i => { markStep(i); applyStage(i); },
   swipe: { get: () => swipeFrac, set: f => { swipeFrac = f; placeSwipe(); } } });
 
 function setMode(m) {

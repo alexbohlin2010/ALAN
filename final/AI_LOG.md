@@ -6873,3 +6873,225 @@ Append only. One entry per AI step (see RULES.md §4).
 - Human answer (question form): "Commit, then pull (Recommended)".
 - Done: committed that log edit as is on `main` (f8e239169); merged `origin/main`; AI_LOG.md conflict (both sides appended) resolved by keeping origin/main's entries in place and the committed local entries after them, then this entry; checked that no line of either side is missing. All other files = origin/main as is (the checkout had no other local changes). Committed the merge and pushed `main`. Untracked folders (`.claude/`, `Linda/analysis/colours_night_local_audit/`, `Linda/visual tests/spatial/philadelphia-spectral-space/`) and the GitHub Desktop stash entries untouched.
 - Files changed: final/AI_LOG.md; git history of `main`; `origin/main`.
+
+## Impacts firefly-first, step 1 (2026-10-06): read; report of Ecosystems → All effects (study dots, transitions) and reorder options (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`, mid-merge: AI_LOG.md unmerged (conflict markers
+  from a merge of 203467e5f, another session's "Presentation deck" entries); this entry is appended after them. Not touched.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_firefly-flow.md (latest) and AI_LOG.md "Firefly flow" steps 1–15. Then read in app/content/story.js the steps statistic, question (Ecosystems), studies, female-site, female-response, perception, two-nights, species-perceptions, firefly-counts and effects (text, camera, fly, sweep, impacts keys: reveal, highlight, studyLabel, records, globeHold; rung, part), and skim app/src/main.js applyStage and app/src/impacts.js only for how study dots are shown, hidden, highlighted and labelled, and how All effects goes from globe to chart.
+  >
+  > Task: reorder Impacts so it opens on the firefly. The flow becomes: Globe is brighter → firefly → all biota.
+  > - From Ecosystems (West Africa sweep), pan over the Atlantic to the single study in Boston (Owens & Lewis 2021, study 299). Only that study shows; the other studies are hidden.
+  > - All 207 studies render only on the All effects beat, and the 207 studies number moves into that step's text.
+  >
+  > Before changing anything, report and stop for my decisions:
+  > * The current order and how each step from Ecosystems to All effects shows study dots (all, highlighted, one, none) and transitions (one line per step).
+  > * What the reorder involves technically, as short options with trade-offs: what happens to the Studies step (remove, merge into All effects, move), how to show only study 299 on Fireflies, the Ecosystems → Boston pan (camera path, fly time), how All effects brings in all studies (globe first, then the chart?), the McNeil step's place, the menu part split and the ladder rungs.
+  > * Exactly which text would carry "207", and the current wording around it.
+  > * Do not propose new narrative, names or sentences unless I ask (RULES §1.2, §6). If I ask for wording, give options marked as agent drafts, using only what the data and the cited sources support.
+  >
+  > Then apply only what I decide and check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; 1280×800): walk Statistic → All effects and back, nothing overlaps the big text, menu, nav, ladder or Details, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive the buttons by JS (#begin button, #nav .next / .back, menu buttons by text; arrow keys via dispatchEvent) and keep each JS call under 45 s.
+  > Other sessions may edit the same files: re-read right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes; don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, the handoff, Firefly flow steps 1–15, the named steps in content/story.js, main.js applyStage,
+  impacts.js setStage / drawGlobeDots / drawStudyLabel / highlight code, story.js go(), study_highlights.json (fireflies
+  set: 8 studies incl. 299), study_locations.json (nearest other study to 299: 242, ~138 km). Reported in chat: current
+  order and dots per step; options for the Studies step, 299-only dots, the pan, All effects' arrival, McNeil's place,
+  menu parts and ladder rungs; where "207" sits now. No wording proposed. Decision questions asked.
+- Files changed: AI_LOG.md only.
+
+## Impacts firefly-first, step 2 (2026-10-06): A2, B1, C1, E1 + "Firefly Populations", F1 + Ecosystems sentence, ladder removed; checked; West Africa camera question (no change yet)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`. Correction to step 1: the merge it called
+  "in progress" was resolved and committed by another session (5d13a751b) while step 1 was being written.
+- Human prompt (verbatim):
+  > A2, B1, C1 3.5s, D2, E1 (and change to Firefly Populations), F1 (and change text to "As human nighttime activity expands in intensity and coverage, how is the biosphere responding?", G: Remove the ladder - I don't know why we need it? it is redundant versus navbar on left, right?, give drafts
+- Then, mid-step (verbatim):
+  > I think for the west africa cut, we should zoom in a bit more so the camera focuses on the contrast between prior dark areas to newly lit areas ... the Sahara dominates the screen as a big dark mass..
+- Edits (files re-read right before editing):
+  - app/content/story.js: `question` text → the human's sentence (was "As human activity extends deeper into the night,
+    how is the biosphere responding?"). `studies` step removed (A2; old values kept in a comment); its note (verbatim,
+    placed first: agent choice) and its Czarnecka sec. 2.1 source moved to `effects`; Data S1 supports merged into one
+    entry. `female-site` impacts: `only: ['299']`, highlight removed (B1). Fly 3.5 s unchanged (C1). `firefly-counts`
+    label "Firefly Populations" (human; was "[PLACEHOLDER] McNeil et al. 2024"); stays before All effects (E1).
+    Comment on `ladder` (kept, unused).
+  - app/src/impacts.js clusters(): new stage key `only` (listed studies drawn, others hidden and left out of clusters).
+  - app/src/main.js: `ladder` no longer imported or passed to startStory, so the rail never shows (human: remove).
+    Ladder CSS, the array and the steps' `rung` keys left in place, unused (nothing deleted).
+  - Not applied yet: D2 (hold length not given), the "207" sentence (drafts requested), West Africa camera (options asked).
+- Checked (localhost:5173, another session's server on the same folder; 1280×800; JS-driven): Statistic → Ecosystems
+  (new text) → Fireflies (only 299 + label, no count line) → Female response (2 beats) → Perception → Two measured nights
+  (4 beats) → Species perceptions → Firefly Populations → All effects (207 dots on the globe in the fly-out, then the
+  chart), and back to Statistic. Menu: Studies gone, "Firefly Populations" listed. Ladder hidden. No console errors.
+  Big text clear of menu and nav on every step.
+- Seen, not changed: (1) All effects' Details, now longer, opens at 876–1264 × 509–772 and overlaps the nav (1136–1264 ×
+  748–784). (2) During the Ecosystems → Fireflies flight, study 299's label passes over the menu before the camera settles.
+- Read for the camera question (display only): data/derived/story/country_screen_2015_2025.csv (screening aid, inferred,
+  not audited): coastal West African countries show large radiance increases (e.g. Ghana +439 %, Guinea +421 %), Nigeria
+  +11 %.
+- Files changed: app/content/story.js, app/src/impacts.js, app/src/main.js, AI_LOG.md. Nothing committed.
+
+## Impacts firefly-first, step 3 (2026-10-06): Details capped above the nav (a); 299 label after the flight; All effects hold 2 s with a globe turn (D2) and the human's "207" sentence; Ecosystems camera W1; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > 1. a
+  > 2. 2. label over the menu during flight.
+  >
+  >
+  > D2: 2s, and rotate the globe in that period...
+  >
+  > "Across 207 published studies, the impacts of artificial light on biota are widespread."
+  >
+  > W1
+- Edits (files re-read right before editing):
+  - app/src/story.js toggleMore: an open Details that would reach the nav gets a max-height ending 8 px above it and
+    scrolls inside (option a). Applies to every big-text step's Details (only reaches the nav where it is long).
+  - Label over the menu: app/src/impacts.js `labelA` fade; story key `studyLabel.delay` (ms): the label fades in that long
+    after the stage is set; kept on when the next stage has the same label; at once on a snap (back from Female response).
+    content/story.js `female-site` studyLabel delay 3500 (= the fly; agent choice).
+  - content/story.js `effects`: text "Across 207 published studies, the impacts of artificial light on biota are
+    widespread." (human; old text in a comment). globeHold 500 → 2000 (D2). Turn: camera lng 10 → 50 (fly-out end) and new
+    key `globeTurn` { lat 20, lng 10, alt 2.2 } (the usual view, as Light level, so no jump after the chart); main.js turns
+    the globe to it over the hold (`turnDelay`, cancelled on a step change; going back to All effects from the chart
+    steps it flies straight to globeTurn). 40° westward view shift = Earth's own direction of turn: agent choices.
+  - content/story.js `question` camera (W1): lat 8, lng −5.5, alt 0.45 (was 10, −13, 0.9); sweep east 3, west −8.5 (was
+    15, −17.5). lng −4 first; moved to −5.5 because the divider's "2015" label sat over the end of the text (at −5.5
+    the label is at 480–518 px, text ends at 461). Values: agent choices, display only.
+- Checked (localhost:5173, another session's server on the same folder; 1280×800; JS-driven): Statistic → Ecosystems
+  (coast view, sweep ends clear of the text) → Fireflies (no label in flight; label in after; only 299) → … → Firefly
+  Populations → All effects (207 dots on the globe over lng ~50, hold, chart; the turn itself is hard to see in the
+  pane's slowed frames) → Details 876–1264 × 509–740, scrolls (261 / 229 px), clear of the nav (748) → back to
+  Statistic. No overlaps with menu or nav; no console errors. Screenshots sent (cropped from the pane: it drew the page
+  in a corner of its capture).
+- Files changed: app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/story.js, AI_LOG.md. Nothing committed.
+
+## Impacts firefly-first, step 4 (2026-10-06): Statistic / Ecosystems wording — the agent's view asked; points and questions given (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > The statistic scene text maybe should read:
+  >
+  > "The dawn of human nighttime activity is changing the globe, and its inhabitants."
+  >
+  > And then Ecosystems should read
+  >
+  > "From 2015, to 2025, Artificial Light at Night (ALAN) increased by 41%.
+  >
+  > How is the biosphere responding?"
+  >
+  > Before implementing - let me know what you think. I'm trying to set the tone/hypothesis in first slide, and then the second moves more into 'analysis' mode, and broader question.
+- Answered in chat (the human asked for an opinion; no wording drafted): the 41 % is global but would sit over the West
+  Africa sweep (screening file, unaudited, shows coastal countries at +200–440 %), so it may be read as the region's
+  figure; Statistic's Details (41 % method and sources) would move with the number; "dawn" vs light at night being long
+  established, and the line stated as a claim rather than a hypothesis; the comma in "From 2015, to 2025"; options for
+  showing the two Ecosystems lines (together, or the question after the sweep). Decision questions asked.
+- Files changed: AI_LOG.md only.
+
+## Impacts firefly-first, step 5 (2026-10-06): Statistic → "dawn" sentence; Ecosystems: 41 % line, then the question after the sweep; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > 41% first, question after the sweep, drop the comma
+  >
+  > the global vs west-africa thing doesn't really matter.. it's just a visual
+  (with step 4's wording: Statistic "The dawn of human nighttime activity is changing the globe, and its inhabitants.";
+  Ecosystems "From 2015, to 2025, Artificial Light at Night (ALAN) increased by 41%. / How is the biosphere responding?")
+- Edits (files re-read right before editing):
+  - app/content/story.js `statistic`: text → the human's "dawn" sentence (old text in a comment); note and sources moved
+    to `question` (no Details on Statistic now). `question` (Ecosystems): text "From 2015 to 2025, Artificial Light at
+    Night (ALAN) increased by 41%." (comma dropped as asked), `reveal: ['How is the biosphere responding?']`, the moved
+    note + 4 sources. Values unchanged (inferred, provisional, audit pending).
+  - app/src/story.js sweep(): on a step with `reveal`, the question replaces the big text when the sweep ends (timer at
+    fly + hold + 400 + duration, so it still comes if the viewer grabs the divider). "Replaces" (not "added below"):
+    agent reading of "question after the sweep", as Two measured nights' lines.
+- Checked (localhost:5173, 1280×800): Statistic text, no Details; Ecosystems 41 % line during the sweep, then the
+  question; Details opens 77–527 × 475–703, clear of the divider (~540), menu and nav; back from Fireflies starts again
+  on the 41 % line. No console errors. Screenshots sent. Seen: the story also moved between steps without the agent's
+  clicks during the check (someone else driving the same pane, presumably the human).
+- Files changed: app/content/story.js, app/src/story.js, AI_LOG.md. Nothing committed.
+
+## Impacts firefly-first, step 6 (2026-10-06): labels Dawn / ALAN / Spectra / Perception; Perception step folded into Spectra as its opening beat; All effects globe spins slowly; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > "statistic" should now change its title to "Dawn"
+  >
+  > and then Ecosystems should change to "ALAN"
+  >
+  > While we're changing labels ... change "Two measured nights" to "Spectra", Change "Species Perception" to "Perception" (the other "Perception" should be consolidated into "Spectra as an opening beat" - please do that too).
+  >
+  > Also when the globe rotates in "All effects" it should be slow speed, not a winding rapid thing which then stops ... it should just be rotating as it normally would.
+  >
+  > Should be small changes. GO for it, thank you.
+- Then, mid-step (verbatim): "sorry i've been clicking simultaneously"
+- Edits (files re-read right before editing):
+  - app/content/story.js labels: `statistic` 'Dawn' (was the id), `question` 'ALAN' (was 'Ecosystems'), `two-nights`
+    'Spectra' (was 'Two measured nights'), `species-perceptions` 'Perception' (was 'Species perceptions').
+  - `perception` step removed (old values in a comment): its question is now Spectra's `text` (opening beat) and the
+    Cherry Springs line moved to `reveal[0]`. Its dark screen and firefly guide glow are gone with it (the guide has no
+    resting step now; main.js guide code left in place, unused on this path).
+  - app/src/twoNights.js: `OPEN = 1`, BEATS = 5; beats ≤ OPEN keep the divider at the left edge and show their line;
+    sweep, window and back-from-Perception indices shifted by OPEN.
+  - All effects: step 3's 40° turn (camera lng 50 → `globeTurn`) replaced by `globeSpin: true`, camera back to lng 10;
+    main.js turns on OrbitControls autoRotate at the intro's speed (introScene.js 0.2 = 1.2°/s) after the fly, off when
+    the step is left. Hold stays 2 s.
+- Checked (localhost:5173, 1280×800; the human was also clicking in the pane, so runs were repeated): menu shows Dawn,
+  ALAN, …, Spectra, Perception; Female response → Spectra beats 0–4 (question, Cherry Springs, Philadelphia sweep,
+  firefly eye, study line) → Perception → back lands on beat 4 → back through to beat 0 → Female response (amber beat).
+  Spectra text clear of menu, nav and the Full/Human/Firefly panel; no console errors. The All effects spin could not be
+  seen in the pane: after the 2 s hold the chart covers the globe. Screenshot sent (Spectra opening beat).
+- Files changed: app/content/story.js, app/src/main.js, app/src/twoNights.js, AI_LOG.md. Nothing committed.
+
+## Impacts firefly-first, step 7 (2026-10-06): Perception step reinstated (dark screen, question, guide); options asked for the Fireflies → Female response transition and the duplicate "Perception" label
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > two things also need to improve ... the transition from the Map on fireflies to "Female response" ... the study should almost expand into the view .. because that view is the visualization of that study data.
+  >
+  > Second, reinstate "perception" perhaps. It's an important link from the study --> to spectra ... with the question on its own in spectra, it lacks the transitional power.
+- Edits (files re-read right before editing):
+  - app/content/story.js: `perception` step restored as it was before step 6 (label 'Perception', the question, dark
+    screen, guide glow, whole-globe camera); Spectra text back to the Cherry Springs line, reveal as before step 6.
+  - app/src/twoNights.js: OPEN = 0 (four beats again; the OPEN mechanism kept).
+- Checked (localhost:5173, 1280×800): Female response → Perception (dark, question) → Spectra beat 0 (Cherry Springs) →
+  beat 1 (Philadelphia) → back to beat 0 → Perception → Female response (amber beat). No overlaps with menu, nav or
+  the Full/Human/Firefly panel; no console errors.
+- Found for the transition question: Fireflies → Female response is now a plain cut (camera zooms to alt 0.04, scene
+  opens): main.js's "point becomes the scene" glow transition needs Fireflies' `impacts.site` = Female response's
+  `spectral.site` ('owenslewis2021_boston'); `site` was removed from Fireflies in AI_LOG Fireflies step 2. Options asked.
+- Open: two menu items are now labelled "Perception" (this step and the former Species perceptions, step 6). Name asked.
+- Files changed: app/content/story.js, app/src/twoNights.js, AI_LOG.md. Nothing committed.
+
+## Impacts firefly-first, step 8 (2026-10-06): T2 — Female response opens out of study 299's dot (geometric circle, no glow); slower dive; "Impact" label and question; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > T2, slower dive, rename first one "Impact" / also, that question should be reframed :
+  >
+  > "Does ALAN impact fireflies in the wild?"
+- Then, after a first build with the glow (verbatim):
+  > i don't like the glowing green dot ... it's a bit tacky. It should be a geomtric opening into the view (like the circle expansion) without the glow.
+- Edits (files re-read right before editing):
+  - app/content/story.js: `perception` label 'Impact' (was 'Perception'), text "Does ALAN impact fireflies in the wild?"
+    (was "Does our actual lighting environment impact fireflies in the wild?"). Fireflies impacts `site: 'study:299'`;
+    Female response `spectral.site: 'study:299'` (was 'owenslewis2021_boston'), fly 2200 → 3500 (value: agent choice).
+  - app/src/impacts.js: site keys 'study:<id>' resolve to the study's own dot (siteOf: its point and colour); no extra
+    marker or label is drawn for them (first build: its glow; now unused on this path).
+  - app/src/main.js: study sites use the spectral "door" (crisp circle, as the chart-dot door) instead of the glow:
+    forward the circle opens out of the dot, study label fading; back it closes into the dot and the globe stage returns.
+    The glow transition stays for the Explore drafts' collection-site points.
+  - app/src/spectral.js set(): option `dive` (ms): the door waits GLOW_DELAY and opens over GLOW_OPEN_MS, both scaled by
+    dive / 2200 (here 1750 ms wait, 3180 ms open), so the dive shows before the circle covers it; option `fly` scales
+    the glow transition the same way (first build).
+- Checked (localhost:5173, 1280×800): Fireflies → Female response: camera dives, circle opens from the dot, no glow, no
+  label over it; Female response text clear of menu and nav; back: circle closes into the dot, Fireflies dot + label
+  back, spectral canvas hidden. Impact step shows the new question (dark screen). No console errors. Screenshots sent.
+- Files changed: app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/spectral.js, AI_LOG.md. Nothing committed.
+
+## Impacts firefly-first, step 9 (2026-10-06): handoff written; commit (human request); two next-session prompts
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > write a handoff and commit, and generate a new prompt:
+  >
+  > This next session will include 1) reducing overall volume of background noise (or integrating a volume control into mute button)
+  >
+  > And I want another prompt for another agent which will involve: making sure each effect dot can be clicked to reveal its associated study card, removing the study toggle (if we can do the study card from effects), and then choosing some select examples in each chart, so that the viewer realizes these effects are happening all across the biosphere ... this may even involve taking a phrase from the abstract ...
+- Created handoffs/2026-10-06_impacts-firefly-first.md (facts, human decisions, agent choices to confirm, open items,
+  the human's next-task words). Checked the diff first: code changes are only this session's. Checked that the Explore
+  glow steps (fly 2200) keep their timing after step 8's scaling.
+- Commit on main: app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/spectral.js, app/src/story.js,
+  app/src/twoNights.js, AI_LOG.md, handoffs/2026-10-06_impacts-firefly-first.md. Not pushed. Two prompts given in chat.
+- Files changed: handoffs/2026-10-06_impacts-firefly-first.md (new), AI_LOG.md; git history.

@@ -843,7 +843,7 @@ export function createSpectral({ parent, onLine = null }) {
     // from = {x, y}: grow out of that screen point; to = {x, y}: shrink into it, then hide. onDone: when finished.
     // glow = () => {x, y} (a site's glow on the globe): open out of it after GLOW_DELAY, or (st = null) close into it.
     // beat: 'last' starts a manual chapter on its last beat (arriving backwards).
-    async set(st, { from = null, to = null, glow = null, onDone = null, beat = 0 } = {}) {
+    async set(st, { from = null, to = null, glow = null, onDone = null, beat = 0, fly = 2200, dive = 0 } = {}) {
       if (!st) {
         const done = () => { hideNow(); onDone?.(); };
         if (glow && running && current) { trans = { style: 'glow', dir: -1, at: glow, t: performance.now(), ms: GLOW_CLOSE_MS, done }; door(trans.t); }
@@ -878,8 +878,15 @@ export function createSpectral({ parent, onLine = null }) {
       const PAIRS = { 'signal>fireflies': ['sf', 1], 'fireflies>signal': ['sf', -1], 'fireflies>glow': ['fg', 1], 'glow>fireflies': ['fg', -1] };
       if (st.chapter === 'glow') chapters.glow.fresh = true;   // control side refills (and its males fly in) on entry
       if (PAIRS[pair]) startTravel(...PAIRS[pair], t0);
-      if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone }; door(t0); }
-      else if (glow) { trans = { style: 'glow', dir: 1, at: glow, t: t0 + GLOW_DELAY, ms: GLOW_OPEN_MS, done: onDone }; door(t0); }
+      // A door with `dive` (the camera flight, ms; study site, main.js) waits and opens over the glow timings scaled to
+      // the dive (AI_LOG Impacts firefly-first step 8); without it, at once over OPEN_MS as before.
+      if (from && dive) { const k = dive / 2200;
+        trans = { dir: 1, x: from.x, y: from.y, t: t0 + GLOW_DELAY * k, ms: GLOW_OPEN_MS * k, done: onDone }; door(t0); }
+      else if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone }; door(t0); }
+      // `fly`: the step's camera flight; the opening scales with it (timings were set for 2200; AI_LOG Impacts firefly-first
+      // step 8, slower dive into Female response).
+      else if (glow) { const k = fly / 2200;
+        trans = { style: 'glow', dir: 1, at: glow, t: t0 + GLOW_DELAY * k, ms: GLOW_OPEN_MS * k, done: onDone }; door(t0); }
       canvas.hidden = labels.hidden = false;
       if (!running) { running = true; requestAnimationFrame(frame); }
     },
