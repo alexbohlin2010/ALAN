@@ -6,7 +6,7 @@ import { createIntroScene, createDarkScene, INTRO_MODE } from './introScene.js';
 import { createImpacts } from './impacts.js';
 import { createSpectral } from './spectral.js';
 import { createTwoNights } from './twoNights.js';
-import { story } from '../content/story.js';
+import { story, ladder } from '../content/story.js';
 
 const TILE_BASE = import.meta.env.VITE_TILE_BASE || '/tiles/v1/';
 // Display choice for "no data" (-1.5 pixels, human decision N2). Not a measured value.
@@ -121,6 +121,45 @@ const spectral = createSpectral({ parent: document.body });
 const nights = createTwoNights({ parent: document.body,
   onSweep: done => document.getElementById('card').classList.toggle('revealed', done) });
 
+// Firefly guide (ladder plan phase 4; AI_LOG "Story review" steps 7–8): one glow carried from the Female response
+// female into the dark Perception screen, where it pulses alone above the text (Female response's reply rhythm:
+// 1.2 s cycle, flash at phase 0.6; flash colour as spectral.js FLASH); it fades as Two measured nights opens, and the
+// Species perceptions replies continue it. Back to Female response it flies home to the female. Display device, not
+// data. Story key `guide: true` marks the step where it rests. Size, rest place and timings: agent choices.
+const guideEl = Object.assign(document.createElement('div'), { id: 'guide', hidden: true });
+guideEl.innerHTML = '<i></i>';
+document.body.append(guideEl);
+const GUIDE_FLY = 1500, GUIDE_FADE = 900;
+const guideRest = () => ({ x: window.innerWidth / 2, y: window.innerHeight / 2 - 110 });
+let guideNow = { ...guideRest(), o: 0 }, guideFrame = 0;
+const ease = t => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+function guideDraw({ x, y, o }) {
+  guideNow = { x, y, o };
+  guideEl.hidden = o <= 0.001;
+  Object.assign(guideEl.style, { left: `${x}px`, top: `${y}px`, opacity: String(o) });
+}
+// Tween from the current place (or `from`) to `to()` (read each frame, so a moving target is followed); opacity o0 → o1,
+// `late`: opacity holds until the last 30 % (flying home, then gone).
+function guideTween({ from = null, to = () => guideNow, o0 = guideNow.o, o1, ms, late = false }) {
+  cancelAnimationFrame(guideFrame);
+  const a = from ?? { x: guideNow.x, y: guideNow.y }, t0 = performance.now();
+  const tick = now => {
+    const k = ease(Math.min(1, (now - t0) / ms)), b = to() ?? a, ko = late ? Math.max(0, (k - 0.7) / 0.3) : k;
+    guideDraw({ x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k, o: o0 + (o1 - o0) * ko });
+    if (k < 1) guideFrame = requestAnimationFrame(tick);
+  };
+  guideFrame = requestAnimationFrame(tick);
+}
+function guideStep(prev, cur) {
+  if (cur.guide) {
+    const p = prev.spectral?.chapter === 'fireflies' ? spectral.femaleAt() : null;
+    if (p) guideTween({ from: p, to: guideRest, o0: 1, o1: 1, ms: GUIDE_FLY });
+    else guideTween({ from: guideNow.o > 0.01 ? null : guideRest(), to: guideRest, o1: 1, ms: GUIDE_FADE });
+  } else if (prev.guide && cur.spectral?.chapter === 'fireflies') {
+    guideTween({ to: () => spectral.femaleAt(), o1: 0, ms: GUIDE_FLY, late: true });
+  } else if (guideNow.o > 0.001) guideTween({ o1: 0, ms: GUIDE_FADE });
+}
+
 let mode = 'light', lightSwipe = swipeFrac, storyIndex = 0, chartDelay = 0;
 // Story steps with an `impacts` stage show the Impacts layer inside the story (Part 2; human
 // decision, AI_LOG Impacts step 27); the story arrow keeps driving.
@@ -131,7 +170,8 @@ function applyStage(i) {
   const prev = story[storyIndex];
   storyIndex = i;
   markHeaders();
-  if (mode !== 'light') return;
+  if (mode !== 'light') { guideStep(prev, {}); return; }
+  guideStep(prev, story[i]);
   const sp = story[i].spectral ?? null, st = story[i].impacts;
   document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
   darkScene.set(Boolean(story[i].dark));   // lights out, blue limb ring in (introScene.js createDarkScene)
@@ -206,7 +246,7 @@ window.addEventListener('keydown', e => {
 // PROTOTYPE: ?intro=sunrise swaps the CSS intro for a 3D sunrise scene (human: option B, intro scene task).
 const intro = INTRO_MODE === 'sunrise' ? createIntroScene({ globe, layer }) : null;
 const darkScene = createDarkScene({ globe, layer });
-const storyCtl = startStory({ steps: story, globe, intro, onStep: i => { markStep(i); applyStage(i); },
+const storyCtl = startStory({ steps: story, globe, intro, ladder, onStep: i => { markStep(i); applyStage(i); },
   swipe: { get: () => swipeFrac, set: f => { swipeFrac = f; placeSwipe(); } } });
 
 function setMode(m) {
@@ -220,6 +260,7 @@ function setMode(m) {
     swipeFrac = 0; placeSwipe();   // 0 = all 2025
     document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights', 'story-dark');
     darkScene.set(false);
+    guideStep({}, {});
     spectral.set(null);
     nights.set(false);
     impacts.hide();

@@ -14,7 +14,7 @@ const sourceList = sources => {
 };
 
 // `intro` (optional): the ?intro=sunrise prototype scene (introScene.js); without it, the CSS overlay intro runs.
-export function startStory({ steps, globe, swipe, onStep, intro }) {
+export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) {
   const overlay = document.getElementById('intro');
   const introText = overlay.querySelector('.text');
   const card = document.getElementById('card');
@@ -24,6 +24,21 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
   const next = document.querySelector('#nav .next');
   let index = -1;
   let timers = [];
+  // Ladder marker (content/story.js `ladder`, step `rung`): one label per kind of data, the current one lit, a dot
+  // sliding under it between steps. Bottom left above the info button. Test build, 2026-10-05 (AI_LOG "Story review" steps 7–8).
+  const rail = Object.assign(document.createElement('nav'), { id: 'ladder', hidden: true });
+  rail.setAttribute('aria-label', 'Kind of data');
+  rail.innerHTML = ladder.map(r => `<span data-rung="${escape(r.id)}">${escape(r.label)}</span>`).join('') +
+    '<i class="mark"></i>';
+  document.body.append(rail);
+  function placeLadder(step) {
+    const on = rail.querySelector(`[data-rung="${step.rung}"]`);
+    rail.hidden = !on;
+    if (!on) return;
+    rail.querySelectorAll('span').forEach(el => el.classList.toggle('on', el === on));
+    const mark = rail.querySelector('.mark');
+    mark.style.left = `${on.offsetLeft + on.offsetWidth / 2}px`;
+  }
   let anim = null;  // running divider animation frame id
   let active = true;  // false while another mode (Impacts) is shown
 
@@ -174,6 +189,7 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
     if (step.swipe != null) swipe.set(step.swipe);
     if (step.sweep) sweep(step);
     show(step);
+    placeLadder(step);
     counter.textContent = `${i + 1} / ${steps.length}`;
     back.disabled = i === 0;
     next.disabled = i === steps.length - 1;
@@ -198,8 +214,9 @@ export function startStory({ steps, globe, swipe, onStep, intro }) {
       active = false;
       clearAll();
       overlay.hidden = true;
+      rail.hidden = true;
       document.body.classList.remove('arriving');
     },
-    resume() { active = true; show(steps[index]); },
+    resume() { active = true; show(steps[index]); placeLadder(steps[index]); },
   };
 }

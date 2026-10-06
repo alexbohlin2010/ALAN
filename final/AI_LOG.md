@@ -6143,3 +6143,38 @@ Append only. One entry per AI step (see RULES.md §4).
 - Checked first: `origin/main` = local `main` = 854700dd0 (this branch's base), so the merge is a fast-forward. `main` is checked out in the main checkout (`ALAN/`), which has another session's uncommitted `final/AI_LOG.md` entries ("Presentation deck style ideas", "Presentation deck template"); that checkout was not touched.
 - Done: committed on `claude/festive-goodall-a0e192` all of this session's changes under final/ (AI_LOG.md, handoffs/2026-10-05_firefly-local-species.md, app/content/story.js, app/src/style.css, app/src/twoNights.js); `.claude/launch.json` not committed. Pushed the branch and pushed it to `origin/main` (fast-forward). Local `main` ref in the main checkout left at 854700dd0 (behind origin/main) because of its uncommitted log entries.
 - Files changed: AI_LOG.md; git history; remote branch and `origin/main`.
+
+## Story review, step 7 (2026-10-05): ladder plan built (ladder marker, Studies highlight beats, human window, firefly guide); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Worktree `festive-goodall-a0e192`.
+- Before this step: two advice turns the human asked not to record ("don't need to record anything this turn"; review comments on the narrative, then "if let you to choose, how would you construct this?"). The plan built here was the agent's proposal from those turns, given at the human's request: [AGENT OPINION], not the humans' narrative; only what was built is recorded (RULES §5.2).
+- Human prompt (verbatim):
+  > don't record, cuz this conversation is mainly a test. now implement step by step
+- Logged afterwards at the human's request (step 9: "write in log"). Code comments that said "not logged" now point to this entry.
+- Phase 1, ladder marker: content/story.js `ladder` list (Space, Studies, Animal, Light, Eye; [PLACEHOLDER] words) and a `rung` per Part 2 step and Statistic / Ecosystems; src/story.js draws `#ladder` (current label lit, a dot sliding under it), hidden without a rung and outside the story; main.js passes `ladder`; style.css: bottom centre at 26 px (first tried bottom left: it ran into the Studies text's Details button). Agent choices: rung per step, place, sizes.
+- Phase 2, Studies highlight beats: new pipeline/impacts/10_study_highlights.py → data/derived/impacts/study_highlights.json (`inferred`; audit per RULES §3 not run). Rules: located studies = study_ids in effects.json (207); behaviour = ≥ 1 record with category "Behaviour" (96); fireflies = species genus Photinus or Lampyris (the genera the repo's firefly sources name) or title containing "firefl", "Lampyridae" or "glow-worm" (8: 028, 144, 165, 224, 229, 243, 295, 299). impacts.js: stage key `highlight: [{ set, label }]`, beats 2.5 s after the reveal then every 3.5 s, other dots dimmed to 0.12 (as the filter), count line "<label> · n of 207 studies" at the top centre. Studies: Behaviour → Fireflies and glow-worms; Fireflies keeps the firefly set. final/.gitignore: study_highlights.json allow-listed (step 9). Labels: [PLACEHOLDER] words. Timings: agent choices.
+- Phase 3, human window on Two measured nights: shader window uniforms (uWinLo / uWinHi / uWinDim, by the points' wavelength x); replaced in step 8.
+- Phase 4, firefly guide: spectral.js `femaleAt()` (screen place of the Female response female); main.js `#guide` glow (flash colour, CSS pulse at the reply rhythm 1.2 s / flash at 60 %), flies from the female to above the Perception text (story key `guide: true` on Perception), fades as Two measured nights opens, flies home going back; hidden in Impacts mode. Display device, not data. Size, rest place, timings: agent choices. Noted: leaving from the bright amber beat (0 % reply) the glow still appears.
+- Checked each phase (5178, 1000 × 575, audio muted before Begin); no console errors.
+- Files changed: app/content/story.js, app/src/story.js, app/src/main.js, app/src/impacts.js, app/src/spectral.js, app/src/twoNights.js, app/src/style.css, pipeline/impacts/10_study_highlights.py (new), data/derived/impacts/study_highlights.json (new), .gitignore.
+
+## Story review, step 8 (2026-10-05): Two measured nights: sensitivity blocks removed; Full / Human / Firefly window panel; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Worktree `festive-goodall-a0e192`.
+- Human prompts (verbatim, in order):
+  > for the two measure nights tab, I think instead of having the white box and orange box to highlight the different spectrum, maybe what you currently do makes more sense, which is only show the window of the current species's perception, and then grow to the rest. so could you remove the two boxes highlight, and create a toggle panel in that page that can apply this for both human and fireflies, in both phil and cherry spring environment.
+  - Answers (question form): click behaviour "I choose replay window and grow method, but the band alone for 2s is enough"; on entry "No auto window".
+  > I think the animation should be inverse. bc originally it's the full spectrum, and when user click on the human or firefly tab, the spectrum should shrink from the full to the window for that species.
+  > I think in front of human and firefly icon, needs to be a "full" icon that allow users to go back to the original spectrum
+- Done (app/src/twoNights.js, app/src/style.css; no data changed):
+  - Sensitivity blocks (Human / Firefly sensitivity slabs, labels, their flight into the Species perceptions clouds, "Story review" step 3's split) removed.
+  - No automatic window on entry (step 7's human window removed); the view opens on the full spectrum and sweeps as before.
+  - Panel `#nights-window` (bottom left above the info button, styled like the Female response beat toggle): Full · Human · Firefly. Human / Firefly shrink the visible range from the full 280–840 nm to that band on both halves over 2 s (other measured points dimmed to 0.04) and stay; Full grows back; switching moves between bands; the pressed button again also returns to Full. Bands (sensitivity_bands.json): human night CIE scotopic V′(λ) 454–548 nm (`inferred`), firefly P. pyralis 530–600 nm (provisional curve, no label), ±1 nm pad. Shown only on Two measured nights (not during transitions or the cloud morph); reset to Full on leaving. Agent choices: place, button words, 2 s, dim level, second-click and switch behaviour.
+- Checked (5178, 1000 × 575, audio muted before Begin): no auto window; Human / Firefly shrink and hold; Full grows back (Full pressed); Species perceptions morph without blocks, panel hidden; no console errors.
+- Noticed, not changed: the Two measured nights card still says "In amber light (570–615 nm) …" and its Details text says the band is "shaded on the Philadelphia half" (no longer shaded).
+- Files changed: app/src/twoNights.js, app/src/style.css, AI_LOG.md.
+
+## Story review, step 9 (2026-10-05): log written; commit, push, merge to main (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Worktree `festive-goodall-a0e192`.
+- Human prompt (verbatim):
+  > write in log, and commit, and push, and merge
+- Done: steps 7–8 written; "not logged" code comments changed to point to them; final/.gitignore allow-lists data/derived/impacts/study_highlights.json (the app reads it). Committed on `claude/festive-goodall-a0e192`, pushed, and pushed to `origin/main` (fast-forward from 815144639; checked first that origin/main had not moved). The main checkout (`ALAN/`) still has another session's uncommitted AI_LOG.md entries, so its local `main` was not touched. `.claude/launch.json` not committed.
+- Files changed: AI_LOG.md, .gitignore, code comments as above; git history; remote branch and `origin/main`.

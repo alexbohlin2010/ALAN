@@ -12,11 +12,22 @@
 //         label inferred, lit > 0, PROVISIONAL until audited; see figureNote).
 // sources: shown under the card. `supports` says what the source states;
 //          it is a note for editors and is not displayed.
+// rung:   the step's place on the ladder marker (src/story.js, `ladder` below); steps without one hide it.
 //
 // DRAFT NOTICE: the case-study and caveat sentences below were drafted by an AI agent
 // (claude-opus-5-5, 2026-10-03) at the human's request as prototype placeholders.
 // Each cites one source for its factual part. The link between the fact and the change in
 // lights is the humans' framing; neither the source nor our data shows that cause.
+
+// Ladder marker (AI_LOG "Story review" steps 7–8): the kind of data a step shows, from the
+// satellite view down to an animal's eye. Labels: [PLACEHOLDER] working words, to be written by the humans.
+export const ladder = [
+  { id: 'space', label: 'Space' },
+  { id: 'studies', label: 'Studies' },
+  { id: 'animal', label: 'Animal' },
+  { id: 'light', label: 'Light' },
+  { id: 'eye', label: 'Eye' },
+];
 
 export const story = [
   // ── Part 1: intro / context (global illumination) ──────────────────────────
@@ -31,6 +42,7 @@ export const story = [
   {
     id: 'statistic',
     part: 1,
+    rung: 'space',
     kind: 'fact',              // large text on the left of the globe instead of a card
     // Values from pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json
     // (label: inferred; lit = > 0, sphere areas, pairwise -1.5 exclusion): radiance +40.99% vs 2015.
@@ -76,6 +88,7 @@ export const story = [
     // (AI_LOG Copy editing and drafting step 2). Was: 'But how does light impact our ecosystems?', camera lat 20, lng 10, alt 2.2.
     // Camera point and altitude over West Africa: agent choice, display only.
     part: 1,
+    rung: 'space',
     kind: 'fact',
     label: 'Ecosystems',
     text: 'As light is expanding into new territory, what are the impacts on global ecosystems?',
@@ -89,6 +102,7 @@ export const story = [
   {
     id: 'studies',
     part: 2,
+    rung: 'studies',
     // Big text on the left like Statistic (human, AI_LOG Copy editing and drafting step 5); the former card text is the
     // note behind "Details & sources". Text: human's wording (step 4).
     kind: 'fact',
@@ -106,7 +120,10 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 3000,   // fly out from West Africa instead of a jump (human, step 5; duration: agent choice, as Ecosystems)
     swipe: 0,
-    impacts: { view: 'globe', reveal: true },
+    // Highlight beats (ladder plan phase 2; AI_LOG "Story review" steps 7–8): behaviour studies, then firefly studies
+    // (data/derived/impacts/study_highlights.json). Labels: [PLACEHOLDER] working words.
+    impacts: { view: 'globe', reveal: true, highlight: [{ set: 'behaviour', label: 'Behaviour' },
+      { set: 'fireflies', label: 'Fireflies and glow-worms' }] },
   },
   // Female response study on the globe (human, AI_LOG Impacts reorder steps 2–4): replaces Black swans; shown like the
   // retired Fireflies (Taipei) step. Point = the Arnold Arboretum collection site printed in Owens & Lewis 2021
@@ -123,6 +140,7 @@ export const story = [
   {
     id: 'female-site',
     part: 2,
+    rung: 'animal',
     kind: 'fact',
     label: 'Fireflies',
     text: 'Fireflies generate natural light to communicate in an increasingly lit environment',   // wording: human
@@ -138,11 +156,13 @@ export const story = [
     swipe: 0,
     // studyLabel: a label under the study's dot: its title and year from studies.json (Data S1), authors as given here
     // (human: short form "Owens & Lewis 2021", AI_LOG Fireflies step 4).
-    impacts: { view: 'globe', studyLabel: { id: '299', authors: 'Owens & Lewis' } },
+    impacts: { view: 'globe', studyLabel: { id: '299', authors: 'Owens & Lewis' },
+      highlight: [{ set: 'fireflies', label: 'Fireflies and glow-worms' }] },   // carried over from Studies (AI_LOG "Story review" step 7)
   },
   {
     id: 'female-response',
     part: 2,
+    rung: 'animal',
     kind: 'fact',   // big narrative text, no card (human, AI_LOG Fireflies step 5); was a card titled 'Female response'
     side: 'right',   // human, AI_LOG Fireflies step 5
     label: 'Female response',
@@ -181,17 +201,20 @@ export const story = [
   {
     id: 'perception',
     part: 2,
+    rung: 'animal',
     kind: 'fact',
     label: 'Perception',
     text: 'Humans perceive ALAN differently to other parts of the biota.',   // wording: human (AI_LOG Fireflies step 10)
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
+    guide: true,   // the firefly guide rests here (main.js; ladder plan phase 4, AI_LOG "Story review" steps 7–8)
   },
   // 'One communication problem' (placeholder, round 1) removed (human, AI_LOG Firefly tabs review round 7c).
   {
     id: 'two-nights',
     part: 2,
+    rung: 'light',
     label: 'Two measured nights',
     title: 'Two measured nights',
     // Card (human, AI_LOG "Amber highlight" steps 3-4): large text; first line while the divider shows Cherry Springs,
@@ -238,6 +261,7 @@ export const story = [
   {
     id: 'species-perceptions',
     part: 2,
+    rung: 'eye',
     kind: 'fact',   // big narrative text on the right, no card (human, AI_LOG Fireflies step 12)
     side: 'right',
     label: 'Species perceptions',
@@ -257,6 +281,7 @@ export const story = [
   {
     id: 'effects',
     part: 2,
+    rung: 'studies',
     kind: 'fact',   // big text on the right, card text behind Details (human, AI_LOG Fireflies step 17)
     side: 'right',
     label: 'All effects',
@@ -286,6 +311,7 @@ export const story = [
   {
     id: 'intensity',
     part: 2,
+    rung: 'studies',
     kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light intensity affect biota?', note began 'Yes.')
     side: 'right',
     label: 'Light level',
@@ -308,6 +334,7 @@ export const story = [
   {
     id: 'light-type',
     part: 2,
+    rung: 'studies',
     kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light temperature affect biota?', note began 'Not as much as thought.')
     side: 'right',
     label: 'Light type',
@@ -334,6 +361,7 @@ export const story = [
   {
     id: 'broader',
     part: 2,
+    rung: 'studies',
     kind: 'fact',
     label: 'Broader Impacts',
     text: 'All classes of biota are simultaneously responding to a new global environment.',   // wording: human (AI_LOG Fireflies step 17); was 'So how does this translate to ecosystem level impacts?'
@@ -349,6 +377,7 @@ export const story = [
   {
     id: 'conclusion',
     part: 2,
+    rung: 'space',
     kind: 'fact',
     label: 'Conclusion',
     text: 'We need ALAN, but do we need it all the time, everywhere?',   // 'light at night' → 'ALAN' (human, AI_LOG Fireflies step 9)
