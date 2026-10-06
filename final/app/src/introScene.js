@@ -50,7 +50,14 @@ const CRICKETS_OUT = 2000, SHOW_SUN = false;
 // breathing, plus soft brown noise. Values = the human's test-page settings (step 9: "Lower frequency will cause less
 // stress"): volume 100%, C1 (32.7 Hz), warmth 2000 Hz, fifth 0%, breathing 0%, soft noise 50%. Step 10: volume 50%, soft noise 35%.
 // Fades in over HUM_IN while the music fades out (agent choice), then plays on under the story; the mute covers it.
-const HUM = { base: 32.703, cutoff: 2000, level: 0.175, breathe: 0.09, depth: 0, fifth: 0, noise: 0.175 }, HUM_IN = 3000;
+// Replaced (human, AI_LOG Fireflies steps 22–24: "a bit more calming ... a bit more serene"; "take the current setting
+// please - it's perfect"): the hum is now a soft pad, the human's settings from the pad tuner test page (scratchpad
+// pad-tool.html, not in the repo): open fifth C3–G3 + C4, bass C2 15%, sine, chorus ±2 cents, each note swelling on its
+// own ~30 s cycle (depth 70%), low-pass 1400 Hz, generated reverb (wet 70%, 8 s), air noise 25%, volume 35%, fade 5 s.
+// Was: { base: 32.703, cutoff: 2000, level: 0.175, breathe: 0.09, depth: 0, fifth: 0, noise: 0.175 }, HUM_IN 3000.
+const PAD = { notes: [0, 7, 12], octave: 3, bass: 0.15, detune: 2, period: 30, depth: 0.7, cutoff: 1400, wet: 0.7,
+  decay: 8, air: 0.25 };
+const HUM = { level: 0.35 }, HUM_IN = 5000;
 const ROTATE_SPEED = 0.2;   // OrbitControls autoRotateSpeed: 6 x speed deg/s (frame-rate independent) = 1.2 deg/s
 const SUN_END = new THREE.Vector3(0.62, 0.36, -0.7).normalize();  // view space: right, up, behind
 // Sun direction at path fraction e (0 = straight behind the globe, 1 = SUN_END; e > 1 continues on the same arc):
@@ -173,7 +180,7 @@ export function createIntroScene({ globe, layer }) {
     } catch { ctx = null; }   // no Web Audio: plays without fades
     ctx?.resume();
   }
-  // Hum graph (built once, silent until startHum): sines -> low-pass -> breathing gain -> humGain -> mute.
+  // Hum graph (built once, silent until startHum): the pad (PAD above) -> humGain -> mute.
   let humGain = null;
   // Story steps with `humOff` (Conclusion) fade the hum out; other steps bring it back (human, AI_LOG Copy editing
   // step 11). Only acts once the hum has started; fade 2.5 s = the Conclusion's lights-out (DARK_MS; agent choice).
@@ -185,29 +192,55 @@ export function createIntroScene({ globe, layer }) {
     if (off) ramp(0, DARK_MS, 0, undefined, humGain.gain); else startHum();
   }
   // Built on first use; later calls only fade it back in (after a replayed intro, human step 9).
-  function startHum(delayMs = 0) {
+  // fadeMs: HUM_IN by default; the intro's tail passes the music's fade-out length so the two crossfade.
+  function startHum(delayMs = 0, fadeMs = HUM_IN) {
     if (!ctx) return;
-    if (humGain) { ramp(HUM.level, HUM_IN, delayMs, undefined, humGain.gain); return; }
+    if (humGain) { ramp(HUM.level, fadeMs, delayMs, undefined, humGain.gain); return; }
     humGain = ctx.createGain();
     humGain.gain.value = 0;
-    const filter = ctx.createBiquadFilter(), body = ctx.createGain(), lfo = ctx.createOscillator(), depth = ctx.createGain();
-    filter.type = 'lowpass'; filter.frequency.value = HUM.cutoff; filter.Q.value = 0.5;
-    lfo.frequency.value = HUM.breathe; depth.gain.value = HUM.depth;
-    lfo.connect(depth).connect(body.gain); lfo.start();
-    filter.connect(body).connect(humGain).connect(muteGain);
-    for (const [ratio, gain, detune] of [[1, 0.5, -4], [1, 0.5, 4], [2, 0.25, 0], [4, 0.06, 0], [3, 0.22 * HUM.fifth, 0]]) {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.frequency.value = HUM.base * ratio; o.detune.value = detune; g.gain.value = gain;
-      o.connect(g).connect(filter); o.start();
+    // Pad (as pad-tool.html buildPad): notes -> per-note swell -> low-pass -> dry + generated reverb -> humGain.
+    const C0 = 16.352, filter = ctx.createBiquadFilter(), dry = ctx.createGain(), wet = ctx.createGain(), verb = ctx.createConvolver();
+    filter.type = 'lowpass'; filter.Q.value = 0.4; filter.frequency.value = PAD.cutoff;
+    const len = Math.floor(ctx.sampleRate * PAD.decay), ir = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {   // reverb tail: decaying stereo noise
+      const d = ir.getChannelData(ch);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
     }
-    if (HUM.noise) {   // brown noise: integrated white noise, 4 s loop, low-passed at 400 Hz (as on the test page)
-      const len = ctx.sampleRate * 4, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
-      for (let i = 0, last = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
-      const src = ctx.createBufferSource(), nf = ctx.createBiquadFilter(), ng = ctx.createGain();
-      src.buffer = buf; src.loop = true; nf.type = 'lowpass'; nf.frequency.value = 400; ng.gain.value = HUM.noise;
-      src.connect(nf).connect(ng).connect(humGain); src.start();
+    verb.buffer = ir; dry.gain.value = 1 - PAD.wet * 0.6; wet.gain.value = PAD.wet;
+    filter.connect(dry).connect(humGain); filter.connect(verb).connect(wet).connect(humGain);
+    humGain.connect(muteGain);
+    const notes = PAD.notes.map(st => ({ f: C0 * 2 ** PAD.octave * 2 ** (st / 12), bass: false }));
+    if (PAD.bass > 0) notes.push({ f: C0 * 2 ** (PAD.octave - 1), bass: true });
+    const per = 0.16 / Math.sqrt(notes.length);
+    notes.forEach(({ f, bass }, n) => {
+      // Each note swells on its own slow cycle (period × a per-note factor), rising or falling first at random.
+      const noteGain = ctx.createGain(), swell = ctx.createGain(), lfo = ctx.createOscillator(), amt = ctx.createGain();
+      lfo.frequency.value = 1 / (PAD.period * (0.8 + 0.45 * ((n * 0.618) % 1)));
+      amt.gain.value = (Math.random() < 0.5 ? -1 : 1) * PAD.depth / 2;
+      swell.gain.value = 1 - PAD.depth / 2;
+      lfo.connect(amt).connect(swell.gain);
+      lfo.start(ctx.currentTime + Math.random() * PAD.period / 4);
+      noteGain.gain.value = per * (bass ? PAD.bass * 1.4 : 1);
+      swell.connect(noteGain).connect(filter);
+      for (const dt of [-PAD.detune, PAD.detune]) {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f; o.detune.value = dt; g.gain.value = 0.5;
+        o.connect(g).connect(swell); o.start();
+      }
+    });
+    if (PAD.air > 0) {   // air: white noise through a band-pass whose centre drifts slowly (37 s)
+      const nlen = ctx.sampleRate * 4, buf = ctx.createBuffer(1, nlen, ctx.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < nlen; i++) d[i] = Math.random() * 2 - 1;
+      const src = ctx.createBufferSource(), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+      const drift = ctx.createOscillator(), driftAmt = ctx.createGain();
+      src.buffer = buf; src.loop = true;
+      bp.type = 'bandpass'; bp.Q.value = 0.7; bp.frequency.value = 700;
+      drift.frequency.value = 1 / 37; driftAmt.gain.value = 400;
+      drift.connect(driftAmt).connect(bp.frequency); drift.start();
+      g.gain.value = PAD.air * 0.05;
+      src.connect(bp).connect(g); g.connect(verb); g.connect(humGain); src.start();
     }
-    ramp(HUM.level, HUM_IN, delayMs, 0, humGain.gain);
+    ramp(HUM.level, fadeMs, delayMs, 0, humGain.gain);
     mute.hidden = false;   // the mute stays available while the hum plays
   }
   // Raised-cosine ramp of the fade gain from its current value to `to` over `ms`, starting `delayMs` from now.
@@ -386,7 +419,9 @@ export function createIntroScene({ globe, layer }) {
     if (audio.paused) return;
     const id = ++fadeId, lead = T.musicEnd - T.musicOut - audio.currentTime * 1000;
     if (ctx) ramp(0, T.musicOut, lead);
-    startHum(lead);   // hum fades in as the music fades out
+    // Hum crossfades with the music: same start and length as its fade-out, full as the drums end (human, AI_LOG
+    // Fireflies step 25: "come in right at the end of the drums"; was HUM_IN 5 s, still quiet at the end).
+    startHum(lead, T.musicOut);
     atPause = onEnd;
     pauseAt = T.musicEnd + 30;
     if (id === fadeId) watchPause();

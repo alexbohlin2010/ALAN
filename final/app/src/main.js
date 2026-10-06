@@ -137,7 +137,8 @@ function applyStage(i) {
   darkScene.set(Boolean(story[i].dark));   // lights out, blue limb ring in (introScene.js createDarkScene)
   document.body.classList.toggle('story-spectral', Boolean(sp));
   document.body.classList.toggle('story-impacts', Boolean(st));
-  document.body.classList.toggle('story-chart', st?.view === 'chart');   // big text beside the chart (style.css)
+  // big text beside the chart (style.css); also the Broader Impacts circle (human, AI_LOG Fireflies step 29: same layout)
+  document.body.classList.toggle('story-chart', st?.view === 'chart' || Boolean(st?.circle));
   document.body.classList.toggle('story-nights', Boolean(story[i].nights));
   // Local firefly ↔ Two measured nights (human: "two points, two halves", AI_LOG Firefly tabs review round 7f): the
   // nights step's `nightsSites` (left, right) glow on the globe; the halves open out of / close into those glows.

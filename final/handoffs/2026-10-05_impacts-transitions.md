@@ -50,3 +50,14 @@ Explore from Mate-finding and to/from [DRAFT] Species perceptions; text/cards cl
   biota are simultaneously responding to a new global environment." (human).
 - Human's narrative note (verbatim in AI_LOG step 17, "flattened time …"): not acted on.
 - Open: portrait/narrow layout of the chart steps not checked; stale comment above `intensity`.
+
+## Update 2 (same day, AI_LOG steps 18–25)
+- Step 18: agent opinion on narrative structure at the human's request (logged as [AGENT OPINION]; not a decision,
+  not carried here).
+- Step 19: everything committed on main (854700dd0) at the human's request; later steps are uncommitted.
+- Background sound (human): the hum in app/src/introScene.js is replaced by a soft pad, the human's settings from a
+  tuner test page (agent scratchpad pad-tool.html, launch config "pad-tool", port 5191; not in the repo): open fifth
+  C3–G3 + C4, bass C2 15%, sine, chorus ±2 cents, per-note swell ~30 s depth 70%, low-pass 1400 Hz, reverb wet 70% 8 s,
+  air 25%, level 0.35, fade 5 s. At the end of the intro it crossfades with the music (1.5 s, full as the drums end;
+  human: "come in right at the end of the drums").
+- Open: the pad has not been heard by an agent (levels checked only); pad-tool.html lives in a temporary scratchpad.

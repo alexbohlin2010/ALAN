@@ -164,6 +164,11 @@ body.story-impacts #swipe, body.story-impacts .year.left { display: none; }
   border: 1px solid #333; border-radius: 12px; padding: 3px 10px; cursor: pointer; }
 #impacts-filter button[aria-pressed="true"] { color: #fff; border-color: #aaa; }
 #impacts-filter i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+/* Broader Impacts size buttons: grey range under each label (impacts.js renderFilter), faded in once the circle has
+   settled (AI_LOG Fireflies step 29). */
+#impacts-filter .ann { opacity: 0; transition: opacity 0.6s ease; }
+#impacts-filter.settled .ann { opacity: 1; }
+#impacts-filter .range { display: block; font-size: 10px; color: #888; }
 /* Collapsible step lists (only the current section open) and the fact card's details pop-up (step 33). */
 #modes .steps.collapsed { display: none; }
 #modes .mode::after { content: '▸'; font-size: 10px; color: #666; margin-left: 6px; vertical-align: 2px; }
