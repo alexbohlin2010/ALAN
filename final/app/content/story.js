@@ -230,11 +230,11 @@ export const story = [
     // is the first one (human: "two points, two halves", AI_LOG Firefly tabs review round 7f).
     nightsSites: ['spitschan2016_city', 'spitschan2016_rural'],
   },
-  // Species perceptions as Firefly | Human (human, AI_LOG "Species perceptions" steps 1–4): Philadelphia's measured night
-  // light as the cloud, weighted by the firefly curve (left) and human night, CIE scotopic V′(λ) (right; human, step 7); fixed divider, no
-  // cycling (twoNights.js, nights: 'pair'; data/derived/spectra/species_curves.json). Was round 7j's cycling view, kept
-  // as [DRAFT] Species perceptions in Explore. Animal curves provisional (human: sources to be identified; nothing
-  // shown on screen). Card text: placeholder.
+  // Species perceptions, firefly only, Philadelphia | Cherry Springs (human, AI_LOG "Story review" step 3): each site's
+  // measured night light as the cloud, weighted by the firefly curve; fixed divider, no cycling (twoNights.js,
+  // nights: 'pair'; data/derived/spectra/species_curves.json). Was Firefly | Human on Philadelphia only (human, AI_LOG
+  // "Species perceptions" steps 1–7), and before that round 7j's cycling view, kept as [DRAFT] Species perceptions in
+  // Explore. Animal curves provisional (human: sources to be identified; nothing shown on screen).
   {
     id: 'species-perceptions',
     part: 2,
@@ -246,8 +246,8 @@ export const story = [
     text: 'Fireflies perceive ALAN with their own eyes, not ours.',   // wording: human (AI_LOG Fireflies step 12)
     sources: [
       { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
-        supports: 'night spectra, Philadelphia (City), July 2014' },
-      { label: 'CIE 2019, scotopic V′(λ)', url: 'https://doi.org/10.25039/CIE.DS.gr6w4b5g', supports: 'human night curve' },
+        supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
+      // CIE 2019 scotopic V′(λ) source removed with the human side ("Story review" step 3, human: "fix sources").
       { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
     ],
     camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
