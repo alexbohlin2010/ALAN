@@ -6065,3 +6065,10 @@ Append only. One entry per AI step (see RULES.md §4).
   pipeline/impacts/maps/study_location_review.csv; pipeline/spectra/02_species_curves.py, 03_amber_band_ratio.py,
   03_amber_share.py, 04_sensitivity_bands.py; five handoffs dated 2026-10-05. Checked first: no secrets, all files
   small. Not pushed (the human pushes).
+
+## Fireflies step, step 20 (2026-10-05): dev server started (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > can we open server pls
+- Port 5173 was free (the other session's server had stopped); started "alan-final-app" (Vite, app/, port 5173) and
+  opened it in the in-app browser. Files changed: AI_LOG.md only (uncommitted).
