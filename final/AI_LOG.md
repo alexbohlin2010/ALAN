@@ -7871,3 +7871,25 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: AI_LOG.md, app/content/story.js, app/src/main.js, app/src/story.js, app/src/style.css,
   app/src/tileLayer.js, app/src/twoNights.js, handoffs/2026-10-06_experience-refinement.md. Not pushed.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 11 (2026-10-06): the four [DRAFT] Explore steps moved to the `retired` archive; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > one more thing - can you move all the DRAFT components in the explore section into some archive please .... those aren't necessary anymore
+- Archive = the existing `retired` array in app/content/story.js (precedent: Iceland, France, Ukraine, India, Tanzania,
+  Mice), so no new file. Moved unchanged, with their comments, to the top of `retired` under a note: signal-production,
+  mate-finding, local-firefly, species-perceptions-draft. Story now 15 steps (Explore all studies last).
+- Not deleted (code now unused, noted for a later decision): spectral.js chapters for those steps, twoNights.js
+  'species' mode, the Local firefly ↔ Two measured nights glow transition in main.js.
+- Checked (localhost:5173, 1280×800, JS-driven; story.js import checked in node: 15 story, 15 retired): Explore menu
+  lists only "Explore all studies"; the Explore heading → 15 / 15, next disabled; back → Conclusion on its last beat;
+  forward again. Console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed (not asked).
+
+## Experience refinement, step 12 (2026-10-06): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > yes commit please
+- Commit on main: AI_LOG.md, app/content/story.js, handoffs/2026-10-06_experience-refinement.md (step 11's changes).
+  Not pushed.
+- Files changed: AI_LOG.md; git history.

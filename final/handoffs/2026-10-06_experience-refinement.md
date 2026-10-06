@@ -46,3 +46,7 @@ Read `RULES.md` first. Before: `2026-10-06_conclusion.md`.
 
 ## Next
 - Human to review the pass in a full-size browser (motion flicker, transition feel, hum timing) and say what to commit.
+
+## Addendum (after the commit, AI_LOG step 11)
+- The four [DRAFT] Explore steps (Signal production, Mate-finding, Local firefly, Species perceptions draft) moved to
+  `retired` in story.js (human). Story = 15 steps. Their code paths are unused, not deleted. Not committed yet.

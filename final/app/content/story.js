@@ -589,6 +589,21 @@ export const story = [
     impacts: { view: 'globe', explore: true },
     muteAudio: true,   // the background hum is muted on arrival; the mute button turns it back on (human, AI_LOG Copy editing step 9)
   },
+];
+
+// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
+// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
+// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
+// (data/derived/story/version_sensitivity_2015_2025.json).
+// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
+// remove Ukraine. Just two countries").
+// Mice (study 278, spectral chapter 'mice'): retired (human, AI_LOG Broader Impacts circle concept step 10: "get rid of
+// the DRAFT Mice section under explore, it's a gonner"). Its chapter code in app/src/spectral.js is unused now.
+export const retired = [
+  // [DRAFT] Explore steps retired (human, AI_LOG Experience refinement step 11: "move all the DRAFT components in the
+  // explore section into some archive ... those aren't necessary anymore"): Signal production, Mate-finding, Local
+  // firefly, Species perceptions (draft). Their code paths (spectral.js chapters, twoNights.js 'species' mode, the
+  // Local firefly ↔ Two measured nights glow transition in main.js) are unused now; not deleted.
   {
     id: 'signal-production',
     part: 3,   // moved to Explore as a draft (human, AI_LOG Impacts reorder step 2)
@@ -704,17 +719,6 @@ export const story = [
     swipe: 0,
     nights: 'species',
   },
-];
-
-// Steps taken out of the story by the humans, kept here so their sourced text is not lost.
-// Iceland: retired (human, AI_LOG step 39, option 3): its +106% comes mostly from pixels that are 0 in 2015
-// (EOG v2.1) and faintly lit in 2025 (v2.2); on pixels lit in both years it is -17%
-// (data/derived/story/version_sensitivity_2015_2025.json).
-// France and Ukraine: retired (human, AI_LOG Story step 41: "replace France with Cote d'ivoire and then
-// remove Ukraine. Just two countries").
-// Mice (study 278, spectral chapter 'mice'): retired (human, AI_LOG Broader Impacts circle concept step 10: "get rid of
-// the DRAFT Mice section under explore, it's a gonner"). Its chapter code in app/src/spectral.js is unused now.
-export const retired = [
   // India and Tanzania: retired (human, AI_LOG Copy editing and drafting step 2: "We won't do India and Tanzania
   // to start as examples. Let's toss them."). Kept here so their sourced text is not lost.
   {
