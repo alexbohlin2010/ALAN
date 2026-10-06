@@ -50,3 +50,6 @@ Read `RULES.md` first. Before: `2026-10-06_conclusion.md`.
 ## Addendum (after the commit, AI_LOG step 11)
 - The four [DRAFT] Explore steps (Signal production, Mate-finding, Local firefly, Species perceptions draft) moved to
   `retired` in story.js (human). Story = 15 steps. Their code paths are unused, not deleted. Not committed yet.
+- Step 13 (human): Biosphere Response opens on "Across the biosphere, ALAN is upsetting the equilibrium of natural
+  systems." again; the Conclusion opens on the dusk line (dark and hum fade on arrival), then 5b, then responsive
+  lighting. `together` / `autoBeat` / `humFrom` mechanisms unused now. Not committed yet.

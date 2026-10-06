@@ -7893,3 +7893,26 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: AI_LOG.md, app/content/story.js, handoffs/2026-10-06_experience-refinement.md (step 11's changes).
   Not pushed.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 13 (2026-10-06): Biosphere Response back to the equilibrium line; Conclusion opens at dusk; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Wait - Let's replace "So how is the biosphere responding?" with "Across the biosphere .... upsetting .." so the thesis of the final color circle is more clear
+- Asked (AskUserQuestion: the Conclusion opened on the same line); human answer: "Conclusion starts at dusk".
+- Edits (story.js re-read before editing): broader text → "Across the biosphere, ALAN is upsetting the equilibrium of
+  natural systems." (old text in a comment). conclusion: text → the dusk line; reveal → [5b line, responsive-lighting
+  line]; `together`, `autoBeat`, `humFrom` removed; `humOff: true` back (hum fades on arrival with the dark, as before
+  step 5). The dots still fade on entering the Conclusion from the circle (main.js, any `dark` step). The `together` /
+  `autoBeat` / `humFrom` code in main.js and story.js stays, unused now.
+- Checked (localhost:5173, 1280×800, JS-driven): Biosphere Response opens on the equilibrium line beside the circle
+  (876–1264 × 275–525, clear of menu and nav), five callouts; → Conclusion: dark, dots hidden, dusk line, no Details;
+  → 5b; → responsive lighting + Details; back through the beats to Biosphere Response's Czarnecka quote and salmon.
+  Console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed (not asked).
+
+## Experience refinement, step 14 (2026-10-06): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > yes commit please
+- Commit on main: AI_LOG.md, app/content/story.js, handoffs/2026-10-06_experience-refinement.md (step 13). Not pushed.
+- Files changed: AI_LOG.md; git history.

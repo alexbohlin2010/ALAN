@@ -496,7 +496,9 @@ export const story = [
     // Wording: human (AI_LOG Effect dots and examples step 6). Was 'The biosphere is responding to a new nighttime experience.'
     // (human, AI_LOG Fireflies steps 30–32); before that
     // Opening line (human, AI_LOG Experience refinement step 5); the line below moved to open the Conclusion.
-    text: 'So how is the biosphere responding?',
+    // Back to the equilibrium line, so the circle's thesis is clear (human, AI_LOG Experience refinement step 13); was
+    // 'So how is the biosphere responding?' (step 5).
+    text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.',
     // previous text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.'; before that 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
@@ -544,10 +546,12 @@ export const story = [
     // (moved from Broader Impacts) shows centred on the lit globe; on its own after `autoBeat` ms the dusk line comes in
     // below it while the earth fades to dark and the hum fades (`darkFrom: 1`, `together: [1]`); the next arrow replaces
     // both with the 5b line. autoBeat 4000 ms and the 1 s dot fade: agent choices. main.js setCallout / applyDark.
-    text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.',
-    // Third beat (now fourth): responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
-    reveal: ["We may be entering the dusk of the biosphere's stability.",
-      'ALAN may be necessary for the modern apparatus of human society. But not all the time, everywhere.',
+    // Step 13 (human, option "Conclusion starts at dusk"): the equilibrium line went back to Biosphere Response, so the
+    // Conclusion opens on the dusk line (dots fade, earth darkens, hum fades on arrival), then 5b, then responsive
+    // lighting; `together`, `autoBeat`, `humFrom` removed, `humOff` back.
+    text: "We may be entering the dusk of the biosphere's stability.",
+    // Third beat: responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
+    reveal: ['ALAN may be necessary for the modern apparatus of human society. But not all the time, everywhere.',
       'Responsive lighting can restrict ALAN to an optimal time, place, and set of environmental conditions.'],
     beats: true,
     // Note: AGENT DRAFT (claude-opus-5-5, AI_LOG Conclusion step 7), stating only what the two sources say; Bolliger et al.
@@ -568,9 +572,7 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
-    humFrom: 1,
-    together: [1],
-    autoBeat: 2500,
+    humOff: true,
     // humOff (hum out on arrival; human, AI_LOG Copy editing step 11) replaced: the hum fades with the dark at beat 1
     // (human, AI_LOG Experience refinement step 5; main.js applyDark).
   },
