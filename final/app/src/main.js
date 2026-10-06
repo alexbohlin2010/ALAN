@@ -268,6 +268,7 @@ function applyStage(i) {
 // past either end they move the story.
 const nightsBeat = d => mode === 'light' && story[storyIndex].nights === true && nights.beat(d);
 window.addEventListener('keydown', e => {
+  if (e.target.id === 'volume') return;   // arrows on the volume slider (introScene.js) move only the slider
   const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
   if (d && nightsBeat(d)) e.stopImmediatePropagation();
 }, true);
@@ -276,6 +277,7 @@ document.getElementById('nav').addEventListener('click', e => {
   if (d && nightsBeat(d)) e.stopPropagation();
 }, true);
 window.addEventListener('keydown', e => {
+  if (e.target.id === 'volume') return;   // arrows on the volume slider (introScene.js) move only the slider
   if (mode !== 'light' || !story[storyIndex].spectral?.manual) return;
   const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
   if (d && spectral.step(d)) e.stopImmediatePropagation();

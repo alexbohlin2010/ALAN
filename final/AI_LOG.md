@@ -7095,3 +7095,125 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/spectral.js, app/src/story.js,
   app/src/twoNights.js, AI_LOG.md, handoffs/2026-10-06_impacts-firefly-first.md. Not pushed. Two prompts given in chat.
 - Files changed: handoffs/2026-10-06_impacts-firefly-first.md (new), AI_LOG.md; git history.
+
+## Background volume, step 1 (2026-10-06): read; report of what plays when and options for level / volume control (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_impacts-firefly-first.md (latest) and AI_LOG.md "Impacts firefly-first" steps 1–9. Then read app/src/introScene.js only for the audio: the Web Audio graph (element → fade gain → mute gain → speakers), the music, the hum under the story, the mute button and its icon, and which story steps change the sound (muteAudio, humFor). Note any other sound in app/src (e.g. spectral.js, twoNights.js), without reading the rest.
+  >
+  > Task: the background sound is too loud overall. Either reduce its overall level, or turn the mute button into a volume control.
+  >
+  > Before changing anything, report and stop for my decisions:
+  > * What plays when (one line per sound: source file, when it starts and stops, its current gain), and where the overall level is set.
+  > * Options, kept short with trade-offs: (a) a lower fixed level (how much, and whether music and hum differ); (b) a volume control in the mute button (e.g. click = mute, a small slider on hover or press; or click cycles through levels), and how it stays clear of the beat toggle (#spectral-toggle sits just left of mute), the "2025" label and the menu; (c) both. Say if the level should be remembered (localStorage) and what happens on touch screens.
+  > * Don't propose design beyond these options unless I ask (RULES §1.2, §1.3).
+  >
+  > Then apply only what I decide and check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800): Begin → intro → a few story steps; the control works and doesn't overlap the beat toggle, menu, nav or big text; no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive the buttons by JS (#begin button, #nav .next / .back, menu buttons by text) and keep each JS call under 45 s. I may click in the same pane at the same time.
+  > Another agent is working in app/src/impacts.js and content/story.js: re-read right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes; don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, the handoff, Impacts firefly-first steps 1–9; introScene.js audio parts (graph, PAD/HUM, startHum,
+  humFor, ramp, tail, stop, mute button, setMuted); story.js go() lines 196–197; content/story.js `humOff` (Conclusion)
+  and `muteAudio` (Explore); style.css #mute, #spectral-toggle, .year. grep of app/src for other audio: none
+  (spectral.js and twoNights.js have no sound; "wavelength" matches only).
+- Reported in chat: the three sounds (music, crickets, pad hum) with start/stop and gains; no master gain exists (the mute
+  gain is 0/1, the overall level is the sum of fade 1.0, cricketGain 1.0, HUM.level 0.35); options (a) / (b) / (c),
+  localStorage and touch. Decision questions asked.
+- Files changed: AI_LOG.md only.
+
+## Effect dots and examples, step 1 (2026-10-06): read; report on chart clicks, the Dots toggle, example options and abstracts (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_impacts-firefly-first.md (latest) and AI_LOG.md "Impacts firefly-first" steps 1–9. Then read in app/content/story.js the chart steps effects (All effects), intensity (Light level), light-type (Light type) and broader (Broader Impacts): text, note, impacts keys (view, records, filter, group, example, exampleLabel, circle). In app/src/impacts.js read only: the chart hit-testing and click handling, openCard / closeCard and the study card content, the filter bar with the "Dots: Effects | Studies" toggle (studyA, dotsBy), and how the worked example (example, exampleLabel) is drawn. Check data/derived/impacts/effects.json and studies.json for the fields available per effect and per study (title, abstract or not, species, category, |g|).
+  >
+  > Task:
+  > 1. Every effect dot in the charts can be clicked to open its study's card.
+  > 2. Remove the Effects | Studies toggle, if the study card can be reached from the effect dots.
+  > 3. Choose a few example effects in each chart, labelled on the chart, so the viewer sees that these effects happen across the biosphere (different species groups and kinds of response). Possibly with a short phrase quoted from the study's abstract.
+  >
+  > Before changing anything, report and stop for my decisions:
+  > * How clicks work now on each chart step (what is clickable, what opens), and what clicking an effect dot would need.
+  > * What removing the toggle removes (study-dot view, median per study, anything else that depends on it).
+  > * For the examples: the selection rule as options (e.g. one per species group or category, the largest |g| or one near the median, only studies with a located site), how many per chart, and how they'd be drawn so they don't overlap each other, the reading keys, the filter bar or the big text.
+  > * Whether abstracts exist in our data (Data S1 / studies.json). If not, say so and where they could come from. A quote must be verbatim, under 15 words, with the study cited; never paraphrased as a quote.
+  > * Do not choose examples, write labels or add narrative unless I ask (RULES §1.2, §6). If I ask, give candidates marked as agent drafts, using only what the data and the cited sources support, each with its effect id and source.
+  >
+  > Then apply only what I decide and check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800): walk All effects → Light level → Light type → Broader Impacts and back, click several effect dots by JS (dispatch a click at the dot's computed position), the card opens and closes, nothing overlaps the big text, menu, nav, filter bar or Details, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive buttons by JS (#nav .next / .back, menu buttons by text) and keep each JS call under 45 s. I may click in the same pane at the same time.
+  > Another agent is working on the audio (app/src/introScene.js): re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes; any new derived data (e.g. abstracts) by a script in the repo, labelled per RULES §2. Don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, the handoff, Impacts firefly-first steps 1–9, story.js effects / intensity / light-type / broader,
+  impacts.js (draw, drawChart, drawRecords, drawStudyDots, drawExample, doorXY, drawCircle, setStage, hitAt, click
+  handler, openCard / closeCard, filter bar), style.css #card / #fact, effects.json and studies.json fields,
+  crossref_cache.json and crossref_check.json (pipeline/impacts/03_crossref_check.py).
+- Found: no abstract field in Data S1, effects.json or studies.json. crossref_cache.json (raw Crossref responses, cached by
+  03_crossref_check.py) holds an `abstract` for 161 of 325 DOIs; 103 of the 207 located studies have one, 99 of them
+  where the study's DOI is a title_match. Not extracted or used.
+- Reported in chat: clicks per chart step, what an effect-dot click needs, what removing the toggle removes, example
+  selection options, abstracts. No examples chosen, no wording drafted. Decision questions asked.
+- Files changed: AI_LOG.md only.
+
+## Background volume, step 2 (2026-10-06): a3 (music 0.7, hum 0.18) and b1 (volume slider under the mute button); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > a3, b1
+- Edits (files re-read right before editing; impacts.js and content/story.js not touched):
+  - app/src/introScene.js: a3, with the example values from step 1 (no values were given): music fade-in target
+    `MUSIC_LEVEL` 0.7 (was 1.0), `HUM.level` 0.18 (was 0.35); crickets unchanged (1.0). New `master` gain after the mute
+    gain (muteGain → master → speakers), set by the slider. b1: `#volume`, a vertical range input that drops down below
+    the mute button on hover or keyboard focus (touch: press and hold 450 ms, which does not also mute; a tap elsewhere
+    closes it); click still mutes; Explore's mute on arrival unchanged, the level is kept. Agent choices: range 0–1 in
+    0.05 steps, starting at 1; 0.3 s hide delay; moving the slider while muted unmutes; not remembered (localStorage not
+    decided); Web Audio only. Dev handle `window.introVolume`.
+  - app/src/style.css: `#volume` (fixed, placed by JS under the button; 28 × 96 px, dark panel; agent choices); #mute no
+    long-press callout / selection.
+  - app/src/main.js: the two capture-phase ← → handlers (Spectra beats, manual spectral chapters) ignore keys on the
+    slider; the slider stops ← → reaching the story's own handler.
+- Checked (localhost:5173, another session's server; 1280×800; JS-driven): Begin → intro: music fade gain peaks at 0.7;
+  slider opens under the button (1232–1260 × 54–150). Slider 0.4 → master 0.4; mute click mutes; slider move unmutes;
+  ← on the focused slider leaves the step on Dawn; hum at 0.18 after the intro. Female response: beat toggle 1070–1220
+  × 19–41, slider 1232–1260 × 54–150, big text 819–1203 × 333–466, menu 16–139 wide, nav 748–784: no overlaps. Next →
+  Impact, back → Female response. Explore: muted on arrival, level 0.5 kept, mute at 1178–1214 left of "2025"
+  (1224–1264 × 12–34), slider 47–143 below the row. No console errors. Screenshots sent. Not heard (pane audio):
+  the levels are by number only.
+- Files changed: app/src/introScene.js, app/src/style.css, app/src/main.js, AI_LOG.md. Nothing committed.
+
+## Background volume, step 3 (2026-10-06): slider level remembered; hum 0.7 in Light, 0.3 from Impacts on, fade on Conclusion as before; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > remember the level,
+  >
+  > I think the background hum should be louder in light (like 0.7, and then once impacts starts, go down to like 0.3 for the duration) until conclusion where it fades.
+- Edits (app/src/introScene.js only, re-read right before editing; content/story.js not touched — the steps' existing
+  `part` key is used):
+  - `HUM = { light: 0.7, impacts: 0.3 }` (step 2: one level 0.18; originally 0.35). humFor(step): part 1 → 0.7, any
+    other part → 0.3 (Explore, part 3, also 0.3; it is muted on arrival anyway: agent reading of "for the duration").
+    Conclusion's `humOff` fade unchanged. Crossfade between parts over HUM_IN 5 s (agent choice). The intro's tail
+    brings the hum in at the current part's level.
+  - Slider level saved in localStorage key `alan.volume` on every move, read at load (1 if nothing stored or storage
+    blocked; try/catch). Mute itself is not remembered.
+- Checked (localhost:5173, another session's server; 1280×800; JS-driven): stored 0.6 → slider and master gain 0.6 after
+  reload and Begin; slider move saves (0.35 stored; test value then reset to 0.6 in the pane's storage). Hum: Dawn 0.70 →
+  Fireflies 0.30 → Conclusion 0 → back to ALAN 0.70. No console errors. Screenshot sent (pane drew the page in a corner).
+  Not heard: the levels are by number only.
+- Note for the human: 0.7 in Light is twice the hum's original 0.35 (+6 dB); 0.3 is a little under it.
+- Files changed: app/src/introScene.js, AI_LOG.md. Nothing committed.
+
+## Background volume, step 4 (2026-10-06): hum 100% of original in Light (0.35), 40% from Impacts on (0.14); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > oh sorry - I thought it meant 0.7 of 100% of original. Just adjust based on this: 100% of original during Light, 40% of original during impacts until conclusion. Thanks
+- Edit (app/src/introScene.js only, re-read right before editing): `HUM = { light: 0.35, impacts: 0.35 * 0.4 }` (step 3:
+  0.7 / 0.3). Everything else from step 3 unchanged (Conclusion fade, Explore at the Impacts level, 5 s crossfade,
+  remembered slider). Music stays at 0.7 of original (step 2), not mentioned by the human this step.
+- Checked (localhost:5173, 1280×800; JS-driven): Dawn 0.35 → Fireflies 0.14 → Female response 0.14 → Conclusion 0. One
+  menu click landed on ALAN instead of Fireflies (possibly the human clicking in the pane); repeated. No console errors.
+- Files changed: app/src/introScene.js, AI_LOG.md. Nothing committed.
+
+## Background volume, step 5 (2026-10-06): handoff written; commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > write a handoff and commit
+- Created handoffs/2026-10-06_background-volume.md (facts, human decisions, agent choices to confirm, open items).
+  Checked the diff first: main.js, style.css and introScene.js changes are only this session's. AI_LOG.md also holds
+  another session's "Effect dots and examples, step 1" entry (read-only step), committed with this log as it stands;
+  that session's code files are not staged.
+- Commit on main: app/src/introScene.js, app/src/main.js, app/src/style.css, AI_LOG.md,
+  handoffs/2026-10-06_background-volume.md. Not pushed.
+- Files changed: handoffs/2026-10-06_background-volume.md (new), AI_LOG.md; git history.

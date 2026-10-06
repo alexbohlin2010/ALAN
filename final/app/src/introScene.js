@@ -57,7 +57,12 @@ const CRICKETS_OUT = 2000, SHOW_SUN = false;
 // Was: { base: 32.703, cutoff: 2000, level: 0.175, breathe: 0.09, depth: 0, fifth: 0, noise: 0.175 }, HUM_IN 3000.
 const PAD = { notes: [0, 7, 12], octave: 3, bass: 0.15, detune: 2, period: 30, depth: 0.7, cutoff: 1400, wet: 0.7,
   decay: 8, air: 0.25 };
-const HUM = { level: 0.35 }, HUM_IN = 5000;
+// Overall level (human, AI_LOG Background volume step 2: option a3; music value = the agent's example in step 1).
+// Was: music 1.0, hum 0.35. Crickets unchanged (1.0).
+// Hum by part (human, steps 3-4): 100% of the original 0.35 in Light (part 1), 40% of it from Impacts on (part 2;
+// Explore too), fading out on Conclusion as before. Step 3 had 0.7 / 0.3 (a misread of "0.7"), step 2 one level 0.18.
+// Crossfade between parts over HUM_IN (agent choice).
+const HUM = { light: 0.35, impacts: 0.35 * 0.4 }, HUM_IN = 5000, MUSIC_LEVEL = 0.7;
 const ROTATE_SPEED = 0.2;   // OrbitControls autoRotateSpeed: 6 x speed deg/s (frame-rate independent) = 1.2 deg/s
 const SUN_END = new THREE.Vector3(0.62, 0.36, -0.7).normalize();  // view space: right, up, behind
 // Sun direction at path fraction e (0 = straight behind the globe, 1 = SUN_END; e > 1 continues on the same arc):
@@ -165,8 +170,13 @@ export function createIntroScene({ globe, layer }) {
   const crickets = new Audio(CRICKETS_URL);
   crickets.preload = 'auto';
   let cricketGain = null, cricketsOff = false, cricketsId = 0;
-  // Web Audio graph (built on the Begin click, a user gesture): element -> fade gain -> mute gain -> speakers.
-  let ctx = null, fade = null, muteGain = null, muted = false, pauseAt = Infinity;
+  // Web Audio graph (built on the Begin click, a user gesture): element -> fade gain -> mute gain -> master -> speakers.
+  // master = the viewer's volume slider (human, AI_LOG Background volume step 2: option b1); 1 = the levels above.
+  let ctx = null, fade = null, muteGain = null, master = null, muted = false, pauseAt = Infinity;
+  // The slider's level is remembered in this browser (human, step 3); 1 when nothing is stored or storage is blocked.
+  const VOLUME_KEY = 'alan.volume';
+  let volume = 1;
+  try { const v = parseFloat(localStorage.getItem(VOLUME_KEY)); if (v >= 0 && v <= 1) volume = v; } catch {}
   function ensureGraph() {
     if (ctx) return;
     try {
@@ -174,7 +184,10 @@ export function createIntroScene({ globe, layer }) {
       fade = ctx.createGain();
       muteGain = ctx.createGain();
       muteGain.gain.value = muted ? 0 : 1;
-      ctx.createMediaElementSource(audio).connect(fade).connect(muteGain).connect(ctx.destination);
+      master = ctx.createGain();
+      master.gain.value = volume;
+      muteGain.connect(master).connect(ctx.destination);
+      ctx.createMediaElementSource(audio).connect(fade).connect(muteGain);
       cricketGain = ctx.createGain();
       ctx.createMediaElementSource(crickets).connect(cricketGain).connect(muteGain);   // one mute for both
     } catch { ctx = null; }   // no Web Audio: plays without fades
@@ -184,18 +197,19 @@ export function createIntroScene({ globe, layer }) {
   let humGain = null;
   // Story steps with `humOff` (Conclusion) fade the hum out; other steps bring it back (human, AI_LOG Copy editing
   // step 11). Only acts once the hum has started; fade 2.5 s = the Conclusion's lights-out (DARK_MS; agent choice).
-  let humOff = false;
+  let humOff = false, humLevel = HUM.light;
   function humFor(step) {
-    const off = Boolean(step.humOff);
-    if (!humGain || off === humOff) return;
-    humOff = off;
+    const off = Boolean(step.humOff), level = step.part === 1 ? HUM.light : HUM.impacts;
+    if (!humGain) { humLevel = level; return; }
+    if (off === humOff && level === humLevel) return;
+    humOff = off; humLevel = level;
     if (off) ramp(0, DARK_MS, 0, undefined, humGain.gain); else startHum();
   }
   // Built on first use; later calls only fade it back in (after a replayed intro, human step 9).
   // fadeMs: HUM_IN by default; the intro's tail passes the music's fade-out length so the two crossfade.
   function startHum(delayMs = 0, fadeMs = HUM_IN) {
     if (!ctx) return;
-    if (humGain) { ramp(HUM.level, fadeMs, delayMs, undefined, humGain.gain); return; }
+    if (humGain) { ramp(humLevel, fadeMs, delayMs, undefined, humGain.gain); return; }
     humGain = ctx.createGain();
     humGain.gain.value = 0;
     // Pad (as pad-tool.html buildPad): notes -> per-note swell -> low-pass -> dry + generated reverb -> humGain.
@@ -240,7 +254,7 @@ export function createIntroScene({ globe, layer }) {
       g.gain.value = PAD.air * 0.05;
       src.connect(bp).connect(g); g.connect(verb); g.connect(humGain); src.start();
     }
-    ramp(HUM.level, fadeMs, delayMs, 0, humGain.gain);
+    ramp(humLevel, fadeMs, delayMs, 0, humGain.gain);
     mute.hidden = false;   // the mute stays available while the hum plays
   }
   // Raised-cosine ramp of the fade gain from its current value to `to` over `ms`, starting `delayMs` from now.
@@ -268,6 +282,7 @@ export function createIntroScene({ globe, layer }) {
   if (import.meta.env.DEV) window.introCrickets = () => [crickets.paused, crickets.currentTime, cricketGain?.gain.value];   // dev-only
   if (import.meta.env.DEV) window.introSun = sun;       // dev-only handle for inspection
   if (import.meta.env.DEV) window.introHum = () => [humGain?.gain.value, muted];   // dev-only
+  if (import.meta.env.DEV) window.introVolume = () => [volume, master?.gain.value];   // dev-only
   // Clock: the music's own time while it plays (keeps the lights on the swell), else wall time.
   const clock = t0 => (begun && !audio.paused && audio.currentTime > 0 ? audio.currentTime * 1000
     : T.start - PRE + performance.now() - t0);
@@ -295,9 +310,49 @@ export function createIntroScene({ globe, layer }) {
     else audio.muted = crickets.muted = muted;   // no Web Audio (frame() also keeps the music muted in the pre-roll)
     label();
   }
-  mute.addEventListener('click', () => setMuted(!muted));
+  // Volume slider (human, AI_LOG Background volume step 2: option b1). Click still mutes; a vertical slider drops down
+  // below the button on hover or keyboard focus (touch: press and hold), clear of the beat toggle and "2025" on the
+  // button's row. Level remembered (VOLUME_KEY above). Agent choices: range 0-1 in 0.05 steps, 0.3 s hide delay, 450 ms hold;
+  // moving the slider while muted unmutes. Web Audio only (without it the slider has no effect).
+  const vol = Object.assign(document.createElement('input'), { type: 'range', id: 'volume', min: 0, max: 1, step: 0.05,
+    value: volume, hidden: true });
+  vol.setAttribute('aria-label', 'Volume');
+  let volHide = 0, held = 0, heldOpen = false;
+  function showVol(on) {
+    clearTimeout(volHide);
+    if (on && !mute.hidden) {
+      const r = mute.getBoundingClientRect();
+      vol.style.left = `${r.left + r.width / 2}px`;
+      vol.style.top = `${r.bottom + 6}px`;
+      vol.hidden = false;
+    } else if (!on) vol.hidden = true;
+  }
+  const hideSoon = () => { clearTimeout(volHide); volHide = setTimeout(() => showVol(false), 300); };
+  vol.addEventListener('input', () => {
+    volume = Number(vol.value);
+    if (ctx) master.gain.setTargetAtTime(volume, ctx.currentTime, 0.03);
+    if (muted && volume > 0) setMuted(false);
+    try { localStorage.setItem(VOLUME_KEY, String(volume)); } catch {}
+  });
+  vol.addEventListener('keydown', e => e.stopPropagation());   // arrows move the slider, not the story
+  for (const el of [mute, vol]) {
+    el.addEventListener('mouseenter', () => showVol(true));
+    el.addEventListener('mouseleave', hideSoon);
+    el.addEventListener('focusout', e => { if (e.relatedTarget !== mute && e.relatedTarget !== vol) hideSoon(); });
+  }
+  mute.addEventListener('focus', () => { if (mute.matches(':focus-visible')) showVol(true); });
+  mute.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'mouse') held = setTimeout(() => { heldOpen = true; showVol(true); }, 450);
+  });
+  for (const t of ['pointerup', 'pointercancel']) mute.addEventListener(t, () => clearTimeout(held));
+  mute.addEventListener('contextmenu', e => e.preventDefault());   // long press opens the slider, not a menu
+  document.addEventListener('pointerdown', e => { if (!vol.hidden && !mute.contains(e.target) && e.target !== vol) showVol(false); });
+  mute.addEventListener('click', () => {
+    if (heldOpen) { heldOpen = false; return; }   // the long press opened the slider; don't also mute
+    setMuted(!muted);
+  });
   audio.addEventListener('play', () => { mute.hidden = false; });
-  audio.addEventListener('pause', () => { mute.hidden = !humGain; });
+  audio.addEventListener('pause', () => { mute.hidden = !humGain; if (mute.hidden) showVol(false); });
   label();
 
   function frame(t, step, text, done) {
@@ -357,7 +412,7 @@ export function createIntroScene({ globe, layer }) {
       audio.currentTime = (T.start - PRE) / 1000;   // silent pre-roll on the music clock
       // Music fade-in scheduled from where the music actually is once it plays.
       const id = fadeId;   // skipped before play() resolved: no fade-in
-      audio.play().then(() => { if (id === fadeId) ramp(1, T.fadeIn, T.start - audio.currentTime * 1000, 0); }).catch(() => {});
+      audio.play().then(() => { if (id === fadeId) ramp(MUSIC_LEVEL, T.fadeIn, T.start - audio.currentTime * 1000, 0); }).catch(() => {});
       crickets.currentTime = 0;
       if (ctx) ramp(1, CRICKETS_IN, 0, 0, cricketGain.gain); else crickets.volume = 1;
       crickets.play().catch(() => {});
@@ -451,7 +506,7 @@ export function createIntroScene({ globe, layer }) {
     const el = document.createElement('div');
     el.id = 'begin';
     el.innerHTML = '<button>Begin<small>with audio</small></button>';
-    document.body.append(el, mute);
+    document.body.append(el, mute, vol);
     mute.hidden = false;
     el.querySelector('button').addEventListener('click', () => {
       ensureGraph();
