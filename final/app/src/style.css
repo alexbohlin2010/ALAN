@@ -164,6 +164,11 @@ body.story-impacts #swipe, body.story-impacts .year.left { display: none; }
   border: 1px solid #333; border-radius: 12px; padding: 3px 10px; cursor: pointer; }
 #impacts-filter button[aria-pressed="true"] { color: #fff; border-color: #aaa; }
 #impacts-filter i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+/* Broader Impacts size buttons: grey range under each label (impacts.js renderFilter), faded in once the circle has
+   settled (AI_LOG Fireflies step 29). */
+#impacts-filter .ann { opacity: 0; transition: opacity 0.6s ease; }
+#impacts-filter.settled .ann { opacity: 1; }
+#impacts-filter .range { display: block; font-size: 10px; color: #888; }
 /* Collapsible step lists (only the current section open) and the fact card's details pop-up (step 33). */
 #modes .steps.collapsed { display: none; }
 #modes .mode::after { content: '▸'; font-size: 10px; color: #666; margin-left: 6px; vertical-align: 2px; }
@@ -263,4 +268,42 @@ body.story-nights #swipe, body.story-nights .year { display: none; }
    the menu by --fact-shift (story.js). Portrait keeps its own rule above. */
 @media (min-aspect-ratio: 1001/1000) {
   #fact { transform: translateY(calc(-50% + var(--fact-shift, 0px))); }
+  /* Species perceptions (the only fact step with a nights view): text moved down to the bottom right, below the
+     clouds, so it does not cover the Cherry Springs half (human, AI_LOG "Story review" step 4); Details opens upwards,
+     aligned to the text's right edge so it stays on screen. 72 px = clear of the nav (16 px + 36 px buttons + 20 px):
+     agent choice. */
+  body.story-nights #fact { top: auto; bottom: 72px; transform: none; }
+  body.story-nights #fact .more-body { top: auto; bottom: calc(100% + 8px); left: auto; right: 0; }
 }
+/* Ladder marker (story.js; AI_LOG "Story review" steps 7–8): bottom centre, level with the nav (bottom left ran into
+   the Studies text's Details button). Below the Female response caption (bottom 72 px). Sizes and colours: agent
+   choices, matched to the menu's small grey text. */
+#ladder { position: absolute; left: 50%; transform: translateX(-50%); bottom: 26px; z-index: 4; display: flex; gap: 14px;
+  font: 11px system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #6b7380;
+  transition: opacity var(--ui-in, 1500ms) ease; pointer-events: none; }
+#ladder[hidden] { display: none; }
+#ladder span { transition: color 600ms ease; }
+#ladder span.on { color: #fff; }
+#ladder .mark { position: absolute; top: -9px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%;
+  background: #fffbe6; box-shadow: 0 0 6px 2px rgba(255, 236, 160, 0.55); transition: left 900ms cubic-bezier(.5,0,.3,1); }
+body.arriving #ladder, body[data-mode="impacts"] #ladder { opacity: 0; }
+/* Firefly guide (main.js; AI_LOG "Story review" steps 7–8): the Female response reply glow, flash colour, pulsing at
+   that scene's rhythm (1.2 s, flash at 60 %). Size and glow: agent choices. */
+#guide { position: absolute; z-index: 5; width: 0; height: 0; pointer-events: none; }
+#guide[hidden] { display: none; }
+#guide i { position: absolute; left: -26px; top: -26px; width: 52px; height: 52px; border-radius: 50%;
+  background: radial-gradient(circle closest-side, #f4ffd0 0%, rgb(184, 235, 64) 22%, rgba(184, 235, 64, 0) 100%);
+  animation: guide-pulse 1.2s linear infinite; }
+@keyframes guide-pulse {
+  0%, 48% { opacity: 0.22; transform: scale(0.8); }
+  60% { opacity: 1; transform: scale(1.15); }
+  72%, 100% { opacity: 0.22; transform: scale(0.8); }
+}
+/* Species window panel on Two measured nights (twoNights.js; AI_LOG "Story review" steps 7–8): bottom left above the
+   info button, buttons styled like the Female response beat toggle. Place: agent choice. */
+#nights-window { position: absolute; left: 16px; bottom: 60px; z-index: 5; display: flex; gap: 6px; }
+#nights-window[hidden] { display: none; }
+#nights-window button { font: 12px system-ui, sans-serif; color: #ccc; background: rgba(17,17,17,0.85);
+  border: 1px solid #444; border-radius: 12px; padding: 3px 11px; cursor: pointer; }
+#nights-window button:hover { color: #fff; }
+#nights-window button[aria-pressed="true"] { color: #fff; border-color: #aaa; }

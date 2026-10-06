@@ -826,6 +826,14 @@ export function createSpectral({ parent }) {
   resize();
 
   return {
+    // Screen position of the Female response female (dialogue cluster centre) while that chapter shows, else null.
+    // For the firefly guide in main.js (ladder plan phase 4; AI_LOG "Story review" steps 7–8).
+    femaleAt() {
+      const F = chapters.fireflies;
+      if (!running || current?.chapter !== 'fireflies' || !F?.femaleC) return null;
+      const v = F.femaleC.clone().add(F.group.position).project(camera);
+      return { x: (v.x + 1) / 2 * window.innerWidth, y: (1 - v.y) / 2 * window.innerHeight };
+    },
     // st = a story step's `spectral` key ({ chapter, beats, every }), or null to hide the view.
     // from = {x, y}: grow out of that screen point; to = {x, y}: shrink into it, then hide. onDone: when finished.
     // glow = () => {x, y} (a site's glow on the globe): open out of it after GLOW_DELAY, or (st = null) close into it.

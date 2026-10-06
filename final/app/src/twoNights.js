@@ -50,9 +50,21 @@ const ONCE = { toLeft: 1500, hold: 4000, across: 7000 }, EDGE_PX = 2;
 // autoRotate, one turn per 60 s / ROTATE_SPEED = 240 s, i.e. 1.5° per second (agent choice; 0.5 = 3°/s looked too fast at
 // 1000 × 575); it stops with the sweep.
 const ROTATE_SPEED = 0.25;
-// The amber band slab (570–615 nm, "Amber highlight" step 2) is replaced by the two sensitivity blocks (BLOCKS below;
-// human, AI_LOG "Species perceptions" step 11: "2 b").
+// The amber band slab (570–615 nm, "Amber highlight" step 2) was replaced by two sensitivity blocks (human, AI_LOG
+// "Species perceptions" step 11), which are now removed in favour of the species window below (AI_LOG
+// "Story review" step 8; human: "remove the two boxes highlight").
 const ease = t => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+// Species window (AI_LOG "Story review" steps 7–8; human: a toggle panel "for both human and fireflies, in both phil
+// and cherry spring", "No auto window"; then "the animation should be inverse ... the spectrum should shrink from the
+// full to the window for that species"): on Two measured nights a panel (bottom left) holds one button per species; a
+// click shrinks the visible range from the full 280–840 nm to that species' half-max band on both halves over `move`
+// (the other measured points dimmed to WINDOW.dim) and it stays; the same button again grows it back to full; the
+// other button moves the window to its band (agent choices for the last two).
+// Bands = each curve's samples ≥ 0.5 (data/derived/spectra/sensitivity_bands.json, pipeline/spectra/04_sensitivity_bands.py):
+// human night, CIE scotopic V′(λ), 454–548 nm (`inferred`); firefly, P. pyralis female (Lall & Worthy 2000; provisional
+// curve, no label), 530–600 nm. Edges half a grid step outside (pad). Button words, move time, dim level, pad: agent choices.
+const WINDOW = { move: 2000, dim: 0.04, pad: 1,
+  bands: [{ id: 'human', name: 'Human', lo: 454, hi: 548 }, { id: 'firefly', name: 'Firefly', lo: 530, hi: 600 }] };
 
 // Draft particles.ts wavelengthToRgb.
 function wavelengthToRgb(nm) {
@@ -80,6 +92,9 @@ const vertexShader = `
   uniform float uTimeFocus;
   uniform float uPointScale;
   uniform float uLayer;
+  uniform float uWinLo;
+  uniform float uWinHi;
+  uniform float uWinDim;
   varying vec3 vColor;
   varying float vAlpha;
   varying float vBand;
@@ -89,8 +104,9 @@ const vertexShader = `
     float focusSignal = 1.0 - smoothstep(0.0, 0.022, abs(aTime - uTimeFocus));
     float focus = 1.30 * (0.24 + 0.76 * focusSignal);
     float qualityAlpha = aQuality > 1.5 ? 0.08 : (aQuality > 0.5 ? 0.18 : 1.0);
+    float inWin = smoothstep(uWinLo - 0.15, uWinLo, position.x) * (1.0 - smoothstep(uWinHi, uWinHi + 0.15, position.x));
     vColor = aColor;
-    vAlpha = max(0.02, aStrength * focus * qualityAlpha) * uLayer;
+    vAlpha = max(0.02, aStrength * focus * qualityAlpha) * uLayer * mix(uWinDim, 1.0, inWin);
     vBand = aBand;
     vHalo = 0.0;
     float focusSize = 0.92 + 0.16 * focusSignal;
@@ -141,6 +157,7 @@ const receptorVertexShader = `
   uniform float uChannels;
   uniform float uHaloOn;
   uniform float uMotionTime;
+  uniform float uGain;
   uniform vec3 uColor;
   varying vec3 vColor;
   varying float vAlpha;
@@ -157,32 +174,71 @@ const receptorVertexShader = `
     float strength = mix(aStrength, aContrib, uContrib);
     float qualityAlpha = aQuality > 1.5 ? 0.08 : (aQuality > 0.5 ? 0.18 : 1.0);
     vColor = uColor;
-    vAlpha = strength * focus * qualityAlpha * uChannels * uLayer;
+    vAlpha = strength * focus * qualityAlpha * uChannels * uLayer * uGain;
     vBand = aBand;
     vHalo = aResp * uHaloOn;
     float focusSize = 0.92 + 0.16 * focusSignal;
-    gl_PointSize = clamp((1.15 + strength * 5.6 + vHalo * 1.4) * focusSize * uPointScale * (15.0 / -mvPosition.z), 1.0, 9.0 * uPointScale);
+    gl_PointSize = clamp((1.15 + strength * 5.6 + vHalo * 1.4) * focusSize * sqrt(uGain) * uPointScale * (15.0 / -mvPosition.z), 1.0, 9.0 * uPointScale);
     gl_Position = projectionMatrix * mvPosition;
   }`;
 // Draft receptors.ts RECEPTOR_CHANNEL_RGB (channel identifiers, not wavelength or perceived colours).
 const CHANNEL_RGB = { r: [0.95, 0.39, 0.58], g: [0.20, 0.82, 0.74], b: [0.54, 0.48, 0.98], halo: [0.76, 0.46, 0.98],
   luma: [0.82, 0.87, 0.94], yellow: [0.95, 0.72, 0.21] };
 const CLOUD_SEED = 37, SPECIES_MS = 1500;   // draft INTERPRETIVE_CLOUD_SEED; species cycle 1.5 s (human, round 7j)
-// Species perceptions as Firefly | Human (human, AI_LOG "Species perceptions" steps 1–4; story key `nights: 'pair'`):
-// Philadelphia only, fixed divider in the middle (no sweep, no rotation, no cycling); left = Photinus pyralis female
-// response, right = human night, CIE scotopic V′(λ) (human, step 7: "we need the night curve not the day curve"; was
-// photopic); the Philadelphia layer is drawn on the right half. Same cloud as 'species'.
-const PAIR = ['big-dipper-firefly', 'human-scotopic'], PAIR_NAMES = ['Firefly', 'Human'];
-// Sensitivity blocks (human, AI_LOG "Species perceptions" steps 10–11): translucent slabs on the Philadelphia half of
-// Two measured nights over each curve's half-max band, first / last 2 nm grid sample with response ≥ 0.5
-// (data/derived/spectra/sensitivity_bands.json, pipeline/spectra/04_sensitivity_bands.py): human night (CIE scotopic
-// V′(λ), `inferred`) 454–548 nm; firefly (P. pyralis female, Lall & Worthy 2000; provisional curve, no label) 530–600 nm.
-// Edges half a grid step outside (pad). Moving on to Species perceptions ('pair'), each block shrinks and slides into
-// the cloud on its side (firefly left, human right) while fading (human: option C). k = PAIR index. Colours = each
-// layer's channel colour (identifiers, not wavelength colours), opacity 0.12, label size 14 px and heights: agent choices.
-const BLOCKS = [{ k: 0, name: 'Firefly sensitivity', lo: 530, hi: 600, ch: 'yellow', labelY: 9.4 },
-  { k: 1, name: 'Human sensitivity', lo: 454, hi: 548, ch: 'luma', labelY: 10.15 }];
-const BLOCK_PAD = 1, BLOCK_ALPHA = 0.12;
+// Species perceptions (story key `nights: 'pair'`): fixed divider in the middle (no sweep, no rotation, no cycling),
+// same cloud as 'species'. Was Firefly | Human on Philadelphia only (human, AI_LOG "Species perceptions" steps 1–7);
+// now firefly only (Photinus pyralis female response), Philadelphia (left) | Cherry Springs (right), each site's layer
+// on its own half (human, AI_LOG "Story review" step 3: "firefly only, but the comparison is about philadelphia and
+// cherry spring, keeping the existing visualization method").
+const PAIR = ['big-dipper-firefly'];
+// Display gain in 'pair' (human, AI_LOG "Story review" step 4: "both phil half and cherry spring half light dots needs
+// to be brighter"): the same factor on both halves, alpha × PAIR_GAIN and point size × √PAIR_GAIN (alpha saturates at 1,
+// so the brightest Philadelphia points gain less). Display only, not data. Eased like uLayer. Value: 2 (human, AI_LOG
+// "Story review" step 5: "Lower to 2"; was 2.5, agent choice).
+const PAIR_GAIN = 2;
+// Female reply in each cloud (human, AI_LOG "Story review" step 5: put "the signal data visualization from female
+// response" into the clouds, "Female reply only", "just use the same data you use in the 'female response' tab ...
+// this species perceptions tab is just an interpretation, nothing needs to be very precise"). Interpretation, not
+// data: spectral.js's Female response female cluster (dialogue(): 160 points in a 0.9 × 0.9 × 0.6 box, hash seed 23,
+// sizes 1.4–3.0, flash colour FLASH; opacity 0.12 at rest, + 0.85 reply pulse at phase 0.6 of a 1.2 s cycle, width
+// 0.07; firefly-tab gain 2.2 and size 1.3), drawn the same in both halves with additive blending over the cloud. It
+// replies every cycle (Female response's dark share is 98.7 %; agent choice). Place: the middle of each half's part
+// of the cloud (screen x in NDC ∓0.25 at the cloud centre's depth); REPLY_SCALE and REPLY_SIZE (world size and point
+// size against this scene's farther camera): agent choices, by eye.
+const REPLY = { n: 160, seed: 23, box: [0.9, 0.9, 0.6], colour: [0.72, 0.92, 0.25], rest: 0.12, pulse: 0.85, at: 0.6,
+  width: 0.07, cycle: 1200, gain: 2.2, size: 1.3 };
+const REPLY_SCALE = 2, REPLY_SIZE = 3, REPLY_X = [-0.25, 0.25];
+const hash = (i, s) => { const v = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return v - Math.floor(v); };   // spectral.js
+// spectral.js point shader (core + glow, gain without hue shift), plus the divider clip used here.
+const replyVertexShader = `
+  attribute float aSize;
+  uniform float uScale;
+  uniform float uOpacity;
+  varying float vAlpha;
+  void main() {
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    vAlpha = uOpacity;
+    gl_PointSize = clamp(aSize * uScale * (15.0 / -mv.z), 1.0, 9.0 * uScale);
+    gl_Position = projectionMatrix * mv;
+  }`;
+const replyFragmentShader = `
+  precision highp float;
+  uniform float uSplit;
+  uniform float uSide;
+  uniform float uGain;
+  uniform vec3 uColor;
+  varying float vAlpha;
+  void main() {
+    if ((gl_FragCoord.x - uSplit) * uSide > 0.0) discard;
+    float r = length(gl_PointCoord - vec2(0.5));
+    float core = 1.0 - smoothstep(0.06, 0.23, r);
+    float glow = (1.0 - smoothstep(0.13, 0.5, r)) * 0.58;
+    float a = max(core, glow) * vAlpha;
+    if (a <= 0.003) discard;
+    vec3 c = uColor * uGain;
+    c /= max(1.0, max(c.r, max(c.g, c.b)));
+    gl_FragColor = vec4(c, min(1.0, a * uGain));
+  }`;
 // Draft particles.ts hash01 and deterministicCloudPosition (stable place from the cell's identity and one seed).
 function hash01(index, seed) {
   let v = (index + seed * 374761393) >>> 0;
@@ -237,6 +293,44 @@ export function createTwoNights({ parent, onSweep = null }) {
   // took (forward: the glows were taken over from the globe), onTakeover, onDone } or null.
   let trans = null;
   let sweep = null;   // { t0, once, from } while the divider moves on its own, else null
+  // Species window: `sel` = the chosen band or null (full); `range` = the visible x range now; `win` = { from, to, t0 }
+  // while the range moves (shrink to a band, move between bands, or grow back to full).
+  const FULL = [-13, 13];
+  let sel = null, range = FULL, win = null;
+  const rangeOf = b => (b ? [xOf(b.lo - WINDOW.pad), xOf(b.hi + WINDOW.pad)] : FULL);
+  function applyRange(r) {
+    range = r;
+    const full = r[0] <= FULL[0] && r[1] >= FULL[1];
+    physicalMats.forEach(m => { m.uniforms.uWinLo.value = full ? -99 : r[0]; m.uniforms.uWinHi.value = full ? 99 : r[1]; });
+  }
+  function selectBand(b) {
+    sel = b;
+    win = { from: range, to: rangeOf(b), t0: performance.now() };
+    renderPanel();
+  }
+  function stopWindow() { sel = null; win = null; applyRange(FULL); renderPanel(); }   // reset at once (leaving)
+  function stepWindow(now) {
+    const k = ease(Math.min(1, (now - win.t0) / WINDOW.move));
+    applyRange([0, 1].map(n => win.from[n] + (win.to[n] - win.from[n]) * k));
+    if (k >= 1) win = null;
+  }
+  // Panel: one button per band; the chosen one is pressed. Shown only on Two measured nights ('spectra', no transition).
+  const panel = Object.assign(document.createElement('nav'), { id: 'nights-window', hidden: true });
+  panel.setAttribute('aria-label', 'Show one species’ band');
+  // "Full" first: back to the whole measured range (human: "a 'full' icon that allow users to go back to the original
+  // spectrum", in front of Human and Firefly).
+  panel.innerHTML = '<button data-band="full" aria-pressed="true">Full</button>' +
+    WINDOW.bands.map(b => `<button data-band="${b.id}" aria-pressed="false">${b.name}</button>`).join('');
+  panel.addEventListener('click', e => {
+    const id = e.target.closest('button')?.dataset.band;
+    if (id === 'full') { if (sel) selectBand(null); return; }
+    const b = WINDOW.bands.find(x => x.id === id);
+    if (b) selectBand(b === sel ? null : b);   // same button again: also back to the full spectrum
+  });
+  parent.append(panel);
+  function renderPanel() {
+    panel.querySelectorAll('button').forEach(el => el.setAttribute('aria-pressed', String((sel?.id ?? 'full') === el.dataset.band)));
+  }
   function startSweep(now) {
     if (mode === 'pair') { sweep = null; divider.classList.remove('parked'); return; }   // static divider
     const once = mode !== 'species';
@@ -261,7 +355,7 @@ export function createTwoNights({ parent, onSweep = null }) {
   // Species perceptions: mode 'spectra' | 'species'; mix = eased 0 → 1 towards the species cloud.
   let mode = 'spectra', mix = 0, species = [], speciesIndex = -1, speciesT0 = 0;
   const physicalMats = [], frameGroup = new THREE.Group();
-  const blocks = [];   // sensitivity blocks: { mesh, label, home (centre), b }
+  const replies = [];   // female reply clusters, one per site (left, right)
   scene.add(frameGroup);
 
   // ── axis frame (draft SceneCanvas.tsx ScientificFrame, log scale) ─────────
@@ -300,24 +394,30 @@ export function createTwoNights({ parent, onSweep = null }) {
     label('UV', [-9.85, 0.2, -8]);
     label('VISIBLE', [1.15, 0.2, -8]);
     label('NIR', [9.1, 0.2, -8]);
-    // Sensitivity block slabs (Philadelphia side only on Two measured nights: same divider clip as the points).
-    for (const b of BLOCKS) {
-      const x0 = xOf(b.lo - BLOCK_PAD), x1 = xOf(b.hi + BLOCK_PAD);
-      const mat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide,
-        vertexShader: 'void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
-        fragmentShader: `precision highp float; uniform float uSplit; uniform float uSide; uniform float uOpacity; uniform vec3 uColor;
-          void main() { if ((gl_FragCoord.x - uSplit) * uSide > 0.0) discard; gl_FragColor = vec4(uColor, ${BLOCK_ALPHA.toFixed(2)} * uOpacity); }`,
-        uniforms: { uSplit: { value: 0 }, uSide: { value: SITES[0].side }, uOpacity: { value: 1 },
-          uColor: { value: new THREE.Color(...CHANNEL_RGB[b.ch]) } } });
-      const mesh = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, 9, 16), mat);
-      const home = new THREE.Vector3((x0 + x1) / 2, 4.5, 0);
-      mesh.position.copy(home);
-      scene.add(mesh);
-      const lb = label(b.name, [home.x, b.labelY, -8]);
-      lb.element.style.fontSize = '14px';
-      lb.element.style.color = `rgb(${CHANNEL_RGB[b.ch].map(v => Math.round(v * 255)).join(',')})`;
-      blocks.push({ mesh, label: lb, home, b });
+  }
+
+  // ── female reply (Species perceptions, 'pair') ──────────────────────────
+  function buildReplies() {
+    const [bx, by, bz] = REPLY.box, pos = new Float32Array(REPLY.n * 3), size = new Float32Array(REPLY.n);
+    for (let i = 0; i < REPLY.n; i++) {
+      pos.set([(hash(i, REPLY.seed) - 0.5) * bx, (hash(i, REPLY.seed + 1) - 0.5) * by, (hash(i, REPLY.seed + 2) - 0.5) * bz], i * 3);
+      size[i] = 1.4 + hash(i, REPLY.seed + 3) * 1.6;
     }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    g.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
+    SITES.forEach(site => {
+      const m = new THREE.ShaderMaterial({ vertexShader: replyVertexShader, fragmentShader: replyFragmentShader,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: {
+          uScale: { value: pixelRatio * REPLY.size * REPLY_SIZE }, uOpacity: { value: 0 }, uGain: { value: REPLY.gain },
+          uColor: { value: new THREE.Color(...REPLY.colour) }, uSplit: { value: 0 }, uSide: { value: site.side } } });
+      const p = new THREE.Points(g, m);
+      p.frustumCulled = false;
+      p.visible = false;
+      p.scale.setScalar(REPLY_SCALE);
+      scene.add(p);
+      replies.push(p);
+    });
   }
 
   // ── points (draft SpectralPoints.tsx geometry) ──────────────────────────
@@ -349,7 +449,8 @@ export function createTwoNights({ parent, onSweep = null }) {
     g.setAttribute('aTime', new THREE.BufferAttribute(time, 1));
     const m = new THREE.ShaderMaterial({ vertexShader, fragmentShader, transparent: true, depthWrite: false,
       blending: THREE.AdditiveBlending, uniforms: { uTimeFocus: { value: 0 }, uPointScale: { value: pixelRatio },
-        uSplit: { value: 0 }, uSide: { value: site.side }, uLayer: { value: 1 } } });
+        uSplit: { value: 0 }, uSide: { value: site.side }, uLayer: { value: 1 },
+        uWinLo: { value: -99 }, uWinHi: { value: 99 }, uWinDim: { value: WINDOW.dim } } });
     const p = new THREE.Points(g, m);
     p.frustumCulled = false;
     scene.add(p);
@@ -376,7 +477,7 @@ export function createTwoNights({ parent, onSweep = null }) {
         depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTimeFocus: { value: 0 },
           uPointScale: { value: pixelRatio }, uSplit: { value: 0 }, uSide: { value: site.side }, uContrib: { value: 0 },
           uCloud: { value: 0 }, uLayer: { value: 0 }, uChannels: { value: 1 / Math.sqrt(sp.receptors.length) },
-          uHaloOn: { value: halo ? 1 : 0 }, uMotionTime: { value: 0 },
+          uHaloOn: { value: halo ? 1 : 0 }, uMotionTime: { value: 0 }, uGain: { value: 1 },
           uColor: { value: new THREE.Color(...CHANNEL_RGB[rc.display_channel]) } } });
       const rp = new THREE.Points(rg, rm);
       rp.frustumCulled = false;
@@ -396,6 +497,7 @@ export function createTwoNights({ parent, onSweep = null }) {
     meta = { wavelengths: m.wavelength_nm, floor: m.display_limits_log10.floor, ceil: m.display_limits_log10.ceil };
     if (sc.wavelength_nm.length !== meta.wavelengths.length) throw new Error('species_curves grid differs from spectra');
     buildFrame();
+    buildReplies();
     species = sc.species.map(sp => ({ ...sp, layers: [] }));
     count = Math.min(...SITES.map((s, k) => buildSite(s, docs[k])));
   });
@@ -404,7 +506,7 @@ export function createTwoNights({ parent, onSweep = null }) {
   function placeDivider() {
     divider.style.left = `${split * canvas.clientWidth}px`;
     materials.forEach(m => { m.uniforms.uSplit.value = split * canvas.clientWidth * pixelRatio; });
-    blocks.forEach(({ mesh }) => { mesh.material.uniforms.uSplit.value = split * canvas.clientWidth * pixelRatio; });
+    replies.forEach(p => { p.material.uniforms.uSplit.value = split * canvas.clientWidth * pixelRatio; });
     placeNames();
   }
   // Names straddle the top of the divider, 14 px either side (human, AI_LOG "Species perceptions" step 12: "should
@@ -426,34 +528,22 @@ export function createTwoNights({ parent, onSweep = null }) {
       }
     });
   }
-  // Block labels belong to the Philadelphia half: hidden while their screen position is right of the divider
-  // (Two measured nights only; in Species perceptions they travel with their block and fade with the frame).
-  const labelPos = new THREE.Vector3();
-  function placeBlockLabels() {
-    blocks.forEach(({ label: lb }) => {
-      labelPos.copy(lb.position).project(camera);
-      lb.element.style.visibility = mode === 'pair' || (labelPos.x + 1) / 2 < split ? '' : 'hidden';
-    });
-  }
-  // Collapse (option C): c = 0 at the block's wavelength place, 1 in the cloud on its side. Target = the cloud centre
-  // (draft cloud, y 4.25) moved along the screen to the middle of the block's half (NDC x ∓0.5); size 1 → 0.15;
-  // opacity falls as the cloud forms (uCloud). Display device only. Only to / from 'pair' (fly: back to Two measured
-  // nights they fly out again until mix reaches 0); 'species' fades them in place.
+  // Cloud centre (draft cloud, y 4.25) for placing the female replies on screen.
   const cloudCentre = new THREE.Vector3(0, 4.25, 0), target = new THREE.Vector3();
-  let fly = false;
-  function placeBlocks() {
-    fly = mode === 'pair' || (fly && mode === 'spectra' && mix > 0);
-    const c = fly ? ease(mix) : 0, fade = 1 - Math.max(0, mix * 2 - 1);
-    blocks.forEach(({ mesh, label: lb, home, b }) => {
+  // Female reply: fades in with the cloud in 'pair' (second half of mix), out on leaving; pulses as in Female response.
+  let replyK = 0;
+  function placeReplies(now, delta) {
+    const goal = mode === 'pair' ? Math.max(0, mix * 2 - 1) : 0;
+    replyK += (goal - replyK) * (1 - Math.exp(-delta / 0.15));
+    const ph = ((now - t0) / REPLY.cycle) % 1;
+    const o = (REPLY.rest + REPLY.pulse * Math.exp(-(((ph - REPLY.at) / REPLY.width) ** 2))) * replyK;
+    replies.forEach((p, k) => {
       target.copy(cloudCentre).project(camera);
-      target.x = b.k ? 0.5 : -0.5;
+      target.x = REPLY_X[k];
       target.unproject(camera);
-      mesh.position.lerpVectors(home, target, c);
-      mesh.scale.setScalar(1 - 0.85 * c);
-      mesh.material.uniforms.uOpacity.value = fly ? fade : 1 - mix;
-      mesh.material.uniforms.uSide.value = mode === 'pair' ? 0 : SITES[0].side;   // pair: no clip, it flies to its half
-      mesh.visible = mesh.material.uniforms.uOpacity.value > 0.002;
-      lb.position.set(mesh.position.x, mesh.position.y + (b.labelY - 4.5) * mesh.scale.y, mesh.position.z - 8 * mesh.scale.z);
+      p.position.copy(target);
+      p.material.uniforms.uOpacity.value = o;
+      p.visible = o > 0.002;
     });
   }
   divider.querySelector('.handle').addEventListener('pointerdown', e => {
@@ -548,10 +638,10 @@ export function createTwoNights({ parent, onSweep = null }) {
     speciesTag.hidden = mode !== 'species' || Boolean(trans);
     const kc = 1 - Math.exp(-delta / 0.15);
     species.forEach((sp, i) => sp.layers.forEach(p => {
-      const u = p.material.uniforms, k = p.userData.site.id === 'philadelphia' ? PAIR.indexOf(sp.id) : -1;
-      const target = (mode === 'pair' ? k >= 0 : i === speciesIndex) ? mix : 0;
-      u.uSide.value = mode !== 'species' && k === 1 ? -1 : p.userData.site.side;   // pair: human on the right half
+      const u = p.material.uniforms;
+      const target = (mode === 'pair' ? PAIR.includes(sp.id) : i === speciesIndex) ? mix : 0;
       u.uLayer.value += (target - u.uLayer.value) * kc;
+      u.uGain.value += ((mode === 'pair' ? PAIR_GAIN : 1) - u.uGain.value) * kc;
       u.uContrib.value = Math.min(1, mix * 2);
       u.uCloud.value = Math.max(0, mix * 2 - 1);
       u.uMotionTime.value = now / 1000;
@@ -574,6 +664,8 @@ export function createTwoNights({ parent, onSweep = null }) {
     timeIndex = Math.floor((now - t0) / (SCAN_MS / count)) % count;
     const focus = timeIndex / Math.max(1, count - 1), speed = Math.min(1, delta * 3.8);
     materials.forEach(m => { m.uniforms.uTimeFocus.value += (focus - m.uniforms.uTimeFocus.value) * speed; });
+    if (win && !trans) stepWindow(now);
+    panel.hidden = !shown || mode !== 'spectra' || Boolean(trans) || mix > 0.01;
     if (sweep && !trans) { split = sweepSplit(now); placeDivider(); }
     else if (mode === 'pair' && !trans && split !== 0.5) {   // pair: the divider eases to the middle and stays
       split += (0.5 - split) * Math.min(1, delta * 4);
@@ -583,8 +675,7 @@ export function createTwoNights({ parent, onSweep = null }) {
     speciesFrame(now, delta);
     controls.autoRotate = Boolean(sweep && !trans);
     controls.update(delta);
-    placeBlocks();
-    placeBlockLabels();
+    placeReplies(now, delta);
     renderer.render(scene, camera);
     css.render(scene, camera);
     requestAnimationFrame(frame);
@@ -601,7 +692,7 @@ export function createTwoNights({ parent, onSweep = null }) {
   window.addEventListener('resize', resize);
 
   return {
-    // on = the story step's `nights` key: true (Two measured nights), 'species' (cycling species) or 'pair' (Firefly | Human). Entering
+    // on = the story step's `nights` key: true (Two measured nights), 'species' (cycling species) or 'pair' (firefly, both sites). Entering
     // resets the camera, the divider and the scan; switching between the two while shown keeps them and morphs.
     // Transition (round 7f): from = [() => glow, () => glow] (impacts.siteGlow, left then right site): open out of
     // those glows; to = the same, on leaving: close into them. onTakeover: the glows pass from the globe to this view
@@ -614,12 +705,11 @@ export function createTwoNights({ parent, onSweep = null }) {
       const want = on === 'species' || on === 'pair' ? on : 'spectra';
       const switched = shown && want !== mode;
       if (switched) { mode = want; speciesT0 = performance.now(); speciesIndex = -1; }
-      if (shown) {   // corner names and handle: Firefly | Human with a fixed divider in 'pair', else the sites
-        names.forEach((n, k) => { n.textContent = mode === 'pair' ? PAIR_NAMES[k] : SITES[k].name; });
+      if (shown) {   // handle hidden in 'pair' (fixed divider); names are the sites in every mode
         divider.querySelector('.handle').style.display = mode === 'pair' ? 'none' : '';
       }
       if (!shown) {
-        sweep = null;
+        sweep = null; stopWindow(); panel.hidden = true;
         if (to && running) {
           trans = { dir: -1, t: performance.now(), at: to, r: 0.1 * Math.min(window.innerWidth, window.innerHeight) + 7,
             colours: colours(to), onTakeover, onDone };
@@ -634,7 +724,7 @@ export function createTwoNights({ parent, onSweep = null }) {
       if (!shown) return;   // left the step while loading
       if (running) {   // already showing: back again during a closing transition, or Two measured nights ↔ Species
         if (closing) { unmask(); chrome(true); }
-        if (closing || switched) startSweep(performance.now());   // each mode its own sweep (once / loop)
+        if (closing || switched) { stopWindow(); startSweep(performance.now()); }   // each mode its own sweep (once / loop)
         return;
       }
       mix = mode === 'spectra' ? 0 : 1;   // a fresh entry starts in its own mode, first species first

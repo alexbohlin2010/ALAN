@@ -12,11 +12,22 @@
 //         label inferred, lit > 0, PROVISIONAL until audited; see figureNote).
 // sources: shown under the card. `supports` says what the source states;
 //          it is a note for editors and is not displayed.
+// rung:   the step's place on the ladder marker (src/story.js, `ladder` below); steps without one hide it.
 //
 // DRAFT NOTICE: the case-study and caveat sentences below were drafted by an AI agent
 // (claude-opus-5-5, 2026-10-03) at the human's request as prototype placeholders.
 // Each cites one source for its factual part. The link between the fact and the change in
 // lights is the humans' framing; neither the source nor our data shows that cause.
+
+// Ladder marker (AI_LOG "Story review" steps 7–8): the kind of data a step shows, from the
+// satellite view down to an animal's eye. Labels: [PLACEHOLDER] working words, to be written by the humans.
+export const ladder = [
+  { id: 'space', label: 'Space' },
+  { id: 'studies', label: 'Studies' },
+  { id: 'animal', label: 'Animal' },
+  { id: 'light', label: 'Light' },
+  { id: 'eye', label: 'Eye' },
+];
 
 export const story = [
   // ── Part 1: intro / context (global illumination) ──────────────────────────
@@ -31,6 +42,7 @@ export const story = [
   {
     id: 'statistic',
     part: 1,
+    rung: 'space',
     kind: 'fact',              // large text on the left of the globe instead of a card
     // Values from pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json
     // (label: inferred; lit = > 0, sphere areas, pairwise -1.5 exclusion): radiance +40.99% vs 2015.
@@ -76,9 +88,12 @@ export const story = [
     // (AI_LOG Copy editing and drafting step 2). Was: 'But how does light impact our ecosystems?', camera lat 20, lng 10, alt 2.2.
     // Camera point and altitude over West Africa: agent choice, display only.
     part: 1,
+    rung: 'space',
     kind: 'fact',
     label: 'Ecosystems',
-    text: 'As light is expanding into new territory, what are the impacts on global ecosystems?',
+    // Wording: human (AI_LOG Story flow step 5; "deeper into the night" accepted as framing, no source). Was 'As light
+    // is expanding into new territory, what are the impacts on global ecosystems?'
+    text: 'As human activity extends deeper into the night, how is the biosphere responding?',
     camera: { lat: 10, lng: -13, altitude: 0.9 },   // lng -3 -> -13: sweep end clear of the text (step 3)
     fly: 3000,
     // Divider sweeps over West Africa while the question shows (human, AI_LOG Copy editing and drafting step 3).
@@ -89,6 +104,7 @@ export const story = [
   {
     id: 'studies',
     part: 2,
+    rung: 'studies',
     // Big text on the left like Statistic (human, AI_LOG Copy editing and drafting step 5); the former card text is the
     // note behind "Details & sources". Text: human's wording (step 4).
     kind: 'fact',
@@ -106,7 +122,10 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 3000,   // fly out from West Africa instead of a jump (human, step 5; duration: agent choice, as Ecosystems)
     swipe: 0,
-    impacts: { view: 'globe', reveal: true },
+    // Highlight beats (ladder plan phase 2; AI_LOG "Story review" steps 7–8): behaviour studies, then firefly studies
+    // (data/derived/impacts/study_highlights.json). Labels: [PLACEHOLDER] working words.
+    impacts: { view: 'globe', reveal: true, highlight: [{ set: 'behaviour', label: 'Behaviour' },
+      { set: 'fireflies', label: 'Fireflies and glow-worms' }] },
   },
   // Female response study on the globe (human, AI_LOG Impacts reorder steps 2–4): replaces Black swans; shown like the
   // retired Fireflies (Taipei) step. Point = the Arnold Arboretum collection site printed in Owens & Lewis 2021
@@ -123,9 +142,10 @@ export const story = [
   {
     id: 'female-site',
     part: 2,
+    rung: 'animal',
     kind: 'fact',
     label: 'Fireflies',
-    text: 'Fireflies generate natural light to communicate in an increasingly lit environment',   // wording: human
+    text: 'Fireflies generate natural light to communicate in an increasingly lit environment.',   // wording: human
     side: 'right',   // big text on the right, over the dark ocean (human, AI_LOG Fireflies step 4)
     note: 'The point marks the Boston collection site (coordinates as printed in the paper). The other 2018 site, ' +
       'Muster Field, Lincoln (42.42732, −71.31574), is not shown.',
@@ -138,11 +158,13 @@ export const story = [
     swipe: 0,
     // studyLabel: a label under the study's dot: its title and year from studies.json (Data S1), authors as given here
     // (human: short form "Owens & Lewis 2021", AI_LOG Fireflies step 4).
-    impacts: { view: 'globe', studyLabel: { id: '299', authors: 'Owens & Lewis' } },
+    impacts: { view: 'globe', studyLabel: { id: '299', authors: 'Owens & Lewis' },
+      highlight: [{ set: 'fireflies', label: 'Fireflies and glow-worms' }] },   // carried over from Studies (AI_LOG "Story review" step 7)
   },
   {
     id: 'female-response',
     part: 2,
+    rung: 'animal',
     kind: 'fact',   // big narrative text, no card (human, AI_LOG Fireflies step 5); was a card titled 'Female response'
     side: 'right',   // human, AI_LOG Fireflies step 5
     label: 'Female response',
@@ -153,7 +175,7 @@ export const story = [
     // obscurellus* fireflies: a male flashes, a female answers. In the dark 98.7 % of females answered; under bright cool
     // white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and bright amber 0 %. Each lamp in turn, with
     // the part of its light a firefly eye takes in (green).'
-    text: 'ALAN interrupts female responses to mating calls',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    text: 'ALAN interrupts female responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
     sources: [
       { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
         supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
@@ -181,17 +203,20 @@ export const story = [
   {
     id: 'perception',
     part: 2,
+    rung: 'animal',
     kind: 'fact',
     label: 'Perception',
     text: 'Humans perceive ALAN differently to other parts of the biota.',   // wording: human (AI_LOG Fireflies step 10)
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
+    guide: true,   // the firefly guide rests here (main.js; ladder plan phase 4, AI_LOG "Story review" steps 7–8)
   },
   // 'One communication problem' (placeholder, round 1) removed (human, AI_LOG Firefly tabs review round 7c).
   {
     id: 'two-nights',
     part: 2,
+    rung: 'light',
     label: 'Two measured nights',
     title: 'Two measured nights',
     // Card (human, AI_LOG "Amber highlight" steps 3-4): large text; first line while the divider shows Cherry Springs,
@@ -230,14 +255,15 @@ export const story = [
     // is the first one (human: "two points, two halves", AI_LOG Firefly tabs review round 7f).
     nightsSites: ['spitschan2016_city', 'spitschan2016_rural'],
   },
-  // Species perceptions as Firefly | Human (human, AI_LOG "Species perceptions" steps 1–4): Philadelphia's measured night
-  // light as the cloud, weighted by the firefly curve (left) and human night, CIE scotopic V′(λ) (right; human, step 7); fixed divider, no
-  // cycling (twoNights.js, nights: 'pair'; data/derived/spectra/species_curves.json). Was round 7j's cycling view, kept
-  // as [DRAFT] Species perceptions in Explore. Animal curves provisional (human: sources to be identified; nothing
-  // shown on screen). Card text: placeholder.
+  // Species perceptions, firefly only, Philadelphia | Cherry Springs (human, AI_LOG "Story review" step 3): each site's
+  // measured night light as the cloud, weighted by the firefly curve; fixed divider, no cycling (twoNights.js,
+  // nights: 'pair'; data/derived/spectra/species_curves.json). Was Firefly | Human on Philadelphia only (human, AI_LOG
+  // "Species perceptions" steps 1–7), and before that round 7j's cycling view, kept as [DRAFT] Species perceptions in
+  // Explore. Animal curves provisional (human: sources to be identified; nothing shown on screen).
   {
     id: 'species-perceptions',
     part: 2,
+    rung: 'eye',
     kind: 'fact',   // big narrative text on the right, no card (human, AI_LOG Fireflies step 12)
     side: 'right',
     label: 'Species perceptions',
@@ -246,8 +272,8 @@ export const story = [
     text: 'Fireflies perceive ALAN with their own eyes, not ours.',   // wording: human (AI_LOG Fireflies step 12)
     sources: [
       { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
-        supports: 'night spectra, Philadelphia (City), July 2014' },
-      { label: 'CIE 2019, scotopic V′(λ)', url: 'https://doi.org/10.25039/CIE.DS.gr6w4b5g', supports: 'human night curve' },
+        supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
+      // CIE 2019 scotopic V′(λ) source removed with the human side ("Story review" step 3, human: "fix sources").
       { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
     ],
     camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
@@ -257,12 +283,14 @@ export const story = [
   {
     id: 'effects',
     part: 2,
+    rung: 'studies',
     kind: 'fact',   // big text on the right, card text behind Details (human, AI_LOG Fireflies step 17)
     side: 'right',
     label: 'All effects',
     // Was title '3,254 effects'. Sentence: agent draft chosen by the human (their "…generally significant" with
-    // 'significant' → 'substantial'), AI_LOG Fireflies step 17.
-    text: 'The impacts of artificial light on biota are generally substantial.',
+    // 'significant' → 'substantial'), AI_LOG Fireflies step 17. Now agent draft A3 with 'widespread' (human, AI_LOG
+    // Story flow step 3): effects recorded in all 9 species groups (our grouping of Data S1). Was '…generally substantial.'
+    text: 'From one firefly to all of life studied: the impacts of artificial light are widespread.',
     note: 'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
       'Further right = a bigger change under light. Only the size of the change is shown, not its direction: ' +
       'for some measures more is harmful, for others less. White line = the median study: each study’s middle ' +
@@ -286,6 +314,7 @@ export const story = [
   {
     id: 'intensity',
     part: 2,
+    rung: 'studies',
     kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light intensity affect biota?', note began 'Yes.')
     side: 'right',
     label: 'Light level',
@@ -308,6 +337,7 @@ export const story = [
   {
     id: 'light-type',
     part: 2,
+    rung: 'studies',
     kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light temperature affect biota?', note began 'Not as much as thought.')
     side: 'right',
     label: 'Light type',
@@ -334,9 +364,11 @@ export const story = [
   {
     id: 'broader',
     part: 2,
+    rung: 'studies',
     kind: 'fact',
+    side: 'right',   // chart layout: circle left, text + key right, size buttons on top (human, AI_LOG Fireflies step 29)
     label: 'Broader Impacts',
-    text: 'All classes of biota are simultaneously responding to a new global environment.',   // wording: human (AI_LOG Fireflies step 17); was 'So how does this translate to ecosystem level impacts?'
+    text: 'The biosphere is responding to a new nighttime experience.',   // wording: human (AI_LOG Fireflies steps 30–32); was 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
     swipe: 0,
@@ -349,6 +381,7 @@ export const story = [
   {
     id: 'conclusion',
     part: 2,
+    rung: 'space',
     kind: 'fact',
     label: 'Conclusion',
     text: 'We need ALAN, but do we need it all the time, everywhere?',   // 'light at night' → 'ALAN' (human, AI_LOG Fireflies step 9)
