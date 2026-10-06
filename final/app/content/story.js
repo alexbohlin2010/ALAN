@@ -363,8 +363,9 @@ export const story = [
     part: 2,
     rung: 'studies',
     kind: 'fact',
+    side: 'right',   // chart layout: circle left, text + key right, size buttons on top (human, AI_LOG Fireflies step 29)
     label: 'Broader Impacts',
-    text: 'All classes of biota are simultaneously responding to a new global environment.',   // wording: human (AI_LOG Fireflies step 17); was 'So how does this translate to ecosystem level impacts?'
+    text: 'The biosphere is responding to a new nighttime experience.',   // wording: human (AI_LOG Fireflies steps 30–32); was 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
     swipe: 0,

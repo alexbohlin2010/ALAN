@@ -175,6 +175,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     hlA.from = 0; hlA.to = 1; hlA.t0 = performance.now(); hlA.ms = HL_MS;
   }
   const circleA = anim(0);   // Broader Impacts circle (stage.circle), 0 = records on their studies, 1 = in the circle
+  const noteA = anim(0), circleKeyA = anim(0);   // reading keys (drawKey): chart, circle
   // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()). siteA: key → fade (stage.site may be
   // one key or a list, e.g. both Spitschan sites during the Two measured nights transition).
   const sites = {}, siteA = {};
@@ -211,11 +212,13 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   // button words = the human's). Classes = the chart's tick words, Cohen (1988): small ≥ 0.2, medium ≥ 0.5, large ≥ 0.8;
   // records below 0.2 are in none of them. "All" (default) = agent's addition.
   let sizeSel = null;
-  const SIZES = [['large', 'Large', '|g| ≥ 0.8'], ['medium', 'Medium', '0.5 ≤ |g| < 0.8'], ['small', 'Small', '0.2 ≤ |g| < 0.5']];
+  // Grey range under each button (class ann; human, AI_LOG Fireflies step 29: C pick 5b), shown once the circle has
+  // settled (style.css #impacts-filter.settled). The key (picks 1a 2a 4c) is drawn in the right column (drawKey).
+  const SIZES = [['large', 'Large', '|g| ≥ 0.8', '≥ 0.8'], ['medium', 'Medium', '0.5 ≤ |g| < 0.8', '0.5–0.8'], ['small', 'Small', '0.2 ≤ |g| < 0.5', '0.2–0.5']];
   function renderFilter() {
     if (barCircle) {
-      filterBar.innerHTML = `<button data-size="" aria-pressed="${!sizeSel}">All</button>` + SIZES.map(([k, l, tip]) =>
-        `<button data-size="${k}" title="${tip}" aria-pressed="${sizeSel === k}">${l}</button>`).join('');
+      filterBar.innerHTML = `<button data-size="" aria-pressed="${!sizeSel}">All</button>` + SIZES.map(([k, l, tip, range]) =>
+        `<button data-size="${k}" title="${tip}" aria-pressed="${sizeSel === k}">${l}<span class="ann range">${range}</span></button>`).join('');
       return;
     }
     const toggle = `<span style="color:#888;font:12px system-ui,sans-serif;align-self:center">Colour</span>` +
@@ -382,11 +385,12 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const circ = Boolean(stage?.circle) && val(circleA) > 0.5;
     if (cats !== barCats || circ !== barCircle) { barCats = cats; barCircle = circ; renderFilter(); }
     filterBar.hidden = !(cats || globeBar || circ);
-    // Circle step: the size toggle stands as a column left of the circle, centred on it (human request, step 8).
-    filterBar.style.flexDirection = circ ? 'column' : '';
+    // Circle step: the size buttons sit in a row above the circle, as the chart's bar (human, AI_LOG Fireflies step 29;
+    // was a column left of the circle, step 8).
+    filterBar.classList.toggle('settled', circ && val(circleA) >= 1);
     if (circ) {
-      const cb = circleBox(w, h);
-      filterBar.style.left = `${cb.toggleX}px`; filterBar.style.top = `${cb.y - filterBar.offsetHeight / 2}px`;
+      const b = chartBox(w, h);
+      filterBar.style.left = `${b.left}px`; filterBar.style.top = `${Math.max(8, b.top - 10 - filterBar.offsetHeight)}px`;
     }
     if (globeBar) {
       const panel = document.getElementById('modes')?.getBoundingClientRect().right ?? 0;
@@ -575,18 +579,18 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     return circleUnit;
   }
 
-  // Circle centre and radius: right of the step panel and the fact text, clear of the bottom nav, room for labels.
-  // The size toggle takes a 90 px column at the region's left edge (human: "to the left of the pie chart").
+  // Circle centre and radius: in the chart's box (left of the right-column text, below the size buttons), room for
+  // labels (human, AI_LOG Fireflies step 29: same layout as the charts; was right of the step panel and the text).
   function circleBox(w, h) {
-    const toggleX = Math.max(document.getElementById('modes')?.getBoundingClientRect().right ?? 0,
-      document.getElementById('fact')?.getBoundingClientRect().right ?? 0) + 24, left = toggleX + 90;
-    const width = Math.max(200, w - left - 24), top = 40, height = h - top - 80;
-    const R = Math.max(80, Math.min(width / 2 - 110, height / 2 - 50));
-    return { x: left + width / 2, y: top + height / 2, R, toggleX };
+    // Top-anchored (50 px for the top labels), so the key level with the circle's top stays above the big text.
+    const b = chartBox(w, h), height = h - b.top - 60;
+    const R = Math.max(80, Math.min(b.width / 2 - 110, height / 2 - 50));
+    return { x: b.left + b.width / 2, y: b.top + 50 + R, R };
   }
 
   function drawCircle(w, h) {
     const k = val(circleA);
+    go(circleKeyA, k >= 1 ? 1 : 0, k >= 1 ? 600 : 300);   // key once the circle has settled (timing (i))
     if (k < 0.005 || !effects.length) return;
     const L = circleLayout(), b = circleBox(w, h), from = studyScreen();
     ctx.globalAlpha = 0.82 * k; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
@@ -607,6 +611,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     // Labels: group name (as the species lanes) and its number of records, outside the middle of each sector. Thin
     // sectors (Amphibians, Reptiles) sit side by side, so labels on each side are pushed apart vertically, with a
     // short line back to their sector when moved.
+    if (val(circleKeyA) > 0.005) drawKey('circle', b.y - b.R, val(circleKeyA) * Math.min(1, k * 4));
     const la = clamp01((k - 0.85) / 0.15);
     if (la <= 0) return;
     const LH = 15, labels = L.sectors.filter(s => s.n).map(s => {
@@ -706,6 +711,38 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const ea = val(exampleA);
     if (ex && ea > 0.005) { lastExample = ex; drawExample(b, sx, ly, ex, ea * ca); }
     if (stage?.door && p > 0.9) drawDoor(b, sx, ca);
+    // Reading key once the dots have settled (timing (i): in over 0.6 s, stays; out over 0.3 s when the lanes move).
+    // Only on the plain view (Dots: Effects, no filter), where one dot is one record.
+    const settled = p >= 1 && gp >= 1 && dotsBy === 'effects' && !filter && val(studyA) < 0.001;
+    go(noteA, settled ? 1 : 0, settled ? 600 : 300);
+    const na = val(noteA) * ca;
+    if (na > 0.005) drawKey('chart', b.top, na);
+  }
+
+  // Reading keys in the right column (human, AI_LOG Fireflies step 29): samples (not real records), 14 px text, the
+  // first row level with the top of the visualization (human: "aligned with the top of the visualization"; was
+  // above the big text, before that next to a dot in the chart). Chart (A1 picks 1a, 2a; "White line …" removed by
+  // the human): a dot, an arrow. Circle (C picks 1a, 2a; "Numbers = …" removed by the human): a dot, a
+  // small and a big dot.
+  // Agent choices: sizes, spacing, sample dot colour.
+  const KEY_ROWS = {
+    chart: [['One dot = one measured effect', x => dot(x + 10, 0, 5, '#bbb', true, ctx.globalAlpha)],
+      ['bigger change under light', x => { ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1.5; ctx.beginPath();
+        ctx.moveTo(x + 2, 0); ctx.lineTo(x + 40, 0); ctx.moveTo(x + 34, -5); ctx.lineTo(x + 40, 0); ctx.lineTo(x + 34, 5); ctx.stroke(); }]],
+    circle: [['One dot = one measured effect', x => dot(x + 10, 0, 5, '#bbb', true, ctx.globalAlpha)],
+      ['Bigger dot = bigger change', x => { dot(x + 6, 0, 2.5, '#bbb', false, ctx.globalAlpha); dot(x + 24, 0, 7, '#bbb', false, ctx.globalAlpha); }]],
+  };
+  function drawKey(kind, top, a) {
+    const fact = document.getElementById('fact');
+    if (!fact || fact.hidden || !fact.classList.contains('right')) return;
+    const x = fact.getBoundingClientRect().left, ROW = 30;
+    KEY_ROWS[kind].forEach(([text, sample], i) => {
+      ctx.save(); ctx.translate(0, top + 8 + i * ROW); ctx.globalAlpha = a; ctx.lineJoin = 'round';
+      sample(x);
+      ctx.font = '400 14px system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#ddd';
+      ctx.fillText(text, x + 50, 0);
+      ctx.restore();
+    });
   }
 
   // Door into a spectral chapter (human: option B + click, door = record 299-3; Firefly transition task step 2):
