@@ -54,7 +54,8 @@ export const story = [
     // Wording: human's (AI_LOG step 11: say "ALAN", radiance moved to the footnote).
     // Wording: human (AI_LOG Impacts firefly-first step 5); the 41 % line moved to Ecosystems. Was 'From 2015 to 2025,
     // Artificial Light at Night (ALAN) increased by 41%.' (human, 2026-10-05, copy editing step 3).
-    text: 'The dawn of human nighttime activity is changing the globe, and its inhabitants.',
+    // 'inhabitants' → 'residents', line break before 'and' (human, AI_LOG Experience refinement step 7).
+    text: 'The dawn of human nighttime activity is changing the globe,\nand its residents.',
     // Note and sources moved to Ecosystems with the 41 % line (human, AI_LOG Impacts firefly-first step 5).
     // No camera move and no sweep (human, AI_LOG Story step 41: the India/China pan made India feel
     // shown twice). Camera = the intro view, so the globe stays where the intro left it.
@@ -116,7 +117,9 @@ export const story = [
     // Divider sweeps over West Africa while the question shows (human, AI_LOG Copy editing and drafting step 3).
     // east/west: approximate West Africa extent (Cameroon border ~15 E, Dakar ~17.5 W), agent choice, display only.
     // Was: swipe: 0, impacts: { view: 'globe', dots: false } (an impacts stage hides the divider, style.css).
-    sweep: { east: 3, west: -8.5, hold: 800, duration: 3500 },   // Benin's east border ~3 E to Côte d'Ivoire's west ~8.5 W
+    // duration 3500 → 1000 ms (about the Spectra divider's speed) and `start` 0.72 (the divider arrives near the sweep's east
+    // end, ~0.71 of the width at 1280 × 800, not the right edge): human, AI_LOG Experience refinement step 6; values: agent choices.
+    sweep: { east: 3, west: -8.5, hold: 800, duration: 1000, start: 0.72 },   // Benin's east border ~3 E to Côte d'Ivoire's west ~8.5 W
   },
   // Studies step removed, merged into All effects (human, AI_LOG Impacts firefly-first step 2, option A2): Impacts opens
   // on the firefly; its note and sources moved to All effects' Details. Was: label 'Studies', text 'These 207 published
@@ -163,6 +166,9 @@ export const story = [
   },
   {
     id: 'female-response',
+    // Big text centred at 42 % of the height instead of 50 %, clear of the spectrum row tags ("red", "amber"; human, AI_LOG
+    // Experience refinement step 6). Value: agent choice (style.css --fact-top, landscape only).
+    factTop: 0.42,
     part: 2,
     rung: 'animal',
     kind: 'fact',   // big narrative text, no card (human, AI_LOG Fireflies step 5); was a card titled 'Female response'
@@ -247,14 +253,16 @@ export const story = [
     kind: 'fact',
     side: 'right',
     // The question was this step's opening beat in AI_LOG Impacts firefly-first step 6; back on Perception (step 7).
-    text: 'This is the light spectrum measured at a dark sky park, Cherry Springs.',
+    // ', PA' added (human, AI_LOG Experience refinement step 3).
+    text: 'This is the light spectrum measured at a dark sky park, Cherry Springs, PA.',
     reveal: [
       // ", a dark sky park" removed (human, AI_LOG Firefly flow step 5: redundant with the first line).
       'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs.',
       // Agent draft D2 chosen by the human, on its own beat before the study line (AI_LOG Firefly flow step 10, W1):
       // Lall et al. 1980 (eye peak ~570 nm) and Philadelphia's median spectrum peak (594 nm, checked in step 5, not shown).
       'A firefly’s eye is most sensitive here, in the yellow, the same band that holds the peak of Philadelphia’s night sky.',
-      'Bright amber light silenced female fireflies most (Owens & Lewis 2021).',
+      // 'Bright amber light silenced female fireflies most (Owens & Lewis 2021).' moved to Species perceptions' text
+      // (human, AI_LOG Experience refinement step 3); twoNights.js BEATS 4 → 3.
     ],
     note: 'Night spectra measured in July 2014, 240 per site. 150× = median irradiance in 570–615 nm, Philadelphia ÷ ' +
       // "; shaded on the Philadelphia half" removed (human, AI_LOG Firefly flow step 10; no longer shaded).
@@ -308,12 +316,18 @@ export const story = [
     // Was a card titled 'Species perceptions': '[PLACEHOLDER] The measured night light of Philadelphia, weighted by
     // each species' spectral sensitivity.'
     // Was 'Fireflies perceive ALAN with their own eyes, not ours.' (human, AI_LOG Fireflies step 12).
-    text: 'Philadelphia’s Artificial Light drowns out the firefly light.',   // wording: human (AI_LOG Firefly flow step 2)
+    // Was 'Philadelphia’s Artificial Light drowns out the firefly light.' (human, AI_LOG Firefly flow step 2); replaced by
+    // Two measured nights' study line, moved here (human, AI_LOG Experience refinement step 3: the old line "a risky
+    // non academic claim").
+    text: 'Bright amber light silenced female fireflies most (Owens & Lewis 2021).',
     sources: [
       { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
         supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
       // CIE 2019 scotopic V′(λ) source removed with the human side ("Story review" step 3, human: "fix sources").
       { label: 'Lall & Worthy 2000', supports: 'Photinus pyralis female response, peak 565 nm' },
+      // With the moved study line (AI_LOG Experience refinement step 3); same entry as Two measured nights.
+      { label: 'Owens & Lewis 2021, Insect Conserv. Divers.', url: 'https://doi.org/10.1111/icad.12487',
+        supports: 'bright amber light had the greatest impact on female responses' },
     ],
     camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
     swipe: 0,
@@ -355,13 +369,15 @@ export const story = [
     rung: 'studies',
     kind: 'fact',   // big text on the right, card text behind Details (human, AI_LOG Fireflies step 17)
     side: 'right',
-    label: 'All effects',
+    label: 'Studies',   // human (AI_LOG Experience refinement step 4: "Across" twice in a row); was 'All effects'
     // Was title '3,254 effects'. Sentence: agent draft chosen by the human (their "…generally significant" with
     // 'significant' → 'substantial'), AI_LOG Fireflies step 17. Now agent draft A3 with 'widespread' (human, AI_LOG
     // Story flow step 3): effects recorded in all 9 species groups (our grouping of Data S1). Was '…generally substantial.'
     // Wording: human (AI_LOG Impacts firefly-first step 3; "207" moved here from the removed Studies step). Was 'From one
     // firefly to all of life studied: the impacts of artificial light are widespread.'
-    text: 'Across 207 published studies, the impacts of artificial light on biota are widespread.',
+    // Was 'Across 207 published studies, the impacts of artificial light on biota are widespread.'
+    // 'Beyond fireflies, ' added (human, Experience refinement step 7).
+    text: 'Beyond fireflies, 207 published studies reveal widespread impacts of artificial light on biota.',   // human (Experience refinement step 4)
     // First three sentences: the removed Studies step's note, verbatim, placed first (human, AI_LOG Impacts firefly-first
     // step 2, A2; order: agent choice).
     note: 'Each dot is one study that compared living things under artificial light at night with the same ' +
@@ -476,10 +492,12 @@ export const story = [
     rung: 'studies',
     kind: 'fact',
     side: 'right',   // chart layout: circle left, text + key right, size buttons on top (human, AI_LOG Fireflies step 29)
-    label: 'Broader Impacts',
+    label: 'Biosphere Response',   // human (AI_LOG Experience refinement step 5); was 'Broader Impacts'
     // Wording: human (AI_LOG Effect dots and examples step 6). Was 'The biosphere is responding to a new nighttime experience.'
     // (human, AI_LOG Fireflies steps 30–32); before that
-    text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.',   // was 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
+    // Opening line (human, AI_LOG Experience refinement step 5); the line below moved to open the Conclusion.
+    text: 'So how is the biosphere responding?',
+    // previous text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.'; before that 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
     swipe: 0,
@@ -520,9 +538,16 @@ export const story = [
     // Beats (human, AI_LOG Conclusion step 6): the text on arrival (lights out, hum fades), then each `reveal` line on the
     // next arrow (`beats: true`, main.js). Wording: human's (step 4). Was 'We need ALAN, but do we need it all the time,
     // everywhere?' ('light at night' → 'ALAN', human, AI_LOG Fireflies step 9).
-    text: "We may be entering the dusk of the biosphere's stability.",
-    // Third beat: responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
-    reveal: ['ALAN may be necessary for the modern apparatus of human society. But not all the time, everywhere.',
+    // Step 6 (human): autoBeat 4000 → 2500 ms; the earth fades to dark from beat 0 (the text was unreadable on the lit
+    // globe), so `darkFrom` removed; the hum plays on until the dusk line (`humFrom: 1`); line 0 anchored (main.js).
+    // Transition (human, AI_LOG Experience refinement step 5): the circle's dots fade out and 'Across the biosphere …'
+    // (moved from Broader Impacts) shows centred on the lit globe; on its own after `autoBeat` ms the dusk line comes in
+    // below it while the earth fades to dark and the hum fades (`darkFrom: 1`, `together: [1]`); the next arrow replaces
+    // both with the 5b line. autoBeat 4000 ms and the 1 s dot fade: agent choices. main.js setCallout / applyDark.
+    text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.',
+    // Third beat (now fourth): responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
+    reveal: ["We may be entering the dusk of the biosphere's stability.",
+      'ALAN may be necessary for the modern apparatus of human society. But not all the time, everywhere.',
       'Responsive lighting can restrict ALAN to an optimal time, place, and set of environmental conditions.'],
     beats: true,
     // Note: AGENT DRAFT (claude-opus-5-5, AI_LOG Conclusion step 7), stating only what the two sources say; Bolliger et al.
@@ -543,7 +568,11 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
-    humOff: true,   // the background hum fades out here (human, AI_LOG Copy editing step 11)
+    humFrom: 1,
+    together: [1],
+    autoBeat: 2500,
+    // humOff (hum out on arrival; human, AI_LOG Copy editing step 11) replaced: the hum fades with the dark at beat 1
+    // (human, AI_LOG Experience refinement step 5; main.js applyDark).
   },
   // ── Part 3: Explore (human request, step 4: its own top-level heading, after the conclusion) ──
   {

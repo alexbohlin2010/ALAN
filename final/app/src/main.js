@@ -59,6 +59,7 @@ function refresh() {
     cam.updateMatrixWorld();
     layer.update(cam, window.innerHeight * globe.renderer().getPixelRatio());
   });
+  layer.moved();   // 4-sample shading while the camera moves (tileLayer.js MOVE_AA)
 }
 globe.controls().addEventListener('change', refresh);
 refresh();
@@ -171,7 +172,8 @@ const SPIN_SPEED = 0.2;
 // Door (human: option B + click, Firefly transition task step 2): between a chart step with `impacts.door` and the
 // spectral step with the same `spectral.door`, the 3D view grows out of (or shrinks back into) that record's dot.
 function applyStage(i) {
-  clearTimeout(chartDelay); clearTimeout(turnDelay);
+  clearTimeout(chartDelay); clearTimeout(turnDelay); clearTimeout(autoTimer); clearTimeout(dotsFade);
+  impactsCanvas().style.opacity = '';
   if (spinning) { globe.controls().autoRotate = false; spinning = false; }   // `globeSpin` ends with its step
   const prev = story[storyIndex];
   storyIndex = i;
@@ -182,8 +184,12 @@ function applyStage(i) {
   setCallout(nb && story.indexOf(prev) === i + 1 ? nb : 0);
   guideStep(prev, story[i]);
   const sp = story[i].spectral ?? null, st = story[i].impacts;
-  document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
-  darkScene.set(Boolean(story[i].dark));   // lights out, blue limb ring in (introScene.js createDarkScene)
+  // dark screen (Conclusion): lights out, blue limb ring in (introScene.js createDarkScene); from beat `darkFrom` (applyDark)
+  applyDark();
+  // `autoBeat` (Conclusion; human, AI_LOG Experience refinement step 5): arriving forward on beat 0, beat 1 follows on its own.
+  if (story[i].autoBeat && calloutK === 0) autoTimer = setTimeout(() => {
+    if (storyIndex === i && mode === 'light' && calloutK === 0) setCallout(1);
+  }, story[i].autoBeat);
   document.body.classList.toggle('story-spectral', Boolean(sp));
   document.body.classList.toggle('story-impacts', Boolean(st));
   // big text beside the chart (style.css); also the Broader Impacts circle (human, AI_LOG Fireflies step 29: same layout)
@@ -257,7 +263,12 @@ function applyStage(i) {
     impacts.show(); impacts.setStage({ view: 'globe' });
     chartDelay = setTimeout(() => { if (storyIndex === i && mode === 'light') impacts.setStage(st); },
       (story[i].fly ?? 0) + story[i].globeHold);
-  } else if (st) { impacts.show(); impacts.setStage(st); } else impacts.hide();
+  } else if (st) { impacts.show(); impacts.setStage(st); }
+  else if (prev.impacts?.circle && story[i].dark) {   // Biosphere Response → Conclusion: the dots fade out
+    const c = impactsCanvas();
+    c.style.transition = `opacity ${DOTS_FADE}ms ease`; c.style.opacity = '0';
+    dotsFade = setTimeout(() => { impacts.hide(); c.style.opacity = c.style.transition = ''; }, DOTS_FADE);
+  } else impacts.hide();
   if (story[i].globeSpin) turnDelay = setTimeout(() => {
     if (storyIndex !== i || mode !== 'light') return;
     const c = globe.controls(); c.autoRotateSpeed = SPIN_SPEED; c.autoRotate = true; spinning = true;
@@ -281,14 +292,47 @@ function setCallout(k) {
   const cl = mode === 'light' ? story[storyIndex].impacts?.callouts : null;
   calloutK = k;
   impacts.setCallout(cl, k);
-  if (mode === 'light' && beatCount(story[storyIndex])) document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k));
+  // `together: [k]`: beat k also keeps the line before it (Conclusion; human, AI_LOG Experience refinement step 5).
+  const tog = story[storyIndex].together ?? [];
+  if (mode === 'light' && beatCount(story[storyIndex])) document.querySelectorAll('#fact .line').forEach((p, n) =>
+    p.classList.toggle('on', n === k || (n === k - 1 && tog.includes(k))));
   // On a `beats` step, Details & sources shows on the last beat only (human, AI_LOG Conclusion step 8).
   const s = story[storyIndex];
   document.getElementById('fact').classList.toggle('details-off', mode === 'light' && Boolean(s.beats) && k < beatCount(s));
+  if (mode === 'light') applyDark();
+  anchorFact(k);
+}
+// `dark: true` steps: dark from beat `darkFrom` (default 0). `story-centre` centres the text for the whole step, lit or
+// dark (AI_LOG Experience refinement step 5). On a `humFrom` step story.js leaves the hum to applyDark.
+let autoTimer = 0, dotsFade = 0;
+const DOTS_FADE = 1000;   // agent choice
+const impactsCanvas = () => document.getElementById('impacts-canvas');
+function applyDark() {
+  const s = story[storyIndex], on = Boolean(s.dark) && calloutK >= (s.darkFrom ?? 0);
+  document.body.classList.toggle('story-dark', on);
+  document.body.classList.toggle('story-centre', Boolean(s.dark));
+  darkScene.set(on);
+  // `humFrom` (Conclusion; human, AI_LOG Experience refinement step 6): the hum plays on until this beat, then fades.
+  if (s.humFrom != null) intro?.humFor({ part: s.part, humOff: mode === 'light' && calloutK >= s.humFrom });
+}
+// Line 0 anchored on a `together` step (human, AI_LOG Experience refinement step 6): #fact's top is fixed where line 0
+// alone sits centred, so the next line comes in below it without the block re-centring. Text centred on the screen as
+// before on the other beats (the anchor is held until their lines have swapped, 500 ms, style.css #fact .line).
+let unanchor = 0;
+function anchorFact(k) {
+  const s = story[storyIndex], fact = document.getElementById('fact'), tog = s.together ?? [];
+  clearTimeout(unanchor);
+  if (mode === 'light' && tog.includes(k)) {
+    // Height with line 0 alone: its text + 14 px bottom margin per line (#fact .big margin; collapsed lines keep theirs).
+    const ls = fact.querySelectorAll('.line'), h0 = ls[0].scrollHeight + 14 * ls.length;
+    fact.style.top = `${(window.innerHeight - h0) / 2}px`;
+    fact.style.transform = 'translate(-50%, 0)';
+  } else if (fact.style.top) unanchor = setTimeout(() => { fact.style.top = fact.style.transform = ''; }, 500);
 }
 const calloutBeat = d => {
   const n = mode === 'light' ? beatCount(story[storyIndex]) : 0, k = calloutK + d;
   if (!n || k < 0 || k > n) return false;
+  clearTimeout(autoTimer);   // an arrow during the `autoBeat` wait takes over
   setCallout(k);
   return true;
 };
@@ -312,7 +356,19 @@ window.addEventListener('keydown', e => {
 // PROTOTYPE: ?intro=sunrise swaps the CSS intro for a 3D sunrise scene (human: option B, intro scene task).
 const intro = INTRO_MODE === 'sunrise' ? createIntroScene({ globe, layer }) : null;
 const darkScene = createDarkScene({ globe, layer });
-const storyCtl = startStory({ steps: story, globe, intro, onStep: i => { markStep(i); applyStage(i); },
+// Story flights: no tile refinement on the way (tileLayer.js capFlight; AI_LOG Experience refinement step 8), then a
+// refresh on arrival.
+let flightEnd = 0;
+function capFlight(i) {
+  const s = story[i], ms = s.fly ?? 0;
+  clearTimeout(flightEnd);
+  if (!ms || !s.camera) return;
+  const cam = globe.camera();
+  cam.updateMatrixWorld();
+  layer.capFlight(cam, window.innerHeight * globe.renderer().getPixelRatio(), s.camera.altitude, ms);
+  flightEnd = setTimeout(refresh, ms + 50);
+}
+const storyCtl = startStory({ steps: story, globe, intro, onStep: i => { markStep(i); capFlight(i); applyStage(i); },
   swipe: { get: () => swipeFrac, set: f => { swipeFrac = f; placeSwipe(); } } });
 
 function setMode(m) {
@@ -324,7 +380,8 @@ function setMode(m) {
     storyCtl.pause();
     lightSwipe = swipeFrac;
     swipeFrac = 0; placeSwipe();   // 0 = all 2025
-    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights', 'story-dark', 'story-noswipe');
+    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights', 'story-dark', 'story-centre', 'story-noswipe');
+    clearTimeout(autoTimer); clearTimeout(dotsFade); impactsCanvas().style.opacity = '';
     darkScene.set(false);
     guideStep({}, {});
     spectral.set(null);

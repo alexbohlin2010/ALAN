@@ -204,7 +204,7 @@ body.story-impacts #swipe, body.story-impacts .year.left { display: none; }
   box-shadow: 0 6px 24px rgba(0,0,0,0.6); }
 #fact .more-body[hidden] { display: none; }
 #fact.details-off .more, #fact.details-off .more-body { display: none; }   /* `beats` step before its last beat (main.js) */
-body.story-dark #fact .more-body { text-align: left; }   /* Details on the dark screen: left-aligned (human, AI_LOG Conclusion step 8) */
+body.story-dark #fact .more-body, body.story-centre #fact .more-body { text-align: left; }   /* Details on the dark screen: left-aligned (human, AI_LOG Conclusion step 8) */
 /* Spectral chapters (spectral.js; AI_LOG Impacts steps 74–75): 3D view over the globe, HTML labels, one number. */
 #spectral-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
 #spectral-canvas[hidden], #spectral-labels[hidden], #spectral-number[hidden] { display: none; }
@@ -256,10 +256,13 @@ body.story-spectral #swipe, body.story-spectral .year { display: none; }
 #globe { transition: opacity 1200ms ease; }
 /* Conclusion (AI_LOG colour / design task step 7): the globe stays; its lights fade out and the blue limb ring fades in
    (introScene.js createDarkScene, DARK_MS 2500); the text is centred on the black globe and fades in over the same time. */
-body.story-dark #fact { left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: min(40vw, 480px); text-align: center;
+/* story-centre (main.js applyDark): the same centred text on a `dark` step's lit beats (Conclusion opens lit, AI_LOG
+   Experience refinement step 5); its size buttons hidden while the Biosphere Response dots fade. */
+body.story-centre #impacts-filter { display: none; }
+body.story-dark #fact, body.story-centre #fact { left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: min(40vw, 480px); text-align: center;
   animation: fact-dark-in 2500ms ease both; }
 @keyframes fact-dark-in { from { opacity: 0; } to { opacity: 1; } }
-body.story-dark #swipe, body.story-dark .year { display: none; }
+body.story-dark #swipe, body.story-dark .year, body.story-centre #swipe, body.story-centre .year { display: none; }
 /* Two measured nights (twoNights.js; AI_LOG Firefly narrative round 3c): 3D view, CSS3D axis labels, site divider. */
 #nights-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
 #nights-labels { position: absolute !important; inset: 0; z-index: 2; pointer-events: none; }
@@ -294,7 +297,7 @@ body.story-noswipe #swipe, body.story-noswipe .year { display: none; }   /* stor
 /* Fact text clear of the left menu (human: option A "below", AI_LOG colour / design task step 6): pushed below
    the menu by --fact-shift (story.js). Portrait keeps its own rule above. */
 @media (min-aspect-ratio: 1001/1000) {
-  #fact { transform: translateY(calc(-50% + var(--fact-shift, 0px))); }
+  #fact { top: var(--fact-top, 50%); transform: translateY(calc(-50% + var(--fact-shift, 0px))); }
   /* Species perceptions (the only fact step with a nights view): text moved down to the bottom right, below the
      clouds, so it does not cover the Cherry Springs half (human, AI_LOG "Story review" step 4); Details opens upwards,
      aligned to the text's right edge so it stays on screen. 72 px = clear of the nav (16 px + 36 px buttons + 20 px):

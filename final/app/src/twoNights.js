@@ -26,7 +26,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
-const SITES = [{ id: 'philadelphia', name: 'Philadelphia', side: 1 }, { id: 'cherry_springs', name: 'Cherry Springs', side: -1 }];
+const SITES = [{ id: 'philadelphia', name: 'Philadelphia', side: 1 }, { id: 'cherry_springs', name: 'Cherry Springs, PA', side: -1 }];
+// ', PA' added to the Cherry Springs label (human, AI_LOG Experience refinement step 3).
 const SCAN_MS = 90000;   // draft TIME_SCAN_CYCLE_MS
 const CAMERA = { position: [17, 11, 20], target: [0, 3.2, 0], fov: 44 };   // draft CAMERA_PRESETS.default
 // Local firefly ↔ Two measured nights (human: "two points, two halves", AI_LOG Firefly tabs review round 7f): the two
@@ -45,7 +46,8 @@ const SWEEP_MS = 16000, SWEEP_HALF = 0.48;
 // The divider rests EDGE_PX from the screen edge during the hold and at the end, visible and draggable (human, AI_LOG
 // "Amber highlight" step 5: "keep draggable divider please, not hidden"): the menu and the card sit 16 px in from the
 // edges (style.css), so line and handle stay clear of them; the handle shows as a half-circle tab. 2 px: agent choice.
-const ONCE = { toLeft: 1500, hold: 4000, across: 7000 }, EDGE_PX = 2;
+// ONCE.across 7000 → 3500 ms (human, AI_LOG Experience refinement step 2: "much faster ... at least in half").
+const ONCE = { toLeft: 1500, hold: 4000, across: 3500 }, EDGE_PX = 2;
 // Beats (human, AI_LOG Firefly flow step 4, option S1: "arrows should guide us from Cherry springs --> philadelphia -->
 // firefly wavelength .. and only on firefly wavelength, should the firefly study text appear"): instead of the timed
 // sweep, ← → and the nav arrows step three beats. 0: the divider moves to the left edge (Cherry Springs fills the view,
@@ -53,11 +55,15 @@ const ONCE = { toLeft: 1500, hold: 4000, across: 7000 }, EDGE_PX = 2;
 // spectrum (WINDOW.move). onBeat(k) shows the step's line k: on arrival for 0, at the end of the sweep for 1, once the
 // window has narrowed for 2. Going back reverses each move. Arriving back from Species perceptions: last beat.
 // ONCE.hold no longer used. Timings as before (agent choices).
+// Beat 1's line now shows when the divider reaches the middle of the screen, not at the end of the sweep (human, AI_LOG
+// Experience refinement step 2: "Swap the text when the divider reaches the middle").
 // Fourth beat (human, AI_LOG Firefly flow step 10, W1): 2 = the window narrows and the firefly-eye line shows; 3 = the
 // window stays and the study line shows.
 // OPEN = beats before the sweep, all with the divider at the left edge; line k = beat k. 1 in AI_LOG Impacts firefly-first
 // step 6 (the Perception question as an opening beat), 0 again since step 7 (Perception reinstated).
-const OPEN = 0, BEATS = 4 + OPEN;
+// Three beats again (human, AI_LOG Experience refinement step 3): the study line moved to Species perceptions, so 2 =
+// the window narrows and the firefly-eye line shows, and the step ends there.
+const OPEN = 0, BEATS = 3 + OPEN;
 // While the divider sweeps, the view also turns slowly about its vertical axis (human, round 7h): OrbitControls
 // autoRotate, one turn per 60 s / ROTATE_SPEED = 240 s, i.e. 1.5° per second (agent choice; 0.5 = 3°/s looked too fast at
 // 1000 × 575); it stops with the sweep.
@@ -345,7 +351,8 @@ export function createTwoNights({ parent, onBeat = null }) {
     panel.querySelectorAll('button').forEach(el => el.setAttribute('aria-pressed', String((sel?.id ?? 'full') === el.dataset.band)));
   }
   const edge = side => (side < 0 ? EDGE_PX / canvas.clientWidth : 1 - EDGE_PX / canvas.clientWidth);
-  function moveTo(to, ms, done = null) { sweep = { t0: performance.now(), once: true, from: split, to, ms, done }; }
+  // mid: called once when the divider crosses the middle of the screen (beat 1's line).
+  function moveTo(to, ms, done = null, mid = null) { sweep = { t0: performance.now(), once: true, from: split, to, ms, done, mid }; }
   // Beat k (BEATS): moves the divider / window there from wherever they are; its line follows its cue.
   function goBeat(k) {
     clearTimeout(beatTimer);
@@ -354,7 +361,7 @@ export function createTwoNights({ parent, onBeat = null }) {
     if (k === OPEN + 1) {
       if (sel) selectBand(null);
       if (split >= edge(1) - 1e-3) { sweep = null; onBeat?.(k); return; }   // already there (back from the next beat)
-      moveTo(edge(1), ONCE.across, () => onBeat?.(k));
+      moveTo(edge(1), ONCE.across, null, () => onBeat?.(k));
       return;
     }
     // beats 2–3: the divider first finishes at the right edge (the rest of a running sweep, or from the middle when
@@ -379,9 +386,11 @@ export function createTwoNights({ parent, onBeat = null }) {
   function sweepSplit(now) {
     const e = now - sweep.t0;
     if (!sweep.once) return 0.5 - SWEEP_HALF * Math.sin(2 * Math.PI * e / SWEEP_MS);
-    const k = Math.min(1, e / sweep.ms), to = sweep.to, done = sweep.done;
-    if (k >= 1) { sweep = null; done?.(); return to; }
-    return sweep.from + (to - sweep.from) * ease(k);
+    const k = Math.min(1, e / sweep.ms), to = sweep.to, done = sweep.done, mid = sweep.mid;
+    const s = k >= 1 ? to : sweep.from + (to - sweep.from) * ease(k);
+    if (mid && (s - 0.5) * (to - sweep.from) >= 0) { sweep.mid = null; mid(); }
+    if (k >= 1) { sweep = null; done?.(); }
+    return s;
   }
   const materials = [];
   // Species perceptions: mode 'spectra' | 'species'; mix = eased 0 → 1 towards the species cloud.

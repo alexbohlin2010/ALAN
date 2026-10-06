@@ -8,6 +8,16 @@ const DEG = Math.PI / 180;
 const MAX_LOADING = 12;
 const MAX_CACHED = 600;
 const FALLBACK_STEPS = 3;  // fallback texels are 8x the target's
+// Levels coarser than the finest one levelFor finds: texels at the target level were 0.55–0.91 device px at the story's
+// views and shimmered when the camera moved (NearestFilter, no mipmaps; AI_LOG Experience refinement step 1). 1 = one
+// level coarser, ~2x texel size (human trial, step 2: "easy to undo"); 0 = as before. Back to 0 (human, step 7: "The
+// original was more beautiful").
+const LEVEL_BIAS = 0;
+// Shimmer while the camera moves (human, AI_LOG Experience refinement step 8, option B): while it moves, each pixel
+// averages 4 samples inside its footprint (rotated grid) instead of one; when it stops, back to one sample (sharp).
+// uAA eases between the two: up in AA_IN ms, down in AA_OUT ms, after AA_IDLE ms without camera change. Timings: agent
+// choices. MOVE_AA = false turns it off.
+const MOVE_AA = true, AA_IDLE = 150, AA_IN = 120, AA_OUT = 600;
 
 // Same convention as globe.gl / three-globe polar2Cartesian.
 function toXYZ(lat, lng, r) {
@@ -64,12 +74,14 @@ const fragmentShader = /* glsl */`
   uniform float uMode;        // PROTOTYPE: 0 brightest, 1 place, 2 blend
   uniform float uBlocks;      // PROTOTYPE: place-mode blocks per degree
   uniform float uFade;        // 1 = normal; < 1 only during the ?intro=sunrise prototype (introScene.js)
+  uniform float uAA;          // 0 = one sample, 1 = 4-sample average (camera moving; MOVE_AA)
   varying vec2 vUv;
   varying vec2 vLonLat;
-  void main() {
-    vec3 t = texture2D(map, vUv).rgb;
+  // One sample at uv / lon-lat ll; vec3(-1) = outside the raster.
+  vec3 shade(vec2 uv, vec2 vLonLat) {
+    vec3 t = texture2D(map, uv).rgb;
     int flags = int(t.b * 255.0 + 0.5);
-    if ((flags & 4) != 0) discard;                  // outside the raster
+    if ((flags & 4) != 0) return vec3(-1.0);       // outside the raster
     bool early = gl_FragCoord.x < uSwipeX;          // left of divider = 2015
     float g = early ? t.r : t.g;
     bool noData = (flags & (early ? 1 : 2)) != 0;
@@ -87,7 +99,20 @@ const fragmentShader = /* glsl */`
       w = uMode < 1.5 ? step(h, share) : share;
     }
     vec3 c = g * mix(uTints[0], uTints[1], w);
-    gl_FragColor = vec4((noData ? uNoDataColor : c) * uFade, 1.0);
+    return (noData ? uNoDataColor : c) * uFade;
+  }
+  void main() {
+    vec3 c0 = shade(vUv, vLonLat);
+    if (c0.r < 0.0) discard;
+    if (uAA < 0.001) { gl_FragColor = vec4(c0, 1.0); return; }
+    vec2 dx = dFdx(vUv), dy = dFdy(vUv), lx = dFdx(vLonLat), ly = dFdy(vLonLat);
+    vec3 acc = vec3(0.0); float n = 0.0;
+    for (int i = 0; i < 4; i++) {
+      vec2 o = i == 0 ? vec2(-0.125, -0.375) : i == 1 ? vec2(0.375, -0.125) : i == 2 ? vec2(0.125, 0.375) : vec2(-0.375, 0.125);
+      vec3 c = shade(vUv + o.x * dx + o.y * dy, vLonLat + o.x * lx + o.y * ly);
+      if (c.r >= 0.0) { acc += c; n += 1.0; }
+    }
+    gl_FragColor = vec4(mix(c0, acc / max(n, 1.0), uAA), 1.0);
   }`;
 
 export class TileLayer {
@@ -109,7 +134,11 @@ export class TileLayer {
       uMode: { value: RAMP_MODE },
       uBlocks: { value: RAMP_BLOCKS },
       uFade: { value: 1 },
+      uAA: { value: 0 },
     };
+    this.aaTarget = 0; this.aaLast = 0; this.aaTimer = 0; this.aaFrame = 0;
+    // Flight cap (option D): level ≤ capLevel until capUntil (performance.now() ms); see capFlight.
+    this.capLevel = Infinity; this.capUntil = 0;
     this.tiles = new Map();         // key -> { mesh, level, used }
     this.loading = new Set();
     this.queue = [];
@@ -191,16 +220,48 @@ export class TileLayer {
 
   // Finest level whose texels are no smaller than one screen pixel at the view centre.
   levelFor(camera, heightPx) {
-    const dist = camera.position.length() - this.radius;
-    const screenPx = dist * 2 * Math.tan(camera.fov * DEG / 2) / heightPx;
+    return this.levelAt(camera.position.length() - this.radius, camera.fov, heightPx);
+  }
+  // The same for a camera `dist` above the tile surface with vertical field of view `fov` (degrees).
+  levelAt(dist, fov, heightPx) {
+    const screenPx = dist * 2 * Math.tan(fov * DEG / 2) / heightPx;
     const nativeTexel = this.radius * this.ix.native_pixel_deg * DEG;
     const steps = Math.max(0, Math.floor(Math.log2(screenPx / nativeTexel)));
-    return Math.max(0, this.ix.max_level - steps);
+    return Math.max(0, this.ix.max_level - steps - LEVEL_BIAS);
+  }
+
+  // No finer tiles mid-flight (human, AI_LOG Experience refinement step 8, option D): during a story flight of `ms` to a
+  // camera `altitude` (globe radii above the surface), the level stays ≤ the coarser of the start and end levels, so it
+  // never refines on the way (zooming in: the start level until arrival, then one refinement; zooming out: the end
+  // level from the start). Never finer than levelFor, so a wide view never asks for fine tiles.
+  capFlight(camera, heightPx, altitude, ms) {
+    this.capLevel = Math.min(this.levelFor(camera, heightPx), this.levelAt(altitude * this.radius / 1.0005, camera.fov, heightPx));
+    this.capUntil = performance.now() + ms;
+  }
+
+  // Camera moved (main.js refresh): 4-sample shading on, off again AA_IDLE ms after the last move (MOVE_AA).
+  moved() {
+    if (!MOVE_AA) return;
+    this.aaTarget = 1;
+    clearTimeout(this.aaTimer);
+    this.aaTimer = setTimeout(() => { this.aaTarget = 0; this.easeAA(); }, AA_IDLE);
+    this.easeAA();
+  }
+  easeAA() {
+    if (this.aaFrame) return;
+    this.aaLast = performance.now();
+    const tick = now => {
+      const u = this.uniforms.uAA, d = this.aaTarget - u.value, dt = now - this.aaLast;
+      this.aaLast = now;
+      u.value += Math.sign(d) * Math.min(Math.abs(d), dt / (d > 0 ? AA_IN : AA_OUT));
+      this.aaFrame = u.value === this.aaTarget ? 0 : requestAnimationFrame(tick);
+    };
+    this.aaFrame = requestAnimationFrame(tick);
   }
 
   update(camera, heightPx) {
     this.frame++;
-    const level = this.levelFor(camera, heightPx);
+    const level = Math.min(this.levelFor(camera, heightPx), performance.now() < this.capUntil ? this.capLevel : Infinity);
     const camPos = camera.position, camLen = camPos.length();
     const horizon = Math.acos(Math.min(1, this.radius / camLen));
     const frustum = new THREE.Frustum().setFromProjectionMatrix(

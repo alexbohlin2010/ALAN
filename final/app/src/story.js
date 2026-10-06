@@ -3,7 +3,8 @@
 // the rest of the UI joins after the lights have faded in.
 
 const escape = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-const format = s => escape(s).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+// \n = a line break (Dawn; AI_LOG Experience refinement step 7).
+const format = s => escape(s).replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
 const ease = t => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 
 const sourceList = sources => {
@@ -82,13 +83,16 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
 
   function sweep(step) {
     const s = step.sweep, lat = step.camera.lat;
-    glide(1, step.fly ?? 0);  // arrive in the 2015 view
-    later(() => glide(lngToFrac(lat, s.east), 400,
+    glide(s.start ?? 1, step.fly ?? 0);  // arrive in the 2015 view (`start`: short of the right edge, AI_LOG Experience refinement step 6)
+    // With `start`, one glide from there to the west end (human, AI_LOG Experience refinement step 7: "a single smooth
+    // sweep"; the 400 ms hop to the east end and the second glide read as a stutter). Without it, as before.
+    if (s.start != null) later(() => glide(lngToFrac(lat, s.west), s.duration), (step.fly ?? 0) + s.hold);
+    else later(() => glide(lngToFrac(lat, s.east), 400,
       () => glide(lngToFrac(lat, s.west), s.duration)), (step.fly ?? 0) + s.hold);
     // A `reveal` line replaces the big text when the sweep ends (Ecosystems; human, AI_LOG Impacts firefly-first step 5).
     // On a timer, so it still comes if the viewer grabs the divider.
     if (step.reveal) later(() => fact.querySelectorAll('.line').forEach((p, n) => p.classList.toggle('on', n === 1)),
-      (step.fly ?? 0) + s.hold + 400 + s.duration);
+      (step.fly ?? 0) + s.hold + (s.start != null ? 0 : 400) + s.duration);
   }
 
   function playIntro(step) {
@@ -151,6 +155,8 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
         : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
+      // `factTop` (0..1): the text's vertical centre, landscape (style.css; AI_LOG Experience refinement step 6).
+      fact.style.setProperty('--fact-top', step.factTop != null ? `${step.factTop * 100}%` : '');
       fact.hidden = false;
       placeFact();
       return;
@@ -202,7 +208,8 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
     document.body.classList.remove('arriving');
     const keepCamera = intro?.spin(i, steps);   // prototype: globe keeps turning until India
     if (step.muteAudio) intro?.setMuted(true);
-    if (step.kind !== 'intro') intro?.humFor(step);   // hum out on Conclusion, back elsewhere
+    // hum out on `humOff` steps, back elsewhere; a `humFrom` step's hum follows its beats (main.js applyDark)
+    if (step.kind !== 'intro' && step.humFrom == null) intro?.humFor(step);
     if (step.kind === 'intro') {
       if (!keepCamera) globe.pointOfView(step.camera, 0);
       playIntro(step);

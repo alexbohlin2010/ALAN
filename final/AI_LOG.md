@@ -7655,3 +7655,219 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: AI_LOG.md, app/content/story.js, app/src/main.js, app/src/story.js, app/src/style.css,
   handoffs/2026-10-06_conclusion.md. Not pushed. Prompt for the next session given in chat.
 - Files changed: handoffs/2026-10-06_conclusion.md (new), AI_LOG.md; git history.
+
+## Experience refinement, step 1 (2026-10-06): read; Spectra text timeline and globe flicker measured in the preview; options (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_conclusion.md (latest) and AI_LOG.md "Conclusion" steps 1–9. Do not edit app/src/introScene.js (audio is another agent's) without asking.
+  >
+  > Task: experience refinement — a pass over moments where viewers get confused or the picture is unsteady. Two to start:
+  >
+  > 1. Spectra step (id 'two-nights', app/content/story.js; app/src/twoNights.js ONCE / beats / onSweep; main.js onBeat). The Cherry Springs line ("This is the light spectrum measured at a dark sky park, Cherry Springs.") stays on screen too long while Philadelphia is rendering, so viewers think the Philadelphia view is Cherry Springs. Read how the beats, the divider sweep and the text swap are timed now.
+  > 2. Globe flicker while the camera moves: in the ALAN step's West Africa sweep (id 'question', camera altitude 0.45, sweep) and especially Firefly Populations over the eastern US (id 'firefly-counts', altitude 1.1). Read how the globe tiles are drawn (app/src/tileLayer.js, main.js globe setup) and find what flickers (tile loading/LOD swaps, z-fighting, shader/opacity, divider, dots) — measure in the preview before guessing.
+  >
+  > Before changing anything, report and stop for my decisions:
+  > * For 1: the current timeline (what shows when, in ms, per beat and on arrival) and options with trade-offs (e.g. swap the text when the sweep starts, hide text during the sweep, a shorter hold), each with what changes on screen.
+  > * For 2: what causes the flicker (evidence: what you saw and measured) and options with trade-offs (visual quality, load, complexity). Ask before any new dependency, build step or architecture change (RULES §1.3).
+  > * Do not change wording (RULES §1.2, §6).
+  >
+  > Then apply only what I decide and check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800): walk the affected steps forward and back, no overlaps with the big text, menu, nav or Details, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive buttons by JS (#nav .next / .back, menu buttons by text) and keep each JS call under 45 s. If the pane is hidden, animation frames stop: take a screenshot to force frames (screenshots can lag the DOM by a frame or two). I may click in the same pane at the same time.
+  > Re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes. Don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, handoffs/2026-10-06_conclusion.md, AI_LOG "Conclusion" steps 1–9, story.js two-nights / question /
+  firefly-counts, twoNights.js, main.js, story.js (src), style.css (#fact .line), tileLayer.js; introScene.js
+  createDarkScene read only (it fades the tiles through uFade).
+- Spectra (code + preview, 1280×800): beat 0 → 1 keeps line 0 (Cherry Springs) for the whole ONCE.across = 7000 ms
+  eased sweep; onBeat(1) at its end; CSS fade 500 ms out, then 900 ms in (Philadelphia line fully in at ~8400 ms).
+  Divider (eased) reaches mid-screen at 3.5 s and the text's left edge (x 819 of 1280, 0.64) at ~4.0 s. Arrival:
+  divider middle → left edge in 1500 ms, line 0 shown at once. Back 1 → 0: line 0 at once, divider back in 1500 ms.
+- Globe (preview, dev-only page scripts, no file change; measured by rendering the same view twice with the camera
+  moved 0.3 device px in longitude and counting lit pixels whose colour changed by > 48/255):
+  - Tile texels at the chosen level are smaller than a screen pixel (levelFor: 0.55 device px at altitude 0.45,
+    0.91 at 1.1), sampled NearestFilter, no mipmaps; colour "place" blocks (1/20°) are 3.3 device px at 0.45 and
+    1.4 at 1.1.
+  - Changed pixels, Firefly Populations view (37 N, 84 W, alt 1.1): current 37 %; ramp "blend" (no blocks) 32 %;
+    one level coarser 27 %; linear filter 24 %; mipmaps + linear 9.5 %; 4-tap supersampling in the shader 17.7 %.
+    ALAN view (8 N, 5.5 W, alt 0.45): current 34 %; blend 31 %; one level coarser 24 %; mipmaps + linear 4 %; 4-tap 11.5 %.
+  - During the fly into Firefly Populations (from Perception): level changes 8 → 7 → 6 about 1 s apart; each brings
+    ~250–350 new tile meshes over ~0.5 s, the 3-levels-coarser fallback showing until they arrive. At rest no tile churn
+    (600 cached, nothing loading). No z-fighting seen (each level has its own polygonOffset and renderOrder).
+- Reported in chat with options; nothing changed. Test materials and wrappers lived only in the page (reloaded after).
+- Files changed: AI_LOG.md only.
+
+## Experience refinement, step 2 (2026-10-06): Spectra sweep halved, line swaps at the middle; globe tiles one level coarser (trial); Broader Impacts → Conclusion transition read (plan asked, not applied); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > the Broader Impacts header line should maybe start with "So how is the biosphere responding?" then run through the examples ... and then show the quote with the anthropogenic ... thing... and then in the transition to the conclusion, the colorful dots can disappear with the centered line: "Across the biosphere, ALAN is upsetting the equilibrium of natural systems", and then first beat of conclusion comes in perhaps right below that as earth fades to dark ... the fade to dark is important ... as it matches with the dusk idea ... we can figure this transition out but something as I've said it.
+  >
+  > the philadelphia sweep needs to be much faster. Right now it takes too long. Cut the time at least in half. Swap the text when the divider reaches the middle.
+  >
+  > For the shimmer: we can try the one level coarser but I'm concerned how that will impact the beauty. so long as it's easy to undo if we don't like it.
+- Edits (files re-read right before editing):
+  - app/src/twoNights.js: ONCE.across 7000 → 3500 ms; moveTo() takes a `mid` callback, called once when the divider
+    crosses the middle (sweepSplit); beat 1's line (Philadelphia) now shows there instead of at the end of the sweep.
+  - app/src/tileLayer.js: LEVEL_BIAS = 1 (levelFor one level coarser on every globe view; set 0 to undo).
+- Checked (localhost:5173, another session's server; 1280×800; JS-driven; pane at ~2 fps, so swaps land on the next
+  frame after the middle): Spectra arrival line 0; → line 1 when the divider crosses the middle, divider ends at the
+  right edge; → beats 2, 3, on to Perception; back 3 → 2 → 1 → 0. Firefly Populations level 6 → 5, ALAN 8 → 7; shimmer
+  measure (same method as step 1): 37 → 27 % and 34 → 24 %. Screenshots of Spectra beat 1 and Firefly Populations.
+  Console: no errors.
+- Broader Impacts / Conclusion: read story.js broader / conclusion, introScene.js createDarkScene (DARK_MS 2500, read
+  only). Transition plan and questions given in chat; nothing applied.
+- Files changed: app/src/twoNights.js, app/src/tileLayer.js, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 3 (2026-10-06): ", PA" after Cherry Springs (label, Spectra first line); study line moved from Spectra to Perception; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > we also need to add a ",PA" after Cherry Springs in the cherry springs section, and in its label when used as a divider in Perception.
+  >
+  > I think the "Bright amber light silenced female fireflies most..." text could replace the current text we have in the "Perception" section which is a bit risky .. it's a risky non academic claim as is.
+- Asked (AskUserQuestion); human answers: "Label + first line only" (the shared site label 'Cherry Springs, PA' wherever it
+  shows, Spectra line 0 gets ", PA", the 150× line unchanged); "Move" (Spectra loses the study beat).
+- Edits (files re-read right before editing):
+  - app/src/twoNights.js: SITES name 'Cherry Springs, PA'; BEATS 4 → 3 (beat 2, the firefly-eye line, is now the last).
+  - app/content/story.js two-nights: text "This is the light spectrum measured at a dark sky park, Cherry Springs, PA.";
+    the study line removed from `reveal` (comment left). species-perceptions: text → "Bright amber light silenced
+    female fireflies most (Owens & Lewis 2021)." (old text in a comment); source Owens & Lewis 2021 added (same entry
+    as Two measured nights).
+- Checked (localhost:5173, 1280×800, JS-driven): Spectra line 0 with ", PA", label "Cherry Springs, PA" (hidden while
+  its half is too narrow, as before); → line 1 → line 2 → Perception (new text, labels Philadelphia | Cherry Springs, PA;
+  text 819–1203 × 567–728, Details 753–1203 × 487–559, clear of nav 1136–1264 × 748–784 and menu 16–139 × 44–388;
+  sources list Owens & Lewis 2021); back → Spectra on line 2 → line 1; back to Impact and forward again. Console: no
+  errors. Seen, unchanged: in the slow pane (~2 fps) ← right after arriving back from Perception skips to Impact,
+  because beats wait for the cloud → spectra morph to finish (twoNights.js beat(): mix > 0.01); after 20 s it steps
+  beats as expected.
+- Broader Impacts → Conclusion transition: still waiting for the human's answers (step 2).
+- Files changed: app/src/twoNights.js, app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 4 (2026-10-06): "All effects" → "Studies" (menu label) and its text; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > We say "Across" twice in a row in Firefly Populations and All Effects ... change "All Effects" to be called "Studies" as its title please. and change the text of Studies to say "207 published studies reveal widespread impacts of artificial light on biota."
+- Edit (story.js re-read before editing): app/content/story.js effects: label 'All effects' → 'Studies'; text →
+  "207 published studies reveal widespread impacts of artificial light on biota." (human's wording; old text in a
+  comment). The step has no `title` field; the label is the menu name.
+- Checked (localhost:5173, 1280×800, JS-driven): menu shows "Studies" (10 / 19); new text beside the chart (876–1264 ×
+  313–487), clear of nav and menu; back to Firefly Populations and forward again. Console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 5 (2026-10-06): Biosphere Response (was Broader Impacts) opens on a question; Conclusion opens lit with the "Across the biosphere" line, the dusk line follows on its own as the earth and hum fade; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompts (verbatim), answering the step-2 questions:
+  > on its own, hum fades with the dark, yes both go
+  - then (verbatim):
+  > also change "Broader Impacts" title to "Biosphere Response"
+- Plan followed (agent proposal in step 2, human answers above; the step-2 prompt for the Broader Impacts wording).
+- Edits (files re-read right before editing):
+  - app/content/story.js broader: label → 'Biosphere Response'; text → "So how is the biosphere responding?" (human);
+    old text in a comment; callouts unchanged. conclusion: text → "Across the biosphere, ALAN is upsetting the
+    equilibrium of natural systems." (moved from broader); reveal → [dusk line, 5b line, responsive-lighting line];
+    new keys darkFrom: 1, together: [1], autoBeat: 4000; humOff removed (comment kept).
+  - app/src/main.js: applyDark() (story-dark + darkScene + hum from beat `darkFrom`; body class `story-centre` for the
+    whole `dark` step); setCallout keeps line k−1 on a `together` beat and calls applyDark; `autoBeat` timer (forward
+    arrival on beat 0 only; an arrow cancels it); leaving the circle for a `darkFrom` step fades #impacts-canvas over
+    1000 ms, then impacts.hide(); timers and opacity reset in applyStage and setMode.
+  - app/src/story.js go(): humFor skipped on a `darkFrom` step (main.js drives it per beat). introScene.js not edited
+    (its humFor is called with { part, humOff }).
+  - app/src/style.css: `story-centre` shares the dark screen's centred #fact rule and left-aligned Details; hides the
+    size buttons (#impacts-filter) and the 2015 | 2025 divider and year label (the divider showed at the left edge
+    beside the menu on the lit beat; found in the check, fixed).
+- Agent choices (display only): autoBeat 4000 ms; dot fade 1000 ms; the dusk line's fade and the 2.5 s lights-out as before.
+- Checked (localhost:5173, 1280×800, JS-driven): Biosphere Response opens on the question, 5 callouts, ends on the
+  Czarnecka quote; → Conclusion: dots fade (hidden by 1.5 s), line 0 centred on the lit globe, no divider; after ~4 s
+  lines 0 + 1 with the earth fading (uFade 0.35 at 5.5 s, 0 later); → line 2 alone (dark); → line 3 + Details; →
+  Explore (lights back); back: line 3 → line 2 → lines 0 + 1 (dark) → line 0 (lights back, no auto-advance) → Biosphere
+  Response on the quote; forward again. Text 400–880 × 310–490, clear of menu (16–151 × 44–388) and nav. Console: no
+  errors. Hum: code path only (the preview was muted; not heard).
+- Seen, not changed: when the dusk line comes in, the centred block re-centres, so the first line moves up by about
+  half a line height.
+- Files changed: app/content/story.js, app/src/main.js, app/src/story.js, app/src/style.css, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 6 (2026-10-06): ALAN divider faster and shorter; Female response text raised clear of the spectrum tags; Conclusion: 2.5 s, dark from the first line, hum until the dusk line, line 0 anchored; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > the divider needs to move faster over africa in "ALAN" similar speed to the philly/cherry springs one. And maybe it doesn't need to move all the way to right side of the screen, but just far enough right to make a good sweep.
+  >
+  > "ALAN interrupts female response to mating calls" is blocking one of the light spectrum labels in "Female Response" .
+  >
+  > On the conclusion: 4s is too long. 2.5 should be fine. And the earth needs to start fading as soon as that "Across the biosphere" appears ...because it's otherwise unreadable on the lit globe. So keep it there 2.5 but darken the background so there's contrast. The hum should continue playing until the dusk comes in ... that's the dramatic effect. Anchor the first line so there's no adjustment.
+- Measured first: ALAN sweep east → west = 0.713 → 0.423 of the width at 1280 × 800 (~370 px in 3500 ms; the Spectra
+  divider now ~1276 px in 3500 ms). Female response: at 1280 × 800 line 0 ends 13 px above the "red" tag and line 1
+  overlaps the "amber" tag (876–918 × 492–509); at 1512 × 945 line 0 / Details overlap "red" (1014–1038 × 567–584).
+- Edits (files re-read right before editing):
+  - app/content/story.js question: sweep duration 3500 → 1000 ms, `start: 0.72` (agent choices). female-response:
+    `factTop: 0.42` (agent choice). conclusion: autoBeat 4000 → 2500, `darkFrom` removed (dark from beat 0), `humFrom: 1`.
+  - app/src/story.js: sweep() glides to `s.start ?? 1` during the fly; show() sets #fact's --fact-top from `factTop`;
+    go() leaves the hum to main.js on a `humFrom` step.
+  - app/src/style.css: landscape #fact top = var(--fact-top, 50%).
+  - app/src/main.js: applyDark: hum off from beat `humFrom`; dots fade on entering any `dark` step from the circle;
+    anchorFact(k): on a `together` beat #fact's top is fixed where line 0 alone sits centred (height = line 0 + 14 px per
+    line: the collapsed lines keep #fact .big's bottom margin); released 500 ms after leaving it.
+- Checked (localhost:5173, JS-driven): ALAN at 1280 × 800: divider arrives at 0.72, sweeps to 0.43, the question
+  follows. Female response at 1280 × 800 (text 819–1203 × 269–403, beat 1 228–444) and 1512 × 945 (1001–1421 ×
+  298–496 / 274–520): no tag within 8 px; top buttons clear. Conclusion at 1280 × 800: dots fade, lights out from the
+  first line (uFade 0.19 at 1.8 s), dusk line at 2.5 s, line 0 stays at y 310 on beats 0 and 1 and going back;
+  beats 2, 3, Explore and back as before. Hum: code path only (preview muted). Console: no errors.
+- Seen, not changed: the ALAN step's question "How is the biosphere responding?" and Biosphere Response's opening "So
+  how is the biosphere responding?" are near-identical and a few steps apart.
+- Files changed: app/content/story.js, app/src/story.js, app/src/style.css, app/src/main.js, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 7 (2026-10-06): Dawn "residents" + line break; ALAN one smooth sweep; "Beyond fireflies," on Studies; tiles back to the original level; a shimmer alternative shown (not applied)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompts (verbatim):
+  > Change "Inhabitants" to "residents" in Dawn....
+  >
+  > The ALAN sweep has a bit of a stutter -- can we make that a single smooth sweep please.
+  >
+  > Before "207" in studies, include "Beyond fireflies, 207 ..." so it's a clearer narrative link.
+  >
+  > The globe is functioning much better but I don't like the coarseseness. The original was more beautiful. Let's go back to the original and see if there's another way to think through the flicker issue ...
+  - then (verbatim):
+  > and move "and" down to line below once residents is in place
+- Edits (files re-read right before editing):
+  - app/content/story.js statistic (Dawn): "The dawn of human nighttime activity is changing the globe,\nand its residents."
+    effects (Studies): "Beyond fireflies, 207 published studies reveal widespread impacts of artificial light on biota."
+  - app/src/story.js: format() turns "\n" into a line break (no other text contains one); sweep(): with `start`, one
+    glide from there to the west end after fly + hold (the 400 ms hop to the east end removed; `east` unused on the
+    ALAN step now); the question's timer follows (fly + hold + duration).
+  - app/src/tileLayer.js: LEVEL_BIAS 1 → 0 (original level; the constant kept).
+- Checked (localhost:5173, 1280×800, JS-driven): Studies text; Dawn text with the break after "globe," (77–461 ×
+  310–490, clear of menu and nav); ALAN: the divider goes right during the fly, then one glide to 0.42, question after;
+  level 8 at ALAN, 6 at Firefly Populations (original). Console: no errors.
+- Shimmer alternative shown (page only, no file change, page reloaded after): the 4-sample shader (step 1, S2) at the
+  original level, Firefly Populations view, crops of the eastern US before / after sent to the human. Options given
+  in chat; nothing applied.
+- Files changed: app/content/story.js, app/src/story.js, app/src/tileLayer.js, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 8 (2026-10-06): globe — 4-sample shading only while the camera moves (B); no tile refinement mid-flight (D); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > try B, and D
+- Edits (files re-read right before editing):
+  - app/src/tileLayer.js: fragment shader split into shade() (one sample, unchanged maths) and main(): one sample when
+    uAA = 0 (at rest: as before), else a mix towards the average of 4 samples inside the pixel footprint (rotated grid,
+    dFdx / dFdy of uv and lon-lat). moved() / easeAA(): uAA eases to 1 in 120 ms on camera change and back to 0 in
+    600 ms, 150 ms after the last change (MOVE_AA, AA_IDLE, AA_IN, AA_OUT; agent choices; MOVE_AA = false turns it
+    off). levelFor() via new levelAt(dist, fov, heightPx); capFlight(): during a story flight the level is held ≤ the
+    coarser of the start and end levels (zoom in: start level until arrival; zoom out: end level from the start).
+  - app/src/main.js: refresh() calls layer.moved(); capFlight(i) on each story step with `fly` (before applyStage),
+    and a refresh at the end of the flight.
+- Checked (localhost:5173, 1280×800, JS-driven): Dawn → ALAN: level 5 held for the 3 s flight, one change to 8 on
+  arrival (was 5 → 8 in steps on the way); Perception → Firefly Populations: level 6 from the start (was 8 → 7 → 6);
+  uAA 1 during both flights, 0 about 0.5 s after arrival; at rest the shader takes the one-sample path (image as the
+  original). Earlier measure of the 4-sample shading (step 1): shimmer 37 → 18 % (Firefly Populations), 34 → 12 % (ALAN).
+  Console: no errors (shader compiled).
+- Files changed: app/src/tileLayer.js, app/src/main.js, AI_LOG.md. Nothing committed.
+
+## Experience refinement, step 9 (2026-10-06): handoff written (RULES §5, context ~30 %)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`. No new human prompt (follows step 8).
+- Created handoffs/2026-10-06_experience-refinement.md. Nothing committed.
+- Files changed: handoffs/2026-10-06_experience-refinement.md (new), AI_LOG.md.
+
+## Experience refinement, step 10 (2026-10-06): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > OKAY let's commit changes please and thank you.
+- Checked the diff first: the working tree was clean at the start of this session, so all changes are this session's.
+- Commit on main: AI_LOG.md, app/content/story.js, app/src/main.js, app/src/story.js, app/src/style.css,
+  app/src/tileLayer.js, app/src/twoNights.js, handoffs/2026-10-06_experience-refinement.md. Not pushed.
+- Files changed: AI_LOG.md; git history.
