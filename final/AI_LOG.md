@@ -6349,3 +6349,95 @@ Append only. One entry per AI step (see RULES.md §4).
   story.js, the new handoff) and the earlier uncommitted steps 20–26 (introScene.js pad, impacts-transitions handoff
   Update 2), with AI_LOG.md. Not pushed.
 - Files changed: app/content/story.js, handoffs/2026-10-05_chart-annotations.md, AI_LOG.md.
+
+## Story flow, step 1 (2026-10-05): read; report of the story as it stands and uneven points (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main` (clean at f803a9479).
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-05_chart-annotations.md, handoffs/2026-10-05_impacts-transitions.md (all updates) and handoffs/2026-10-05_story-sequence.md, and AI_LOG.md "Fireflies step" steps 17–18 (my "flattened time" note and the [AGENT OPINION] entry, which is not a decision). Then read app/content/story.js in full (all steps, their text, notes, sources, labels and part numbers) and skim app/src/main.js applyStage only for how steps transition (fly, cuts, dark screens, globe → chart).
+  >
+  > Task: story elements and narrative flow, Light → Impacts → Conclusion (Explore only as it hangs off the end). Nothing in the app changes in this step.
+  >
+  > Before changing anything, report and stop for my decisions:
+  > * The story as it stands: one line per step — section, label, the on-screen sentence (verbatim), what the visual shows, and how it transitions in and out.
+  > * Where the flow is uneven, as observations only: jumps in subject or scale, steps that repeat or don't connect, sentences that make claims the step's sources don't back (say which source/field), tone or tense shifts, labels that don't match the sentence.
+  > * Do not propose new narrative, framing or sentences unless I ask (RULES §1.2, §6). If I ask for wording, give options marked as agent drafts, using only what the data and the cited sources support.
+  >
+  > Then apply only what I decide, and check in the preview (port 5173, 1280×800): walk the whole story from Begin to Conclusion and back, nothing overlaps the big text, menu, nav or Details, no console errors. Send screenshots. The in-app preview renders slowly, so allow time for animations; drive the step buttons rather than clicking by coordinates (the pane's scaling misplaces clicks).
+  > Other sessions may edit the same files: re-read right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes; don't commit, push, delete, download or install without my go-ahead.
+- Read the files named. Reported in chat: a table of the 14 main steps (sentence verbatim, visual, transitions, from code
+  and handoffs) and observations (scale/subject jumps, repeats, claims vs source fields, tone/tense, labels).
+- Value computed for the report (inferred, from data/derived/impacts/effects.json g_abs, not audited): median of study
+  medians |g| over 207 studies / 3,254 records = 0.653.
+- Files changed: AI_LOG.md only.
+
+## Story flow, step 2 (2026-10-05): full stops on Fireflies and Female response; wording options for Species perceptions → All effects (drafts in chat)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > add full stops to Fireflies and Female response.
+  >
+  > The transition between "Species Perception" and "All Effects" matters because ... 
+  >
+  > It goes from the single species level, to global biosphere level impacts ... and that neeeds to be more obvious. Looking for some text that can make that more clear...
+- Edit (file re-read right before editing): app/content/story.js `female-site` and `female-response` text: full stop
+  added at the end. Checked in 5173 (1280×800, step buttons driven via JS click): both sentences show with the full
+  stop; no console errors. Screenshots sent.
+- Wording: agent drafts given in chat on the human's request, built only from counts in Data S1 / effects.json
+  (207 studies, 3,254 effects, 9 species groups = our grouping). Not applied.
+- Checked for a species count: effects.json has 192 distinct non-empty `species` strings, but 20 are families, genera,
+  mixtures or hybrids and 404 records have no species, so no species count is offered (RULES §2.2).
+- Files changed: app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Story flow, step 3 (2026-10-05): All effects sentence → agent draft A3 with "widespread"; whole story walked; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > A3. Remove substantial ... it should be something else
+- Agent offered four endings for A3 (question form, agent drafts): "widespread" (effects recorded in all 9 species
+  groups, our grouping of Data S1), "found in every group", "typically medium-sized" (inferred median study |g| 0.65,
+  Cohen), both. Human picked "…are widespread."
+- Edit (file re-read right before editing; diff showed only this session's changes): app/content/story.js `effects`
+  text: "From one firefly to all of life studied: the impacts of artificial light are widespread." (was "The impacts of
+  artificial light on biota are generally substantial."; old text kept in the comment). Note and sources unchanged.
+- Checked (5173, 1280×800; steps driven by JS clicks on the nav and menu buttons): Begin → Conclusion (1–14) and back to
+  1. On every step the big text / card, menu, nav and Details pop-up (opened on All effects: 876–1264 × 509–672) are
+  clear of each other and on screen; the All effects sentence shows during the flight from Species perceptions and
+  beside the chart after the morph, below the reading key. No console errors. Screenshots sent.
+- Seen, not changed (pre-existing open item): on Female response the beat toggle (875–1264 × 12–34) overlaps the mute
+  button (1228–1264 × 12–48).
+- Files changed: app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Story flow, step 4 (2026-10-05): new Ecosystems sentence proposed by the human; agent's read of how it fits, at the human's request (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > "Ecosystems" text should change to be more pointed ...
+  >
+  > "As human activity extends deeper into the night, how is the biosphere responding?"
+  >
+  > Before changing - it let me know how you think that could work
+- Given in chat (observations on fit with the current visuals, sources and neighbouring steps; no new wording): the
+  sentence is about time of night, the step's visual is a 2015→2025 spatial sweep over West Africa; no source on the step
+  or in Statistic's sources covers time of night (VIIRS annual composites, Kyba 2017 lit area); "biosphere responding"
+  repeats Broader Impacts' sentence; "human activity" vs "light"; link to the Conclusion's "all the time". Decision
+  questions asked. Nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Story flow, step 5 (2026-10-05): Ecosystems sentence replaced (human wording); sweep kept; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > apply it, keep the sweep, accept as framing
+- Edit (file re-read right before editing): app/content/story.js `question` text: "As human activity extends deeper into
+  the night, how is the biosphere responding?" (human). Was "As light is expanding into new territory, what are the
+  impacts on global ecosystems?" (kept in a comment). Sweep, camera and label unchanged. Human decision: "deeper into
+  the night" is accepted as framing in the question; no source added. Broader Impacts' echo ("The biosphere is
+  responding …") not changed (not asked).
+- Checked (5173, 1280×800, nav buttons by JS): Statistic → Ecosystems (fly, sweep runs, ends clear of the text at
+  76–460 × 309–476) → Studies and back to Ecosystems and Statistic; text clear of menu and nav; no console errors.
+  Screenshot sent.
+- Files changed: app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Story flow, step 6 (2026-10-05): commit of this session's changes (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > commit these changes
+- Commit on main: app/content/story.js (Story flow steps 2, 3, 5) and AI_LOG.md (steps 1–6). Diff checked first: only
+  this session's changes. Not pushed.
+- Files changed: AI_LOG.md.

@@ -78,7 +78,9 @@ export const story = [
     part: 1,
     kind: 'fact',
     label: 'Ecosystems',
-    text: 'As light is expanding into new territory, what are the impacts on global ecosystems?',
+    // Wording: human (AI_LOG Story flow step 5; "deeper into the night" accepted as framing, no source). Was 'As light
+    // is expanding into new territory, what are the impacts on global ecosystems?'
+    text: 'As human activity extends deeper into the night, how is the biosphere responding?',
     camera: { lat: 10, lng: -13, altitude: 0.9 },   // lng -3 -> -13: sweep end clear of the text (step 3)
     fly: 3000,
     // Divider sweeps over West Africa while the question shows (human, AI_LOG Copy editing and drafting step 3).
@@ -125,7 +127,7 @@ export const story = [
     part: 2,
     kind: 'fact',
     label: 'Fireflies',
-    text: 'Fireflies generate natural light to communicate in an increasingly lit environment',   // wording: human
+    text: 'Fireflies generate natural light to communicate in an increasingly lit environment.',   // wording: human
     side: 'right',   // big text on the right, over the dark ocean (human, AI_LOG Fireflies step 4)
     note: 'The point marks the Boston collection site (coordinates as printed in the paper). The other 2018 site, ' +
       'Muster Field, Lincoln (42.42732, −71.31574), is not shown.',
@@ -153,7 +155,7 @@ export const story = [
     // obscurellus* fireflies: a male flashes, a female answers. In the dark 98.7 % of females answered; under bright cool
     // white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and bright amber 0 %. Each lamp in turn, with
     // the part of its light a firefly eye takes in (green).'
-    text: 'ALAN interrupts female responses to mating calls',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    text: 'ALAN interrupts female responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
     sources: [
       { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
         supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
@@ -261,8 +263,9 @@ export const story = [
     side: 'right',
     label: 'All effects',
     // Was title '3,254 effects'. Sentence: agent draft chosen by the human (their "…generally significant" with
-    // 'significant' → 'substantial'), AI_LOG Fireflies step 17.
-    text: 'The impacts of artificial light on biota are generally substantial.',
+    // 'significant' → 'substantial'), AI_LOG Fireflies step 17. Now agent draft A3 with 'widespread' (human, AI_LOG
+    // Story flow step 3): effects recorded in all 9 species groups (our grouping of Data S1). Was '…generally substantial.'
+    text: 'From one firefly to all of life studied: the impacts of artificial light are widespread.',
     note: 'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
       'Further right = a bigger change under light. Only the size of the change is shown, not its direction: ' +
       'for some measures more is harmful, for others less. White line = the median study: each study’s middle ' +
