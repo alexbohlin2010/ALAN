@@ -79,6 +79,12 @@ body.arriving #card, body.arriving #fact, body.arriving #modes { opacity: 0; poi
   body.story-chart #fact.right .more-body { width: min(calc(34vw - 32px), 388px); box-sizing: border-box; }
 }
 #fact[hidden] { display: none; }
+/* Big text lines shown one at a time (Two measured nights beats; AI_LOG Firefly flow steps 2 and 4): the current line
+   fades out (500 ms) and gives up its space, then the next fades in (900 ms). Durations: agent choices. */
+#fact .line { opacity: 0; max-height: 0; overflow: hidden; margin: 0;
+  transition: opacity 500ms ease, max-height 0ms linear 500ms, margin 0ms linear 500ms; }
+#fact .line.on { opacity: 1; max-height: 20em; margin: 0 0 14px;
+  transition: opacity 900ms ease 500ms, max-height 0ms linear 500ms, margin 0ms linear 500ms; }
 #fact .big { font: 300 clamp(22px, 2.6vw, 40px)/1.25 system-ui, sans-serif; color: #fff; margin: 0 0 14px; }
 #fact .note { color: #aaa; font-size: 12px; margin: 0 0 6px; }
 #fact .sources { margin: 0; padding-left: 16px; font-size: 11px; color: #aaa; }
@@ -201,9 +207,10 @@ body.story-impacts #swipe, body.story-impacts .year.left { display: none; }
 #spectral-caption.on { opacity: 1; }
 #spectral-number .label { display: block; font-size: 13px; color: #aaa; margin-top: 2px; }
 body.story-spectral #swipe, body.story-spectral .year { display: none; }
-/* Spectral beat toggle (spectral.js, manual chapters; Firefly transition task step 3). */
-#spectral-toggle { position: absolute; right: 16px; top: 12px; z-index: 4; display: flex; flex-wrap: wrap; gap: 6px;
-  justify-content: flex-end; max-width: calc(100vw - 32px); }
+/* Spectral beat toggle (spectral.js, manual chapters; Firefly transition task step 3). Left of the mute button (right
+   16 + 36 px + 8 px gap), centred on its line (human, AI_LOG Firefly flow step 13; was right 16px, top 12px). */
+#spectral-toggle { position: absolute; right: 60px; top: 19px; z-index: 4; display: flex; flex-wrap: wrap; gap: 6px;
+  justify-content: flex-end; max-width: calc(100vw - 76px); }
 #spectral-toggle[hidden] { display: none; }
 #spectral-toggle button { font: 12px system-ui, sans-serif; color: #ccc; background: rgba(17,17,17,0.85);
   border: 1px solid #444; border-radius: 12px; padding: 3px 10px; cursor: pointer; }
@@ -264,6 +271,7 @@ body.story-dark #swipe, body.story-dark .year { display: none; }
 .nights-glow span { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; color: #fff;
   font-size: 16px; font-weight: 600; }
 body.story-nights #swipe, body.story-nights .year { display: none; }
+body.story-noswipe #swipe, body.story-noswipe .year { display: none; }   /* story key noSwipe (Firefly flow step 4) */
 /* Fact text clear of the left menu (human: option A "below", AI_LOG colour / design task step 6): pushed below
    the menu by --fact-shift (story.js). Portrait keeps its own rule above. */
 @media (min-aspect-ratio: 1001/1000) {

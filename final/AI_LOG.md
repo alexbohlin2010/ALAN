@@ -6483,3 +6483,294 @@ Append only. One entry per AI step (see RULES.md §4).
 - Conflict: AI_LOG.md only (both sides appended); resolved by keeping main's new entries ("Fireflies step" steps 24–32 and others) in place and this branch's "Story review" steps 7–9 after them; nothing removed or edited (checked: no line of origin/main's log is missing). story.js, impacts.js, main.js, style.css merged automatically.
 - Checked after the merge (5178, 1000 × 575, audio muted before Begin): Studies highlight beats, All effects with the reading keys, Broader Impacts chart layout, Two measured nights window panel; no console errors. Then committed the merge, pushed the branch and `origin/main`.
 - Files changed: AI_LOG.md (conflict resolution + this entry); main's files via the merge; git history; remote branch and `origin/main`.
+
+## Story flow, step 7 (2026-10-05): dev server stopped (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > shut down server pls
+- Closed this session's in-app browser preview and stopped the Vite dev server on port 5173 (pid 3851, started by
+  another session, serving final/app). Port 5173 free afterwards.
+- Files changed: AI_LOG.md only.
+
+## Story flow, step 8 (2026-10-06): handoff written; next-session prompt (firefly / Philadelphia section)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > write a handoff and generate a new prompt for story refinement: With the next agent I want to make a few changes to the narrative flow in the firefly/philadelphia section...
+  >
+  > The point will be moving from how a study measures firefly mating call behavior --> to "Does our actual lighting environment impact fireflies in the wild?" (this should replace the current text in transition to the "two cities".
+  >
+  > Then we will rename components of this section ... and add a few more transitional narrative text elements to clearly walk the user through effects and impacts. For example the two cities 'cards' should be more simple free floating header sentences that transition so it matches the other parts of the narrative..
+- Read the merge ab5e96f04 (origin/main, another session's "Story review" steps 7–10: ladder marker, highlight beats,
+  guide glow, Two measured nights window panel) so the handoff states the current section.
+- Created handoffs/2026-10-06_story-flow.md (facts, human decisions, section as it stands, the human's next-task words,
+  open questions). Next-session prompt given in chat. No app changes.
+- Files changed: handoffs/2026-10-06_story-flow.md (new), AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 1 (2026-10-06): read; report of the firefly / Philadelphia section and options (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main` (uncommitted: AI_LOG.md, handoffs/2026-10-06_story-flow.md).
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_story-flow.md (latest), and AI_LOG.md "Story flow" steps 1–8 and "Story review" steps 7–8. Then read in app/content/story.js the steps female-site, female-response, perception, two-nights, species-perceptions and effects (text, tagline, reveal, notes, sources, labels, rung, guide), and skim app/src/twoNights.js and app/src/main.js applyStage only for how these steps show text and transition (card vs big text, the reveal timing on the divider sweep, the guide glow, dark screen).
+  >
+  > Task: narrative flow of the firefly / Philadelphia section only (Fireflies → Female response → Perception → Two measured nights → Species perceptions, up to All effects). The point is to move from how a study measures firefly mating-call behaviour to the question "Does our actual lighting environment impact fireflies in the wild?", which replaces the current text in the transition to the two sites (Philadelphia | Cherry Springs). Then rename components of this section and add a few transitional narrative text elements that walk the viewer through effects and impacts. The Two measured nights card should become simple free-floating header sentences that transition, matching the big text in the rest of the story.
+  >
+  > Before changing anything, report and stop for my decisions:
+  > * The section as it stands: one line per step — label, on-screen text (verbatim), visual, transition in/out, rung.
+  > * Exactly which text the new question would replace, and what each option means for the visuals (guide glow, dark screen, reveal timing).
+  > * What a card → free-floating sentences change involves technically for Two measured nights (timing on the sweep, position, Details & sources), as short options with trade-offs.
+  > * Do not propose new narrative, names or sentences unless I ask (RULES §1.2, §6). If I ask for wording, give options marked as agent drafts, using only what the data and the cited sources support.
+  >
+  > Then apply only what I decide and check in the preview (start the dev server: final/app, port 5173; 1280×800): walk Studies → All effects and back, nothing overlaps the big text, menu, nav, ladder or Details, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive the buttons by JS (#nav .next / .back, menu buttons by text) and keep each JS call under 45 s.
+  > Other sessions may edit the same files: re-read right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes; don't commit, push, delete, download or install without my go-ahead.
+- Read the files named (from code, not the preview). Reported in chat: the section step by step; where the question could go
+  (Perception's sentence / Two measured nights' tagline / a new step) and what each does to the guide glow, dark screen and
+  sweep timing; options for Two measured nights as big text (lines timed to the sweep, all at once, or split into steps).
+  No wording, names or new text proposed. Decision questions asked.
+- Files changed: AI_LOG.md only.
+
+## Firefly flow, step 2 (2026-10-06): Perception → the question (A); Two measured nights card → big text timed to the sweep (T1); Species perceptions sentence; colour question answered (no change); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > A.. we are reframing this whole selection of chapters to focus on impacts to fireflies... the human perception claim is honestly just a sidepoint, but this is a presentation about the impacts of ALAN.
+  >
+  > T1...
+  >
+  > Also the text on the Species perception slide should change to match this new tone ... "Philadelphia's Artificial Light drowns out the firefly light."
+  >
+  > -- on the species perception, a question ... the firefly color behind philadelphia's light dot cloud still shines through, should we make the firefly dots the same color so it's actually drowned out? Let me know if this is a fine thing to do or lacks integrity... I think at least per the study it should seem about right...
+- Edits (files re-read right before editing; diff showed only this session's changes):
+  - app/content/story.js `perception` text: "Does our actual lighting environment impact fireflies in the wild?" (human). Was
+    "Humans perceive ALAN differently to other parts of the biota." (kept in a comment). Dark screen and guide glow unchanged.
+  - `two-nights`: card → big text (`kind: 'fact'`, `side: 'right'`); first line = the old tagline (now `text`), `reveal`
+    lines unchanged, method text moved from `text` to `note` (Details & sources). Title "Two measured nights" no longer
+    shown (menu label unchanged). Agent choices: right side; the first line gives way to the reveal lines in place, as
+    on the card.
+  - `species-perceptions` text: "Philadelphia’s Artificial Light drowns out the firefly light." (human, capitals as
+    given). Was "Fireflies perceive ALAN with their own eyes, not ours." (kept in a comment). Sources unchanged.
+  - app/src/story.js: big text renders `reveal` lines (first line class `lead`); `revealed` cleared on #fact too.
+    app/src/main.js: onSweep toggles `revealed` on #fact. app/src/style.css: #fact .lead / .reveal rules (lead fades
+    0.6 s and collapses; reveal lines fade in 1.2 s after). Durations: agent choices, as the card's.
+- Colour question: answered in chat (the reply cluster is an interpretation, not data; recolouring it would show
+  optical masking, which neither source measured). Nothing changed.
+- Checked (5173, 1280×800, nav buttons by JS): Studies → All effects and back to Studies. Two measured nights: first
+  line at 819–1203 × 539–728 while Cherry Springs fills the view; after the sweep the reveal lines at 819–1203 ×
+  345–728; Details opens above (753–1203 × 176–337). Big text clear of the menu (16–156 × 44–388), nav, ladder, Full ·
+  Human · Firefly panel and info button on every step. No console errors. Screenshots sent.
+- Seen, not changed: on Two measured nights the revealed text lies over the right part of the Philadelphia spectrum
+  points. Details still says "shaded on the Philadelphia half" (open item).
+- Files changed: app/content/story.js, app/src/story.js, app/src/main.js, app/src/style.css, AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 3 (2026-10-06): McNeil et al. 2024 read; options and agent drafts for Fireflies, Female response, a closing firefly step and a sequential Two measured nights (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > @"/Users/alexander/Downloads/1-s2.0-S0048969724024720-main.pdf"
+  > The sentence in the "Fireflies" subchapter should be "ALAN competes with Nature's
+  >
+  > Need stronger value judgement in "Female Response" once bright amber light hits ... tie it to broader mating behavior ... threatens populations...
+  >
+  > Also might want to bring in this study to tie up the firefly section.. populations are declining. There are multiple contributing variables... but ALAN disturbs nocturnal equilibrium ..
+  >
+  > In "TWO CITIES", arrows should guide us from Cherry springs --> philadelphia --> firefly wavelength .. and only on firefly wavelength, should the firefly study text appear. Narrative more sequential. Thanks
+- Read: McNeil et al. 2024, Sci. Total Environ. 929:172329 (https://doi.org/10.1016/j.scitotenv.2024.172329, CC BY;
+  the human's file in ~/Downloads, pp. 1–9; not copied into the repo). Owens & Lewis 2021 (data/raw, abstract and
+  Discussion, read only).
+- Reported in chat: the Fireflies sentence arrived cut off ("…with Nature's"), so not applied; what each source supports
+  (McNeil: night-time lights negatively related to firefly counts, confounded with urbanization; climate/weather the
+  strongest predictors; quantitative data on declines lacking, declines anecdotal for some populations; "nocturnal
+  equilibrium" not in either source. Owens & Lewis: female reply rate governs male mate location, all lights suppressed
+  courtship, no population measure); agent drafts for the Female response amber caption and a closing firefly step
+  (marked as drafts); options for Two measured nights in three beats (manual beats / timed / three steps) and what
+  "arrows" could mean. Decision questions asked.
+- Files changed: AI_LOG.md only.
+
+## Firefly flow, step 4 (2026-10-06): F1 amber caption; McNeil et al. 2024 step (M1); Two measured nights in three beats (S1); PDF copied to raw; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > S1, F1, M1 as a new step, copy the PDF
+- Copied (human request): ~/Downloads/1-s2.0-S0048969724024720-main.pdf → data/raw/impacts/fireflies/McNeil_2024_STOTEN_172329.pdf
+  (unchanged copy, made read-only like its neighbours; git-ignored by final/.gitignore line 47 like the other PDFs).
+- Edits (files re-read right before editing):
+  - app/content/story.js `female-response` amber beat caption: agent draft F1 "Bright amber light silenced every female.
+    Without her reply, a male cannot find her to mate." (`documented`: Owens & Lewis 2021, bright amber 0 %; Discussion,
+    male mate location depends on female response rate). Was "Bright amber lights reduced female response to 0%".
+  - New step `firefly-counts` between Species perceptions and All effects: agent draft M1 "Across the eastern US, fewer
+    fireflies are counted where nights are brighter: one pressure among climate, soil and land cover." Note + source
+    (McNeil et al. 2024: 24,683 surveys 2008–16; NTL rank 9 overall / 3 high-climate, Table 2; Fig. 3F; confounded with
+    urbanization). Label "[PLACEHOLDER] McNeil et al. 2024" (to be named by the humans). Agent choices: big text right,
+    globe over the eastern US (lat 37, lng −84, alt 1.1, fly 2.5 s, 2025 view), rung Studies, new story key `noSwipe`
+    (main.js body class `story-noswipe`, style.css) hiding the divider and year label, which sat over the menu's
+    "Explore" at the left edge. All effects keeps its globe → chart arrival (the new step has no Impacts layer).
+  - Two measured nights, option S1 (app/src/twoNights.js `BEATS`, `goBeat`, API `beat(d)`; main.js `nightsBeat` on ←/→
+    keys and the nav arrows, capture phase, past either end the story moves; `onBeat(k)` replaces `onSweep`;
+    src/story.js draws the text and `reveal` lines as `.line`, one `.on`; style.css `#fact .line`, replacing step 2's
+    lead/reveal rules). Beat 0: divider to the left edge (Cherry Springs), first line. Beat 1: divider sweeps across
+    (7 s), the 150× line when it arrives. Beat 2: Firefly window narrows (2 s), then the Owens & Lewis line. Back reverses
+    (window to Full, divider back). Back from Species perceptions: divider to the right, Philadelphia line, window narrows,
+    study line. Dragging the divider shows the current beat's line at once. The timed hold is no longer used. Agent
+    choices: nav arrows as well as keys (Female response's nav arrows still move the story), cue timings, fades.
+- Checked (5173, 1280×800, JS-driven nav/keys): Female response amber caption (192–1088 × 645–728) clear of text, ladder,
+  nav; Two measured nights beats 0 → 1 → 2 and back to Perception; keys forward through the beats to Species
+  perceptions; back from Species perceptions lands on beat 2; McNeil step text 819–1203 × 278–522, Details 819–1269 ×
+  530–678, no divider; All effects globe → chart; then back to Studies. No overlaps with menu, nav, ladder, panel or
+  Details; no console errors. Screenshots sent. The in-app pane slows animation frames, so movements took longer there.
+- Not applied: the Fireflies sentence (the human's message was cut off at "ALAN competes with Nature's").
+- Files changed: app/content/story.js, app/src/twoNights.js, app/src/main.js, app/src/story.js, app/src/style.css,
+  data/raw/impacts/fireflies/McNeil_2024_STOTEN_172329.pdf (new copy), AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 5 (2026-10-06): ", a dark sky park" removed from the Philadelphia line; firefly-band claim checked, options asked (no other change)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Remove "A darks sky park" from the philadelphia text .. it's redundant from prior slide.
+  >
+  > On the firefly wavelength - we should make clear that the selected wavelength segment is actually the firefly's receptor spectrum, which coincides with the most prominent part of Philly's nightsky spectrum
+- Edit (file re-read right before editing): app/content/story.js `two-nights` reveal[0]: "In amber light (570–615 nm),
+  Philadelphia’s night sky is about 150 times brighter than Cherry Springs." Checked at 5173, 1280×800 (beat 2; text
+  819–1203 × 456–728, clear of nav, ladder, panel); no console errors. Screenshot sent.
+- Firefly band claim, checked for the human (not shown in the app; one-off check in chat, not a pipeline script, so not
+  for display until scripted, RULES §2.4). Inputs: data/derived/spectra/philadelphia.json, spectra_meta.json,
+  sensitivity_bands.json. `inferred`: median Philadelphia spectrum (240) peaks at 594 nm (top values 586–598 nm and 572 nm);
+  the firefly band 530–600 nm holds 0.31 of its 280–840 nm irradiance (0.35 of 380–780); the 70 nm window with the most
+  is 544–614 nm (0.34). The firefly band = half-max of the "firefly-yellow" curve in
+  data/raw/receptors/linda_draft/development-placeholders.json (P. pyralis, Lall & Worthy 2000 peak 565 nm stated;
+  provisional, no label). Options asked (where to say it; agent drafts). Nothing else changed.
+- Files changed: app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 6 (2026-10-06): question on firefly receptor data answered from the repo (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > wait do we not have clear data on firefly receptor spectrum?
+- Answered from the repo only (no search): data/raw/receptors/MANIFEST.csv and linda_draft/development-placeholders.json
+  (firefly entry: P. pyralis, "measured peaks, modeled shape", Lall & Worthy 2000 female behavioural action spectrum,
+  "not a complete color-vision model"); human decision round 7j (animal curves provisional until full-curve sources are
+  found); handoffs 2026-10-03_spectral-chapters.md (P. scintillans ERG, Lall et al. 1988, in Owens & Lewis Fig. 1 as an
+  image only; no ERG for any non-crepuscular Photinus; none for P. obscurellus; Photuris versicolor, Lall 1981, in Fig. S5).
+  Options given (find the published curve; digitise a figure; keep provisional and word it as approximate). Nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Firefly flow, step 7 (2026-10-06): search for a published firefly sensitivity curve (option 1); candidates reported (no download, no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > 1
+- Web search (results pages only; nothing downloaded or read in full). Candidates reported in chat:
+  Lall et al. 1980, J. Comp. Physiol., "Spectral mechanisms of the compound eye in the firefly Photinus pyralis" (ERG,
+  doi 10.1007/BF00660178); Lall et al. 1988, J. Comp. Physiol. A 162:23–33 (ERG, six twilight species incl. P.
+  scintillans, doi 10.1007/BF01342700); Cronin et al. 2000, J. Comp. Physiol. A (intracellular, 14 North American
+  species; volume as given by the search, not checked); Lall & Worthy 2000, J. Insect Physiol. 46:965–968 (behavioural
+  action spectrum, the current source); Sander & Hall 2015 review (Org. Divers. Evol., doi 10.1007/s13127-015-0212-z;
+  open copy on Zenodo 13172628). Search summaries only, to be checked against the papers. Noted: older curves are
+  probably published as figures only, so values would be `estimated` (digitised) and need a human request and a cited
+  method (RULES §2.2). Decision questions asked (which paper; who obtains the PDFs).
+- Files changed: AI_LOG.md only.
+
+## Firefly flow, step 8 (2026-10-06): Lall et al. 1980 read (the human's download); what it gives for the firefly band; options asked (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Lall 1980, i downloaded
+- Read ~/Downloads/BF00660178.pdf in full (Lall, Chapman, Trouth & Holloway 1980, J. Comp. Physiol. 135:21–27,
+  doi 10.1007/BF00660178; not copied into the repo). Facts reported (`documented`, from the text): ERG from the ventral
+  sector of dark-adapted compound eyes of **male** P. pyralis (♂ in all figures), N = 13; two peaks, ~570 nm (yellow) and
+  ~400 nm (violet; 380–440 nm between subjects); sensitivity falls by 1.45–1.85 log units in ~25 nm near 525 nm ("98 %"
+  over 25 nm on the short side of the yellow maximum); yellow mechanism narrower than a 565 nm nomogram; in tune with the
+  565 nm bioluminescence peak. Curve given only as figures (Fig. 4A log, Fig. 4B linear, hand-drawn line); no table, so
+  any curve values would be `estimated` (digitised). Not checked by the agent: half-max edges (would need digitising).
+  Options asked: text values only; digitise Fig. 4 (estimated, human request + method, affects Species perceptions'
+  weighting too, §3 audit); keep the current curve. Asked whether to copy the PDF to data/raw.
+- Files changed: AI_LOG.md only.
+
+## Firefly flow, step 9 (2026-10-06): option A — Lall 1980 and Lall & Worthy 2000 added to Two measured nights; firefly band sentence in Details; PDF copied; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > A, copy the PDF
+- Copied (human request): ~/Downloads/BF00660178.pdf → data/raw/impacts/fireflies/Lall_1980_JCompPhysiol_135_21.pdf
+  (unchanged copy, read-only, git-ignored like the other PDFs there).
+- Edit (file re-read right before editing): app/content/story.js `two-nights`: Details note + sentence (agent draft,
+  method only): "Firefly band (530–600 nm): half-maximum of a modelled curve around the female P. pyralis response peak
+  (565 nm; provisional). Recordings from male P. pyralis eyes peak at about 570 nm, fall steeply near 525 nm, and show a
+  second, violet peak near 400 nm." Sources added: Lall & Worthy 2000 (doi 10.1016/S0022-1910(99)00206-1) and Lall et al.
+  1980 (doi 10.1007/BF00660178), `documented` values from their text. The band and curve are unchanged (provisional);
+  Species perceptions' sources unchanged. "shaded on the Philadelphia half" left as it was (open item, not decided).
+- Checked (5173, 1280×800): Details on Two measured nights opens at 753–1203 × 289–531, clear of the text, menu and
+  panel; no console errors. Screenshot sent. Beat 3 wording drafts given in chat (not applied).
+- Files changed: app/content/story.js, data/raw/impacts/fireflies/Lall_1980_JCompPhysiol_135_21.pdf (new copy), AI_LOG.md.
+  Nothing committed.
+
+## Firefly flow, step 10 (2026-10-06): D2 on a new fourth beat (W1); "shaded" removed from Details; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > D2, W1, remove the shaded bit
+- Edits (files re-read right before editing):
+  - app/content/story.js `two-nights` reveal: new line (agent draft D2) before the study line: "A firefly’s eye is most
+    sensitive here, in the yellow, the same band that holds the peak of Philadelphia’s night sky." Backing: Lall et al.
+    1980 (eye peak ~570 nm, `documented`); Philadelphia median peak 594 nm (step 5 check, `inferred`, not scripted, no
+    number shown). Details: "; shaded on the Philadelphia half" removed.
+  - app/src/twoNights.js: BEATS = 4. Beat 2: window narrows, then the D2 line; beat 3: window stays, study line at once;
+    back from 3 to 2: D2 line at once (window already narrowed). Back from Species perceptions: last beat (study line).
+- Checked (5173, 1280×800, nav by JS): beats 0 → 1 → 2 → 3 and back to 1 (window Full again); on to Species perceptions
+  and back (lands on beat 3, Firefly pressed); text at 819–1203 × 525–728 on beat 3, clear of nav, ladder, panel;
+  Details text updated; no console errors. Screenshot sent.
+- Files changed: app/content/story.js, app/src/twoNights.js, AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 11 (2026-10-06): Female response with fewer beats — options asked (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > One of our last changes - the female response needs fewer beats... one for all other spectra, one for bright amber ... open to suggestion how to do that
+- Read app/src/spectral.js (enterBeat, animateDialogue, beat toggle) and the step's beats in content/story.js. Reported
+  in chat: options for two beats (all four other lamps together with the range 10.3–48.6 %, or auto-cycling the four inside
+  one beat; dark 98.7 % as a beat or in the label) and how the female's reply rate would be animated on a merged beat.
+  Decision questions asked. Nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Firefly flow, step 12 (2026-10-06): Female response down to two beats (A, i, 48.6); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > A, i, 48.6
+- Edits (files re-read right before editing):
+  - app/content/story.js `female-response` beats: (1) four lamps together (`lamps: cool_white, warm_white, blue, red`),
+    value "10.3–48.6 %", label "females answer · bright cool white, dim warm white, dim blue, dim red (dark: 98.7 %)",
+    reply 0.486 (the highest of the four, shown as "at most"); (2) bright amber unchanged (×10 growth, 0 %, F1 caption).
+    Values `documented` (Owens & Lewis 2021 Results), unchanged. Was six beats (old list kept in a comment). Agent
+    choices, marked [PLACEHOLDER]: button word "other lights", label wording, exact values instead of "10–49 %".
+  - app/src/spectral.js: beat key `lamps` (several lamps lit on one beat) and `button` (the toggle's word for a beat).
+- Checked (5173, 1280×800): beat 1 shows the four lamp spectra and the range; → amber (0 %, caption on); → Perception;
+  ← back lands on amber (last beat). No console errors. Screenshot sent.
+- Seen, not changed: the toggle is still right-aligned, so "amber" (1206–1264 × 12–34) still overlaps the mute button
+  (1228–1264 × 12–48) (open item; two buttons did not clear it).
+- Files changed: app/content/story.js, app/src/spectral.js, AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 13 (2026-10-06): beat toggle moved left of the mute button; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > yes move the toggle /
+- Edit (file re-read right before editing): app/src/style.css `#spectral-toggle`: right 60px (mute's 16 px + 36 px +
+  8 px gap), top 19px (centred on the mute's line), max-width calc(100vw − 76px). Was right 16px, top 12px. Applies to
+  every manual spectral chapter (also the Explore drafts). Place: agent choice.
+- Checked (5173, 1280×800, Female response): toggle 1070–1220 × 19–41, mute 1228–1264 × 12–48, no overlap; clear of the
+  menu; no console errors. Screenshot sent. Closes the open item "beat toggle overlaps the mute button".
+- Files changed: app/src/style.css, AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 14 (2026-10-06): bright amber sentence replaces the big text on that beat (no caption); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > the "bright amber light.." text should replace "ALAN interrupts.." on that beat... not supplement
+- Edits (files re-read right before editing):
+  - app/content/story.js `female-response`: `reveal: [F1 sentence]`; amber beat `caption` removed, `line: 1` added.
+    Wording unchanged (agent draft F1, step 4).
+  - app/src/spectral.js: `createSpectral({ onLine })`; on a manual chapter each beat calls onLine(beat.line ?? 0).
+    app/src/main.js: passes `showLine` (same .line swap as Two measured nights).
+- Checked (5173, 1280×800): beat 1 "ALAN interrupts …"; → amber: the big text swaps to the F1 sentence at
+  819–1203 × 292–508, no bottom caption; ← back to "ALAN interrupts …"; → Perception and ← back lands on amber with
+  the F1 sentence. No console errors. Screenshot sent.
+- Files changed: app/content/story.js, app/src/spectral.js, app/src/main.js, AI_LOG.md. Nothing committed.
+
+## Firefly flow, step 15 (2026-10-06): handoff written; commit (human request); next-session prompt (Impacts reorder)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > write a handoff and commit, and generate a new prompt as I want to reorder IMPACTS to start with firefly ... so a pan over the atlantic to the single study in Boston, and I want the other studies to be hidden. I want all studies to only render during the ALL EFFECTS beat ... and we can bring in 207 studies number within that text ...
+  >
+  > So it's Globe is brighter --> firefly --> all biota
+- Created handoffs/2026-10-06_firefly-flow.md (facts, human decisions, the section as it stands, open items, the
+  human's next-task words and questions). Next-session prompt given in chat.
+- Commit on main (diff checked first: code changes are only this session's): app/content/story.js, app/src/main.js,
+  app/src/spectral.js, app/src/story.js, app/src/style.css, app/src/twoNights.js, AI_LOG.md (also the previous session's
+  uncommitted Story flow steps 7–8), handoffs/2026-10-06_story-flow.md (previous session's) and
+  handoffs/2026-10-06_firefly-flow.md. Raw PDFs are git-ignored (not committed). Not pushed.
+- Files changed: handoffs/2026-10-06_firefly-flow.md (new), AI_LOG.md; git history.

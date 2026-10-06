@@ -114,7 +114,9 @@ const fragmentShader = `
   }`;
 const GAIN = { value: 1 }, SIZE = { value: 1 }, BAND_GAIN = 2.2, BAND_SIZE = 1.3;   // agent choices, tuned by eye
 
-export function createSpectral({ parent }) {
+// onLine(k): a beat's `line` (index into the step's big-text lines) is shown in place of the others (main.js;
+// AI_LOG Firefly flow step 14).
+export function createSpectral({ parent, onLine = null }) {
   const canvas = Object.assign(document.createElement('canvas'), { id: 'spectral-canvas', hidden: true });
   const labels = Object.assign(document.createElement('div'), { id: 'spectral-labels', hidden: true });
   const number = Object.assign(document.createElement('div'), { id: 'spectral-number', hidden: true });
@@ -463,6 +465,7 @@ export function createSpectral({ parent }) {
 
   function enterBeat(b) {
     showNumber(b);
+    if (current.manual) onLine?.(b?.line ?? 0);
     if (b?.caption) caption.textContent = b.caption;
     caption.classList.toggle('on', Boolean(b?.caption));
     if (current.chapter === 'fireflies') {
@@ -470,9 +473,11 @@ export function createSpectral({ parent }) {
       fadeTo(F.eye, 0.45);
       fadeTo(F.flash, 0.5);
       fadeTo(F.talk.male, 0.06); fadeTo(F.talk.female, 0.05);
+      // `lamps`: several lamps lit on one beat (AI_LOG Firefly flow step 12); else the one `lamp`.
+      const lit = b.lamps ?? (b.lamp ? [b.lamp] : []);
       LAMPS.forEach(n => {
-        const on = b.lamp === n;
-        fadeTo(F.lamps[n], on ? 0.9 : b.lamp ? 0.07 : 0);
+        const on = lit.includes(n);
+        fadeTo(F.lamps[n], on ? 0.9 : lit.length ? 0.07 : 0);
         fadeTo(F.seen[n], on ? 1 : 0);
         F.tags[n].el.classList.toggle('on', on);
         F.lamps[n].scale.y = F.seen[n].scale.y = 1;
@@ -762,8 +767,8 @@ export function createSpectral({ parent }) {
       return;
     }
     toggle.innerHTML = current.beats.map((b, i) =>
-      `<button data-beat="${i}" aria-pressed="${i === manualBeat}">${b.treatment && b.treatment !== 'control' ? b.treatment
-        : b.lamp ? LAMP_NAME[b.lamp] : 'dark'}</button>`).join('');
+      `<button data-beat="${i}" aria-pressed="${i === manualBeat}">${b.button ?? (b.treatment && b.treatment !== 'control'
+        ? b.treatment : b.lamp ? LAMP_NAME[b.lamp] : 'dark')}</button>`).join('');   // `button`: the beat's own word
   }
   function goBeat(i) {
     if (!current?.manual || i < 0 || i >= current.beats.length) return false;

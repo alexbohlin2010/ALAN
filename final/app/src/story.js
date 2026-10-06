@@ -124,14 +124,17 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
 
   function show(step) {
     card.hidden = fact.hidden = true;
-    card.classList.remove('revealed');   // `reveal` lines wait for their cue (Two measured nights)
+    card.classList.remove('revealed');   // `reveal` lines wait for their cue
     if (step.kind === 'intro') return;
     const note = step.note ? `<p class="note">${format(step.note)}</p>` : '';
     if (step.kind === 'fact') {
       // Note and sources sit behind a small "Details & sources" button (pop-up), so the big text
       // stays clear of the left panel (human request, AI_LOG Impacts step 33).
       const extra = note + sourceList(step.sources);
-      fact.innerHTML = `<p class="big">${format(step.text)}</p>` + (extra
+      // `reveal`: the text and these lines are shown one at a time, each on its beat (Two measured nights, main.js
+      // onBeat; AI_LOG Firefly flow steps 2 and 4).
+      const line = (t, n) => `<p class="big${step.reveal ? ` line${n === 0 ? ' on' : ''}` : ''}">${format(t)}</p>`;
+      fact.innerHTML = [step.text, ...(step.reveal || [])].map(line).join('') + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));

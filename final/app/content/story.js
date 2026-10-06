@@ -176,6 +176,11 @@ export const story = [
     // white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and bright amber 0 %. Each lamp in turn, with
     // the part of its light a firefly eye takes in (green).'
     text: 'ALAN interrupts female responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    // The bright amber beat's sentence replaces the big text on that beat instead of a caption below (human, AI_LOG
+    // Firefly flow step 14): beat `line: 1` (spectral.js onLine). F1 wording: agent draft chosen by the human (step 4),
+    // from Owens & Lewis 2021 (bright amber 0 %; Discussion: a male's chance of locating and mating with a female depends
+    // on her response rate, Demary et al. 2005).
+    reveal: ['Bright amber light silenced every female. Without her reply, a male cannot find her to mate.'],
     sources: [
       { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
         supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
@@ -188,14 +193,18 @@ export const story = [
     fly: 2200,
     swipe: 0,
     // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
+    // Two beats (human, AI_LOG Firefly flow step 12: options A, i, 48.6): the four other lamps together with the range of
+    // their documented values (dark 98.7 % in the label), the female replying on 48.6 % of cycles (the highest of the
+    // four, i.e. "at most"); then bright amber. Was six beats: dark 98.7 %, bright cool white 10.3 %, dim warm white
+    // 11.6 %, dim blue 36.1 %, dim red 48.6 %, bright amber 0 %. Button word 'other lights' and the label wording:
+    // [PLACEHOLDER] agent choices.
     spectral: { chapter: 'fireflies', manual: true, site: 'owenslewis2021_boston', beats: [
-      { value: '98.7 %', label: 'females answer · dark', reply: 0.987 },
-      { lamp: 'cool_white', value: '10.3 %', label: 'females answer · bright cool white', reply: 0.103 },
-      { lamp: 'warm_white', value: '11.6 %', label: 'females answer · dim warm white', reply: 0.116 },
-      { lamp: 'blue', value: '36.1 %', label: 'females answer · dim blue', reply: 0.361 },
-      { lamp: 'red', value: '48.6 %', label: 'females answer · dim red', reply: 0.486 },
+      { lamps: ['cool_white', 'warm_white', 'blue', 'red'], button: 'other lights', value: '10.3–48.6 %',
+        label: 'females answer · bright cool white, dim warm white, dim blue, dim red (dark: 98.7 %)', reply: 0.486 },
       { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0,
-        caption: 'Bright amber lights reduced female response to 0%' },   // wording: human (AI_LOG Fireflies steps 6–7)
+        // Its sentence is the step's big-text line 1 (`reveal` above), no caption (AI_LOG Firefly flow step 14). Caption
+        // was F1 (step 4), before that 'Bright amber lights reduced female response to 0%' (AI_LOG Fireflies steps 6–7).
+        line: 1 },
     ] },
   },
   // Dark screen between Female response and Two measured nights, shown like Conclusion (human, AI_LOG Fireflies
@@ -206,7 +215,9 @@ export const story = [
     rung: 'animal',
     kind: 'fact',
     label: 'Perception',
-    text: 'Humans perceive ALAN differently to other parts of the biota.',   // wording: human (AI_LOG Fireflies step 10)
+    // Question replaces the sentence (human, AI_LOG Firefly flow step 2, option A). Was 'Humans perceive ALAN differently
+    // to other parts of the biota.' (human, AI_LOG Fireflies step 10).
+    text: 'Does our actual lighting environment impact fireflies in the wild?',   // wording: human
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
@@ -218,19 +229,33 @@ export const story = [
     part: 2,
     rung: 'light',
     label: 'Two measured nights',
-    title: 'Two measured nights',
-    // Card (human, AI_LOG "Amber highlight" steps 3-4): large text; first line while the divider shows Cherry Springs,
-    // `reveal` lines once it has swept across to Philadelphia (twoNights.js onSweep). Wording: human (first line
-    // from "this is the light spectrum measured at a dark sky park, Cherry Springs"). 150x:
+    // Big text on the right instead of the card (human, AI_LOG Firefly flow step 2, option T1; was a card titled
+    // 'Two measured nights', AI_LOG "Amber highlight" steps 3-4): first line while the divider shows Cherry Springs,
+    // `reveal` lines in its place once it has swept across to Philadelphia (twoNights.js onSweep). Wording: human (first
+    // line from "this is the light spectrum measured at a dark sky park, Cherry Springs"). 150x:
     // data/derived/spectra/amber_band_ratio.json (pipeline/spectra/03_amber_band_ratio.py, inferred, audit pending).
-    // Details text: agent draft (method only).
-    tagline: 'This is the light spectrum measured at a dark sky park, Cherry Springs.',
+    // Details text (`note`): agent draft (method only). Side and swap-in-place: agent choices (as the card).
+    // Beats (human, AI_LOG Firefly flow step 4, option S1; a fourth in step 10): ← → and the nav arrows step Cherry Springs (`text`) →
+    // Philadelphia (divider sweeps across; `reveal[0]` when it arrives) → firefly wavelength (Firefly window; `reveal[1]`,
+    // the firefly-eye line, once it has narrowed) → `reveal[2]`, the study line (window stays). One line at a time (twoNights.js beat, main.js onBeat).
+    kind: 'fact',
+    side: 'right',
+    text: 'This is the light spectrum measured at a dark sky park, Cherry Springs.',
     reveal: [
-      'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs, a dark sky park.',
+      // ", a dark sky park" removed (human, AI_LOG Firefly flow step 5: redundant with the first line).
+      'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs.',
+      // Agent draft D2 chosen by the human, on its own beat before the study line (AI_LOG Firefly flow step 10, W1):
+      // Lall et al. 1980 (eye peak ~570 nm) and Philadelphia's median spectrum peak (594 nm, checked in step 5, not shown).
+      'A firefly’s eye is most sensitive here, in the yellow, the same band that holds the peak of Philadelphia’s night sky.',
       'Bright amber light silenced female fireflies most (Owens & Lewis 2021).',
     ],
-    text: 'Night spectra measured in July 2014, 240 per site. 150× = median irradiance in 570–615 nm, Philadelphia ÷ ' +
-      'Cherry Springs (the band the authors link to artificial light in the city spectra; shaded on the Philadelphia half).',
+    note: 'Night spectra measured in July 2014, 240 per site. 150× = median irradiance in 570–615 nm, Philadelphia ÷ ' +
+      // "; shaded on the Philadelphia half" removed (human, AI_LOG Firefly flow step 10; no longer shaded).
+      'Cherry Springs (the band the authors link to artificial light in the city spectra). ' +
+      // Firefly band sentence: agent draft (method only), option A (human, AI_LOG Firefly flow step 9).
+      'Firefly band (530–600 nm): half-maximum of a modelled curve around the female P. pyralis response peak (565 nm; ' +
+      'provisional). Recordings from male P. pyralis eyes peak at about 570 nm, fall steeply near 525 nm, and show a ' +
+      'second, violet peak near 400 nm.',
     sources: [
       { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
         supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014; 570–615 nm band' },
@@ -242,6 +267,12 @@ export const story = [
         supports: 'International Dark Sky Park since 2008, Gold Level' },
       { label: 'Owens & Lewis 2021, Insect Conserv. Divers.', url: 'https://doi.org/10.1111/icad.12487',
         supports: 'bright amber light had the greatest impact on female responses' },
+      { label: 'Lall & Worthy 2000, J. Insect Physiol.', url: 'https://doi.org/10.1016/S0022-1910(99)00206-1',
+        supports: 'Photinus pyralis female response, peak 565 nm (the modelled firefly curve, provisional)' },
+      // Added (human, AI_LOG Firefly flow step 9, option A); raw PDF data/raw/impacts/fireflies/Lall_1980_JCompPhysiol_135_21.pdf.
+      { label: 'Lall et al. 1980, J. Comp. Physiol.', url: 'https://doi.org/10.1007/BF00660178',
+        supports: 'ERG, ventral sector of dark-adapted male P. pyralis compound eyes, N = 13: peaks ~570 nm (yellow) and ~400 nm ' +
+          '(violet, 380–440 nm between subjects); 1.45–1.85 log unit fall in ~25 nm near 525 nm; in tune with the 565 nm flash' },
     ],
     // Globe camera between the two Spitschan sites (midpoint of the printed coordinates; display only), so both glows
     // are in view during the transition from Local firefly (round 7f). Altitude and timing: agent choices.
@@ -269,7 +300,8 @@ export const story = [
     label: 'Species perceptions',
     // Was a card titled 'Species perceptions': '[PLACEHOLDER] The measured night light of Philadelphia, weighted by
     // each species' spectral sensitivity.'
-    text: 'Fireflies perceive ALAN with their own eyes, not ours.',   // wording: human (AI_LOG Fireflies step 12)
+    // Was 'Fireflies perceive ALAN with their own eyes, not ours.' (human, AI_LOG Fireflies step 12).
+    text: 'Philadelphia’s Artificial Light drowns out the firefly light.',   // wording: human (AI_LOG Firefly flow step 2)
     sources: [
       { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
         supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014' },
@@ -279,6 +311,36 @@ export const story = [
     camera: { lat: 40.808419, lng: -76.500617, altitude: 0.35 },
     swipe: 0,
     nights: 'pair',
+  },
+  // Firefly counts across the eastern US (human, AI_LOG Firefly flow step 4: "M1 as a new step"): ties up the firefly
+  // section before All effects. Sentence: agent draft M1 chosen by the human, from McNeil et al. 2024 (raw PDF:
+  // data/raw/impacts/fireflies/McNeil_2024_STOTEN_172329.pdf). Label: [PLACEHOLDER] (the study's citation), to be named
+  // by the humans. Visual (the eastern US at night, 2025 view, the Firefly Watch survey extent of their Fig. 1), camera,
+  // fly, rung: agent choices. No Impacts layer, so All effects keeps its globe → chart arrival.
+  {
+    id: 'firefly-counts',
+    part: 2,
+    rung: 'studies',
+    kind: 'fact',
+    side: 'right',
+    label: '[PLACEHOLDER] McNeil et al. 2024',
+    text: 'Across the eastern US, fewer fireflies are counted where nights are brighter: one pressure among climate, soil and land cover.',
+    note: '24,683 Firefly Watch citizen-science surveys, eastern US (east of the 100th meridian), 2008–2016. In random-forest ' +
+      'models of 79 predictors, night-time lights ranked 9th overall and 3rd in areas of high climate quality; counts were ' +
+      'lower where night-time lights were brighter. Climate and weather were the strongest predictors. The authors note ' +
+      'that the effects of light are confounded with those of urbanization.',
+    sources: [
+      { label: 'McNeil et al. 2024, Sci. Total Environ.', url: 'https://doi.org/10.1016/j.scitotenv.2024.172329',
+        supports: 'Firefly Watch, 24,683 surveys 2008–16, eastern US; Table 2: night-time lights (NTL) rank 9 (all data, ' +
+          'importance 2.47) and 3 (high climate, 2.51); Fig. 3F: abundance lower at higher night-time lights DN; Discussion: ' +
+          'results support the hypothesis that anthropogenic light may harm firefly populations, confounded with urbanization; ' +
+          'climate/weather more important than land cover' },
+    ],
+    // Centre of the Firefly Watch extent (Fig. 1: ~25–49 N, ~100–67 W), display only.
+    camera: { lat: 37, lng: -84, altitude: 1.1 },
+    fly: 2500,
+    swipe: 0,
+    noSwipe: true,   // divider and "2025" label hidden: at the left edge they sat over the menu (agent choice)
   },
   {
     id: 'effects',

@@ -114,12 +114,14 @@ const impacts = createImpacts({ globe, globeEl: el, card: document.getElementByI
   onDoor: id => storyCtl.go(story.findIndex(s => s.spectral?.door === id)) });
 // Spectral chapters (app/src/spectral.js): a 3D view over the globe on steps with a `spectral` key
 // (human decisions, AI_LOG Impacts steps 74–75).
-const spectral = createSpectral({ parent: document.body });
+// onLine: a Female response beat swaps the big text line (story.js `reveal`; AI_LOG Firefly flow step 14).
+const showLine = k => document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k));
+const spectral = createSpectral({ parent: document.body, onLine: showLine });
 // Two measured nights (app/src/twoNights.js): City vs Rural night spectra behind a divider, on steps with
 // `nights: true` (human decision, AI_LOG Firefly narrative round 3c).
-// onSweep: the Two measured nights card shows its `reveal` lines once the divider has swept to Philadelphia.
 const nights = createTwoNights({ parent: document.body,
-  onSweep: done => document.getElementById('card').classList.toggle('revealed', done) });
+  // onBeat: the Two measured nights big text shows line k of its beats (AI_LOG Firefly flow step 4).
+  onBeat: k => document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k)) });
 
 // Firefly guide (ladder plan phase 4; AI_LOG "Story review" steps 7–8): one glow carried from the Female response
 // female into the dark Perception screen, where it pulses alone above the text (Female response's reply rhythm:
@@ -180,6 +182,8 @@ function applyStage(i) {
   // big text beside the chart (style.css); also the Broader Impacts circle (human, AI_LOG Fireflies step 29: same layout)
   document.body.classList.toggle('story-chart', st?.view === 'chart' || Boolean(st?.circle));
   document.body.classList.toggle('story-nights', Boolean(story[i].nights));
+  // `noSwipe`: the 2015 | 2025 divider and year label hidden on a plain globe step (AI_LOG Firefly flow step 4).
+  document.body.classList.toggle('story-noswipe', Boolean(story[i].noSwipe));
   // Local firefly ↔ Two measured nights (human: "two points, two halves", AI_LOG Firefly tabs review round 7f): the
   // nights step's `nightsSites` (left, right) glow on the globe; the halves open out of / close into those glows.
   const ns = story[i].nightsSites, pns = prev.nightsSites, glowOf = k => () => impacts.siteGlow(k);
@@ -237,6 +241,17 @@ function applyStage(i) {
 
 // On a manual spectral step, ← → step through its beats first (capture phase, before story.js's own keys);
 // past either end they move the story as usual (human request, Firefly transition task step 3).
+// Two measured nights (AI_LOG Firefly flow step 4): ← → and the nav arrows step its beats first (twoNights.js beat);
+// past either end they move the story.
+const nightsBeat = d => mode === 'light' && story[storyIndex].nights === true && nights.beat(d);
+window.addEventListener('keydown', e => {
+  const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+  if (d && nightsBeat(d)) e.stopImmediatePropagation();
+}, true);
+document.getElementById('nav').addEventListener('click', e => {
+  const d = e.target.closest('.next') ? 1 : e.target.closest('.back') ? -1 : 0;
+  if (d && nightsBeat(d)) e.stopPropagation();
+}, true);
 window.addEventListener('keydown', e => {
   if (mode !== 'light' || !story[storyIndex].spectral?.manual) return;
   const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
@@ -259,7 +274,7 @@ function setMode(m) {
     storyCtl.pause();
     lightSwipe = swipeFrac;
     swipeFrac = 0; placeSwipe();   // 0 = all 2025
-    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights', 'story-dark');
+    document.body.classList.remove('story-impacts', 'story-spectral', 'story-nights', 'story-dark', 'story-noswipe');
     darkScene.set(false);
     guideStep({}, {});
     spectral.set(null);
