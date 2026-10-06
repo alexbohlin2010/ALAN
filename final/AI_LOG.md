@@ -6774,3 +6774,102 @@ Append only. One entry per AI step (see RULES.md §4).
   uncommitted Story flow steps 7–8), handoffs/2026-10-06_story-flow.md (previous session's) and
   handoffs/2026-10-06_firefly-flow.md. Raw PDFs are git-ignored (not committed). Not pushed.
 - Files changed: handoffs/2026-10-06_firefly-flow.md (new), AI_LOG.md; git history.
+
+## Presentation deck style ideas (2026-10-05): proposal only, no changes
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > now I'm trying to draft a presentation deck for the project, the story flow will be introduction&context of the project first, then several slides describing our methodology of converting data into visualization and related algorithms, then the link of our web for an interactive story, then a discussion on our XAI methodology. I think the style of the deck should match out project's overall aesthetics, so give me some ideas on how the deck should looks like
+- Read app/index.html, app/src/style.css and colour constants (tileLayer.js ramp tints, impacts.js, twoNights.js,
+  spectral.js) to list the app's existing palette and type. Proposed visual-style options for the deck in chat with a
+  4-slide mockup (agent proposal; the deck's content and story order are the human's). No deck content written.
+- Files changed: AI_LOG.md only.
+
+## Presentation deck template (2026-10-05): build, human choice "A plus B"
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > go with A plus B, build the slide template
+- Built a 14-slide HTML template (A = black "Night" slides for story, B = blue-black grid "Instrument" slides for method
+  and XAI), styled from app/src/style.css tokens. Published as a private claude.ai artifact
+  (https://claude.ai/artifact/XLVNaSHE3WnyG5yJT1oLrN); source in the session scratchpad, not in the repo (file layout is
+  the human's call, RULES §1.3).
+- Content: only human wording copied from app/content/story.js (intro line, 41% statistic + note, closing question) and
+  RULES.md (Ethos line, §2.3 label table, §3, §4.1, §5); repo facts (script names, ramp thresholds 248/219, tints, blend
+  ±8 from app/src/tileLayer.js and pipeline/colour/METHOD.md; one AI_LOG entry excerpt). Everything else is a marked
+  [placeholder]. Slide titles "From data to display", "Satellite radiance to globe tiles", "Display ramp: every lit pixel
+  is grey × tint", "Every value is labelled", "How a dataset reaches the story" are agent drafts for the human to replace.
+- Counts on the numbers slide (counted 2026-10-05, labelled "recount before presenting"): 442 lines starting "## " in
+  AI_LOG.md, 45 files in handoffs/, 7 folders in audits/.
+- The ramp bars are drawn with the tileLayer.js year-threshold ("brightest") rule, not the app's default place mode; the
+  slide says so.
+- Not checked: the rendered page (the local preview could not be driven). Files changed: AI_LOG.md only.
+
+## Presentation deck template (2026-10-05): .pptx for Google Slides
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > can you convert the ALAN deck template to a format that can be opened in google slide?
+- Rebuilt the 14-slide template as ALAN-deck-template.pptx (pptxgenjs, installed in the session scratchpad only, not in
+  the repo). Same text and sources as the HTML template entry above. Changes for the format: the pipeline slide is a
+  vertical list (script names did not fit side by side); the ramp bars are PNG images made with the same rule; the QR
+  code is a white box to replace by hand. Fonts: Cormorant Garamond (italic lines), Arial (body), Roboto Mono (labels),
+  all available in Google Slides. Speaker notes say each slide's layout and text source.
+- Checked: package validation passed; all shapes inside the slide; text per slide listed. Not checked: rendered look
+  (no renderer on this machine), so text fit is unverified. Files changed: AI_LOG.md only; the .pptx was sent to the
+  human, not saved in the repo.
+
+## Two measured nights method explainer (2026-10-05): presentation page
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > now I need to illustrate the method and algorithm used to translate the phil and cherry spring's dataset to the light dot visualization of the light spectrum. don't need to do it in ppt anymore, just in a clear way that audience can easily get the idea.
+- Read pipeline/spectra/01_night_spectra.py, app/src/twoNights.js, data/derived/spectra/*.json. Built a 6-step page
+  (measure → keep night → 240 × 281 grid → log scale → one cell one dot → 3D scene) and published it as a private
+  artifact: https://claude.ai/artifact/EftSgurcYjG3VRLZeiZ2g6 (source and data extract in the session scratchpad, not in
+  the repo).
+- Data used, no values changed: irradiance from the derived site files (quantised to 255 height levels for drawing
+  only); solar elevation rows (row 3) and timestamps read from data/raw/spectra/spitschan2016/{DRL,CSSP}_spectra.csv,
+  read-only; counts checked against the derived files (3,199 → 1,200; 3,192 → 1,268). Histogram of log10 irradiance
+  per 0.1 bin computed on the fly (inferred, figure only). Example spectrum = selected index 120 of each site.
+- Display choices (agent): site colours #d4730f Philadelphia, #5b8be6 Cherry Springs (checked with a colour validator);
+  sun heights above +10° drawn at +10° (stated on the page). The 3D view reuses twoNights.js shaders without the
+  divider; one site at a time.
+- Step titles and explanatory sentences are agent drafts describing the method only; no interpretive claims.
+- Not checked: rendered page (the browser pane needs a sign-in); script syntax checked. Files changed: AI_LOG.md only.
+
+## Two measured nights method explainer (2026-10-05): raw file step added
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > I think one more step is needed before your first step, which is the original dataset format, bc the first step you have now is already a sort of visualization.
+- Added step 1 "The raw data" to https://claude.ai/artifact/EftSgurcYjG3VRLZeiZ2g6 (version 2): file layout (rows 1–5
+  metadata, rows 6–566 = 280–840 nm), file sizes and shapes, and a table excerpt of DRL_spectra.csv copied verbatim
+  (rows 1–8, 315, 565, 566; columns 1–3, 1,907, 3,199), read-only. Authors' cleaning counts from
+  {DRL,CSSP}_dataquality.csv (documented). Old steps renumbered 2–7; old step 1 reworded as "Each column, plotted
+  against wavelength, is a spectrum" and now names the source columns (Philadelphia 1,907, Cherry Springs 1,478 =
+  selected index 120). Wording: agent draft. Not checked: rendered page; script syntax checked. Files changed:
+  AI_LOG.md only.
+
+## Global effects method explainer (2026-10-05): presentation page
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > nice, now I need to illustrate the method and algorithm used to translate the global research's dataset to the dot visualization chart. don't need to do it in ppt anymore, just in a clear way that audience can easily get the idea, and also, for example, what is the Hedge g value represent
+- Read pipeline/impacts/01_studies.py, 02_geocode.py, 04_effects.py, app/src/impacts.js, app/content/story.js; read
+  workbook header and rows 35 and 4458 of data/raw/impacts/czarnecka2025/Data_S1_Czarnecka_et_al..xlsx (read-only).
+  Built an 8-step page (raw rows → located studies → dark vs lit → Hedges g worked → what g means → |g| → placement
+  → full chart) and published it privately: https://claude.ai/artifact/B3216A4pxjit9wzZSsRbwy (source and data
+  extract in the session scratchpad, not in the repo).
+- Numbers: 4,905 rows / 314 studies / 49 columns; 207 drawn studies, 3,254 effects; 107 not drawn = 69 without a
+  Location + 38 not resolved or not approved (counted from studies.json and study_locations.json); lane study medians
+  computed from effects.json g_abs with the impacts.js rule (Behaviour 0.77, Physiology 0.69, LHT 0.40, Population 0.61,
+  Community 0.80; inferred, figure only); 40 effects with |g| > 10. Worked g recomputed in the page from the row's
+  means/SDs/Ns (fireflies −2.6779 vs workbook −2.6778; the workbook value is shown beside it).
+- "What g means" figure: idealised equal-variance normal curves; readouts U3 = Φ(g) and overlap = 2Φ(−g/2)
+  (standard textbook measures, agent choice, labelled "for intuition only"); Cohen 1988 words as in story.js.
+- Wording: agent drafts describing the method; no interpretive claims. Not checked: rendered page; script syntax
+  checked. Files changed: AI_LOG.md only.
+
+## Story review, step 11 (2026-10-06): main checkout unblocked for pull (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Run from worktree `festive-goodall-a0e192` on the main checkout (`ALAN/`, branch `main`).
+- Human prompt (verbatim):
+  > seems that I cannot pull the latest version now
+- Found: the main checkout's `main` was at 854700dd0 with an uncommitted `final/AI_LOG.md` edit (90 added lines from another session: "Presentation deck style ideas", "Presentation deck template" ×2, "Two measured nights method explainer" ×2, "Global effects method explainer"; 71 of those lines were not on origin), and origin/main (ab5e96f04, incl. alexbohlin2010's "story flow edits") changes the same file, so git refused the pull.
+- Human answer (question form): "Commit, then pull (Recommended)".
+- Done: committed that log edit as is on `main` (f8e239169); merged `origin/main`; AI_LOG.md conflict (both sides appended) resolved by keeping origin/main's entries in place and the committed local entries after them, then this entry; checked that no line of either side is missing. All other files = origin/main as is (the checkout had no other local changes). Committed the merge and pushed `main`. Untracked folders (`.claude/`, `Linda/analysis/colours_night_local_audit/`, `Linda/visual tests/spatial/philadelphia-spectral-space/`) and the GitHub Desktop stash entries untouched.
+- Files changed: final/AI_LOG.md; git history of `main`; `origin/main`.
