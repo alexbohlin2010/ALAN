@@ -160,6 +160,20 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const val = a => a.from + (a.to - a.from) * easeInOut(clamp01((performance.now() - a.t0) / a.ms));
   const go = (a, to, ms) => { if (a.to === to) return; a.from = val(a); a.to = to; a.t0 = performance.now(); a.ms = ms; };
   const dotsA = anim(1), chartA = anim(0), morphA = anim(0), exampleA = anim(0), groupA = anim(1), glowA = anim(0);
+  // Story key `highlight: [{ set, label }, ...]` (ladder plan phase 2; AI_LOG "Story review" steps 7–8): study sets
+  // from data/derived/impacts/study_highlights.json (10_study_highlights.py, inferred) lit one after another, the other
+  // dots dimmed like filtered-out ones, with a count line at the top centre. A list of several plays as beats
+  // (first HL_FIRST after the dots are in, then every HL_STEP); one set is shown at once. Timings: agent choices.
+  const HL_FIRST = 2500, HL_STEP = 3500, HL_MS = 900, HL_DIM = 0.12;
+  let hlSets = {}, hlLocated = 0, hlFrom = null, hlTo = null, hlTimers = [];
+  const hlA = anim(1);
+  const inSet = (h, id) => (!h ? 1 : hlSets[h.set]?.has(id) ? 1 : HL_DIM);
+  const hlOf = id => { const t = val(hlA); return inSet(hlFrom, id) * (1 - t) + inSet(hlTo, id) * t; };
+  function hlGo(h) {
+    if ((h?.set ?? null) === (hlTo?.set ?? null)) { hlTo = h; return; }
+    hlFrom = hlTo; hlTo = h;
+    hlA.from = 0; hlA.to = 1; hlA.t0 = performance.now(); hlA.ms = HL_MS;
+  }
   const circleA = anim(0);   // Broader Impacts circle (stage.circle), 0 = records on their studies, 1 = in the circle
   const noteA = anim(0), circleKeyA = anim(0);   // reading keys (drawKey): chart, circle
   // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()). siteA: key → fade (stage.site may be
@@ -236,9 +250,9 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   }
 
   async function load() {
-    const [locs, st, lt, ef, ...siteData] = await Promise.all([
+    const [locs, st, lt, ef, hl, ...siteData] = await Promise.all([
       getJson('/impacts/study_locations.json'), getJson('/impacts/studies.json'),
-      getText('/impacts/maps/light_types.csv'), getJson('/impacts/effects.json'),
+      getText('/impacts/maps/light_types.csv'), getJson('/impacts/effects.json'), getJson('/impacts/study_highlights.json'),
       ...Object.values(SITE_FILES).map(f => getJson(`/impacts/${f}`))]);
     // Owens 2018: collection site and courtship-flash peak as printed (statements, documented).
     Object.keys(SITE_FILES).forEach((k, i) => {
@@ -246,6 +260,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       sites[k] = { lat: c.latitude.value, lon: c.longitude.value, colour: nmCss(nm), label: 'Owens et al. 2018 · collection site' };
     });
     Object.assign(sites, SITE_POINTS);
+    hlLocated = hl.meta.located_studies;
+    for (const [k, v] of Object.entries(hl.sets)) hlSets[k] = new Set(v.study_ids);
     effects = ef.effects;
     effectsById = new Map(effects.map(e => [e.effect_id, e]));
     const gs = new Map();
@@ -382,6 +398,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     }
     if (ga > 0.005) drawGlobeDots(ga);
     if (ga > 0.005 && stage?.studyLabel) drawStudyLabel(stage.studyLabel, ga);
+    if (ga > 0.005) drawHighlightLabel(ga, w);
     const sa = Math.max(ga, val(glowA));
     for (const k in siteA) { const v = val(siteA[k]); if (v > 0.005) drawSite(k, v * sa, w, h); }
     drawChart(w, h);
@@ -390,7 +407,18 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   }
 
   // Studies lit by the filter: any record in that category or species group (Linda's rule; agent default).
-  const act = id => (!filter || studies.get(id)?.category.includes(filter) || studyGroups.get(id)?.includes(filter) ? 1 : 0.12);
+  const act = id => (!filter || studies.get(id)?.category.includes(filter) || studyGroups.get(id)?.includes(filter) ? 1 : 0.12)
+    * hlOf(id);
+  // Highlight count line (story `highlight`): "<label> · n of N studies", top centre; old and new crossfade.
+  function drawHighlightLabel(ga, w) {
+    const t = val(hlA);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '500 15px system-ui, sans-serif'; ctx.fillStyle = '#fff';
+    [[hlFrom, 1 - t], [hlTo, t]].forEach(([h, a]) => {
+      if (!h || a * ga < 0.01) return;
+      ctx.globalAlpha = a * ga;
+      ctx.fillText(`${h.label} · ${hlSets[h.set]?.size ?? 0} of ${hlLocated} studies`, w / 2, 56);
+    });
+  }
 
   function drawGlobeDots(ga) {
     const all = clusters();
@@ -944,6 +972,11 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     for (const k of new Set([...Object.keys(siteA), ...keys])) go(siteA[k] ??= anim(0), keys.includes(k) ? 1 : 0, FADE_MS);
     go(chartA, chart ? 1 : 0, FADE_MS);
     go(circleA, s?.circle ? 1 : 0, MORPH_MS);
+    hlTimers.forEach(clearTimeout); hlTimers = [];
+    const seq = s?.highlight ?? [];
+    if (!seq.length || seq[0].set !== hlTo?.set) hlGo(null);
+    const first = seq.length > 1 ? (s.reveal ? REVEAL_MS : 0) + HL_FIRST : 0;
+    seq.forEach((h, i) => { const ms = first + i * HL_STEP; if (ms === 0) hlGo(h); else hlTimers.push(setTimeout(() => hlGo(h), ms)); });
     go(morphA, chart && s.records ? 1 : 0, MORPH_MS);
     // Grouping of the records (s.group: 'category' default | 'band' | 'type' | 'species'). A change while the chart is
     // showing slides the dots to their new lanes; otherwise the new grouping is set at once.
@@ -964,7 +997,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
     if (!s?.circle) sizeSel = null;
-    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA, circleA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
+    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA, circleA, hlA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
     renderFilter();
   }
 
