@@ -7217,3 +7217,268 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: app/src/introScene.js, app/src/main.js, app/src/style.css, AI_LOG.md,
   handoffs/2026-10-06_background-volume.md. Not pushed.
 - Files changed: handoffs/2026-10-06_background-volume.md (new), AI_LOG.md; git history.
+
+## Effect dots and examples, step 2 (2026-10-06): effect dots and circle dots open their study's card; Dots toggle removed; card bottom left on chart steps (P3); abstracts.json from the Crossref cache (A); example shortlist drafted (R3, not applied); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > 1. Three bar charts AND the broader impacts circle.
+  > 2. P3 (could change later let's try this)
+  > 3. Yes remove studies toggle so it's only effects. We need more space and fewer confusing options.
+  > 4. S2 (i'm looking for options here that can present a compelling story as we move through ... keep people engaged and educated that light is really impacting biota ... and showing in what ways). R3. C2. D1.
+  > 5. A
+  >
+  >
+  > A note ... by broader impacts, it may become a narrative to show how each example plays a different part of the ecological chain ... so there's now uncertainty being introduced into the system at each level of major function ... and this presents uncertain consequences
+- Correction to step 1: the study card element is `#study` (style.css: right 16, top 44, width ≤ 380), not `#card`
+  (`card` is impacts.js's name for it). Step 1's overlap reasoning still holds (same right column as the big text).
+- Edits (impacts.js re-read right before editing; the diff holds only this step's changes):
+  - app/src/impacts.js: Dots: Effects | Studies toggle removed with the study-dot view (dotsBy, studyA, studyDots /
+    dotOf / dotPos, posOf, dotY, dotColor, drawStudyDots, the "N studies" category-lane sub-label in Studies mode,
+    the example's study-median label, the door's Studies position). Study-median line, counts, Colour toggle and
+    filter unchanged.
+  - drawRecords: once settled (morph and regroup done, chart in), every record passing the filter is a hit (radius
+    REC_HIT = 5 px, agent choice; nearest wins) that opens its study's card; the open study's records are drawn on top
+    with a white ring. The worked example's dot (299-3) is a hit too (8 px) once collapsed.
+  - drawCircle (Broader Impacts): settled dots passing the size buttons are hits (their radius + 1, at least 5 px);
+    the open study's dots ringed in white.
+  - Card (P3): on chart and circle steps the card is placed at the chart's left edge, bottom 16 px (inline style set
+    in draw(); elsewhere style.css as before). Bottom anchor: agent choice (top-anchored at the chart's left it covered
+    the filter bar).
+  - pipeline/impacts/11_abstracts.py (new): offline; abstract from crossref_cache.json for a study's chosen DOI only if
+    crossref_check.json status is title_match; JATS markup stripped, words unchanged. Output
+    data/derived/impacts/abstracts.json (new): 145 of 314 studies, label `documented` (Crossref, publisher-deposited).
+    Left out (no label, reason in meta): 10 no DOI, 154 no abstract in Crossref, 5 DOI not title_match — among them
+    299 (title_partial 0.841: Crossref adds "(Coleoptera: Lampyridae)") and 180 (title_partial 0.895). Not yet audited
+    (RULES §3). Not used in the app yet.
+- Checked (localhost:5173, server started by this session with launch config "alan-final-app"; 1280×800; JS-driven):
+  All effects: filter bar = Colour + category buttons only; clicks dispatched at drawn dot positions in four lanes
+  opened four different studies (Fish; Arthropods/Fish/Insects; Fish; Algae, fungi & microbes); card 269–649 ×
+  ~390–784, clear of big text (876–1264), menu (≤ 139), filter bar (≤ 110) and nav (1136–1264 × 748–784); × closes.
+  Light level and Light type: dots open cards; ring visible on the open study's records. Broader Impacts: three
+  circle dots opened three studies. Back Broader → Light type → Light level → All effects → Firefly Populations:
+  card closed on each step change, filter bar hidden on Firefly Populations. Console: only two setPointerCapture
+  errors from the agent's own synthetic pointerdown on the globe canvas (test artefact); none from the app.
+- Seen, not changed: (1) with P3 the open card covers the chart's lower-left lanes and the axis title, and on Broader
+  Impacts the circle's lower-left sectors (Insects, Amphibians, Fish labels). (2) Escape does not close the card on
+  story steps (impacts.js keydown returns unless browsing; as before this step). (3) Busy lanes: a click opens the
+  nearest record's study, which may be a neighbour's.
+- Shortlist (R3, agent draft, not applied): per chart, for each of 8 species groups, the record nearest that group's
+  median |g| among studies with an abstract; Light level restricted to the low band (≤ 5 lx), Light type to warm white
+  (BS warm). Rule: agent choice. Given in chat with effect ids and sources (Data S1 fields; studies.json citations).
+- Human note recorded (Broader Impacts as an ecological-chain narrative): no action taken.
+- Files changed: app/src/impacts.js, pipeline/impacts/11_abstracts.py (new), data/derived/impacts/abstracts.json (new),
+  AI_LOG.md. Nothing committed.
+
+## Effect dots and examples, step 3 (2026-10-06): callouts as quotes — verbatim candidate phrases drafted from titles and abstracts (agent draft, not applied)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Functionality is great, nice job with that. Card positioning is great.
+  >
+  > Now it's about curating the selected examples as 'callouts' with each part of the story ... to convey the breadth of impact.
+  >
+  > To change your idea of how I'm thinking about the simple abstract quote/effects thing: i want to have a simple natural language quote which captures the essence of the study, whether it's "artificial light can interrupt firefly mating patterns..." as an example. .. so i'm looking for examples in that sense. We won't be talking about the |g| so much here, because it's about narrative impact and being succinctly understood.
+- Then (verbatim):
+  > that also means while it's okay for fireflies to be highlighted in All Effects, the minute we click arrow to move beat to uor first example, that highlihght should fade and the new one replace it
+- Did: extracted (scratchpad script, display aid only, no repo data) sentences from abstracts.json that contain an effect
+  verb and a light term, per study, with the study's main species group, light bands and types; read them and the titles;
+  drafted 27 candidate phrases, each ≤ 14 words, each checked by script as an exact substring of the study's title
+  (studies.json, Data S1) or abstract (abstracts.json, Crossref). One (166) matches only with the source's U+2010 hyphen.
+  Matched each to one effect record of the study (effect id). 255's title claim (metamorphic duration) has no record
+  in Data S1; nearest record given (toad mass).
+- No callouts applied; no beat mechanics built (the human's beat description recorded above). Candidates and
+  questions given in chat.
+- Files changed: AI_LOG.md only.
+
+## Effect dots and examples, step 4 (2026-10-06): human's six callouts; placement options by data (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > I'm going to select the callouts I like, and I need help knowing where they fit best..
+  >
+  > "White LED exposed wallabies had significantly suppressed nocturnal melatonin"
+  > "street lights caused a reduction in activity of slow‐flying bats"
+  > "Light pollution critically affects fledglings of burrow-nesting seabirds, leading to massive mortality events."
+  > "Artificial light at night increases growth and reproductive output in Anolis lizards"
+  > "aphid colony growth and aphid maturation were reduced significantly by ALAN treatments"
+  > "Artificial light at night can modify ecosystem functioning beyond the lit area"
+  >
+  > Author, year ... is fine for citation of the "quote"... I suppose the quote should replace the narrative text while also selecting the study?
+  >
+  > the firefly beat can stay as a relic of the previous chapter, but then be unselected once the rest of narrative continues.
+  >
+  > This selection of examples is moving towards the idea of: effects can be negative/positive, but they throw the system out of equilibrium and increasingly unpredictable and severe ways ...
+  >
+  > the story that's forming is... disequilibrium --> uncertainty --> risk...
+- Read for placement: each study's records in effects.json (light band, light type, category) and the abstracts of
+  154, 308, 231. Found: 154 (wallaby) all low band, 6 BS cool + 6 BS warm records (the abstract: white LED suppressed
+  melatonin vs no light and amber LED); 166 (bats) records in low, moderate and high bands, all BS cool; 308 (seabird)
+  2 records, high, NS blue + NS yellow-red (abstract: no difference found between blue and red treatments); 169 (anole)
+  2 records, high, BS warm, LHT; 200 (aphid) 48 records, moderate, BS cool, Population / LHT / Physiology; 231 3 records,
+  moderate, BS cool, LHT.
+- Given in chat: placement options with the data reasons, the 154 vs Light type sentence conflict, beat behaviour
+  questions. The human's arc ("disequilibrium → uncertainty → risk") recorded; no wording written.
+- Files changed: AI_LOG.md only.
+
+## Effect dots and examples, step 5 (2026-10-06): callout beats built (six quotes on four steps); firefly example fades at the first callout; card opens on each callout; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > I think wallaby should be in Light type because amber light impacts fireflies, but white LED impacts wallabies ... in the broader context of the story, the point is light type will affect someone.
+  >
+  > Your readin of the beat mechanic works well..
+  >
+  > 3. let's try it where the study card opens on the callout in this case.
+- Placement applied: step 4's option A with the wallaby moved to Light type (human). All effects: firefly (arrival) →
+  aphid (Heinen et al. 2022) → anole (Thawley & Kolbe 2020); Light level: bats (Stone et al. 2012); Light type: wallaby
+  (Dimovski & Robert 2018) → seabird (Atchoi et al. 2023); Broader Impacts: ecosystem (Giavi et al. 2020). Order within
+  a step: as listed in step 4 (agent; not separately confirmed). Q2 (sentence back after the last callout?) not answered
+  separately; built per the human's "your reading ... works well": the last quote stays, the next arrow moves the story.
+- Data checks: 299's records include red LED (NS yellow-red) as well as blue. Ringed records (agent choices): 200-6
+  (adult aphids, 10 days, g −0.69; this study's aphid records in Data S1 are mixed: 200-1 +0.13, 200-4 ≈ 0, 200-8 −0.22;
+  the quote is the authors' summary), 169-1, 166-1 (low band), 154-2 (white cool LED, week 10), 308-1 (NS blue),
+  231-2 (fruit infection by the seed predator). Quotes re-checked by script against titles (studies.json) and
+  abstracts (abstracts.json): all six exact; 166 keeps the source's U+2010 hyphen. Citations "Author Year" from
+  studies.json authors (human: "Author, year ... is fine").
+- Edits (each file re-read right before editing):
+  - app/content/story.js: `impacts.callouts` [{ effect, quote, cite, from }] on effects, intensity, light-type, broader.
+    `example` / `exampleLabel` (299-3) removed from intensity and light-type (human: firefly "unselected once the rest of
+    narrative continues"; agent reading: not shown on later charts); kept on effects.
+  - app/src/story.js show(): callout quotes rendered as extra `.line`s after the step's text (“quote” + citation line).
+  - app/src/style.css: `#fact .big.callout` (clamp 20–32 px) and `.cite` (14 px, grey): agent choice of sizes.
+  - app/src/main.js: `calloutK`, setCallout(k), calloutBeat(d) hooked into the existing capture handlers (keys and
+    nav arrows) as Spectra's beats; entering a step: k = 0, or its last callout when arriving from the next step.
+  - app/src/impacts.js: setCallout(list, k) API; a callout opens its study's card (selection ring as a click) and marks
+    its record (5.5 px, white rim) in the chart or the circle; calloutA fades the firefly example's label and marker
+    to a plain dot; k = 0 closes a card the callout opened; setStage keeps the current callout's card; the example
+    record is drawn as a plain record when no example is shown (was left out of the chart after leaving All effects);
+    placeCard() also runs when a card opens.
+- Checked (localhost:5173, 1280×800, JS-driven): All effects sentence + firefly → aphid quote, card, rings, firefly
+  label gone → anole → Light level sentence (no firefly) → bats → Light type sentence → wallaby → seabird → Broader
+  sentence → ecosystem → Conclusion; back through every beat to Firefly Populations (each step entered backwards on its
+  last quote), then → with ArrowRight keys. Quote text clear of menu, nav, filter bar and reading key (right column
+  876–1264); card bottom left 269–649. No new console errors.
+- Seen, not changed: (1) the card covers the ringed dot when the dot sits in the chart's lower-left: aphid (Population
+  lane, 0.69) and seabird (Blue / Yellow-to-red lanes, ~0.9); anole, bats, wallaby and the ecosystem dot are visible.
+  (2) An arrow pressed during All effects' globe hold opens the first callout before the chart has arrived.
+  (3) The card shows "Median effect: |g| …" (e.g. bats 0.16 "below small") beside a quote of reduced activity.
+  (4) Light type's sentence "Impacts occur regardless of light type." sits before the wallaby quote (white vs amber).
+- Files changed: app/content/story.js, app/src/story.js, app/src/style.css, app/src/main.js, app/src/impacts.js,
+  AI_LOG.md. Nothing committed.
+
+## Effect dots and examples, step 6 (2026-10-06): card on the side away from its dot, draggable by its title, opens only once the dots have settled; callouts moved; Broader Impacts sentence; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Open the card on the side away from the dot. Can the cards be movable? is that easy? I would prefer them to be draggable.
+  >
+  > the bats card, for example should open on the bottom right of the chart so people can see the effects measured across the three light bands.
+  >
+  > The lizards example should be kept in "all effects" ...
+  >
+  > aphids brought to "Broader Impacts"
+  > bring wallabies to broader impacts ... alongside aphids ...
+  >
+  > Broader impacts I want to show impacts varying across the class groups ...
+  >
+  > Broader impacts header text should change to "Across the biosphere, ALAN is upsetting the equilibrium of natural systems." ... (or something like that)...
+  >
+  > This lays the ground to a systems dynamic story that's more nuanced before conclusion...
+  >
+  > NOTE: The card should only appear after the dots are fully rendered on screen. When I click the back button, the card appears in the top right corner while the chart is rendering. THat shouldn't happen.
+- Edits (files re-read right before editing):
+  - app/content/story.js: All effects callouts → anole only (aphid removed); Light type → seabird only (wallaby removed);
+    Broader Impacts → aphid (200-6), wallaby (154-2), ecosystem (231-2) (order: agent). Broader text → "Across the
+    biosphere, ALAN is upsetting the equilibrium of natural systems." (human's wording as given; old text in a comment).
+  - app/src/impacts.js: placeCard(): on chart / circle steps the card sits at the bottom of the chart area on the side
+    away from its dot (dot in the chart's left half → bottom right, flush with the chart's right edge; else bottom
+    left); applies to callouts and clicked dots (click passes the hit's x). Callout cards wait (pendingCard) and open
+    from the draw loop once the chart has settled (chart in, morph and regroup done) or the circle has; setStage no
+    longer re-opens them at once. Drag: pointer on the card's title moves the card (kept on screen); a dragged card
+    is not re-placed until the next card opens. Handle = title, so the card text stays selectable (agent choice).
+  - app/src/style.css: `#study h2` cursor grab, touch-action none.
+- Checked (localhost:5173, 1280×800, JS-driven; card sampled every 100 ms after each arrow): All effects → anole card
+  only after settle; Light level → bats card bottom right 480–860 (chart right edge; big text from 876), the three
+  bands' bat dots visible; back to All effects: card hidden through the regroup, then at 480–860 after ~1.4 s (never at
+  the default top right); Light type → seabird card right, its Blue-lane dot visible; Broader Impacts → aphid (card
+  right), wallaby (card left), ecosystem (card right); drag by the title moved the card 300 px left / 250 px up and it
+  stayed; clicked dots at x 761 → card left, x 318 → card right. No new console errors (only the step-2 test artefacts).
+- Note: in the in-app pane (slowed frames) a callout card can take ~1–3 s to appear, waiting for the settle.
+- Files changed: app/content/story.js, app/src/impacts.js, app/src/style.css, AI_LOG.md. Nothing committed.
+
+## Effect dots and examples, step 7 (2026-10-06): bird studies with many records and a quotable line, for the last Broader Impacts callout (agent draft, not applied)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > One more thing: the final example with the 'beyond lit areas...' is fine .. but I think it would be visually more interesting to choose an example which selects multiple blue dots ... is there any quote/abstract from one of the studies which has multiple effects on birds? This way we'd have selection coverage of the entire circle ...
+- Did: ranked studies by number of Birds records (effects.json); read the abstracts (abstracts.json) of 313, 311, 274,
+  285; checked candidate phrases by script as exact substrings of title (studies.json) or abstract. 313 (120 records,
+  all low light), 106 (110, low; title only, no abstract in Crossref), 274 (25, low) pass; a 285 phrase failed the
+  exact-match check (markup spacing in the source) and was dropped. Candidates given in chat; nothing applied.
+- Files changed: AI_LOG.md only.
+
+## Effect dots and examples, step 8 (2026-10-06): no study with both birds and fish; last Broader Impacts callout → study 106 (Moaraf et al. 2020); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > I should say - birds and fish ... any study that studies both? Probably not...
+  >
+  > Otherwise this is great! Artificial light at night affects brain plasticity and melatonin in birds
+- Found (effects.json species_group per study): no study has both Birds and Fish records; two studies span three groups
+  (089: invertebrates, fish, insects; 254: invertebrates, insects, plants).
+- Edit (story.js re-read before editing): Broader Impacts' last callout 231-2 (Giavi et al. 2020) replaced by 106-108
+  (melatonin at night; record choice: agent), quote = study 106's title as in Data S1 (studies.json; no abstract in
+  Crossref), cite 'Moaraf et al. 2020'; old values in a comment. Quotes re-checked by script: all six exact.
+- Checked (localhost:5173, 1280×800): Broader Impacts beat 3 shows the quote; the card (after the circle settled) at the
+  bottom left (the Birds sector is on the right); the 110 bird dots ringed across the Birds sector. No new console errors.
+- Files changed: app/content/story.js, AI_LOG.md. Nothing committed.
+
+## Effect dots and examples, step 9 (2026-10-06): callouts no longer open the card; "Source" button under each quote opens it; checked (commit pending)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Final change - I know we're above limit. The card is too much information. Can we condense these cards into a "Source" button below the large quote ? let's keep the noise to a minimum on screen I think. So the answer is - yes - these callouts will not render the card. However, if we click the buttons, I'm still happy for the card to render in general. Good work.
+  >
+  > Once done, please commit, and then generate a new prompt for me where I can start the 'conclusion' piece of the story
+- Edits (files re-read right before editing):
+  - app/src/impacts.js: a callout selects its study (white rings) once the chart / circle has settled (pendingSel) and
+    no longer opens the card; openCallout() (API) opens the current callout's card on the side away from its dot;
+    closing a card keeps the callout's rings. A temporary debug hook was added and removed during the check.
+  - app/src/story.js: a "Source" button after each callout's citation. app/src/main.js: #fact click on .source →
+    impacts.openCallout(). app/src/style.css: `.source` styled as the Details button.
+  - Dot clicks open cards as before (human: "if we click the buttons, I'm still happy for the card to render").
+- Checked (localhost:5173, 1280×800): the in-app pane was hidden (document hidden, no animation frames), so frames were
+  forced with screenshots. Light level bats beat: no card, study 166 selected; Source → card bottom right 480–860;
+  × → card closed, rings kept; next step's callout: no card, selection waits for the regroup. No new console errors.
+  Not re-walked end to end after this change (pane hidden).
+- Seen: Source pressed before the chart has settled does nothing (opens only once the callout's dot is placed).
+- Found: data/derived/impacts/abstracts.json is ignored by final/.gitignore (data/derived/impacts/*); the script
+  that makes it (pipeline/impacts/11_abstracts.py) is not.
+- Files changed: app/src/impacts.js, app/src/story.js, app/src/main.js, app/src/style.css, AI_LOG.md.
+
+## Effect dots and examples, step 10 (2026-10-06): fish / amphibian candidates for a fourth Broader Impacts callout (agent draft, not applied)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > looking for one more study quote that would ring dots in the fish/amphibian space that could be our fourth example in the "broader impacts" section.
+- Did: ranked Fish and Amphibians studies by records (effects.json); no study has both Fish and Amphibians records.
+  Checked candidate phrases by script as exact substrings of the title (studies.json) or abstract (abstracts.json):
+  115, 207, 112, 075, 255 pass (115's is the first 11 words of a 16-word title). Given in chat; nothing applied;
+  commit still pending (the human's request in step 9).
+- Files changed: AI_LOG.md only.
+
+## Effect dots and examples, step 11 (2026-10-06): fourth Broader Impacts callout — Oppedal et al. 2001 (112); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > let's do 112,
+  >
+  > thanks
+- Edit (story.js re-read before editing): Broader Impacts callouts + { effect '112-4' (biomass share at 10 m depth,
+  winter, high light; record choice: agent), quote = study 112's full title in Data S1, cite 'Oppedal et al. 2001' },
+  after Moaraf et al. 2020. Quotes re-checked by script: all seven exact.
+- Checked (localhost:5173, 1280×800; pane hidden, frames forced by screenshots): Broader Impacts beat 4 shows the quote,
+  "Source", the 16 fish dots ringed in the Fish sector, no card.
+- abstracts.json (git-ignored) left out of the commit: the human did not ask for it to be force-added; the script is in.
+- Files changed: app/content/story.js, AI_LOG.md.
+
+## Effect dots and examples, step 12 (2026-10-06): handoff written; commit (human request, step 9); Conclusion prompt
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt: as step 9 ("Once done, please commit, and then generate a new prompt for me where I can start the
+  'conclusion' piece of the story").
+- Created handoffs/2026-10-06_effect-dots-callouts.md. Checked the diff first: code changes are only this session's.
+- Commit on main: AI_LOG.md, app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/story.js,
+  app/src/style.css, pipeline/impacts/11_abstracts.py, handoffs/2026-10-06_effect-dots-callouts.md. Not pushed.
+  Prompt for the Conclusion session given in chat.
+- Files changed: handoffs/2026-10-06_effect-dots-callouts.md (new), AI_LOG.md; git history.

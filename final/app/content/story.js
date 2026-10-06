@@ -391,7 +391,16 @@ export const story = [
     fly: 2500,
     globeHold: 2000,
     swipe: 0,
-    impacts: { view: 'chart', records: true, filter: true, example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+    // The firefly example (299-3) shows on arrival and fades at the first callout (human, step 5: "a relic of the previous chapter").
+    // Callouts (human, AI_LOG Effect dots and examples steps 4–5): quotes chosen by the human, verbatim from the
+    // study's title or abstract (data/derived/impacts/abstracts.json, Crossref); citation 'Author Year' (human). Each
+    // arrow press is one beat: the quote replaces the big text, the study is selected and its card opens; past the
+    // last one the arrow moves the story. `effect` = the ringed dot (agent choice of record within the study).
+    impacts: { view: 'chart', records: true, filter: true, example: '299-3', exampleLabel: 'Fireflies, female response',   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+      // Aphid and wallaby moved to Broader Impacts (human, AI_LOG Effect dots and examples step 6).
+      callouts: [
+        { effect: '169-1', quote: 'Artificial light at night increases growth and reproductive output in Anolis lizards', cite: 'Thawley & Kolbe 2020', from: 'title' },
+      ] },
   },
   // The next two questions and their one-word answers ("Yes", "Not as much as thought") are the human's
   // (AI_LOG Impacts steps 29, 35–36); the rest of each text is a DRAFT placeholder by the agent.
@@ -416,7 +425,15 @@ export const story = [
     ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
-    impacts: { view: 'chart', records: true, filter: true, group: 'band', example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+    // Firefly example removed here: unselected once the callouts begin (human, AI_LOG Effect dots and examples step 5).
+    // Callouts (human, AI_LOG Effect dots and examples steps 4–5): quotes chosen by the human, verbatim from the
+    // study's title or abstract (data/derived/impacts/abstracts.json, Crossref); citation 'Author Year' (human). Each
+    // arrow press is one beat: the quote replaces the big text, the study is selected and its card opens; past the
+    // last one the arrow moves the story. `effect` = the ringed dot (agent choice of record within the study).
+    impacts: { view: 'chart', records: true, filter: true, group: 'band',
+      callouts: [
+        { effect: '166-1', quote: 'street lights caused a reduction in activity of slow‐flying bats', cite: 'Stone et al. 2012', from: 'abstract' },
+      ] },
   },
   {
     id: 'light-type',
@@ -441,7 +458,15 @@ export const story = [
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     // Door (299-3) removed when the fireflies chapter moved into "Female response" (human, AI_LOG Firefly tabs round 5b).
-    impacts: { view: 'chart', records: true, filter: true, group: 'type', example: '299-3', exampleLabel: 'Fireflies, female response' },   // was 005-2 Black swans (human, AI_LOG Impacts reorder step 2)
+    // Firefly example removed here (as Light level). Wallaby here (human: "light type will affect someone").
+    // Callouts (human, AI_LOG Effect dots and examples steps 4–5): quotes chosen by the human, verbatim from the
+    // study's title or abstract (data/derived/impacts/abstracts.json, Crossref); citation 'Author Year' (human). Each
+    // arrow press is one beat: the quote replaces the big text, the study is selected and its card opens; past the
+    // last one the arrow moves the story. `effect` = the ringed dot (agent choice of record within the study).
+    impacts: { view: 'chart', records: true, filter: true, group: 'type',
+      callouts: [
+        { effect: '308-1', quote: 'Light pollution critically affects fledglings of burrow-nesting seabirds, leading to massive mortality events.', cite: 'Atchoi et al. 2023', from: 'abstract' },
+      ] },
   },
   // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
   // charts, data and sources on ecosystem-level impacts may follow here (not started).
@@ -452,13 +477,32 @@ export const story = [
     kind: 'fact',
     side: 'right',   // chart layout: circle left, text + key right, size buttons on top (human, AI_LOG Fireflies step 29)
     label: 'Broader Impacts',
-    text: 'The biosphere is responding to a new nighttime experience.',   // wording: human (AI_LOG Fireflies steps 30–32); was 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
+    // Wording: human (AI_LOG Effect dots and examples step 6). Was 'The biosphere is responding to a new nighttime experience.'
+    // (human, AI_LOG Fireflies steps 30–32); before that
+    text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.',   // was 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
     swipe: 0,
     // circle: all records gather into one circle of species-group sectors (human, AI_LOG Broader Impacts circle concept
     // steps 3 and 7; impacts.js drawCircle). On the main URL since step 7 (was behind ?broader=circle).
-    impacts: { view: 'globe', dots: false, circle: true },
+    // Callouts (human, AI_LOG Effect dots and examples steps 4–5): quotes chosen by the human, verbatim from the
+    // study's title or abstract (data/derived/impacts/abstracts.json, Crossref); citation 'Author Year' (human). Each
+    // arrow press is one beat: the quote replaces the big text, the study is selected and its card opens; past the
+    // last one the arrow moves the story. `effect` = the ringed dot (agent choice of record within the study).
+    impacts: { view: 'globe', dots: false, circle: true,
+      // Aphid, wallaby, then the ecosystem quote (human: impacts "varying across the class groups", step 6; order: agent; last one step 8).
+      callouts: [
+        // 200-6: adult aphids after 10 days (Data S1 records for this study are mixed; the quote is the authors' summary).
+        { effect: '200-6', quote: 'aphid colony growth and aphid maturation were reduced significantly by ALAN treatments', cite: 'Heinen et al. 2022', from: 'abstract' },
+        { effect: '154-2', quote: 'White LED exposed wallabies had significantly suppressed nocturnal melatonin', cite: 'Dimovski & Robert 2018', from: 'abstract' },
+        // Was 231-2 Giavi et al. 2020 'Artificial light at night can modify ecosystem functioning beyond the lit area' (title).
+        // Now study 106 (110 bird records, so much of the Birds sector is ringed; human, AI_LOG Effect dots and examples step 8).
+        // Quote = the study's title in Data S1 (no abstract in Crossref). 106-108: melatonin at night (agent choice).
+        { effect: '106-108', quote: 'Artificial light at night affects brain plasticity and melatonin in birds', cite: 'Moaraf et al. 2020', from: 'title' },
+        // Fourth: study 112 (16 fish records; human, AI_LOG Effect dots and examples step 11). Quote = its full title (Data S1).
+        // 112-4: biomass share at 10 m depth in winter, high light (agent choice).
+        { effect: '112-4', quote: 'Artificial light and season affects vertical distribution and swimming behaviour of post-smolt Atlantic salmon', cite: 'Oppedal et al. 2001', from: 'title' },
+      ] },
   },
   // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
   // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).

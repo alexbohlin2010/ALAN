@@ -93,6 +93,14 @@ body.arriving #card, body.arriving #fact, body.arriving #modes { opacity: 0; poi
 #fact .line.on { opacity: 1; max-height: 20em; margin: 0 0 14px;
   transition: opacity 900ms ease 500ms, max-height 0ms linear 500ms, margin 0ms linear 500ms; }
 #fact .big { font: 300 clamp(22px, 2.6vw, 40px)/1.25 system-ui, sans-serif; color: #fff; margin: 0 0 14px; }
+/* Callout quotes (impacts.callouts, story.js; AI_LOG Effect dots and examples step 5): a step smaller than the big text
+   so a 13-word quote fits the column; citation below. Sizes: agent choice. */
+#fact .big.callout { font-size: clamp(20px, 2.1vw, 32px); }
+#fact .callout .cite { display: block; margin-top: 10px; font-size: 14px; color: #aaa; font-weight: 400; }
+/* "Source" button after the citation: as the Details button (step 9). */
+#fact .callout .source { margin-left: 10px; font: 12px system-ui, sans-serif; color: #aaa; background: rgba(17,17,17,0.8);
+  border: 1px solid #444; border-radius: 12px; padding: 3px 11px; cursor: pointer; vertical-align: 1px; }
+#fact .callout .source:hover { color: #fff; border-color: #888; }
 #fact .note { color: #aaa; font-size: 12px; margin: 0 0 6px; }
 #fact .sources { margin: 0; padding-left: 16px; font-size: 11px; color: #aaa; }
 #fact a { color: #aaa; }
@@ -147,6 +155,7 @@ body[data-mode="impacts"] #fact { display: none; }
   font-size: 20px; cursor: pointer; }
 #study .close:hover { color: #fff; }
 #study h2 { margin: 0 0 8px; padding-right: 18px; font: 500 18px/1.3 system-ui, sans-serif; color: #fff; }
+#study h2 { cursor: grab; touch-action: none; }   /* drag handle (impacts.js; AI_LOG Effect dots and examples step 6) */
 #study .meta { color: #aaa; margin: 0 0 8px; }
 #study .cats { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0 0 8px; color: #ddd; }
 #study .cats i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }

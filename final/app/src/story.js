@@ -137,8 +137,14 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
       const extra = note + sourceList(step.sources);
       // `reveal`: the text and these lines are shown one at a time, each on its beat (Two measured nights, main.js
       // onBeat; AI_LOG Firefly flow steps 2 and 4).
-      const line = (t, n) => `<p class="big${step.reveal ? ` line${n === 0 ? ' on' : ''}` : ''}">${format(t)}</p>`;
-      fact.innerHTML = [step.text, ...(step.reveal || [])].map(line).join('') + (extra
+      // Callouts (impacts.callouts; AI_LOG Effect dots and examples step 5): one more line per quote, in quotation
+      // marks with its citation below; main.js shows line k on callout beat k.
+      const callouts = step.impacts?.callouts ?? [], lines = step.reveal || callouts.length;
+      const line = (t, n) => `<p class="big${lines ? ` line${n === 0 ? ' on' : ''}` : ''}">${format(t)}</p>`;
+      // "Source" opens the study's card (main.js → impacts.openCallout; human, AI_LOG Effect dots and examples step 9).
+      const quote = c => `<p class="big line callout">“${format(c.quote)}”<span class="cite">${format(c.cite)}` +
+        '<button class="source" type="button">Source</button></span></p>';
+      fact.innerHTML = [step.text, ...(step.reveal || [])].map(line).join('') + callouts.map(quote).join('') + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));

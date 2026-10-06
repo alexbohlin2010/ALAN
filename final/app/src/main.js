@@ -177,6 +177,9 @@ function applyStage(i) {
   storyIndex = i;
   markHeaders();
   if (mode !== 'light') { guideStep(prev, {}); return; }
+  // Callouts: a step is entered on its own sentence (k = 0), or on its last callout when arriving backwards.
+  const cl = story[i].impacts?.callouts;
+  setCallout(cl?.length && story.indexOf(prev) === i + 1 ? cl.length : 0);
   guideStep(prev, story[i]);
   const sp = story[i].spectral ?? null, st = story[i].impacts;
   document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
@@ -267,14 +270,31 @@ function applyStage(i) {
 // Two measured nights (AI_LOG Firefly flow step 4): ← → and the nav arrows step its beats first (twoNights.js beat);
 // past either end they move the story.
 const nightsBeat = d => mode === 'light' && story[storyIndex].nights === true && nights.beat(d);
+// Callout beats (impacts.callouts; human, AI_LOG Effect dots and examples step 5): ← → and the nav arrows step through
+// the step's callouts first (k = 0 is the step's own sentence, k = n its last quote); past either end they move the story.
+let calloutK = 0;
+// "Source" under a callout quote opens its study's card (human, AI_LOG Effect dots and examples step 9).
+document.getElementById('fact').addEventListener('click', e => { if (e.target.closest('.source')) impacts.openCallout(); });
+function setCallout(k) {
+  const cl = mode === 'light' ? story[storyIndex].impacts?.callouts : null;
+  calloutK = k;
+  impacts.setCallout(cl, k);
+  if (cl?.length) document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k));
+}
+const calloutBeat = d => {
+  const n = mode === 'light' ? story[storyIndex].impacts?.callouts?.length ?? 0 : 0, k = calloutK + d;
+  if (!n || k < 0 || k > n) return false;
+  setCallout(k);
+  return true;
+};
 window.addEventListener('keydown', e => {
   if (e.target.id === 'volume') return;   // arrows on the volume slider (introScene.js) move only the slider
   const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-  if (d && nightsBeat(d)) e.stopImmediatePropagation();
+  if (d && (nightsBeat(d) || calloutBeat(d))) e.stopImmediatePropagation();
 }, true);
 document.getElementById('nav').addEventListener('click', e => {
   const d = e.target.closest('.next') ? 1 : e.target.closest('.back') ? -1 : 0;
-  if (d && nightsBeat(d)) e.stopPropagation();
+  if (d && (nightsBeat(d) || calloutBeat(d))) e.stopPropagation();
 }, true);
 window.addEventListener('keydown', e => {
   if (e.target.id === 'volume') return;   // arrows on the volume slider (introScene.js) move only the slider

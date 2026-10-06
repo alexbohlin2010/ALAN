@@ -60,6 +60,7 @@ const GROUPS = {
 const REGROUP_MS = 1400;
 const TICKS = [[0, '0'], [0.2, '0.2', 'small'], [0.5, '0.5', 'medium'], [0.8, '0.8', 'large'], [2, '2'], [5, '5'], [10, '10+']];
 const MORPH_MS = 1800, FADE_MS = 700, REVEAL_MS = 1600, EXAMPLE_MS = 1300;
+const REC_HIT = 5;   // click radius of an effect dot, px (agent choice)
 // Study sites outside Data S1 (story key `impacts.site`; human, AI_LOG Firefly tabs review round 6b): the point is read
 // from the study's own derived file. Glow = the point turning into the courtship-flash colour while the globe zooms in
 // towards Signal production (timings and sizes: agent choices).
@@ -178,17 +179,37 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     hlFrom = hlTo; hlTo = h;
     hlA.from = 0; hlA.to = 1; hlA.t0 = performance.now(); hlA.ms = HL_MS;
   }
+  // Callout beats (story impacts.callouts; human, AI_LOG Effect dots and examples step 5): { list, k }, k = 0 the step's
+  // own sentence, k = 1..n callout k − 1: its study selected and its dot marked. main.js drives k.
+  // calloutA: 0 → 1 as the first callout comes in (the worked example's label and marker fade with it).
+  // Its card, when opened, sits on the side away from its dot (human, AI_LOG Effect dots and examples step 6).
+  // A callout selects its study (white rings) once the chart or circle has settled (pendingSel); it does not open the
+  // card: the "Source" button under the quote does (openCallout) (human, AI_LOG Effect dots and examples step 9: "the
+  // card is too much information"; was opened on each callout, step 5). calloutX = its dot's x, for the card's side.
+  let callout = null, calloutCard = false, pendingSel = null, calloutX = null;
+  const calloutA = anim(0);
+  const calloutEffect = () => (callout?.k ? effectsById.get(callout.list[callout.k - 1]?.effect) : null);
+  const calloutStudy = () => calloutEffect()?.study_id ?? null;
+  function applyCallout() {
+    const e = calloutEffect();
+    go(calloutA, callout?.k ? 1 : 0, FADE_MS);
+    if (calloutCard) { closeCard(); calloutCard = false; }
+    if (selected && selected !== e?.study_id) selected = null;
+    pendingSel = e ? e.study_id : null;
+  }
+  const openPending = (e, x) => { calloutX = x; if (pendingSel === e.study_id) { pendingSel = null; if (card.hidden) selected = e.study_id; } };
+  function openCallout() {
+    const id = calloutStudy();
+    if (!id || pendingSel) return;
+    openCard(id, calloutX); calloutCard = true;
+  }
   const circleA = anim(0);   // Broader Impacts circle (stage.circle), 0 = records on their studies, 1 = in the circle
   const noteA = anim(0), circleKeyA = anim(0);   // reading keys (drawKey): chart, circle
   // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()). siteA: key → fade (stage.site may be
   // one key or a list, e.g. both Spitschan sites during the Two measured nights transition).
   const sites = {}, siteA = {};
-  // Chart dots: 'effects' (default, one per record) | 'studies' (one per study per lane, at the study's median |g|
-  // there; human choices, AI_LOG Impacts step 60). studyA: 0 = effects, 1 = merged into study dots.
-  let dotsBy = 'effects';
-  const studyA = anim(0), STUDY_MS = 1400, STUDY_DOT = 3.6;
-  // Per grouping: study dots { sid, lane, recs }, and record → its dot. Positions per filter are cached.
-  const studyDots = {}, dotOf = {}, dotPos = new Map();
+  // Chart dots are always effects (one per record): the Dots: Effects | Studies toggle and the study-dot view (AI_LOG
+  // Impacts step 60) were removed; every effect dot opens its study's card (human, AI_LOG Effect dots and examples step 2).
   // Worked example: the bars hold (no timer) until the story moves on to a step with all records; then they
   // collapse into the dot at once (human request, Firefly transition task step 4). collapseT0 = start of the collapse.
   let collapseT0 = Infinity, fromGroup = 'category', toGroup = 'category';
@@ -205,7 +226,6 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     // The filter follows the colour toggle (human request, AI_LOG Impacts step 56), so a switch clears it.
     if (b.dataset.colour) { if (b.dataset.colour !== colourBy) filter = null; colourBy = b.dataset.colour; renderKey(); }
     else if (b.dataset.size !== undefined) sizeSel = b.dataset.size === sizeSel || !b.dataset.size ? null : b.dataset.size;
-    else if (b.dataset.dots) { dotsBy = b.dataset.dots; go(studyA, dotsBy === 'studies' ? 1 : 0, STUDY_MS); closeCard(); }
     else filter = b.dataset.cat === filter || !b.dataset.cat ? null : b.dataset.cat;
     renderFilter();
   });
@@ -228,10 +248,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const toggle = `<span style="color:#888;font:12px system-ui,sans-serif;align-self:center">Colour</span>` +
       [['species', 'Species group'], ['category', 'Effect category']].map(([k, l]) =>
         `<button data-colour="${k}" aria-pressed="${colourBy === k}">${l}</button>`).join('');
-    const dots = `<span style="width:12px"></span><span style="color:#888;font:12px system-ui,sans-serif;align-self:center">Dots</span>` +
-      [['effects', 'Effects'], ['studies', 'Studies']].map(([k, l]) =>
-        `<button data-dots="${k}" aria-pressed="${dotsBy === k}">${l}</button>`).join('');
-    filterBar.innerHTML = toggle + (!barCats ? '' : dots + `<span style="width:12px"></span>` +
+    filterBar.innerHTML = toggle + (!barCats ? '' : `<span style="width:12px"></span>` +
       `<button data-cat="" aria-pressed="${!filter}">All</button>` + [...keyColors()].map(([c, col]) =>
       `<button data-cat="${esc(c)}" aria-pressed="${filter === c}"><i style="background:${col}"></i>${esc(LANE_LABEL[c] ?? c)}</button>`).join(''));
   }
@@ -279,17 +296,6 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     }
     for (const [id, m] of grp) studyGroups.set(id, [...m].sort((a, b) => b[1] - a[1]).map(([g]) => g));
     for (const e of effects) laneCount.set(e.category, (laneCount.get(e.category) ?? 0) + 1);
-    for (const [gname, gr] of Object.entries(GROUPS)) {
-      const byKey = new Map();
-      for (const e of effects) {
-        const k = `${e.study_id}|${gr.key(e)}`;
-        if (!byKey.has(k)) byKey.set(k, { sid: e.study_id, lane: gr.key(e), recs: [] });
-        byKey.get(k).recs.push(e);
-      }
-      studyDots[gname] = [...byKey.values()];
-      dotOf[gname] = new Map();
-      for (const d of studyDots[gname]) for (const e of d.recs) dotOf[gname].set(e, d);
-    }
     for (const [gname, gr] of Object.entries(GROUPS)) {
       for (const lane of gr.lanes) {
         for (const cat of ['', ...LANES, ...SPECIES_COLORS.keys()]) {   // per filter value (category or group)
@@ -401,6 +407,9 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       const b = chartBox(w, h);
       filterBar.style.left = `${b.left}px`; filterBar.style.top = `${Math.max(8, b.top - 10 - filterBar.offsetHeight)}px`;
     }
+    // Study card on the chart and circle steps: bottom left of the chart area, clear of the big text in the right
+    // column (human, AI_LOG Effect dots and examples step 2: P3, "could change later"); elsewhere as style.css.
+    placeCard(ca > 0.5 || circ);
     if (globeBar) {
       const panel = document.getElementById('modes')?.getBoundingClientRect().right ?? 0;
       filterBar.style.left = `${panel + 24}px`; filterBar.style.top = '76px';
@@ -606,7 +615,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const k = val(circleA);
     go(circleKeyA, k >= 1 ? 1 : 0, k >= 1 ? 600 : 300);   // key once the circle has settled (timing (i))
     if (k < 0.005 || !effects.length) return;
-    const L = circleLayout(), b = circleBox(w, h), from = studyScreen();
+    const L = circleLayout(), b = circleBox(w, h), from = studyScreen(), sel = [];
     ctx.globalAlpha = 0.82 * k; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
     for (const e of effects) {
       const d = L.get(e), s = from.get(e.study_id);
@@ -617,11 +626,22 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       const dx = tx - s.x, dy = ty - s.y, len = Math.max(1, Math.hypot(dx, dy));
       const bend = Math.sin(Math.PI * t) * (18 + hashUnit(`${e.effect_id}-a`) * 34) * (hashUnit(`${e.effect_id}-s`) > 0.5 ? 1 : -1);
       const x = s.x + dx * t - (dy / len) * bend, y = s.y + dy * t + (dx / len) * bend;
-      const on = !sizeSel || word(e.g_abs) === sizeSel;
+      const on = !sizeSel || word(e.g_abs) === sizeSel, r = 1.8 + (d.r * b.R - 1.8) * t;
+      // Settled dots open their study's card; the open study's dots get a white ring (as the chart, AI_LOG Effect
+      // dots and examples step 2).
+      if (k >= 1 && on) hits.push({ x, y, r: Math.max(REC_HIT, r + 1), id: e.study_id, chart: true });
+      if (e.study_id === selected && on) { sel.push([x, y, r, e]); continue; }
       ctx.globalAlpha = (s.vis ? 1 : t) * Math.min(1, k * 4) * (on ? 0.85 : 0.08);
       ctx.fillStyle = SPECIES_COLORS.get(e.species_group);
-      ctx.beginPath(); ctx.arc(x, y, 1.8 + (d.r * b.R - 1.8) * t, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
+    for (const [x, y, r, e] of sel) dot(x, y, Math.max(3.2, r), SPECIES_COLORS.get(e.species_group), true, k);
+    const ce = calloutEffect(), cd = ce && L.get(ce);
+    if (cd && k >= 1) {
+      dot(b.x + cd.x * b.R, b.y + cd.y * b.R, Math.max(5.5, cd.r * b.R + 2), SPECIES_COLORS.get(ce.species_group), true, val(calloutA));
+      openPending(ce, b.x + cd.x * b.R);
+    }
+    ctx.lineWidth = 1;
     // Labels: group name (as the species lanes) and its number of records, outside the middle of each sector. Thin
     // sectors (Amphibians, Reptiles) sit side by side, so labels on each side are pushed apart vertically, with a
     // short line back to their sector when moved.
@@ -711,23 +731,24 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       b.left + b.width / 2, base + 79);
 
     const ex = stage?.example ? effectsById.get(stage.example) : lastExample;
-    const p = val(morphA);
+    const p = val(morphA), ea = val(exampleA);
     if (p > 0.001) {
-      drawRecords(b, sx, gFrom, gTo, gp, p, ca, ex);
-      const sa = val(studyA), da = p * ca * clamp01((sa - 0.5) / 0.5);
-      if (da > 0.005) {
-        if (fromGroup !== toGroup) drawStudyDots(b, sx, fromGroup, da * (1 - gp), false);
-        drawStudyDots(b, sx, toGroup, fromGroup !== toGroup ? da * gp : da, gp >= 1 && sa > 0.9);
-      }
+      drawRecords(b, sx, gFrom, gTo, gp, p, ca, ea > 0.005 ? ex : null);
       if (fromGroup !== toGroup) drawMedians(b, sx, fromGroup, p * ca * (1 - gp));
       drawMedians(b, sx, toGroup, p * ca * (fromGroup !== toGroup ? gp : 1));
     }
-    const ea = val(exampleA);
     if (ex && ea > 0.005) { lastExample = ex; drawExample(b, sx, ly, ex, ea * ca); }
+    // Callout: its record marked like the example's dot (5.5 px, white rim), once the lanes have settled.
+    const ce = calloutEffect();
+    if (ce && p >= 1 && val(groupA) >= 1) {
+      const { x, y } = doorXY(ce, b, sx);
+      dot(x, y, 5.5, recColor(ce), true, ca * val(calloutA));
+      if (ca >= 1) openPending(ce, x);
+    }
     if (stage?.door && p > 0.9) drawDoor(b, sx, ca);
     // Reading key once the dots have settled (timing (i): in over 0.6 s, stays; out over 0.3 s when the lanes move).
-    // Only on the plain view (Dots: Effects, no filter), where one dot is one record.
-    const settled = p >= 1 && gp >= 1 && dotsBy === 'effects' && !filter && val(studyA) < 0.001;
+    // Only on the plain view (no filter).
+    const settled = p >= 1 && gp >= 1 && !filter;
     go(noteA, settled ? 1 : 0, settled ? 600 : 300);
     const na = val(noteA) * ca;
     if (na > 0.005) drawKey('chart', b.top, na);
@@ -761,15 +782,10 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
 
   // Door into a spectral chapter (human: option B + click, door = record 299-3; Firefly transition task step 2):
   // a pulsing ring on one record; clicking it calls onDoor, and main.js grows the 3D chapter out of this spot.
-  // Position = where drawRecords puts the record once settled (or its study dot with Dots: Studies).
+  // Position = where drawRecords puts the record once settled.
   function doorXY(e, b, sx) {
-    const g = geom(b, toGroup), at = { x: sx(e.g_abs), y: g.y(GROUPS[toGroup].key(e)) + (hashUnit(e.effect_id) - 0.5) * g.h * 0.7 };
-    const sa = val(studyA), d = dotOf[toGroup]?.get(e);
-    if (sa > 0.001 && d) {
-      const k = easeInOut(clamp01(sa / 0.8));
-      at.x += (sx(posOf(toGroup, d).med) - at.x) * k; at.y += (dotY(g, d) - at.y) * k;
-    }
-    return at;
+    const g = geom(b, toGroup);
+    return { x: sx(e.g_abs), y: g.y(GROUPS[toGroup].key(e)) + (hashUnit(e.effect_id) - 0.5) * g.h * 0.7 };
   }
   function drawDoor(b, sx, a) {
     const e = effectsById.get(stage.door);
@@ -784,46 +800,6 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     ctx.fillText(stage.doorLabel ?? '', x + 14, y + 14);
     ctx.lineWidth = 1;
     hits.push({ x, y, r: 12, door: e.effect_id });
-  }
-
-  // Study dots (Dots: Studies). x = median |g| of the study's records in the lane that pass the filter (the same
-  // value the study-median line takes the median of; inferred from g_abs). A dot with no passing record stays at
-  // its unfiltered median, dimmed like filtered-out records.
-  function posOf(gname, d) {
-    const key = `${gname}|${filter ?? ''}`;
-    if (!dotPos.has(key)) {
-      const m = new Map();
-      for (const x of studyDots[gname]) {
-        const on = x.recs.filter(passes);
-        m.set(x, { med: median((on.length ? on : x.recs).map(e => e.g_abs)), on: on.length > 0 });
-      }
-      dotPos.set(key, m);
-    }
-    return dotPos.get(key).get(d);
-  }
-  const dotY = (g, d) => g.y(d.lane) + (hashUnit(`${d.sid}|${d.lane}`) - 0.5) * g.h * 0.7;
-  // Colour: the lane's own group/category when the lanes are that grouping, else the study's main one.
-  const dotColor = (gname, d) => (colourBy === 'species'
-    ? SPECIES_COLORS.get(gname === 'species' ? d.lane : studyGroups.get(d.sid)?.[0])
-    : CATEGORY_COLORS.get(gname === 'category' ? d.lane : studies.get(d.sid)?.dominant_category)) ?? OTHER;
-
-  function drawStudyDots(b, sx, gname, a, clickable) {
-    if (a < 0.005) return;
-    const g = geom(b, gname), sel = [];
-    for (const d of studyDots[gname]) {
-      const { med, on } = posOf(gname, d), x = sx(med), y = dotY(g, d);
-      if (d.sid === selected) { sel.push([x, y, d]); continue; }
-      ctx.globalAlpha = a * (on ? 0.9 : 0.08); ctx.fillStyle = dotColor(gname, d);
-      ctx.beginPath(); ctx.arc(x, y, STUDY_DOT, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = '#000'; ctx.lineWidth = 0.8; ctx.stroke();
-      if (clickable && on) hits.push({ x, y, r: 6, id: d.sid, chart: true });
-    }
-    // The selected study's dots (in every lane where it has records) on top, ringed in white.
-    for (const [x, y, d] of sel) {
-      dot(x, y, STUDY_DOT + 1.5, dotColor(gname, d), true, a);
-      if (clickable) hits.push({ x, y, r: 7, id: d.sid, chart: true });
-    }
-    ctx.lineWidth = 1;
   }
 
   function geom(b, gname) {
@@ -847,8 +823,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
         ctx.fillStyle = !on ? '#555' : colourBy === 'category' ? CATEGORY_COLORS.get(c) : '#eee';
         ctx.fillText(LANE_LABEL[c] ?? c, b.left - 12, y - 7);
         ctx.fillStyle = on ? '#888' : '#444'; ctx.font = `${fs}px system-ui, sans-serif`;
-        ctx.fillText(dotsBy === 'studies' ? `${laneStats.get(`category|${c}|${filter ?? ''}`).studies} studies`
-          : `${laneCount.get(c) ?? 0} records`, b.left - 12, y + 9);
+        ctx.fillText(`${laneCount.get(c) ?? 0} records`, b.left - 12, y + 9);
         continue;
       }
       const s = laneStats.get(`${gname}|${c}|${filter ?? ''}`), lines = gr.name[c];
@@ -892,8 +867,11 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   // All records: they lift off their study's spot on the globe and settle in their lane (Linda's
   // arc path and per-record delay); p = 0 on the globe, 1 in the chart.
   // Between groupings (gp 0 → 1) each record slides vertically from its old lane to its new one; x stays.
+  // Once settled, every record is a hit that opens its study's card (human, AI_LOG Effect dots and examples step 2;
+  // nearest dot within REC_HIT px wins). The open study's records are drawn on top with a white ring.
   function drawRecords(b, sx, gFrom, gTo, gp, p, ca, ex) {
-    const from = studyScreen(), kFrom = GROUPS[fromGroup].key, kTo = GROUPS[toGroup].key, sa = val(studyA);
+    const from = studyScreen(), kFrom = GROUPS[fromGroup].key, kTo = GROUPS[toGroup].key;
+    const clickable = p >= 1 && gp >= 1 && ca > 0.9, sel = [];
     for (const e of effects) {
       if (e === ex) continue;
       const s = from.get(e.study_id);
@@ -903,20 +881,19 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       const tx = sx(e.g_abs), ty = yA + (yB - yA) * u;
       const dx = tx - s.x, dy = ty - s.y, len = Math.max(1, Math.hypot(dx, dy));
       const bend = Math.sin(Math.PI * t) * (18 + hashUnit(`${e.effect_id}-a`) * 34) * (hashUnit(`${e.effect_id}-s`) > 0.5 ? 1 : -1);
-      let x = s.x + dx * t - (dy / len) * bend, y = s.y + dy * t + (dx / len) * bend;
-      // Dots: Studies — each record slides into its study's dot in the lane, then fades as the study dot appears.
-      let fade = 1;
-      if (sa > 0.001) {
-        const d = dotOf[toGroup].get(e), k = easeInOut(clamp01(sa / 0.8));
-        x += (sx(posOf(toGroup, d).med) - x) * k; y += (dotY(gTo, d) - y) * k;
-        fade = 1 - clamp01((sa - 0.6) / 0.4);
-        if (fade <= 0) continue;
-      }
+      const x = s.x + dx * t - (dy / len) * bend, y = s.y + dy * t + (dx / len) * bend;
       const on = passes(e);
-      ctx.globalAlpha = (s.vis ? 1 : t) * Math.min(1, p * 4) * (on ? 0.8 : 0.06) * ca * fade;
+      if (e.study_id === selected && on) { sel.push([x, y, e]); continue; }
+      ctx.globalAlpha = (s.vis ? 1 : t) * Math.min(1, p * 4) * (on ? 0.8 : 0.06) * ca;
       ctx.fillStyle = recColor(e);
       ctx.beginPath(); ctx.arc(x, y, 1.8, 0, Math.PI * 2); ctx.fill();
+      if (clickable && on) hits.push({ x, y, r: REC_HIT, id: e.study_id, chart: true });
     }
+    for (const [x, y, e] of sel) {
+      dot(x, y, 3.2, recColor(e), true, ca);
+      if (clickable) hits.push({ x, y, r: REC_HIT, id: e.study_id, chart: true });
+    }
+    ctx.lineWidth = 1;
   }
 
   // Worked example: the record's dark and lit means (± SD) as two bars, which then collapse into
@@ -925,14 +902,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const k = easeInOut(clamp01((performance.now() - collapseT0) / EXAMPLE_MS));
     const unit = (e.measured_effect?.match(/\(([^)]+)\)\s*$/) || [])[1] ?? '';
     const name = (stage?.exampleLabel ?? e.measured_effect ?? '').trim();
-    // Dots: Studies — the example becomes its study's dot (human choice, step 60).
-    const sa = val(studyA), sd0 = dotOf[toGroup]?.get(e), sp = sd0 && posOf(toGroup, sd0);
-    const col = sa > 0.5 && sd0 ? dotColor(toGroup, sd0) : recColor(e);
-    const target = { x: sx(e.g_abs), y: ly(e) };
-    if (sa > 0.001 && sd0) {
-      const kk = easeInOut(clamp01(sa / 0.8));
-      target.x += (sx(sp.med) - target.x) * kk; target.y += (dotY(geom(b, toGroup), sd0) - target.y) * kk;
-    }
+    const col = recColor(e), target = { x: sx(e.g_abs), y: ly(e) };
     const x0 = b.left, bw = b.width * 0.6, y0 = b.top + b.height * 0.12, bh = 16;
     const max = Math.max(e.control_mean + (e.control_sd ?? 0), e.lit_mean + (e.lit_sd ?? 0)) * 1.1;
     const bx = v => x0 + (v / max) * bw;
@@ -960,13 +930,16 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     }
     const sx0 = bx(e.lit_mean), sy0 = y0 + 58 + 6 + bh / 2;
     const x = sx0 + (target.x - sx0) * k, y = sy0 + (target.y - sy0) * k;
+    // From the first callout on, the example becomes a plain record (human, AI_LOG Effect dots and examples step 5).
+    const off = val(calloutA);
     ctx.globalAlpha = a;
-    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, 5.5, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, 5.5 - 3.7 * off, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = a * (1 - off); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
     if (k >= 1) {
       ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.font = '500 12px system-ui, sans-serif';
-      ctx.fillText(sa > 0.5 && sp ? `${name.split(',')[0]} study: median |g| = ${fmt(sp.med)} (${word(sp.med)})`
-        : `${name}: |g| = ${fmt(e.g_abs)} (${word(e.g_abs)})`, x + 12, y - 14);
+      ctx.fillText(`${name}: |g| = ${fmt(e.g_abs)} (${word(e.g_abs)})`, x + 12, y - 14);
+      ctx.globalAlpha = a;
+      if (a > 0.9 && passes(e)) hits.push({ x, y, r: 8, id: e.study_id, chart: true });
     }
   }
 
@@ -1019,7 +992,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
     if (!s?.circle) sizeSel = null;
-    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, studyA, glowA, circleA, hlA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
+    if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, glowA, circleA, hlA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
+    if (callout?.k) applyCallout();   // setStage cleared the selection; the current callout selects again once settled
     renderFilter();
   }
 
@@ -1035,10 +1009,11 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     return best;
   }
 
-  function openCard(id) {
+  // at: screen x of the dot that opened the card (chart / circle), for the side rule in placeCard.
+  function openCard(id, at = null) {
     const s = studies.get(id);
     if (!s) return;
-    selected = id;
+    selected = id; cardAt = at; dragged = false;
     const n = order.indexOf(id);
     const light = s.light_type_code.map(c => esc(lightWords.get(c) ?? c));
     const night = range(s.night_lux_min, s.night_lux_max), control = range(s.control_lux_min, s.control_lux_max);
@@ -1064,6 +1039,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       <div class="step"><button class="prev" aria-label="Previous study">‹</button>
         <span>${n + 1} of ${order.length}</span>
         <button class="next" aria-label="Next study">›</button></div>`;
+    placeCard();
     card.hidden = false;
     card.querySelector('.close').addEventListener('click', closeCard);
     card.querySelector('.prev').addEventListener('click', () => step(-1));
@@ -1080,7 +1056,39 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     globe.pointOfView({ lat: p.lat, lng: p.lon, altitude: globe.pointOfView().altitude }, 800);
   }
 
-  function closeCard() { card.hidden = true; selected = null; }
+  // Card position on chart / circle steps: at the bottom of the chart area, on the side away from its dot (human, AI_LOG
+  // Effect dots and examples step 6; was bottom left, P3): a dot in the left half → bottom right, else bottom left.
+  // Elsewhere style.css. Also set on open, so a card never shows a frame at its default place. A dragged card stays put.
+  let cardAt = null, dragged = false;
+  function placeCard(onChart = val(chartA) > 0.5 || Boolean(stage?.circle) && val(circleA) > 0.5) {
+    if (dragged) return;
+    const b = chartBox(window.innerWidth, window.innerHeight), cw = Math.min(380, window.innerWidth - 32);
+    const right = cardAt != null && cardAt < b.left + b.width / 2;
+    card.style.left = onChart ? `${right ? b.left + b.width - cw : b.left}px` : '';
+    card.style.right = card.style.top = onChart ? 'auto' : '';
+    card.style.bottom = onChart ? '16px' : '';
+  }
+  // Draggable by its title (human, step 6: "I would prefer them to be draggable"); kept on screen. Handle = the title,
+  // so the rest of the card's text stays selectable (agent choice).
+  card.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || !e.target.closest('h2')) return;
+    e.preventDefault();
+    const r = card.getBoundingClientRect(), ox = e.clientX - r.left, oy = e.clientY - r.top;
+    try { card.setPointerCapture(e.pointerId); } catch { /* no active pointer (synthetic event) */ }
+    const move = ev => {
+      dragged = true;
+      const x = Math.min(Math.max(0, ev.clientX - ox), window.innerWidth - r.width);
+      const y = Math.min(Math.max(0, ev.clientY - oy), window.innerHeight - 40);
+      Object.assign(card.style, { left: `${x}px`, top: `${y}px`, right: 'auto', bottom: 'auto' });
+    };
+    const up = () => card.removeEventListener('pointermove', move);
+    card.addEventListener('pointermove', move);
+    card.addEventListener('pointerup', up, { once: true });
+    card.addEventListener('pointercancel', up, { once: true });
+  });
+
+  // Closing a card keeps the current callout's selection (its rings) once it has settled.
+  function closeCard() { card.hidden = true; selected = pendingSel ? null : calloutStudy(); }
 
   // Clicks go to the globe element (the overlay ignores pointer events); a drag is not a click.
   let down = null;
@@ -1090,7 +1098,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     const h = hitAt(e.clientX, e.clientY);
     // Study dots on the chart are clickable inside the story too (step 60); other clicks keep the old rules.
     if (h?.door) { onDoor?.(h.door); return; }
-    if (!browse) { if (h?.chart) openCard(h.id); else if (!card.hidden) closeCard(); return; }
+    if (!browse) { if (h?.chart) openCard(h.id, h.x); else if (!card.hidden) closeCard(); return; }
     if (!h) { expanded = null; closeCard(); }
     else if (h.cluster) expanded = h.cluster[0];
     else { if (!h.fanned) expanded = null; openCard(h.id); }
@@ -1121,11 +1129,19 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       expanded = null;
       closeCard();
       globeEl.style.cursor = '';
-      stage = null; browse = true; filter = null;
+      stage = null; browse = true; filter = null; callout = null; calloutCard = false; pendingSel = null; Object.assign(calloutA, anim(0));
       for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0], [glowA, 0], [circleA, 0]]) Object.assign(a, anim(v));
       for (const k in siteA) siteA[k] = anim(0);
     },
     setStage,
+    // Callout beat k of `list` (story impacts.callouts), or none (list empty / k = 0). Waits for the data.
+    // The current callout's card ("Source" button under the quote).
+    openCallout,
+    setCallout(list, k) {
+      callout = list?.length ? { list, k } : null;
+      if (!callout) calloutA.from = calloutA.to = 0;
+      Promise.resolve(loaded).then(applyCallout);
+    },
     // Screen position of a site point (story key `impacts.site`), or null.
     siteAt: siteXY,
     // A site's full glow as drawn in drawSite (glowA = 1): screen centre, radius, colour; null if not on screen.
