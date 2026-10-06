@@ -502,6 +502,11 @@ export const story = [
         // Fourth: study 112 (16 fish records; human, AI_LOG Effect dots and examples step 11). Quote = its full title (Data S1).
         // 112-4: biomass share at 10 m depth in winter, high light (agent choice).
         { effect: '112-4', quote: 'Artificial light and season affects vertical distribution and swimming behaviour of post-smolt Atlantic salmon', cite: 'Oppedal et al. 2001', from: 'title' },
+        // Fifth (human, AI_LOG Conclusion step 6: q1, no rings): the meta-analysis behind the circle, not one study, so no
+        // `effect` (nothing ringed); "Source" links to the paper (`url`). Verbatim, Czarnecka et al. 2025 Introduction
+        // (data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf, p. 1; the sentence cites Sanders et al. 2021).
+        { quote: 'This anthropogenic intrusion reverberates through biological communities', cite: 'Czarnecka et al. 2025', from: 'article',
+          url: 'https://doi.org/10.1111/gcb.70569' },
       ] },
   },
   // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
@@ -512,7 +517,29 @@ export const story = [
     rung: 'space',
     kind: 'fact',
     label: 'Conclusion',
-    text: 'We need ALAN, but do we need it all the time, everywhere?',   // 'light at night' → 'ALAN' (human, AI_LOG Fireflies step 9)
+    // Beats (human, AI_LOG Conclusion step 6): the text on arrival (lights out, hum fades), then each `reveal` line on the
+    // next arrow (`beats: true`, main.js). Wording: human's (step 4). Was 'We need ALAN, but do we need it all the time,
+    // everywhere?' ('light at night' → 'ALAN', human, AI_LOG Fireflies step 9).
+    text: "We may be entering the dusk of the biosphere's stability.",
+    // Third beat: responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
+    reveal: ['ALAN may be necessary for the modern apparatus of human society. But not all the time, everywhere.',
+      'Responsive lighting can restrict ALAN to an optimal time, place, and set of environmental conditions.'],
+    beats: true,
+    // Note: AGENT DRAFT (claude-opus-5-5, AI_LOG Conclusion step 7), stating only what the two sources say; Bolliger et al.
+    // 2020 from its title only (paper not read; reference from Czarnecka et al. 2025).
+    note: 'Czarnecka et al. (2025) conclude that ALAN use should be restricted to the minimum necessary. They name ' +
+      'restricting where light falls as one of the most effective strategies, with dimmers, motion sensors and timers ' +
+      'as possible complementary measures. Bolliger et al. (2020) studied the effects of traffic-regulated street ' +
+      'lighting on nocturnal insect abundance and bat activity.',
+    sources: [
+      { label: 'Czarnecka et al. 2025, Global Change Biology 31: e70569', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'Conclusions: "ALAN use should be restricted to the minimum necessary"; restricting the spatial extent of ' +
+          'illumination among the most effective strategies; dimmers, motion sensors and timers may provide additional, ' +
+          'complementary benefits (citing Bolliger et al. 2020). Read from data/raw/impacts/czarnecka2025.' },
+      { label: 'Bolliger et al. 2020, Basic and Applied Ecology 47: 44–56', url: 'https://doi.org/10.1016/j.baae.2020.06.003',
+        supports: 'Title: "Effects of Traffic-Regulated Street Lighting on Nocturnal Insect Abundance and Bat Activity". ' +
+          'Reference from Czarnecka et al. 2025; the paper itself not read.' },
+    ],
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,

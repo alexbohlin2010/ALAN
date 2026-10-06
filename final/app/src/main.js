@@ -178,8 +178,8 @@ function applyStage(i) {
   markHeaders();
   if (mode !== 'light') { guideStep(prev, {}); return; }
   // Callouts: a step is entered on its own sentence (k = 0), or on its last callout when arriving backwards.
-  const cl = story[i].impacts?.callouts;
-  setCallout(cl?.length && story.indexOf(prev) === i + 1 ? cl.length : 0);
+  const nb = beatCount(story[i]);
+  setCallout(nb && story.indexOf(prev) === i + 1 ? nb : 0);
   guideStep(prev, story[i]);
   const sp = story[i].spectral ?? null, st = story[i].impacts;
   document.body.classList.toggle('story-dark', Boolean(story[i].dark));   // dark screen (Conclusion)
@@ -275,14 +275,19 @@ const nightsBeat = d => mode === 'light' && story[storyIndex].nights === true &&
 let calloutK = 0;
 // "Source" under a callout quote opens its study's card (human, AI_LOG Effect dots and examples step 9).
 document.getElementById('fact').addEventListener('click', e => { if (e.target.closest('.source')) impacts.openCallout(); });
+// `beats: true` (Conclusion; AI_LOG Conclusion step 6): the step's `reveal` lines are beats the same way, without quotes.
+const beatCount = s => s.impacts?.callouts?.length || (s.beats ? s.reveal?.length ?? 0 : 0);
 function setCallout(k) {
   const cl = mode === 'light' ? story[storyIndex].impacts?.callouts : null;
   calloutK = k;
   impacts.setCallout(cl, k);
-  if (cl?.length) document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k));
+  if (mode === 'light' && beatCount(story[storyIndex])) document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k));
+  // On a `beats` step, Details & sources shows on the last beat only (human, AI_LOG Conclusion step 8).
+  const s = story[storyIndex];
+  document.getElementById('fact').classList.toggle('details-off', mode === 'light' && Boolean(s.beats) && k < beatCount(s));
 }
 const calloutBeat = d => {
-  const n = mode === 'light' ? story[storyIndex].impacts?.callouts?.length ?? 0 : 0, k = calloutK + d;
+  const n = mode === 'light' ? beatCount(story[storyIndex]) : 0, k = calloutK + d;
   if (!n || k < 0 || k > n) return false;
   setCallout(k);
   return true;

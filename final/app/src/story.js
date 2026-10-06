@@ -142,8 +142,10 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
       const callouts = step.impacts?.callouts ?? [], lines = step.reveal || callouts.length;
       const line = (t, n) => `<p class="big${lines ? ` line${n === 0 ? ' on' : ''}` : ''}">${format(t)}</p>`;
       // "Source" opens the study's card (main.js → impacts.openCallout; human, AI_LOG Effect dots and examples step 9).
+      // A callout with a `url` (no study) links to it instead (AI_LOG Conclusion step 6).
       const quote = c => `<p class="big line callout">“${format(c.quote)}”<span class="cite">${format(c.cite)}` +
-        '<button class="source" type="button">Source</button></span></p>';
+        (c.url ? `<a class="source" href="${c.url}" target="_blank" rel="noopener">Source</a>`
+          : '<button class="source" type="button">Source</button>') + '</span></p>';
       fact.innerHTML = [step.text, ...(step.reveal || [])].map(line).join('') + callouts.map(quote).join('') + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '');
