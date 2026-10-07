@@ -8357,3 +8357,6 @@ Append only. One entry per AI step (see RULES.md §4).
 - Checked (localhost:5173, 1280×800): big text × 302–427, subtext × 437–460, Details 476–498; console: no errors.
 - Commit on main and push to origin (human request): app/content/story.js, AI_LOG.md.
 - Files changed: app/content/story.js, AI_LOG.md; git history; remote.
+- Correction to step 31: the push failed ("could not read Username for 'https://github.com': Device not configured");
+  no credentials in this shell. main is 5 commits ahead of origin/main (fd02688e8, 509307e09, 66e5bf26e, b7fa29a35,
+  6475a5c8b). This log line is uncommitted.
