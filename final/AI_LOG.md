@@ -8246,3 +8246,25 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: AI_LOG.md, app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/story.js,
   app/src/style.css, handoffs/2026-10-06_experience-refinement-3.md. Not pushed.
 - Files changed: app/content/story.js, handoffs/2026-10-06_experience-refinement-3.md (new), AI_LOG.md; git history.
+
+## Experience refinement, step 27 (2026-10-06): release line at the quote's font size; commit (human request); prompt for the next session
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > are the font sizes different at the end of "Biosphere response" with the reverberating dots? Just make sure they're the same please.
+  >
+  > then commit again if there's a change.
+  >
+  > Then generate a new prompt where I want to:
+  >
+  > * Simplify wording in "Spectra" and "Firefly Populations" if possible
+  > * Audit data, and run a general check on data integrity
+  > * Update the data inventory if it hasn't been updated recently.
+- Found: yes, different: the Czarnecka quote is `.big.callout` (clamp(20px, 2.1vw, 32px), 26.88 px at 1280 wide); the
+  release line was plain `.big` (clamp(22px, 2.6vw, 40px), 33.28 px).
+- Edits (files re-read right before editing): app/src/story.js: the release line gets class `release`; app/src/style.css:
+  `#fact .big.release` = the callout size.
+- Checked (localhost:5173, 1280×800): release beat: quote and line both 26.88 px, weight 300; quote 876–1264 × 341–474,
+  line × 492–559, nav 748 clear; console: no errors.
+- Facts for the next prompt: DATA_INVENTORY.md last committed 2026-10-04 (b63e2836f); audits/ last changed 2026-10-04.
+- Handoff 2026-10-06_experience-refinement-3.md: addendum (this step). Commit on main (human request). Not pushed.
+- Files changed: app/src/story.js, app/src/style.css, handoffs/2026-10-06_experience-refinement-3.md, AI_LOG.md; git history.

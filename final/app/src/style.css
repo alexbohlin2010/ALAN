@@ -98,6 +98,8 @@ body.arriving #card, body.arriving #fact, body.arriving #modes { opacity: 0; poi
 /* Callout quotes (impacts.callouts, story.js; AI_LOG Effect dots and examples step 5): a step smaller than the big text
    so a 13-word quote fits the column; citation below. Sizes: agent choice. */
 #fact .big.callout { font-size: clamp(20px, 2.1vw, 32px); }
+/* Release line (Biosphere Response): the quote's size above it (human, AI_LOG Experience refinement step 27). */
+#fact .big.release { font-size: clamp(20px, 2.1vw, 32px); }
 #fact .callout .cite { display: block; margin-top: 10px; font-size: 14px; color: #aaa; font-weight: 400; }
 /* "Source" button after the citation: as the Details button (step 9). */
 #fact .callout .source { margin-left: 10px; font: 12px system-ui, sans-serif; color: #aaa; background: rgba(17,17,17,0.8);

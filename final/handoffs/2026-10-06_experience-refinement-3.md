@@ -52,3 +52,9 @@ Read `RULES.md` first. Before: `2026-10-06_experience-refinement-2.md`.
 - From pass 2, still open: dark share 98.7 % not on screen after the split; faint Cherry Springs reply; nav arrows do not
   step Response's beats; clicking → mid-flight opens the circle from the dot's current position; Spectra firefly line
   rests on a one-off check (not scripted).
+
+## Addendum (step 27)
+- Release line now at the quote's font size (`#fact .big.release`, clamp(20px, 2.1vw, 32px)); human: "make sure they're
+  the same". Committed.
+- Next session's tasks (human, step 27): simplify wording in Spectra ('two-nights') and Firefly Populations
+  ('firefly-counts'); audit data and a general data-integrity check; update DATA_INVENTORY.md (last committed 2026-10-04).

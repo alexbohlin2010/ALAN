@@ -181,7 +181,7 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
       fact.innerHTML = [step.text, ...(step.revealBelow ? [] : step.reveal || [])].map(line).join('') + callouts.map(quote).join('') + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '') + (step.revealBelow ? step.reveal || [] : []).map(below).join('') +
-        (step.impacts?.releaseLine ? below(step.impacts.releaseLine) : '');
+        (step.impacts?.releaseLine ? below(step.impacts.releaseLine).replace('below', 'below release') : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
       // `factTop` (0..1): the text's vertical centre, landscape (style.css; AI_LOG Experience refinement step 6).
