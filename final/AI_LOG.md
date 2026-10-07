@@ -8440,3 +8440,25 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: AI_LOG.md (steps 31 correction–37), app/content/story.js, app/src/story.js, app/src/main.js,
   app/src/style.css. Not pushed (no GitHub credentials in this shell, step 31); the human pushes.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 38 (2026-10-07): globe light data explained for the presentation (no changes); handoff written
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > As I prepare to present this, I'm looking to simply and clearly explain the data of the light on the globe. What is the data, how did we transform it, and how did we apply it to the globe?
+  >
+  > write the handoff please.
+- Read: pipeline/radiance/config.py and 01–05 docstrings; app/src/tileLayer.js header; pipeline/colour/METHOD.md;
+  data/derived/story/radiance_change_2015_2025.json and data/derived/colour/global_white_share_grid.json metadata.
+- Explanation given in chat (facts from those files; wording for the presentation is the human's). Noted: the colour
+  layer is `estimated`, unaudited, with a per-mission camera bias (METHOD.md); the sidecar's 2025 fallback white share
+  is 0.41 from Brazil's public-lighting census (ABCIP 2024), while METHOD.md's table still says 0.7277 (doc out of date
+  with the file).
+- Created handoffs/2026-10-07_experience-refinement-4.md.
+- Files changed: handoffs/2026-10-07_experience-refinement-4.md (new), AI_LOG.md. Not committed.
+
+## Experience refinement, step 39 (2026-10-07): commit handoff and log (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > commit the handoff and log
+- Commit on main: handoffs/2026-10-07_experience-refinement-4.md, AI_LOG.md (steps 38–39). Not pushed.
+- Files changed: AI_LOG.md; git history.
