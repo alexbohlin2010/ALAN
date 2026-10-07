@@ -205,6 +205,15 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   }
   const circleA = anim(0);   // Broader Impacts circle (stage.circle), 0 = records on their studies, 1 = in the circle
   const noteA = anim(0), circleKeyA = anim(0);   // reading keys (drawKey): chart, circle
+  // Release beat (story impacts.release; human, AI_LOG Experience refinement step 23: M1, T1, H1). A DISPLAY DEVICE, NOT
+  // DATA: past the last callout the labels, key and size buttons fade and every dot moves freely, bouncing off the others
+  // and the circle's edge, to show the systems as interconnected. Directions and speeds are random on each release (not
+  // seeded) and say nothing about the records; positions are not data. Back from the beat, the dots glide home.
+  // relA: 0 → 1 as the labels fade. free: record → moving state (null = dots at their layout places).
+  let released = false, free = null, freeT = 0;
+  const relA = anim(0);
+  const REL_FADE = 700, REL_SPEED = 0.12, REL_HOME = 5;   // ms; circle radii per s; glide-home rate per s (agent choices)
+  const REDUCED = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;   // no motion, labels still fade
   // Sites outside Data S1: key → { lat, lon, colour, label } (filled in load()). siteA: key → fade (stage.site may be
   // one key or a list, e.g. both Spitschan sites during the Two measured nights transition).
   const sites = {}, siteA = {};
@@ -242,7 +251,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   function renderFilter() {
     if (barCircle) {
       filterBar.innerHTML = `<button data-size="" aria-pressed="${!sizeSel}">All</button>` + SIZES.map(([k, l, tip, range]) =>
-        `<button data-size="${k}" title="${tip}" aria-pressed="${sizeSel === k}">${l}<span class="ann range">${range}</span></button>`).join('');
+        // Grey range under each button removed (human, AI_LOG Experience refinement step 23); `range` kept unused in SIZES.
+        `<button data-size="${k}" title="${tip}" aria-pressed="${sizeSel === k}">${l}</button>`).join('');
       return;
     }
     const toggle = `<span style="color:#888;font:12px system-ui,sans-serif;align-self:center">Colour</span>` +
@@ -403,6 +413,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     // Circle step: the size buttons sit in a row above the circle, as the chart's bar (human, AI_LOG Fireflies step 29;
     // was a column left of the circle, step 8).
     filterBar.classList.toggle('settled', circ && val(circleA) >= 1);
+    filterBar.style.opacity = circ ? String(1 - val(relA)) : '';   // release beat: the size buttons fade
+    filterBar.style.pointerEvents = circ && released ? 'none' : '';
     if (circ) {
       const b = chartBox(w, h);
       filterBar.style.left = `${b.left}px`; filterBar.style.top = `${Math.max(8, b.top - 10 - filterBar.offsetHeight)}px`;
@@ -611,25 +623,80 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     return { x: b.left + b.width / 2, y: b.top + 50 + R, R };
   }
 
+  // Free motion of the release beat (display device, not data; see `released`). Unit = circle radius. Equal-density
+  // discs (mass ∝ r²), elastic bounces off each other (grid hash, as circleLayout) and off the circle's edge.
+  function stepFree(L, rel) {
+    const now = performance.now(), dt = Math.min(0.05, (now - (freeT || now)) / 1000);
+    freeT = now;
+    if (rel && !free) {
+      free = new Map();
+      for (const [e, d] of L) {
+        const a = Math.random() * 2 * Math.PI, v = REDUCED ? 0 : REL_SPEED * (0.4 + 1.2 * Math.random());
+        free.set(e, { d, x: d.x, y: d.y, r: d.r, vx: v * Math.cos(a), vy: v * Math.sin(a) });
+      }
+    }
+    if (!free) return;
+    const ds = [...free.values()];
+    if (!rel) {   // glide back to the layout places, then hand back to the static layout
+      let err = 0;
+      for (const p of ds) {
+        const t = Math.min(1, dt * REL_HOME);
+        p.x += (p.d.x - p.x) * t; p.y += (p.d.y - p.y) * t; err = Math.max(err, Math.abs(p.d.x - p.x) + Math.abs(p.d.y - p.y));
+      }
+      if (err < 0.002) free = null;
+      return;
+    }
+    if (REDUCED) return;
+    for (const p of ds) { p.x += p.vx * dt; p.y += p.vy * dt; }
+    const cell = 2 * Math.max(...ds.map(p => p.r)), grid = new Map();
+    ds.forEach((p, i) => { const key = `${Math.floor(p.x / cell)},${Math.floor(p.y / cell)}`; (grid.get(key) ?? grid.set(key, []).get(key)).push(i); });
+    ds.forEach((p, i) => {
+      const gx = Math.floor(p.x / cell), gy = Math.floor(p.y / cell);
+      for (let ox = -1; ox <= 1; ox += 1) for (let oy = -1; oy <= 1; oy += 1) for (const j of grid.get(`${gx + ox},${gy + oy}`) ?? []) {
+        if (j <= i) continue;
+        const q = ds[j], dx = q.x - p.x, dy = q.y - p.y, m = p.r + q.r, dist = Math.hypot(dx, dy);
+        if (dist >= m || dist === 0) continue;
+        const nx = dx / dist, ny = dy / dist, mp = p.r * p.r, mq = q.r * q.r;
+        const push = (m - dist) / (mp + mq);   // separate, the lighter disc moves more
+        p.x -= nx * push * mq; p.y -= ny * push * mq; q.x += nx * push * mp; q.y += ny * push * mp;
+        const vn = (q.vx - p.vx) * nx + (q.vy - p.vy) * ny;
+        if (vn >= 0) continue;   // already separating
+        const jn = (2 * vn) / (mp + mq);
+        p.vx += jn * mq * nx; p.vy += jn * mq * ny; q.vx -= jn * mp * nx; q.vy -= jn * mp * ny;
+      }
+    });
+    for (const p of ds) {   // the circle's edge
+      const dist = Math.hypot(p.x, p.y), lim = 1 - p.r;
+      if (dist <= lim) continue;
+      const nx = p.x / dist, ny = p.y / dist, vn = p.vx * nx + p.vy * ny;
+      p.x = nx * lim; p.y = ny * lim;
+      if (vn > 0) { p.vx -= 2 * vn * nx; p.vy -= 2 * vn * ny; }
+    }
+  }
+
   function drawCircle(w, h) {
     const k = val(circleA);
     go(circleKeyA, k >= 1 ? 1 : 0, k >= 1 ? 600 : 300);   // key once the circle has settled (timing (i))
     if (k < 0.005 || !effects.length) return;
     const L = circleLayout(), b = circleBox(w, h), from = studyScreen(), sel = [];
+    const rel = released && k >= 1;
+    go(relA, rel ? 1 : 0, REL_FADE);
+    stepFree(L, rel);
+    const ra = val(relA);
     ctx.globalAlpha = 0.82 * k; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
     for (const e of effects) {
       const d = L.get(e), s = from.get(e.study_id);
       if (!d || !s) continue;
       // Linda's arc path and per-record delay, as drawRecords.
       const delay = hashUnit(`${e.effect_id}-t`) * 0.25, t = clamp01((k - delay) / (1 - delay));
-      const tx = b.x + d.x * b.R, ty = b.y + d.y * b.R;
+      const f = free?.get(e) ?? d, tx = b.x + f.x * b.R, ty = b.y + f.y * b.R;
       const dx = tx - s.x, dy = ty - s.y, len = Math.max(1, Math.hypot(dx, dy));
       const bend = Math.sin(Math.PI * t) * (18 + hashUnit(`${e.effect_id}-a`) * 34) * (hashUnit(`${e.effect_id}-s`) > 0.5 ? 1 : -1);
       const x = s.x + dx * t - (dy / len) * bend, y = s.y + dy * t + (dx / len) * bend;
       const on = !sizeSel || word(e.g_abs) === sizeSel, r = 1.8 + (d.r * b.R - 1.8) * t;
       // Settled dots open their study's card; the open study's dots get a white ring (as the chart, AI_LOG Effect
       // dots and examples step 2).
-      if (k >= 1 && on) hits.push({ x, y, r: Math.max(REC_HIT, r + 1), id: e.study_id, chart: true });
+      if (k >= 1 && on && !free) hits.push({ x, y, r: Math.max(REC_HIT, r + 1), id: e.study_id, chart: true });
       if (e.study_id === selected && on) { sel.push([x, y, r, e]); continue; }
       ctx.globalAlpha = (s.vis ? 1 : t) * Math.min(1, k * 4) * (on ? 0.85 : 0.08);
       ctx.fillStyle = SPECIES_COLORS.get(e.species_group);
@@ -645,8 +712,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     // Labels: group name (as the species lanes) and its number of records, outside the middle of each sector. Thin
     // sectors (Amphibians, Reptiles) sit side by side, so labels on each side are pushed apart vertically, with a
     // short line back to their sector when moved.
-    if (val(circleKeyA) > 0.005) drawKey('circle', b.y - b.R, val(circleKeyA) * Math.min(1, k * 4));
-    const la = clamp01((k - 0.85) / 0.15);
+    if (val(circleKeyA) * (1 - ra) > 0.005) drawKey('circle', b.y - b.R, val(circleKeyA) * (1 - ra) * Math.min(1, k * 4));
+    const la = clamp01((k - 0.85) / 0.15) * (1 - ra);
     if (la <= 0) return;
     const LH = 15, labels = L.sectors.filter(s => s.n).map(s => {
       const a = s.a0 + s.span / 2, c = Math.cos(a), sn = Math.sin(a), lines = [...GROUPS.species.name[s.g]];
@@ -723,12 +790,9 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       if (w2) { ctx.fillStyle = '#ddd'; ctx.font = '500 11px system-ui, sans-serif'; ctx.fillText(w2, x, base + 22); }
     }
     ctx.fillStyle = '#fff'; ctx.font = `400 ${b.narrow ? 13 : 15}px system-ui, sans-serif`;
-    ctx.fillText('How much did light at night change what was measured?', b.left + b.width / 2, base + 44);
-    ctx.fillStyle = '#888'; ctx.font = '11px system-ui, sans-serif';
-    ctx.fillText('|Hedges g| = difference between lit and dark groups ÷ the normal spread between individuals',
-      b.left + b.width / 2, base + 64);
-    ctx.fillText('Log scale; values above 10 sit at the edge. small / medium / large: Cohen (1988) conventions.',
-      b.left + b.width / 2, base + 79);
+    // Axis label (human wording, AI_LOG Experience refinement step 23). Was 'How much did light at night change what was
+    // measured?' with two grey lines below ('|Hedges g| = …', 'Log scale; …'), now in each chart step's Details note (D1).
+    ctx.fillText('Impacts of artificial light relative to darkness.', b.left + b.width / 2, base + 44);
 
     const ex = stage?.example ? effectsById.get(stage.example) : lastExample;
     const p = val(morphA), ea = val(exampleA);
@@ -992,6 +1056,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     } else go(exampleA, 0, FADE_MS);
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
     if (!s?.circle) sizeSel = null;
+    if (!s?.release) { released = false; free = null; }
+    else if (callout) released = callout.k > callout.list.length;   // main.js sets the beat before the stage (back from Conclusion)
     if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, glowA, circleA, hlA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
     if (callout?.k) applyCallout();   // setStage cleared the selection; the current callout selects again once settled
     renderFilter();
@@ -1132,6 +1198,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       stage = null; browse = true; filter = null; callout = null; calloutCard = false; pendingSel = null; Object.assign(calloutA, anim(0));
       for (const [a, v] of [[dotsA, 0], [chartA, 0], [morphA, 0], [exampleA, 0], [glowA, 0], [circleA, 0]]) Object.assign(a, anim(v));
       for (const k in siteA) siteA[k] = anim(0);
+      released = false; free = null; Object.assign(relA, anim(0));
     },
     setStage,
     // Callout beat k of `list` (story impacts.callouts), or none (list empty / k = 0). Waits for the data.
@@ -1139,6 +1206,11 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     openCallout,
     setCallout(list, k) {
       callout = list?.length ? { list, k } : null;
+      // Release beat: k past the last callout. Kept when the list goes (Conclusion), so the dots move on as they fade (H1).
+      if (list?.length) {
+        released = Boolean(stage?.release) && k > list.length;
+        if (released && sizeSel) { sizeSel = null; renderFilter(); }
+      }
       if (!callout) calloutA.from = calloutA.to = 0;
       Promise.resolve(loaded).then(applyCallout);
     },

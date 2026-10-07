@@ -148,6 +148,10 @@ export const story = [
     label: 'Fireflies',
     text: 'Fireflies generate natural light to communicate in an increasingly lit environment.',   // wording: human
     carryFrom: 'question',   // ALAN's text stays through the 3.5 s flight across the Atlantic (human, AI_LOG Experience refinement step 19, A4)
+    // Only the question flies (the 41 % line fades as the flight starts) and it fades as the US Atlantic coast comes in
+    // (human, AI_LOG Experience refinement step 25). 2000 ms: the Boston point enters the screen at ~2.0 s of the flight
+    // (measured at 1280 × 800); fade 500 ms, then this text fades in.
+    carryFade: 2000,
     side: 'right',   // big text on the right, over the dark ocean (human, AI_LOG Fireflies step 4)
     note: 'The point marks the Boston collection site (coordinates as printed in the paper). The other 2018 site, ' +
       'Muster Field, Lincoln (42.42732, −71.31574), is not shown.',
@@ -186,7 +190,8 @@ export const story = [
     // white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and bright amber 0 %. Each lamp in turn, with
     // the part of its light a firefly eye takes in (green).'
     // "firefly" added (human, AI_LOG Experience refinement step 17). Was 'ALAN interrupts female responses to mating calls.'
-    text: 'ALAN interrupts female firefly responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    // ", in a lab environment" (human, AI_LOG Experience refinement step 23). Was '… to mating calls.'
+    text: 'ALAN interrupts female firefly responses to mating calls, in a lab environment.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
     // The bright amber beat's sentence replaces the big text on that beat instead of a caption below (human, AI_LOG
     // Firefly flow step 14): beat `line: 1` (spectral.js onLine). F1 wording: agent draft chosen by the human (step 4),
     // from Owens & Lewis 2021 (bright amber 0 %; Discussion: a male's chance of locating and mating with a female depends
@@ -406,7 +411,10 @@ export const story = [
       'The 207 studies on the globe measured 3,254 effects. Each dot is one, in the lane of what was measured. ' +
       'Further right = a bigger change under light. Only the size of the change is shown, not its direction: ' +
       'for some measures more is harmful, for others less. White line = the median study: each study’s middle ' +
-      'effect, then the middle of those.',
+      'effect, then the middle of those. ' +
+      // Moved from under the chart, verbatim (human, AI_LOG Experience refinement step 23, D1).
+      '|Hedges g| = difference between lit and dark groups ÷ the normal spread between individuals. ' +
+      'Log scale; values above 10 sit at the edge. small / medium / large: Cohen (1988) conventions.',
     sources: [
       // From the removed Studies step (A2).
       { label: 'Czarnecka et al. 2025, Global Change Biology', url: 'https://doi.org/10.1111/gcb.70569',
@@ -450,7 +458,10 @@ export const story = [
     text: 'Impacts occur at every light level, even in low light.',   // agent draft chosen by the human (step 17)
     note: '[DRAFT] The same effects, now sorted by how bright the light was. Effects appear at every level, ' +
       'even below 5 lux. The meta-analysis found them mostly not dose-dependent: low light had an impact ' +
-      'comparable to moderate and high light. White line = the median study: each study’s middle effect, then the middle of those.',
+      'comparable to moderate and high light. White line = the median study: each study’s middle effect, then the middle of those. ' +
+      // Moved from under the chart, verbatim (human, AI_LOG Experience refinement step 23, D1).
+      '|Hedges g| = difference between lit and dark groups ÷ the normal spread between individuals. ' +
+      'Log scale; values above 10 sit at the edge. small / medium / large: Cohen (1988) conventions.',
     sources: [
       { label: 'Czarnecka et al. 2025, sec. 2.2', url: 'https://doi.org/10.1111/gcb.70569',
         supports: 'light levels: low ≤ 5 lx, moderate 5–20 lx, high > 20 lx (from street lighting standards)' },
@@ -482,7 +493,10 @@ export const story = [
     note: '[DRAFT] The same effects, sorted by type of light. Warm white light ' +
       '(below 3000 K) had an impact similar to cool white light, contrary to the common view that warm light is ' +
       'gentler. White light that also emits ultraviolet had the strongest impact. The narrow-spectrum lanes rest ' +
-      'on few studies, so read them with caution.',
+      'on few studies, so read them with caution. ' +
+      // Moved from under the chart, verbatim (human, AI_LOG Experience refinement step 23, D1).
+      '|Hedges g| = difference between lit and dark groups ÷ the normal spread between individuals. ' +
+      'Log scale; values above 10 sit at the edge. small / medium / large: Cohen (1988) conventions.',
     sources: [
       { label: 'Czarnecka et al. 2025, sec. 2.2', url: 'https://doi.org/10.1111/gcb.70569',
         supports: 'light types: BS warm < 3000 K, BS cool > 3000 K, BS_UV cool white with UV; NS blue, green, yellow-orange' },
@@ -501,7 +515,10 @@ export const story = [
     // last one the arrow moves the story. `effect` = the ringed dot (agent choice of record within the study).
     impacts: { view: 'chart', records: true, filter: true, group: 'type',
       callouts: [
-        { effect: '308-1', quote: 'Light pollution critically affects fledglings of burrow-nesting seabirds, leading to massive mortality events.', cite: 'Atchoi et al. 2023', from: 'abstract' },
+        // Wallaby (as it was on Biosphere Response) replaces the seabird: more ringed dots (human, AI_LOG Experience
+        // refinement step 26). Was { effect: '308-1', quote: 'Light pollution critically affects fledglings of
+        // burrow-nesting seabirds, leading to massive mortality events.', cite: 'Atchoi et al. 2023', from: 'abstract' }.
+        { effect: '154-2', quote: 'White LED exposed wallabies had significantly suppressed nocturnal melatonin', cite: 'Dimovski & Robert 2018', from: 'abstract' },
       ] },
   },
   // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
@@ -534,20 +551,26 @@ export const story = [
       callouts: [
         // 200-6: adult aphids after 10 days (Data S1 records for this study are mixed; the quote is the authors' summary).
         { effect: '200-6', quote: 'aphid colony growth and aphid maturation were reduced significantly by ALAN treatments', cite: 'Heinen et al. 2022', from: 'abstract' },
-        { effect: '154-2', quote: 'White LED exposed wallabies had significantly suppressed nocturnal melatonin', cite: 'Dimovski & Robert 2018', from: 'abstract' },
+        // Wallaby (154-2, Dimovski & Robert 2018) and salmon (112-4, Oppedal et al. 2001) removed: two examples are enough
+        // (human, AI_LOG Experience refinement step 23).
         // Was 231-2 Giavi et al. 2020 'Artificial light at night can modify ecosystem functioning beyond the lit area' (title).
         // Now study 106 (110 bird records, so much of the Birds sector is ringed; human, AI_LOG Effect dots and examples step 8).
         // Quote = the study's title in Data S1 (no abstract in Crossref). 106-108: melatonin at night (agent choice).
         { effect: '106-108', quote: 'Artificial light at night affects brain plasticity and melatonin in birds', cite: 'Moaraf et al. 2020', from: 'title' },
-        // Fourth: study 112 (16 fish records; human, AI_LOG Effect dots and examples step 11). Quote = its full title (Data S1).
-        // 112-4: biomass share at 10 m depth in winter, high light (agent choice).
-        { effect: '112-4', quote: 'Artificial light and season affects vertical distribution and swimming behaviour of post-smolt Atlantic salmon', cite: 'Oppedal et al. 2001', from: 'title' },
         // Fifth (human, AI_LOG Conclusion step 6: q1, no rings): the meta-analysis behind the circle, not one study, so no
         // `effect` (nothing ringed); "Source" links to the paper (`url`). Verbatim, Czarnecka et al. 2025 Introduction
         // (data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf, p. 1; the sentence cites Sanders et al. 2021).
         { quote: 'This anthropogenic intrusion reverberates through biological communities', cite: 'Czarnecka et al. 2025', from: 'article',
           url: 'https://doi.org/10.1111/gcb.70569' },
-      ] },
+      ],
+      // `release` (human, AI_LOG Experience refinement step 23: M1, T1, H1): one more arrow beat after the last callout;
+      // the labels, key and size buttons fade and the dots move freely, bouncing off each other inside the circle
+      // (impacts.js). The last quote stays on screen. A display device, not data.
+      release: true,
+      // Comes in below the quote while the dots move (human: wording (c), placement P1, AI_LOG Experience refinement
+      // steps 24–25). Backing read in Czarnecka et al. 2025: ALAN "reverberates through biological communities" (Intro,
+      // citing Sanders et al. 2021); species interactions behind "the uncertainty in model estimates" (Discussion).
+      releaseLine: 'Together, these impacts interact in uncertain ways.' },
   },
   // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
   // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).
@@ -571,7 +594,8 @@ export const story = [
     // lighting; `together`, `autoBeat`, `humFrom` removed, `humOff` back.
     text: "We may be entering the dusk of the biosphere's stability.",
     // Third beat: responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
-    reveal: ['ALAN may be necessary for the modern apparatus of human society. But not all the time, everywhere.',
+    // "may be" → "is" (human, AI_LOG Experience refinement step 24).
+    reveal: ['ALAN is necessary for the modern apparatus of human society. But not all the time, everywhere.',
       'Responsive lighting can restrict ALAN to an optimal time, place, and set of environmental conditions.'],
     beats: true,
     // Note: AGENT DRAFT (claude-opus-5-5, AI_LOG Conclusion step 7), stating only what the two sources say; Bolliger et al.

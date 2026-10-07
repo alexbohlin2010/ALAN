@@ -15,6 +15,21 @@ const sourceList = sources => {
 };
 
 // `intro` (optional): the ?intro=sunrise prototype scene (introScene.js); without it, the CSS overlay intro runs.
+// Line `p` in below the lines before it without those moving: #fact's centre goes down by half the added height when
+// the line opens (style.css #fact .line: space given at 500 ms). Base: 50 % (steps using it have no `factTop`).
+// `wait(fn, ms)`: the caller's timer (cleared with its step). Used by revealBelow (ALAN) and main.js (release line).
+export function revealLine(fact, p, wait = setTimeout) {
+  if (!p || p.classList.contains('on')) return;
+  // Added height measured, not summed from margins (the last line's bottom margin does not add): the line opened
+  // without transitions for one layout, then closed again before any paint, then opened with its transitions.
+  const h0 = fact.offsetHeight;
+  p.style.transition = 'none'; p.classList.add('on');
+  const h = fact.offsetHeight - h0;
+  p.classList.remove('on'); void fact.offsetHeight; p.style.transition = '';
+  p.classList.add('on');
+  wait(() => fact.style.setProperty('--fact-top', `calc(50% + ${h / 2}px)`), 500);
+}
+
 export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder = [] }) {
   const overlay = document.getElementById('intro');
   const introText = overlay.querySelector('.text');
@@ -51,7 +66,11 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
   // design task steps 5-6): the text keeps its place but is pushed down to start FACT_GAP px below the menu's
   // bottom edge whenever they would overlap (re-measured when the menu or the text changes size).
   const FACT_GAP = 24;
+  // holdPlace: while a carried text flies (ALAN's question to Fireflies), the menu growing does not push it down (human,
+  // AI_LOG Experience refinement step 25); the carried line itself stays below the menu, the rest has faded.
+  let holdPlace = false;
   const placeFact = () => {
+    if (holdPlace) return;
     fact.style.setProperty('--fact-shift', '0px');
     if (fact.hidden) return;
     const menu = document.getElementById('modes').getBoundingClientRect();
@@ -99,13 +118,7 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
   }
   // Line 1 in below line 0 without line 0 moving: #fact's centre goes down by half the added height when the line opens
   // (style.css #fact .line: space given at 500 ms).
-  function revealBelow() {
-    const p = fact.querySelectorAll('.line')[1];
-    if (!p || p.classList.contains('on')) return;
-    p.classList.add('on');
-    const h = p.scrollHeight + 14;   // + #fact .big bottom margin
-    later(() => fact.style.setProperty('--fact-top', `calc(50% + ${h / 2}px)`), 500);
-  }
+  function revealBelow() { revealLine(fact, fact.querySelectorAll('.line')[1], later); }
 
   function playIntro(step) {
     const t = step.timing;
@@ -162,9 +175,13 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
       const quote = c => `<p class="big line callout">“${format(c.quote)}”<span class="cite">${format(c.cite)}` +
         (c.url ? `<a class="source" href="${c.url}" target="_blank" rel="noopener">Source</a>`
           : '<button class="source" type="button">Source</button>') + '</span></p>';
-      fact.innerHTML = [step.text, ...(step.reveal || [])].map(line).join('') + callouts.map(quote).join('') + (extra
+      // `revealBelow` lines and the release line (impacts.releaseLine) go after the Details button, so it does not move
+      // when they come in (human, AI_LOG Experience refinement step 25).
+      const below = t => `<p class="big line below">${format(t)}</p>`;
+      fact.innerHTML = [step.text, ...(step.revealBelow ? [] : step.reveal || [])].map(line).join('') + callouts.map(quote).join('') + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
-        : '');
+        : '') + (step.revealBelow ? step.reveal || [] : []).map(below).join('') +
+        (step.impacts?.releaseLine ? below(step.impacts.releaseLine) : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
       // `factTop` (0..1): the text's vertical centre, landscape (style.css; AI_LOG Experience refinement step 6).
@@ -223,6 +240,7 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
     // step's (Fireflies after ALAN; human, AI_LOG Experience refinement step 19, A4).
     const carry = step.carryFrom && step.carryFrom === from?.id && fly > 0;
     clearAll();
+    holdPlace = false;
     factAnim?.cancel(); factAnim = null;   // a text fade from the last step (below)
     onLeave?.(i);   // before the text changes (main.js pans; AI_LOG Experience refinement step 19)
     overlay.hidden = true;
@@ -244,10 +262,18 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
     const fadeIn = delay => { factAnim = fact.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, delay, fill: 'backwards', easing: 'ease' }); };
     if (carry) {
       if (from.revealBelow) revealBelow();   // clicked before the question came: it comes now
+      // Only the `revealBelow` line flies (human, AI_LOG Experience refinement step 25): the rest (41 % line, Details)
+      // fades out as the flight starts, in place, so the question does not move. 500 ms: agent choice.
+      holdPlace = Boolean(from.revealBelow);
+      if (from.revealBelow) for (const el of fact.children) if (!el.classList.contains('below')) {
+        el.style.pointerEvents = 'none';
+        el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: 'forwards' });
+      }
+      // `carryFade` (ms into the flight): when the carried text starts its 500 ms fade; default 500 ms before arrival.
       later(() => {
         factAnim = fact.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: 'forwards' });
-        factAnim.onfinish = () => { if (steps[index] !== step) return; factAnim.cancel(); show(step); fadeIn(0); };
-      }, Math.max(0, fly - 500));
+        factAnim.onfinish = () => { if (steps[index] !== step) return; factAnim.cancel(); holdPlace = false; show(step); fadeIn(0); };
+      }, Math.max(0, Math.min(fly - 500, step.carryFade ?? fly - 500)));
     } else {
       show(step);
       if (step.cutFrom && step.cutFrom === from?.id) fadeIn(500);

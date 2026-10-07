@@ -8107,3 +8107,142 @@ Append only. One entry per AI step (see RULES.md §4).
   app/src/main.js, app/src/spectral.js, app/src/story.js, app/src/style.css, app/src/twoNights.js,
   handoffs/2026-10-06_experience-refinement-2.md. Not pushed.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 22 (2026-10-06): pass 3 — read; chart text, size-filter numbers, Biosphere Response callouts, interconnection ending reported (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_experience-refinement-2.md (latest) and AI_LOG.md "Experience refinement" steps 16–21. Do not edit app/src/introScene.js (audio is another agent's) without asking.
+  >
+  > Task: experience refinement, pass 3: the effects charts and Biosphere Response. Four items:
+  >
+  > 1. Effects charts: Studies (id 'effects'), Light level ('intensity') and Light type ('light-type') in app/content/story.js; charts drawn in app/src/impacts.js. Remove the text below each chart and replace it with a simple axis label: "Impacts of artificial light relative to darkness." If |g| is explained at all, the explanation goes in the information button (i) or the Details card, not on screen. Report first what text sits below each chart now (where it is drawn: file and line) and where the |g| explanation would go.
+  > 2. Biosphere Response (id 'broader'): remove the grey numbers from the Large, Medium, Small size filters (impacts.js SIZES / #impacts-filter). Show me which numbers those are first.
+  > 3. Biosphere Response callouts: remove the wallaby example (effect 154-2, Dimovski & Robert 2018) and the salmon example (effect 112-4, Oppedal et al. 2001), so the page keeps two examples. Tell me which two remain (and whether the Czarnecka quote counts as one of them) before changing.
+  > 4. Biosphere Response ending: I want to show visually that these ecological systems are interconnected and that this is where the real systemic risk lies: all these impacts happening at once can lead to uncertain outcomes. My idea: the labels outside the circles fade, and the dots start to move freely, hitting and bouncing off each other, leading to unpredictable consequences. Read how the circle and its dots are drawn now (impacts.js circle view; main.js Biosphere Response → Conclusion dot fade) and propose options with trade-offs (the motion, when it starts: a new beat or after the last callout, how it hands over to the Conclusion's fade, effort). Options only, no wording unless I ask (RULES §1.2); ask before any new dependency such as a physics library (RULES §1.3). The motion is a display device, not data: say so in the code comments.
+  >
+  > 5. In "Response", in the first beat, after "...mating calls.", replace the period and append ", in a lab environment."
+  >
+  >
+  > Before changing anything, report and stop for my decisions on 1, 3 and 4. Item 2 can be applied once I've seen the numbers.
+  >
+  > Then apply only what I decide and check in the preview (dev server: final/app, port 5173, launch config "app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800): walk the affected steps forward and back, no overlaps with the big text, menu, nav, Details or chart labels, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive buttons by JS (#nav .next / .back, menu buttons by text) and keep each JS call under 45 s. If the pane is hidden, animation frames stop: take a screenshot to force frames (screenshots can lag the DOM by a frame or two); to see a transition mid-way, pause the page's animations by JS (debug only). I may click in the same pane at the same time.
+  > Re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes. Don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, handoffs/2026-10-06_experience-refinement-2.md, AI_LOG Experience refinement steps 16–21; story.js
+  female-response, effects, intensity, light-type, broader, conclusion; impacts.js (SIZES / renderFilter, drawCircle,
+  circleLayout, drawChart, drawKey, setStage, drawExample); main.js (legend / (i), Biosphere Response → Conclusion fade,
+  setCallout); style.css #impacts-filter / #legend rules.
+- Facts: below every effects chart, impacts.js drawChart lines 725–731 draw three texts (white 15 px at base + 44:
+  "How much did light at night change what was measured?"; grey 11 px at + 64: "|Hedges g| = difference between lit
+  and dark groups ÷ the normal spread between individuals"; + 79: "Log scale; values above 10 sit at the edge. small /
+  medium / large: Cohen (1988) conventions."), under the tick numbers and the small / medium / large words (TICKS,
+  line 61, drawn 718–724). The same function draws all three charts. In story mode the (i) pop-up holds the map
+  radiance legend; its Impacts paragraph (.impacts-only) shows only in the Impacts mode (style.css 174).
+  Size-filter grey numbers: SIZES line 241 4th field, "≥ 0.8", "0.5–0.8", "0.2–0.5" (`.ann.range` spans, line 245;
+  shown once the circle settles). The size buttons' hover titles ("|g| ≥ 0.8" …) and the circle's grey per-sector
+  record counts (drawCircle, line 667) are separate. Callouts after removing 154-2 and 112-4: 200-6 Heinen et al. 2022
+  (aphids), 106-108 Moaraf et al. 2020 (birds), and the Czarnecka et al. 2025 quote (no `effect`, nothing ringed).
+  Conclusion handover: main.js line 345, the impacts canvas fades over DOTS_FADE 1000 ms, then hides.
+- Reported in chat with options; nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Experience refinement, step 23 (2026-10-06): chart axis label + |g| text into Details (D1); size-filter ranges removed; Biosphere Response down to aphids, birds, Czarnecka; release beat (M1, T1, H1); Response "in a lab environment"; lizard replacement read (no change); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > @"/Users/alexander/Downloads/chenx088,+(81-87)10-19-7639-230331.pdf"
+  > 1 D1, 2 yes, 3 fine, 4 M1 T1 H1.
+  >
+  > Once you're done with those, I'd like to consider replacing the lizard example with something from this paper if there's a quote you like... I prefer seeing more dots, more diversity ...
+- Edits (files re-read right before editing):
+  - app/src/impacts.js drawChart: under all three effects charts the white line is now "Impacts of artificial light
+    relative to darkness." (human wording; same place and style); the two grey lines removed. Ticks and small / medium /
+    large kept (not answered; left as they were). renderFilter: the grey range spans under Large / Medium / Small
+    removed (hover titles kept). Release beat: `released` / `free` / relA; stepFree() (elastic bounces between dots,
+    mass ∝ r², and off the circle's edge; grid hash as circleLayout); labels, key and size buttons fade (REL_FADE 700 ms);
+    no dot clicks while moving; size selection cleared on release; back from the beat the dots glide home (REL_HOME 5/s);
+    `released` kept when the Conclusion clears the callouts, so the dots move on while the canvas fades (H1); also set
+    in setStage (main.js sets the beat before the stage when arriving back from the Conclusion). Comments state the
+    motion is a display device, not data.
+  - app/content/story.js: effects, intensity, light-type notes end with the two removed lines, verbatim (D1).
+    broader: callouts 154-2 (wallaby) and 112-4 (salmon) removed; `release: true`. female-response text: "ALAN interrupts
+    female firefly responses to mating calls, in a lab environment." (human).
+  - app/src/main.js: beatCount adds 1 for `impacts.release`; the release beat keeps the last line on (lk).
+- Agent choices (display only): REL_SPEED 0.12 circle radii/s (× 0.4–1.6 per dot), random directions per release (not
+  seeded; human did not answer), reduced-motion: dots stay still, labels still fade; REL_FADE 700, REL_HOME 5.
+- Offline check of the motion (scratchpad script running the file's own circleLayout + stepFree at 60 fps, 3,254 dots):
+  2.4 ms per frame; energy constant; share of dots outside their own sector 12 % at 2 s, 23 % at 10 s, 36 % at 30 s
+  (at speed 0.25: 19 / 36 % at 2 / 10 s).
+- Checked (localhost:5173, another session's server (PID 24259), opened by URL, 1280×800, JS-driven): Response text
+  (#fact 819–1203 × 249–423; "female response rates" from y 467). Studies, Light level, Light type: axis label under
+  the ticks, nav 1136–1264 × 748–784 clear; Details holds the moved lines. Biosphere Response: buttons "All Large Medium
+  Small", three callouts; release beat: labels, key, buttons fade, quote stays, dots start mixing; back: labels return;
+  → Conclusion: canvas fades then hides; back from Conclusion: release beat; back again: Czarnecka beat with labels.
+  Console: no errors. The pane ran at ~1.4 frames/s on these steps with or without the motion, so the motion was seen
+  slowed there (dt cap 50 ms).
+- Lizard replacement (read only): the PDF is Jiang et al. 2023, Int J Agric & Biol Eng 16(1): 81–87, doi
+  10.25165/j.ijabe.20231601.7639 = Data S1 study 310 (authors there "Jiyang, Y." ; the PDF says Jiang), 66 records
+  (LHT 50, Behaviour 16; Insects; two scarab species; laboratory), located (Henan Academy, China). Not in abstracts.json
+  (no Crossref abstract), so a quote would come from the PDF's abstract. PDF read from ~/Downloads only (not copied).
+- Files changed: app/src/impacts.js, app/content/story.js, app/src/main.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 24 (2026-10-06): Conclusion "ALAN is necessary"; systemic-risk line assessed against Czarnecka et al. 2025 (options, not applied); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > in the conclusion it says "ALAN may be necessary..." - just say "ALAN is necessary..." instead. (shorter).
+  >
+  > The motion is super cool because it reverberates ... echoing the text. I wanted to include some text to the effect of .. "The uncertainty of how impacts across ecosystems will interact with each other is reveals a major systemic risk." ...  first - is that a good claim, second, maybe we can shorten this, third ... this could come in after the reverberating dots, or perhaps along with the "dusk of stability ..." claim. I could also say this in a voiceover for example
+- Edit (file re-read right before editing): app/content/story.js conclusion reveal[0]: "ALAN is necessary for the
+  modern apparatus of human society. But not all the time, everywhere." (human; was "ALAN may be necessary …").
+- Read: data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf (text extracted to the scratchpad, read only).
+  Found: Introduction "reverberates through biological communities … predator–prey interactions and reproductive
+  strategies across trophic levels (Sanders et al. 2021)"; "risk that uninformed spectral tuning may benefit some taxa
+  while harming others, ultimately leading to the emergence of novel ecological communities and cascading effects on
+  ecosystem functioning"; Discussion: taxa responses "confounded by … species interactions, as evidenced by the high
+  heterogeneity in our data and the uncertainty in model estimates"; multi-trophic experiments: responses modulated by
+  predation or parasitism. Not found: "systemic risk", or any statement of its size ("major").
+- Answered in chat: assessment of the line, shorter versions (on the human's request), placement options; nothing applied.
+- Checked (localhost:5173, 1280×800): Conclusion beat 1 shows the new line, centred; console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 25 (2026-10-06): release line (c, P1); ALAN question below Details, only the question flies and fades at the US coast, not pushed by the menu; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > c, P1.
+  >
+  > I want to fix the ALAN section ... right now "How is the biosphere responding?" comes in and pushes the details button down. I don't like that. It should fade in below that. And before the flyover, the ALAN statistic should fade away. Only the biosphere responding question should flyover ... but should fade away just as the Atlantic coast of U.S. is being reached.
+  - then, mid-turn (verbatim):
+  > I don't like how the sidebar nav pushes down the text at the end of ALAN when transitioning to fireflies that's my only issue
+  - then, mid-turn (verbatim):
+  > the "together these impacts line" should come in like 1s earlier if possible... thanks
+- Edits (files re-read right before editing):
+  - app/content/story.js broader impacts: `releaseLine: 'Together, these impacts interact in uncertain ways.'` (human
+    wording (c)); female-site: `carryFade: 2000`.
+  - app/src/story.js: show(): `revealBelow` lines and the release line rendered after the Details button (class
+    `below`); revealLine(fact, p, wait) exported (added height measured, not summed); revealBelow() uses it. go() carry:
+    on leaving a `revealBelow` step everything but the question fades out (500 ms) in place as the flight starts; the
+    question fades at `carryFade` ms (500 ms), then the Fireflies text fades in; `holdPlace` stops placeFact pushing
+    the text below the growing menu during the carry.
+  - app/src/main.js: release beat: the release line comes in below the quote RELEASE_LINE 1500 ms after the beat
+    (human: 1 s earlier than the first 2500), quote unmoved; cleared on other beats.
+  - app/src/style.css: `#fact .line.below.on { margin-top: 18px }` (agent choice).
+- Measured (1280×800): ALAN flight: the Boston point enters the screen at ~2.0 s, camera settled by ~3.0 s → carryFade 2000.
+- Checked (localhost:5173, another session's server, JS-driven; the pane often stalled frames, forced by screenshots):
+  ALAN: 41 % line y 313 and Details y 451 unchanged when the question comes in (question y 491). → Fireflies: 41 % line
+  and Details gone by ~0.5 s, question alone at y 491 (menu bottom 388, --fact-shift 0) through the flight; Fireflies
+  text in after arrival; back → ALAN. Biosphere Response release beat: quote y 340 before and after; release line
+  491–575; nav 748 clear. Console: no errors. The fade at 2.0 s itself not seen mid-way (animations stall in the pane).
+- Not done: Details & sources for the release line (broader has no note/sources; adding them adds a Details button).
+- Files changed: app/content/story.js, app/src/story.js, app/src/main.js, app/src/style.css, AI_LOG.md. Not committed.
+
+## Experience refinement, step 26 (2026-10-06): Light type callout wallaby replaces seabird; handoff; commit (human request); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > replace the seabird example with the wallaby example in light type please ... then we should be good to write the handoff, and commit changes. the wallaby has more white dots and I prefer that visually
+- Edit (file re-read right before editing): app/content/story.js light-type callout: 154-2 wallaby (quote and citation as
+  it was on Biosphere Response, Dimovski & Robert 2018, abstract) replaces 308-1 seabird (Atchoi et al. 2023; old entry
+  kept in a comment).
+- Checked (localhost:5173, 1280×800): Light type → beat 1: wallaby quote (876–1264), its study's dots ringed in the warm
+  and cool white lanes; back to the step text; console: no errors.
+- Created handoffs/2026-10-06_experience-refinement-3.md.
+- Commit on main: AI_LOG.md, app/content/story.js, app/src/impacts.js, app/src/main.js, app/src/story.js,
+  app/src/style.css, handoffs/2026-10-06_experience-refinement-3.md. Not pushed.
+- Files changed: app/content/story.js, handoffs/2026-10-06_experience-refinement-3.md (new), AI_LOG.md; git history.

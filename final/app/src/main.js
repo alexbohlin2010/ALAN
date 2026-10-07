@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Globe from 'globe.gl';
 import { TileLayer } from './tileLayer.js';
-import { startStory } from './story.js';
+import { startStory, revealLine } from './story.js';
 import { createIntroScene, createDarkScene, INTRO_MODE } from './introScene.js';
 import { createImpacts } from './impacts.js';
 import { createSpectral } from './spectral.js';
@@ -363,18 +363,28 @@ const nightsBeat = d => mode === 'light' && story[storyIndex].nights === true &&
 // Callout beats (impacts.callouts; human, AI_LOG Effect dots and examples step 5): ← → and the nav arrows step through
 // the step's callouts first (k = 0 is the step's own sentence, k = n its last quote); past either end they move the story.
 let calloutK = 0;
+let releaseTimer = 0;
+const RELEASE_LINE = 1500;   // ms after the release beat starts (human: "1s earlier", AI_LOG Experience refinement step 25; was 2500)
 // "Source" under a callout quote opens its study's card (human, AI_LOG Effect dots and examples step 9).
 document.getElementById('fact').addEventListener('click', e => { if (e.target.closest('.source')) impacts.openCallout(); });
 // `beats: true` (Conclusion; AI_LOG Conclusion step 6): the step's `reveal` lines are beats the same way, without quotes.
-const beatCount = s => s.impacts?.callouts?.length || (s.beats ? s.reveal?.length ?? 0 : 0);
+// `impacts.release` (Biosphere Response; human, AI_LOG Experience refinement step 23): one more beat after the last callout.
+const beatCount = s => (s.impacts?.callouts?.length ?? 0) + (s.impacts?.release ? 1 : 0) || (s.beats ? s.reveal?.length ?? 0 : 0);
 function setCallout(k) {
   const cl = mode === 'light' ? story[storyIndex].impacts?.callouts : null;
   calloutK = k;
   impacts.setCallout(cl, k);
   // `together: [k]`: beat k also keeps the line before it (Conclusion; human, AI_LOG Experience refinement step 5).
   const tog = story[storyIndex].together ?? [];
-  if (mode === 'light' && beatCount(story[storyIndex])) document.querySelectorAll('#fact .line').forEach((p, n) =>
-    p.classList.toggle('on', n === k || (n === k - 1 && tog.includes(k))));
+  // Release beat (impacts.release): the last quote stays (lk); the step's releaseLine, if any, comes in below it after
+  // RELEASE_LINE ms, the quote not moving (human, AI_LOG Experience refinement step 25, P1).
+  const fact = document.getElementById('fact'), rl = story[storyIndex].impacts?.releaseLine ? fact.querySelector('.line.below') : null;
+  const ls = [...fact.querySelectorAll('.line')].filter(p => p !== rl), lk = Math.min(k, ls.length - 1);
+  if (mode === 'light' && beatCount(story[storyIndex])) ls.forEach((p, n) =>
+    p.classList.toggle('on', n === lk || (n === lk - 1 && tog.includes(lk))));
+  clearTimeout(releaseTimer);
+  if (rl && mode === 'light' && k > ls.length - 1) releaseTimer = setTimeout(() => revealLine(fact, rl), RELEASE_LINE);
+  else if (rl?.classList.contains('on')) { rl.classList.remove('on'); fact.style.setProperty('--fact-top', ''); }
   // On a `beats` step, Details & sources shows on the last beat only (human, AI_LOG Conclusion step 8).
   const s = story[storyIndex];
   document.getElementById('fact').classList.toggle('details-off', mode === 'light' && Boolean(s.beats) && k < beatCount(s));
