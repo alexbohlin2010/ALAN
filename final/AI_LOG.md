@@ -8347,3 +8347,13 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main (human request): AI_LOG.md, app/content/story.js, app/src/story.js, app/src/style.css,
   app/src/twoNights.js (steps 28–30). Not pushed.
 - Files changed: app/content/story.js, app/src/story.js, app/src/style.css, AI_LOG.md; git history.
+
+## Experience refinement, step 31 (2026-10-06): Firefly Populations period after ALAN, subtext capitalised; checked; commit and push (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Ok there should be a period after ALAN not a comma. and then start the subheading with a capital letter please. One final change before committing again changes to github
+- Edit (file re-read right before editing): app/content/story.js firefly-counts: text "… in areas with more ALAN."; subtext
+  "One factor alongside climate, soil and others."
+- Checked (localhost:5173, 1280×800): big text × 302–427, subtext × 437–460, Details 476–498; console: no errors.
+- Commit on main and push to origin (human request): app/content/story.js, AI_LOG.md.
+- Files changed: app/content/story.js, AI_LOG.md; git history; remote.

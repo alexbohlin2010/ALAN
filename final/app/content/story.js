@@ -383,8 +383,8 @@ export const story = [
     // Was 'Across the eastern US, fewer fireflies are counted where nights are brighter: one pressure among climate, soil
     // and land cover.' Human wording (AI_LOG Experience refinement steps 29–30; "lower", not "decreasing": the study
     // compares places, not years). `subtext`: smaller, darker line below (human: "focus audience eyes on main story").
-    text: 'In the eastern US, firefly counts are lower in areas with more ALAN,',
-    subtext: 'one factor alongside climate, soil and others.',
+    text: 'In the eastern US, firefly counts are lower in areas with more ALAN.',
+    subtext: 'One factor alongside climate, soil and others.',
     note: '24,683 Firefly Watch citizen-science surveys, eastern US (east of the 100th meridian), 2008–2016. In random-forest ' +
       'models of 79 predictors, night-time lights ranked 9th overall and 3rd in areas of high climate quality; counts were ' +
       'lower where night-time lights were brighter. Climate and weather were the strongest predictors. The authors note ' +
