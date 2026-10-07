@@ -434,10 +434,12 @@ export function createTwoNights({ parent, onBeat = null }) {
       const exponent = meta.floor + tick * (meta.ceil - meta.floor);
       label(`10^${exponent.toFixed(1)}`, [-12.55, tick * 9, 8]);
     }
-    label('WAVELENGTH · 280–840 NM', [0, -0.35, 8.5]);
+    // Axis words simplified (human, AI_LOG Experience refinement step 29); were 'WAVELENGTH · 280–840 NM',
+    // 'HEIGHT · LOG₁₀ IRRADIANCE · W m⁻² nm⁻¹', 'TIME / SPECTRUM INDEX'. Rows are in measuring order (time[i] below).
+    label('WAVELENGTH (NM)', [0, -0.35, 8.5]);
     // Unit added to the draft's label (human request, Firefly narrative round 3f); unit case kept (m = metre).
-    label('HEIGHT · LOG₁₀ IRRADIANCE · W m⁻² nm⁻¹', [-13.45, 4.5, 8]);
-    label('TIME / SPECTRUM INDEX', [-13, 0, 0]);
+    label('BRIGHTNESS (LOG, W m⁻² nm⁻¹)', [-13.45, 4.5, 8]);
+    label('SPECTRA IN TIME ORDER', [-13, 0, 0]);
     label('UV', [-9.85, 0.2, -8]);
     label('VISIBLE', [1.15, 0.2, -8]);
     label('NIR', [9.1, 0.2, -8]);

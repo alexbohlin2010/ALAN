@@ -275,25 +275,37 @@ export const story = [
     side: 'right',
     // The question was this step's opening beat in AI_LOG Impacts firefly-first step 6; back on Perception (step 7).
     // ', PA' added (human, AI_LOG Experience refinement step 3).
-    text: 'This is the light spectrum measured at a dark sky park, Cherry Springs, PA.',
+    // Was 'This is the light spectrum measured at a dark sky park, Cherry Springs, PA.' (option a, human, AI_LOG
+    // Experience refinement step 29).
+    text: 'Night light measured at Cherry Springs, PA, a dark sky park.',
     reveal: [
       // ", a dark sky park" removed (human, AI_LOG Firefly flow step 5: redundant with the first line).
-      'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs.',
+      // Was 'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs.'
+      // (option a, human, AI_LOG Experience refinement step 29; the band moved to Details).
+      'In amber light, Philadelphia’s night sky is about 150 times brighter.',
       // Agent draft D2 chosen by the human, on its own beat before the study line (AI_LOG Firefly flow step 10, W1):
       // Lall et al. 1980 (eye peak ~570 nm) and Philadelphia's median spectrum peak (594 nm, checked in step 5, not shown).
       // Human wording (AI_LOG Experience refinement step 17). Was 'A firefly’s eye is most sensitive here, in the yellow,
       // the same band that holds the peak of Philadelphia’s night sky.'
-      'Fireflies are most visually sensitive to the same wavelength band which is most prominent in the Philadelphia night sky.',
+      // Was 'Fireflies are most visually sensitive to the same wavelength band which is most prominent in the Philadelphia
+      // night sky.' Option b (human, AI_LOG Experience refinement step 29): keeps only the sourced half (band:
+      // sensitivity_bands.json, provisional curve; Lall et al. 1980); the Philadelphia-peak half rested on the step-5
+      // one-off check (not scripted).
+      'Fireflies see best in this band.',
       // 'Bright amber light silenced female fireflies most (Owens & Lewis 2021).' moved to Species perceptions' text
       // (human, AI_LOG Experience refinement step 3); twoNights.js BEATS 4 → 3.
     ],
-    note: 'Night spectra measured in July 2014, 240 per site. 150× = median irradiance in 570–615 nm, Philadelphia ÷ ' +
-      // "; shaded on the Philadelphia half" removed (human, AI_LOG Firefly flow step 10; no longer shaded).
-      'Cherry Springs (the band the authors link to artificial light in the city spectra). ' +
-      // Firefly band sentence: agent draft (method only), option A (human, AI_LOG Firefly flow step 9).
-      'Firefly band (530–600 nm): half-maximum of a modelled curve around the female P. pyralis response peak (565 nm; ' +
-      'provisional). Recordings from male P. pyralis eyes peak at about 570 nm, fall steeply near 525 nm, and show a ' +
-      'second, violet peak near 400 nm.',
+    // Rewritten (human, AI_LOG Experience refinement step 29); dates from amber_band_ratio.json selected ranges (was
+    // 'July 2014'). Was: 'Night spectra measured in July 2014, 240 per site. 150× = median irradiance in 570–615 nm,
+    // Philadelphia ÷ Cherry Springs (the band the authors link to artificial light in the city spectra). Firefly band
+    // (530–600 nm): half-maximum of a modelled curve around the female P. pyralis response peak (565 nm; provisional).
+    // Recordings from male P. pyralis eyes peak at about 570 nm, fall steeply near 525 nm, and show a second, violet
+    // peak near 400 nm.'
+    note: '240 night spectra per site, 30 June–19 July 2014 (Spitschan et al. 2016). 150× = Philadelphia ÷ Cherry ' +
+      'Springs, median irradiance in the amber band (570–615 nm), the band the authors link to artificial light in the ' +
+      'city. Firefly band (530–600 nm, provisional): where a modelled female P. pyralis response curve (peak 565 nm) is ' +
+      'above half its maximum. Male P. pyralis eyes peak near 570 nm, drop steeply near 525 nm, and have a second, ' +
+      'violet peak near 400 nm.',
     sources: [
       { label: 'Spitschan et al. 2016, Sci. Rep.', url: 'https://doi.org/10.1038/srep26756',
         supports: 'night spectra, Philadelphia (City) and Cherry Springs (Rural), July 2014; 570–615 nm band' },
@@ -368,7 +380,11 @@ export const story = [
     kind: 'fact',
     side: 'right',
     label: 'Firefly Populations',   // human (AI_LOG Impacts firefly-first step 2); was '[PLACEHOLDER] McNeil et al. 2024'
-    text: 'Across the eastern US, fewer fireflies are counted where nights are brighter: one pressure among climate, soil and land cover.',
+    // Was 'Across the eastern US, fewer fireflies are counted where nights are brighter: one pressure among climate, soil
+    // and land cover.' Human wording (AI_LOG Experience refinement steps 29–30; "lower", not "decreasing": the study
+    // compares places, not years). `subtext`: smaller, darker line below (human: "focus audience eyes on main story").
+    text: 'In the eastern US, firefly counts are lower in areas with more ALAN,',
+    subtext: 'one factor alongside climate, soil and others.',
     note: '24,683 Firefly Watch citizen-science surveys, eastern US (east of the 100th meridian), 2008–2016. In random-forest ' +
       'models of 79 predictors, night-time lights ranked 9th overall and 3rd in areas of high climate quality; counts were ' +
       'lower where night-time lights were brighter. Climate and weather were the strongest predictors. The authors note ' +
@@ -489,7 +505,8 @@ export const story = [
     kind: 'fact',   // human, AI_LOG Fireflies step 17 (was title 'Does light temperature affect biota?', note began 'Not as much as thought.')
     side: 'right',
     label: 'Light type',
-    text: 'Impacts occur regardless of light type.',   // wording: human (AI_LOG Fireflies step 17)
+    // Was 'Impacts occur regardless of light type.' (human, AI_LOG Fireflies step 17).
+    text: 'Impacts occur across all light types.',   // wording: human (AI_LOG Experience refinement step 29)
     note: '[DRAFT] The same effects, sorted by type of light. Warm white light ' +
       '(below 3000 K) had an impact similar to cool white light, contrary to the common view that warm light is ' +
       'gentler. White light that also emits ultraviolet had the strongest impact. The narrow-spectrum lanes rest ' +

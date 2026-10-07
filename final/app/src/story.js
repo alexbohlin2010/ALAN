@@ -178,7 +178,9 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
       // `revealBelow` lines and the release line (impacts.releaseLine) go after the Details button, so it does not move
       // when they come in (human, AI_LOG Experience refinement step 25).
       const below = t => `<p class="big line below">${format(t)}</p>`;
-      fact.innerHTML = [step.text, ...(step.revealBelow ? [] : step.reveal || [])].map(line).join('') + callouts.map(quote).join('') + (extra
+      // `subtext`: a smaller, darker line under the big text (Firefly Populations; human, AI_LOG Experience refinement step 30).
+      const sub = step.subtext ? `<p class="sub">${format(step.subtext)}</p>` : '';
+      fact.innerHTML = [step.text, ...(step.revealBelow ? [] : step.reveal || [])].map(line).join('') + sub + callouts.map(quote).join('') + (extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
         : '') + (step.revealBelow ? step.reveal || [] : []).map(below).join('') +
         (step.impacts?.releaseLine ? below(step.impacts.releaseLine).replace('below', 'below release') : '');

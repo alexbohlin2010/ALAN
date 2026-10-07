@@ -8268,3 +8268,82 @@ Append only. One entry per AI step (see RULES.md §4).
 - Facts for the next prompt: DATA_INVENTORY.md last committed 2026-10-04 (b63e2836f); audits/ last changed 2026-10-04.
 - Handoff 2026-10-06_experience-refinement-3.md: addendum (this step). Commit on main (human request). Not pushed.
 - Files changed: app/src/story.js, app/src/style.css, handoffs/2026-10-06_experience-refinement-3.md, AI_LOG.md; git history.
+
+## Experience refinement, step 28 (2026-10-06): pass 4 — read; Spectra / Firefly Populations wording options; data inventory and audit plan; DATA_INVENTORY.md differences (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main` (tree clean at start).
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_experience-refinement-3.md (latest, including its addendum) and AI_LOG.md "Experience refinement" steps 22–27. Do not edit app/src/introScene.js (audio is another agent's) without asking.
+  >
+  > Task: wording and data integrity. Three items:
+  >
+  > 1. Simplify wording in Spectra (id 'two-nights') and Firefly Populations (id 'firefly-counts') in app/content/story.js, if possible. Show me every on-screen line of both steps now (big text, reveal / beat lines, chart labels, Details notes), with where each is drawn, then propose simpler versions side by side with the current ones. Options only: keep every claim as backed by its sources (RULES §1.2, §2); flag any line whose backing is not scripted (e.g. the Spectra firefly line rests on the step-5 one-off check). No change until I pick.
+  > 2. Audit data and run a general data-integrity check (RULES §2–3). First list every derived dataset the app reads (app/ fetches, vite.config impacts routes) and every file in data/derived/, each with: the script that makes it, its raw inputs, its labels (measured / documented / inferred / estimated), and whether audits/ has an audit for it and from when. Then propose the audit plan: which datasets need a cross-agent check (RULES §3.1: a separate session, ideally a different model; tell me what to give that session, don't do its part yourself) and which need a human spot check (RULES §3.2: you pick N random rows with a recorded seed and list them with sources; I do the check). Also report, without fixing: values on screen with no scripted source, unlabelled values, empty cells without a note, units / date ranges not written next to the data, scripts that no longer rerun from raw. Known: data/derived/story/radiance_change_2015_2025.json is marked PROVISIONAL, audit pending.
+  > 3. Update DATA_INVENTORY.md if it is out of date (last committed 2026-10-04). Show me the differences (datasets added, moved, retired, relabelled since then) before writing.
+  >
+  > Before changing anything, report and stop for my decisions on 1 and 2. Item 3 can be applied once I've seen the differences.
+  >
+  > For any app change: check in the preview (dev server: final/app, port 5173, launch config "alan-final-app" in ~/Desktop/ALAN/.claude/launch.json; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800): walk the affected steps forward and back, no overlaps with the big text, menu, nav or Details, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive buttons by JS (#nav .next / .back, menu buttons by text) and keep each JS call under 45 s. If the pane is hidden or stalls, animation frames stop: take a screenshot to force frames.
+  > Re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes. Don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, handoff 2026-10-06_experience-refinement-3.md (with addendum), AI_LOG Experience refinement steps 22–27;
+  story.js two-nights, species-perceptions, firefly-counts, statistic/ALAN, effects, female-response; twoNights.js labels
+  (29, 285–294, 342–348, 413–443); src/story.js show() (162–183); main.js onBeat (124–125); DATA_INVENTORY.md;
+  data/derived/spectra/amber_band_ratio.json, spectra_meta.json; AI_LOG Firefly flow steps 5–8.
+- McNeil et al. 2024 raw PDF text extracted to the scratchpad (read only): soil named as a driver (Highlights); night-time
+  lights is one of 11 land-cover variables (Methods); "may harm … confounded by … urbanization" (Discussion).
+- Inventory of derived data: read-only Explore sub-agent (same model) over app fetches, vite.config routes, data/derived,
+  pipeline, audits, git history since 2026-10-04 00:00. Verified by the main session: country_change_2015_2025.json sha
+  bbabdd52… vs audited 850db62c… (audits/story/results/s01_raw_integrity_end.json), script dc7d4192… vs 82670265…; all
+  country cards that use it are in `retired`. Human spot-check match rates pending for radiance, story, impacts_spectra,
+  impacts_spectra_299; 20/20 for night_spectra, owens2018, kivela2023.
+- Reported in chat: wording options (items 1), inventory, audit plan and unfixed findings (2), DATA_INVENTORY.md
+  differences and proposed addition (3). Nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Experience refinement, step 29 (2026-10-06): Spectra wording (T a, R0 a, R1 b, Details, axis words); Light type "across all light types"; Firefly Populations line checked ("decreasing" not supported, not applied); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > For Spectra: T a; R0 a; R1 b; N replace; L2 replace. 
+  >
+  > For Firefly Populations: "In the eastern US, Firefly counts are decreasing in areas with more ALAN - one factor alongside climate, soil, and others." (is decreasing correct?)
+  - then, mid-turn (verbatim):
+  > In Light type we should say "Impacts occur across all light types." instead of regardless of ... I think this is more active.
+- Edits (files re-read right before editing; old wording kept in comments):
+  - app/content/story.js two-nights: text "Night light measured at Cherry Springs, PA, a dark sky park."; reveal[0] "In amber
+    light, Philadelphia’s night sky is about 150 times brighter."; reveal[1] "Fireflies see best in this band." (keeps the
+    sourced half; the Philadelphia-peak half rested on the Firefly flow step-5 one-off check); note rewritten as proposed
+    in step 28, date range "30 June–19 July 2014" (amber_band_ratio.json selected ranges; was "July 2014").
+  - app/src/twoNights.js axis words: 'WAVELENGTH (NM)', 'BRIGHTNESS (LOG, W m⁻² nm⁻¹)', 'SPECTRA IN TIME ORDER' (rows in
+    measuring order, time[i]). The frame is shared with Perception; no axis words were found on Perception in the DOM.
+  - app/content/story.js light-type text: "Impacts occur across all light types." (human; was "… regardless of light type.").
+- Firefly Populations: "decreasing" not supported by McNeil et al. 2024: spatial comparison (counts lower where
+  night-time lights are brighter), no trend over time analysed; yearly mean count 3.41 (2008) to 4.97 (2015), Results.
+  Offered "lower" instead; not applied, waiting for the human.
+- Checked (localhost:5173, another session's server (PID 24259), opened by URL, 1280×800, JS-driven): Impact → Spectra:
+  beat 0 line 1 on; beat 1 (819–1203 × 553–678); beat 2 (× 609–692); Details 706–728, open pop-up 331–573, nav 748
+  clear; axis words as above; Perception → back: Spectra plays to beat 2; back × 3: beats 1, 0, then Impact (6/15).
+  Light type: text 876–1264 × 333–417, chart and axis label clear. Console: no errors. The "Begin with audio" overlay
+  (introScene, another agent's) was left as it was.
+- Files changed: app/content/story.js, app/src/twoNights.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 30 (2026-10-06): Firefly Populations main line + smaller subtext; checked; commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > "In the eastern US, firefly counts are lower in areas with more ALAN, 
+  >
+  > and then in smaller text, darker colored text below that say "one factor alongside climate, soil and others."
+  >
+  > Need to focus audience eyes on main story and not give too much to read.
+  >
+  > After you make this change. Let's commit so my partner can see the final and then we can work on ideas for new agent checks, and finishing up this prototype.
+- Edits (files re-read right before editing): app/content/story.js firefly-counts: text "In the eastern US, firefly
+  counts are lower in areas with more ALAN," and new key `subtext: 'one factor alongside climate, soil and others.'`
+  (human wording and punctuation; old text in a comment). app/src/story.js: `subtext` rendered as `<p class="sub">`
+  after the big text, before Details. app/src/style.css: `#fact .sub` clamp(15px, 1.4vw, 20px), weight 300, #8a8a8a,
+  margin -4px 0 16px (agent choices). Details note unchanged (McNeil et al. 2024).
+- Checked (localhost:5173, another session's server, opened by URL, 1280×800, JS-driven): Perception → Firefly
+  Populations: big text 819–1203 × 302–427 (33.28 px, white), subtext × 437–460 (17.92 px, rgb 138), Details 476–498,
+  nav 748 clear; text fades in as before; → Studies (no subtext there), back → Firefly Populations, back → Perception.
+  Console: no errors.
+- Commit on main (human request): AI_LOG.md, app/content/story.js, app/src/story.js, app/src/style.css,
+  app/src/twoNights.js (steps 28–30). Not pushed.
+- Files changed: app/content/story.js, app/src/story.js, app/src/style.css, AI_LOG.md; git history.
