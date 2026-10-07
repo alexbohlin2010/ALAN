@@ -15,7 +15,7 @@ const sourceList = sources => {
 };
 
 // `intro` (optional): the ?intro=sunrise prototype scene (introScene.js); without it, the CSS overlay intro runs.
-export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) {
+export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder = [] }) {
   const overlay = document.getElementById('intro');
   const introText = overlay.querySelector('.text');
   const card = document.getElementById('card');
@@ -41,6 +41,7 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
     mark.style.left = `${on.offsetLeft + on.offsetWidth / 2}px`;
   }
   let anim = null;  // running divider animation frame id
+  let factAnim = null;  // #fact fade (carryFrom / cutFrom, go())
   let active = true;  // false while another mode (Impacts) is shown
 
   const later = (fn, ms) => timers.push(setTimeout(fn, ms));
@@ -91,8 +92,19 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
       () => glide(lngToFrac(lat, s.west), s.duration)), (step.fly ?? 0) + s.hold);
     // A `reveal` line replaces the big text when the sweep ends (Ecosystems; human, AI_LOG Impacts firefly-first step 5).
     // On a timer, so it still comes if the viewer grabs the divider.
-    if (step.reveal) later(() => fact.querySelectorAll('.line').forEach((p, n) => p.classList.toggle('on', n === 1)),
+    // `revealBelow`: the line comes in below the first one, which stays (ALAN; human, AI_LOG Experience refinement step 19, A4).
+    if (step.reveal) later(() => (step.revealBelow ? revealBelow()
+      : fact.querySelectorAll('.line').forEach((p, n) => p.classList.toggle('on', n === 1))),
       (step.fly ?? 0) + s.hold + (s.start != null ? 0 : 400) + s.duration);
+  }
+  // Line 1 in below line 0 without line 0 moving: #fact's centre goes down by half the added height when the line opens
+  // (style.css #fact .line: space given at 500 ms).
+  function revealBelow() {
+    const p = fact.querySelectorAll('.line')[1];
+    if (!p || p.classList.contains('on')) return;
+    p.classList.add('on');
+    const h = p.scrollHeight + 14;   // + #fact .big bottom margin
+    later(() => fact.style.setProperty('--fact-top', `calc(50% + ${h / 2}px)`), 500);
   }
 
   function playIntro(step) {
@@ -201,9 +213,18 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
 
   function go(i) {
     if (i < 0 || i >= steps.length || i === index) return;
+    const from = steps[index];
     index = i;
     const step = steps[i];
+    // `cutFrom`: arriving from that step id, no camera flight (Firefly Populations from Perception; AI_LOG Experience
+    // refinement step 18). main.js capFlight follows the same rule.
+    const fly = step.cutFrom && step.cutFrom === from?.id ? 0 : step.fly ?? 0;
+    // `carryFrom`: arriving from that step id, its text (all lines) stays through the flight, then gives way to this
+    // step's (Fireflies after ALAN; human, AI_LOG Experience refinement step 19, A4).
+    const carry = step.carryFrom && step.carryFrom === from?.id && fly > 0;
     clearAll();
+    factAnim?.cancel(); factAnim = null;   // a text fade from the last step (below)
+    onLeave?.(i);   // before the text changes (main.js pans; AI_LOG Experience refinement step 19)
     overlay.hidden = true;
     document.body.classList.remove('arriving');
     const keepCamera = intro?.spin(i, steps);   // prototype: globe keeps turning until India
@@ -214,11 +235,23 @@ export function startStory({ steps, globe, swipe, onStep, intro, ladder = [] }) 
       if (!keepCamera) globe.pointOfView(step.camera, 0);
       playIntro(step);
     } else if (!keepCamera) {
-      globe.pointOfView(step.camera, step.fly ?? 0);
+      globe.pointOfView(step.camera, fly);
     }
     if (step.swipe != null) swipe.set(step.swipe);
     if (step.sweep) sweep(step);
-    show(step);
+    // Text fade-in (Web Animations, over #fact's own transitions): after `cutFrom` (500 ms wait; human, step 19) and
+    // after a carried text. 900 ms: as #fact .line (agent choice).
+    const fadeIn = delay => { factAnim = fact.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, delay, fill: 'backwards', easing: 'ease' }); };
+    if (carry) {
+      if (from.revealBelow) revealBelow();   // clicked before the question came: it comes now
+      later(() => {
+        factAnim = fact.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: 'forwards' });
+        factAnim.onfinish = () => { if (steps[index] !== step) return; factAnim.cancel(); show(step); fadeIn(0); };
+      }, Math.max(0, fly - 500));
+    } else {
+      show(step);
+      if (step.cutFrom && step.cutFrom === from?.id) fadeIn(500);
+    }
     placeLadder(step);
     counter.textContent = `${i + 1} / ${steps.length}`;
     back.disabled = i === 0;

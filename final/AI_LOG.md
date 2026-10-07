@@ -7916,3 +7916,194 @@ Append only. One entry per AI step (see RULES.md §4).
   > yes commit please
 - Commit on main: AI_LOG.md, app/content/story.js, handoffs/2026-10-06_experience-refinement.md (step 13). Not pushed.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 15 (2026-10-06): local server; prompt for the next session (no code changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > do me a favor - start up the local server for me please.
+  >
+  > Also I'd like to start a new conversation where I make a number of improvements. Please generate a prompt for me where I'll propose the following refinements:
+  >
+  > * "Female Response" should change to "Response", and then add "firefly to after "ALAN interrupts female ...." in the header sentence. Also, perhaps the 10.3-49.6% numbers can animate down to each respective light spectrum they're associated with, next to the labels for example. They should be associated with each light spectrum... 
+  > * Moreover - is "response" in a lab study? If so, we can address that in "Impact" so the contrast between the lab and the wild is more clear.
+  > * In "Spectra" the area where we discuss the firefly's eye" we need to change the wording to simplify and be more direct. "Fireflies are most visually sensitive to the same wavelength band which is  most prominent in the Philadelphia night sky."
+  > * I want to change the color of the firefly beat in "Perception" to match the light cloud. Both of the firefly beats. Thank you.
+- Server: a Vite dev server for final/app was already listening on 5173 (PID 24259, not started by this session);
+  opened http://localhost:5173 in the preview pane instead of starting a second one.
+- Prompt for the next session given in chat (the human's items, organised; the on-screen range is 10.3–48.6 %, the
+  human wrote 10.3–49.6 %: flagged in the prompt for the next session to confirm).
+- Files changed: AI_LOG.md only. Not committed.
+
+## Experience refinement, step 16 (2026-10-06): pass 2 — read; Female response values, lab setting, Spectra firefly line, Perception reply colour reported (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-06_experience-refinement.md (latest, including its addendum) and AI_LOG.md "Experience refinement" steps 1–15. Do not edit app/src/introScene.js (audio is another agent's) without asking.
+  >
+  > Task: experience refinement, pass 2. Four items:
+  >
+  > 1. Female response step (id 'female-response', app/content/story.js; spectral.js fireflies chapter):
+  >    a. Menu label "Female response" → "Response".
+  >    b. Header sentence: add "firefly" so it reads "ALAN interrupts female firefly responses to mating calls." (check the exact current wording first and show me the result before applying).
+  >    c. The big range at the top (on screen "10.3–48.6 %"; I wrote 49.6 — confirm which is right from the data) could animate down to the light spectra it comes from, each value next to its spectrum's label (red, blue, warm white, cool white, amber …), so every percentage is tied to its light. Report: where each value comes from (data file, label), which value belongs to which spectrum, and options for the animation with trade-offs. No new numbers without a source (RULES §2).
+  > 2. Is the Female response result from a lab study? Check the source (Owens & Lewis 2021) and tell me. If it is, propose how the "Impact" step (id 'perception') could make the lab vs. wild contrast clearer: options only, no wording unless I ask (RULES §1.2).
+  > 3. Spectra (id 'two-nights'), the firefly-eye beat: replace its line with my wording: "Fireflies are most visually sensitive to the same wavelength band which is most prominent in the Philadelphia night sky." Check that the Details note and sources still match the new line.
+  > 4. Perception (id 'species-perceptions'): change the colour of the firefly reply pulses (both halves, Philadelphia and Cherry Springs, PA) to match the light cloud. Tell me what colours are used now (twoNights.js REPLY.colour, the cloud's channel colours) and what "match" would mean, before changing.
+  >
+  > Before changing anything, report and stop for my decisions on 1c, 2 and 4. Items 1a, 1b (after I've seen the sentence) and 3 are my wording, so they can be applied once I confirm.
+  >
+  > Then apply only what I decide and check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800): walk the affected steps forward and back, no overlaps with the big text, menu, nav, Details or spectrum labels, no console errors. Send screenshots. The in-app preview renders slowly and misplaces coordinate clicks: drive buttons by JS (#nav .next / .back, menu buttons by text) and keep each JS call under 45 s. If the pane is hidden, animation frames stop: take a screenshot to force frames (screenshots can lag the DOM by a frame or two). I may click in the same pane at the same time.
+  > Re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes. Don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, the handoff (with addendum), AI_LOG Experience refinement steps 1–15; story.js female-site,
+  female-response, perception, two-nights, species-perceptions; spectral.js (header, build, showNumber, enterBeat,
+  frame tags); twoNights.js (CHANNEL_RGB, REPLY, receptor layers, placeReplies); data/derived/impacts/spectra_299.json
+  (metadata); data/derived/spectra/species_curves.json (big-dipper-firefly receptor channel); raw PDF
+  data/raw/impacts/fireflies/Owens_Lewis_2021_ICD_study299.pdf (text extracted to the scratchpad, read only).
+- Launch config in the repo is named "app" (not "alan-final-app"); 5173 held by PID 24259 (another session), opened by URL.
+- Facts: on-screen 48.6 % is the paper's value (Results: dim red 48.6 ± 8.8 %); 49.6 appears nowhere in the paper or
+  app. Values are `documented` (Owens & Lewis 2021, Results) and live only in story.js (beat value + sources); no
+  derived data file holds them. Mapping: bright cool white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red
+  48.6 %, bright amber 0 %, dark 98.7 %. The 3D rows draw each lamp once (dim and bright not told apart, except amber's
+  ×10 grow). Measured at 1280×800 on beat 0: row tags red 875,484 / blue 898,510 / warm white 911,524 / cool white
+  925,540 (14–26 px apart vertically); number 385–896 × 40–117.
+- Lab: yes. Field-collected adults (Lincoln and Boston, MA, June 2018) kept in an incubator on a shifted day cycle and
+  tested one pair at a time in stacked acrylic chambers (30.4 × 30.4 × 60.8 cm) under LED bulbs, 2-min treatments.
+- Spectra line: backing as for the old line (Lall et al. 1980 eye peak ~570 nm; Philadelphia median peak 594 nm and
+  band shares from the step-5 one-off check, `inferred`, not scripted).
+- Perception reply: REPLY.colour [0.72, 0.92, 0.25] (spectral.js FLASH, display choice); the firefly cloud is one layer,
+  channel 'yellow' CHANNEL_RGB [0.95, 0.72, 0.21], additive.
+- Reported in chat with options; nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Experience refinement, step 17 (2026-10-06): Response label + "firefly"; Response values fly to their lamps (A); Impact "Outside of the lab,"; Spectra firefly line; Perception replies in the cloud's yellow (M1); Fireflies → Response opens as a circle, no zoom; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > 1a, 1b, 1c-A, 2-Add "Outside of the lab,..." to the beginning of the "Impact" sentence. 3 - that's fine. 4-M1.
+  >
+  > Also, the animation in fireflies zooms in on the dot on the map - i don't like the zoom in. THe animation should come outward from the dot in a black circle, faster than its current version, and the black circle should just expand to cover the whole screen ...
+- Edits (files re-read right before editing; old wording kept in comments):
+  - app/content/story.js female-response: label 'Response'; text "ALAN interrupts female firefly responses to mating
+    calls."; beat 0 `values` { cool_white '10.3 %', warm_white '11.6 %', blue '36.1 %', red '48.6 %' } (`documented`,
+    Owens & Lewis 2021 Results, as already in the step's sources; no new numbers); camera altitude 0.04 → 0.35 (Fireflies'
+    view) and `fly: 3500` removed. perception: "Outside of the lab, does ALAN impact fireflies in the wild?" (the
+    human's "Outside of the lab," + the existing question; "Does" lower-cased). two-nights reveal[1]: "Fireflies are most
+    visually sensitive to the same wavelength band which is most prominent in the Philadelphia night sky." (human).
+  - app/src/spectral.js: row tags get a `.val` span; beat `values`: SPLIT_HOLD 1200 ms after the view is open, the big
+    value fades and one copy per lamp flies (SPLIT_MS 900) from the range (spread across it, low → high, sized to fit)
+    to its tag, where it stays; cleared on any beat change or hide. door(): `flat` (no scaling, circle only);
+    set() takes `flat` for opening (`from`) and closing (`to`).
+  - app/src/main.js: study-site door: `dive: story[i].fly ?? 0` (was ?? 2200), `flat: true` both ways → the dark circle
+    opens at once from the dot over OPEN_MS 1300 ms (was ~1.75 s wait + ~3.2 s) and closes over CLOSE_MS 900 ms.
+  - app/src/twoNights.js: REPLY.colour = CHANNEL_RGB.yellow (was [0.72, 0.92, 0.25]).
+  - app/src/style.css: .val / .fly / .value.split rules.
+- Agent choices (display only): SPLIT_HOLD 1200, SPLIT_MS 900, fades 600 / 300 ms, the copies' start spread and size;
+  OPEN_MS / CLOSE_MS reused. Amber's "0 %" stays the big number (not asked); no "bright" / "dim" on the tags (the label
+  line keeps them).
+- Checked (localhost:5173, another session's server, 1280×800, JS-driven): Fireflies → Response: globe stays, circle
+  grows from the dot (640, 400), scene unscaled; range then splits, values beside red 48.6 / blue 36.1 / warm white
+  11.6 / cool white 10.3 % (tags 866–1034 × 481–552, clear of the big text 819–1203 × 269–403 and Details); amber and
+  back replays it; Response → Fireflies closes into the dot. Impact text (400–880 × 351–449). Spectra beat 2 line
+  (819–1203 × 484–692, Details 706–728, nav 748–784). Perception: replies in the cloud's yellow (Cherry Springs pulse
+  visible; on the Philadelphia half it merges with the cloud, as reported for M1). Back Perception → Fireflies. Console: no errors.
+- Seen, not changed: the nav arrows (#nav) do not step Response's beats (only the keys and the top-right toggle;
+  main.js keydown handler), as before this session. Clicking → during Fireflies' 3.5 s flight from Ecosystems opens
+  the circle from where the dot is at that moment (seen once off-screen, y −145).
+- Files changed: app/content/story.js, app/src/spectral.js, app/src/main.js, app/src/twoNights.js, app/src/style.css,
+  AI_LOG.md. Not committed.
+
+## Experience refinement, step 18 (2026-10-06): Response axis label + wider gap; Perception reply dimmed; Perception fades onto Firefly Populations; pan and ALAN timing read (options, not applied); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > in response: the grey text at the bottom needs to disappear ... but in general, it's fine to have "female response rates" as a replacement for the grey label text, but then it needs to follow the numbers and act as an axis label next to the numbers. Also move the numbers further right from the wavelength color labels... they're too close right now.
+  >
+  > The firefly color in "Perception": the flash is still too bright even in philadelphia. Are they the same color as the dots? Why is the firefly flash still so prominent even amidst the color dot cloud? It needs to blend in more so that it nearly disappears ... that's the point we are communicating.
+  >
+  > the animation transition between "response" and "impact" feels a bit abrupt ... I think the visual needs to shrink down ... maybe the screen needs to "pan right" to an empty black screen, where the IMPACT question is sitting already, and then pans right again into the "Spectra" environment? creating a sort of 3D panning experinece? is that an easy animation to do?
+  >
+  > "How is the biosphere responding?" feels too fast in the ALAN slide. Maybe the statistic shouldn't disappear. But yes that question needs to come in ... but maybe it just fades in below the statistic. I feel like it needs time to breath but that's also a matter of how fast I click it. Maybe it should follow the globe pan across the atlantic before the firefly text comes in ...?
+  - then, mid-turn (verbatim):
+  > also the "Perception" model and screen should just fade away onto a visual of the eastern seaboard of the U.S. with that text
+- Read as: "the grey text at the bottom" = the grey label under the big range (agent reading, stated in chat).
+- Edits (files re-read right before editing):
+  - app/content/story.js female-response beat 0: `valuesLabel: 'female response rates'` (human wording). firefly-counts:
+    `cutFrom: 'species-perceptions'`.
+  - app/src/spectral.js runSplit: #spectral-number gets `split` (range and grey label fade); `valuesLabel` flies from the
+    grey label to sit above the topmost value (`.val .head`); fly copies take their text from `values`.
+  - app/src/style.css: value gap 6 → 18 px (agent choice); `.head` rules; label fade.
+  - app/src/twoNights.js: REPLY_DIM 0.35 on the reply opacity, REPLY_SIZE 3 → 2 (agent choices, by eye; both halves the
+    same). set() `fade` (ms): on leaving, the canvas, CSS layer and species tag fade out, then hide; back in stops it.
+  - app/src/story.js go(): `cutFrom` = no flight when arriving from that step id. main.js capFlight: same rule;
+    nights.set(…, { fade: 1200 }) on a `cutFrom` arrival from a nights step (1200 ms: agent choice).
+- Answered in chat: the reply and the cloud share the RGB [0.95, 0.72, 0.21]; the reply stood out because 160 points sit
+  in a small ball, drawn additively at gain 2.2 with a sharp pulse (0.12 → 0.97), larger points, so it saturates.
+- Checked (localhost:5173, 1280×800, JS-driven): Response: grey label fades, "female response rates" above the red value
+  (899–1016 × 461–476; big text block ends at 423), values 18 px from the names (red 899, blue 937, warm white 995, cool
+  white 1007 px); Perception: reply not visible in the Philadelphia cloud, faint on Cherry Springs; Perception →
+  Firefly Populations: no flight, the cloud fades out over the eastern US view, text in; back → Perception; Studies →
+  back to Firefly Populations still flies. Console: no errors.
+- Not applied (options given in chat): Response → Impact → Spectra pan; ALAN question timing. The Impact dark screen is
+  drawn by introScene.js createDarkScene (another agent's file; not edited).
+- Files changed: app/content/story.js, app/src/spectral.js, app/src/style.css, app/src/twoNights.js, app/src/story.js,
+  app/src/main.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 19 (2026-10-06): Firefly Populations text fades in; ALAN question below the line and carried across the Atlantic (A4); Response ↔ Impact ↔ Spectra fade out / in (pan P2 tried, cancelled); Impact on plain black; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > for perception ... the fade is solid, but the white text in the next subchapter needs to fade in after 0.5s or so, not just appear... that will feel like a more natural transition I think.
+  >
+  > P2, A4
+  - then, mid-turn (verbatim):
+  > what if the pan were downwards instead of right? The right makes me a bit dizzy.
+  >
+  > Also I'd prefer if Impact doesn't have the globe behind it with the glow...
+  >
+  > Indeed cancel the pan, cancel the pan. I'd rather to fade out and in ... not necessarily dissolve which may seem tacky. The RESPONSE study environment should fade out, impact should fade in. and then Spectra should fade in after Impact.
+- Edits (files re-read right before editing):
+  - app/src/story.js: go(): `onLeave(i)` hook before the text changes; `carryFrom` (arriving from that step id with a
+    flight: its text stays, fades out 500 ms before arrival, then this step's text fades in 900 ms); on a `cutFrom`
+    arrival the text fades in after 500 ms (900 ms); `factAnim` cancelled on every step change. sweep(): `revealBelow`
+    → revealBelow(): line 1 on below line 0, #fact's --fact-top moved down by half the added height at 500 ms so line 0
+    stays put (measured: y 319 before and after).
+  - app/content/story.js: question (ALAN) `revealBelow: true`; female-site (Fireflies) `carryFrom: 'question'`;
+    perception (Impact) `black: true` (the `pan: true` key of the P2 trial replaced).
+  - app/src/main.js: the P2 pan (sideways slide with a shrink, black backdrop, frozen text copy) was built and checked
+    mid-slide, then cancelled by the human; replaced by sequential fades: Response → Impact: Response's layers and a
+    frozen copy of its text fade out (600 ms), then the question fades in (900 ms); Impact → Spectra: the question
+    fades out, then Spectra's layers and text fade in; back the same in reverse (panLeave / panRun / clearPan /
+    ghostFact; FADE_OUT 600, FADE_IN 900: agent choices). #pan-backdrop (black, over the globe) shown on a `black` step
+    and during these fades; the dark screen's 2.5 s text fade-in is off on those arrivals. The firefly guide fades in
+    at its rest place when arriving this way (was: flew from the Response female).
+  - app/src/twoNights.js: set() `hold` (ms): stay, labels off, then hide (Spectra → Impact).
+  - app/src/style.css: #pan-backdrop rules.
+- Not edited: introScene.js (the dark scene still runs under the backdrop on Impact).
+- Checked (localhost:5173, 1280×800, JS-driven; fade frames by pausing the page's animations at set times, a
+  debug-only page script, no file change): ALAN: question below the 41 % line, line 0 unmoved; → Fireflies: both lines
+  stay during the 3.5 s flight, then the Fireflies text fades in. Response → Impact: Response fades, black, question in,
+  no globe or limb ring (guide glow above the text); → Spectra: Spectra fades in, backdrop gone, full opacity; back
+  Spectra → Impact → Response: end states correct (Response on its last beat). Perception → Firefly Populations: text
+  opacity 0, then in from 500 ms. Console: no errors.
+- Seen, not changed: the guide glow fades in at once on Impact, while Response is still fading out.
+- Files changed: app/src/story.js, app/content/story.js, app/src/main.js, app/src/twoNights.js, app/src/style.css,
+  AI_LOG.md. Not committed.
+
+## Experience refinement, step 20 (2026-10-06): glow kept; handoff written; prompt for the next session (RULES §5)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > keep the glow, commit and write the handoff. And generate a new prompt to start a new session where I will want to:
+  >
+  > * Remove the text below the effects charts -- replace it with a simple axis label "Impacts of artificial light relative to darkness." The |g| - if explained - should either be contained in the information button or in the details card. Either way, too much text on screen with what's there. Do this for Studies, and the subsequent two effects charts.
+  > * remove the grey numbers from the large, medium, small filters in "Biosphere Response" ...
+  > * remove the wallabies example
+  > * remove the salmon example ... keep it to just two examples on that final page otherwise it's overkill, they get the point.
+  > * We need to tie up "Biosphere Response" in a way which demonstrates that all of these ecological systems are interconnected, and that's where the real systemic risk lies ... I want to show this visually ... perhaps the labels outside the circles fade, and the dots start to freely hit each other, bouncing around, leading to unpredictable consequences ... this is the point we are trying to communicate ... all of these impacts happening simultaneously can lead to uncertain outcomes...
+- Guide glow on Impact: kept as is (human). No code change.
+- Created handoffs/2026-10-06_experience-refinement-2.md. Prompt for the next session given in chat (the human's five
+  items with the step ids / files located: effects, intensity, light-type, broader; impacts.js SIZES; callouts 154-2
+  wallaby, 112-4 salmon).
+- Files changed: handoffs/2026-10-06_experience-refinement-2.md (new), AI_LOG.md.
+
+## Experience refinement, step 21 (2026-10-06): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`. Human prompt: as step 20 ("commit").
+- Commit on main: AI_LOG.md (including step 15 from the previous session, uncommitted until now), app/content/story.js,
+  app/src/main.js, app/src/spectral.js, app/src/story.js, app/src/style.css, app/src/twoNights.js,
+  handoffs/2026-10-06_experience-refinement-2.md. Not pushed.
+- Files changed: AI_LOG.md; git history.

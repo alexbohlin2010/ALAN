@@ -85,6 +85,9 @@ export const story = [
     // (step 2), before that 'As human activity extends deeper into the night, how is the biosphere responding?'
     text: 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%.',
     reveal: ['How is the biosphere responding?'],
+    // The question fades in below the 41 % line, which stays; both stay through the flight to Fireflies (human, AI_LOG
+    // Experience refinement step 19, option A4; was: the question replaced the line). Fireflies' `carryFrom`.
+    revealBelow: true,
     // Note and sources from Statistic (moved with the 41 % line, step 5). Values from
     // pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json (inferred; PROVISIONAL,
     // not yet audited, RULES section 3).
@@ -144,6 +147,7 @@ export const story = [
     kind: 'fact',
     label: 'Fireflies',
     text: 'Fireflies generate natural light to communicate in an increasingly lit environment.',   // wording: human
+    carryFrom: 'question',   // ALAN's text stays through the 3.5 s flight across the Atlantic (human, AI_LOG Experience refinement step 19, A4)
     side: 'right',   // big text on the right, over the dark ocean (human, AI_LOG Fireflies step 4)
     note: 'The point marks the Boston collection site (coordinates as printed in the paper). The other 2018 site, ' +
       'Muster Field, Lincoln (42.42732, −71.31574), is not shown.',
@@ -173,7 +177,7 @@ export const story = [
     rung: 'animal',
     kind: 'fact',   // big narrative text, no card (human, AI_LOG Fireflies step 5); was a card titled 'Female response'
     side: 'right',   // human, AI_LOG Fireflies step 5
-    label: 'Female response',
+    label: 'Response',   // human (AI_LOG Experience refinement step 17); was 'Female response'
     // The former '[DRAFT] Fireflies' chapter (study 299), moved here from Explore (human, AI_LOG Firefly tabs round 5a);
     // its door from Light type removed (round 5b). Card text: agent draft on the human's request (round 5g), values as in
     // the sources below.
@@ -181,7 +185,8 @@ export const story = [
     // obscurellus* fireflies: a male flashes, a female answers. In the dark 98.7 % of females answered; under bright cool
     // white 10.3 %, dim warm white 11.6 %, dim blue 36.1 %, dim red 48.6 % and bright amber 0 %. Each lamp in turn, with
     // the part of its light a firefly eye takes in (green).'
-    text: 'ALAN interrupts female responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    // "firefly" added (human, AI_LOG Experience refinement step 17). Was 'ALAN interrupts female responses to mating calls.'
+    text: 'ALAN interrupts female firefly responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
     // The bright amber beat's sentence replaces the big text on that beat instead of a caption below (human, AI_LOG
     // Firefly flow step 14): beat `line: 1` (spectral.js onLine). F1 wording: agent draft chosen by the human (step 4),
     // from Owens & Lewis 2021 (bright amber 0 %; Discussion: a male's chance of locating and mating with a female depends
@@ -196,8 +201,10 @@ export const story = [
     // Grows out of the Fireflies (Boston) point (human, AI_LOG Impacts reorder steps 2–4). Was camera lat 20, lng 10,
     // alt 2.2, no fly, no site. Altitude 0.04 and fly 2200: as Signal production (agent choices).
     // Slower dive (human, AI_LOG Impacts firefly-first step 8): fly 2200 → 3500 (value: agent choice).
-    camera: { lat: 42.30469, lng: -71.12099, altitude: 0.04 },
-    fly: 3500,
+    // No dive (human, AI_LOG Experience refinement step 17: "i don't like the zoom in"): the camera stays at Fireflies'
+    // view and the scene opens at once as a circle out of the dot, without scaling (main.js `flat`). Was altitude 0.04,
+    // fly 3500.
+    camera: { lat: 42.30469, lng: -71.12099, altitude: 0.35 },
     swipe: 0,
     // manual: no auto-advance; a toggle (top right) and ← → step through the beats (human, Firefly transition task step 3).
     // Two beats (human, AI_LOG Firefly flow step 12: options A, i, 48.6): the four other lamps together with the range of
@@ -207,6 +214,11 @@ export const story = [
     // [PLACEHOLDER] agent choices.
     spectral: { chapter: 'fireflies', manual: true, site: 'study:299', beats: [   // was site 'owenslewis2021_boston' (step 8, T2)
       { lamps: ['cool_white', 'warm_white', 'blue', 'red'], button: 'other lights', value: '10.3–48.6 %',
+        // `values`: the range splits and each value flies to its lamp's row tag (human, AI_LOG Experience refinement
+        // step 17, option A). documented: Owens & Lewis 2021, Results (bright cool white, dim warm white, dim blue, dim red).
+        values: { cool_white: '10.3 %', warm_white: '11.6 %', blue: '36.1 %', red: '48.6 %' },
+        // Axis label for the values; the grey `label` fades with the range (human wording, AI_LOG Experience refinement step 18).
+        valuesLabel: 'female response rates',
         label: 'females answer · bright cool white, dim warm white, dim blue, dim red (dark: 98.7 %)', reply: 0.486 },
       { lamp: 'amber', brighter: true, value: '0 %', label: 'females answer · bright amber (10× photons)', reply: 0,
         // Its sentence is the step's big-text line 1 (`reveal` above), no caption (AI_LOG Firefly flow step 14). Caption
@@ -229,10 +241,14 @@ export const story = [
     // to other parts of the biota.' (human, AI_LOG Fireflies step 10).
     // Wording: human (AI_LOG Impacts firefly-first step 8). Was 'Does our actual lighting environment impact fireflies
     // in the wild?' (Firefly flow step 2).
-    text: 'Does ALAN impact fireflies in the wild?',
+    // "Outside of the lab," added (human, AI_LOG Experience refinement step 17: Owens & Lewis 2021 is a lab study).
+    text: 'Outside of the lab, does ALAN impact fireflies in the wild?',
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
+    // Plain black, no globe or limb ring (human, AI_LOG Experience refinement step 19); Response fades out, then this
+    // fades in, then Spectra (main.js panRun; the sideways pan, option P2, was tried and cancelled by the human).
+    black: true,
     guide: true,   // the firefly guide rests here (main.js; ladder plan phase 4, AI_LOG "Story review" steps 7–8)
   },
   // 'One communication problem' (placeholder, round 1) removed (human, AI_LOG Firefly tabs review round 7c).
@@ -260,7 +276,9 @@ export const story = [
       'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs.',
       // Agent draft D2 chosen by the human, on its own beat before the study line (AI_LOG Firefly flow step 10, W1):
       // Lall et al. 1980 (eye peak ~570 nm) and Philadelphia's median spectrum peak (594 nm, checked in step 5, not shown).
-      'A firefly’s eye is most sensitive here, in the yellow, the same band that holds the peak of Philadelphia’s night sky.',
+      // Human wording (AI_LOG Experience refinement step 17). Was 'A firefly’s eye is most sensitive here, in the yellow,
+      // the same band that holds the peak of Philadelphia’s night sky.'
+      'Fireflies are most visually sensitive to the same wavelength band which is most prominent in the Philadelphia night sky.',
       // 'Bright amber light silenced female fireflies most (Owens & Lewis 2021).' moved to Species perceptions' text
       // (human, AI_LOG Experience refinement step 3); twoNights.js BEATS 4 → 3.
     ],
@@ -360,6 +378,8 @@ export const story = [
     // Centre of the Firefly Watch extent (Fig. 1: ~25–49 N, ~100–67 W), display only.
     camera: { lat: 37, lng: -84, altitude: 1.1 },
     fly: 2500,
+    // From Perception: no flight, Perception's view fades out onto this view (human, AI_LOG Experience refinement step 18).
+    cutFrom: 'species-perceptions',
     swipe: 0,
     noSwipe: true,   // divider and "2025" label hidden: at the left edge they sat over the menu (agent choice)
   },

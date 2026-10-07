@@ -346,6 +346,7 @@ export function createSpectral({ parent, onLine = null }) {
       F.seen[n] = sheet(data.p.curves[n].samples, H, zRow(i) + 0.2, FLASH, 200 + i, 34);
       F.group.add(F.lamps[n], F.seen[n]);
       F.tags[n] = tag(LAMP_NAME[n], new THREE.Vector3(x(NM1) + 0.15, 0.1, zRow(i)), 'fireflies', 'row');
+      F.tags[n].val = F.tags[n].el.appendChild(Object.assign(document.createElement('span'), { className: 'val' }));
     });
     const eye = [];
     data.f.curves.p_scintillans.samples.forEach(([nm, v], i) => {
@@ -463,7 +464,52 @@ export function createSpectral({ parent, onLine = null }) {
     number.hidden = false;
   }
 
+  // Beat `values` ({ lamp: text }, fireflies): once the view is open and after SPLIT_HOLD, the big value fades and one
+  // copy per lamp flies from it to that lamp's row tag, where it stays (human, AI_LOG Experience refinement step 17,
+  // option A). split = { b, t (start time, set once the door is open) } or null. Timings: agent choices.
+  const SPLIT_HOLD = 1200, SPLIT_MS = 900;
+  let split = null;
+  function clearSplit() {
+    split = null;
+    labels.querySelectorAll('.fly, .val .head').forEach(e => e.remove());
+    number.classList.remove('split');
+  }
+  function runSplit() {
+    const F = chapters.fireflies, src = number.querySelector('.value'), rg = document.createRange();
+    rg.selectNodeContents(src);
+    const r0 = rg.getBoundingClientRect();   // the text itself (.value is a block as wide as the label)
+    const base = labels.getBoundingClientRect(), s0 = parseFloat(getComputedStyle(src).fontSize) / 12;
+    number.classList.add('split');   // the range and its grey label fade (AI_LOG Experience refinement step 18)
+    const keys = Object.keys(split.b.values);
+    // `valuesLabel`: flies from the grey label to sit above the topmost value, as the values' axis label (human, step 18).
+    const lab = number.querySelector('.label'), shown = keys.filter(n => !F.tags[n].el.hidden && F.tags[n].val.offsetWidth);
+    if (split.b.valuesLabel && lab && shown.length) {
+      const top = shown.reduce((a, n) => (F.tags[n].val.getBoundingClientRect().top < F.tags[a].val.getBoundingClientRect().top ? n : a));
+      const head = F.tags[top].val.appendChild(Object.assign(document.createElement('span'), { className: 'head', textContent: split.b.valuesLabel }));
+      const rl = lab.getBoundingClientRect(), rh = head.getBoundingClientRect();
+      const fly = labels.appendChild(Object.assign(document.createElement('div'), { className: 'fly head', textContent: split.b.valuesLabel }));
+      fly.animate([{ transform: `translate(${rl.left + (rl.width - rh.width) / 2 - base.left}px, ${rl.top - base.top}px)`, opacity: 0.3 },
+        { transform: `translate(${rh.left - base.left}px, ${rh.top - base.top}px)`, opacity: 1 }], { duration: SPLIT_MS, easing: 'ease-in-out' })
+        .onfinish = () => { fly.remove(); head.classList.add('shown'); };
+    }   // story order (low → high), so the copies start spread across the range
+    keys.forEach((n, j) => {
+      const val = F.tags[n].val, r1 = val.getBoundingClientRect();
+      if (F.tags[n].el.hidden || !r1.width) { val.classList.add('shown'); return; }
+      const fly = Object.assign(document.createElement('div'), { className: 'fly', textContent: split.b.values[n] });
+      labels.append(fly);
+      // Start size: the range's, or smaller so the copies fit side by side across the range's width.
+      const s = Math.min(s0, r0.width / keys.length / val.offsetWidth);
+      const a = `translate(${r0.left + r0.width * (j + 0.5) / keys.length - base.left - val.offsetWidth * s / 2}px, ` +
+        `${r0.top + (r0.height - val.offsetHeight * s) / 2 - base.top}px) scale(${s})`;
+      const z = `translate(${r1.left - base.left}px, ${r1.top - base.top}px) scale(1)`;
+      fly.animate([{ transform: a, opacity: 0.2 }, { transform: z, opacity: 1 }], { duration: SPLIT_MS, easing: 'ease-in-out' })
+        .onfinish = () => { fly.remove(); val.classList.add('shown'); };
+    });
+    split = null;
+  }
+
   function enterBeat(b) {
+    clearSplit();
     showNumber(b);
     if (current.manual) onLine?.(b?.line ?? 0);
     if (b?.caption) caption.textContent = b.caption;
@@ -480,8 +526,11 @@ export function createSpectral({ parent, onLine = null }) {
         fadeTo(F.lamps[n], on ? 0.9 : lit.length ? 0.07 : 0);
         fadeTo(F.seen[n], on ? 1 : 0);
         F.tags[n].el.classList.toggle('on', on);
+        F.tags[n].val.textContent = b.values?.[n] ?? '';
+        F.tags[n].val.classList.remove('shown');
         F.lamps[n].scale.y = F.seen[n].scale.y = 1;
       });
+      if (b.values) split = { b, t: null };
       if (b.brighter) {  // F-C: the lamp grows to ten times the photons (documented: dim × 10 = bright)
         const grow = [F.lamps[b.lamp], F.seen[b.lamp]];
         fades.push({ t: performance.now() + 600, ms: 2200, tick: k => grow.forEach(o => { o.scale.y = 1 + 9 * k; }) });
@@ -655,7 +704,8 @@ export function createSpectral({ parent, onLine = null }) {
     if (trans.style === 'glow') { glowDoor(now); return; }
     const { x: dx, y: dy } = trans, w = window.innerWidth, h = window.innerHeight;
     const k0 = Math.min(1, Math.max(0, (now - trans.t) / trans.ms)), k = ease(trans.dir > 0 ? k0 : 1 - k0);
-    const R = Math.hypot(Math.max(dx, w - dx), Math.max(dy, h - dy)), rs = DOOR_R + (R - DOOR_R) * k, sc = 0.3 + 0.7 * k;
+    // `flat`: the circle only widens, the scene is not scaled (study sites; AI_LOG Experience refinement step 17).
+    const R = Math.hypot(Math.max(dx, w - dx), Math.max(dy, h - dy)), rs = DOOR_R + (R - DOOR_R) * k, sc = trans.flat ? 1 : 0.3 + 0.7 * k;
     canvas.style.transformOrigin = `${dx}px ${dy}px`;
     canvas.style.transform = `scale(${sc})`;
     canvas.style.clipPath = `circle(${rs / sc}px at ${dx}px ${dy}px)`;
@@ -754,7 +804,7 @@ export function createSpectral({ parent, onLine = null }) {
   }
   function hideNow() {
     if (travel) endTravel();
-    trans = null; plain();
+    trans = null; plain(); clearSplit();
     canvas.hidden = labels.hidden = number.hidden = toggle.hidden = strip.hidden = true; running = false; current = null;
     caption.classList.remove('on');
   }
@@ -817,6 +867,7 @@ export function createSpectral({ parent, onLine = null }) {
       v.copy(t.pos).project(camera);
       t.el.style.transform = `translate(${(v.x + 1) / 2 * w}px, ${(1 - v.y) / 2 * h}px)`;
     });
+    if (split && !trans && !travel) { split.t ??= now + SPLIT_HOLD; if (now >= split.t) runSplit(); }
     requestAnimationFrame(frame);
   }
 
@@ -843,11 +894,11 @@ export function createSpectral({ parent, onLine = null }) {
     // from = {x, y}: grow out of that screen point; to = {x, y}: shrink into it, then hide. onDone: when finished.
     // glow = () => {x, y} (a site's glow on the globe): open out of it after GLOW_DELAY, or (st = null) close into it.
     // beat: 'last' starts a manual chapter on its last beat (arriving backwards).
-    async set(st, { from = null, to = null, glow = null, onDone = null, beat = 0, fly = 2200, dive = 0 } = {}) {
+    async set(st, { from = null, to = null, glow = null, onDone = null, beat = 0, fly = 2200, dive = 0, flat = false } = {}) {
       if (!st) {
         const done = () => { hideNow(); onDone?.(); };
         if (glow && running && current) { trans = { style: 'glow', dir: -1, at: glow, t: performance.now(), ms: GLOW_CLOSE_MS, done }; door(trans.t); }
-        else if (to && running && current) trans = { dir: -1, x: to.x, y: to.y, t: performance.now(), ms: CLOSE_MS, done };
+        else if (to && running && current) trans = { dir: -1, x: to.x, y: to.y, t: performance.now(), ms: CLOSE_MS, done, flat };
         else { hideNow(); if (glow) onDone?.(); }   // nothing open: the globe side still needs its end state
         return;
       }
@@ -882,7 +933,7 @@ export function createSpectral({ parent, onLine = null }) {
       // the dive (AI_LOG Impacts firefly-first step 8); without it, at once over OPEN_MS as before.
       if (from && dive) { const k = dive / 2200;
         trans = { dir: 1, x: from.x, y: from.y, t: t0 + GLOW_DELAY * k, ms: GLOW_OPEN_MS * k, done: onDone }; door(t0); }
-      else if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone }; door(t0); }
+      else if (from) { trans = { dir: 1, x: from.x, y: from.y, t: t0, ms: OPEN_MS, done: onDone, flat }; door(t0); }
       // `fly`: the step's camera flight; the opening scales with it (timings were set for 2200; AI_LOG Impacts firefly-first
       // step 8, slower dive into Female response).
       else if (glow) { const k = fly / 2200;

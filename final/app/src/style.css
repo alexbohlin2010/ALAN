@@ -225,6 +225,20 @@ body.story-dark #fact .more-body, body.story-centre #fact .more-body { text-alig
   font: 300 clamp(22px, 2.6vw, 40px)/1.25 system-ui, sans-serif; color: #fff; opacity: 0; transition: opacity 1200ms ease; }
 #spectral-caption.on { opacity: 1; }
 #spectral-number .label { display: block; font-size: 13px; color: #aaa; margin-top: 2px; }
+/* Female response values (spectral.js runSplit; AI_LOG Experience refinement step 17): the range fades as its values fly
+   to the row tags. Fade times: agent choices. */
+#spectral-number .value, #spectral-number .label { transition: opacity 600ms ease; }
+#spectral-number.split .value, #spectral-number.split .label { opacity: 0; }
+/* margin 6 → 18 px: further from the lamp names (human, AI_LOG Experience refinement step 18; value: agent choice). */
+#spectral-labels .row .val { position: relative; margin-left: 18px; color: #fff; opacity: 0; transition: opacity 300ms ease; }
+/* Axis label above the topmost value (spectral.js valuesLabel), grey like the label it replaces. */
+#spectral-labels .val .head { position: absolute; left: 0; bottom: 100%; margin-bottom: 3px; font-size: 11px; color: #aaa;
+  white-space: nowrap; opacity: 0; }
+#spectral-labels .val .head.shown { opacity: 1; }
+#spectral-labels .fly.head { font-size: 11px; color: #aaa; }
+#spectral-labels .row .val.shown { opacity: 1; }
+#spectral-labels .fly { position: absolute; left: 0; top: 0; font-size: 12px; color: #fff; white-space: nowrap;
+  transform-origin: 0 0; }
 body.story-spectral #swipe, body.story-spectral .year { display: none; }
 /* Spectral beat toggle (spectral.js, manual chapters; Firefly transition task step 3). Left of the mute button (right
    16 + 36 px + 8 px gap), centred on its line (human, AI_LOG Firefly flow step 13; was right 16px, top 12px). */
@@ -265,6 +279,10 @@ body.story-dark #fact, body.story-centre #fact { left: 50%; top: 50%; transform:
 body.story-dark #swipe, body.story-dark .year, body.story-centre #swipe, body.story-centre .year { display: none; }
 /* Two measured nights (twoNights.js; AI_LOG Firefly narrative round 3c): 3D view, CSS3D axis labels, site divider. */
 #nights-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+/* Plain black over the globe on a `black` step (Impact) and during the fades either side (main.js panRun; AI_LOG
+   Experience refinement step 19). */
+#pan-backdrop { position: absolute; inset: 0; z-index: 1; background: #000; pointer-events: none; }
+#pan-backdrop[hidden] { display: none; }
 #nights-labels { position: absolute !important; inset: 0; z-index: 2; pointer-events: none; }
 #nights-canvas[hidden], #nights-labels[hidden], #nights-divider[hidden] { display: none; }
 /* Axis labels as in the draft (styles.css .axis-label). */

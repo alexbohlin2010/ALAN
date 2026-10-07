@@ -223,9 +223,15 @@ const PAIR_GAIN = 2;
 // replies every cycle (Female response's dark share is 98.7 %; agent choice). Place: the middle of each half's part
 // of the cloud (screen x in NDC ∓0.25 at the cloud centre's depth); REPLY_SCALE and REPLY_SIZE (world size and point
 // size against this scene's farther camera): agent choices, by eye.
-const REPLY = { n: 160, seed: 23, box: [0.9, 0.9, 0.6], colour: [0.72, 0.92, 0.25], rest: 0.12, pulse: 0.85, at: 0.6,
+// Colour: the firefly cloud's channel colour (human, AI_LOG Experience refinement step 17, option M1); was FLASH
+// [0.72, 0.92, 0.25].
+const REPLY = { n: 160, seed: 23, box: [0.9, 0.9, 0.6], colour: CHANNEL_RGB.yellow, rest: 0.12, pulse: 0.85, at: 0.6,
   width: 0.07, cycle: 1200, gain: 2.2, size: 1.3 };
-const REPLY_SCALE = 2, REPLY_SIZE = 3, REPLY_X = [-0.25, 0.25];
+// REPLY_DIM: the reply's brightness × this on both halves, so that it nearly disappears in the Philadelphia cloud (human,
+// AI_LOG Experience refinement step 18: "It needs to blend in more so that it nearly disappears"). Value and the size
+// change (REPLY_SIZE 3 → 2): agent choices, by eye. Display only.
+const REPLY_DIM = 0.35;
+const REPLY_SCALE = 2, REPLY_SIZE = 2, REPLY_X = [-0.25, 0.25];
 const hash = (i, s) => { const v = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return v - Math.floor(v); };   // spectral.js
 // spectral.js point shader (core + glow, gain without hue shift), plus the divider clip used here.
 const replyVertexShader = `
@@ -309,7 +315,7 @@ export function createTwoNights({ parent, onBeat = null }) {
   let split = 0.5, running = false, shown = false, t0 = 0, last = 0, timeIndex = 0, meta = null;
   // trans = { dir (1 open, −1 close), t, at: [() => glow | null] per site (left, right), from: [{x, y}], r, colours,
   // took (forward: the glows were taken over from the globe), onTakeover, onDone } or null.
-  let trans = null;
+  let trans = null, fadeTimer = 0;   // fadeTimer: `fade` on leaving (set())
   let sweep = null;   // { t0, once, from, to, ms, done } while the divider moves on its own, else null
   let beat = 0, beatTimer = 0;   // Two measured nights beat (see BEATS)
   // Species window: `sel` = the chosen band or null (full); `range` = the visible x range now; `win` = { from, to, t0 }
@@ -577,7 +583,7 @@ export function createTwoNights({ parent, onBeat = null }) {
     const goal = mode === 'pair' ? Math.max(0, mix * 2 - 1) : 0;
     replyK += (goal - replyK) * (1 - Math.exp(-delta / 0.15));
     const ph = ((now - t0) / REPLY.cycle) % 1;
-    const o = (REPLY.rest + REPLY.pulse * Math.exp(-(((ph - REPLY.at) / REPLY.width) ** 2))) * replyK;
+    const o = (REPLY.rest + REPLY.pulse * Math.exp(-(((ph - REPLY.at) / REPLY.width) ** 2))) * replyK * REPLY_DIM;
     replies.forEach((p, k) => {
       target.copy(cloudCentre).project(camera);
       target.x = REPLY_X[k];
@@ -747,10 +753,14 @@ export function createTwoNights({ parent, onBeat = null }) {
     // Transition (round 7f): from = [() => glow, () => glow] (impacts.siteGlow, left then right site): open out of
     // those glows; to = the same, on leaving: close into them. onTakeover: the glows pass from the globe to this view
     // (forward) or back (reverse); onDone: finished.
-    async set(on, { from = null, to = null, onTakeover = null, onDone = null } = {}) {
+    async set(on, { from = null, to = null, onTakeover = null, onDone = null, fade = 0, hold = 0 } = {}) {
       const colours = f => f.map(g => g?.()?.colour ?? '#ffffff');
       const closing = trans?.dir < 0;
       if (trans) endTrans();
+      if (fadeTimer && on) {   // back in during a fade: stop it
+        clearTimeout(fadeTimer); fadeTimer = 0; hideNow();
+        [canvas, css.domElement, speciesTag].forEach(e => { e.style.transition = e.style.opacity = ''; });
+      }
       shown = Boolean(on);
       const want = on === 'species' || on === 'pair' ? on : 'spectra';
       const switched = shown && want !== mode;
@@ -765,6 +775,22 @@ export function createTwoNights({ parent, onBeat = null }) {
             colours: colours(to), onTakeover, onDone };
           trans.r = to[0]?.()?.r ?? trans.r;
           chrome(false);
+          return;
+        }
+        // `hold` (ms): stay as is (running, labels off) that long, then hide (main.js pan; AI_LOG Experience refinement step 19).
+        if (hold && running) {
+          chrome(false);
+          clearTimeout(fadeTimer);
+          fadeTimer = setTimeout(() => { fadeTimer = 0; if (!shown) hideNow(); }, hold);
+          return;
+        }
+        // `fade` (ms): fade out over the globe instead of a cut (main.js; AI_LOG Experience refinement step 18).
+        if (fade && running) {
+          const els = [canvas, css.domElement, speciesTag];
+          chrome(false);
+          els.forEach(e => { e.style.transition = `opacity ${fade}ms ease`; e.style.opacity = '0'; });
+          clearTimeout(fadeTimer);
+          fadeTimer = setTimeout(() => { fadeTimer = 0; if (!shown) hideNow(); els.forEach(e => { e.style.transition = e.style.opacity = ''; }); }, fade);
           return;
         }
         hideNow();

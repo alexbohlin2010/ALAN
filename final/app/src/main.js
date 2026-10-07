@@ -155,7 +155,8 @@ function guideTween({ from = null, to = () => guideNow, o0 = guideNow.o, o1, ms,
 }
 function guideStep(prev, cur) {
   if (cur.guide) {
-    const p = prev.spectral?.chapter === 'fireflies' ? spectral.femaleAt() : null;
+    // Fading in (panRun), the guide just fades in at its rest place with the screen it belongs to.
+    const p = prev.spectral?.chapter === 'fireflies' && !panKind ? spectral.femaleAt() : null;
     if (p) guideTween({ from: p, to: guideRest, o0: 1, o1: 1, ms: GUIDE_FLY });
     else guideTween({ from: guideNow.o > 0.01 ? null : guideRest(), to: guideRest, o1: 1, ms: GUIDE_FADE });
   } else if (prev.guide && cur.spectral?.chapter === 'fireflies') {
@@ -171,7 +172,80 @@ const SPIN_SPEED = 0.2;
 // decision, AI_LOG Impacts step 27); the story arrow keeps driving.
 // Door (human: option B + click, Firefly transition task step 2): between a chart step with `impacts.door` and the
 // spectral step with the same `spectral.door`, the 3D view grows out of (or shrinks back into) that record's dot.
+// Fades (human, AI_LOG Experience refinement step 19: the sideways pan (P2) tried and cancelled, "I'd rather to fade
+// out and in ... not necessarily dissolve"): Response fades out, then Impact's question fades in; Impact's question fades
+// out, then Spectra fades in; back the same in reverse. Impact sits on plain black (`black: true`; human: no globe or
+// glow behind it), a backdrop over the globe for that step and for the fades either side of it. The old text fades as a
+// frozen copy (ghost). Display only; FADE_OUT / FADE_IN: agent choices.
+const FADE_OUT = 600, FADE_IN = 900;
+const backdrop = document.body.appendChild(Object.assign(document.createElement('div'), { id: 'pan-backdrop', hidden: true }));
+let panKind = null, panTimer = 0, panAnims = [], ghost = null;
+const panEls = ids => ids.map(id => document.getElementById(id)).filter(Boolean);
+const SPECTRAL_EL = ['spectral-canvas', 'spectral-labels', 'spectral-number', 'spectral-toggle', 'spectral-caption'];
+const nightsEls = () => [...panEls(['nights-canvas', 'nights-labels', 'nights-divider', 'nights-window', 'nights-species']),
+  ...document.querySelectorAll('.nights-site')];
+function panOf(a, b) {
+  if (b.black && a.spectral?.chapter === 'fireflies') return 'F1';   // Response → Impact
+  if (a.black && b.spectral?.chapter === 'fireflies') return 'B1';
+  if (a.black && b.nights === true) return 'F2';   // Impact → Spectra
+  if (b.black && a.nights === true) return 'B2';
+  return null;
+}
+function clearPan() {
+  clearTimeout(panTimer);
+  panAnims.forEach(a => a.cancel()); panAnims = [];
+  ghost?.remove(); ghost = null;
+}
+// The current big text, frozen where it is (computed styles inlined, no Details button).
+function ghostFact() {
+  const f = document.getElementById('fact');
+  if (f.hidden) return null;
+  const g = f.cloneNode(true), src = [f, ...f.querySelectorAll('*')], dst = [g, ...g.querySelectorAll('*')];
+  src.forEach((e, k) => {
+    const cs = getComputedStyle(e);
+    ['font', 'color', 'margin', 'textAlign', 'opacity', 'maxHeight', 'overflow', 'display', 'boxSizing']
+      .forEach(p => { dst[k].style[p] = cs[p]; });
+    dst[k].style.transition = dst[k].style.animation = 'none';
+  });
+  const r = f.getBoundingClientRect();
+  g.removeAttribute('id');
+  g.querySelectorAll('.more, .more-body').forEach(e => e.remove());
+  Object.assign(g.style, { position: 'fixed', left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, right: 'auto',
+    bottom: 'auto', transform: 'none', zIndex: '4', pointerEvents: 'none' });
+  return document.body.appendChild(g);
+}
+// Before story.js replaces the text (onLeave): freeze the old text if this move fades.
+function panLeave(i) {
+  clearPan();
+  panKind = mode === 'light' ? panOf(story[storyIndex], story[i]) : null;
+  if (panKind) ghost = ghostFact();
+  document.getElementById('fact').style.animation = '';   // after the copy (panRun may have turned it off)
+}
+function panRun(i) {
+  const k = panKind, fact = document.getElementById('fact');
+  panKind = null;   // only for this step change
+  const black = mode === 'light' && Boolean(story[i].black);
+  if (!k) { ghost?.remove(); ghost = null; backdrop.hidden = !black; return; }
+  const out = e => e && panAnims.push(e.animate([{ opacity: 1 }, { opacity: 0 }], { duration: FADE_OUT, easing: 'ease', fill: 'forwards' }));
+  const into = e => e && panAnims.push(e.animate([{ opacity: 0 }, { opacity: 1 }], { duration: FADE_IN, delay: FADE_OUT, easing: 'ease', fill: 'backwards' }));
+  backdrop.hidden = false;
+  if (k === 'F1') [...panEls(SPECTRAL_EL), ghost].forEach(out);
+  if (k === 'B2') [...nightsEls(), ghost].forEach(out);
+  if (k === 'F2' || k === 'B1') out(ghost);
+  if (k === 'F1' || k === 'B2') fact.style.animation = 'none';   // instead of the dark screen's 2.5 s text fade-in
+  [fact, ...(k === 'F2' ? nightsEls() : k === 'B1' ? panEls(SPECTRAL_EL) : [])].forEach(into);
+  const at = storyIndex;
+  panTimer = setTimeout(() => {
+    if (k === 'F1' && storyIndex === at) spectral.set(null);   // held while it fades (applyStage)
+    ghost?.remove(); ghost = null;
+    panTimer = setTimeout(() => {
+      panAnims.forEach(a => a.cancel()); panAnims = [];
+      backdrop.hidden = !black;
+    }, FADE_IN);
+  }, FADE_OUT);
+}
 function applyStage(i) {
+  if (!panKind) backdrop.hidden = !(mode === 'light' && story[i].black);   // also on paths that return early
   clearTimeout(chartDelay); clearTimeout(turnDelay); clearTimeout(autoTimer); clearTimeout(dotsFade);
   impactsCanvas().style.opacity = '';
   if (spinning) { globe.controls().autoRotate = false; spinning = false; }   // `globeSpin` ends with its step
@@ -212,7 +286,9 @@ function applyStage(i) {
       onTakeover: () => { impacts.show(); impacts.setStage({ ...st, site: pns, glow: true }, { snap: true }); } });
     return;
   }
-  nights.set(story[i].nights);
+  // Perception → Firefly Populations (`cutFrom`): the view fades out over the globe, already at the eastern US (human,
+  // AI_LOG Experience refinement step 18). Fade 1200 ms: agent choice.
+  nights.set(story[i].nights, { fade: !story[i].nights && story[i].cutFrom === prev.id ? 1200 : 0, hold: panKind === 'B2' ? FADE_OUT : 0 });
   const at = sp?.door && prev.impacts?.door === sp.door ? impacts.doorAt(sp.door) : null;
   if (at) {   // forward: the chart stays (its filter bar hidden) under the opening view, then goes
     impacts.setStage({ ...prev.impacts, filter: false }, { snap: true });
@@ -230,13 +306,15 @@ function applyStage(i) {
   const studySite = k => typeof k === 'string' && k.startsWith('study:');
   if (studySite(sp?.site) && prev.impacts?.site === sp.site) {
     impacts.setStage({ ...prev.impacts, studyLabel: null });   // the label fades as the circle opens over it
-    spectral.set(sp, { from: impacts.siteAt(sp.site), dive: story[i].fly ?? 2200, onDone: () => impacts.hide(),
+    // No dive and no scaling (human, AI_LOG Experience refinement step 17): a dark circle grows out of the dot at once
+    // (`dive` 0 unless the step has a `fly`; `flat`). Was dive: fly ?? 2200, scene scaled 0.3 → 1.
+    spectral.set(sp, { from: impacts.siteAt(sp.site), dive: story[i].fly ?? 0, flat: true, onDone: () => impacts.hide(),
       beat: sp.manual && story.indexOf(prev) === i + 1 ? 'last' : 0 });
     return;
   }
   if (studySite(st?.site) && prev.spectral?.site === st.site) {
     impacts.show(); impacts.setStage(st, { snap: true });
-    spectral.set(null, { to: impacts.siteAt(st.site) });
+    spectral.set(null, { to: impacts.siteAt(st.site), flat: true });
     return;
   }
   if (sp?.site && prev.impacts?.site === sp.site) {
@@ -273,7 +351,8 @@ function applyStage(i) {
     if (storyIndex !== i || mode !== 'light') return;
     const c = globe.controls(); c.autoRotateSpeed = SPIN_SPEED; c.autoRotate = true; spinning = true;
   }, story[i].fly ?? 0);
-  spectral.set(sp, { beat });
+  if (panKind !== 'F1') spectral.set(sp, { beat });   // F1: Response stays on while it fades out (panRun hides it)
+  panRun(i);
 }
 
 // On a manual spectral step, ← → step through its beats first (capture phase, before story.js's own keys);
@@ -360,7 +439,7 @@ const darkScene = createDarkScene({ globe, layer });
 // refresh on arrival.
 let flightEnd = 0;
 function capFlight(i) {
-  const s = story[i], ms = s.fly ?? 0;
+  const s = story[i], ms = s.cutFrom && s.cutFrom === story[storyIndex]?.id ? 0 : s.fly ?? 0;   // storyIndex: still the previous step
   clearTimeout(flightEnd);
   if (!ms || !s.camera) return;
   const cam = globe.camera();
@@ -368,7 +447,7 @@ function capFlight(i) {
   layer.capFlight(cam, window.innerHeight * globe.renderer().getPixelRatio(), s.camera.altitude, ms);
   flightEnd = setTimeout(refresh, ms + 50);
 }
-const storyCtl = startStory({ steps: story, globe, intro, onStep: i => { markStep(i); capFlight(i); applyStage(i); },
+const storyCtl = startStory({ steps: story, globe, intro, onLeave: panLeave, onStep: i => { markStep(i); capFlight(i); applyStage(i); },
   swipe: { get: () => swipeFrac, set: f => { swipeFrac = f; placeSwipe(); } } });
 
 function setMode(m) {
