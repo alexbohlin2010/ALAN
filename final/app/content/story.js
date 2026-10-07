@@ -609,11 +609,22 @@ export const story = [
     // Step 13 (human, option "Conclusion starts at dusk"): the equilibrium line went back to Biosphere Response, so the
     // Conclusion opens on the dusk line (dots fade, earth darkens, hum fades on arrival), then 5b, then responsive
     // lighting; `together`, `autoBeat`, `humFrom` removed, `humOff` back.
-    text: "We may be entering the dusk of the biosphere's stability.",
-    // Third beat: responsive lighting as the human's design position, citing both papers (human, AI_LOG Conclusion steps 6–7).
-    // "may be" → "is" (human, AI_LOG Experience refinement step 24).
-    reveal: ['ALAN is necessary for the modern apparatus of human society. But not all the time, everywhere.',
-      'Responsive lighting can restrict ALAN to an optimal time, place, and set of environmental conditions.'],
+    // Two beats on one screen (human, AI_LOG Experience refinement step 32): the second comes in as a paragraph below the
+    // first, which stays (`together: [1]`, line 0 anchored, main.js); Details & sources on the last beat. Was three beats:
+    // "We may be entering the dusk of the biosphere's stability." → 'ALAN is necessary for the modern apparatus of human
+    // society. But not all the time, everywhere.' → 'Responsive lighting can restrict ALAN to an optimal time, place, and
+    // set of environmental conditions.' Wording: human. "systemic risk" / "critical": human framing; not stated by
+    // Czarnecka et al. 2025 (assessed in step 24); the sources below back the responsive-lighting sentence.
+    // ' and uncertainty' removed (human, AI_LOG Experience refinement step 36).
+    text: 'ALAN is exposing Earth’s critical ecosystems to systemic risk.',
+    // Second sentence was 'Responsive lighting can constrain ALAN to an optimal set of environmental conditions.' (human,
+    // AI_LOG Experience refinement step 34).
+    // First sentence was 'Are lights needed all the time, everywhere?' (human, AI_LOG Experience refinement step 35).
+    reveal: ['Lights are not needed all the time, everywhere. Rather, lighting can be optimized to respond to its environment.'],
+    together: [1],
+    // `block` (human, AI_LOG Experience refinement step 33): left-aligned text, the whole block centred on screen; the
+    // second paragraph's and the Details button's space is kept from beat 0, so nothing moves when they come in.
+    block: true,
     beats: true,
     // Note: AGENT DRAFT (claude-opus-5-5, AI_LOG Conclusion step 7), stating only what the two sources say; Bolliger et al.
     // 2020 from its title only (paper not read; reference from Czarnecka et al. 2025).

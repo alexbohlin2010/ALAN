@@ -411,7 +411,8 @@ let unanchor = 0;
 function anchorFact(k) {
   const s = story[storyIndex], fact = document.getElementById('fact'), tog = s.together ?? [];
   clearTimeout(unanchor);
-  if (mode === 'light' && tog.includes(k)) {
+  // Not on a `block` step: its lines keep their space, so the centred block does not move (AI_LOG Experience refinement step 33).
+  if (mode === 'light' && tog.includes(k) && !s.block) {
     // Height with line 0 alone: its text + 14 px bottom margin per line (#fact .big margin; collapsed lines keep theirs).
     const ls = fact.querySelectorAll('.line'), h0 = ls[0].scrollHeight + 14 * ls.length;
     fact.style.top = `${(window.innerHeight - h0) / 2}px`;

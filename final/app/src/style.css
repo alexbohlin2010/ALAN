@@ -94,6 +94,11 @@ body.arriving #card, body.arriving #fact, body.arriving #modes { opacity: 0; poi
   transition: opacity 900ms ease 500ms, max-height 0ms linear 500ms, margin 0ms linear 500ms; }
 /* A line after the Details button (story.js `below`; AI_LOG Experience refinement step 25): 18 px gap (agent choice). */
 #fact .line.below.on { margin-top: 18px; }
+/* `block` (Conclusion; human, AI_LOG Experience refinement step 33): left-aligned; lines not yet shown and the Details
+   button keep their space (invisible), so the block is centred as it will end and nothing moves. */
+body.story-dark #fact.block, body.story-centre #fact.block, #fact.block { text-align: left; }
+#fact.block .line { max-height: 20em; margin: 0 0 14px; }
+#fact.block.details-off .more { display: inline-block; visibility: hidden; }
 #fact .big { font: 300 clamp(22px, 2.6vw, 40px)/1.25 system-ui, sans-serif; color: #fff; margin: 0 0 14px; }
 /* `subtext` (story.js): smaller, darker line under the big text (human, AI_LOG Experience refinement step 30). Size and
    colour: agent choice. */

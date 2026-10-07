@@ -186,6 +186,7 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
         (step.impacts?.releaseLine ? below(step.impacts.releaseLine).replace('below', 'below release') : '');
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
+      fact.classList.toggle('block', Boolean(step.block));   // `block` (Conclusion; AI_LOG Experience refinement step 33)
       // `factTop` (0..1): the text's vertical centre, landscape (style.css; AI_LOG Experience refinement step 6).
       fact.style.setProperty('--fact-top', step.factTop != null ? `${step.factTop * 100}%` : '');
       fact.hidden = false;

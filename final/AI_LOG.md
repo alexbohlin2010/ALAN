@@ -8360,3 +8360,83 @@ Append only. One entry per AI step (see RULES.md §4).
 - Correction to step 31: the push failed ("could not read Username for 'https://github.com': Device not configured");
   no credentials in this shell. main is 5 commits ahead of origin/main (fd02688e8, 509307e09, 66e5bf26e, b7fa29a35,
   6475a5c8b). This log line is uncommitted.
+
+## Experience refinement, step 32 (2026-10-07): dev server started; Conclusion two beats on one screen (human wording); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompts (verbatim):
+  > Excellent. Please start dev server
+  - then:
+  > I think the conclusion should be two beats not three. Or even one. Let's try two beats on one screen. 
+  >
+  > The text should be "ALAN is exposing Earth's critical ecosystems to systemic risk and uncertainty." and then second beat as a second paragraph would be 
+  >
+  > "Are lights needed all the time, everywhere? Responsive lighting can constrain ALAN to an optimal set of environmental conditions." with the source button below.
+- Dev server: preview_start "alan-final-app" (port 5173 was free; the other session's server had stopped). Vite warning:
+  vite.config.js:12 uses `__dirname` (unsupported by a future native config loader); not changed.
+- Edit (file re-read right before editing): app/content/story.js conclusion: text "ALAN is exposing Earth’s critical
+  ecosystems to systemic risk and uncertainty."; reveal: one line "Are lights needed all the time, everywhere? Responsive
+  lighting can constrain ALAN to an optimal set of environmental conditions." (human wording); `together: [1]` (existing
+  mechanism: beat 1 keeps line 0, line 0 anchored; Details & sources on the last beat only). Old three beats in a comment.
+  Note and sources unchanged (Czarnecka et al. 2025, Bolliger et al. 2020: they back the responsive-lighting sentence).
+  Noted in the comment: "systemic risk" and "critical" are the human's framing, not stated by Czarnecka et al. 2025
+  (step 24 assessment); the first line has no source of its own.
+- Checked (localhost:5173, 1280×800, JS-driven): Conclusion beat 0: line 0 324–448, Details hidden; beat 1: line 0 unmoved,
+  line 1 462–629, Details 643–665, nav 748 clear; back: beat 0; back: Biosphere Response (13/15); forward: Conclusion beat 0.
+  Console: no errors. The intro "Begin" overlay (introScene, another agent's) sits over the centre in the pane, as on
+  other steps.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 33 (2026-10-07): Conclusion as a left-aligned block centred on screen, space kept so nothing moves; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Okay the layout isn't so good. I wonder if we shouldn't left align text, and then all text should be vertically and horizontally centered on screen... right now the second paragraph is sinking below it
+- Edits (files re-read right before editing): new step key `block` (agent's mechanism for the human's layout):
+  app/content/story.js conclusion `block: true`; app/src/story.js toggles `#fact.block`; app/src/main.js anchorFact skips
+  `block` steps; app/src/style.css `#fact.block`: text-align left (selector raised over story-centre / story-dark),
+  hidden lines keep their space (max-height 20em, margin 0 0 14px, opacity 0), Details hidden by visibility, not
+  display, before the last beat. Agent choice: reserve the second paragraph's space from beat 0, so the block is centred
+  as it ends and nothing moves (line 0 sits above centre on beat 0).
+- Checked (localhost:5173, 1280×800, JS-driven): Conclusion: #fact 400–880 × 229–571 (centre 640, 400), left-aligned;
+  beat 0: line 0 229–354, line 1 368–535 invisible, Details 549–571 hidden; beat 1: same positions, both visible;
+  back: beat 0 (line 0 at 229); back: Biosphere Response (13/15, no `block`). Console: no errors.
+- Files changed: app/content/story.js, app/src/story.js, app/src/main.js, app/src/style.css, AI_LOG.md. Not committed.
+
+## Experience refinement, step 34 (2026-10-07): Conclusion last sentence (human wording); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Change last sentence ... "Rather, lighting can be optimized to respond to its environment."
+- Edit (file re-read right before editing): app/content/story.js conclusion reveal[0]: "Are lights needed all the time,
+  everywhere? Rather, lighting can be optimized to respond to its environment." (was "… Responsive lighting can
+  constrain ALAN to an optimal set of environmental conditions."; old text in a comment). Details and sources unchanged.
+- Checked (localhost:5173, 1280×800): Conclusion beat 1: #fact 400–880 × 229–571 (unchanged), line 0 229–354, line 1
+  368–535, Details visible; console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 35 (2026-10-07): Conclusion question → statement (human wording); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Change the question into a statement "Lights are not needed all the time, everywhere."
+- Edit (file re-read right before editing): app/content/story.js conclusion reveal[0]: "Lights are not needed all the
+  time, everywhere. Rather, lighting can be optimized to respond to its environment." (was "Are lights needed all the
+  time, everywhere? …"). Details note: Czarnecka et al. 2025 "ALAN use should be restricted to the minimum necessary".
+- Checked (localhost:5173, 1280×800): Conclusion beat 1: #fact 400–880 × 229–571 (unchanged), line 1 368–535; console:
+  no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 36 (2026-10-07): Conclusion first line without "and uncertainty" (human); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Remove "and uncertainty" from first sentence
+- Edit (file re-read right before editing): app/content/story.js conclusion text: "ALAN is exposing Earth’s critical
+  ecosystems to systemic risk." (was "… to systemic risk and uncertainty.").
+- Checked (localhost:5173, 1280×800): Conclusion beat 1: #fact 400–880 × 250–550 (centre 640, 400), line 0 250–333 (two
+  lines of text), line 1 347–514; console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 37 (2026-10-07): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > yes, commit and thank you
+- Commit on main: AI_LOG.md (steps 31 correction–37), app/content/story.js, app/src/story.js, app/src/main.js,
+  app/src/style.css. Not pushed (no GitHub credentials in this shell, step 31); the human pushes.
+- Files changed: AI_LOG.md; git history.
