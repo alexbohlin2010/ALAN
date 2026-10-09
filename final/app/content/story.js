@@ -519,7 +519,9 @@ export const story = [
     // firefly to all of life studied: the impacts of artificial light are widespread.'
     // Was 'Across 207 published studies, the impacts of artificial light on biota are widespread.'
     // 'Beyond fireflies, ' added (human, Experience refinement step 7).
-    text: 'Beyond fireflies, 207 published studies reveal widespread impacts of artificial light on biota.',   // human (Experience refinement step 4)
+    // Wording: human (AI_LOG Experience refinement step 63). Was 'Beyond fireflies, 207 published studies reveal widespread
+    // impacts of artificial light on biota.'
+    text: 'These 207 Studies reveal widespread impacts of ALAN on biota.',
     // First three sentences: the removed Studies step's note, verbatim, placed first (human, AI_LOG Impacts firefly-first
     // step 2, A2; order: agent choice).
     note: 'Each dot is one study that compared living things under artificial light at night with the same ' +
@@ -716,7 +718,8 @@ export const story = [
       // behind "the uncertainty in model estimates" (Discussion). `releaseAlone` (human, step 53): its own last beat, the
       // last quote gone (was: below the last quote, 1.5 s into the release beat).
       releaseAlone: true,
-      releaseLine: 'Together, these impacts interact in uncertain ways, with uncertain consequences.' },
+      // 'uncertain consequences' → 'unpredictable consequences' (human, AI_LOG Experience refinement step 60).
+      releaseLine: 'Together, these impacts interact in uncertain ways, with unpredictable consequences.' },
   },
   // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
   // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).

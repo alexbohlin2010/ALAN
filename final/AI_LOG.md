@@ -8951,3 +8951,89 @@ Append only. One entry per AI step (see RULES.md §4).
   (steps 46–50: camera, textAfterFly, factTop, text carried into the flight to Fireflies).
 - Handoff 2026-10-09_closing-beat-built.md updated (state, step 59). Commit on main (human request): steps 52–59.
 - Files changed: app/src/style.css, handoffs/2026-10-09_closing-beat-built.md, AI_LOG.md; git history.
+
+## Experience refinement, step 60 (2026-10-09): release line "unpredictable consequences" (human); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > on the final beat of biosphere response ... please change "uncertain consequences" to "unpredictable consequences" thank you
+- Edit (app/content/story.js, re-read before editing): releaseLine 'Together, these impacts interact in uncertain ways,
+  with unpredictable consequences.' (human; old wording in the comment).
+- Checked (localhost:5173, own tab, 1280×800): back from Conclusion, the release line shows the new wording on three lines
+  in the text column; console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 61 (2026-10-09): globe flicker ALAN → Fireflies measured in the preview; cause and options (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-09_closing-beat-built.md (latest) and AI_LOG.md "Experience refinement" steps 1–8 (the earlier globe-flicker work: measurements, the coarser-level trial I rejected, and the step-8 fix) and steps 46–50 (later changes to the ALAN step). Do not edit app/src/introScene.js (audio is another agent's) without asking.
+  >
+  > Task: globe flicker on the flight from ALAN (West Africa) to Fireflies (Boston). Africa looks flickery again, although step 8 (4-sample shading while the camera moves, uAA; capFlight: no tile refinement mid-flight) is still in app/src/tileLayer.js and main.js, unchanged since commit 91b11b83d.
+  >
+  > 1. Measure before guessing, in the preview: reproduce the flicker on ALAN → Fireflies (and on the ALAN arrival and its sweep). Find out whether uAA is actually on during this flight, whether capFlight holds the level for this flight (camera and fly values changed in steps 46–50), whether tiles still load or change level mid-flight, and whether anything else moves or redraws (text carried into the flight, the divider, the colour layer). Say what you saw and measured.
+  > 2. Report the cause and 2–3 fix options with trade-offs for visual quality (I prefer the original sharpness; the coarser level was rejected in step 7), load and complexity. Ask before any new dependency, build step or architecture change (RULES §1.3). Stop for my decision before changing anything.
+  >
+  > For any app change: check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800; use your own tab): walk Benefits → ALAN → Fireflies forward and back, no console errors, send screenshots or measured numbers. Drive buttons by JS (#nav .next / .back, menu buttons by text), keep each JS call under 45 s; a hidden pane pauses animation frames, so take a screenshot to force frames. The intro "Begin" overlay sits over the centre until clicked; leave it.
+  > Re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes. Don't commit, push, delete, download or install without my go-ahead.
+- Read RULES.md, the handoff, AI_LOG steps 1–8 and 46–50, tileLayer.js, main.js (refresh, capFlight), story.js steps
+  benefits / question / female-site. tileLayer.js unchanged since 91b11b83d (main.js changed since, not in the step-8 code).
+- Measured (localhost:5173, another session's server, own tab, 1280×800, DPR 2; page-only recorder and test shaders, no
+  file change, page reloaded after; another session's step-60 edit reloaded the tab once mid-way):
+  - ALAN → Fireflies (3.5 s): uAA 1 for the whole flight (0 → 1 in ~120 ms, back to 0 ~0.5 s after arrival). capFlight
+    runs but holds nothing: start and end are both level 8 (alt 0.45 and 0.35), so the flight is drawn at level 8, the
+    finest the view allows (texels ~0.55 device px). Tiles stream all flight: ~500 level-8 tiles loaded in 3.5 s (cold),
+    each new area drawn first from the level-5 fallback; 0 loads when cached. Level-7 tiles left from Benefits → ALAN are
+    dropped in the first 0.75 s. No long tasks; one ~750 ms frame gap seen on the first run only, not reproduced.
+  - Divider: uSwipeX jumps 1083 → 0 device px on the first frame of the flight (#swipe hidden): the left 42 % switches
+    2015 → 2025 at once; 10.1 % of lit pixels change in that frame. Carried ALAN text: still (top 427), fades 2.0–2.5 s;
+    Fireflies text in from 2.5 s. globe.gl objects: 1 visible throughout. uAA dips to −0.04 on its first tick (rAF
+    timestamp earlier than performance.now(); no visible effect).
+  - Benefits → ALAN (3 s): cap 7 (from 7, to 8) held; ~270 level-7 tiles stream in mid-flight over level-4/5 fallback
+    (cold); on arrival 7 → 8 once (244 tiles in ~230 ms) while uAA eases 1 → 0 over 600 ms. Sweep after: camera still,
+    uAA 0, divider 1843 → 1083 in 1 s.
+  - ALAN view, 0.3 device-px shift (step-1 method, changed lit pixels > 48/255): 1 sample 35 %; 4 samples (now) 12.7 %;
+    level 7 + 4 samples 10.1 %; 9 samples over 1 px 11.7 %, 16 over 1 px 11.6 %; 9 over 1.5 px 4.5 %; 16 over 2 px 0.7 %;
+    36 over 3 px 0 %. Render time (this pane's GPU, 2560×1600): 3.5 ms (1 sample), 3.8 (4), 4.5 (9/1.5 px), 6.1 (16/2 px).
+    uAA on ↔ off changes 18.5 % of lit pixels (26.3 % with 16/2 px); refine 7 → 8 with uAA 1: 4.8 %.
+- Reported in chat: cause and options; comparison crop sent (rest / now / 9 at 1.5 px / 16 at 2 px). Nothing changed.
+- Files changed: AI_LOG.md only.
+
+## Experience refinement, step 62 (2026-10-09): dot colours default to Species group (was Effect category); globe effects left as they are (human); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompts (verbatim):
+  > Please launch dev server
+  - then:
+  > please launch dev server
+  - then:
+  > One final change - I'll ignore those globe effects it's okay for now.
+  >
+  > Instead of the default being the "Effects" colors on the dots from studies onwards, let's make species the default selected filter. Viewers understand more when they see the species colors.
+- Dev server "alan-final-app" started (port 5173; the earlier one had been stopped by the app).
+- Globe flicker (step 61): no option applied (human: "ignore those globe effects ... for now"); stays open.
+- Edit (app/src/impacts.js, re-read right before editing): `colourBy` default 'category' → 'species'; the two comments
+  (header of SPECIES_COLORS, the colourBy line) updated with the human's reason and the old default. The toggle still
+  switches to Effect category and the choice is kept across steps, as before.
+- Checked (localhost:5173, own tab, 1280×800, JS-driven): Studies opens with "Species group" pressed and the species key;
+  Light level, Light type: species colours, toggle kept; Biosphere Response circle in species colours (its moth / bird
+  callouts now match the ring colours); back Light type → Light level. Console: no errors.
+- Seen, not changed: on Studies the species key wraps to three rows above the chart at 1280×800 (Effect category's key
+  was shorter); it sits clear of the chart's top label.
+- Files changed: app/src/impacts.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 63 (2026-10-09): Studies text (human wording); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Change the text on Studies to, "These 207 Studies reveal widespread impacts of ALAN on biota."
+- Edit (app/content/story.js `effects`, re-read right before editing): text "These 207 Studies reveal widespread impacts of
+  ALAN on biota." (human, verbatim, capital "S" as given); old wording in the comment.
+- Checked (localhost:5173, own tab, 1280×800): Studies shows the new line on three lines at the right (Details below it),
+  clear of the chart and its key; next (the step's second beat, same text) and back keep it. Console: no errors.
+- Files changed: app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 64 (2026-10-09): handoff written; commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > commit these changes and write the handoff
+- Created handoffs/2026-10-09_species-default-studies-text.md (state, human decisions, step-61 measurements, open items).
+- Commit on main (human request): steps 60–63 (step 60 by another session, uncommitted until now) and this entry.
+  Not pushed.
+- Files changed: handoffs/2026-10-09_species-default-studies-text.md (new), AI_LOG.md; git history.

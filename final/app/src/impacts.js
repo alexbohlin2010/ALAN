@@ -20,9 +20,9 @@ const CATEGORY_COLORS = new Map([['Behaviour', '#18b86b'], ['Physiology', '#2f5b
 // category palette (human 2026-10-04: "also change species colors"; hues = agent draft, AI_LOG colour / design
 // task step 3; smallest normal-vision difference between any two = 12.8, OKLab ×100; several pairs merge for
 // colour-blind readers). Was: AI_LOG Impacts steps 54–55 (#a76c12 #3375e3 #51bfee #a276c2 #f0a7e9 #c8b222
-// #f3669a #36a558 #5ce483). Toggle "Colour: Species group | Effect category"; default = effect
-// category since step 63 (human: species colours are there for whoever wants to look into them). Order = the
-// human's lane order.
+// #f3669a #36a558 #5ce483). Toggle "Colour: Species group | Effect category"; default = species group (human,
+// AI_LOG Experience refinement step 62); was effect category since step 63 (human: species colours are there for
+// whoever wants to look into them). Order = the human's lane order.
 const SPECIES_COLORS = new Map([['Mammals', '#d0344f'], ['Birds', '#2f5bff'], ['Fish', '#14b0d0'],
   ['Amphibians', '#8a3dff'], ['Reptiles', '#c45ae6'], ['Insects', '#c4c41e'],
   ['Arthropods and other invertebrates', '#ff6aa0'], ['Plants', '#18a85e'], ['Algae, fungi & microbes', '#62e6a8']]);
@@ -153,8 +153,9 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   const studyEffect = new Map();
   // Per study: its species groups, most records first (ties: first in the source table); [0] colours its globe dot.
   const studyGroups = new Map();
-  // Dot colours: 'category' (default, step 63) | 'species'; set by the toggle, kept across steps.
-  let colourBy = 'category';
+  // Dot colours: 'species' (default: human, AI_LOG Experience refinement step 62, "Viewers understand more when they see
+  // the species colors"; was 'category' since step 63) | 'category'; set by the toggle, kept across steps.
+  let colourBy = 'species';
   const recColor = e => (colourBy === 'species' ? SPECIES_COLORS.get(e.species_group) : CATEGORY_COLORS.get(e.category)) ?? OTHER;
   // Animated values: { from, to, t0, ms } read with val(); time-based so frame rate does not matter.
   const anim = (v = 0) => ({ from: v, to: v, t0: 0, ms: 1 });
