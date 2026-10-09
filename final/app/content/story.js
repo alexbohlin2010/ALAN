@@ -62,6 +62,85 @@ export const story = [
     // Was: camera { lat: 25, lng: 72, altitude: 1.6 }, fly 2500, sweep east 122 -> west 68.1.
     camera: { lat: 20, lng: 10, altitude: 2.2 },
   },
+  // Benefits (human, AI_LOG Experience refinement step 46): a new Light step after Dawn, the camera over India; the human's
+  // idea: light is associated with good things (LED energy efficiency, safety, growth, electricity for people who lacked
+  // it), not that it brings them. Text: [DRAFT] placeholder from the human's own words, to be worded by the human.
+  // Camera and sweep: the retired India card's values (AI_LOG Light story refinement), with `start` as ALAN's single
+  // smooth sweep (start value: agent choice, tuned in the preview). Note and sources: agent draft, stating only what
+  // each source says.
+  {
+    id: 'benefits',
+    part: 1,
+    rung: 'space',
+    kind: 'fact',
+    label: 'Benefits',
+    // The 41 % line moves here from ALAN, the benefits part follows below it after the sweep (human, AI_LOG Experience
+    // refinement step 47: "from 2015 to 2025 ... bringing opportunity etc" / "representing a newly flourishing world").
+    // reveal: [DRAFT] placeholder from the human's two phrases, to be worded by the human. Was text '[DRAFT] Light at
+    // night is associated with energy-efficient LEDs, safety, growth, and electricity for people who lacked it.' (step 46).
+    // Comma, then the reveal continues the same sentence (human, AI_LOG Experience refinement step 50: `revealInline`; was
+    // '… by 41%.' with the reveal as its own line below and `revealBelow` / `detailsLast`, step 49).
+    text: 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%,',
+    // Wording: human (AI_LOG Experience refinement step 49). Was '[DRAFT] … bringing opportunity, representing a newly
+    // flourishing world.' (step 47 placeholder). `detailsLast`: Details under this line, not between the two (step 49).
+    reveal: ['bringing new opportunities for people across the world.'],
+    revealInline: true,
+    // AGENT DRAFT (claude-opus-5-5, 2026-10-09), stating only what each source says, its limits included. LEDs: no source
+    // yet (India SLNP / UJALA pages could not be read; gap reported to the human). Map: 2015 → 2025 over India, as ALAN.
+    // 41 % note from ALAN (step 47). Values from pipeline/story/01_radiance_change.py ->
+    // data/derived/story/radiance_change_2015_2025.json (inferred; PROVISIONAL, not yet audited, RULES section 3).
+    note: 'ALAN: artificial light at night. 41% is the change in total radiance measured by the VIIRS ' +
+      'satellite sensor (summed over area). ' +
+      'Our calculation from EOG VIIRS annual data (provisional, audit pending). Consistent with ' +
+      'published estimates of global growth: about 3.2% a year in 2012–2024 (Güneş et al. 2026); ' +
+      'lit area +2.2% a year in 2012–2016 (Kyba et al. 2017). ' +
+      'VIIRS cannot see blue light below about 500 nm, where white LEDs emit strongly, ' +
+      'so LED lighting is under-counted (Kyba et al. 2023). ' +
+      'Electricity: under India’s DDUGJY scheme, launched in December 2014, 18,374 villages were electrified, and all ' +
+      'inhabited unelectrified census villages were reported electrified by 28 April 2018. Worldwide, 89 million people gained electricity in 2024 and 655 million were ' +
+      'still without it (Tracking SDG7 2026). Safety: a Cochrane review found that street lighting may prevent road ' +
+      'crashes and injuries, with generally poor study quality (Beyer & Ker 2009); a review of 17 studies found 14% less ' +
+      'crime in lit areas, mostly property crime, not violent crime (Welsh et al. 2021). Growth: night lights are used to ' +
+      'measure economic growth where official figures are weak (Henderson et al. 2012); this shows lights track growth, ' +
+      'not that they cause it.',
+    sources: [
+      { label: 'EOG VIIRS Nighttime Lights, annual V2 (Elvidge et al. 2021)',
+        url: 'https://doi.org/10.3390/rs13050922',
+        supports: 'input data for our calculation (2015 v2.1, 2025 v2.2, average_masked)' },
+      { label: 'Güneş et al. 2026, Ann. N.Y. Acad. Sci.', url: 'https://doi.org/10.1111/nyas.70297',
+        supports: 'abstract: harmonized VIIRS 2012–2024, 165 countries; global ALAN +3.2%/yr ' +
+          '(full text not yet read by the agent)' },
+      { label: 'Kyba et al. 2017, Science Advances', url: 'https://doi.org/10.1126/sciadv.1701528',
+        supports: 'abstract: lit area expanding 2.2%/yr, existing lit areas brightening 2.2%/yr, 2012–2016 ' +
+          '(full text not yet read by the agent)' },
+      { label: 'Kyba et al. 2023, Science 379:265', url: 'https://doi.org/10.1126/science.abq7781',
+        supports: 'note: satellites recording global radiance are insensitive to wavelengths < 500 nm ' +
+          'emitted by white LEDs (as reported in summaries of the paper; paper text not yet read by the agent)' },
+      { label: 'Ministry of Power, DDUGJY factsheet (PIB, 27 May 2022)',
+        url: 'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2022/may/doc202253060201.pdf',
+        supports: 'launched Dec 2014; all inhabited un-electrified census villages electrified on 28 Apr 2018 (as reported by ' +
+          'states); 18,374 villages electrified 2014-15 to 28.04.2018 (read 2026-10-03, from the retired India card)' },
+      { label: 'IEA, IRENA, UNSD, World Bank, WHO: Tracking SDG7, 2026 edition', url: 'https://www.seforall.org/publications/tracking-sdg7',
+        supports: 'page (read by a sub-agent 2026-10-09): "While 89 million people gained access to electricity in 2024," ' +
+          '"leaving 655 million still without access"; gaps "increasingly concentrated in Africa" (report PDF not read)' },
+      { label: 'Beyer & Ker 2009, Cochrane Database Syst. Rev. CD004728', url: 'https://doi.org/10.1002/14651858.CD004728.pub2',
+        supports: 'abstract: "street lighting may prevent road traffic crashes, injuries and fatalities"; total injury crashes ' +
+          'vs area control RR 0.78 (95% CI 0.63 to 0.97), two trials; "The methodological quality of the trials was ' +
+          'generally poor."' },
+      { label: 'Welsh, Farrington & Douglas 2021, Brå (Swedish National Council for Crime Prevention)',
+        url: 'https://bra.se/english/publications/archive/2021-12-21-effectiveness-of-street-lighting-in-preventing-crime-in-public-places',
+        supports: 'summary: 17 studies pooled, "a significant 14% decrease in crime"; night-only studies a non-significant 3%; ' +
+          'property crime −12%, "but not in violent crimes". Contested method (Marchant 2004); switch-off and dimming in ' +
+          'England showed no detectable rise in crime or collisions (Steinbach et al. 2015)' },
+      { label: 'Henderson, Storeygard & Weil 2012, American Economic Review 102(2):994–1028', url: 'https://doi.org/10.1257/aer.102.2.994',
+        supports: 'abstract: "use satellite data on night lights to augment official income growth measures"; for countries ' +
+          'with poor accounts, growth estimate = roughly equal weights on official and lights-predicted growth. A proxy, ' +
+          'not a cause' },
+    ],
+    camera: { lat: 22, lng: 72, altitude: 0.55 },   // lng 80 → 72: India clear of the text (preview check)
+    fly: 3000,
+    sweep: { east: 97.4, west: 68.1, hold: 800, duration: 1000, start: 0.88 },
+  },
   // ── Part 2: light impacts ─────────────────────────────────────────────────
   // Sequence: human (AI_LOG Impacts steps 26–27). The question is the human's wording.
   // DRAFT NOTICE: all other Part 2 text (cards, chart labels in app/src/impacts.js) was drafted by an
@@ -83,39 +162,46 @@ export const story = [
     // asked) first; the question replaces it when the sweep ends (`reveal`, story.js sweep; as Two measured nights'
     // lines). Was 'As human nighttime activity expands in intensity and coverage, how is the biosphere responding?'
     // (step 2), before that 'As human activity extends deeper into the night, how is the biosphere responding?'
-    text: 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%.',
-    reveal: ['How is the biosphere responding?'],
-    // The question fades in below the 41 % line, which stays; both stay through the flight to Fireflies (human, AI_LOG
-    // Experience refinement step 19, option A4; was: the question replaced the line). Fireflies' `carryFrom`.
-    revealBelow: true,
-    // Note and sources from Statistic (moved with the 41 % line, step 5). Values from
-    // pipeline/story/01_radiance_change.py -> data/derived/story/radiance_change_2015_2025.json (inferred; PROVISIONAL,
-    // not yet audited, RULES section 3).
-    note: 'ALAN: artificial light at night. 41% is the change in total radiance measured by the VIIRS ' +
-      'satellite sensor (summed over area). ' +
-      'Our calculation from EOG VIIRS annual data (provisional, audit pending). Consistent with ' +
-      'published estimates of global growth: about 3.2% a year in 2012–2024 (Güneş et al. 2026); ' +
-      'lit area +2.2% a year in 2012–2016 (Kyba et al. 2017). ' +
-      'VIIRS cannot see blue light below about 500 nm, where white LEDs emit strongly, ' +
-      'so LED lighting is under-counted (Kyba et al. 2023).',
+    // One line (human, AI_LOG Experience refinement step 47): the 41 % line moved to Benefits; this replaces step 46's
+    // reveal line 'This will impact the biosphere, generating consequences we cannot predict.' (no `reveal`, `revealBelow`).
+    // Was text 'From 2015 to 2025, Artificial Light at Night (ALAN) increased by 41%.'
+    // Wording: human (AI_LOG Experience refinement step 48, "easier to read"). Was 'However, ALAN’s expanding territory will
+    // impact the biosphere, generating consequences we cannot predict.' (step 47).
+    // 'is generating' → 'brings' (human, AI_LOG Experience refinement step 50).
+    text: 'However, ALAN’s growing territory brings unpredictable impacts for the biosphere.',
+    // Back on the left (human, step 48); step 47 had it right of the divider over the Gulf (side 'right', factTop 0.74).
+    // `textAfterFly`: the text comes in once the globe has panned to West Africa (human, step 48; src/story.js).
+    textAfterFly: true,
+    // Low enough to clear the Impacts menu, which expands during the flight to Fireflies and pushed the carried text
+    // down 113 px at 1280 × 800 (human, step 49: "pushed down by the sidebar"). Value: agent choice, preview check.
+    factTop: 0.66,
+    // Step 46: reveal 'This will impact the biosphere, …' below the 41 % line (was the question 'How is the biosphere
+    // responding?', `revealBelow`, steps 19 / 25). Now the whole text carries into the flight (Fireflies' `carryFrom`).
+    // 41 % note and sources moved to Benefits with the 41 % line (human, AI_LOG Experience refinement step 47: one point
+    // per view). Note below: backing for the thesis line, AGENT DRAFT (step 46), only what the sources say; none of them
+    // says "cannot predict" or "systemic risk".
+    note: 'In a meta-analysis of 314 studies, responses to light varied widely between taxa, light types and levels, and ' +
+      'with species interactions, with high heterogeneity and uncertainty in model estimates (Czarnecka et al. 2025). ' +
+      'In a field experiment, light changed aphid and parasitoid populations through the food web; the authors ' +
+      'conclude that the impacts of ALAN can cascade through food webs (Sanders et al. 2015). A 2021 review describes ' +
+      'ALAN as a serious threat to biodiversity, from genes to ecosystems (Hölker et al. 2021).',
     sources: [
-      { label: 'EOG VIIRS Nighttime Lights, annual V2 (Elvidge et al. 2021)',
-        url: 'https://doi.org/10.3390/rs13050922',
-        supports: 'input data for our calculation (2015 v2.1, 2025 v2.2, average_masked)' },
-      { label: 'Güneş et al. 2026, Ann. N.Y. Acad. Sci.', url: 'https://doi.org/10.1111/nyas.70297',
-        supports: 'abstract: harmonized VIIRS 2012–2024, 165 countries; global ALAN +3.2%/yr ' +
-          '(full text not yet read by the agent)' },
-      { label: 'Kyba et al. 2017, Science Advances', url: 'https://doi.org/10.1126/sciadv.1701528',
-        supports: 'abstract: lit area expanding 2.2%/yr, existing lit areas brightening 2.2%/yr, 2012–2016 ' +
-          '(full text not yet read by the agent)' },
-      { label: 'Kyba et al. 2023, Science 379:265', url: 'https://doi.org/10.1126/science.abq7781',
-        supports: 'note: satellites recording global radiance are insensitive to wavelengths < 500 nm ' +
-          'emitted by white LEDs (as reported in summaries of the paper; paper text not yet read by the agent)' },
+      { label: 'Czarnecka et al. 2025, Global Change Biology, Discussion', url: 'https://doi.org/10.1111/gcb.70569',
+        supports: 'p. 8: responses "confounded by the considerable variability in taxa responses to different light ' +
+          'types and levels, as well as species interactions, as evidenced by the high heterogeneity in our data and the ' +
+          'uncertainty in model estimates" (read from data/raw/impacts/czarnecka2025)' },
+      { label: 'Sanders et al. 2015, Scientific Reports 5:15232', url: 'https://doi.org/10.1038/srep15232',
+        supports: 'abstract (Europe PMC, read by a sub-agent 2026-10-09): light reduced two aphid species by 20% over five ' +
+          'generations; "the impacts of ALAN can cascade through food webs with potentially far reaching effects on the ' +
+          'wider ecosystem" (outdoor mesocosm; full text not read)' },
+      { label: 'Hölker et al. 2021, Frontiers in Ecology and Evolution 9:767177', url: 'https://doi.org/10.3389/fevo.2021.767177',
+        supports: 'abstract (read by a sub-agent 2026-10-09): "ALAN poses a serious threat to all levels of ' +
+          'biodiversity—from genes to ecosystems" (review)' },
     ],
     // Closer, over the Gulf of Guinea coast (Côte d'Ivoire, Ghana, Togo, Benin), less Sahara in view (human, AI_LOG Impacts
     // firefly-first step 3, option W1). Point, altitude and sweep ends: agent choices, display only (tuned in the preview).
     // Was camera lat 10, lng -13, alt 0.9; sweep east 15, west -17.5 (whole West Africa).
-    camera: { lat: 8, lng: -5.5, altitude: 0.45 },   // lng -4 -> -5.5: the divider's 2015 label clear of the text (preview check)
+    camera: { lat: 8, lng: -5.5, altitude: 0.45 },   // lng -4 -> -5.5: the divider's 2015 label clear of the text (preview check); step 47's lat 6.5 back to 8 (text on the left again, step 48)
     fly: 3000,
     // Divider sweeps over West Africa while the question shows (human, AI_LOG Copy editing and drafting step 3).
     // east/west: approximate West Africa extent (Cameroon border ~15 E, Dakar ~17.5 W), agent choice, display only.
@@ -146,7 +232,9 @@ export const story = [
     rung: 'animal',
     kind: 'fact',
     label: 'Fireflies',
-    text: 'Fireflies generate natural light to communicate in an increasingly lit environment.',   // wording: human
+    // Wording: human (AI_LOG Experience refinement step 49: makes the reason for the firefly example clear). Was 'Fireflies
+    // generate natural light to communicate in an increasingly lit environment.'
+    text: 'For fireflies, light is also their language.',
     carryFrom: 'question',   // ALAN's text stays through the 3.5 s flight across the Atlantic (human, AI_LOG Experience refinement step 19, A4)
     // Only the question flies (the 41 % line fades as the flight starts) and it fades as the US Atlantic coast comes in
     // (human, AI_LOG Experience refinement step 25). 2000 ms: the Boston point enters the screen at ~2.0 s of the flight
@@ -535,7 +623,11 @@ export const story = [
         // Wallaby (as it was on Biosphere Response) replaces the seabird: more ringed dots (human, AI_LOG Experience
         // refinement step 26). Was { effect: '308-1', quote: 'Light pollution critically affects fledglings of
         // burrow-nesting seabirds, leading to massive mortality events.', cite: 'Atchoi et al. 2023', from: 'abstract' }.
-        { effect: '154-2', quote: 'White LED exposed wallabies had significantly suppressed nocturnal melatonin', cite: 'Dimovski & Robert 2018', from: 'abstract' },
+        // Caterpillars replace the wallaby (human, AI_LOG Experience refinement step 47). Quote: verbatim part of the abstract
+        // sentence in abstracts.json (study 226). 226-5: no. of caterpillars under LED (BS cool), 7.5 lx, |g| 1.43, n 36
+        // (agent choice of record; sodium, 226-6, |g| 0.36). Was { effect: '154-2', quote: 'White LED exposed wallabies had
+        // significantly suppressed nocturnal melatonin', cite: 'Dimovski & Robert 2018', from: 'abstract' }.
+        { effect: '226-5', quote: 'artificial light at night reduces caterpillar abundance', cite: 'Boyes et al. 2021', from: 'abstract' },
       ] },
   },
   // Broader Impacts (human request, Firefly transition task step 4): filler screen with the human's question;
@@ -566,14 +658,21 @@ export const story = [
     impacts: { view: 'globe', dots: false, circle: true,
       // Aphid, wallaby, then the ecosystem quote (human: impacts "varying across the class groups", step 6; order: agent; last one step 8).
       callouts: [
-        // 200-6: adult aphids after 10 days (Data S1 records for this study are mixed; the quote is the authors' summary).
-        { effect: '200-6', quote: 'aphid colony growth and aphid maturation were reduced significantly by ALAN treatments', cite: 'Heinen et al. 2022', from: 'abstract' },
+        // Moths replace the aphids (human, AI_LOG Experience refinement step 46). Quote verbatim from abstracts.json (study
+        // 140); 140-3 = moth abundance, low light 2.3 lx, |g| 2.20 (agent choice of record within the study). Was
+        // { effect: '200-6', quote: 'aphid colony growth and aphid maturation were reduced significantly by ALAN treatments',
+        // cite: 'Heinen et al. 2022', from: 'abstract' } (200-6: adult aphids after 10 days).
+        { effect: '140-3', quote: 'moth abundance at ground level was halved at lit sites', cite: 'Macgregor et al. 2017', from: 'abstract' },
         // Wallaby (154-2, Dimovski & Robert 2018) and salmon (112-4, Oppedal et al. 2001) removed: two examples are enough
         // (human, AI_LOG Experience refinement step 23).
         // Was 231-2 Giavi et al. 2020 'Artificial light at night can modify ecosystem functioning beyond the lit area' (title).
         // Now study 106 (110 bird records, so much of the Birds sector is ringed; human, AI_LOG Effect dots and examples step 8).
         // Quote = the study's title in Data S1 (no abstract in Crossref). 106-108: melatonin at night (agent choice).
-        { effect: '106-108', quote: 'Artificial light at night affects brain plasticity and melatonin in birds', cite: 'Moaraf et al. 2020', from: 'title' },
+        // Black swans replace study 106 (human, AI_LOG Experience refinement step 46: relatable, reduces sleep). Quote = the
+        // study's title in Data S1 (no abstract in Crossref). 005-2: night-time rest, 0.36 lx, |g| 2.78 (the former worked
+        // example). Study 005 has 6 records, so far less of the Birds sector is ringed than with 106. Was { effect: '106-108',
+        // quote: 'Artificial light at night affects brain plasticity and melatonin in birds', cite: 'Moaraf et al. 2020', from: 'title' }.
+        { effect: '005-2', quote: 'Streetlights Disrupt Night-Time Sleep in Urban Black Swans', cite: 'Aulsebrook et al. 2020', from: 'title' },
         // Fifth (human, AI_LOG Conclusion step 6: q1, no rings): the meta-analysis behind the circle, not one study, so no
         // `effect` (nothing ringed); "Source" links to the paper (`url`). Verbatim, Czarnecka et al. 2025 Introduction
         // (data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf, p. 1; the sentence cites Sanders et al. 2021).
@@ -587,7 +686,9 @@ export const story = [
       // Comes in below the quote while the dots move (human: wording (c), placement P1, AI_LOG Experience refinement
       // steps 24–25). Backing read in Czarnecka et al. 2025: ALAN "reverberates through biological communities" (Intro,
       // citing Sanders et al. 2021); species interactions behind "the uncertainty in model estimates" (Discussion).
-      releaseLine: 'Together, these impacts interact in uncertain ways.' },
+      // ', with uncertain consequences' appended (human, AI_LOG Experience refinement step 46). Was 'Together, these impacts
+      // interact in uncertain ways.'
+      releaseLine: 'Together, these impacts interact in uncertain ways, with uncertain consequences.' },
   },
   // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the
   // human's wording, final (human, AI_LOG Broader Impacts circle concept step 10: DRAFT tag removed).

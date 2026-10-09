@@ -112,13 +112,16 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
     // A `reveal` line replaces the big text when the sweep ends (Ecosystems; human, AI_LOG Impacts firefly-first step 5).
     // On a timer, so it still comes if the viewer grabs the divider.
     // `revealBelow`: the line comes in below the first one, which stays (ALAN; human, AI_LOG Experience refinement step 19, A4).
-    if (step.reveal) later(() => (step.revealBelow ? revealBelow()
+    if (step.reveal) later(() => (step.revealInline ? revealInline() : step.revealBelow ? revealBelow()
       : fact.querySelectorAll('.line').forEach((p, n) => p.classList.toggle('on', n === 1))),
       (step.fly ?? 0) + s.hold + (s.start != null ? 0 : 400) + s.duration);
   }
   // Line 1 in below line 0 without line 0 moving: #fact's centre goes down by half the added height when the line opens
   // (style.css #fact .line: space given at 500 ms).
   function revealBelow() { revealLine(fact, fact.querySelectorAll('.line')[1], later); }
+  // `revealInline`: the reveal text fades in at the end of the first sentence, its space kept from the start so nothing
+  // moves; Details (hidden until now, `details-wait`) comes in with it (Benefits; human, AI_LOG Experience refinement step 50).
+  function revealInline() { fact.querySelector('.cont')?.classList.add('on'); fact.classList.remove('details-wait'); }
 
   function playIntro(step) {
     const t = step.timing;
@@ -180,10 +183,16 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
       const below = t => `<p class="big line below">${format(t)}</p>`;
       // `subtext`: a smaller, darker line under the big text (Firefly Populations; human, AI_LOG Experience refinement step 30).
       const sub = step.subtext ? `<p class="sub">${format(step.subtext)}</p>` : '';
-      fact.innerHTML = [step.text, ...(step.revealBelow ? [] : step.reveal || [])].map(line).join('') + sub + callouts.map(quote).join('') + (extra
+      const more = extra
         ? `<button class="more" aria-expanded="false">Details &amp; sources</button><div class="more-body" hidden>${extra}</div>`
-        : '') + (step.revealBelow ? step.reveal || [] : []).map(below).join('') +
+        : '';
+      const belowLines = (step.revealBelow ? step.reveal || [] : []).map(below).join('');
+      // `revealInline` (Benefits): the reveal text continues the first sentence (span .cont, revealInline() above).
+      const inline = step.revealInline ? ` <span class="cont">${format(step.reveal[0])}</span>` : '';
+      fact.innerHTML = [step.text, ...(step.revealBelow || step.revealInline ? [] : step.reveal || [])].map(line).join('')
+        .replace('</p>', `${inline}</p>`) + sub + callouts.map(quote).join('') + more + belowLines +
         (step.impacts?.releaseLine ? below(step.impacts.releaseLine).replace('below', 'below release') : '');
+      fact.classList.toggle('details-wait', Boolean(step.revealInline));
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
       fact.classList.toggle('block', Boolean(step.block));   // `block` (Conclusion; AI_LOG Experience refinement step 33)
@@ -220,8 +229,10 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
     body.style.maxHeight = ''; body.style.overflowY = '';
     if (!body.hidden) {
       const nav = document.getElementById('nav').getBoundingClientRect(), r = body.getBoundingClientRect();
-      if (r.right > nav.left && r.top < nav.top && r.bottom > nav.top - 8) {
-        body.style.boxSizing = 'border-box'; body.style.maxHeight = `${nav.top - 8 - r.top}px`; body.style.overflowY = 'auto';
+      // Also 16 px above the window's bottom edge (AI_LOG Experience refinement step 46: Benefits' longer note ran off screen).
+      const limit = r.right > nav.left && r.top < nav.top ? nav.top - 8 : window.innerHeight - 16;
+      if (r.bottom > limit) {
+        body.style.boxSizing = 'border-box'; body.style.maxHeight = `${limit - r.top}px`; body.style.overflowY = 'auto';
       }
     }
   }
@@ -280,6 +291,8 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
     } else {
       show(step);
       if (step.cutFrom && step.cutFrom === from?.id) fadeIn(500);
+      // `textAfterFly`: the text fades in only once the camera has arrived (ALAN; human, AI_LOG Experience refinement step 48).
+      else if (step.textAfterFly && fly > 0 && !keepCamera) fadeIn(fly);
     }
     placeLadder(step);
     counter.textContent = `${i + 1} / ${steps.length}`;
