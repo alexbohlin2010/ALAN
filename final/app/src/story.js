@@ -175,9 +175,12 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
       const line = (t, n) => `<p class="big${lines ? ` line${n === 0 ? ' on' : ''}` : ''}">${format(t)}</p>`;
       // "Source" opens the study's card (main.js → impacts.openCallout; human, AI_LOG Effect dots and examples step 9).
       // A callout with a `url` (no study) links to it instead (AI_LOG Conclusion step 6).
+      // `photo` (Biosphere Response; human, AI_LOG Experience refinement step 56): below the quote, credit linked.
+      const photo = ph => ph ? `<span class="photo"><img src="${ph.src}" alt="${escape(ph.alt)}">` +
+        `<a class="credit" href="${ph.url}" target="_blank" rel="noopener">${escape(ph.credit)}</a></span>` : '';
       const quote = c => `<p class="big line callout">“${format(c.quote)}”<span class="cite">${format(c.cite)}` +
         (c.url ? `<a class="source" href="${c.url}" target="_blank" rel="noopener">Source</a>`
-          : '<button class="source" type="button">Source</button>') + '</span></p>';
+          : '<button class="source" type="button">Source</button>') + '</span>' + photo(c.photo) + '</p>';
       // `revealBelow` lines and the release line (impacts.releaseLine) go after the Details button, so it does not move
       // when they come in (human, AI_LOG Experience refinement step 25).
       const below = t => `<p class="big line below">${format(t)}</p>`;
@@ -189,10 +192,15 @@ export function startStory({ steps, globe, swipe, onStep, onLeave, intro, ladder
       const belowLines = (step.revealBelow ? step.reveal || [] : []).map(below).join('');
       // `revealInline` (Benefits): the reveal text continues the first sentence (span .cont, revealInline() above).
       const inline = step.revealInline ? ` <span class="cont">${format(step.reveal[0])}</span>` : '';
+      // `impacts.lead`: a quote shown with the text on beat 0 (main.js setCallout). `impacts.releaseAlone`: the release
+      // line is its own last beat, a line like the quotes (Biosphere Response; human, AI_LOG Experience refinement step 53).
+      const im = step.impacts ?? {}, lead = im.lead ? quote(im.lead).replace('line callout', 'line callout lead on') : '';
+      const release = im.releaseLine && im.releaseAlone ? `<p class="big line release">${format(im.releaseLine)}</p>` : '';
       fact.innerHTML = [step.text, ...(step.revealBelow || step.revealInline ? [] : step.reveal || [])].map(line).join('')
-        .replace('</p>', `${inline}</p>`) + sub + callouts.map(quote).join('') + more + belowLines +
-        (step.impacts?.releaseLine ? below(step.impacts.releaseLine).replace('below', 'below release') : '');
+        .replace('</p>', `${inline}</p>`) + sub + lead + callouts.map(quote).join('') + release + more + belowLines +
+        (im.releaseLine && !im.releaseAlone ? below(im.releaseLine).replace('below', 'below release') : '');
       fact.classList.toggle('details-wait', Boolean(step.revealInline));
+      fact.classList.toggle('lead-step', Boolean(im.lead));   // style.css: one text size
       fact.querySelector('.more')?.addEventListener('click', () => toggleMore(fact));
       fact.classList.toggle('right', step.side === 'right');   // `side: 'right'` (human, AI_LOG Fireflies step 4)
       fact.classList.toggle('block', Boolean(step.block));   // `block` (Conclusion; AI_LOG Experience refinement step 33)

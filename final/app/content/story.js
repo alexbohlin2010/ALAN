@@ -279,12 +279,15 @@ export const story = [
     // the part of its light a firefly eye takes in (green).'
     // "firefly" added (human, AI_LOG Experience refinement step 17). Was 'ALAN interrupts female responses to mating calls.'
     // ", in a lab environment" (human, AI_LOG Experience refinement step 23). Was '… to mating calls.'
-    text: 'ALAN interrupts female firefly responses to mating calls, in a lab environment.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
+    // ", in a lab environment" removed (human, AI_LOG Experience refinement step 54). Was '…, in a lab environment.'
+    text: 'ALAN interrupts female firefly responses to mating calls.',   // wording: human (AI_LOG Fireflies step 8; was 'Light at night ...')
     // The bright amber beat's sentence replaces the big text on that beat instead of a caption below (human, AI_LOG
     // Firefly flow step 14): beat `line: 1` (spectral.js onLine). F1 wording: agent draft chosen by the human (step 4),
     // from Owens & Lewis 2021 (bright amber 0 %; Discussion: a male's chance of locating and mating with a female depends
     // on her response rate, Demary et al. 2005).
-    reveal: ['Bright amber light silenced every female. Without her reply, a male cannot find her to mate.'],
+    // Wording: human (AI_LOG Experience refinement step 54). Was 'Bright amber light silenced every female. Without her
+    // reply, a male cannot find her to mate.'
+    reveal: ['Bright amber light reduced female response to 0%. Males cannot find them to mate.'],
     sources: [
       { label: 'Owens & Lewis 2021, Fig. 1 and Methods', url: 'https://doi.org/10.1111/icad.12487',
         supports: 'five LED spectra, area (photons) standardised; P. scintillans sensitivity (Lall et al. 1988); flash peak 567.47 nm (Hall et al. 2016); dim 2.079 × 10^19, bright 2.079 × 10^20 photons cm⁻² s⁻¹' },
@@ -335,7 +338,8 @@ export const story = [
     // Wording: human (AI_LOG Impacts firefly-first step 8). Was 'Does our actual lighting environment impact fireflies
     // in the wild?' (Firefly flow step 2).
     // "Outside of the lab," added (human, AI_LOG Experience refinement step 17: Owens & Lewis 2021 is a lab study).
-    text: 'Outside of the lab, does ALAN impact fireflies in the wild?',
+    // Wording: human (AI_LOG Experience refinement step 54). Was 'Outside of the lab, does ALAN impact fireflies in the wild?'
+    text: 'But how does ALAN impact fireflies in the wild?',
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     swipe: 0,
     dark: true,
@@ -366,6 +370,15 @@ export const story = [
     // Was 'This is the light spectrum measured at a dark sky park, Cherry Springs, PA.' (option a, human, AI_LOG
     // Experience refinement step 29).
     text: 'Night light measured at Cherry Springs, PA, a dark sky park.',
+    // `photos[k]`: shown top right on beat k (main.js sitePhoto; human pick and placement, AI_LOG Experience refinement
+    // step 56; app/public/photos/CREDITS.md). Beat 0 Cherry Springs, beat 1 Philadelphia, none on the firefly beats
+    // (agent choice of which beats).
+    photos: [
+      { src: '/photos/cherry_springs_haleyread23.jpg', alt: 'The Milky Way over Cherry Springs State Park at night',
+        credit: 'Photo: Haleyread23, CC BY 4.0', url: 'https://commons.wikimedia.org/wiki/File:A_night_at_Cherry_Springs.jpg' },
+      { src: '/photos/philadelphia_parlette.jpg', alt: 'The Philadelphia skyline at night across the Schuylkill River',
+        credit: 'Photo: Andrew Parlette, CC BY 2.0', url: 'https://commons.wikimedia.org/wiki/File:Philadelphia_Skyline_(52747785363).jpg' },
+    ],
     reveal: [
       // ", a dark sky park" removed (human, AI_LOG Firefly flow step 5: redundant with the first line).
       // Was 'In amber light (570–615 nm), Philadelphia’s night sky is about 150 times brighter than Cherry Springs.'
@@ -639,12 +652,15 @@ export const story = [
     kind: 'fact',
     side: 'right',   // chart layout: circle left, text + key right, size buttons on top (human, AI_LOG Fireflies step 29)
     label: 'Biosphere Response',   // human (AI_LOG Experience refinement step 5); was 'Broader Impacts'
+    // factTop 0.6 removed (human: the release line sat too low, AI_LOG Experience refinement step 55); beat 0 now clears
+    // the circle's key at the callout size (`lead` step, style.css).
     // Wording: human (AI_LOG Effect dots and examples step 6). Was 'The biosphere is responding to a new nighttime experience.'
     // (human, AI_LOG Fireflies steps 30–32); before that
     // Opening line (human, AI_LOG Experience refinement step 5); the line below moved to open the Conclusion.
     // Back to the equilibrium line, so the circle's thesis is clear (human, AI_LOG Experience refinement step 13); was
     // 'So how is the biosphere responding?' (step 5).
-    text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.',
+    // Wording: human (AI_LOG Experience refinement step 55). Was 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.'
+    text: 'ALAN is threatening the balance of natural systems.',
     // previous text: 'Across the biosphere, ALAN is upsetting the equilibrium of natural systems.'; before that 'All classes of biota are simultaneously responding to a new global environment.' (step 17), before that 'So how does this translate to ecosystem level impacts?'
     camera: { lat: 20, lng: 10, altitude: 2.2 },
     fly: 2500,
@@ -656,38 +672,50 @@ export const story = [
     // arrow press is one beat: the quote replaces the big text, the study is selected and its card opens; past the
     // last one the arrow moves the story. `effect` = the ringed dot (agent choice of record within the study).
     impacts: { view: 'globe', dots: false, circle: true,
-      // Aphid, wallaby, then the ecosystem quote (human: impacts "varying across the class groups", step 6; order: agent; last one step 8).
+      // Closing beat (human, AI_LOG Experience refinement step 53): the Czarnecka quote comes in with the opening line
+      // (`lead`), the moth and black-swan callouts go, and three studies outside Data S1 follow as beats while the dots
+      // move (`releaseFrom`); the release line is the last beat, alone (`releaseAlone`). Quotes and order: human.
+      // Old callouts: { effect: '140-3', quote: 'moth abundance at ground level was halved at lit sites', cite:
+      // 'Macgregor et al. 2017', from: 'abstract' } (step 46), { effect: '005-2', quote: 'Streetlights Disrupt Night-Time
+      // Sleep in Urban Black Swans', cite: 'Aulsebrook et al. 2020', from: 'title' } (step 46); earlier history in git.
+      // `lead`: shown below the text on beat 0 (main.js setCallout). Verbatim, Czarnecka et al. 2025 Introduction
+      // (data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf, p. 1; the sentence cites Sanders et al. 2021).
+      lead: { quote: 'This anthropogenic intrusion reverberates through biological communities', cite: 'Czarnecka et al. 2025', from: 'article',
+        url: 'https://doi.org/10.1111/gcb.70569' },
+      // Not in Data S1, so no `effect` (nothing ringed); "Source" links to the paper (`url`). Each quote verbatim, read on
+      // Europe PMC (AI_LOG Experience refinement step 52).
       callouts: [
-        // Moths replace the aphids (human, AI_LOG Experience refinement step 46). Quote verbatim from abstracts.json (study
-        // 140); 140-3 = moth abundance, low light 2.3 lx, |g| 2.20 (agent choice of record within the study). Was
-        // { effect: '200-6', quote: 'aphid colony growth and aphid maturation were reduced significantly by ALAN treatments',
-        // cite: 'Heinen et al. 2022', from: 'abstract' } (200-6: adult aphids after 10 days).
-        { effect: '140-3', quote: 'moth abundance at ground level was halved at lit sites', cite: 'Macgregor et al. 2017', from: 'abstract' },
-        // Wallaby (154-2, Dimovski & Robert 2018) and salmon (112-4, Oppedal et al. 2001) removed: two examples are enough
-        // (human, AI_LOG Experience refinement step 23).
-        // Was 231-2 Giavi et al. 2020 'Artificial light at night can modify ecosystem functioning beyond the lit area' (title).
-        // Now study 106 (110 bird records, so much of the Birds sector is ringed; human, AI_LOG Effect dots and examples step 8).
-        // Quote = the study's title in Data S1 (no abstract in Crossref). 106-108: melatonin at night (agent choice).
-        // Black swans replace study 106 (human, AI_LOG Experience refinement step 46: relatable, reduces sleep). Quote = the
-        // study's title in Data S1 (no abstract in Crossref). 005-2: night-time rest, 0.36 lx, |g| 2.78 (the former worked
-        // example). Study 005 has 6 records, so far less of the Birds sector is ringed than with 106. Was { effect: '106-108',
-        // quote: 'Artificial light at night affects brain plasticity and melatonin in birds', cite: 'Moaraf et al. 2020', from: 'title' }.
-        { effect: '005-2', quote: 'Streetlights Disrupt Night-Time Sleep in Urban Black Swans', cite: 'Aulsebrook et al. 2020', from: 'title' },
-        // Fifth (human, AI_LOG Conclusion step 6: q1, no rings): the meta-analysis behind the circle, not one study, so no
-        // `effect` (nothing ringed); "Source" links to the paper (`url`). Verbatim, Czarnecka et al. 2025 Introduction
-        // (data/raw/impacts/czarnecka2025/Czarnecka_2025_GCB_article.pdf, p. 1; the sentence cites Sanders et al. 2021).
-        { quote: 'This anthropogenic intrusion reverberates through biological communities', cite: 'Czarnecka et al. 2025', from: 'article',
-          url: 'https://doi.org/10.1111/gcb.70569' },
+        // van Grunsven et al. 2020, Curr Biol 30:R694, abstract sentence 3. Field experiment, 5 years, Netherlands;
+        // no effect in years 1–2, smaller populations in years 3–5.
+        // Shortened with a leading ellipsis (human, step 54). Was 'This shows that artificial light negatively affects moth populations.'
+        { quote: '… artificial light negatively affects moth populations', cite: 'van Grunsven et al. 2020', from: 'abstract',
+          url: 'https://doi.org/10.1016/j.cub.2020.04.083',
+          // Photo (human pick, AI_LOG Experience refinement step 58; app/public/photos/CREDITS.md).
+          photo: { src: '/photos/moth_lamp_bilous.jpg', alt: 'Moths circling a light bulb at night',
+            credit: 'Photo: Yurii Bilous, CC BY 4.0', url: 'https://commons.wikimedia.org/wiki/File:Moth_near_lamp_(cropped).jpg' } },
+        // Van Doren et al. 2021, PNAS 118:e2101666118, abstract sentence 1 (the paper's background statement; its finding:
+        // two decades, one Chicago building, collisions vs building light output).
+        { quote: 'Millions of nocturnally migrating birds die each year from collisions with built structures, especially brightly illuminated buildings and communication towers.',
+          cite: 'Van Doren et al. 2021', from: 'abstract', url: 'https://doi.org/10.1073/pnas.2101666118',
+          // `photo` below the quote (human pick and placement, AI_LOG Experience refinement step 56; app/public/photos/CREDITS.md).
+          photo: { src: '/photos/sparrows_usgs.jpg', alt: 'A box of dead sparrows collected after colliding with office buildings in Washington, D.C.',
+            credit: 'Photo: USGS, Lights Out DC (public domain)', url: 'https://www.usgs.gov/media/images/box-dead-sparrows' } },
+        // Schligler et al. 2021, Proc R Soc B 288:20210454, title. Field experiment, Moorea lagoon, 18–23 months.
+        { quote: 'Long-term exposure to artificial light at night in the wild decreases survival and growth of a coral reef fish',
+          cite: 'Schligler et al. 2021', from: 'title', url: 'https://doi.org/10.1098/rspb.2021.0454',
+          // Photo (human pick, step 56): A. chrysopterus in its anemone, Chuuk (not Moorea).
+          photo: { src: '/photos/anemonefish_noaa.jpg', alt: 'An orange-fin anemonefish in its anemone',
+            credit: 'Photo: Dwayne Meadows, NOAA (public domain)', url: 'https://commons.wikimedia.org/wiki/File:Amphiprion_chrysopterus_1.jpg' } },
       ],
-      // `release` (human, AI_LOG Experience refinement step 23: M1, T1, H1): one more arrow beat after the last callout;
-      // the labels, key and size buttons fade and the dots move freely, bouncing off each other inside the circle
-      // (impacts.js). The last quote stays on screen. A display device, not data.
-      release: true,
-      // Comes in below the quote while the dots move (human: wording (c), placement P1, AI_LOG Experience refinement
-      // steps 24–25). Backing read in Czarnecka et al. 2025: ALAN "reverberates through biological communities" (Intro,
-      // citing Sanders et al. 2021); species interactions behind "the uncertainty in model estimates" (Discussion).
-      // ', with uncertain consequences' appended (human, AI_LOG Experience refinement step 46). Was 'Together, these impacts
-      // interact in uncertain ways.'
+      // `release` (human, AI_LOG Experience refinement step 23: M1, T1, H1): the labels, key and size buttons fade and the
+      // dots move freely, bouncing off each other inside the circle (impacts.js). A display device, not data.
+      // `releaseFrom`: the dots move from this beat on (human, step 53: from the first example; was after the last callout).
+      release: true, releaseFrom: 1,
+      // Release line (human: wording (c), AI_LOG Experience refinement steps 24–25, 46). Backing read in Czarnecka et al.
+      // 2025: ALAN "reverberates through biological communities" (Intro, citing Sanders et al. 2021); species interactions
+      // behind "the uncertainty in model estimates" (Discussion). `releaseAlone` (human, step 53): its own last beat, the
+      // last quote gone (was: below the last quote, 1.5 s into the release beat).
+      releaseAlone: true,
       releaseLine: 'Together, these impacts interact in uncertain ways, with uncertain consequences.' },
   },
   // Conclusion (human request, step 4): dark screen (dark: true fades the globe out, main.js); call to action in the

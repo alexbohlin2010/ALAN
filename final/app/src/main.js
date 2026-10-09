@@ -122,7 +122,27 @@ const spectral = createSpectral({ parent: document.body, onLine: showLine });
 // `nights: true` (human decision, AI_LOG Firefly narrative round 3c).
 const nights = createTwoNights({ parent: document.body,
   // onBeat: the Two measured nights big text shows line k of its beats (AI_LOG Firefly flow step 4).
-  onBeat: k => document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k)) });
+  onBeat: k => { document.querySelectorAll('#fact .line').forEach((p, n) => p.classList.toggle('on', n === k));
+    sitePhoto(story[storyIndex].photos?.[k]); } });
+// `photos[k]` (Spectra; human, AI_LOG Experience refinement step 56): a site photo top right on beat k, credit linked.
+const photoBox = Object.assign(document.createElement('figure'), { id: 'site-photo' });
+document.body.append(photoBox);
+// Paired with the text line (style.css: same fades): the old photo fades out, the new one is swapped in while hidden.
+let photoTimer = 0;
+function sitePhoto(ph) {
+  clearTimeout(photoTimer);
+  const fill = () => {
+    photoBox.innerHTML = `<img src="${ph.src}" alt=""><figcaption><a href="${ph.url}" target="_blank" rel="noopener"></a></figcaption>`;
+    photoBox.querySelector('img').alt = ph.alt; photoBox.querySelector('a').textContent = ph.credit;
+    photoBox.dataset.src = ph.src;
+  };
+  if (!ph) { photoBox.classList.remove('on'); return; }
+  if (photoBox.dataset.src === ph.src) { photoBox.classList.add('on'); return; }
+  if (!photoBox.classList.contains('on')) { fill(); photoBox.classList.add('on'); return; }
+  photoBox.classList.remove('on');   // fade out (500 ms), swap, fade in like the next line
+  photoTimer = setTimeout(() => { fill(); photoBox.style.transitionDelay = '0ms'; photoBox.classList.add('on');
+    photoTimer = setTimeout(() => { photoBox.style.transitionDelay = ''; }, 900); }, 500);
+}
 
 // Firefly guide (ladder plan phase 4; AI_LOG "Story review" steps 7–8): one glow carried from the Female response
 // female into the dark Perception screen, where it pulses alone above the text (Female response's reply rhythm:
@@ -250,6 +270,7 @@ function applyStage(i) {
   impactsCanvas().style.opacity = '';
   if (spinning) { globe.controls().autoRotate = false; spinning = false; }   // `globeSpin` ends with its step
   const prev = story[storyIndex];
+  sitePhoto(null);   // a Spectra site photo goes with its step
   storyIndex = i;
   markHeaders();
   if (mode !== 'light') { guideStep(prev, {}); return; }
@@ -379,9 +400,12 @@ function setCallout(k) {
   // Release beat (impacts.release): the last quote stays (lk); the step's releaseLine, if any, comes in below it after
   // RELEASE_LINE ms, the quote not moving (human, AI_LOG Experience refinement step 25, P1).
   const fact = document.getElementById('fact'), rl = story[storyIndex].impacts?.releaseLine ? fact.querySelector('.line.below') : null;
-  const ls = [...fact.querySelectorAll('.line')].filter(p => p !== rl), lk = Math.min(k, ls.length - 1);
+  // `impacts.lead` (story.js): not a beat of its own, shown with line 0 (human, AI_LOG Experience refinement step 53).
+  const lead = fact.querySelector('.line.lead');
+  const ls = [...fact.querySelectorAll('.line')].filter(p => p !== rl && p !== lead), lk = Math.min(k, ls.length - 1);
   if (mode === 'light' && beatCount(story[storyIndex])) ls.forEach((p, n) =>
     p.classList.toggle('on', n === lk || (n === lk - 1 && tog.includes(lk))));
+  lead?.classList.toggle('on', mode !== 'light' || lk === 0);
   clearTimeout(releaseTimer);
   if (rl && mode === 'light' && k > ls.length - 1) releaseTimer = setTimeout(() => revealLine(fact, rl), RELEASE_LINE);
   else if (rl?.classList.contains('on')) { rl.classList.remove('on'); fact.style.setProperty('--fact-top', ''); }

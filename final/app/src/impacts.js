@@ -211,6 +211,8 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
   // seeded) and say nothing about the records; positions are not data. Back from the beat, the dots glide home.
   // relA: 0 → 1 as the labels fade. free: record → moving state (null = dots at their layout places).
   let released = false, free = null, freeT = 0;
+  // Released on beat k of n callouts: past the last one, or from `releaseFrom` (human, AI_LOG Experience refinement step 53).
+  const releasedAt = (k, n) => Boolean(stage?.release) && k >= (stage.releaseFrom ?? n + 1);
   const relA = anim(0);
   const REL_FADE = 700, REL_SPEED = 0.12, REL_HOME = 5;   // ms; circle radii per s; glide-home rate per s (agent choices)
   const REDUCED = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;   // no motion, labels still fade
@@ -1057,7 +1059,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
     if (!s?.filter) filter = null;   // the filter lives only on steps that show its buttons
     if (!s?.circle) sizeSel = null;
     if (!s?.release) { released = false; free = null; }
-    else if (callout) released = callout.k > callout.list.length;   // main.js sets the beat before the stage (back from Conclusion)
+    else if (callout) released = releasedAt(callout.k, callout.list.length);   // main.js sets the beat before the stage (back from Conclusion)
     if (snap) for (const a of [dotsA, chartA, morphA, exampleA, groupA, glowA, circleA, hlA, ...Object.values(siteA)]) { a.from = a.to; a.t0 = 0; }
     if (callout?.k) applyCallout();   // setStage cleared the selection; the current callout selects again once settled
     renderFilter();
@@ -1208,7 +1210,7 @@ export function createImpacts({ globe, globeEl, card, legend, onDoor }) {
       callout = list?.length ? { list, k } : null;
       // Release beat: k past the last callout. Kept when the list goes (Conclusion), so the dots move on as they fade (H1).
       if (list?.length) {
-        released = Boolean(stage?.release) && k > list.length;
+        released = releasedAt(k, list.length);
         if (released && sizeSel) { sizeSel = null; renderFilter(); }
       }
       if (!callout) calloutA.from = calloutA.to = 0;

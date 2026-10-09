@@ -108,6 +108,23 @@ body.story-dark #fact.block, body.story-centre #fact.block, #fact.block { text-a
 #fact .big.callout { font-size: clamp(20px, 2.1vw, 32px); }
 /* Release line (Biosphere Response): the quote's size above it (human, AI_LOG Experience refinement step 27). */
 #fact .big.release { font-size: clamp(20px, 2.1vw, 32px); }
+/* Step with an `impacts.lead` quote (Biosphere Response): every line at the callout quote's size, one size on the
+   screen (human, AI_LOG Experience refinement step 55; step 54 had both at the big size). */
+#fact.lead-step .big { font-size: clamp(20px, 2.1vw, 32px); }
+/* Its hidden lines without their 14 px margin, so the line on screen is centred (human: the release line sat too low,
+   step 55). */
+#fact.lead-step .line:not(.on) { margin: 0; }
+/* Beat 0 (human, step 58): more space between the line and the lead quote; both a little lower (relative, so the
+   centring is unchanged); the quote fades in 0.75 s after the line (space kept, nothing moves). Values: agent choices. */
+#fact.lead-step .line.lead.on { margin-top: 30px; animation: photo-in 900ms ease 750ms both; }
+#fact.lead-step .line.on:first-child, #fact.lead-step .line.lead.on { position: relative; top: 24px; }
+/* Leaving beat 0 (human, AI_LOG Experience refinement step 59): the quote fades out with the line (500 ms; removing its
+   fade-in animation alone would cut it at once), and both keep their offset until the fade is over. */
+#fact.lead-step .line { position: relative; top: 0;
+  transition: opacity 500ms ease, max-height 0ms linear 500ms, margin 0ms linear 500ms, top 0ms linear 500ms; }
+#fact.lead-step .line.on { transition: opacity 900ms ease 500ms, max-height 0ms linear 500ms, margin 0ms linear 500ms, top 0ms linear 500ms; }
+#fact.lead-step .line.lead:not(.on) { animation: lead-out 500ms ease both; }
+@keyframes lead-out { from { opacity: 1; } to { opacity: 0; } }
 #fact .callout .cite { display: block; margin-top: 10px; font-size: 14px; color: #aaa; font-weight: 400; }
 /* "Source" button after the citation: as the Details button (step 9). */
 #fact .callout .source { margin-left: 10px; font: 12px system-ui, sans-serif; color: #aaa; background: rgba(17,17,17,0.8);
@@ -372,3 +389,21 @@ body.arriving #ladder, body[data-mode="impacts"] #ladder { opacity: 0; }
   border: 1px solid #444; border-radius: 12px; padding: 3px 11px; cursor: pointer; }
 #nights-window button:hover { color: #fff; }
 #nights-window button[aria-pressed="true"] { color: #fff; border-color: #aaa; }
+/* Photos (human picks and placement, AI_LOG Experience refinement step 56; credits app/public/photos/CREDITS.md).
+   Biosphere Response: below the quote, fading with it. Spectra: top right, below the volume button, per beat.
+   Sizes: agent choice. */
+#fact .callout .photo { display: block; margin-top: 36px; opacity: 0; }
+/* The photo fades in 1.5 s after its quote starts to (quote: 500 ms swap delay; human, AI_LOG Experience refinement
+   step 58), so the quote is read on its own first; the photo's space is kept, so nothing moves. */
+#fact .line.on .photo { animation: photo-in 900ms ease 2000ms both; }
+@keyframes photo-in { from { opacity: 0; } to { opacity: 1; } }
+#fact .callout .photo img { display: block; width: 100%; max-height: 220px; object-fit: cover; border-radius: 4px; }
+#fact .callout .photo .credit { display: block; margin-top: 6px; font: 400 11px system-ui, sans-serif; color: #888; text-decoration: none; }
+/* Same fades as the big text lines (#fact .line: out 500 ms, in 900 ms after 500 ms; human, step 58). */
+#site-photo { position: absolute; top: 64px; right: 16px; width: min(280px, 26vw); margin: 0; z-index: 4;
+  opacity: 0; pointer-events: none; transition: opacity 500ms ease; }
+#site-photo.on { opacity: 1; pointer-events: auto; transition: opacity 900ms ease 500ms; }
+#site-photo img { display: block; width: 100%; border-radius: 4px; }
+#site-photo figcaption { margin-top: 6px; font: 400 11px system-ui, sans-serif; text-align: right; }
+#site-photo figcaption a { color: #888; text-decoration: none; }
+body[data-mode="impacts"] #site-photo, body[data-mode="explore"] #site-photo { display: none; }

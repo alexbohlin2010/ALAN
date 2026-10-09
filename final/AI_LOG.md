@@ -8729,3 +8729,225 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main: AI_LOG.md (steps 40–51), app/content/story.js, app/src/story.js, app/src/style.css,
   handoffs/2026-10-08_external-feedback.md, handoffs/2026-10-09_closing-beat.md. Not pushed.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 52 (2026-10-09): closing beat: field-evidence research, shortlist, sets and layout options reported (no changes)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Work in ~/Desktop/ALAN/final (git root ~/Desktop/ALAN). Tell me the branch first. Read RULES.md and follow it all session, then handoffs/2026-10-09_closing-beat.md (latest) and the one before it, 2026-10-08_external-feedback.md, and AI_LOG.md "Experience refinement" steps 44–50. Do not edit app/src/introScene.js (audio is another agent's) without asking.
+  >
+  > Task: the closing beat of the story. This is a story task, so RULES §1.1–1.2 apply strictly: I decide the narrative and the wording; you find sources, report what they actually say, and propose options with trade-offs.
+  >
+  > What I want: a beat of its own on Biosphere Response, while the coloured dots move freely, before the Conclusion. Two or three short quotes from study abstracts on screen at once, with one "Details & sources" button below them. Its job: show that ALAN harm is a practical, real-world risk, not just a theoretical one, the way the firefly section ends on real population counts (McNeil et al. 2024). Studies can come from outside our dataset. I'd like it to hit hard, but only as hard as the evidence allows.
+  >
+  > 1. Research with an open mind. The handoff lists candidates a previous session found (birds and lit buildings, moths and insects, pollination, seabirds, sea turtles). Treat them as leads, not answers: search for yourself across taxa and ecosystems (land, freshwater, marine, birds, insects, plants, people and food systems), and look for the strongest field evidence of population decline or ecosystem-level harm. For each candidate: citation and DOI, design (field experiment / observational / lab), scale and duration, the key number, the exact abstract sentence with its location, and its limits. Say plainly where evidence is correlational, local or contested, and report counter-evidence. Check whether any source actually supports "ecosystem collapse"; if none does, say so. Verify every quote on the publisher's or PubMed/Europe PMC page; don't download anything without asking; if a paper needs reading in full, tell me and I'll provide the PDF.
+  > 2. Give me a ranked shortlist of 5–8, and 2–3 suggested sets of three that work together (range of taxa, strength, recognisability), with trade-offs. Note quote length (we keep on-screen quotes short).
+  > 3. Propose 2–3 layout and timing options for the beat (relative to the existing release line "Together, these impacts interact in uncertain ways, with uncertain consequences."), with trade-offs. No wording of your own unless I ask.
+  >
+  > Report and stop for my decisions before changing anything.
+  >
+  > For any app change: check in the preview (dev server: final/app, port 5173, launch config "alan-final-app"; if another session's server holds 5173, open http://localhost:5173 by URL; 1280×800; use your own tab, sub-agents may drive the front one): walk the affected steps forward and back, no overlaps with the big text, menu, nav or Details, no console errors. Send screenshots. Drive buttons by JS (#nav .next / .back, menu buttons by text), keep each JS call under 45 s; if frames stall, take a screenshot. The intro "Begin" overlay sits over the centre until clicked; leave it.
+  > Re-read files right before editing, keep edits small. AI_LOG.md: append only, one cat >> per step, with my exact prompt. No raw-data changes. Don't commit, push, delete, download or install without my go-ahead.
+- Read: RULES.md; handoffs 2026-10-09_closing-beat.md, 2026-10-08_external-feedback.md; AI_LOG steps 44–51; story.js
+  `broader` step; main.js setCallout / release line. Finding: `broader` has no note/sources (no Details button today;
+  each callout has its own "Source" link).
+- Research: four sub-agents in parallel (insects/plants/food; birds/bats/mammals; marine/freshwater; ecosystem-level,
+  people, "collapse"/"systemic risk"), WebSearch + HTML/JSON pages only, nothing downloaded or saved.
+- Main-agent verification (abstract text printed to stdout from the Europe PMC REST API by a scratchpad script, not
+  saved; Crossref API; AGRIS page): van Grunsven et al. 2020, Knop et al. 2017, Van Doren et al. 2021, Rodríguez et al.
+  2017, Schligler et al. 2021, Sanders et al. 2015, Ayalon et al. 2021, van Langevelde et al. 2018, Boyes et al. 2021
+  (Sci Adv), Boyes et al. 2021 (ICD review, Crossref), Hu et al. 2018, Meyer & Sullivan 2013, Arnold & Zink 2011,
+  Dimitriadis et al. 2018 (AGRIS record, one sentence). Sub-agent-only (not re-read by the main agent): Raine et al. 2017
+  (BioOne; publisher page not reachable by script), Brei et al. 2016 (Birmingham repository).
+- Findings: no peer-reviewed source found saying ALAN causes "ecosystem collapse"; "collapse" only in the title of Ayalon
+  et al. 2021 (coral gametogenesis, ex situ). No source uses "systemic risk" for ALAN. DOI corrections to the handoff's
+  leads: van Langevelde 2018 = 10.1111/gcb.14008; Raine 2017 = 10.1650/CONDOR-16-223.1; Brei et al. 2016 is Caribbean
+  (not Florida); Berge et al. 2020 is Commun Biol.
+- Reported in chat: ranked shortlist, three candidate sets, three layout/timing options. Nothing applied.
+- Files changed: AI_LOG.md only. Not committed.
+
+## Experience refinement, step 53 (2026-10-09): Biosphere Response closing beats: Czarnecka quote with the opening line; moths / birds / reef fish (outside Data S1) while the dots move; release line alone; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Quotes I like: 
+  >
+  > “Millions of nocturnally migrating birds die each year from collisions with built structures, especially brightly illuminated buildings and communication towers.” (can include an image), 
+  >
+  > “Long-term exposure to artificial light at night in the wild decreases survival and growth of a coral reef fish” (can include image) ...
+  >
+  > “This shows that artificial light negatively affects moth populations.” (can include an image)
+  >
+  > --- these are good examples.
+  >
+  > I'm starting to think we should fade the "reverberates quote" on the first beat of "Biosphere response"... get rid of the two examples we have from the studies ... and then begin the reverberating dots as we start showing these three high impact examples (three separate beats), and then final beat before conclusion is "together these impacts interact ..." that might be a more powerful thing, and gives the dots more time to reverberate.
+- Human answers to the agent's questions (AskUserQuestion): opening = "Line and quote together"; order = "Moths, birds,
+  reef fish"; release line = "Alone"; images = "Text now, images next".
+- Edits (files re-read right before editing; pre-edit copies in the session scratchpad):
+  - app/content/story.js `broader`: new `impacts.lead` = the Czarnecka et al. 2025 quote (was the last callout); callouts
+    140-3 moths (Macgregor et al. 2017) and 005-2 black swans (Aulsebrook et al. 2020) removed (kept in comments); new
+    callouts (human's quotes, verbatim as read on Europe PMC in step 52; no `effect`, "Source" links to the DOI):
+    van Grunsven et al. 2020 (abstract S3), Van Doren et al. 2021 (abstract S1, the paper's background statement), Schligler
+    et al. 2021 (title). New keys `releaseFrom: 1`, `releaseAlone: true`.
+  - app/src/story.js show(): renders `lead` after the text (class `lead on`); with `releaseAlone` the release line is a
+    normal beat line (class `release`) after the callouts instead of a `below` line.
+  - app/src/main.js setCallout(): `lead` is not a beat; shown on beat 0 only.
+  - app/src/impacts.js: `releasedAt(k, n)`: dots released from `releaseFrom` (default: past the last callout, as before).
+- Checked (localhost:5173 — another session's server, opened by URL in this session's tab; 1280×800; JS-driven):
+  beat 0: opening line 208–375 + Czarnecka quote 389–522 (x 876–1264), dots in the circle with labels; beat 1 moths quote
+  320–452, labels fade and dots move; beat 2 birds 300–500; beat 3 reef fish 331–497; beat 4 release line alone 378–478;
+  → Conclusion; back: release line, fish, birds, moths, beat 0 (line + quote), → Light type; forward again to beat 2.
+  No overlap with menu (x ≤ ~160) or nav (1136–1264 × 748–784). No Details button on this step (none before either).
+  Console: no errors.
+- Not done (waiting for the human): images (next: openly licensed candidates, links/credits/licences only, nothing
+  downloaded).
+- Files changed: app/content/story.js, app/src/story.js, app/src/main.js, app/src/impacts.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 54 (2026-10-09): Biosphere Response beat 0 one text size, below the key; moth quote "… "; Response and Impact wording (human); image search started; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > yo the first beat of biosphere response is a mess .... the text sizes are different fonts and overlap with the key . Pls fix. the moth quote needs to change ... maybe show "... artificial light negatively affects moth populations" because otherwise it's an odd quote.
+  >
+  > In "Response" the quote should change, by removing "in a lab environment" and the second beat should say "Bright amber light reduced female response to 0%. Males cannot find them to mate."
+  >
+  > And then "Impact" should read as "But how does ALAN impact fireflies in the wild?"
+  >
+  > I'll want to bring in photos of cherry springs and philadelphia too so people can see the different scales. The photos can come in top right of screen.
+  >
+  > Yes please look for photos of the biota as well as the locations I just mentioned above. Otherwise also direct me to links so I can look...
+- Cause (measured, 1280×800): beat 0 = opening line (33 px) + lead quote at the callout size (27 px); the block (208–522)
+  ran over the circle's canvas key (drawn at the text column's x, about y 176–216).
+- Edits (files re-read right before editing):
+  - app/src/style.css: `#fact .big.callout.lead` at the big-text size (clamp(22px, 2.6vw, 40px)).
+  - app/content/story.js: `broader` `factTop: 0.6` (agent choice, tuned: text 256–634, 40 px below the key); moth
+    quote '… artificial light negatively affects moth populations' (human); Response text 'ALAN interrupts female firefly
+    responses to mating calls.' and reveal 'Bright amber light reduced female response to 0%. Males cannot find them to
+    mate.' (human); Impact text 'But how does ALAN impact fireflies in the wild?' (human). Old wording in comments.
+- Checked (localhost:5173, own tab, 1280×800): Biosphere Response beat 0 both lines 33.28 px, 256–422 and 436–634, key
+  above; beats moths 416–516, birds 380–580, fish 411–577, release line 458–558; → Conclusion and back to beat 0. Response:
+  beat 0 line 249–373; amber beat line (new wording) with Details below, clear of the 0 % label and chart; Impact: new
+  question centred. Console: no errors. Noted (unchanged): the nav buttons skip Response's manual beats (arrow keys and the
+  top-right toggle step them), as before.
+- Image search: a sub-agent is looking for openly licensed photos (moths, migrating birds / lit buildings, anemonefish,
+  Cherry Springs, Philadelphia at night); links, credits and licences only, nothing downloaded. Photos top right: not built.
+- Files changed: app/src/style.css, app/content/story.js, AI_LOG.md. Not committed.
+
+## Experience refinement, step 55 (2026-10-09): Biosphere Response at the callout size, new opening line, release line centred; photo picks checked (licences; nothing downloaded); checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > in Biosphere Response, the text size should be a bit smaller (bring both to the same size that the quote was before). And change the quote to "ALAN is threatening the balance of natural systems."
+  >
+  > the "Together these impacts.." line should be centered vertically please, right now its position is too far down.
+  >
+  > For birds: this is powerful: https://www.usgs.gov/media/images/box-dead-sparrows
+  >
+  > I'd like to see moths at night by lights ... all those photos are somewhat during the day. Perhaps this one: https://www.flickr.com/photos/czar_hey/39280136785/in/photolist-2eF3kuM-22R3YaF-h9ZdXZ-2cDp7Nv-c9CXMm-QJiLeE-aX6p4T-aX6pvH-BHjyWH-JHTmRe-SKvQ1U-22XCX9h-25KC2VN-nUud72-2nsrF-UUxJs7-tpLL6M-yD3Szu-YrgtAs-HvbcGv-ooNjsF-tMnoT-25kCKfF-TqEYnn-xwhw9x-KkphZX-6xnw5K-eHevu-pQBen2-r3yLTa-uNzdXQ-qVPbfK-JJEKQV-M14s95-f3ZCEM-6G6Zn3-HDhJcJ-X8ifVA-Admq1z-G5xLtb-nMGXuT-LdL9C-KuTLCW-79o7qR-gjoRjp-pox6Yx-nMGUCR-is88o-nMGM2P
+  >
+  > for philadelphia this is excellent: [Night skyline across the river. Very wide, needs a crop. Andrew Parlette, CC BY 2.0.](https://commons.wikimedia.org/wiki/File:Philadelphia_Skyline_(52747785363).jpg) that's fine to crop somewhat.
+  >
+  > for cherry springs use this one please: https://commons.wikimedia.org/wiki/Category:Cherry_Springs_State_Park#/media/File:A_night_at_Cherry_Springs.jpg
+  >
+  > Use this for coral reef fish: https://commons.wikimedia.org/wiki/File:Amphiprion_chrysopterus_1.jpg
+- Interpretation (agent, reported): "change the quote" applied to the step's opening line (the Czarnecka quote stays verbatim).
+- Edits (files re-read right before editing):
+  - app/content/story.js `broader`: text 'ALAN is threatening the balance of natural systems.' (human; old in comment); `factTop`
+    removed (step 54 value).
+  - app/src/story.js: #fact class `lead-step` when the step has `impacts.lead`. app/src/style.css: step-54 rule replaced by
+    `#fact.lead-step .big` at the callout size (clamp(20px, 2.1vw, 32px)) (human); `#fact.lead-step .line:not(.on)
+    { margin: 0 }` — cause of the low release line: the five hidden lines each kept a 14 px margin (measured: line 378–478).
+- Checked (localhost:5173, own tab, 1280×800): beat 0 both 26.88 px, 286–353 and 367–500, key above (~176–216); moths
+  343–443, birds 293–493, fish 310–476, release line 343–443 (screen centre 400); → Conclusion and back. No console errors.
+- Photo picks checked (read only, nothing downloaded): USGS "Box of Dead Sparrows" — Public Domain, USGSBIML Team, JPEG
+  6.1 MB; Commons "A night at Cherry Springs" — CC BY 4.0, Haleyread23, 4000×6016, 8.2 MB; "Philadelphia Skyline
+  (52747785363)" — CC BY 2.0, Andrew Parlette, 12058×4823, 5.3 MB; "Amphiprion chrysopterus 1" — Public domain, Dr. Dwayne
+  Meadows NOAA/NMFS/OPR, 2272×1704, 1.9 MB. Flickr czar_hey 39280136785: CC BY-SA 2.0; page title "Like little moths 1 |
+  The snow look like little moths around…" (reported to the human: likely snow, not moths).
+- Files changed: app/content/story.js, app/src/story.js, app/src/style.css, AI_LOG.md. Not committed.
+
+## Experience refinement, step 56 (2026-10-09): photos downloaded (human go-ahead) and placed: sparrows and anemonefish below their quotes, Cherry Springs / Philadelphia top right on Spectra; moth photo not placed; checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human answers (AskUserQuestion, verbatim): download = "Yes, all four"; moth photo = "Moths at a light trap at night";
+  placement = "narrative text should move up, and photo should come in below it."
+- Human prompt during the work (verbatim):
+  > what about moth image from this site, it says getty images https://particle.scitech.org.au/earth-water/fatal-attraction-moth-vs-flame/
+  Answered in chat: Getty images are rights-managed (paid licence), not usable as is. Page not opened.
+- Downloads (to the session scratchpad first; human go-ahead; the moth file on the human's choice of that photo): USGS
+  Box of Dead Sparrows; Commons A_night_at_Cherry_Springs.jpg, Philadelphia_Skyline_(52747785363).jpg,
+  Amphiprion_chrysopterus_1.jpg, Skinner_trap_(5389995784).jpg. Agent error, reported to the human: the curl User-Agent
+  string included the human's email address (sent to usgs.gov's S3 host and upload.wikimedia.org).
+- Moth photo (Hobern, CC BY 2.0) viewed: trap contents photographed in daylight (fence, foliage), not moths at a light at
+  night → not placed; the moth beat has no photo (gap reported). Original stays in the scratchpad only.
+- New files (app/public/photos/, resized to 800 px wide with macOS sips, JPEG quality 80): sparrows_usgs.jpg (800×688),
+  anemonefish_noaa.jpg (800×600), cherry_springs_haleyread23.jpg (crop 4000×3000 from y 2400, 800×600),
+  philadelphia_parlette.jpg (centre crop 2:1, 800×400), CREDITS.md (source, author, licence, edits per file). Crops:
+  agent choices ("fine to crop somewhat", human, for Philadelphia).
+- Edits (files re-read right before editing):
+  - app/content/story.js: `photo` {src, alt, credit, url} on the Van Doren and Schligler callouts; Spectra (`two-nights`)
+    `photos` [Cherry Springs, Philadelphia] by beat (beat 0, beat 1; none on the firefly beats: agent choice).
+  - app/src/story.js: callout `photo` rendered inside the quote's paragraph after the citation (img + linked credit).
+  - app/src/main.js: #site-photo (figure) shown on Spectra beat k (onBeat), cleared on every step change.
+  - app/src/style.css: photo styles (callout photo max-height 220 px, cover; site photo top 64 px, right 16 px,
+    min(280px, 26vw), 900 ms fade; hidden in the Impacts and Explore modes). Sizes: agent choices.
+- Checked (localhost:5173, own tab, 1280×800): Spectra beat 0 Cherry Springs photo 984–1264 × 64–293 (volume button
+  12–48 above; site name top left), beat 1 Philadelphia photo 64–223 (site name "Philadelphia" top right above it),
+  beat 2 no photo, Perception no photo, back: Philadelphia, Cherry Springs. The photo covers the chart's faint back-plane
+  grid at the top right. Biosphere Response: moths 343–443 (no photo), birds 165–621 (photo 382–602), fish 182–604
+  (photo 365–585), back and forth. Console: no errors.
+- Files changed: app/content/story.js, app/src/story.js, app/src/main.js, app/src/style.css, app/public/photos/ (new: 4
+  JPEGs, CREDITS.md), AI_LOG.md. Not committed.
+
+## Experience refinement, step 57 (2026-10-09): moth photo: Plunkett's page checked (not usable); Commons search (links only, nothing downloaded)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > what about here?
+  >
+  > https://plunketts.net/blog/moths-attracted-light
+- Page read (HTML, nothing downloaded): footer "Copyright © 2026 Plunkett's Pest Control"; images without credit or
+  licence (300×200 px) → not usable (reported).
+- Commons API search (scratchpad script, metadata only; NC/ND excluded): porch-light / trap candidates listed in chat
+  with licences. No images viewed or downloaded.
+- Files changed: AI_LOG.md only. Not committed.
+
+## Experience refinement, step 58 (2026-10-09): Biosphere Response beat-0 spacing and quote fade; photos fade 1.5 s after quotes; moth photo (Bilous); credits without "cropped"; Spectra photo paired with the text; checked; handoff
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim; with a screenshot of Biosphere Response beat 0):
+  > This text should be moved apart from one another a bit .. create some more space. Move a bit further down too to feel more centered. The quote should fade in after 0.75s.
+  >
+  > On each beat for the photographic examples, the photo should fade in after 1.5s so people have time to read the quote on its own. Also create more space between photo and quote by moving photo further down.
+  >
+  > Let's use this for moths please. https://commons.wikimedia.org/wiki/File:Moth_near_lamp_%28cropped%29.jpg and then call it.
+  >
+  > Also remove the "cropped" from photo attributes. And on spectra, make sure the photo fades in with the text, same fading rules as text so they're better paired. Thank you.
+- Download (human pick): Commons Moth_near_lamp_(cropped).jpg — CC BY 4.0, Yurii Bilous, "Moths circling a light bulb",
+  720×547, 16 KB → app/public/photos/moth_lamp_bilous.jpg (unchanged); CREDITS.md row + note on the removed "cropped".
+- Edits (files re-read right before editing):
+  - app/content/story.js: moth callout `photo`; Spectra credits without ", cropped" (human).
+  - app/src/style.css: lead quote margin-top 30 px, beat-0 lines `top: 24px` (relative), lead fades in after 750 ms
+    (animation, space kept); callout photo margin-top 36 px, fades in 2000 ms after the beat starts (= 1.5 s after the
+    quote's fade begins; quote has a 500 ms swap delay); #site-photo transitions = #fact .line (out 500 ms; in 900 ms
+    after 500 ms). Values other than the human's 0.75 s / 1.5 s: agent choices.
+  - app/src/main.js sitePhoto(): on a change the old photo fades out (500 ms), is swapped while hidden, then fades in.
+- Checked (localhost:5173, own tab, 1280×800; the pane was hidden, so animation timing read from getAnimations()):
+  beat 0 line 302–369, quote 399–532 (gap 30 px), lead animation 750 + 900 ms; moths: quote 0 → photo (delay 2000 ms,
+  900 ms) 657–877 → screenshot after 3 s shows both; birds 155–631 (photo 392–612), fish 172–614 (photo 375–595);
+  release line 343–443; back to beat 0. Spectra: photo and text line change together (Cherry → Philadelphia → none on
+  the firefly beat → back Philadelphia, Cherry). Console: no errors.
+- Created handoffs/2026-10-09_closing-beat-built.md (human: "call it").
+- Files changed: app/content/story.js, app/src/style.css, app/src/main.js, app/public/photos/ (moth_lamp_bilous.jpg,
+  CREDITS.md), handoffs/2026-10-09_closing-beat-built.md (new), AI_LOG.md. Not committed.
+
+## Experience refinement, step 59 (2026-10-09): beat-0 line and quote fade out together; flicker fix checked (still in the code); commit (human request); next prompt
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > there's one small thing in Biosphere response ... after i click arrow after the first beat, the "ALAN is threatening the balance of natural systems" quote lingers a little bit longer than the anthropogenic quote.. They should disappear same time. Otherwise this prototype is in good shape. Please make that change, commit changes, and then generate a new prompt so I can figure out the flicker issue on the globe as we pan from "ALAN" to "Fireflies" .... africa is a bit flickery ... i thought we had solved this issue in an earlier engineering iteration but its back. Were our changes undone?
+- Cause: the lead quote's fade-in is a CSS animation (step 58); removing it on the next beat cut the quote at once,
+  while the line faded over 500 ms.
+- Edit (app/src/style.css, re-read before editing): `#fact.lead-step .line` keeps position relative, top transitions
+  0 ms after 500 ms (no jump during the fade); lead without `.on` runs `lead-out` (opacity 1 → 0, 500 ms).
+- Checked (localhost:5173, own tab, 1280×800): next from beat 0: line opacity transition 500 ms and lead `lead-out`
+  500 ms, both from 0 ms, positions held (302 / 399); back to beat 0: lead fades in again (750 ms delay); arriving back
+  from Conclusion at the release beat: lead collapsed (height 0). Console: no errors.
+- Flicker question (read only): AI_LOG Experience refinement steps 1–8 (2026-10-06) — the step-8 fix (4-sample shading
+  while the camera moves, uAA; capFlight, no tile refinement mid-flight) is still in app/src/tileLayer.js and main.js;
+  tileLayer.js has no commits after 91b11b83d and no uncommitted changes. Not undone. Since then the ALAN step changed
+  (steps 46–50: camera, textAfterFly, factTop, text carried into the flight to Fireflies).
+- Handoff 2026-10-09_closing-beat-built.md updated (state, step 59). Commit on main (human request): steps 52–59.
+- Files changed: app/src/style.css, handoffs/2026-10-09_closing-beat-built.md, AI_LOG.md; git history.
