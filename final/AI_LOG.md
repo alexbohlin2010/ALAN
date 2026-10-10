@@ -9098,3 +9098,33 @@ Append only. One entry per AI step (see RULES.md §4).
   > commit please
 - Commit on main: README.md (step 66) and AI_LOG.md steps 65–68. Not pushed.
 - Files changed: AI_LOG.md; git history.
+
+## Experience refinement, step 69 (2026-10-09): Netlify deploy set up: build copies the data into dist/, netlify.toml, README; built site checked
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompts (verbatim):
+  > how can I deploy this interactive web app
+  - (options A Netlify / B GitHub Pages / C own server given in chat), then:
+  > let's go with A, Netlify
+- Edits (files re-read right before editing):
+  - app/vite.config.js: new build-only plugin copyData(): after the bundle is written, copies tiles/v1 and the data
+    files the app loads into dist/ at the URLs the dev server uses (impacts ×9, impacts/maps/light_types.csv, colour ×3,
+    spectra ×4); lists = the files committed to git, so a local build matches Netlify's; a missing file stops the build.
+    No new dependency (node:fs cpSync). Header comment updated (hosting: Netlify, human). iberia_white_share_grid.json
+    (dev allow-list, not in git, not loaded by the app) not copied.
+  - app/netlify.toml (new): build command, publish dir, NODE_VERSION 22 (Vite 8: ^20.19 || >=22.12).
+  - README.md: "Production build" rewritten (dist/ is complete), new "Deploy on Netlify" steps.
+  - ~/.claude/launch.json (outside the repo): new config "alan-final-dist" (vite preview, port 4173) to check dist/.
+- Checked: `npm run build` OK (5 s; data copy 4.6 s): dist/ 20,363 files, 289 MB; dist/tiles/v1 identical to the source
+  (diff -rq). Built site served alone by `vite preview` (the dev plugin does not run there), own tab, 1280×800: walked
+  Intro → Conclusion (16/16, all beats) and Explore all studies; it loaded the built bundle, the 24 data/asset files and
+  1,489 tiles, all with their real content types (preview answers unknown paths with index.html, so types were checked);
+  console: no errors. Vite warns that the JS bundle is 2.09 MB (603 kB gzip); not changed.
+- Not done (human): Netlify account, importing the repo, Base directory final/app, deploy; commit / push.
+- Files changed: app/vite.config.js, app/netlify.toml (new), README.md, AI_LOG.md. Not committed.
+
+## Experience refinement, step 70 (2026-10-09): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > please commit
+- Commit on main: step 69 (vite.config.js copyData, app/netlify.toml, README) and AI_LOG steps 69–70. Not pushed.
+- Files changed: AI_LOG.md; git history.

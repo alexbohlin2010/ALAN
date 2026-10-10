@@ -55,9 +55,26 @@ VITE_TILE_BASE=/tiles/v2/ npm run dev
 
 ## Production build
 
-`npm run build` writes `app/dist/`, but **the data is not included**, and `npm run preview` does not serve it, because
-the plugin above only runs with the dev server. Publishing the app needs the data folders hosted alongside it. How
-it will be hosted has not been decided. For local use, run `npm run dev`.
+```bash
+npm run build      # writes app/dist/: the app plus the data above, about 290 MB and 20,400 files
+npm run preview    # serves dist/ at http://localhost:4173 to check it
+```
+
+`dist/` is a complete static site: the build copies the files in the table above into it at the same paths (tile set
+v1 only). Upload it to any static web host.
+
+## Deploy on Netlify
+
+The site is set up for [Netlify](https://www.netlify.com). The settings are in [app/netlify.toml](app/netlify.toml).
+
+1. Push the repo to GitHub.
+2. On Netlify: **Add new site → Import an existing project → GitHub**, then pick the `ALAN` repository.
+3. Set **Base directory** to `final/app`. The build command (`npm run build`), publish directory (`dist`) and Node
+   version come from `netlify.toml`.
+4. Click **Deploy**. The first deploy uploads about 290 MB, so it takes a few minutes.
+
+After that, every push to `main` rebuilds and republishes the site. Netlify gives an address like
+`https://<name>.netlify.app`; you can rename it, or add your own domain, under **Domain management**.
 
 ## Troubleshooting
 

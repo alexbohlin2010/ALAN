@@ -1,0 +1,9 @@
+# Netlify build settings (human choice of host, AI_LOG Experience refinement step 69).
+# In the Netlify UI set Base directory = final/app; Netlify then reads this file.
+# vite.config.js copyData() puts the data (tiles, impacts, colour, spectra) into dist/ during the build.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"   # Vite 8 needs Node ^20.19 or >=22.12
