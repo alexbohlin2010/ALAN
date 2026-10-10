@@ -9037,3 +9037,64 @@ Append only. One entry per AI step (see RULES.md §4).
 - Commit on main (human request): steps 60–63 (step 60 by another session, uncommitted until now) and this entry.
   Not pushed.
 - Files changed: handoffs/2026-10-09_species-default-studies-text.md (new), AI_LOG.md; git history.
+
+## Experience refinement, step 65 (2026-10-09): process metrics counted (sessions, prompts, decisions) from transcripts and this log; read-only
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > I'm looking to note the 'consequences' of XAI usage in our project. I'm thinking we can note how many separate agent conversations, logged lines, or other critical metrics ... how many human decisions from all of these agent decisions .. can you go through our chat history on claude code and pehraps even through the log to count how many human decisions were made from the beginning of us using the RULES.md file?
+- Sources (read only): Claude Code transcripts in ~/.claude/projects/-Users-alexander/ (sessions whose text mentions
+  "ALAN/final", started on or after 2026-10-02 15:03 UTC, the session that wrote RULES.md at 15:13 UTC); final/AI_LOG.md;
+  final/app/src + content; git log -- final; final/handoffs, final/audits.
+- Scripts: session scratchpad only (xai/sessions.py, xai/attrib.py), not in the repo (offered to the human).
+- Counts (inferred: deterministic counts by the stated rules; nothing estimated):
+  - Sessions 53 (+22 sub-agent transcripts), 2026-10-02 → 10-09. Human prompts 484 (typed messages, excluding tool
+    results and system messages; includes 6 off-topic prompts in this session about OBS). Tool calls 5,819 (+940 by
+    sub-agents); Edit/Write on final/ files 279 (log appends via the shell not counted). Sub-agents launched 27.
+  - Explicit choice questions (AskUserQuestion): 42 calls, 108 questions, 108 answered.
+  - Prompts by length: 1–5 words 57, 6–30 184, 31–100 148, >100 words 95. Keyword match for picking an option /
+    approving ("option", "go with", "yes", "approve", "a3, b1" …): 127 (rough; keyword rule, not read one by one).
+  - AI_LOG.md: 594 entries before step 61 (now 599), 9,039 lines, 170,147 words; 547 verbatim prompt blocks. Text
+    mentions: "(human" 210, "human decision" 175, "human choice/request/asked" 86, "agent choice" 109, "agent draft" 46,
+    "agent error" 2. Entries that changed nothing but the log (reports, options, read-only): 174.
+  - App source (6,402 lines): "human" in comments 494, "agent choice" 86, "agent draft" 20.
+  - Commits touching final/: 49, each on a human request (RULES §1.5). Handoffs 61. Audit folders 7.
+- Limits stated in chat: "human decision" is not directly countable; the numbers above are proxies (prompts, answered
+  questions, attribution mentions). A prompt-by-prompt classification was offered, not done.
+- Files changed: AI_LOG.md only.
+- Correction to the line above (agent error): the 594 entries and 9,039 lines were counted after step 64, so they cover
+  everything up to step 64; with this entry the log has 595 entries.
+
+## Experience refinement, step 66 (2026-10-09): final/README.md: how to run the app locally (new file, human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > Thank you. Can we set up a "README.md" in final to explain how to deploy the app locally please, thank you.
+- Read app/package.json, app/vite.config.js, .gitignore, node_modules/vite engines (Node ^20.19.0 || >=22.12.0), git
+  remote, git ls-files (tiles v1 committed, 20,334 files, 259 MB; v2 not in git), main.js / introScene.js / tileLayer.js
+  URL settings.
+- Created final/README.md: requirements, clone / npm install / npm run dev, what the dev-server plugin serves and from
+  where, VITE_TILE_BASE, production build limits (data not in dist/, `vite preview` does not serve it; hosting
+  undecided, as in vite.config.js), troubleshooting. Wording: agent draft; facts only, no story framing.
+- Not run: a fresh clone + npm install (would download packages); the dev server used all session is the same Vite setup.
+- Files changed: README.md (new), AI_LOG.md. Not committed.
+
+## Experience refinement, step 67 (2026-10-09): checked that everything the app loads is on GitHub (read-only)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > All of the up-to-date data is IN the github repo right? Photos, tiles etc ... i need to make sure it's not on my local system but actually in the repo so external viewers can deploy it, and so I can publish on a server
+- git fetch: origin/main = main = 72ec0670a (no unpushed commits). Uncommitted: AI_LOG.md, README.md (step 66) only.
+- Static: every asset path in app/src, app/content, index.html (25 files: 2 audio, 5 photos, 3 colour, 9 impacts,
+  light_types.csv, 4 spectra, tiles.json) exists in origin/main and is identical to the local copy. Tiles v1: 20,334 files
+  on disk, 20,334 tracked. No diff between origin/main and local in final/app, final/data, final/pipeline.
+- Runtime (localhost:5173, own tab): walked Intro → Conclusion (16/16, all beats) and opened Explore all studies; the
+  page requested exactly those 24 data/asset files plus 1,149 v1 tiles; no response ≥ 400.
+- External at runtime: Google Fonts (fonts.googleapis.com / fonts.gstatic.com) in index.html; globe.gl / three come
+  from npm (package-lock.json committed).
+- Noted for publishing: `npm run build` does not copy the data folders (README "Production build"); hosting undecided.
+- Files changed: AI_LOG.md only.
+
+## Experience refinement, step 68 (2026-10-09): commit (human request)
+- Tool: Claude Code (desktop app), model claude-opus-5-5. Branch `main`.
+- Human prompt (verbatim):
+  > commit please
+- Commit on main: README.md (step 66) and AI_LOG.md steps 65–68. Not pushed.
+- Files changed: AI_LOG.md; git history.
